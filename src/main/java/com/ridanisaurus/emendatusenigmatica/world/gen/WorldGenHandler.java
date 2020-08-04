@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.world.gen;
 
+import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -114,22 +115,22 @@ public class WorldGenHandler {
     for (Biome biome : ForgeRegistries.BIOMES) {
       overrideFeatures(biome);
 
-      genOre(biome, 20, 0, 0, 128, STONE, BlockHandler.ORE_COAL.get().getDefaultState(), 17);
-      genOre(biome, 20, 0, 0, 64, STONE, BlockHandler.ORE_IRON.get().getDefaultState(), 9);
-      genOre(biome, 2, 0, 0, 32, STONE, BlockHandler.ORE_GOLD.get().getDefaultState(), 9);
-      genOre(biome, 1, 0, 0, 16, STONE, BlockHandler.ORE_DIAMOND.get().getDefaultState(), 8);
-      genOre(biome, 1, 0, 0, 16, STONE, BlockHandler.ORE_EMERALD.get().getDefaultState(), 4);
-      genOre(biome, 2, 0, 0, 16, STONE, BlockHandler.ORE_LAPIS.get().getDefaultState(), 7);
-      genOre(biome, 8, 0, 0, 16, STONE, BlockHandler.ORE_REDSTONE.get().getDefaultState(), 8);
-      genOre(biome, 20, 45, 0, 60, STONE, BlockHandler.ORE_COPPER.get().getDefaultState(), 7);
-      genOre(biome, 8, 50, 0, 70, STONE, BlockHandler.ORE_ALUMINUM.get().getDefaultState(), 3);
-      genOre(biome, 8, 30, 0, 38, STONE, BlockHandler.ORE_SILVER.get().getDefaultState(), 4);
-      genOre(biome, 8, 32, 0, 40, STONE, BlockHandler.ORE_LEAD.get().getDefaultState(), 3);
-      genOre(biome, 8, 25, 0, 40, STONE, BlockHandler.ORE_NICKEL.get().getDefaultState(), 3);
-      genOre(biome, 4, 5, 0, 20, STONE, BlockHandler.ORE_URANIUM.get().getDefaultState(), 3);
-      genOre(biome, 20, 20, 0, 45, STONE, BlockHandler.ORE_OSMIUM.get().getDefaultState(), 6);
-      genOre(biome, 20, 40, 0, 55, STONE, BlockHandler.ORE_TIN.get().getDefaultState(), 6);
-      genOre(biome, 8, 35, 0, 50, STONE, BlockHandler.ORE_ZINC.get().getDefaultState(), 4);
+      genOre(biome, WorldGenConfig.COAL_COUNT, WorldGenConfig.COAL_BOFFSET, 0, WorldGenConfig.COAL_MAX, STONE, BlockHandler.ORE_COAL.get().getDefaultState(), WorldGenConfig.COAL_SIZE);
+      genOre(biome, WorldGenConfig.IRON_COUNT, WorldGenConfig.IRON_BOFFSET, 0, WorldGenConfig.IRON_MAX, STONE, BlockHandler.ORE_IRON.get().getDefaultState(), WorldGenConfig.IRON_SIZE);
+      genOre(biome, WorldGenConfig.GOLD_COUNT, WorldGenConfig.GOLD_BOFFSET, 0, WorldGenConfig.GOLD_MAX, STONE, BlockHandler.ORE_GOLD.get().getDefaultState(), WorldGenConfig.GOLD_SIZE);
+      genOre(biome, WorldGenConfig.DIAMOND_COUNT, WorldGenConfig.DIAMOND_BOFFSET, 0, WorldGenConfig.DIAMOND_MAX, STONE, BlockHandler.ORE_DIAMOND.get().getDefaultState(), WorldGenConfig.DIAMOND_SIZE);
+      genOre(biome, WorldGenConfig.EMERALD_COUNT, WorldGenConfig.EMERALD_BOFFSET, 0, WorldGenConfig.EMERALD_MAX, STONE, BlockHandler.ORE_EMERALD.get().getDefaultState(), WorldGenConfig.EMERALD_SIZE);
+      genOre(biome, WorldGenConfig.LAPIS_COUNT, WorldGenConfig.LAPIS_BOFFSET, 0, WorldGenConfig.LAPIS_MAX, STONE, BlockHandler.ORE_LAPIS.get().getDefaultState(), WorldGenConfig.LAPIS_SIZE);
+      genOre(biome, WorldGenConfig.REDSTONE_COUNT, WorldGenConfig.REDSTONE_BOFFSET, 0, WorldGenConfig.REDSTONE_MAX, STONE, BlockHandler.ORE_REDSTONE.get().getDefaultState(), WorldGenConfig.REDSTONE_SIZE);
+      genOre(biome, WorldGenConfig.COPPER_COUNT, WorldGenConfig.COPPER_BOFFSET, 0, WorldGenConfig.COPPER_MAX, STONE, BlockHandler.ORE_COPPER.get().getDefaultState(), WorldGenConfig.COPPER_SIZE);
+      genOre(biome, WorldGenConfig.ALUMINUM_COUNT, WorldGenConfig.ALUMINUM_BOFFSET, 0, WorldGenConfig.ALUMINUM_MAX, STONE, BlockHandler.ORE_ALUMINUM.get().getDefaultState(), WorldGenConfig.ALUMINUM_SIZE);
+      genOre(biome, WorldGenConfig.SILVER_COUNT, WorldGenConfig.SILVER_BOFFSET, 0, WorldGenConfig.SILVER_MAX, STONE, BlockHandler.ORE_SILVER.get().getDefaultState(), WorldGenConfig.SILVER_SIZE);
+      genOre(biome, WorldGenConfig.LEAD_COUNT, WorldGenConfig.LEAD_BOFFSET, 0, WorldGenConfig.LEAD_MAX, STONE, BlockHandler.ORE_LEAD.get().getDefaultState(), WorldGenConfig.LEAD_SIZE);
+      genOre(biome, WorldGenConfig.NICKEL_COUNT, WorldGenConfig.NICKEL_BOFFSET, 0, WorldGenConfig.NICKEL_MAX, STONE, BlockHandler.ORE_NICKEL.get().getDefaultState(), WorldGenConfig.NICKEL_SIZE);
+      genOre(biome, WorldGenConfig.URANIUM_COUNT, WorldGenConfig.URANIUM_BOFFSET, 0, WorldGenConfig.URANIUM_MAX, STONE, BlockHandler.ORE_URANIUM.get().getDefaultState(), WorldGenConfig.URANIUM_SIZE);
+      genOre(biome, WorldGenConfig.OSMIUM_COUNT, WorldGenConfig.OSMIUM_BOFFSET, 0, WorldGenConfig.OSMIUM_MAX, STONE, BlockHandler.ORE_OSMIUM.get().getDefaultState(), WorldGenConfig.OSMIUM_SIZE);
+      genOre(biome, WorldGenConfig.TIN_COUNT, WorldGenConfig.TIN_BOFFSET, 0, WorldGenConfig.TIN_MAX, STONE, BlockHandler.ORE_TIN.get().getDefaultState(), WorldGenConfig.TIN_SIZE);
+      genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, STONE, BlockHandler.ORE_ZINC.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
 
       // Strata Ores - Andesite
       genOre(biome, 20, 0, 0, 128, ANDESITE, BlockHandler.ORE_COAL_ANDESITE.get().getDefaultState(), 17);

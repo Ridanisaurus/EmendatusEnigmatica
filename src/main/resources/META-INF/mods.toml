@@ -25,9 +25,6 @@ version="1.15.2-0.1.0-Alpha" #mandatory
 # A display name for the mod
 displayName="Emendatus Enigmatica" #mandatory
 
-# A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="http://myurl.me/" #optional
-
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica" #optional
 
