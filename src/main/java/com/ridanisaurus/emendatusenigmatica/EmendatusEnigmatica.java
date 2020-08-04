@@ -45,10 +45,7 @@ public class EmendatusEnigmatica
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
-
-        // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the doClientStuff method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register Mod Classes - Blocks should always be registered first
