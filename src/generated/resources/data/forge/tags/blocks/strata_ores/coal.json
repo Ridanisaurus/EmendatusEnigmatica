@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ore_coal_andesite",
+    "emendatusenigmatica:ore_coal_gabbro",
+    "emendatusenigmatica:ore_coal_c_limestone",
+    "emendatusenigmatica:ore_coal_scoria",
+    "emendatusenigmatica:ore_coal_weathered_limestone",
+    "emendatusenigmatica:ore_coal_jasper",
+    "emendatusenigmatica:ore_coal_q_limestone",
+    "emendatusenigmatica:ore_coal_marble",
+    "emendatusenigmatica:ore_coal_slate"
+  ]
+}

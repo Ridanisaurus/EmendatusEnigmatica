@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "emendatusenigmatica:blocks/strata_ores/quark/ore_iron_marble"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ore_coal",
+    "emendatusenigmatica:ore_iron",
+    "emendatusenigmatica:ore_gold",
+    "emendatusenigmatica:ore_diamond",
+    "emendatusenigmatica:ore_emerald",
+    "emendatusenigmatica:ore_lapis",
+    "emendatusenigmatica:ore_redstone",
+    "emendatusenigmatica:ore_copper",
+    "emendatusenigmatica:ore_aluminum",
+    "emendatusenigmatica:ore_silver",
+    "emendatusenigmatica:ore_lead",
+    "emendatusenigmatica:ore_nickel",
+    "emendatusenigmatica:ore_uranium",
+    "emendatusenigmatica:ore_osmium",
+    "emendatusenigmatica:ore_tin",
+    "emendatusenigmatica:ore_zinc"
+  ]
+}

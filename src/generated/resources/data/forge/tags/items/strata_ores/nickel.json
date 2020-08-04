@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ore_nickel_andesite",
+    "emendatusenigmatica:ore_nickel_gabbro",
+    "emendatusenigmatica:ore_nickel_c_limestone",
+    "emendatusenigmatica:ore_nickel_scoria",
+    "emendatusenigmatica:ore_nickel_weathered_limestone",
+    "emendatusenigmatica:ore_nickel_jasper",
+    "emendatusenigmatica:ore_nickel_q_limestone",
+    "emendatusenigmatica:ore_nickel_marble",
+    "emendatusenigmatica:ore_nickel_slate"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ingot_copper",
+    "emendatusenigmatica:ingot_aluminum",
+    "emendatusenigmatica:ingot_silver",
+    "emendatusenigmatica:ingot_lead",
+    "emendatusenigmatica:ingot_nickel",
+    "emendatusenigmatica:ingot_uranium",
+    "emendatusenigmatica:ingot_osmium",
+    "emendatusenigmatica:ingot_tin",
+    "emendatusenigmatica:ingot_zinc",
+    "emendatusenigmatica:ingot_bronze",
+    "emendatusenigmatica:ingot_brass",
+    "emendatusenigmatica:ingot_constantan",
+    "emendatusenigmatica:ingot_electrum",
+    "emendatusenigmatica:ingot_steel"
+  ]
+}

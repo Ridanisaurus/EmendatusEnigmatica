@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_osmium"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_osmium",
+    "count": 9
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_copper"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_copper",
+    "count": 9
+  }
+}

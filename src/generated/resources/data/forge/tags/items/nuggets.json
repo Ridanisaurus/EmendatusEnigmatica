@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:nugget_copper",
+    "emendatusenigmatica:nugget_aluminum",
+    "emendatusenigmatica:nugget_silver",
+    "emendatusenigmatica:nugget_lead",
+    "emendatusenigmatica:nugget_nickel",
+    "emendatusenigmatica:nugget_uranium",
+    "emendatusenigmatica:nugget_osmium",
+    "emendatusenigmatica:nugget_tin",
+    "emendatusenigmatica:nugget_zinc",
+    "emendatusenigmatica:nugget_bronze",
+    "emendatusenigmatica:nugget_brass",
+    "emendatusenigmatica:nugget_constantan",
+    "emendatusenigmatica:nugget_electrum",
+    "emendatusenigmatica:nugget_steel"
+  ]
+}

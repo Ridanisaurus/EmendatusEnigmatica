@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "emendatusenigmatica:ore_copper"
+  },
+  "result": "emendatusenigmatica:ingot_copper",
+  "experience": 0.7,
+  "cookingtime": 100
+}

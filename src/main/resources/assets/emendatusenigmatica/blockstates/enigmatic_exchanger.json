@@ -1,0 +1,8 @@
+{
+  "variants": {
+	"facing=north": { "model": "emendatusenigmatica:block/enigmatic_exchanger" },
+	"facing=east": { "model": "emendatusenigmatica:block/enigmatic_exchanger", "y":  90},
+	"facing=south": { "model": "emendatusenigmatica:block/enigmatic_exchanger", "y":  180},
+	"facing=west": { "model": "emendatusenigmatica:block/enigmatic_exchanger", "y":  270}
+  }
+}

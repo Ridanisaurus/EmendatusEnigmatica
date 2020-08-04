@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "emendatusenigmatica:dust_brass"
+  },
+  "result": "emendatusenigmatica:ingot_brass",
+  "experience": 0.7,
+  "cookingtime": 100
+}

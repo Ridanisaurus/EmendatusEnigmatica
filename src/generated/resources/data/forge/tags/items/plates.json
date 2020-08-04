@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:plate_copper",
+    "emendatusenigmatica:plate_aluminum",
+    "emendatusenigmatica:plate_silver",
+    "emendatusenigmatica:plate_lead",
+    "emendatusenigmatica:plate_nickel",
+    "emendatusenigmatica:plate_uranium",
+    "emendatusenigmatica:plate_osmium",
+    "emendatusenigmatica:plate_tin",
+    "emendatusenigmatica:plate_zinc",
+    "emendatusenigmatica:plate_bronze",
+    "emendatusenigmatica:plate_brass",
+    "emendatusenigmatica:plate_constantan",
+    "emendatusenigmatica:plate_electrum",
+    "emendatusenigmatica:plate_steel",
+    "emendatusenigmatica:plate_gold",
+    "emendatusenigmatica:plate_iron",
+    "emendatusenigmatica:plate_lapis"
+  ]
+}

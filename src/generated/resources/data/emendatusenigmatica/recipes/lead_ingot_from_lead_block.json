@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:block_lead"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ingot_lead",
+    "count": 9
+  }
+}

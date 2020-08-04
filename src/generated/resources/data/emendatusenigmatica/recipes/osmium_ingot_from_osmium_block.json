@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:block_osmium"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ingot_osmium",
+    "count": 9
+  }
+}
