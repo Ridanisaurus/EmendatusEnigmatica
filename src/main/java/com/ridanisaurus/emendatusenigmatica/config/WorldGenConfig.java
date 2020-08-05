@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -37,90 +38,106 @@ import org.apache.commons.lang3.tuple.Pair;
 public class WorldGenConfig {
   public static class Common {
 
+    public final BooleanValue COAL_GENERATION_STATE;
     public final IntValue COAL_VEIN_SIZE;
     public final IntValue COAL_COUNT_PER_CHUNK;
     public final IntValue COAL_BOTTOMOFFSET;
     public final IntValue COAL_MAXIMUM_HEIGHT;
-
+    public final BooleanValue IRON_GENERATION_STATE;
     public final IntValue IRON_VEIN_SIZE;
     public final IntValue IRON_COUNT_PER_CHUNK;
     public final IntValue IRON_BOTTOMOFFSET;
     public final IntValue IRON_MAXIMUM_HEIGHT;
-
+    public final BooleanValue GOLD_GENERATION_STATE;
     public final IntValue GOLD_VEIN_SIZE;
     public final IntValue GOLD_COUNT_PER_CHUNK;
     public final IntValue GOLD_BOTTOMOFFSET;
     public final IntValue GOLD_MAXIMUM_HEIGHT;
-
+    public final BooleanValue DIAMOND_GENERATION_STATE;
     public final IntValue DIAMOND_VEIN_SIZE;
     public final IntValue DIAMOND_COUNT_PER_CHUNK;
     public final IntValue DIAMOND_BOTTOMOFFSET;
     public final IntValue DIAMOND_MAXIMUM_HEIGHT;
-
+    public final BooleanValue EMERALD_GENERATION_STATE;
     public final IntValue EMERALD_VEIN_SIZE;
     public final IntValue EMERALD_COUNT_PER_CHUNK;
     public final IntValue EMERALD_BOTTOMOFFSET;
     public final IntValue EMERALD_MAXIMUM_HEIGHT;
-
+    public final BooleanValue LAPIS_GENERATION_STATE;
     public final IntValue LAPIS_VEIN_SIZE;
     public final IntValue LAPIS_COUNT_PER_CHUNK;
     public final IntValue LAPIS_BOTTOMOFFSET;
     public final IntValue LAPIS_MAXIMUM_HEIGHT;
-
+    public final BooleanValue REDSTONE_GENERATION_STATE;
     public final IntValue REDSTONE_VEIN_SIZE;
     public final IntValue REDSTONE_COUNT_PER_CHUNK;
     public final IntValue REDSTONE_BOTTOMOFFSET;
     public final IntValue REDSTONE_MAXIMUM_HEIGHT;
-
+    public final BooleanValue COPPER_GENERATION_STATE;
     public final IntValue COPPER_VEIN_SIZE;
     public final IntValue COPPER_COUNT_PER_CHUNK;
     public final IntValue COPPER_BOTTOMOFFSET;
     public final IntValue COPPER_MAXIMUM_HEIGHT;
-
+    public final BooleanValue ALUMINUM_GENERATION_STATE;
     public final IntValue ALUMINUM_VEIN_SIZE;
     public final IntValue ALUMINUM_COUNT_PER_CHUNK;
     public final IntValue ALUMINUM_BOTTOMOFFSET;
     public final IntValue ALUMINUM_MAXIMUM_HEIGHT;
-
+    public final BooleanValue SILVER_GENERATION_STATE;
     public final IntValue SILVER_VEIN_SIZE;
     public final IntValue SILVER_COUNT_PER_CHUNK;
     public final IntValue SILVER_BOTTOMOFFSET;
     public final IntValue SILVER_MAXIMUM_HEIGHT;
-
+    public final BooleanValue LEAD_GENERATION_STATE;
     public final IntValue LEAD_VEIN_SIZE;
     public final IntValue LEAD_COUNT_PER_CHUNK;
     public final IntValue LEAD_BOTTOMOFFSET;
     public final IntValue LEAD_MAXIMUM_HEIGHT;
-
+    public final BooleanValue NICKEL_GENERATION_STATE;
     public final IntValue NICKEL_VEIN_SIZE;
     public final IntValue NICKEL_COUNT_PER_CHUNK;
     public final IntValue NICKEL_BOTTOMOFFSET;
     public final IntValue NICKEL_MAXIMUM_HEIGHT;
-
+    public final BooleanValue URANIUM_GENERATION_STATE;
     public final IntValue URANIUM_VEIN_SIZE;
     public final IntValue URANIUM_COUNT_PER_CHUNK;
     public final IntValue URANIUM_BOTTOMOFFSET;
     public final IntValue URANIUM_MAXIMUM_HEIGHT;
-
+    public final BooleanValue OSMIUM_GENERATION_STATE;
     public final IntValue OSMIUM_VEIN_SIZE;
     public final IntValue OSMIUM_COUNT_PER_CHUNK;
     public final IntValue OSMIUM_BOTTOMOFFSET;
     public final IntValue OSMIUM_MAXIMUM_HEIGHT;
-
+    public final BooleanValue TIN_GENERATION_STATE;
     public final IntValue TIN_VEIN_SIZE;
     public final IntValue TIN_COUNT_PER_CHUNK;
     public final IntValue TIN_BOTTOMOFFSET;
     public final IntValue TIN_MAXIMUM_HEIGHT;
-
+    public final BooleanValue ZINC_GENERATION_STATE;
     public final IntValue ZINC_VEIN_SIZE;
     public final IntValue ZINC_COUNT_PER_CHUNK;
     public final IntValue ZINC_BOTTOMOFFSET;
     public final IntValue ZINC_MAXIMUM_HEIGHT;
 
+    public final BooleanValue VANILLA_STONE_STRATA;
+    public final BooleanValue VANILLA_ANDESITE_STRATA;
+    public final BooleanValue CREATE_GABBRO_STRATA;
+    public final BooleanValue CREATE_LIMESTONE_STRATA;
+    public final BooleanValue CREATE_SCORIA_STRATA;
+    public final BooleanValue CREATE_WEATHERED_LIMESTONE_STRATA;
+    public final BooleanValue QUARK_JASPER_STRATA;
+    public final BooleanValue QUARK_LIMESTONE_STRATA;
+    public final BooleanValue QUARK_MARBLE_STRATA;
+    public final BooleanValue QUARK_SLATE_STRATA;
+
     public Common(ForgeConfigSpec.Builder builder) {
-      builder.comment("World Gen Ore Configurations");
+      builder.comment("World Gen - Ore Generation Configuration");
 
       builder.push("Coal Ore");
+      COAL_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("coal.config.state")
+              .worldRestart()
+              .define("Active", true);
       COAL_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 17]")
               .translation("coal.config.vein_size")
               .worldRestart()
@@ -140,6 +157,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Iron Ore");
+      IRON_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("iron.config.state")
+              .worldRestart()
+              .define("Active", true);
       IRON_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 9]")
               .translation("iron.config.vein_size")
               .worldRestart()
@@ -159,6 +180,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Gold Ore");
+      GOLD_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("gold.config.state")
+              .worldRestart()
+              .define("Active", true);
       GOLD_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 9]")
               .translation("gold.config.vein_size")
               .worldRestart()
@@ -178,6 +203,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Diamond Ore");
+      DIAMOND_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("diamond.config.state")
+              .worldRestart()
+              .define("Active", true);
       DIAMOND_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 8]")
               .translation("diamond.config.vein_size")
               .worldRestart()
@@ -197,6 +226,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Emerald Ore");
+      EMERALD_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("emerald.config.state")
+              .worldRestart()
+              .define("Active", true);
       EMERALD_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
               .translation("emerald.config.vein_size")
               .worldRestart()
@@ -216,6 +249,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Lapis Ore");
+      LAPIS_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("lapis.config.state")
+              .worldRestart()
+              .define("Active", true);
       LAPIS_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 7]")
               .translation("lapis.config.vein_size")
               .worldRestart()
@@ -235,6 +272,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Redstone Ore");
+      REDSTONE_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("redstone.config.state")
+              .worldRestart()
+              .define("Active", true);
       REDSTONE_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 8]")
               .translation("redstone.config.vein_size")
               .worldRestart()
@@ -254,6 +295,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Copper Ore");
+      COPPER_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("copper.config.state")
+              .worldRestart()
+              .define("Active", true);
       COPPER_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 7]")
               .translation("copper.config.vein_size")
               .worldRestart()
@@ -273,6 +318,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Aluminum Ore");
+      ALUMINUM_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("aluminum.config.state")
+              .worldRestart()
+              .define("Active", true);
       ALUMINUM_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 3]")
               .translation("aluminum.config.vein_size")
               .worldRestart()
@@ -292,6 +341,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Silver Ore");
+      SILVER_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("silver.config.state")
+              .worldRestart()
+              .define("Active", true);
       SILVER_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
               .translation("silver.config.vein_size")
               .worldRestart()
@@ -311,6 +364,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Lead Ore");
+      LEAD_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("lead.config.state")
+              .worldRestart()
+              .define("Active", true);
       LEAD_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 3]")
               .translation("lead.config.vein_size")
               .worldRestart()
@@ -330,6 +387,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Nickel Ore");
+      NICKEL_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("nickel.config.state")
+              .worldRestart()
+              .define("Active", true);
       NICKEL_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 3]")
               .translation("nickel.config.vein_size")
               .worldRestart()
@@ -349,6 +410,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Uranium Ore");
+      URANIUM_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("uranium.config.state")
+              .worldRestart()
+              .define("Active", true);
       URANIUM_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 3]")
               .translation("uranium.config.vein_size")
               .worldRestart()
@@ -368,6 +433,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Osmium Ore");
+      OSMIUM_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("osmium.config.state")
+              .worldRestart()
+              .define("Active", true);
       OSMIUM_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 6]")
               .translation("osmium.config.vein_size")
               .worldRestart()
@@ -387,6 +456,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Tin Ore");
+      TIN_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("tin.config.state")
+              .worldRestart()
+              .define("Active", true);
       TIN_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 6]")
               .translation("tin.config.vein_size")
               .worldRestart()
@@ -406,6 +479,10 @@ public class WorldGenConfig {
       builder.pop();
 
       builder.push("Zinc Ore");
+      ZINC_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("zinc.config.state")
+              .worldRestart()
+              .define("Active", true);
       ZINC_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
               .translation("zinc.config.vein_size")
               .worldRestart()
@@ -423,140 +500,256 @@ public class WorldGenConfig {
               .worldRestart()
               .defineInRange("Maximum", 50, 0, 256);
       builder.pop();
+
+      builder.comment("World Gen - Ore Generation on Strata Stone Type");
+
+      builder.push("Vanilla Stone");
+      VANILLA_STONE_STRATA = builder.translation("strata.config.vanilla_stone")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Vanilla Andesite");
+      VANILLA_ANDESITE_STRATA = builder.translation("strata.config.vanilla_andesite")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Create Gabbro");
+      CREATE_GABBRO_STRATA = builder.translation("strata.config.create_gabbro")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Create Limestone");
+      CREATE_LIMESTONE_STRATA = builder.translation("strata.config.create_limestone")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Create Scoria");
+      CREATE_SCORIA_STRATA = builder.translation("strata.config.create_scoria")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Create Weathered Limestone");
+      CREATE_WEATHERED_LIMESTONE_STRATA = builder.translation("strata.config.create_weathered_limestone")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Quark Jasper");
+      QUARK_JASPER_STRATA = builder.translation("strata.config.quark_jasper")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Quark Limestone");
+      QUARK_LIMESTONE_STRATA = builder.translation("strata.config.quark_limestone")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Quark Marble");
+      QUARK_MARBLE_STRATA = builder.translation("strata.config.quark_marble")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
+
+      builder.push("Quark Slate");
+      QUARK_SLATE_STRATA = builder.translation("strata.config.quark_slate")
+              .worldRestart()
+              .define("Active", true);
+      builder.pop();
     }
   }
 
+  public static boolean COAL_STATE;
   public static int COAL_SIZE;
   public static int COAL_COUNT;
   public static int COAL_BOFFSET;
   public static int COAL_MAX;
+  public static boolean IRON_STATE;
   public static int IRON_SIZE;
   public static int IRON_COUNT;
   public static int IRON_BOFFSET;
   public static int IRON_MAX;
+  public static boolean GOLD_STATE;
   public static int GOLD_SIZE;
   public static int GOLD_COUNT;
   public static int GOLD_BOFFSET;
   public static int GOLD_MAX;
+  public static boolean DIAMOND_STATE;
   public static int DIAMOND_SIZE;
   public static int DIAMOND_COUNT;
   public static int DIAMOND_BOFFSET;
   public static int DIAMOND_MAX;
+  public static boolean EMERALD_STATE;
   public static int EMERALD_SIZE;
   public static int EMERALD_COUNT;
   public static int EMERALD_BOFFSET;
   public static int EMERALD_MAX;
+  public static boolean LAPIS_STATE;
   public static int LAPIS_SIZE;
   public static int LAPIS_COUNT;
   public static int LAPIS_BOFFSET;
   public static int LAPIS_MAX;
+  public static boolean REDSTONE_STATE;
   public static int REDSTONE_SIZE;
   public static int REDSTONE_COUNT;
   public static int REDSTONE_BOFFSET;
   public static int REDSTONE_MAX;
+  public static boolean COPPER_STATE;
   public static int COPPER_SIZE;
   public static int COPPER_COUNT;
   public static int COPPER_BOFFSET;
   public static int COPPER_MAX;
+  public static boolean ALUMINUM_STATE;
   public static int ALUMINUM_SIZE;
   public static int ALUMINUM_COUNT;
   public static int ALUMINUM_BOFFSET;
   public static int ALUMINUM_MAX;
+  public static boolean SILVER_STATE;
   public static int SILVER_SIZE;
   public static int SILVER_COUNT;
   public static int SILVER_BOFFSET;
   public static int SILVER_MAX;
+  public static boolean LEAD_STATE;
   public static int LEAD_SIZE;
   public static int LEAD_COUNT;
   public static int LEAD_BOFFSET;
   public static int LEAD_MAX;
+  public static boolean NICKEL_STATE;
   public static int NICKEL_SIZE;
   public static int NICKEL_COUNT;
   public static int NICKEL_BOFFSET;
   public static int NICKEL_MAX;
+  public static boolean URANIUM_STATE;
   public static int URANIUM_SIZE;
   public static int URANIUM_COUNT;
   public static int URANIUM_BOFFSET;
   public static int URANIUM_MAX;
+  public static boolean OSMIUM_STATE;
   public static int OSMIUM_SIZE;
   public static int OSMIUM_COUNT;
   public static int OSMIUM_BOFFSET;
   public static int OSMIUM_MAX;
+  public static boolean TIN_STATE;
   public static int TIN_SIZE;
   public static int TIN_COUNT;
   public static int TIN_BOFFSET;
   public static int TIN_MAX;
+  public static boolean ZINC_STATE;
   public static int ZINC_SIZE;
   public static int ZINC_COUNT;
   public static int ZINC_BOFFSET;
   public static int ZINC_MAX;
 
+  public static boolean VANILLA_STONE_STATE;
+  public static boolean VANILLA_ANDESITE_STATE;
+  public static boolean CREATE_GABBRO_STATE;
+  public static boolean CREATE_LIMESTONE_STATE;
+  public static boolean CREATE_SCORIA_STATE;
+  public static boolean CREATE_WEATHERED_LIMESTONE_STATE;
+  public static boolean QUARK_JASPER_STATE;
+  public static boolean QUARK_LIMESTONE_STATE;
+  public static boolean QUARK_MARBLE_STATE;
+  public static boolean QUARK_SLATE_STATE;
+
 
   public static void bakeConfig(ModConfig config) {
+    COAL_STATE = COMMON.COAL_GENERATION_STATE.get();
     COAL_SIZE = COMMON.COAL_VEIN_SIZE.get();
     COAL_COUNT = COMMON.COAL_COUNT_PER_CHUNK.get();
     COAL_BOFFSET = COMMON.COAL_BOTTOMOFFSET.get();
     COAL_MAX = COMMON.COAL_MAXIMUM_HEIGHT.get();
+    IRON_STATE = COMMON.IRON_GENERATION_STATE.get();
     IRON_SIZE = COMMON.IRON_VEIN_SIZE.get();
     IRON_COUNT = COMMON.IRON_COUNT_PER_CHUNK.get();
     IRON_BOFFSET = COMMON.IRON_BOTTOMOFFSET.get();
     IRON_MAX = COMMON.IRON_MAXIMUM_HEIGHT.get();
+    GOLD_STATE = COMMON.GOLD_GENERATION_STATE.get();
     GOLD_SIZE = COMMON.GOLD_VEIN_SIZE.get();
     GOLD_COUNT = COMMON.GOLD_COUNT_PER_CHUNK.get();
     GOLD_BOFFSET = COMMON.GOLD_BOTTOMOFFSET.get();
     GOLD_MAX = COMMON.GOLD_MAXIMUM_HEIGHT.get();
+    DIAMOND_STATE = COMMON.DIAMOND_GENERATION_STATE.get();
     DIAMOND_SIZE = COMMON.DIAMOND_VEIN_SIZE.get();
     DIAMOND_COUNT = COMMON.DIAMOND_COUNT_PER_CHUNK.get();
     DIAMOND_BOFFSET = COMMON.DIAMOND_BOTTOMOFFSET.get();
     DIAMOND_MAX = COMMON.DIAMOND_MAXIMUM_HEIGHT.get();
+    EMERALD_STATE = COMMON.EMERALD_GENERATION_STATE.get();
     EMERALD_SIZE = COMMON.EMERALD_VEIN_SIZE.get();
     EMERALD_COUNT = COMMON.EMERALD_COUNT_PER_CHUNK.get();
     EMERALD_BOFFSET = COMMON.EMERALD_BOTTOMOFFSET.get();
     EMERALD_MAX = COMMON.EMERALD_MAXIMUM_HEIGHT.get();
+    LAPIS_STATE = COMMON.LAPIS_GENERATION_STATE.get();
     LAPIS_SIZE = COMMON.LAPIS_VEIN_SIZE.get();
     LAPIS_COUNT = COMMON.LAPIS_COUNT_PER_CHUNK.get();
     LAPIS_BOFFSET = COMMON.LAPIS_BOTTOMOFFSET.get();
     LAPIS_MAX = COMMON.LAPIS_MAXIMUM_HEIGHT.get();
+    REDSTONE_STATE = COMMON.REDSTONE_GENERATION_STATE.get();
     REDSTONE_SIZE = COMMON.REDSTONE_VEIN_SIZE.get();
     REDSTONE_COUNT = COMMON.REDSTONE_COUNT_PER_CHUNK.get();
     REDSTONE_BOFFSET = COMMON.REDSTONE_BOTTOMOFFSET.get();
     REDSTONE_MAX = COMMON.REDSTONE_MAXIMUM_HEIGHT.get();
+    COPPER_STATE = COMMON.COPPER_GENERATION_STATE.get();
     COPPER_SIZE = COMMON.COPPER_VEIN_SIZE.get();
     COPPER_COUNT = COMMON.COPPER_COUNT_PER_CHUNK.get();
     COPPER_BOFFSET = COMMON.COPPER_BOTTOMOFFSET.get();
     COPPER_MAX = COMMON.COPPER_MAXIMUM_HEIGHT.get();
+    ALUMINUM_STATE = COMMON.ALUMINUM_GENERATION_STATE.get();
     ALUMINUM_SIZE = COMMON.ALUMINUM_VEIN_SIZE.get();
     ALUMINUM_COUNT = COMMON.ALUMINUM_COUNT_PER_CHUNK.get();
     ALUMINUM_BOFFSET = COMMON.ALUMINUM_BOTTOMOFFSET.get();
     ALUMINUM_MAX = COMMON.ALUMINUM_MAXIMUM_HEIGHT.get();
+    SILVER_STATE = COMMON.SILVER_GENERATION_STATE.get();
     SILVER_SIZE = COMMON.SILVER_VEIN_SIZE.get();
     SILVER_COUNT = COMMON.SILVER_COUNT_PER_CHUNK.get();
     SILVER_BOFFSET = COMMON.SILVER_BOTTOMOFFSET.get();
     SILVER_MAX = COMMON.SILVER_MAXIMUM_HEIGHT.get();
+    LEAD_STATE = COMMON.LEAD_GENERATION_STATE.get();
     LEAD_SIZE = COMMON.LEAD_VEIN_SIZE.get();
     LEAD_COUNT = COMMON.LEAD_COUNT_PER_CHUNK.get();
     LEAD_BOFFSET = COMMON.LEAD_BOTTOMOFFSET.get();
     LEAD_MAX = COMMON.LEAD_MAXIMUM_HEIGHT.get();
+    NICKEL_STATE = COMMON.NICKEL_GENERATION_STATE.get();
     NICKEL_SIZE = COMMON.NICKEL_VEIN_SIZE.get();
     NICKEL_COUNT = COMMON.NICKEL_COUNT_PER_CHUNK.get();
     NICKEL_BOFFSET = COMMON.NICKEL_BOTTOMOFFSET.get();
     NICKEL_MAX = COMMON.NICKEL_MAXIMUM_HEIGHT.get();
+    URANIUM_STATE = COMMON.URANIUM_GENERATION_STATE.get();
     URANIUM_SIZE = COMMON.URANIUM_VEIN_SIZE.get();
     URANIUM_COUNT = COMMON.URANIUM_COUNT_PER_CHUNK.get();
     URANIUM_BOFFSET = COMMON.URANIUM_BOTTOMOFFSET.get();
     URANIUM_MAX = COMMON.URANIUM_MAXIMUM_HEIGHT.get();
+    OSMIUM_STATE = COMMON.OSMIUM_GENERATION_STATE.get();
     OSMIUM_SIZE = COMMON.OSMIUM_VEIN_SIZE.get();
     OSMIUM_COUNT = COMMON.OSMIUM_COUNT_PER_CHUNK.get();
     OSMIUM_BOFFSET = COMMON.OSMIUM_BOTTOMOFFSET.get();
     OSMIUM_MAX = COMMON.OSMIUM_MAXIMUM_HEIGHT.get();
+    TIN_STATE = COMMON.TIN_GENERATION_STATE.get();
     TIN_SIZE = COMMON.TIN_VEIN_SIZE.get();
     TIN_COUNT = COMMON.TIN_COUNT_PER_CHUNK.get();
     TIN_BOFFSET = COMMON.TIN_BOTTOMOFFSET.get();
     TIN_MAX = COMMON.TIN_MAXIMUM_HEIGHT.get();
+    ZINC_STATE = COMMON.ZINC_GENERATION_STATE.get();
     ZINC_SIZE = COMMON.ZINC_VEIN_SIZE.get();
     ZINC_COUNT = COMMON.ZINC_COUNT_PER_CHUNK.get();
     ZINC_BOFFSET = COMMON.ZINC_BOTTOMOFFSET.get();
     ZINC_MAX = COMMON.ZINC_MAXIMUM_HEIGHT.get();
+
+    VANILLA_STONE_STATE = COMMON.VANILLA_STONE_STRATA.get();
+    VANILLA_ANDESITE_STATE = COMMON.VANILLA_ANDESITE_STRATA.get();
+    CREATE_GABBRO_STATE = COMMON.CREATE_GABBRO_STRATA.get();
+    CREATE_LIMESTONE_STATE = COMMON.CREATE_LIMESTONE_STRATA.get();
+    CREATE_SCORIA_STATE = COMMON.CREATE_SCORIA_STRATA.get();
+    CREATE_WEATHERED_LIMESTONE_STATE = COMMON.CREATE_WEATHERED_LIMESTONE_STRATA.get();
+    QUARK_JASPER_STATE = COMMON.QUARK_JASPER_STRATA.get();
+    QUARK_LIMESTONE_STATE = COMMON.QUARK_LIMESTONE_STRATA.get();
+    QUARK_MARBLE_STATE = COMMON.QUARK_MARBLE_STRATA.get();
+    QUARK_SLATE_STATE = COMMON.QUARK_SLATE_STRATA.get();
   }
 
   public static final ForgeConfigSpec COMMON_SPEC;
