@@ -248,14 +248,14 @@ public class WorldGenConfig {
               .translation("emerald.config.count_per_chunk")
               .worldRestart()
               .defineInRange("Count", 1, 0, 64);
-      EMERALD_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
+      EMERALD_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 64]")
               .translation("emerald.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
-      EMERALD_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 16]")
+              .defineInRange("Minimum", 64, 0, 128);
+      EMERALD_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 128]")
               .translation("emerald.config.maximum_height")
               .worldRestart()
-              .defineInRange("Maximum", 16, 0, 256);
+              .defineInRange("Maximum", 128, 0, 256);
       builder.pop();
 
       builder.push("Lapis Ore");
@@ -516,22 +516,22 @@ public class WorldGenConfig {
               .translation("certus_quartz.config.state")
               .worldRestart()
               .define("Active", true);
-      CERTUS_QUARTZ_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
+      CERTUS_QUARTZ_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 8]")
               .translation("certus_quartz.config.vein_size")
               .worldRestart()
-              .defineInRange("Size", 4, 0, 64);
-      CERTUS_QUARTZ_COUNT_PER_CHUNK = builder.comment("Ores count per Chunk [Default: 8]")
+              .defineInRange("Size", 8, 0, 64);
+      CERTUS_QUARTZ_COUNT_PER_CHUNK = builder.comment("Ores count per Chunk [Default: 16]")
               .translation("certus_quartz.config.count_per_chunk")
               .worldRestart()
-              .defineInRange("Count", 8, 0, 64);
-      CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 35]")
+              .defineInRange("Count", 16, 0, 64);
+      CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("certus_quartz.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 35, 0, 128);
-      CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 50]")
+              .defineInRange("Minimum", 0, 0, 128);
+      CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 64]")
               .translation("certus_quartz.config.maximum_height")
               .worldRestart()
-              .defineInRange("Maximum", 50, 0, 256);
+              .defineInRange("Maximum", 64, 0, 256);
       builder.pop();
 
       builder.push("Charged Certus Quartz Ore");
@@ -547,14 +547,14 @@ public class WorldGenConfig {
               .translation("charged_certus_quartz.config.count_per_chunk")
               .worldRestart()
               .defineInRange("Count", 8, 0, 64);
-      CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 35]")
+      CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("charged_certus_quartz.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 35, 0, 128);
-      CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 50]")
+              .defineInRange("Minimum", 0, 0, 128);
+      CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 32]")
               .translation("charged_certus_quartz.config.maximum_height")
               .worldRestart()
-              .defineInRange("Maximum", 50, 0, 256);
+              .defineInRange("Maximum", 32, 0, 256);
       builder.pop();
 
       builder.comment("World Gen - Ore Generation on Strata Stone Type");
