@@ -1,6 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_gold"
+    "emendatusenigmatica:ore_gold",
+    "emendatusenigmatica:ore_gold_andesite",
+    "emendatusenigmatica:ore_gold_gabbro",
+    "emendatusenigmatica:ore_gold_c_limestone",
+    "emendatusenigmatica:ore_gold_scoria",
+    "emendatusenigmatica:ore_gold_weathered_limestone",
+    "emendatusenigmatica:ore_gold_jasper",
+    "emendatusenigmatica:ore_gold_q_limestone",
+    "emendatusenigmatica:ore_gold_marble",
+    "emendatusenigmatica:ore_gold_slate"
   ]
 }

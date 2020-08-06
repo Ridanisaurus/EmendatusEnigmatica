@@ -100,43 +100,9 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_URANIUM.get())
             .add(BlockHandler.ORE_OSMIUM.get())
             .add(BlockHandler.ORE_TIN.get())
-            .add(BlockHandler.ORE_ZINC.get());
-
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/coal")))
-            .add(BlockHandler.ORE_COAL.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/iron")))
-            .add(BlockHandler.ORE_IRON.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/gold")))
-            .add(BlockHandler.ORE_GOLD.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/diamond")))
-            .add(BlockHandler.ORE_DIAMOND.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/emerald")))
-            .add(BlockHandler.ORE_EMERALD.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lapis")))
-            .add(BlockHandler.ORE_LAPIS.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/redstone")))
-            .add(BlockHandler.ORE_REDSTONE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/copper")))
-            .add(BlockHandler.ORE_COPPER.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/aluminum")))
-            .add(BlockHandler.ORE_ALUMINUM.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/silver")))
-            .add(BlockHandler.ORE_SILVER.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lead")))
-            .add(BlockHandler.ORE_LEAD.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/nickel")))
-            .add(BlockHandler.ORE_NICKEL.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/uranium")))
-            .add(BlockHandler.ORE_URANIUM.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/osmium")))
-            .add(BlockHandler.ORE_OSMIUM.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/tin")))
-            .add(BlockHandler.ORE_TIN.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/zinc")))
-            .add(BlockHandler.ORE_ZINC.get());
-
-    // Strata Ores
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores")))
+            .add(BlockHandler.ORE_ZINC.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get())
             .add(BlockHandler.ORE_COAL_ANDESITE.get())
             .add(BlockHandler.ORE_IRON_ANDESITE.get())
             .add(BlockHandler.ORE_GOLD_ANDESITE.get())
@@ -153,6 +119,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_ANDESITE.get())
             .add(BlockHandler.ORE_TIN_ANDESITE.get())
             .add(BlockHandler.ORE_ZINC_ANDESITE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get())
             .add(BlockHandler.ORE_COAL_GABBRO.get())
             .add(BlockHandler.ORE_IRON_GABBRO.get())
             .add(BlockHandler.ORE_GOLD_GABBRO.get())
@@ -169,6 +137,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_GABBRO.get())
             .add(BlockHandler.ORE_TIN_GABBRO.get())
             .add(BlockHandler.ORE_ZINC_GABBRO.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get())
             .add(BlockHandler.ORE_COAL_C_LIMESTONE.get())
             .add(BlockHandler.ORE_IRON_C_LIMESTONE.get())
             .add(BlockHandler.ORE_GOLD_C_LIMESTONE.get())
@@ -185,6 +155,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get())
             .add(BlockHandler.ORE_TIN_C_LIMESTONE.get())
             .add(BlockHandler.ORE_ZINC_C_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get())
             .add(BlockHandler.ORE_COAL_SCORIA.get())
             .add(BlockHandler.ORE_IRON_SCORIA.get())
             .add(BlockHandler.ORE_GOLD_SCORIA.get())
@@ -201,6 +173,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_SCORIA.get())
             .add(BlockHandler.ORE_TIN_SCORIA.get())
             .add(BlockHandler.ORE_ZINC_SCORIA.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get())
             .add(BlockHandler.ORE_COAL_WEATHERED_LIMESTONE.get())
             .add(BlockHandler.ORE_IRON_WEATHERED_LIMESTONE.get())
             .add(BlockHandler.ORE_GOLD_WEATHERED_LIMESTONE.get())
@@ -217,6 +191,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_WEATHERED_LIMESTONE.get())
             .add(BlockHandler.ORE_TIN_WEATHERED_LIMESTONE.get())
             .add(BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get())
             .add(BlockHandler.ORE_COAL_JASPER.get())
             .add(BlockHandler.ORE_IRON_JASPER.get())
             .add(BlockHandler.ORE_GOLD_JASPER.get())
@@ -233,6 +209,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_JASPER.get())
             .add(BlockHandler.ORE_TIN_JASPER.get())
             .add(BlockHandler.ORE_ZINC_JASPER.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get())
             .add(BlockHandler.ORE_COAL_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_IRON_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_GOLD_Q_LIMESTONE.get())
@@ -249,6 +227,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_TIN_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_ZINC_Q_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_COAL_MARBLE.get())
             .add(BlockHandler.ORE_IRON_MARBLE.get())
             .add(BlockHandler.ORE_GOLD_MARBLE.get())
@@ -265,6 +245,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_MARBLE.get())
             .add(BlockHandler.ORE_TIN_MARBLE.get())
             .add(BlockHandler.ORE_ZINC_MARBLE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get())
             .add(BlockHandler.ORE_COAL_SLATE.get())
             .add(BlockHandler.ORE_IRON_SLATE.get())
             .add(BlockHandler.ORE_GOLD_SLATE.get())
@@ -280,9 +262,12 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_URANIUM_SLATE.get())
             .add(BlockHandler.ORE_OSMIUM_SLATE.get())
             .add(BlockHandler.ORE_TIN_SLATE.get())
-            .add(BlockHandler.ORE_ZINC_SLATE.get());
+            .add(BlockHandler.ORE_ZINC_SLATE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get());
 
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/coal")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/coal")))
+            .add(BlockHandler.ORE_COAL.get())
             .add(BlockHandler.ORE_COAL_ANDESITE.get())
             .add(BlockHandler.ORE_COAL_GABBRO.get())
             .add(BlockHandler.ORE_COAL_C_LIMESTONE.get())
@@ -292,7 +277,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_COAL_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_COAL_MARBLE.get())
             .add(BlockHandler.ORE_COAL_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/iron")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/iron")))
+            .add(BlockHandler.ORE_IRON.get())
             .add(BlockHandler.ORE_IRON_ANDESITE.get())
             .add(BlockHandler.ORE_IRON_GABBRO.get())
             .add(BlockHandler.ORE_IRON_C_LIMESTONE.get())
@@ -302,7 +288,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_IRON_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_IRON_MARBLE.get())
             .add(BlockHandler.ORE_IRON_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/gold")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/gold")))
+            .add(BlockHandler.ORE_GOLD.get())
             .add(BlockHandler.ORE_GOLD_ANDESITE.get())
             .add(BlockHandler.ORE_GOLD_GABBRO.get())
             .add(BlockHandler.ORE_GOLD_C_LIMESTONE.get())
@@ -312,7 +299,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_GOLD_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_GOLD_MARBLE.get())
             .add(BlockHandler.ORE_GOLD_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/diamond")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/diamond")))
+            .add(BlockHandler.ORE_DIAMOND.get())
             .add(BlockHandler.ORE_DIAMOND_ANDESITE.get())
             .add(BlockHandler.ORE_DIAMOND_GABBRO.get())
             .add(BlockHandler.ORE_DIAMOND_C_LIMESTONE.get())
@@ -322,7 +310,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_DIAMOND_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_DIAMOND_MARBLE.get())
             .add(BlockHandler.ORE_DIAMOND_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/emerald")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/emerald")))
+            .add(BlockHandler.ORE_EMERALD.get())
             .add(BlockHandler.ORE_EMERALD_ANDESITE.get())
             .add(BlockHandler.ORE_EMERALD_GABBRO.get())
             .add(BlockHandler.ORE_EMERALD_C_LIMESTONE.get())
@@ -332,7 +321,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_EMERALD_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_EMERALD_MARBLE.get())
             .add(BlockHandler.ORE_EMERALD_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/lapis")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lapis")))
+            .add(BlockHandler.ORE_LAPIS.get())
             .add(BlockHandler.ORE_LAPIS_ANDESITE.get())
             .add(BlockHandler.ORE_LAPIS_GABBRO.get())
             .add(BlockHandler.ORE_LAPIS_C_LIMESTONE.get())
@@ -342,7 +332,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_LAPIS_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_LAPIS_MARBLE.get())
             .add(BlockHandler.ORE_LAPIS_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/redstone")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/redstone")))
+            .add(BlockHandler.ORE_REDSTONE.get())
             .add(BlockHandler.ORE_REDSTONE_ANDESITE.get())
             .add(BlockHandler.ORE_REDSTONE_GABBRO.get())
             .add(BlockHandler.ORE_REDSTONE_C_LIMESTONE.get())
@@ -352,7 +343,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_REDSTONE_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_REDSTONE_MARBLE.get())
             .add(BlockHandler.ORE_REDSTONE_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/copper")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/copper")))
+            .add(BlockHandler.ORE_COPPER.get())
             .add(BlockHandler.ORE_COPPER_ANDESITE.get())
             .add(BlockHandler.ORE_COPPER_GABBRO.get())
             .add(BlockHandler.ORE_COPPER_C_LIMESTONE.get())
@@ -362,7 +354,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_COPPER_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_COPPER_MARBLE.get())
             .add(BlockHandler.ORE_COPPER_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/aluminum")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/aluminum")))
+            .add(BlockHandler.ORE_ALUMINUM.get())
             .add(BlockHandler.ORE_ALUMINUM_ANDESITE.get())
             .add(BlockHandler.ORE_ALUMINUM_GABBRO.get())
             .add(BlockHandler.ORE_ALUMINUM_C_LIMESTONE.get())
@@ -372,7 +365,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_ALUMINUM_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_ALUMINUM_MARBLE.get())
             .add(BlockHandler.ORE_ALUMINUM_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/silver")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/silver")))
+            .add(BlockHandler.ORE_SILVER.get())
             .add(BlockHandler.ORE_SILVER_ANDESITE.get())
             .add(BlockHandler.ORE_SILVER_GABBRO.get())
             .add(BlockHandler.ORE_SILVER_C_LIMESTONE.get())
@@ -382,7 +376,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_SILVER_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_SILVER_MARBLE.get())
             .add(BlockHandler.ORE_SILVER_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/lead")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lead")))
+            .add(BlockHandler.ORE_LEAD.get())
             .add(BlockHandler.ORE_LEAD_ANDESITE.get())
             .add(BlockHandler.ORE_LEAD_GABBRO.get())
             .add(BlockHandler.ORE_LEAD_C_LIMESTONE.get())
@@ -392,7 +387,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_LEAD_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_LEAD_MARBLE.get())
             .add(BlockHandler.ORE_LEAD_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/nickel")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/nickel")))
+            .add(BlockHandler.ORE_NICKEL.get())
             .add(BlockHandler.ORE_NICKEL_ANDESITE.get())
             .add(BlockHandler.ORE_NICKEL_GABBRO.get())
             .add(BlockHandler.ORE_NICKEL_C_LIMESTONE.get())
@@ -402,7 +398,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_NICKEL_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_NICKEL_MARBLE.get())
             .add(BlockHandler.ORE_NICKEL_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/uranium")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/uranium")))
+            .add(BlockHandler.ORE_URANIUM.get())
             .add(BlockHandler.ORE_URANIUM_ANDESITE.get())
             .add(BlockHandler.ORE_URANIUM_GABBRO.get())
             .add(BlockHandler.ORE_URANIUM_C_LIMESTONE.get())
@@ -412,7 +409,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_URANIUM_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_URANIUM_MARBLE.get())
             .add(BlockHandler.ORE_URANIUM_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/osmium")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/osmium")))
+            .add(BlockHandler.ORE_OSMIUM.get())
             .add(BlockHandler.ORE_OSMIUM_ANDESITE.get())
             .add(BlockHandler.ORE_OSMIUM_GABBRO.get())
             .add(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get())
@@ -422,7 +420,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_OSMIUM_MARBLE.get())
             .add(BlockHandler.ORE_OSMIUM_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/tin")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/tin")))
+            .add(BlockHandler.ORE_TIN.get())
             .add(BlockHandler.ORE_TIN_ANDESITE.get())
             .add(BlockHandler.ORE_TIN_GABBRO.get())
             .add(BlockHandler.ORE_TIN_C_LIMESTONE.get())
@@ -432,7 +431,8 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_TIN_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_TIN_MARBLE.get())
             .add(BlockHandler.ORE_TIN_SLATE.get());
-    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/zinc")))
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/zinc")))
+            .add(BlockHandler.ORE_ZINC.get())
             .add(BlockHandler.ORE_ZINC_ANDESITE.get())
             .add(BlockHandler.ORE_ZINC_GABBRO.get())
             .add(BlockHandler.ORE_ZINC_C_LIMESTONE.get())
@@ -442,6 +442,28 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.ORE_ZINC_Q_LIMESTONE.get())
             .add(BlockHandler.ORE_ZINC_MARBLE.get())
             .add(BlockHandler.ORE_ZINC_SLATE.get());
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/certus_quartz")))
+            .add(BlockHandler.ORE_CERTUS_QUARTZ.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get())
+            .add(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get());
+    getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/charged_certus_quartz")))
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get())
+            .add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get());;
 
     // Misc
     getBuilder(new BlockTags.Wrapper(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger")))

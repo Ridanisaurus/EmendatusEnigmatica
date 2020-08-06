@@ -152,9 +152,17 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_GOLD.get())
             .add(ItemHandler.DUST_IRON.get())
             .add(ItemHandler.DUST_LAPIS.get())
-            //.add(ItemHandler.DUST_NETHERITE.get())
             .add(ItemHandler.DUST_OBSIDIAN.get())
-            .add(ItemHandler.DUST_QUARTZ.get());
+            .add(ItemHandler.DUST_QUARTZ.get())
+            .add(ItemHandler.DUST_CERTUS_QUARTZ.get())
+            .add(ItemHandler.DUST_SKYSTONE.get())
+            .add(ItemHandler.DUST_FLUIX.get())
+            .add(ItemHandler.DUST_ENDER.get())
+            .add(ItemHandler.DUST_COKE.get())
+            .add(ItemHandler.DUST_GRAPHITE.get())
+            .add(ItemHandler.DUST_LITHIUM.get())
+            .add(ItemHandler.DUST_SALTPETER.get())
+            .add(ItemHandler.DUST_SULFUR.get());
 
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/copper")))
             .add(ItemHandler.DUST_COPPER.get());
@@ -198,11 +206,41 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_IRON.get());
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/lapis")))
             .add(ItemHandler.DUST_LAPIS.get());
-    //getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/netherite"))).add(ItemHandler.DUST_NETHERITE.get());
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/obsidian")))
             .add(ItemHandler.DUST_OBSIDIAN.get());
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/quartz")))
             .add(ItemHandler.DUST_QUARTZ.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/certus_quartz")))
+            .add(ItemHandler.DUST_CERTUS_QUARTZ.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/skystone")))
+            .add(ItemHandler.DUST_SKYSTONE.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/fluix")))
+            .add(ItemHandler.DUST_FLUIX.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender")))
+            .add(ItemHandler.DUST_ENDER.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/coke")))
+            .add(ItemHandler.DUST_COKE.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/graphite")))
+            .add(ItemHandler.DUST_GRAPHITE.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/lithium")))
+            .add(ItemHandler.DUST_LITHIUM.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/saltpeter")))
+            .add(ItemHandler.DUST_SALTPETER.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "dusts/sulfur")))
+            .add(ItemHandler.DUST_SULFUR.get());
+
+    // Gems
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "gems")))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get())
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get())
+            .add(ItemHandler.GEM_FLUIX.get());
+
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "gems/certus_quartz")))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "gems/charged_certus_quartz")))
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "gems/fluix")))
+            .add(ItemHandler.GEM_FLUIX.get());
 
     // Plates
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "plates")))
@@ -276,7 +314,9 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.CHUNK_URANIUM.get())
             .add(ItemHandler.CHUNK_OSMIUM.get())
             .add(ItemHandler.CHUNK_TIN.get())
-            .add(ItemHandler.CHUNK_ZINC.get());
+            .add(ItemHandler.CHUNK_ZINC.get())
+            .add(ItemHandler.CHUNK_CERTUS_QUARTZ.get())
+            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
 
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "chunks/coal")))
             .add(ItemHandler.CHUNK_COAL.get());
@@ -310,6 +350,10 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.CHUNK_TIN.get());
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "chunks/zinc")))
             .add(ItemHandler.CHUNK_ZINC.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "chunks/certus_quartz")))
+            .add(ItemHandler.CHUNK_CERTUS_QUARTZ.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "chunks/charged_certus_quartz")))
+            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
 
     // Block Items
     getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks")))
@@ -374,43 +418,9 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_URANIUM_ITEM.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM.get())
             .add(ItemHandler.ORE_TIN_ITEM.get())
-            .add(ItemHandler.ORE_ZINC_ITEM.get());
-
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/coal")))
-            .add(ItemHandler.ORE_COAL_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/iron")))
-            .add(ItemHandler.ORE_IRON_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/gold")))
-            .add(ItemHandler.ORE_GOLD_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/diamond")))
-            .add(ItemHandler.ORE_DIAMOND_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/emerald")))
-            .add(ItemHandler.ORE_EMERALD_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lapis")))
-            .add(ItemHandler.ORE_LAPIS_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/redstone")))
-            .add(ItemHandler.ORE_REDSTONE_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/copper")))
-            .add(ItemHandler.ORE_COPPER_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/aluminum")))
-            .add(ItemHandler.ORE_ALUMINUM_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/silver")))
-            .add(ItemHandler.ORE_SILVER_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lead")))
-            .add(ItemHandler.ORE_LEAD_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/nickel")))
-            .add(ItemHandler.ORE_NICKEL_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/uranium")))
-            .add(ItemHandler.ORE_URANIUM_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/osmium")))
-            .add(ItemHandler.ORE_OSMIUM_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/tin")))
-            .add(ItemHandler.ORE_TIN_ITEM.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/zinc")))
-            .add(ItemHandler.ORE_ZINC_ITEM.get());
-
-    // Strata Ores Items
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores")))
+            .add(ItemHandler.ORE_ZINC_ITEM.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM.get())
             .add(ItemHandler.ORE_COAL_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_IRON_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_ANDESITE.get())
@@ -427,6 +437,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_TIN_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_COAL_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_IRON_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_GOLD_ITEM_GABBRO.get())
@@ -443,6 +455,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_TIN_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_ZINC_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_COAL_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_C_LIMESTONE.get())
@@ -459,6 +473,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_TIN_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_IRON_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_GOLD_ITEM_SCORIA.get())
@@ -475,6 +491,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_TIN_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_ZINC_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_COAL_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_WEATHERED_LIMESTONE.get())
@@ -491,6 +509,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_TIN_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_JASPER.get())
             .add(ItemHandler.ORE_IRON_ITEM_JASPER.get())
             .add(ItemHandler.ORE_GOLD_ITEM_JASPER.get())
@@ -507,6 +527,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_JASPER.get())
             .add(ItemHandler.ORE_TIN_ITEM_JASPER.get())
             .add(ItemHandler.ORE_ZINC_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_JASPER.get())
             .add(ItemHandler.ORE_COAL_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_Q_LIMESTONE.get())
@@ -523,6 +545,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_TIN_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_IRON_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_MARBLE.get())
@@ -539,6 +563,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_TIN_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_COAL_ITEM_SLATE.get())
             .add(ItemHandler.ORE_IRON_ITEM_SLATE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_SLATE.get())
@@ -554,9 +580,12 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_URANIUM_ITEM_SLATE.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_SLATE.get())
             .add(ItemHandler.ORE_TIN_ITEM_SLATE.get())
-            .add(ItemHandler.ORE_ZINC_ITEM_SLATE.get());
+            .add(ItemHandler.ORE_ZINC_ITEM_SLATE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SLATE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get());
 
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/coal")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/coal")))
+            .add(ItemHandler.ORE_COAL_ITEM.get())
             .add(ItemHandler.ORE_COAL_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_COAL_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_COAL_ITEM_C_LIMESTONE.get())
@@ -566,7 +595,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_COAL_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_COAL_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/iron")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/iron")))
+            .add(ItemHandler.ORE_IRON_ITEM.get())
             .add(ItemHandler.ORE_IRON_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_IRON_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_IRON_ITEM_C_LIMESTONE.get())
@@ -576,7 +606,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_IRON_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_IRON_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/gold")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/gold")))
+            .add(ItemHandler.ORE_GOLD_ITEM.get())
             .add(ItemHandler.ORE_GOLD_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_GOLD_ITEM_C_LIMESTONE.get())
@@ -586,7 +617,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_GOLD_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/diamond")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/diamond")))
+            .add(ItemHandler.ORE_DIAMOND_ITEM.get())
             .add(ItemHandler.ORE_DIAMOND_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_DIAMOND_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_DIAMOND_ITEM_C_LIMESTONE.get())
@@ -596,7 +628,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_DIAMOND_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_DIAMOND_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_DIAMOND_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/emerald")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/emerald")))
+            .add(ItemHandler.ORE_EMERALD_ITEM.get())
             .add(ItemHandler.ORE_EMERALD_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_EMERALD_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_EMERALD_ITEM_C_LIMESTONE.get())
@@ -606,7 +639,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_EMERALD_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_EMERALD_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_EMERALD_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/lapis")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lapis")))
+            .add(ItemHandler.ORE_LAPIS_ITEM.get())
             .add(ItemHandler.ORE_LAPIS_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_LAPIS_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_LAPIS_ITEM_C_LIMESTONE.get())
@@ -616,7 +650,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_LAPIS_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_LAPIS_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_LAPIS_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/redstone")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/redstone")))
+            .add(ItemHandler.ORE_REDSTONE_ITEM.get())
             .add(ItemHandler.ORE_REDSTONE_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_REDSTONE_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_REDSTONE_ITEM_C_LIMESTONE.get())
@@ -626,7 +661,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_REDSTONE_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_REDSTONE_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_REDSTONE_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/copper")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/copper")))
+            .add(ItemHandler.ORE_COPPER_ITEM.get())
             .add(ItemHandler.ORE_COPPER_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_COPPER_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_COPPER_ITEM_C_LIMESTONE.get())
@@ -636,7 +672,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_COPPER_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_COPPER_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_COPPER_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/aluminum")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/aluminum")))
+            .add(ItemHandler.ORE_ALUMINUM_ITEM.get())
             .add(ItemHandler.ORE_ALUMINUM_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_ALUMINUM_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_ALUMINUM_ITEM_C_LIMESTONE.get())
@@ -646,7 +683,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ALUMINUM_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_ALUMINUM_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_ALUMINUM_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/silver")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/silver")))
+            .add(ItemHandler.ORE_SILVER_ITEM.get())
             .add(ItemHandler.ORE_SILVER_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_SILVER_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_SILVER_ITEM_C_LIMESTONE.get())
@@ -656,7 +694,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_SILVER_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_SILVER_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_SILVER_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/lead")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/lead")))
+            .add(ItemHandler.ORE_LEAD_ITEM.get())
             .add(ItemHandler.ORE_LEAD_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_LEAD_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_LEAD_ITEM_C_LIMESTONE.get())
@@ -666,7 +705,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_LEAD_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_LEAD_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_LEAD_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/nickel")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/nickel")))
+            .add(ItemHandler.ORE_NICKEL_ITEM.get())
             .add(ItemHandler.ORE_NICKEL_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_NICKEL_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_NICKEL_ITEM_C_LIMESTONE.get())
@@ -676,7 +716,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_NICKEL_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_NICKEL_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_NICKEL_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/uranium")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/uranium")))
+            .add(ItemHandler.ORE_URANIUM_ITEM.get())
             .add(ItemHandler.ORE_URANIUM_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_URANIUM_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_URANIUM_ITEM_C_LIMESTONE.get())
@@ -686,7 +727,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_URANIUM_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_URANIUM_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_URANIUM_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/osmium")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/osmium")))
+            .add(ItemHandler.ORE_OSMIUM_ITEM.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_C_LIMESTONE.get())
@@ -696,7 +738,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_OSMIUM_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_OSMIUM_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/tin")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/tin")))
+            .add(ItemHandler.ORE_TIN_ITEM.get())
             .add(ItemHandler.ORE_TIN_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_TIN_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_TIN_ITEM_C_LIMESTONE.get())
@@ -706,7 +749,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_TIN_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_TIN_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_TIN_ITEM_SLATE.get());
-    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "strata_ores/zinc")))
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/zinc")))
+            .add(ItemHandler.ORE_ZINC_ITEM.get())
             .add(ItemHandler.ORE_ZINC_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_ZINC_ITEM_C_LIMESTONE.get())
@@ -716,5 +760,27 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_ZINC_ITEM_SLATE.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/certus_quartz")))
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SLATE.get());
+    getBuilder(new ItemTags.Wrapper(new ResourceLocation(Reference.FORGE_TAG, "ores/charged_certus_quartz")))
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get());
   }
 }

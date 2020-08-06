@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_copper"
+    "item": "emendatusenigmatica:chunk_copper"
   },
   "result": "emendatusenigmatica:ingot_copper",
   "experience": 0.7,

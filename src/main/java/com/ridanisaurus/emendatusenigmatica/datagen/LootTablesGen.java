@@ -70,6 +70,9 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
+
 
     // Strata Ores - Andesite
     blockLootTable.put(BlockHandler.ORE_COAL_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -88,6 +91,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Gabbro
     blockLootTable.put(BlockHandler.ORE_COAL_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -106,6 +111,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Limestone (Create)
     blockLootTable.put(BlockHandler.ORE_COAL_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -124,6 +131,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Scoria
     blockLootTable.put(BlockHandler.ORE_COAL_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -142,6 +151,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Weathered Limestone
     blockLootTable.put(BlockHandler.ORE_COAL_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -160,6 +171,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Jasper
     blockLootTable.put(BlockHandler.ORE_COAL_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -178,6 +191,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Limestone (Quark)
     blockLootTable.put(BlockHandler.ORE_COAL_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -196,6 +211,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Marble
     blockLootTable.put(BlockHandler.ORE_COAL_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -214,6 +231,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
 
     // Strata Ores - Slate
     blockLootTable.put(BlockHandler.ORE_COAL_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_COAL.get(), Items.COAL));
@@ -232,5 +251,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_OSMIUM_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_OSMIUM.get()));
     blockLootTable.put(BlockHandler.ORE_TIN_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_TIN.get()));
     blockLootTable.put(BlockHandler.ORE_ZINC_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_ZINC.get()));
+    blockLootTable.put(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), ItemHandler.GEM_CERTUS_QUARTZ.get()));
+    blockLootTable.put(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get()));
   }
 }

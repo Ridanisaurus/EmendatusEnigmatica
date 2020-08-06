@@ -30,8 +30,10 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.Tags;
 
 import java.util.function.Consumer;
 
@@ -45,7 +47,7 @@ public class RecipesGen extends RecipeProvider {
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
     // Shaped
-    /*ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_EXCHANGER.get())
+    ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_EXCHANGER.get())
             .patternLine("III")
             .patternLine("RDR")
             .patternLine("BBB")
@@ -55,9 +57,7 @@ public class RecipesGen extends RecipeProvider {
             .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);*/
-
-    // Shapeless
+            .build(consumer);
 
     // Ingot from Block
     ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.INGOT_COPPER.get(), 9)
@@ -271,7 +271,7 @@ public class RecipesGen extends RecipeProvider {
             .setGroup(Reference.MOD_ID)
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "steel_ingot_from_nuggets"));
 
-    // Ingot from Dusts
+    // Ingot+Gems from Dusts
     CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.DUST_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "copper_ingot_from_dust"));
@@ -568,78 +568,150 @@ public class RecipesGen extends RecipeProvider {
             .setGroup(Reference.MOD_ID)
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "steel_block"));
 
-    // Ore Smelting
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 200)
+    // Chunk Smelting
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_COAL.get()), Items.COAL, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_coal"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_IRON.get()), Items.IRON_INGOT, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "iron_ingot"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_GOLD.get()), Items.GOLD_INGOT, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gold_ingot"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_DIAMOND.get()), Items.DIAMOND, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_diamond"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_EMERALD.get()), Items.EMERALD, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_emerald"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_LAPIS.get()), Items.LAPIS_LAZULI, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_lapis"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_REDSTONE.get()), Items.REDSTONE, 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "copper_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_ALUMINUM.get()), ItemHandler.INGOT_ALUMINUM.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_ALUMINUM.get()), ItemHandler.INGOT_ALUMINUM.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "aluminum_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_SILVER.get()), ItemHandler.INGOT_SILVER.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_SILVER.get()), ItemHandler.INGOT_SILVER.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "silver_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_LEAD.get()), ItemHandler.INGOT_LEAD.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_LEAD.get()), ItemHandler.INGOT_LEAD.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "lead_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_NICKEL.get()), ItemHandler.INGOT_NICKEL.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_NICKEL.get()), ItemHandler.INGOT_NICKEL.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "nickel_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_URANIUM.get()), ItemHandler.INGOT_URANIUM.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_URANIUM.get()), ItemHandler.INGOT_URANIUM.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "uranium_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_OSMIUM.get()), ItemHandler.INGOT_OSMIUM.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_OSMIUM.get()), ItemHandler.INGOT_OSMIUM.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "osmium_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_TIN.get()), ItemHandler.INGOT_TIN.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_TIN.get()), ItemHandler.INGOT_TIN.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "tin_ingot"));
 
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(BlockHandler.ORE_ZINC.get()), ItemHandler.INGOT_ZINC.get(), 0.7F, 200)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_ZINC.get()), ItemHandler.INGOT_ZINC.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "zinc_ingot"));
 
-    // Ore Blasting
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 100)
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_CERTUS_QUARTZ.get()), ItemHandler.GEM_CERTUS_QUARTZ.get(), 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "certus_quartz_gem"));
+
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get()), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get(), 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "charged_certus_quartz_gem"));
+
+    // Chunk Blasting
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_COAL.get()), Items.COAL, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_coal_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_IRON.get()), Items.IRON_INGOT, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "iron_ingot_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_GOLD.get()), Items.GOLD_INGOT, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gold_ingot_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_DIAMOND.get()), Items.DIAMOND, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_diamond_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_EMERALD.get()), Items.EMERALD, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_emerald_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_LAPIS.get()), Items.LAPIS_LAZULI, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_lapis_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_REDSTONE.get()), Items.REDSTONE, 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "copper_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_ALUMINUM.get()), ItemHandler.INGOT_ALUMINUM.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_ALUMINUM.get()), ItemHandler.INGOT_ALUMINUM.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "aluminum_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_SILVER.get()), ItemHandler.INGOT_SILVER.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_SILVER.get()), ItemHandler.INGOT_SILVER.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "silver_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_LEAD.get()), ItemHandler.INGOT_LEAD.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_LEAD.get()), ItemHandler.INGOT_LEAD.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "lead_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_NICKEL.get()), ItemHandler.INGOT_NICKEL.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_NICKEL.get()), ItemHandler.INGOT_NICKEL.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "nickel_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_URANIUM.get()), ItemHandler.INGOT_URANIUM.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_URANIUM.get()), ItemHandler.INGOT_URANIUM.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "uranium_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_OSMIUM.get()), ItemHandler.INGOT_OSMIUM.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_OSMIUM.get()), ItemHandler.INGOT_OSMIUM.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "osmium_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_TIN.get()), ItemHandler.INGOT_TIN.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_TIN.get()), ItemHandler.INGOT_TIN.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "tin_ingot_from_blasting"));
 
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_ZINC.get()), ItemHandler.INGOT_ZINC.get(), 0.7F, 100)
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_ZINC.get()), ItemHandler.INGOT_ZINC.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "zinc_ingot_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_CERTUS_QUARTZ.get()), ItemHandler.GEM_CERTUS_QUARTZ.get(), 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "certus_quartz_gem_from_blasting"));
+
+    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get()), ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get(), 0.7F, 100)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "charged_certus_quartz_gem_from_blasting"));
   }
 }

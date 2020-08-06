@@ -79,6 +79,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM.get(), "Osmium Ore");
     add(BlockHandler.ORE_TIN.get(), "Tin Ore");
     add(BlockHandler.ORE_ZINC.get(), "Zinc Ore");
+    add(BlockHandler.ORE_CERTUS_QUARTZ.get(), "Certus Quartz Ore");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get(), "Charged Certus Quartz Ore");
 
     // Strata Ores - Andesite
     add(BlockHandler.ORE_COAL_ANDESITE.get(), "Coal Ore - Andesite");
@@ -97,6 +99,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_ANDESITE.get(), "Osmium Ore - Andesite");
     add(BlockHandler.ORE_TIN_ANDESITE.get(), "Tin Ore - Andesite");
     add(BlockHandler.ORE_ZINC_ANDESITE.get(), "Zinc Ore - Andesite");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get(), "Certus Quartz Ore - Andesite");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get(), "Charged Certus Quartz Ore - Andesite");
 
     // Strata Ores - Gabbro
     add(BlockHandler.ORE_COAL_GABBRO.get(), "Coal Ore - Gabbro");
@@ -115,6 +119,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_GABBRO.get(), "Osmium Ore - Gabbro");
     add(BlockHandler.ORE_TIN_GABBRO.get(), "Tin Ore - Gabbro");
     add(BlockHandler.ORE_ZINC_GABBRO.get(), "Zinc Ore - Gabbro");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get(), "Certus Quartz Ore - Gabbro");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get(), "Charged Certus Quartz Ore - Gabbro");
 
     // Strata Ores - Limestone (Create)
     add(BlockHandler.ORE_COAL_C_LIMESTONE.get(), "Coal Ore - Limestone");
@@ -133,6 +139,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get(), "Osmium Ore - Limestone");
     add(BlockHandler.ORE_TIN_C_LIMESTONE.get(), "Tin Ore - Limestone");
     add(BlockHandler.ORE_ZINC_C_LIMESTONE.get(), "Zinc Ore - Limestone");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get(), "Certus Quartz Ore - Limestone");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get(), "Charged Certus Quartz Ore - Limestone");
 
     // Strata Ores - Scoria
     add(BlockHandler.ORE_COAL_SCORIA.get(), "Coal Ore - Scoria");
@@ -151,6 +159,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_SCORIA.get(), "Osmium Ore - Scoria");
     add(BlockHandler.ORE_TIN_SCORIA.get(), "Tin Ore - Scoria");
     add(BlockHandler.ORE_ZINC_SCORIA.get(), "Zinc Ore - Scoria");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get(), "Certus Quartz Ore - Scoria");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get(), "Charged Certus Quartz Ore - Scoria");
 
     // Strata Ores - Weathered Limestone
     add(BlockHandler.ORE_COAL_WEATHERED_LIMESTONE.get(), "Coal Ore - Weathered Limestone");
@@ -169,6 +179,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_WEATHERED_LIMESTONE.get(), "Osmium Ore - Weathered Limestone");
     add(BlockHandler.ORE_TIN_WEATHERED_LIMESTONE.get(), "Tin Ore - Weathered Limestone");
     add(BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get(), "Zinc Ore - Weathered Limestone");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), "Certus Quartz Ore - Weathered Limestone");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), "Charged Certus Quartz Ore - Weathered Limestone");
 
     // Strata Ores - Jasper
     add(BlockHandler.ORE_COAL_JASPER.get(), "Coal Ore - Jasper");
@@ -187,6 +199,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_JASPER.get(), "Osmium Ore - Jasper");
     add(BlockHandler.ORE_TIN_JASPER.get(), "Tin Ore - Jasper");
     add(BlockHandler.ORE_ZINC_JASPER.get(), "Zinc Ore - Jasper");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get(), "Certus Quartz Ore - Jasper");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get(), "Charged Certus Quartz Ore - Jasper");
 
     // Strata Ores - Limestone (Quark)
     add(BlockHandler.ORE_COAL_Q_LIMESTONE.get(), "Coal Ore - Limestone");
@@ -205,6 +219,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get(), "Osmium Ore - Limestone");
     add(BlockHandler.ORE_TIN_Q_LIMESTONE.get(), "Tin Ore - Limestone");
     add(BlockHandler.ORE_ZINC_Q_LIMESTONE.get(), "Zinc Ore - Limestone");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get(), "Certus Quartz Ore - Limestone");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get(), "Charged Certus Quartz Ore - Limestone");
 
     // Strata Ores - Marble
     add(BlockHandler.ORE_COAL_MARBLE.get(), "Coal Ore - Marble");
@@ -223,6 +239,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_MARBLE.get(), "Osmium Ore - Marble");
     add(BlockHandler.ORE_TIN_MARBLE.get(), "Tin Ore - Marble");
     add(BlockHandler.ORE_ZINC_MARBLE.get(), "Zinc Ore - Marble");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get(), "Certus Quartz Ore - Marble");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get(), "Charged Certus Quartz Ore - Marble");
 
     // Strata Ores - Slate
     add(BlockHandler.ORE_COAL_SLATE.get(), "Coal Ore - Slate");
@@ -241,6 +259,8 @@ public class LangGen extends LanguageProvider
     add(BlockHandler.ORE_OSMIUM_SLATE.get(), "Osmium Ore - Slate");
     add(BlockHandler.ORE_TIN_SLATE.get(), "Tin Ore - Slate");
     add(BlockHandler.ORE_ZINC_SLATE.get(), "Zinc Ore - Slate");
+    add(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get(), "Certus Quartz Ore - Slate");
+    add(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get(), "Charged Certus Quartz Ore - Slate");
 
     // Ingots
     add(ItemHandler.INGOT_COPPER.get(), "Copper Ingot");
@@ -296,9 +316,22 @@ public class LangGen extends LanguageProvider
     add(ItemHandler.DUST_GOLD.get(), "Gold Dust");
     add(ItemHandler.DUST_IRON.get(), "Iron Dust");
     add(ItemHandler.DUST_LAPIS.get(), "Lapis lazuli Dust");
-    //add(ItemHandler.DUST_NETHERITE.get(), "Netherite Dust");
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
     add(ItemHandler.DUST_QUARTZ.get(), "Quartz Dust");
+    add(ItemHandler.DUST_CERTUS_QUARTZ.get(), "Certus Quartz Dust");
+    add(ItemHandler.DUST_SKYSTONE.get(), "Skystone Dust");
+    add(ItemHandler.DUST_FLUIX.get(), "Fluix Dust");
+    add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
+    add(ItemHandler.DUST_COKE.get(), "Coke Dust");
+    add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
+    add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
+    add(ItemHandler.DUST_SALTPETER.get(), "Saltpeter Dust");
+    add(ItemHandler.DUST_SULFUR.get(), "Sulfur Dust");
+
+    // Gems
+    add(ItemHandler.GEM_CERTUS_QUARTZ.get(), "Certus Quartz Crystal");
+    add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get(), "Charged Certus Quartz Crystal");
+    add(ItemHandler.GEM_FLUIX.get(), "Fluix Crystal");
 
     // Plates
     add(ItemHandler.PLATE_COPPER.get(), "Copper Plate");
@@ -336,5 +369,7 @@ public class LangGen extends LanguageProvider
     add(ItemHandler.CHUNK_OSMIUM.get(), "Osmium Chunk");
     add(ItemHandler.CHUNK_TIN.get(), "Tin Chunk");
     add(ItemHandler.CHUNK_ZINC.get(), "Zinc Chunk");
+    add(ItemHandler.CHUNK_CERTUS_QUARTZ.get(), "Certus Quartz Chunk");
+    add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get(), "Charged Certus Quartz Chunk");
   }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "emendatusenigmatica:items/gem_certus_quartz"
+  }
+}

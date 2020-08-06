@@ -1,6 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_aluminum"
+    "emendatusenigmatica:ore_aluminum",
+    "emendatusenigmatica:ore_aluminum_andesite",
+    "emendatusenigmatica:ore_aluminum_gabbro",
+    "emendatusenigmatica:ore_aluminum_c_limestone",
+    "emendatusenigmatica:ore_aluminum_scoria",
+    "emendatusenigmatica:ore_aluminum_weathered_limestone",
+    "emendatusenigmatica:ore_aluminum_jasper",
+    "emendatusenigmatica:ore_aluminum_q_limestone",
+    "emendatusenigmatica:ore_aluminum_marble",
+    "emendatusenigmatica:ore_aluminum_slate"
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ore_certus_quartz",
+    "emendatusenigmatica:ore_certus_quartz_andesite",
+    "emendatusenigmatica:ore_certus_quartz_gabbro",
+    "emendatusenigmatica:ore_certus_quartz_c_limestone",
+    "emendatusenigmatica:ore_certus_quartz_scoria",
+    "emendatusenigmatica:ore_certus_quartz_weathered_limestone",
+    "emendatusenigmatica:ore_certus_quartz_jasper",
+    "emendatusenigmatica:ore_certus_quartz_q_limestone",
+    "emendatusenigmatica:ore_certus_quartz_marble",
+    "emendatusenigmatica:ore_certus_quartz_slate"
+  ]
+}

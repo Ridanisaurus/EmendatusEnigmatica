@@ -73,6 +73,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM.get(), models().cubeAll("ore_osmium", new ResourceLocation(Reference.MOD_ID, "blocks/ore_osmium")));
     simpleBlock(BlockHandler.ORE_TIN.get(), models().cubeAll("ore_tin", new ResourceLocation(Reference.MOD_ID, "blocks/ore_tin")));
     simpleBlock(BlockHandler.ORE_ZINC.get(), models().cubeAll("ore_zinc", new ResourceLocation(Reference.MOD_ID, "blocks/ore_zinc")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ.get(), models().cubeAll("ore_certus_quartz", new ResourceLocation(Reference.MOD_ID, "blocks/ore_certus_quartz")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get(), models().cubeAll("ore_charged_certus_quartz", new ResourceLocation(Reference.MOD_ID, "blocks/ore_charged_certus_quartz")));
 
     // Strata Ores - Andesite
     simpleBlock(BlockHandler.ORE_COAL_ANDESITE.get(), models().cubeAll("ore_coal_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_coal_andesite")));
@@ -91,6 +93,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_ANDESITE.get(), models().cubeAll("ore_osmium_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_osmium_andesite")));
     simpleBlock(BlockHandler.ORE_TIN_ANDESITE.get(), models().cubeAll("ore_tin_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_tin_andesite")));
     simpleBlock(BlockHandler.ORE_ZINC_ANDESITE.get(), models().cubeAll("ore_zinc_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_zinc_andesite")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get(), models().cubeAll("ore_certus_quartz_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_certus_quartz_andesite")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get(), models().cubeAll("ore_charged_certus_quartz_andesite", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/minecraft/ore_charged_certus_quartz_andesite")));
 
     // Strata Ores - Gabbro
     simpleBlock(BlockHandler.ORE_COAL_GABBRO.get(), models().cubeAll("ore_coal_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_coal_gabbro")));
@@ -109,6 +113,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_GABBRO.get(), models().cubeAll("ore_osmium_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_osmium_gabbro")));
     simpleBlock(BlockHandler.ORE_TIN_GABBRO.get(), models().cubeAll("ore_tin_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_tin_gabbro")));
     simpleBlock(BlockHandler.ORE_ZINC_GABBRO.get(), models().cubeAll("ore_zinc_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_zinc_gabbro")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get(), models().cubeAll("ore_certus_quartz_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_certus_quartz_gabbro")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get(), models().cubeAll("ore_charged_certus_quartz_gabbro", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_charged_certus_quartz_gabbro")));
 
     // Strata Ores - Limestone (Create)
     simpleBlock(BlockHandler.ORE_COAL_C_LIMESTONE.get(), models().cubeAll("ore_coal_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_coal_limestone")));
@@ -127,6 +133,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get(), models().cubeAll("ore_osmium_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_osmium_limestone")));
     simpleBlock(BlockHandler.ORE_TIN_C_LIMESTONE.get(), models().cubeAll("ore_tin_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_tin_limestone")));
     simpleBlock(BlockHandler.ORE_ZINC_C_LIMESTONE.get(), models().cubeAll("ore_zinc_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_zinc_limestone")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get(), models().cubeAll("ore_certus_quartz_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_certus_quartz_limestone")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get(), models().cubeAll("ore_charged_certus_quartz_c_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_charged_certus_quartz_limestone")));
 
     // Strata Ores - Scoria
     simpleBlock(BlockHandler.ORE_COAL_SCORIA.get(), models().cubeAll("ore_coal_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_coal_scoria")));
@@ -145,6 +153,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_SCORIA.get(), models().cubeAll("ore_osmium_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_osmium_scoria")));
     simpleBlock(BlockHandler.ORE_TIN_SCORIA.get(), models().cubeAll("ore_tin_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_tin_scoria")));
     simpleBlock(BlockHandler.ORE_ZINC_SCORIA.get(), models().cubeAll("ore_zinc_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_zinc_scoria")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get(), models().cubeAll("ore_certus_quartz_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_certus_quartz_scoria")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get(), models().cubeAll("ore_charged_certus_quartz_scoria", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_charged_certus_quartz_scoria")));
 
     // Strata Ore - Weathered Limestone
     simpleBlock(BlockHandler.ORE_COAL_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_coal_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_coal_weathered_limestone")));
@@ -163,6 +173,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_osmium_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_osmium_weathered_limestone")));
     simpleBlock(BlockHandler.ORE_TIN_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_tin_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_tin_weathered_limestone")));
     simpleBlock(BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_zinc_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_zinc_weathered_limestone")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_certus_quartz_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_certus_quartz_weathered_limestone")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get(), models().cubeAll("ore_charged_certus_quartz_weathered_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/create/ore_charged_certus_quartz_weathered_limestone")));
 
     // Strata Ore - Jasper
     simpleBlock(BlockHandler.ORE_COAL_JASPER.get(), models().cubeAll("ore_coal_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_coal_jasper")));
@@ -181,6 +193,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_JASPER.get(), models().cubeAll("ore_osmium_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_osmium_jasper")));
     simpleBlock(BlockHandler.ORE_TIN_JASPER.get(), models().cubeAll("ore_tin_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_tin_jasper")));
     simpleBlock(BlockHandler.ORE_ZINC_JASPER.get(), models().cubeAll("ore_zinc_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_zinc_jasper")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get(), models().cubeAll("ore_certus_quartz_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_certus_quartz_jasper")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get(), models().cubeAll("ore_charged_certus_quartz_jasper", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_charged_certus_quartz_jasper")));
 
     // Strata Ore - Limestone (Quark)
     simpleBlock(BlockHandler.ORE_COAL_Q_LIMESTONE.get(), models().cubeAll("ore_coal_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_coal_limestone")));
@@ -199,6 +213,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get(), models().cubeAll("ore_osmium_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_osmium_limestone")));
     simpleBlock(BlockHandler.ORE_TIN_Q_LIMESTONE.get(), models().cubeAll("ore_tin_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_tin_limestone")));
     simpleBlock(BlockHandler.ORE_ZINC_Q_LIMESTONE.get(), models().cubeAll("ore_zinc_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_zinc_limestone")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get(), models().cubeAll("ore_certus_quartz_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_certus_quartz_limestone")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get(), models().cubeAll("ore_charged_certus_quartz_q_limestone", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_charged_certus_quartz_limestone")));
 
     // Strata Ore - Marble
     simpleBlock(BlockHandler.ORE_COAL_MARBLE.get(), models().cubeAll("ore_coal_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_coal_marble")));
@@ -217,6 +233,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_MARBLE.get(), models().cubeAll("ore_osmium_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_osmium_marble")));
     simpleBlock(BlockHandler.ORE_TIN_MARBLE.get(), models().cubeAll("ore_tin_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_tin_marble")));
     simpleBlock(BlockHandler.ORE_ZINC_MARBLE.get(), models().cubeAll("ore_zinc_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_zinc_marble")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get(), models().cubeAll("ore_certus_quartz_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_certus_quartz_marble")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get(), models().cubeAll("ore_charged_certus_quartz_marble", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_charged_certus_quartz_marble")));
 
     // Strata Ore - Slate
     simpleBlock(BlockHandler.ORE_COAL_SLATE.get(), models().cubeAll("ore_coal_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_coal_slate")));
@@ -235,6 +253,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     simpleBlock(BlockHandler.ORE_OSMIUM_SLATE.get(), models().cubeAll("ore_osmium_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_osmium_slate")));
     simpleBlock(BlockHandler.ORE_TIN_SLATE.get(), models().cubeAll("ore_tin_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_tin_slate")));
     simpleBlock(BlockHandler.ORE_ZINC_SLATE.get(), models().cubeAll("ore_zinc_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_zinc_slate")));
+    simpleBlock(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get(), models().cubeAll("ore_certus_quartz_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_certus_quartz_slate")));
+    simpleBlock(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get(), models().cubeAll("ore_charged_certus_quartz_slate", new ResourceLocation(Reference.MOD_ID, "blocks/strata_ores/quark/ore_charged_certus_quartz_slate")));
   }
 
   @Override

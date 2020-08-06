@@ -90,9 +90,17 @@ public class ItemHandler {
   public static final RegistryObject<Item> DUST_GOLD = ITEMS.register("dust_gold", ItemBase::new);
   public static final RegistryObject<Item> DUST_IRON = ITEMS.register("dust_iron", ItemBase::new);
   public static final RegistryObject<Item> DUST_LAPIS = ITEMS.register("dust_lapis", ItemBase::new);
-  //public static final RegistryObject<Item> DUST_NETHERITE = ITEMS.register("dust_netherite", ItemBase::new);
   public static final RegistryObject<Item> DUST_OBSIDIAN = ITEMS.register("dust_obsidian", ItemBase::new);
   public static final RegistryObject<Item> DUST_QUARTZ = ITEMS.register("dust_quartz", ItemBase::new);
+  public static final RegistryObject<Item> DUST_CERTUS_QUARTZ = ITEMS.register("dust_certus_quartz", ItemBase::new);
+  public static final RegistryObject<Item> DUST_SKYSTONE = ITEMS.register("dust_skystone", ItemBase::new);
+  public static final RegistryObject<Item> DUST_FLUIX = ITEMS.register("dust_fluix", ItemBase::new);
+  public static final RegistryObject<Item> DUST_ENDER = ITEMS.register("dust_ender", ItemBase::new);
+  public static final RegistryObject<Item> DUST_COKE = ITEMS.register("dust_coke", ItemBase::new);
+  public static final RegistryObject<Item> DUST_GRAPHITE = ITEMS.register("dust_graphite", ItemBase::new);
+  public static final RegistryObject<Item> DUST_LITHIUM = ITEMS.register("dust_lithium", ItemBase::new);
+  public static final RegistryObject<Item> DUST_SALTPETER = ITEMS.register("dust_saltpeter", ItemBase::new);
+  public static final RegistryObject<Item> DUST_SULFUR = ITEMS.register("dust_sulfur", ItemBase::new);
 
   // Plates
   public static final RegistryObject<Item> PLATE_COPPER = ITEMS.register("plate_copper", ItemBase::new);
@@ -112,6 +120,11 @@ public class ItemHandler {
   public static final RegistryObject<Item> PLATE_GOLD = ITEMS.register("plate_gold", ItemBase::new);
   public static final RegistryObject<Item> PLATE_IRON = ITEMS.register("plate_iron", ItemBase::new);
   public static final RegistryObject<Item> PLATE_LAPIS = ITEMS.register("plate_lapis", ItemBase::new);
+
+  // Gems
+  public static final RegistryObject<Item> GEM_CERTUS_QUARTZ = ITEMS.register("gem_certus_quartz", ItemBase::new);
+  public static final RegistryObject<Item> GEM_CHARGED_CERTUS_QUARTZ = ITEMS.register("gem_charged_certus_quartz", ItemBase::new);
+  public static final RegistryObject<Item> GEM_FLUIX = ITEMS.register("gem_fluix", ItemBase::new);
 
   //Block Items
   public static final RegistryObject<Item> BLOCK_COPPER_ITEM = ITEMS.register("block_copper", () -> new BlockItemBase(BlockHandler.BLOCK_COPPER.get()));
@@ -146,6 +159,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM = ITEMS.register("ore_osmium", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM = ITEMS.register("ore_tin", () -> new BlockItemBase(BlockHandler.ORE_TIN.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM = ITEMS.register("ore_zinc", () -> new BlockItemBase(BlockHandler.ORE_ZINC.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM = ITEMS.register("ore_certus_quartz", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM = ITEMS.register("ore_charged_certus_quartz", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get()));
 
   //Ore Chunks
   public static final RegistryObject<Item> CHUNK_COAL = ITEMS.register("chunk_coal", ItemBase::new);
@@ -164,6 +179,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> CHUNK_OSMIUM = ITEMS.register("chunk_osmium", ItemBase::new);
   public static final RegistryObject<Item> CHUNK_TIN = ITEMS.register("chunk_tin", ItemBase::new);
   public static final RegistryObject<Item> CHUNK_ZINC = ITEMS.register("chunk_zinc", ItemBase::new);
+  public static final RegistryObject<Item> CHUNK_CERTUS_QUARTZ = ITEMS.register("chunk_certus_quartz", ItemBase::new);
+  public static final RegistryObject<Item> CHUNK_CHARGED_CERTUS_QUARTZ = ITEMS.register("chunk_charged_certus_quartz", ItemBase::new);
 
   // Strata Ore Items - Andesite
   public static final RegistryObject<Item> ORE_COAL_ITEM_ANDESITE = ITEMS.register("ore_coal_andesite", () -> new BlockItemBase(BlockHandler.ORE_COAL_ANDESITE.get()));
@@ -182,6 +199,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_ANDESITE = ITEMS.register("ore_osmium_andesite", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_ANDESITE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_ANDESITE = ITEMS.register("ore_tin_andesite", () -> new BlockItemBase(BlockHandler.ORE_TIN_ANDESITE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_ANDESITE = ITEMS.register("ore_zinc_andesite", () -> new BlockItemBase(BlockHandler.ORE_ZINC_ANDESITE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_ANDESITE = ITEMS.register("ore_certus_quartz_andesite", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_ANDESITE = ITEMS.register("ore_charged_certus_quartz_andesite", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get()));
 
   // Strata Ore Items - Gabbro
   public static final RegistryObject<Item> ORE_COAL_ITEM_GABBRO = ITEMS.register("ore_coal_gabbro", () -> new BlockItemBase(BlockHandler.ORE_COAL_GABBRO.get()));
@@ -200,6 +219,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_GABBRO = ITEMS.register("ore_osmium_gabbro", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_GABBRO.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_GABBRO = ITEMS.register("ore_tin_gabbro", () -> new BlockItemBase(BlockHandler.ORE_TIN_GABBRO.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_GABBRO = ITEMS.register("ore_zinc_gabbro", () -> new BlockItemBase(BlockHandler.ORE_ZINC_GABBRO.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_GABBRO = ITEMS.register("ore_certus_quartz_gabbro", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_GABBRO = ITEMS.register("ore_charged_certus_quartz_gabbro", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get()));
 
   // Strata Ore Items - Limestone (Create)
   public static final RegistryObject<Item> ORE_COAL_ITEM_C_LIMESTONE = ITEMS.register("ore_coal_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_COAL_C_LIMESTONE.get()));
@@ -218,6 +239,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_C_LIMESTONE = ITEMS.register("ore_osmium_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_C_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_C_LIMESTONE = ITEMS.register("ore_tin_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_TIN_C_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_C_LIMESTONE = ITEMS.register("ore_zinc_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_ZINC_C_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_C_LIMESTONE = ITEMS.register("ore_certus_quartz_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_C_LIMESTONE = ITEMS.register("ore_charged_certus_quartz_c_limestone", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get()));
 
   // Strata Ore Items - Scoria
   public static final RegistryObject<Item> ORE_COAL_ITEM_SCORIA = ITEMS.register("ore_coal_scoria", () -> new BlockItemBase(BlockHandler.ORE_COAL_SCORIA.get()));
@@ -236,6 +259,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_SCORIA = ITEMS.register("ore_osmium_scoria", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_SCORIA.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_SCORIA = ITEMS.register("ore_tin_scoria", () -> new BlockItemBase(BlockHandler.ORE_TIN_SCORIA.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_SCORIA = ITEMS.register("ore_zinc_scoria", () -> new BlockItemBase(BlockHandler.ORE_ZINC_SCORIA.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_SCORIA = ITEMS.register("ore_certus_quartz_scoria", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_SCORIA = ITEMS.register("ore_charged_certus_quartz_scoria", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get()));
 
   // Strata Ore Items - Weathered Limestone
   public static final RegistryObject<Item> ORE_COAL_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_coal_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_COAL_WEATHERED_LIMESTONE.get()));
@@ -254,6 +279,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_osmium_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_WEATHERED_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_tin_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_TIN_WEATHERED_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_zinc_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_certus_quartz_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE = ITEMS.register("ore_charged_certus_quartz_weathered_limestone", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get()));
 
   // Strata Ore Items - Jasper
   public static final RegistryObject<Item> ORE_COAL_ITEM_JASPER = ITEMS.register("ore_coal_jasper", () -> new BlockItemBase(BlockHandler.ORE_COAL_JASPER.get()));
@@ -272,6 +299,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_JASPER = ITEMS.register("ore_osmium_jasper", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_JASPER.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_JASPER = ITEMS.register("ore_tin_jasper", () -> new BlockItemBase(BlockHandler.ORE_TIN_JASPER.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_JASPER = ITEMS.register("ore_zinc_jasper", () -> new BlockItemBase(BlockHandler.ORE_ZINC_JASPER.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_JASPER = ITEMS.register("ore_certus_quartz_jasper", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_JASPER = ITEMS.register("ore_charged_certus_quartz_jasper", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get()));
 
   // Strata Ore Items - Limestone (Quark)
   public static final RegistryObject<Item> ORE_COAL_ITEM_Q_LIMESTONE = ITEMS.register("ore_coal_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_COAL_Q_LIMESTONE.get()));
@@ -290,6 +319,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_Q_LIMESTONE = ITEMS.register("ore_osmium_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_Q_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_Q_LIMESTONE = ITEMS.register("ore_tin_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_TIN_Q_LIMESTONE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_Q_LIMESTONE = ITEMS.register("ore_zinc_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_ZINC_Q_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_Q_LIMESTONE = ITEMS.register("ore_certus_quartz_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_Q_LIMESTONE = ITEMS.register("ore_charged_certus_quartz_q_limestone", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get()));
 
   // Strata Ore Items - Marble
   public static final RegistryObject<Item> ORE_COAL_ITEM_MARBLE = ITEMS.register("ore_coal_marble", () -> new BlockItemBase(BlockHandler.ORE_COAL_MARBLE.get()));
@@ -308,6 +339,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_MARBLE = ITEMS.register("ore_osmium_marble", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_MARBLE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_MARBLE = ITEMS.register("ore_tin_marble", () -> new BlockItemBase(BlockHandler.ORE_TIN_MARBLE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_MARBLE = ITEMS.register("ore_zinc_marble", () -> new BlockItemBase(BlockHandler.ORE_ZINC_MARBLE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_MARBLE = ITEMS.register("ore_certus_quartz_marble", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE = ITEMS.register("ore_charged_certus_quartz_marble", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get()));
 
   // Strata Ore Items - Slate
   public static final RegistryObject<Item> ORE_COAL_ITEM_SLATE = ITEMS.register("ore_coal_slate", () -> new BlockItemBase(BlockHandler.ORE_COAL_SLATE.get()));
@@ -326,6 +359,8 @@ public class ItemHandler {
   public static final RegistryObject<Item> ORE_OSMIUM_ITEM_SLATE = ITEMS.register("ore_osmium_slate", () -> new BlockItemBase(BlockHandler.ORE_OSMIUM_SLATE.get()));
   public static final RegistryObject<Item> ORE_TIN_ITEM_SLATE = ITEMS.register("ore_tin_slate", () -> new BlockItemBase(BlockHandler.ORE_TIN_SLATE.get()));
   public static final RegistryObject<Item> ORE_ZINC_ITEM_SLATE = ITEMS.register("ore_zinc_slate", () -> new BlockItemBase(BlockHandler.ORE_ZINC_SLATE.get()));
+  public static final RegistryObject<Item> ORE_CERTUS_QUARTZ_ITEM_SLATE = ITEMS.register("ore_certus_quartz_slate", () -> new BlockItemBase(BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get()));
+  public static final RegistryObject<Item> ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE = ITEMS.register("ore_charged_certus_quartz_slate", () -> new BlockItemBase(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get()));
 
   //Machine Items
   public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get()));

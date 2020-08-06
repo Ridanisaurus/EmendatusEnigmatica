@@ -32,6 +32,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placement.*;
@@ -51,6 +52,7 @@ public class WorldGenHandler {
   public static OreFeatureConfig.FillerBlockType ANDESITE = OreFeatureConfig.FillerBlockType.create("ANDESITE", "andesite", new BlockMatcher(Blocks.ANDESITE));
   public static OreFeatureConfig.FillerBlockType STONE = OreFeatureConfig.FillerBlockType.create("STONE", "stone", new BlockMatcher(Blocks.STONE));
 
+  // Modded Fillers
   private static OreFeatureConfig.FillerBlockType CREATE_GABBRO = null;
   private static OreFeatureConfig.FillerBlockType CREATE_LIMESTONE = null;
   private static OreFeatureConfig.FillerBlockType CREATE_SCORIA = null;
@@ -165,6 +167,12 @@ public class WorldGenHandler {
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, STONE, BlockHandler.ORE_ZINC.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, STONE, BlockHandler.ORE_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, STONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
       }
       // Strata Ores - Andesite
       if(WorldGenConfig.VANILLA_ANDESITE_STATE == true) {
@@ -215,6 +223,12 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, ANDESITE, BlockHandler.ORE_ZINC_ANDESITE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+        }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, ANDESITE, BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, ANDESITE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       if(blockCreateGabbro != null && WorldGenConfig.CREATE_GABBRO_STATE == true) {
@@ -267,6 +281,12 @@ public class WorldGenHandler {
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, CREATE_GABBRO, BlockHandler.ORE_ZINC_GABBRO.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, CREATE_GABBRO, BlockHandler.ORE_CERTUS_QUARTZ_GABBRO.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_GABBRO, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
       }
       if(blockCreateLimestone != null && WorldGenConfig.CREATE_LIMESTONE_STATE == true) {
         // Strata Ores - Limestone
@@ -317,6 +337,12 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, CREATE_LIMESTONE, BlockHandler.ORE_ZINC_C_LIMESTONE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+        }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, CREATE_LIMESTONE, BlockHandler.ORE_CERTUS_QUARTZ_C_LIMESTONE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       if(blockCreateScoria != null && WorldGenConfig.CREATE_SCORIA_STATE == true) {
@@ -369,6 +395,12 @@ public class WorldGenHandler {
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, CREATE_SCORIA, BlockHandler.ORE_ZINC_SCORIA.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, CREATE_SCORIA, BlockHandler.ORE_CERTUS_QUARTZ_SCORIA.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_SCORIA, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
       }
       if(blockCreateWeatheredLimestone != null && WorldGenConfig.CREATE_WEATHERED_LIMESTONE_STATE == true) {
         // Strata Ores - Weathered Limestone
@@ -419,6 +451,12 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, CREATE_WEATHERED_LIMESTONE, BlockHandler.ORE_ZINC_WEATHERED_LIMESTONE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+        }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, CREATE_WEATHERED_LIMESTONE, BlockHandler.ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_WEATHERED_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       if(blockQuarkJasper != null && WorldGenConfig.QUARK_JASPER_STATE == true) {
@@ -471,6 +509,12 @@ public class WorldGenHandler {
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, QUARK_JASPER, BlockHandler.ORE_ZINC_JASPER.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, QUARK_JASPER, BlockHandler.ORE_CERTUS_QUARTZ_JASPER.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_JASPER, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
       }
       if(blockQuarkLimestone != null && WorldGenConfig.QUARK_LIMESTONE_STATE == true) {
         // Strata Ores - Limestone (Quark)
@@ -521,6 +565,12 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, QUARK_LIMESTONE, BlockHandler.ORE_ZINC_Q_LIMESTONE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+        }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, QUARK_LIMESTONE, BlockHandler.ORE_CERTUS_QUARTZ_Q_LIMESTONE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       if(blockQuarkMarble != null && WorldGenConfig.QUARK_MARBLE_STATE == true) {
@@ -573,6 +623,12 @@ public class WorldGenHandler {
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, QUARK_MARBLE, BlockHandler.ORE_ZINC_MARBLE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, QUARK_MARBLE, BlockHandler.ORE_CERTUS_QUARTZ_MARBLE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_MARBLE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
       }
       if(blockQuarkSlate != null && WorldGenConfig.QUARK_SLATE_STATE == true) {
         // Strata Ores - Slate
@@ -623,6 +679,12 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.ZINC_STATE == true) {
           genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, QUARK_SLATE, BlockHandler.ORE_ZINC_SLATE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+        }
+        if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, QUARK_SLATE, BlockHandler.ORE_CERTUS_QUARTZ_SLATE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_SLATE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
     }

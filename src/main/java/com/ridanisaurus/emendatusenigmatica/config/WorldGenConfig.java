@@ -118,6 +118,16 @@ public class WorldGenConfig {
     public final IntValue ZINC_COUNT_PER_CHUNK;
     public final IntValue ZINC_BOTTOMOFFSET;
     public final IntValue ZINC_MAXIMUM_HEIGHT;
+    public final BooleanValue CERTUS_QUARTZ_GENERATION_STATE;
+    public final IntValue CERTUS_QUARTZ_VEIN_SIZE;
+    public final IntValue CERTUS_QUARTZ_COUNT_PER_CHUNK;
+    public final IntValue CERTUS_QUARTZ_BOTTOMOFFSET;
+    public final IntValue CERTUS_QUARTZ_MAXIMUM_HEIGHT;
+    public final BooleanValue CHARGED_CERTUS_QUARTZ_GENERATION_STATE;
+    public final IntValue CHARGED_CERTUS_QUARTZ_VEIN_SIZE;
+    public final IntValue CHARGED_CERTUS_QUARTZ_COUNT_PER_CHUNK;
+    public final IntValue CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET;
+    public final IntValue CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT;
 
     public final BooleanValue VANILLA_STONE_STRATA;
     public final BooleanValue VANILLA_ANDESITE_STRATA;
@@ -501,6 +511,52 @@ public class WorldGenConfig {
               .defineInRange("Maximum", 50, 0, 256);
       builder.pop();
 
+      builder.push("Certus Quartz Ore");
+      CERTUS_QUARTZ_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("certus_quartz.config.state")
+              .worldRestart()
+              .define("Active", true);
+      CERTUS_QUARTZ_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
+              .translation("certus_quartz.config.vein_size")
+              .worldRestart()
+              .defineInRange("Size", 4, 0, 64);
+      CERTUS_QUARTZ_COUNT_PER_CHUNK = builder.comment("Ores count per Chunk [Default: 8]")
+              .translation("certus_quartz.config.count_per_chunk")
+              .worldRestart()
+              .defineInRange("Count", 8, 0, 64);
+      CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 35]")
+              .translation("certus_quartz.config.bottom_offset")
+              .worldRestart()
+              .defineInRange("Minimum", 35, 0, 128);
+      CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 50]")
+              .translation("certus_quartz.config.maximum_height")
+              .worldRestart()
+              .defineInRange("Maximum", 50, 0, 256);
+      builder.pop();
+
+      builder.push("Charged Certus Quartz Ore");
+      CHARGED_CERTUS_QUARTZ_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("charged_certus_quartz.config.state")
+              .worldRestart()
+              .define("Active", true);
+      CHARGED_CERTUS_QUARTZ_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 4]")
+              .translation("charged_certus_quartz.config.vein_size")
+              .worldRestart()
+              .defineInRange("Size", 4, 0, 64);
+      CHARGED_CERTUS_QUARTZ_COUNT_PER_CHUNK = builder.comment("Ores count per Chunk [Default: 8]")
+              .translation("charged_certus_quartz.config.count_per_chunk")
+              .worldRestart()
+              .defineInRange("Count", 8, 0, 64);
+      CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 35]")
+              .translation("charged_certus_quartz.config.bottom_offset")
+              .worldRestart()
+              .defineInRange("Minimum", 35, 0, 128);
+      CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 50]")
+              .translation("charged_certus_quartz.config.maximum_height")
+              .worldRestart()
+              .defineInRange("Maximum", 50, 0, 256);
+      builder.pop();
+
       builder.comment("World Gen - Ore Generation on Strata Stone Type");
 
       builder.push("Vanilla Stone");
@@ -645,6 +701,16 @@ public class WorldGenConfig {
   public static int ZINC_COUNT;
   public static int ZINC_BOFFSET;
   public static int ZINC_MAX;
+  public static boolean CERTUS_QUARTZ_STATE;
+  public static int CERTUS_QUARTZ_SIZE;
+  public static int CERTUS_QUARTZ_COUNT;
+  public static int CERTUS_QUARTZ_BOFFSET;
+  public static int CERTUS_QUARTZ_MAX;
+  public static boolean CHARGED_CERTUS_QUARTZ_STATE;
+  public static int CHARGED_CERTUS_QUARTZ_SIZE;
+  public static int CHARGED_CERTUS_QUARTZ_COUNT;
+  public static int CHARGED_CERTUS_QUARTZ_BOFFSET;
+  public static int CHARGED_CERTUS_QUARTZ_MAX;
 
   public static boolean VANILLA_STONE_STATE;
   public static boolean VANILLA_ANDESITE_STATE;
@@ -739,6 +805,16 @@ public class WorldGenConfig {
     ZINC_COUNT = COMMON.ZINC_COUNT_PER_CHUNK.get();
     ZINC_BOFFSET = COMMON.ZINC_BOTTOMOFFSET.get();
     ZINC_MAX = COMMON.ZINC_MAXIMUM_HEIGHT.get();
+    CERTUS_QUARTZ_STATE = COMMON.CERTUS_QUARTZ_GENERATION_STATE.get();
+    CERTUS_QUARTZ_SIZE = COMMON.CERTUS_QUARTZ_VEIN_SIZE.get();
+    CERTUS_QUARTZ_COUNT = COMMON.CERTUS_QUARTZ_COUNT_PER_CHUNK.get();
+    CERTUS_QUARTZ_BOFFSET = COMMON.CERTUS_QUARTZ_BOTTOMOFFSET.get();
+    CERTUS_QUARTZ_MAX = COMMON.CERTUS_QUARTZ_MAXIMUM_HEIGHT.get();
+    CHARGED_CERTUS_QUARTZ_STATE = COMMON.CHARGED_CERTUS_QUARTZ_GENERATION_STATE.get();
+    CHARGED_CERTUS_QUARTZ_SIZE = COMMON.CHARGED_CERTUS_QUARTZ_VEIN_SIZE.get();
+    CHARGED_CERTUS_QUARTZ_COUNT = COMMON.CHARGED_CERTUS_QUARTZ_COUNT_PER_CHUNK.get();
+    CHARGED_CERTUS_QUARTZ_BOFFSET = COMMON.CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET.get();
+    CHARGED_CERTUS_QUARTZ_MAX = COMMON.CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT.get();
 
     VANILLA_STONE_STATE = COMMON.VANILLA_STONE_STRATA.get();
     VANILLA_ANDESITE_STATE = COMMON.VANILLA_ANDESITE_STRATA.get();

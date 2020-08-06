@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_zinc"
+    "item": "emendatusenigmatica:chunk_zinc"
   },
   "result": "emendatusenigmatica:ingot_zinc",
   "experience": 0.7,

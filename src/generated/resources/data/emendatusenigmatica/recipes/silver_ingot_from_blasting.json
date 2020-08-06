@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_silver"
+    "item": "emendatusenigmatica:chunk_silver"
   },
   "result": "emendatusenigmatica:ingot_silver",
   "experience": 0.7,
