@@ -33,15 +33,11 @@ import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
 public class OreUranium extends OreBlock {
-    public OreUranium() {
-        super(
-                Properties.create(Material.IRON)
-                .hardnessAndResistance(5.0f,6.0f)
-                .sound(SoundType.METAL)
-                .harvestLevel(1)
-                .harvestTool(ToolType.PICKAXE)
-                .setRequiresTool()
-        );
+    public OreUranium() { super(Properties.create(Material.ROCK)
+            .hardnessAndResistance(3.0f,3.0f)
+            .harvestLevel(2)
+            .harvestTool(ToolType.PICKAXE)
+            .setRequiresTool());
     }
 
     @Override
