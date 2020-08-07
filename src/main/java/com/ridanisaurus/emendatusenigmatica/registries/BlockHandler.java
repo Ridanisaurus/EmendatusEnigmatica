@@ -36,20 +36,20 @@ public class BlockHandler {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Blocks
-  public static final RegistryObject<Block> BLOCK_COPPER = BLOCKS.register("block_copper", BlockCopper::new);
-  public static final RegistryObject<Block> BLOCK_ALUMINUM = BLOCKS.register("block_aluminum", BlockAluminum::new);
-  public static final RegistryObject<Block> BLOCK_SILVER = BLOCKS.register("block_silver", BlockSilver::new);
-  public static final RegistryObject<Block> BLOCK_LEAD = BLOCKS.register("block_lead", BlockLead::new);
-  public static final RegistryObject<Block> BLOCK_NICKEL = BLOCKS.register("block_nickel", BlockNickel::new);
-  public static final RegistryObject<Block> BLOCK_URANIUM = BLOCKS.register("block_uranium", BlockUranium::new);
-  public static final RegistryObject<Block> BLOCK_OSMIUM = BLOCKS.register("block_osmium", BlockOsmium::new);
-  public static final RegistryObject<Block> BLOCK_TIN = BLOCKS.register("block_tin", BlockTin::new);
-  public static final RegistryObject<Block> BLOCK_ZINC = BLOCKS.register("block_zinc", BlockZinc::new);
-  public static final RegistryObject<Block> BLOCK_BRONZE = BLOCKS.register("block_bronze", BlockBronze::new);
-  public static final RegistryObject<Block> BLOCK_BRASS = BLOCKS.register("block_brass", BlockBrass::new);
-  public static final RegistryObject<Block> BLOCK_CONSTANTAN = BLOCKS.register("block_constantan", BlockConstantan::new);
-  public static final RegistryObject<Block> BLOCK_ELECTRUM = BLOCKS.register("block_electrum", BlockElectrum::new);
-  public static final RegistryObject<Block> BLOCK_STEEL = BLOCKS.register("block_steel", BlockSteel::new);
+  public static final RegistryObject<Block> BLOCK_COPPER = BLOCKS.register("block_copper", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_ALUMINUM = BLOCKS.register("block_aluminum", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_SILVER = BLOCKS.register("block_silver", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_LEAD = BLOCKS.register("block_lead", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_NICKEL = BLOCKS.register("block_nickel", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_URANIUM = BLOCKS.register("block_uranium", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_OSMIUM = BLOCKS.register("block_osmium", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_TIN = BLOCKS.register("block_tin", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_ZINC = BLOCKS.register("block_zinc", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_BRONZE = BLOCKS.register("block_bronze", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_BRASS = BLOCKS.register("block_brass", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_CONSTANTAN = BLOCKS.register("block_constantan", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_ELECTRUM = BLOCKS.register("block_electrum", BlockBase::new);
+  public static final RegistryObject<Block> BLOCK_STEEL = BLOCKS.register("block_steel", BlockBase::new);
 
   //Ores
   public static final RegistryObject<Block> ORE_COAL = BLOCKS.register("ore_coal", OreCoal::new);
