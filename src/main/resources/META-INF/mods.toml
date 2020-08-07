@@ -38,9 +38,7 @@ credits="Thanks to Buuz135 for his guidance and help, and to all the people on E
 authors="Ridanisaurus" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
-description='''
-
-This mod is created to help unifying some items, blocks, and ores that are common among other mods.
+description='''This mod is created to help unifying some items, blocks, and ores that are common among other mods.
 This mod provides little to no functionality as a stand-alone mod. It does however offer a wide range of options for Modpack authors to utilize these blocks, and items as a method of unification.
 All blocks, and items have been properly tagged, and have all the basic recipes. This mod also includes a world gen of ores that match the strata provided by other mods such as Create and Quark.'''
 
