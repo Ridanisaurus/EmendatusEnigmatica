@@ -20,7 +20,7 @@ issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues" #o
 modId="emendatusenigmatica" #mandatory
 
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.15.2-1.0.0" #mandatory
+version="1.16.1-1.0.0" #mandatory
 
 # A display name for the mod
 displayName="Emendatus Enigmatica" #mandatory
@@ -51,7 +51,7 @@ All blocks, and items have been properly tagged, and have all the basic recipes.
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[31,)" #mandatory
+    versionRange="[32,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -60,6 +60,6 @@ All blocks, and items have been properly tagged, and have all the basic recipes.
 [[dependencies.emendatusenigmatica]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16.1]"
     ordering="NONE"
     side="BOTH"

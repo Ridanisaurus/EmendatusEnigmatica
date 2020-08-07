@@ -40,6 +40,7 @@ public class OreCoal extends OreBlock {
                 .sound(SoundType.METAL)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool()
         );
     }
 

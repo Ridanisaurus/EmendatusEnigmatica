@@ -33,7 +33,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockHandler {
 
-  public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Reference.MOD_ID);
+  public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Blocks
   public static final RegistryObject<Block> BLOCK_COPPER = BLOCKS.register("block_copper", BlockCopper::new);

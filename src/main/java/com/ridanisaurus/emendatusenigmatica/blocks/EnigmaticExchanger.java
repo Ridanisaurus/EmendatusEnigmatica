@@ -96,7 +96,8 @@ public class EnigmaticExchanger extends Block {
       .hardnessAndResistance(3.5f, 4.0f)
       .sound(SoundType.ANVIL)
       .harvestLevel(0)
-      .harvestTool(ToolType.PICKAXE));
+      .harvestTool(ToolType.PICKAXE)
+      .setRequiresTool());
   }
 
   @Override

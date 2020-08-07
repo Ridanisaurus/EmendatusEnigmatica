@@ -34,7 +34,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ItemHandler {
 
-  public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, Reference.MOD_ID);
+  public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
   // Ingots
   public static final RegistryObject<Item> INGOT_COPPER = ITEMS.register("ingot_copper", ItemBase::new);

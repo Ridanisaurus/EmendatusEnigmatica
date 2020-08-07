@@ -40,6 +40,7 @@ public class OreZinc extends OreBlock {
                 .sound(SoundType.METAL)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool()
         );
     }
 

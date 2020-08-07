@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,9 +37,10 @@ public class DataGenerators {
   public static void gatherData(GatherDataEvent event) {
     DataGenerator generator = event.getGenerator();
     if (event.includeServer()) {
+      BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator);
       generator.addProvider(new RecipesGen(generator));
-      generator.addProvider(new ItemTagsGen(generator));
-      generator.addProvider(new BlockTagsGen(generator));
+      generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration));
+      generator.addProvider(blockTagsGeneration);
       generator.addProvider(new LootTablesGen(generator));
     }
     if (event.includeClient()) {

@@ -37,6 +37,7 @@ public class BlockElectrum extends Block {
                 .sound(SoundType.METAL)
                 .harvestLevel(1)
                 .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool()
         );
     }
 }
