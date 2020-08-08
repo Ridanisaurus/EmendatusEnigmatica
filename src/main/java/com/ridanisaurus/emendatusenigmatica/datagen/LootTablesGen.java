@@ -59,7 +59,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -80,7 +80,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_ANDESITE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_ANDESITE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_ANDESITE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -100,7 +100,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_GABBRO.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_GABBRO.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_GABBRO.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -120,7 +120,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_C_LIMESTONE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_C_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_C_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -140,7 +140,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_SCORIA.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_SCORIA.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_SCORIA.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -160,7 +160,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_WEATHERED_LIMESTONE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_WEATHERED_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_WEATHERED_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -180,7 +180,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_JASPER.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_JASPER.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_JASPER.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -200,7 +200,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_Q_LIMESTONE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_Q_LIMESTONE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_Q_LIMESTONE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -220,7 +220,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_MARBLE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_MARBLE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_MARBLE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));
@@ -240,7 +240,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     blockLootTable.put(BlockHandler.ORE_GOLD_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_GOLD.get()));
     blockLootTable.put(BlockHandler.ORE_DIAMOND_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_DIAMOND.get(), Items.DIAMOND));
     blockLootTable.put(BlockHandler.ORE_EMERALD_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_EMERALD.get(), Items.EMERALD));
-    blockLootTable.put(BlockHandler.ORE_LAPIS_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
+    blockLootTable.put(BlockHandler.ORE_LAPIS_SLATE.get(), createCountTable(ItemHandler.CHUNK_LAPIS.get(), Items.LAPIS_LAZULI));
     blockLootTable.put(BlockHandler.ORE_REDSTONE_SLATE.get(), createSpecialTable(ItemHandler.CHUNK_REDSTONE.get(), Items.REDSTONE));
     blockLootTable.put(BlockHandler.ORE_COPPER_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_COPPER.get()));
     blockLootTable.put(BlockHandler.ORE_ALUMINUM_SLATE.get(), createItemLootTable(ItemHandler.CHUNK_ALUMINUM.get()));

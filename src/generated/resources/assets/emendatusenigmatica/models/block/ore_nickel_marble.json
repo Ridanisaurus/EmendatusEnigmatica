@@ -1,5 +1,5 @@
 {
-  "parent": "block/cube_all",
+  "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "emendatusenigmatica:blocks/strata_ores/quark/ore_nickel_marble"
   }

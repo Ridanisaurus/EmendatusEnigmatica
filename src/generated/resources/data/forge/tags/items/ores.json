@@ -180,6 +180,24 @@
     "emendatusenigmatica:ore_tin_slate",
     "emendatusenigmatica:ore_zinc_slate",
     "emendatusenigmatica:ore_certus_quartz_slate",
-    "emendatusenigmatica:ore_charged_certus_quartz_slate"
+    "emendatusenigmatica:ore_charged_certus_quartz_slate",
+    "emendatusenigmatica:chunk_coal",
+    "emendatusenigmatica:chunk_iron",
+    "emendatusenigmatica:chunk_gold",
+    "emendatusenigmatica:chunk_diamond",
+    "emendatusenigmatica:chunk_emerald",
+    "emendatusenigmatica:chunk_lapis",
+    "emendatusenigmatica:chunk_redstone",
+    "emendatusenigmatica:chunk_copper",
+    "emendatusenigmatica:chunk_aluminum",
+    "emendatusenigmatica:chunk_silver",
+    "emendatusenigmatica:chunk_lead",
+    "emendatusenigmatica:chunk_nickel",
+    "emendatusenigmatica:chunk_uranium",
+    "emendatusenigmatica:chunk_osmium",
+    "emendatusenigmatica:chunk_tin",
+    "emendatusenigmatica:chunk_zinc",
+    "emendatusenigmatica:chunk_certus_quartz",
+    "emendatusenigmatica:chunk_charged_certus_quartz"
   ]
 }
