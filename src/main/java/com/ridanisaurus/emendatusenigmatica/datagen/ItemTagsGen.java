@@ -819,5 +819,34 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get())
             .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
+
+    // Minecraft Additional Tags
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()))
+            .add(ItemHandler.INGOT_COPPER.get())
+            .add(ItemHandler.INGOT_ALUMINUM.get())
+            .add(ItemHandler.INGOT_SILVER.get())
+            .add(ItemHandler.INGOT_LEAD.get())
+            .add(ItemHandler.INGOT_NICKEL.get())
+            .add(ItemHandler.INGOT_URANIUM.get())
+            .add(ItemHandler.INGOT_OSMIUM.get())
+            .add(ItemHandler.INGOT_TIN.get())
+            .add(ItemHandler.INGOT_ZINC.get())
+            .add(ItemHandler.INGOT_BRONZE.get())
+            .add(ItemHandler.INGOT_BRASS.get())
+            .add(ItemHandler.INGOT_CONSTANTAN.get())
+            .add(ItemHandler.INGOT_ELECTRUM.get())
+            .add(ItemHandler.INGOT_STEEL.get());
+
+    // AE2 Additional Tags
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))
+            .add(ItemHandler.DUST_CERTUS_QUARTZ.get())
+            .add(ItemHandler.DUST_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/certus_quartz").toString()))
+            .add(ItemHandler.DUST_CERTUS_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz").toString()))
+            .add(ItemHandler.DUST_QUARTZ.get());
+
   }
 }

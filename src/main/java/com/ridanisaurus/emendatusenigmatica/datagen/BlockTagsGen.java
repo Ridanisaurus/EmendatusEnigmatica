@@ -468,5 +468,22 @@ public class BlockTagsGen extends BlockTagsProvider {
     // Misc
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString().toString()))
             .add(BlockHandler.ENIGMATIC_EXCHANGER.get());
+
+    // Minecraft Additional Tags
+    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()))
+            .add(BlockHandler.BLOCK_COPPER.get())
+            .add(BlockHandler.BLOCK_ALUMINUM.get())
+            .add(BlockHandler.BLOCK_SILVER.get())
+            .add(BlockHandler.BLOCK_LEAD.get())
+            .add(BlockHandler.BLOCK_NICKEL.get())
+            .add(BlockHandler.BLOCK_URANIUM.get())
+            .add(BlockHandler.BLOCK_OSMIUM.get())
+            .add(BlockHandler.BLOCK_TIN.get())
+            .add(BlockHandler.BLOCK_ZINC.get())
+            .add(BlockHandler.BLOCK_BRONZE.get())
+            .add(BlockHandler.BLOCK_BRASS.get())
+            .add(BlockHandler.BLOCK_CONSTANTAN.get())
+            .add(BlockHandler.BLOCK_ELECTRUM.get())
+            .add(BlockHandler.BLOCK_STEEL.get());
   }
 }

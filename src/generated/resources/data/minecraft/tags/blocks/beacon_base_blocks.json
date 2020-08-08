@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:block_copper",
+    "emendatusenigmatica:block_aluminum",
+    "emendatusenigmatica:block_silver",
+    "emendatusenigmatica:block_lead",
+    "emendatusenigmatica:block_nickel",
+    "emendatusenigmatica:block_uranium",
+    "emendatusenigmatica:block_osmium",
+    "emendatusenigmatica:block_tin",
+    "emendatusenigmatica:block_zinc",
+    "emendatusenigmatica:block_bronze",
+    "emendatusenigmatica:block_brass",
+    "emendatusenigmatica:block_constantan",
+    "emendatusenigmatica:block_electrum",
+    "emendatusenigmatica:block_steel"
+  ]
+}
