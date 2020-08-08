@@ -48,11 +48,9 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenHandler {
 
-  // Vanilla Fillers
-  public static OreFeatureConfig.FillerBlockType ANDESITE = OreFeatureConfig.FillerBlockType.create("ANDESITE", "andesite", new BlockMatcher(Blocks.ANDESITE));
-  public static OreFeatureConfig.FillerBlockType STONE = OreFeatureConfig.FillerBlockType.create("STONE", "stone", new BlockMatcher(Blocks.STONE));
-
-  // Modded Fillers
+  // Fillers
+  private static final OreFeatureConfig.FillerBlockType VANILLA_STONE = OreFeatureConfig.FillerBlockType.create("STONE", "stone", new BlockMatcher(Blocks.STONE));
+  private static final OreFeatureConfig.FillerBlockType VANILLA_ANDESITE = OreFeatureConfig.FillerBlockType.create("ANDESITE", "andesite", new BlockMatcher(Blocks.ANDESITE));
   private static OreFeatureConfig.FillerBlockType CREATE_GABBRO = null;
   private static OreFeatureConfig.FillerBlockType CREATE_LIMESTONE = null;
   private static OreFeatureConfig.FillerBlockType CREATE_SCORIA = null;
@@ -120,115 +118,115 @@ public class WorldGenHandler {
       // Strata Ores - Stone
       if(WorldGenConfig.VANILLA_STONE_STATE == true) {
         if(WorldGenConfig.COAL_STATE == true) {
-          genOre(biome, WorldGenConfig.COAL_COUNT, WorldGenConfig.COAL_BOFFSET, 0, WorldGenConfig.COAL_MAX, STONE, BlockHandler.ORE_COAL.get().getDefaultState(), WorldGenConfig.COAL_SIZE);
+          genOre(biome, WorldGenConfig.COAL_COUNT, WorldGenConfig.COAL_BOFFSET, 0, WorldGenConfig.COAL_MAX, VANILLA_STONE, BlockHandler.ORE_COAL.get().getDefaultState(), WorldGenConfig.COAL_SIZE);
         }
         if(WorldGenConfig.IRON_STATE == true) {
-          genOre(biome, WorldGenConfig.IRON_COUNT, WorldGenConfig.IRON_BOFFSET, 0, WorldGenConfig.IRON_MAX, STONE, BlockHandler.ORE_IRON.get().getDefaultState(), WorldGenConfig.IRON_SIZE);
+          genOre(biome, WorldGenConfig.IRON_COUNT, WorldGenConfig.IRON_BOFFSET, 0, WorldGenConfig.IRON_MAX, VANILLA_STONE, BlockHandler.ORE_IRON.get().getDefaultState(), WorldGenConfig.IRON_SIZE);
         }
         if(WorldGenConfig.GOLD_STATE == true) {
-          genOre(biome, WorldGenConfig.GOLD_COUNT, WorldGenConfig.GOLD_BOFFSET, 0, WorldGenConfig.GOLD_MAX, STONE, BlockHandler.ORE_GOLD.get().getDefaultState(), WorldGenConfig.GOLD_SIZE);
+          genOre(biome, WorldGenConfig.GOLD_COUNT, WorldGenConfig.GOLD_BOFFSET, 0, WorldGenConfig.GOLD_MAX, VANILLA_STONE, BlockHandler.ORE_GOLD.get().getDefaultState(), WorldGenConfig.GOLD_SIZE);
         }
         if(WorldGenConfig.DIAMOND_STATE == true) {
-          genOre(biome, WorldGenConfig.DIAMOND_COUNT, WorldGenConfig.DIAMOND_BOFFSET, 0, WorldGenConfig.DIAMOND_MAX, STONE, BlockHandler.ORE_DIAMOND.get().getDefaultState(), WorldGenConfig.DIAMOND_SIZE);
+          genOre(biome, WorldGenConfig.DIAMOND_COUNT, WorldGenConfig.DIAMOND_BOFFSET, 0, WorldGenConfig.DIAMOND_MAX, VANILLA_STONE, BlockHandler.ORE_DIAMOND.get().getDefaultState(), WorldGenConfig.DIAMOND_SIZE);
         }
         if(WorldGenConfig.EMERALD_STATE == true) {
-          genOre(biome, WorldGenConfig.EMERALD_COUNT, WorldGenConfig.EMERALD_BOFFSET, 0, WorldGenConfig.EMERALD_MAX, STONE, BlockHandler.ORE_EMERALD.get().getDefaultState(), WorldGenConfig.EMERALD_SIZE);
+          genOre(biome, WorldGenConfig.EMERALD_COUNT, WorldGenConfig.EMERALD_BOFFSET, 0, WorldGenConfig.EMERALD_MAX, VANILLA_STONE, BlockHandler.ORE_EMERALD.get().getDefaultState(), WorldGenConfig.EMERALD_SIZE);
         }
         if(WorldGenConfig.LAPIS_STATE == true) {
-          genOre(biome, WorldGenConfig.LAPIS_COUNT, WorldGenConfig.LAPIS_BOFFSET, 0, WorldGenConfig.LAPIS_MAX, STONE, BlockHandler.ORE_LAPIS.get().getDefaultState(), WorldGenConfig.LAPIS_SIZE);
+          genOre(biome, WorldGenConfig.LAPIS_COUNT, WorldGenConfig.LAPIS_BOFFSET, 0, WorldGenConfig.LAPIS_MAX, VANILLA_STONE, BlockHandler.ORE_LAPIS.get().getDefaultState(), WorldGenConfig.LAPIS_SIZE);
         }
         if(WorldGenConfig.REDSTONE_STATE == true) {
-          genOre(biome, WorldGenConfig.REDSTONE_COUNT, WorldGenConfig.REDSTONE_BOFFSET, 0, WorldGenConfig.REDSTONE_MAX, STONE, BlockHandler.ORE_REDSTONE.get().getDefaultState(), WorldGenConfig.REDSTONE_SIZE);
+          genOre(biome, WorldGenConfig.REDSTONE_COUNT, WorldGenConfig.REDSTONE_BOFFSET, 0, WorldGenConfig.REDSTONE_MAX, VANILLA_STONE, BlockHandler.ORE_REDSTONE.get().getDefaultState(), WorldGenConfig.REDSTONE_SIZE);
         }
         if(WorldGenConfig.COPPER_STATE == true) {
-          genOre(biome, WorldGenConfig.COPPER_COUNT, WorldGenConfig.COPPER_BOFFSET, 0, WorldGenConfig.COPPER_MAX, STONE, BlockHandler.ORE_COPPER.get().getDefaultState(), WorldGenConfig.COPPER_SIZE);
+          genOre(biome, WorldGenConfig.COPPER_COUNT, WorldGenConfig.COPPER_BOFFSET, 0, WorldGenConfig.COPPER_MAX, VANILLA_STONE, BlockHandler.ORE_COPPER.get().getDefaultState(), WorldGenConfig.COPPER_SIZE);
         }
         if(WorldGenConfig.ALUMINUM_STATE == true) {
-          genOre(biome, WorldGenConfig.ALUMINUM_COUNT, WorldGenConfig.ALUMINUM_BOFFSET, 0, WorldGenConfig.ALUMINUM_MAX, STONE, BlockHandler.ORE_ALUMINUM.get().getDefaultState(), WorldGenConfig.ALUMINUM_SIZE);
+          genOre(biome, WorldGenConfig.ALUMINUM_COUNT, WorldGenConfig.ALUMINUM_BOFFSET, 0, WorldGenConfig.ALUMINUM_MAX, VANILLA_STONE, BlockHandler.ORE_ALUMINUM.get().getDefaultState(), WorldGenConfig.ALUMINUM_SIZE);
         }
         if(WorldGenConfig.SILVER_STATE == true) {
-          genOre(biome, WorldGenConfig.SILVER_COUNT, WorldGenConfig.SILVER_BOFFSET, 0, WorldGenConfig.SILVER_MAX, STONE, BlockHandler.ORE_SILVER.get().getDefaultState(), WorldGenConfig.SILVER_SIZE);
+          genOre(biome, WorldGenConfig.SILVER_COUNT, WorldGenConfig.SILVER_BOFFSET, 0, WorldGenConfig.SILVER_MAX, VANILLA_STONE, BlockHandler.ORE_SILVER.get().getDefaultState(), WorldGenConfig.SILVER_SIZE);
         }
         if(WorldGenConfig.LEAD_STATE == true) {
-          genOre(biome, WorldGenConfig.LEAD_COUNT, WorldGenConfig.LEAD_BOFFSET, 0, WorldGenConfig.LEAD_MAX, STONE, BlockHandler.ORE_LEAD.get().getDefaultState(), WorldGenConfig.LEAD_SIZE);
+          genOre(biome, WorldGenConfig.LEAD_COUNT, WorldGenConfig.LEAD_BOFFSET, 0, WorldGenConfig.LEAD_MAX, VANILLA_STONE, BlockHandler.ORE_LEAD.get().getDefaultState(), WorldGenConfig.LEAD_SIZE);
         }
         if(WorldGenConfig.NICKEL_STATE == true) {
-          genOre(biome, WorldGenConfig.NICKEL_COUNT, WorldGenConfig.NICKEL_BOFFSET, 0, WorldGenConfig.NICKEL_MAX, STONE, BlockHandler.ORE_NICKEL.get().getDefaultState(), WorldGenConfig.NICKEL_SIZE);
+          genOre(biome, WorldGenConfig.NICKEL_COUNT, WorldGenConfig.NICKEL_BOFFSET, 0, WorldGenConfig.NICKEL_MAX, VANILLA_STONE, BlockHandler.ORE_NICKEL.get().getDefaultState(), WorldGenConfig.NICKEL_SIZE);
         }
         if(WorldGenConfig.URANIUM_STATE == true) {
-          genOre(biome, WorldGenConfig.URANIUM_COUNT, WorldGenConfig.URANIUM_BOFFSET, 0, WorldGenConfig.URANIUM_MAX, STONE, BlockHandler.ORE_URANIUM.get().getDefaultState(), WorldGenConfig.URANIUM_SIZE);
+          genOre(biome, WorldGenConfig.URANIUM_COUNT, WorldGenConfig.URANIUM_BOFFSET, 0, WorldGenConfig.URANIUM_MAX, VANILLA_STONE, BlockHandler.ORE_URANIUM.get().getDefaultState(), WorldGenConfig.URANIUM_SIZE);
         }
         if(WorldGenConfig.OSMIUM_STATE == true) {
-          genOre(biome, WorldGenConfig.OSMIUM_COUNT, WorldGenConfig.OSMIUM_BOFFSET, 0, WorldGenConfig.OSMIUM_MAX, STONE, BlockHandler.ORE_OSMIUM.get().getDefaultState(), WorldGenConfig.OSMIUM_SIZE);
+          genOre(biome, WorldGenConfig.OSMIUM_COUNT, WorldGenConfig.OSMIUM_BOFFSET, 0, WorldGenConfig.OSMIUM_MAX, VANILLA_STONE, BlockHandler.ORE_OSMIUM.get().getDefaultState(), WorldGenConfig.OSMIUM_SIZE);
         }
         if(WorldGenConfig.TIN_STATE == true) {
-          genOre(biome, WorldGenConfig.TIN_COUNT, WorldGenConfig.TIN_BOFFSET, 0, WorldGenConfig.TIN_MAX, STONE, BlockHandler.ORE_TIN.get().getDefaultState(), WorldGenConfig.TIN_SIZE);
+          genOre(biome, WorldGenConfig.TIN_COUNT, WorldGenConfig.TIN_BOFFSET, 0, WorldGenConfig.TIN_MAX, VANILLA_STONE, BlockHandler.ORE_TIN.get().getDefaultState(), WorldGenConfig.TIN_SIZE);
         }
         if(WorldGenConfig.ZINC_STATE == true) {
-          genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, STONE, BlockHandler.ORE_ZINC.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+          genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, VANILLA_STONE, BlockHandler.ORE_ZINC.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
         if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
-          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, STONE, BlockHandler.ORE_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, VANILLA_STONE, BlockHandler.ORE_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
-          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, STONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, VANILLA_STONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       // Strata Ores - Andesite
       if(WorldGenConfig.VANILLA_ANDESITE_STATE == true) {
         if(WorldGenConfig.COAL_STATE == true) {
-          genOre(biome, WorldGenConfig.COAL_COUNT, WorldGenConfig.COAL_BOFFSET, 0, WorldGenConfig.COAL_MAX, ANDESITE, BlockHandler.ORE_COAL_ANDESITE.get().getDefaultState(), WorldGenConfig.COAL_SIZE);
+          genOre(biome, WorldGenConfig.COAL_COUNT, WorldGenConfig.COAL_BOFFSET, 0, WorldGenConfig.COAL_MAX, VANILLA_ANDESITE, BlockHandler.ORE_COAL_ANDESITE.get().getDefaultState(), WorldGenConfig.COAL_SIZE);
         }
         if(WorldGenConfig.IRON_STATE == true) {
-          genOre(biome, WorldGenConfig.IRON_COUNT, WorldGenConfig.IRON_BOFFSET, 0, WorldGenConfig.IRON_MAX, ANDESITE, BlockHandler.ORE_IRON_ANDESITE.get().getDefaultState(), WorldGenConfig.IRON_SIZE);
+          genOre(biome, WorldGenConfig.IRON_COUNT, WorldGenConfig.IRON_BOFFSET, 0, WorldGenConfig.IRON_MAX, VANILLA_ANDESITE, BlockHandler.ORE_IRON_ANDESITE.get().getDefaultState(), WorldGenConfig.IRON_SIZE);
         }
         if(WorldGenConfig.GOLD_STATE == true) {
-          genOre(biome, WorldGenConfig.GOLD_COUNT, WorldGenConfig.GOLD_BOFFSET, 0, WorldGenConfig.GOLD_MAX, ANDESITE, BlockHandler.ORE_GOLD_ANDESITE.get().getDefaultState(), WorldGenConfig.GOLD_SIZE);
+          genOre(biome, WorldGenConfig.GOLD_COUNT, WorldGenConfig.GOLD_BOFFSET, 0, WorldGenConfig.GOLD_MAX, VANILLA_ANDESITE, BlockHandler.ORE_GOLD_ANDESITE.get().getDefaultState(), WorldGenConfig.GOLD_SIZE);
         }
         if(WorldGenConfig.DIAMOND_STATE == true) {
-          genOre(biome, WorldGenConfig.DIAMOND_COUNT, WorldGenConfig.DIAMOND_BOFFSET, 0, WorldGenConfig.DIAMOND_MAX, ANDESITE, BlockHandler.ORE_DIAMOND_ANDESITE.get().getDefaultState(), WorldGenConfig.DIAMOND_SIZE);
+          genOre(biome, WorldGenConfig.DIAMOND_COUNT, WorldGenConfig.DIAMOND_BOFFSET, 0, WorldGenConfig.DIAMOND_MAX, VANILLA_ANDESITE, BlockHandler.ORE_DIAMOND_ANDESITE.get().getDefaultState(), WorldGenConfig.DIAMOND_SIZE);
         }
         if(WorldGenConfig.EMERALD_STATE == true) {
-          genOre(biome, WorldGenConfig.EMERALD_COUNT, WorldGenConfig.EMERALD_BOFFSET, 0, WorldGenConfig.EMERALD_MAX, ANDESITE, BlockHandler.ORE_EMERALD_ANDESITE.get().getDefaultState(), WorldGenConfig.EMERALD_SIZE);
+          genOre(biome, WorldGenConfig.EMERALD_COUNT, WorldGenConfig.EMERALD_BOFFSET, 0, WorldGenConfig.EMERALD_MAX, VANILLA_ANDESITE, BlockHandler.ORE_EMERALD_ANDESITE.get().getDefaultState(), WorldGenConfig.EMERALD_SIZE);
         }
         if(WorldGenConfig.LAPIS_STATE == true) {
-          genOre(biome, WorldGenConfig.LAPIS_COUNT, WorldGenConfig.LAPIS_BOFFSET, 0, WorldGenConfig.LAPIS_MAX, ANDESITE, BlockHandler.ORE_LAPIS_ANDESITE.get().getDefaultState(), WorldGenConfig.LAPIS_SIZE);
+          genOre(biome, WorldGenConfig.LAPIS_COUNT, WorldGenConfig.LAPIS_BOFFSET, 0, WorldGenConfig.LAPIS_MAX, VANILLA_ANDESITE, BlockHandler.ORE_LAPIS_ANDESITE.get().getDefaultState(), WorldGenConfig.LAPIS_SIZE);
         }
         if(WorldGenConfig.REDSTONE_STATE == true) {
-          genOre(biome, WorldGenConfig.REDSTONE_COUNT, WorldGenConfig.REDSTONE_BOFFSET, 0, WorldGenConfig.REDSTONE_MAX, ANDESITE, BlockHandler.ORE_REDSTONE_ANDESITE.get().getDefaultState(), WorldGenConfig.REDSTONE_SIZE);
+          genOre(biome, WorldGenConfig.REDSTONE_COUNT, WorldGenConfig.REDSTONE_BOFFSET, 0, WorldGenConfig.REDSTONE_MAX, VANILLA_ANDESITE, BlockHandler.ORE_REDSTONE_ANDESITE.get().getDefaultState(), WorldGenConfig.REDSTONE_SIZE);
         }
         if(WorldGenConfig.COPPER_STATE == true) {
-          genOre(biome, WorldGenConfig.COPPER_COUNT, WorldGenConfig.COPPER_BOFFSET, 0, WorldGenConfig.COPPER_MAX, ANDESITE, BlockHandler.ORE_COPPER_ANDESITE.get().getDefaultState(), WorldGenConfig.COPPER_SIZE);
+          genOre(biome, WorldGenConfig.COPPER_COUNT, WorldGenConfig.COPPER_BOFFSET, 0, WorldGenConfig.COPPER_MAX, VANILLA_ANDESITE, BlockHandler.ORE_COPPER_ANDESITE.get().getDefaultState(), WorldGenConfig.COPPER_SIZE);
         }
         if(WorldGenConfig.ALUMINUM_STATE == true) {
-          genOre(biome, WorldGenConfig.ALUMINUM_COUNT, WorldGenConfig.ALUMINUM_BOFFSET, 0, WorldGenConfig.ALUMINUM_MAX, ANDESITE, BlockHandler.ORE_ALUMINUM_ANDESITE.get().getDefaultState(), WorldGenConfig.ALUMINUM_SIZE);
+          genOre(biome, WorldGenConfig.ALUMINUM_COUNT, WorldGenConfig.ALUMINUM_BOFFSET, 0, WorldGenConfig.ALUMINUM_MAX, VANILLA_ANDESITE, BlockHandler.ORE_ALUMINUM_ANDESITE.get().getDefaultState(), WorldGenConfig.ALUMINUM_SIZE);
         }
         if(WorldGenConfig.SILVER_STATE == true) {
-          genOre(biome, WorldGenConfig.SILVER_COUNT, WorldGenConfig.SILVER_BOFFSET, 0, WorldGenConfig.SILVER_MAX, ANDESITE, BlockHandler.ORE_SILVER_ANDESITE.get().getDefaultState(), WorldGenConfig.SILVER_SIZE);
+          genOre(biome, WorldGenConfig.SILVER_COUNT, WorldGenConfig.SILVER_BOFFSET, 0, WorldGenConfig.SILVER_MAX, VANILLA_ANDESITE, BlockHandler.ORE_SILVER_ANDESITE.get().getDefaultState(), WorldGenConfig.SILVER_SIZE);
         }
         if(WorldGenConfig.LEAD_STATE == true) {
-          genOre(biome, WorldGenConfig.LEAD_COUNT, WorldGenConfig.LEAD_BOFFSET, 0, WorldGenConfig.LEAD_MAX, ANDESITE, BlockHandler.ORE_LEAD_ANDESITE.get().getDefaultState(), WorldGenConfig.LEAD_SIZE);
+          genOre(biome, WorldGenConfig.LEAD_COUNT, WorldGenConfig.LEAD_BOFFSET, 0, WorldGenConfig.LEAD_MAX, VANILLA_ANDESITE, BlockHandler.ORE_LEAD_ANDESITE.get().getDefaultState(), WorldGenConfig.LEAD_SIZE);
         }
         if(WorldGenConfig.NICKEL_STATE == true) {
-          genOre(biome, WorldGenConfig.NICKEL_COUNT, WorldGenConfig.NICKEL_BOFFSET, 0, WorldGenConfig.NICKEL_MAX, ANDESITE, BlockHandler.ORE_NICKEL_ANDESITE.get().getDefaultState(), WorldGenConfig.NICKEL_SIZE);
+          genOre(biome, WorldGenConfig.NICKEL_COUNT, WorldGenConfig.NICKEL_BOFFSET, 0, WorldGenConfig.NICKEL_MAX, VANILLA_ANDESITE, BlockHandler.ORE_NICKEL_ANDESITE.get().getDefaultState(), WorldGenConfig.NICKEL_SIZE);
         }
         if(WorldGenConfig.URANIUM_STATE == true) {
-          genOre(biome, WorldGenConfig.URANIUM_COUNT, WorldGenConfig.URANIUM_BOFFSET, 0, WorldGenConfig.URANIUM_MAX, ANDESITE, BlockHandler.ORE_URANIUM_ANDESITE.get().getDefaultState(), WorldGenConfig.URANIUM_SIZE);
+          genOre(biome, WorldGenConfig.URANIUM_COUNT, WorldGenConfig.URANIUM_BOFFSET, 0, WorldGenConfig.URANIUM_MAX, VANILLA_ANDESITE, BlockHandler.ORE_URANIUM_ANDESITE.get().getDefaultState(), WorldGenConfig.URANIUM_SIZE);
         }
         if(WorldGenConfig.OSMIUM_STATE == true) {
-          genOre(biome, WorldGenConfig.OSMIUM_COUNT, WorldGenConfig.OSMIUM_BOFFSET, 0, WorldGenConfig.OSMIUM_MAX, ANDESITE, BlockHandler.ORE_OSMIUM_ANDESITE.get().getDefaultState(), WorldGenConfig.OSMIUM_SIZE);
+          genOre(biome, WorldGenConfig.OSMIUM_COUNT, WorldGenConfig.OSMIUM_BOFFSET, 0, WorldGenConfig.OSMIUM_MAX, VANILLA_ANDESITE, BlockHandler.ORE_OSMIUM_ANDESITE.get().getDefaultState(), WorldGenConfig.OSMIUM_SIZE);
         }
         if(WorldGenConfig.TIN_STATE == true) {
-          genOre(biome, WorldGenConfig.TIN_COUNT, WorldGenConfig.TIN_BOFFSET, 0, WorldGenConfig.TIN_MAX, ANDESITE, BlockHandler.ORE_TIN_ANDESITE.get().getDefaultState(), WorldGenConfig.TIN_SIZE);
+          genOre(biome, WorldGenConfig.TIN_COUNT, WorldGenConfig.TIN_BOFFSET, 0, WorldGenConfig.TIN_MAX, VANILLA_ANDESITE, BlockHandler.ORE_TIN_ANDESITE.get().getDefaultState(), WorldGenConfig.TIN_SIZE);
         }
         if(WorldGenConfig.ZINC_STATE == true) {
-          genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, ANDESITE, BlockHandler.ORE_ZINC_ANDESITE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
+          genOre(biome, WorldGenConfig.ZINC_COUNT, WorldGenConfig.ZINC_BOFFSET, 0, WorldGenConfig.ZINC_MAX, VANILLA_ANDESITE, BlockHandler.ORE_ZINC_ANDESITE.get().getDefaultState(), WorldGenConfig.ZINC_SIZE);
         }
         if(WorldGenConfig.CERTUS_QUARTZ_STATE == true) {
-          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, ANDESITE, BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
+          genOre(biome, WorldGenConfig.CERTUS_QUARTZ_COUNT, WorldGenConfig.CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CERTUS_QUARTZ_MAX, VANILLA_ANDESITE, BlockHandler.ORE_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CERTUS_QUARTZ_SIZE);
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE == true) {
-          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, ANDESITE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+          genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, 0, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, VANILLA_ANDESITE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
       }
       if(blockCreateGabbro != null && WorldGenConfig.CREATE_GABBRO_STATE == true) {
@@ -723,6 +721,10 @@ public class WorldGenHandler {
           features.add(f);
         }
         if (((OreFeatureConfig)((DecoratedFeatureConfig)f.config).feature.config).state.getBlock() == Blocks.REDSTONE_ORE) {
+          features.add(f);
+        }
+      } else if (((DecoratedFeatureConfig)f.config).feature.feature instanceof ReplaceBlockFeature) {
+        if (((ReplaceBlockConfig)((DecoratedFeatureConfig)f.config).feature.config).state.getBlock() == Blocks.EMERALD_ORE) {
           features.add(f);
         }
       }

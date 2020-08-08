@@ -8,7 +8,8 @@
 modLoader="javafml" #mandatory
 
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[31,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[32,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="MIT License"
 
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues" #optional
@@ -49,7 +50,7 @@ All blocks, and items have been properly tagged, and have all the basic recipes.
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[32,)" #mandatory
+    versionRange="[32.0.98,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
