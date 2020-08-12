@@ -74,11 +74,16 @@ sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
 
-
 repositories {
-    maven { // JEI
+    maven {
+        // JEI
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
     }
 }
 

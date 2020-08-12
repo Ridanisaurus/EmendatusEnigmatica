@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.world.gen;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -31,6 +32,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
+import net.minecraft.resources.IResource;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
@@ -43,14 +45,15 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenHandler {
 
   // Fillers
-  private static final OreFeatureConfig.FillerBlockType VANILLA_STONE = OreFeatureConfig.FillerBlockType.create("STONE", "stone", new BlockMatcher(Blocks.STONE));
-  private static final OreFeatureConfig.FillerBlockType VANILLA_ANDESITE = OreFeatureConfig.FillerBlockType.create("ANDESITE", "andesite", new BlockMatcher(Blocks.ANDESITE));
+  private static final OreFeatureConfig.FillerBlockType VANILLA_STONE = OreFeatureConfig.FillerBlockType.create("EE-STONE", "ee-stone", BlockMatcher.forBlock(Blocks.STONE));
+  private static final OreFeatureConfig.FillerBlockType VANILLA_ANDESITE = OreFeatureConfig.FillerBlockType.create("EE-ANDESITE", "ee-andesite", BlockMatcher.forBlock(Blocks.ANDESITE));
   private static OreFeatureConfig.FillerBlockType CREATE_GABBRO = null;
   private static OreFeatureConfig.FillerBlockType CREATE_LIMESTONE = null;
   private static OreFeatureConfig.FillerBlockType CREATE_SCORIA = null;
@@ -699,7 +702,7 @@ public class WorldGenHandler {
 
   public static void overrideFeatures(Biome biome){
     List<ConfiguredFeature> features = new ArrayList<>();
-    List<Block> vanillaOres = new ArrayList<Block>();
+    List<Block> vanillaOres = new ArrayList<>();
     vanillaOres.add(Blocks.COAL_ORE);
     vanillaOres.add(Blocks.IRON_ORE);
     vanillaOres.add(Blocks.GOLD_ORE);
@@ -708,17 +711,16 @@ public class WorldGenHandler {
     vanillaOres.add(Blocks.LAPIS_ORE);
     vanillaOres.add(Blocks.REDSTONE_ORE);
 
-    for (ConfiguredFeature<?,?> f : biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)) {
+    for (ConfiguredFeature<?,?> loopedFeatures : biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)) {
 
-      if(f.config instanceof DecoratedFeatureConfig) {
-        if (((DecoratedFeatureConfig) f.config).feature.feature instanceof OreFeature) {
-          Block block = ((OreFeatureConfig) ((DecoratedFeatureConfig) f.config).feature.config).state.getBlock();
+      if(loopedFeatures.config instanceof DecoratedFeatureConfig) {
+        if (((DecoratedFeatureConfig) loopedFeatures.config).feature.feature instanceof OreFeature) {
+          Block block = ((OreFeatureConfig) ((DecoratedFeatureConfig) loopedFeatures.config).feature.config).state.getBlock();
           if (vanillaOres.contains(block)) {
-            features.add(f);
+            features.add(loopedFeatures);
           }
         }
       }
-
     }
     biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).removeAll(features);
   }

@@ -115,7 +115,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     return LootTable.builder().addLootPool(builder);
   }
 
-  protected LootTable.Builder createCountTable(Item item, IItemProvider itemProvider, int minCount, int maxCount) {
+  protected LootTable.Builder createCountTable(Item item, IItemProvider itemProvider, float minCount, float maxCount) {
     LootPool.Builder builder = LootPool.builder()
             .rolls(ConstantRange.of(1))
             .addEntry(ItemLootEntry.builder(item)

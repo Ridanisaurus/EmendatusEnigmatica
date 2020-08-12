@@ -292,5 +292,6 @@
   "item.emendatusenigmatica.plate_tin": "Tin Plate",
   "item.emendatusenigmatica.plate_uranium": "Uranium Plate",
   "item.emendatusenigmatica.plate_zinc": "Zinc Plate",
-  "itemGroup.emendatusenigmatica": "Emendatus Enigmatica"
+  "itemGroup.emendatusenigmatica": "Emendatus Enigmatica",
+  "tooltip.emendatusenigmatica.ores": "Ores generated in the world drop an Ore Chunk instead of the block itself. These Chunks act as if it is an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.\n\nHarvesting ores with Silktouch Enchanted tool will always drop the Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft."
 }
