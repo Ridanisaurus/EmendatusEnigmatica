@@ -43,9 +43,10 @@ public class LangGen extends LanguageProvider
     // Item Group
     add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
-    //
-    add("tooltip.emendatusenigmatica.ores", "Ores generated in the world drop an Ore Chunk instead of the block itself. These Chunks act as if it is an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.\n\n" +
-            "Harvesting ores with Silktouch Enchanted tool will always drop the Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft.");
+    // JEI Compat
+    add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft.\n\n");
+    add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.\n\n\n");
+    add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter.");
 
     // Misc
     add(BlockHandler.ENIGMATIC_EXCHANGER.get(), "Enigmatic Exchanger");

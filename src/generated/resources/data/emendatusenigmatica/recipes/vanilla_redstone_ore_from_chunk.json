@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_redstone"
+  },
+  "result": "minecraft:redstone_ore",
+  "count": 1
+}

@@ -30,8 +30,6 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -235,7 +233,7 @@ public class JEIPlugin implements IModPlugin {
     modOres.add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get());
 
     for (final Item item : modOres) {
-      registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "tooltip.emendatusenigmatica.ores");
+      registration.addIngredientInfo(new ItemStack(item), VanillaTypes.ITEM, "tooltip.emendatusenigmatica.ores.1", "tooltip.emendatusenigmatica.ores.2", "tooltip.emendatusenigmatica.ores.3");
     }
   }
 }

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_coal"
+  },
+  "result": "minecraft:coal_ore",
+  "count": 1
+}
