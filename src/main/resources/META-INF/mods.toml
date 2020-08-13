@@ -33,7 +33,7 @@ displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica" #optional
 logoFile="logo.png" #optional
 
 # A text field displayed in the mod UI
-credits="Thanks to Buuz135 for his guidance and help, and to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, continues support on this journey." #optional
+credits="Thanks to Buuz135, and Darkere for their guidance and help, and to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, continues support on this journey." #optional
 
 # A text field displayed in the mod UI
 authors="Ridanisaurus" #optional
