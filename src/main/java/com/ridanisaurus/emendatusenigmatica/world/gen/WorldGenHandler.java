@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.world.gen;
 
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -35,16 +34,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.placement.*;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenHandler {
 
   // Fillers
@@ -83,8 +78,7 @@ public class WorldGenHandler {
   @ObjectHolder("quark:slate")
   public static final Block blockQuarkSlate = null;
 
-  @SubscribeEvent
-  public static void generateWorld(FMLLoadCompleteEvent event) {
+  public static void generateWorld() {
 
     if (blockCreateGabbro != null) {
       CREATE_GABBRO = OreFeatureConfig.FillerBlockType.create("EE_GABBRO", "ee_gabbro", new BlockMatcher(blockCreateGabbro.getBlock()));

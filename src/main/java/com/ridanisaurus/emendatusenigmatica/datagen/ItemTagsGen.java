@@ -242,6 +242,9 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.GEM_CERTUS_QUARTZ.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/charged_certus_quartz").toString()))
             .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/certus").toString()))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get())
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/fluix").toString()))
             .add(ItemHandler.GEM_FLUIX.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/fluorite").toString()))
@@ -878,5 +881,21 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz").toString()))
             .add(ItemHandler.DUST_QUARTZ.get());
 
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus_quartz").toString()))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/charged_certus_quartz").toString()))
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/quartz").toString()))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get())
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus").toString()))
+            .add(ItemHandler.GEM_CERTUS_QUARTZ.get())
+            .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/fluix").toString()))
+            .add(ItemHandler.GEM_FLUIX.get());
   }
 }

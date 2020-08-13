@@ -711,6 +711,11 @@ d7f68ae80279f96205d685f89f91b8782e225ace assets/emendatusenigmatica/models/item/
 dac8073ccab63c07ca4d8b54d4f1b0e16f314e91 assets/emendatusenigmatica/models/item/plate_tin.json
 f6a62aed6dab89cc3bbf6ce159aad5b0d3a05104 assets/emendatusenigmatica/models/item/plate_uranium.json
 67b64bd8ece85c63cb3e9a9e598cdaece7c227fd assets/emendatusenigmatica/models/item/plate_zinc.json
+a070a6a0ad1a58a49f0b08f9e4531760e88695a9 data/appliedenergistics2/tags/items/crystals/certus.json
+f3b21d78d60b87ed3b0d9ae9db0eaedbe1dec050 data/appliedenergistics2/tags/items/crystals/certus_quartz.json
+5583b695639e6c285775ec1bf5856c9101c999f5 data/appliedenergistics2/tags/items/crystals/charged_certus_quartz.json
+9895ef564dae4747a08f4b3489c863173001684c data/appliedenergistics2/tags/items/crystals/fluix.json
+a070a6a0ad1a58a49f0b08f9e4531760e88695a9 data/appliedenergistics2/tags/items/crystals/quartz.json
 d3c50ea48872a0043e100440560eb8c8f97b80d4 data/appliedenergistics2/tags/items/dusts/certus_quartz.json
 76dd984bdea67465ba7d9c7ed57cadf2b76f602c data/appliedenergistics2/tags/items/dusts/nether_quartz.json
 f7be48b929d4286e39557eaaf1d66cec223ff869 data/appliedenergistics2/tags/items/dusts/quartz.json
@@ -1728,6 +1733,7 @@ b88b3de865cd6accce539560e33dd4613c1bd30d data/forge/tags/items/dusts/tin.json
 16553a68c134469cc29541a8fda1bebec2325873 data/forge/tags/items/dusts/uranium.json
 7d8b56ca5ca068ca3c13ce6a383b725fd8e8e688 data/forge/tags/items/dusts/zinc.json
 865758f326013439e3f38b44276bde27e2990b8d data/forge/tags/items/gems.json
+a070a6a0ad1a58a49f0b08f9e4531760e88695a9 data/forge/tags/items/gems/certus.json
 f3b21d78d60b87ed3b0d9ae9db0eaedbe1dec050 data/forge/tags/items/gems/certus_quartz.json
 5583b695639e6c285775ec1bf5856c9101c999f5 data/forge/tags/items/gems/charged_certus_quartz.json
 9895ef564dae4747a08f4b3489c863173001684c data/forge/tags/items/gems/fluix.json
