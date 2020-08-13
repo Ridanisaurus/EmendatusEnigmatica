@@ -24,7 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.world.gen;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -32,7 +31,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
-import net.minecraft.resources.IResource;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
@@ -44,8 +42,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -174,6 +170,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, VANILLA_STONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, VANILLA_STONE, BlockHandler.ORE_FLUORITE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
       // Strata Ores - Andesite
       if(WorldGenConfig.VANILLA_ANDESITE_STATE) {
@@ -230,6 +229,9 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, VANILLA_ANDESITE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_ANDESITE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, VANILLA_ANDESITE, BlockHandler.ORE_FLUORITE_ANDESITE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
         }
       }
       if(blockCreateGabbro != null && WorldGenConfig.CREATE_GABBRO_STATE) {
@@ -288,6 +290,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_GABBRO, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_GABBRO.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, CREATE_GABBRO, BlockHandler.ORE_FLUORITE_GABBRO.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
       if(blockCreateLimestone != null && WorldGenConfig.CREATE_LIMESTONE_STATE) {
         // Strata Ores - Limestone
@@ -344,6 +349,9 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, CREATE_LIMESTONE, BlockHandler.ORE_FLUORITE_C_LIMESTONE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
         }
       }
       if(blockCreateScoria != null && WorldGenConfig.CREATE_SCORIA_STATE) {
@@ -402,6 +410,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_SCORIA, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SCORIA.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, CREATE_SCORIA, BlockHandler.ORE_FLUORITE_SCORIA.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
       if(blockCreateWeatheredLimestone != null && WorldGenConfig.CREATE_WEATHERED_LIMESTONE_STATE) {
         // Strata Ores - Weathered Limestone
@@ -458,6 +469,9 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, CREATE_WEATHERED_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, CREATE_WEATHERED_LIMESTONE, BlockHandler.ORE_FLUORITE_WEATHERED_LIMESTONE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
         }
       }
       if(blockQuarkJasper != null && WorldGenConfig.QUARK_JASPER_STATE) {
@@ -516,6 +530,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_JASPER, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_JASPER.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, QUARK_JASPER, BlockHandler.ORE_FLUORITE_JASPER.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
       if(blockQuarkLimestone != null && WorldGenConfig.QUARK_LIMESTONE_STATE) {
         // Strata Ores - Limestone (Quark)
@@ -572,6 +589,9 @@ public class WorldGenHandler {
         }
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_LIMESTONE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
+        }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, QUARK_LIMESTONE, BlockHandler.ORE_FLUORITE_Q_LIMESTONE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
         }
       }
       if(blockQuarkMarble != null && WorldGenConfig.QUARK_MARBLE_STATE) {
@@ -630,6 +650,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_MARBLE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_MARBLE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, QUARK_MARBLE, BlockHandler.ORE_FLUORITE_MARBLE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
       if(blockQuarkSlate != null && WorldGenConfig.QUARK_SLATE_STATE) {
         // Strata Ores - Slate
@@ -687,6 +710,9 @@ public class WorldGenHandler {
         if(WorldGenConfig.CHARGED_CERTUS_QUARTZ_STATE) {
           genOre(biome, WorldGenConfig.CHARGED_CERTUS_QUARTZ_COUNT, WorldGenConfig.CHARGED_CERTUS_QUARTZ_BOFFSET, WorldGenConfig.CHARGED_CERTUS_QUARTZ_MAX, QUARK_SLATE, BlockHandler.ORE_CHARGED_CERTUS_QUARTZ_SLATE.get().getDefaultState(), WorldGenConfig.CHARGED_CERTUS_QUARTZ_SIZE);
         }
+        if(WorldGenConfig.FLUORITE_STATE) {
+          genOre(biome, WorldGenConfig.FLUORITE_COUNT, WorldGenConfig.FLUORITE_BOFFSET, WorldGenConfig.FLUORITE_MAX, QUARK_SLATE, BlockHandler.ORE_FLUORITE_SLATE.get().getDefaultState(), WorldGenConfig.FLUORITE_SIZE);
+        }
       }
     }
   }
@@ -721,7 +747,9 @@ public class WorldGenHandler {
           }
         }
       }
+
     }
+
     biome.getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).removeAll(features);
   }
 }

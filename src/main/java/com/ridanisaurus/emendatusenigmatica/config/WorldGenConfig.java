@@ -128,6 +128,11 @@ public class WorldGenConfig {
     public final IntValue CHARGED_CERTUS_QUARTZ_COUNT_PER_CHUNK;
     public final IntValue CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET;
     public final IntValue CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT;
+    public final BooleanValue FLUORITE_GENERATION_STATE;
+    public final IntValue FLUORITE_VEIN_SIZE;
+    public final IntValue FLUORITE_COUNT_PER_CHUNK;
+    public final IntValue FLUORITE_BOTTOMOFFSET;
+    public final IntValue FLUORITE_MAXIMUM_HEIGHT;
 
     public final BooleanValue VANILLA_STONE_STRATA;
     public final BooleanValue VANILLA_ANDESITE_STRATA;
@@ -557,6 +562,29 @@ public class WorldGenConfig {
               .defineInRange("Maximum", 32, 0, 256);
       builder.pop();
 
+      builder.push("Fluorite Ore");
+      FLUORITE_GENERATION_STATE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+              .translation("zinc.config.state")
+              .worldRestart()
+              .define("Active", true);
+      FLUORITE_VEIN_SIZE = builder.comment("Configure the ore Vein Size [Default: 12]")
+              .translation("zinc.config.vein_size")
+              .worldRestart()
+              .defineInRange("Size", 12, 0, 64);
+      FLUORITE_COUNT_PER_CHUNK = builder.comment("Ores count per Chunk [Default: 6]")
+              .translation("zinc.config.count_per_chunk")
+              .worldRestart()
+              .defineInRange("Count", 6, 0, 64);
+      FLUORITE_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
+              .translation("zinc.config.bottom_offset")
+              .worldRestart()
+              .defineInRange("Minimum", 0, 0, 128);
+      FLUORITE_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 32]")
+              .translation("zinc.config.maximum_height")
+              .worldRestart()
+              .defineInRange("Maximum", 32, 0, 256);
+      builder.pop();
+
       builder.comment("World Gen - Ore Generation on Strata Stone Type");
 
       builder.push("Vanilla Stone");
@@ -711,6 +739,11 @@ public class WorldGenConfig {
   public static int CHARGED_CERTUS_QUARTZ_COUNT;
   public static int CHARGED_CERTUS_QUARTZ_BOFFSET;
   public static int CHARGED_CERTUS_QUARTZ_MAX;
+  public static boolean FLUORITE_STATE;
+  public static int FLUORITE_SIZE;
+  public static int FLUORITE_COUNT;
+  public static int FLUORITE_BOFFSET;
+  public static int FLUORITE_MAX;
 
   public static boolean VANILLA_STONE_STATE;
   public static boolean VANILLA_ANDESITE_STATE;
@@ -815,6 +848,11 @@ public class WorldGenConfig {
     CHARGED_CERTUS_QUARTZ_COUNT = COMMON.CHARGED_CERTUS_QUARTZ_COUNT_PER_CHUNK.get();
     CHARGED_CERTUS_QUARTZ_BOFFSET = COMMON.CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET.get();
     CHARGED_CERTUS_QUARTZ_MAX = COMMON.CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT.get();
+    FLUORITE_STATE = COMMON.FLUORITE_GENERATION_STATE.get();
+    FLUORITE_SIZE = COMMON.FLUORITE_VEIN_SIZE.get();
+    FLUORITE_COUNT = COMMON.FLUORITE_COUNT_PER_CHUNK.get();
+    FLUORITE_BOFFSET = COMMON.FLUORITE_BOTTOMOFFSET.get();
+    FLUORITE_MAX = COMMON.FLUORITE_MAXIMUM_HEIGHT.get();
 
     VANILLA_STONE_STATE = COMMON.VANILLA_STONE_STRATA.get();
     VANILLA_ANDESITE_STATE = COMMON.VANILLA_ANDESITE_STRATA.get();

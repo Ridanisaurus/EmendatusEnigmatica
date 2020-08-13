@@ -156,14 +156,14 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_OBSIDIAN.get())
             .add(ItemHandler.DUST_QUARTZ.get())
             .add(ItemHandler.DUST_CERTUS_QUARTZ.get())
-            .add(ItemHandler.DUST_SKYSTONE.get())
             .add(ItemHandler.DUST_FLUIX.get())
             .add(ItemHandler.DUST_ENDER.get())
             .add(ItemHandler.DUST_COKE.get())
             .add(ItemHandler.DUST_GRAPHITE.get())
             .add(ItemHandler.DUST_LITHIUM.get())
             .add(ItemHandler.DUST_SALTPETER.get())
-            .add(ItemHandler.DUST_SULFUR.get());
+            .add(ItemHandler.DUST_SULFUR.get())
+            .add(ItemHandler.DUST_FLUORITE.get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/copper").toString()))
             .add(ItemHandler.DUST_COPPER.get());
@@ -213,8 +213,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_QUARTZ.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/certus_quartz").toString()))
             .add(ItemHandler.DUST_CERTUS_QUARTZ.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/skystone").toString()))
-            .add(ItemHandler.DUST_SKYSTONE.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/fluix").toString()))
             .add(ItemHandler.DUST_FLUIX.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender").toString()))
@@ -229,12 +227,16 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_SALTPETER.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/sulfur").toString()))
             .add(ItemHandler.DUST_SULFUR.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/fluorite").toString()))
+            .add(ItemHandler.DUST_FLUORITE.get());
 
     // Gems
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()))
             .add(ItemHandler.GEM_CERTUS_QUARTZ.get())
             .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get())
-            .add(ItemHandler.GEM_FLUIX.get());
+            .add(ItemHandler.GEM_FLUIX.get())
+            .add(ItemHandler.GEM_FLUORITE.get());
+    
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/certus_quartz").toString()))
             .add(ItemHandler.GEM_CERTUS_QUARTZ.get());
@@ -242,6 +244,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/fluix").toString()))
             .add(ItemHandler.GEM_FLUIX.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/fluorite").toString()))
+            .add(ItemHandler.GEM_FLUORITE.get());
 
     // Plates
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()))
@@ -317,7 +321,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.CHUNK_TIN.get())
             .add(ItemHandler.CHUNK_ZINC.get())
             .add(ItemHandler.CHUNK_CERTUS_QUARTZ.get())
-            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
+            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get())
+            .add(ItemHandler.CHUNK_FLUORITE.get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/coal").toString()))
             .add(ItemHandler.CHUNK_COAL.get());
@@ -355,6 +360,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.CHUNK_CERTUS_QUARTZ.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/charged_certus_quartz").toString()))
             .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/fluorite").toString()))
+            .add(ItemHandler.CHUNK_FLUORITE.get());
 
     // Block Items
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()))
@@ -422,6 +429,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM.get())
             .add(ItemHandler.ORE_COAL_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_IRON_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_ANDESITE.get())
@@ -440,6 +448,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_ANDESITE.get())
             .add(ItemHandler.ORE_COAL_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_IRON_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_GOLD_ITEM_GABBRO.get())
@@ -458,6 +467,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_GABBRO.get())
             .add(ItemHandler.ORE_COAL_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_C_LIMESTONE.get())
@@ -476,6 +486,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_C_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_IRON_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_GOLD_ITEM_SCORIA.get())
@@ -494,6 +505,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_SCORIA.get())
             .add(ItemHandler.ORE_COAL_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_WEATHERED_LIMESTONE.get())
@@ -512,6 +524,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_WEATHERED_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_JASPER.get())
             .add(ItemHandler.ORE_IRON_ITEM_JASPER.get())
             .add(ItemHandler.ORE_GOLD_ITEM_JASPER.get())
@@ -530,6 +543,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_JASPER.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_JASPER.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_JASPER.get())
             .add(ItemHandler.ORE_COAL_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_IRON_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_Q_LIMESTONE.get())
@@ -548,6 +562,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_Q_LIMESTONE.get())
             .add(ItemHandler.ORE_COAL_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_IRON_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_MARBLE.get())
@@ -566,6 +581,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_COAL_ITEM_SLATE.get())
             .add(ItemHandler.ORE_IRON_ITEM_SLATE.get())
             .add(ItemHandler.ORE_GOLD_ITEM_SLATE.get())
@@ -584,6 +600,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_ZINC_ITEM_SLATE.get())
             .add(ItemHandler.ORE_CERTUS_QUARTZ_ITEM_SLATE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_SLATE.get())
             .add(ItemHandler.CHUNK_COAL.get())
             .add(ItemHandler.CHUNK_IRON.get())
             .add(ItemHandler.CHUNK_GOLD.get())
@@ -601,7 +618,8 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.CHUNK_TIN.get())
             .add(ItemHandler.CHUNK_ZINC.get())
             .add(ItemHandler.CHUNK_CERTUS_QUARTZ.get())
-            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
+            .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get())
+            .add(ItemHandler.CHUNK_FLUORITE.get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/coal").toString()))
             .add(ItemHandler.ORE_COAL_ITEM.get())
@@ -819,6 +837,18 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_MARBLE.get())
             .add(ItemHandler.ORE_CHARGED_CERTUS_QUARTZ_ITEM_SLATE.get())
             .add(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/fluorite").toString()))
+            .add(ItemHandler.ORE_FLUORITE_ITEM.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_ANDESITE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_GABBRO.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_C_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_SCORIA.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_WEATHERED_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_JASPER.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_Q_LIMESTONE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_MARBLE.get())
+            .add(ItemHandler.ORE_FLUORITE_ITEM_SLATE.get())
+            .add(ItemHandler.CHUNK_FLUORITE.get());
 
     // Minecraft Additional Tags
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()))

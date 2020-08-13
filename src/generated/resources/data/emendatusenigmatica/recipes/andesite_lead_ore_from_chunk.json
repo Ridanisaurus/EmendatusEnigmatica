@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_lead"
+  },
+  "result": "emendatusenigmatica:ore_lead_andesite",
+  "count": 1
+}

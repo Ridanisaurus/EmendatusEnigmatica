@@ -70,6 +70,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC = BLOCKS.register("ore_zinc", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ = BLOCKS.register("ore_certus_quartz", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ = BLOCKS.register("ore_charged_certus_quartz", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE = BLOCKS.register("ore_fluorite", OreFluorite::new);
 
   //Strata Ores - Andesite
   public static final RegistryObject<Block> ORE_COAL_ANDESITE = BLOCKS.register("ore_coal_andesite", OreCoal::new);
@@ -90,6 +91,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_ANDESITE = BLOCKS.register("ore_zinc_andesite", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_ANDESITE = BLOCKS.register("ore_certus_quartz_andesite", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_ANDESITE = BLOCKS.register("ore_charged_certus_quartz_andesite", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_ANDESITE = BLOCKS.register("ore_fluorite_andesite", OreFluorite::new);
 
   // Strata Ores - Gabbro
   public static final RegistryObject<Block> ORE_COAL_GABBRO = BLOCKS.register("ore_coal_gabbro", OreCoal::new);
@@ -110,6 +112,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_GABBRO = BLOCKS.register("ore_zinc_gabbro", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_GABBRO = BLOCKS.register("ore_certus_quartz_gabbro", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_GABBRO = BLOCKS.register("ore_charged_certus_quartz_gabbro", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_GABBRO = BLOCKS.register("ore_fluorite_gabbro", OreFluorite::new);
 
   // Strata Ores - Limestone (Create)
   public static final RegistryObject<Block> ORE_COAL_C_LIMESTONE = BLOCKS.register("ore_coal_c_limestone", OreCoal::new);
@@ -130,6 +133,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_C_LIMESTONE = BLOCKS.register("ore_zinc_c_limestone", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_C_LIMESTONE = BLOCKS.register("ore_certus_quartz_c_limestone", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_C_LIMESTONE = BLOCKS.register("ore_charged_certus_quartz_c_limestone", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_C_LIMESTONE = BLOCKS.register("ore_fluorite_c_limestone", OreFluorite::new);
 
   // Strata Ores - Scoria
   public static final RegistryObject<Block> ORE_COAL_SCORIA = BLOCKS.register("ore_coal_scoria", OreCoal::new);
@@ -150,6 +154,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_SCORIA = BLOCKS.register("ore_zinc_scoria", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_SCORIA = BLOCKS.register("ore_certus_quartz_scoria", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_SCORIA = BLOCKS.register("ore_charged_certus_quartz_scoria", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_SCORIA = BLOCKS.register("ore_fluorite_scoria", OreFluorite::new);
 
   // Strata Ores - Weathered Limestone
   public static final RegistryObject<Block> ORE_COAL_WEATHERED_LIMESTONE = BLOCKS.register("ore_coal_weathered_limestone", OreCoal::new);
@@ -170,6 +175,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_WEATHERED_LIMESTONE = BLOCKS.register("ore_zinc_weathered_limestone", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_WEATHERED_LIMESTONE = BLOCKS.register("ore_certus_quartz_weathered_limestone", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_WEATHERED_LIMESTONE = BLOCKS.register("ore_charged_certus_quartz_weathered_limestone", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_WEATHERED_LIMESTONE = BLOCKS.register("ore_fluorite_weathered_limestone", OreFluorite::new);
 
   // Strata Ores - Jasper
   public static final RegistryObject<Block> ORE_COAL_JASPER = BLOCKS.register("ore_coal_jasper", OreCoal::new);
@@ -190,6 +196,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_JASPER = BLOCKS.register("ore_zinc_jasper", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_JASPER = BLOCKS.register("ore_certus_quartz_jasper", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_JASPER = BLOCKS.register("ore_charged_certus_quartz_jasper", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_JASPER = BLOCKS.register("ore_fluorite_jasper", OreFluorite::new);
 
   // Strata Ores - Limestone (Quark)
   public static final RegistryObject<Block> ORE_COAL_Q_LIMESTONE = BLOCKS.register("ore_coal_q_limestone", OreCoal::new);
@@ -210,6 +217,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_Q_LIMESTONE = BLOCKS.register("ore_zinc_q_limestone", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_Q_LIMESTONE = BLOCKS.register("ore_certus_quartz_q_limestone", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_Q_LIMESTONE = BLOCKS.register("ore_charged_certus_quartz_q_limestone", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_Q_LIMESTONE = BLOCKS.register("ore_fluorite_q_limestone", OreFluorite::new);
 
   // Strata Ores - Marble
   public static final RegistryObject<Block> ORE_COAL_MARBLE = BLOCKS.register("ore_coal_marble", OreCoal::new);
@@ -230,6 +238,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_MARBLE = BLOCKS.register("ore_zinc_marble", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_MARBLE = BLOCKS.register("ore_certus_quartz_marble", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_MARBLE = BLOCKS.register("ore_charged_certus_quartz_marble", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_MARBLE = BLOCKS.register("ore_fluorite_marble", OreFluorite::new);
 
   // Strata Ores - Slate
   public static final RegistryObject<Block> ORE_COAL_SLATE = BLOCKS.register("ore_coal_slate", OreCoal::new);
@@ -250,6 +259,7 @@ public class BlockHandler {
   public static final RegistryObject<Block> ORE_ZINC_SLATE = BLOCKS.register("ore_zinc_slate", OreZinc::new);
   public static final RegistryObject<Block> ORE_CERTUS_QUARTZ_SLATE = BLOCKS.register("ore_certus_quartz_slate", OreCertusQuartz::new);
   public static final RegistryObject<Block> ORE_CHARGED_CERTUS_QUARTZ_SLATE = BLOCKS.register("ore_charged_certus_quartz_slate", OreChargedCertusQuartz::new);
+  public static final RegistryObject<Block> ORE_FLUORITE_SLATE = BLOCKS.register("ore_fluorite_slate", OreFluorite::new);
 
   //Machines
   public static final RegistryObject<Block> ENIGMATIC_EXCHANGER = BLOCKS.register("enigmatic_exchanger", EnigmaticExchanger::new);

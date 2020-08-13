@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_uranium"
+  },
+  "result": "emendatusenigmatica:ore_uranium_q_limestone",
+  "count": 1
+}
