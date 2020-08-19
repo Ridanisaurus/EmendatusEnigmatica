@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:chunk_certus_quartz"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ore_certus_quartz"
+  }
+}

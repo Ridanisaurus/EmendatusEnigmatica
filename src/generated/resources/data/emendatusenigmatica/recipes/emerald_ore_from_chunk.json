@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:chunk_emerald"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ore_emerald"
+  }
+}

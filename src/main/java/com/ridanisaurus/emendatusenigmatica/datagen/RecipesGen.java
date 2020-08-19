@@ -1485,5 +1485,120 @@ public class RecipesGen extends RecipeProvider {
     CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(BlockHandler.ORE_FLUORITE.get()), ItemHandler.GEM_FLUORITE.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "fluorite_gem_from_blasting_ore"));
+
+    // Ore Block from Chunk
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_COAL.get())
+            .addIngredient(ItemHandler.CHUNK_COAL.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "coal_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_IRON.get())
+            .addIngredient(ItemHandler.CHUNK_IRON.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "iron_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_GOLD.get())
+            .addIngredient(ItemHandler.CHUNK_GOLD.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gold_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_DIAMOND.get())
+            .addIngredient(ItemHandler.CHUNK_DIAMOND.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "diamond_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_EMERALD.get())
+            .addIngredient(ItemHandler.CHUNK_EMERALD.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "emerald_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_LAPIS.get())
+            .addIngredient(ItemHandler.CHUNK_LAPIS.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "lapis_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_REDSTONE.get())
+            .addIngredient(ItemHandler.CHUNK_REDSTONE.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "redstone_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_COPPER.get())
+            .addIngredient(ItemHandler.CHUNK_COPPER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "copper_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_ALUMINUM.get())
+            .addIngredient(ItemHandler.CHUNK_ALUMINUM.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "aluminum_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_SILVER.get())
+            .addIngredient(ItemHandler.CHUNK_SILVER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "silver_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_LEAD.get())
+            .addIngredient(ItemHandler.CHUNK_LEAD.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "lead_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_NICKEL.get())
+            .addIngredient(ItemHandler.CHUNK_NICKEL.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "nickel_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_URANIUM.get())
+            .addIngredient(ItemHandler.CHUNK_URANIUM.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "uranium_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_OSMIUM.get())
+            .addIngredient(ItemHandler.CHUNK_OSMIUM.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "osmium_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_TIN.get())
+            .addIngredient(ItemHandler.CHUNK_TIN.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "tin_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_ZINC.get())
+            .addIngredient(ItemHandler.CHUNK_ZINC.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "zinc_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_CERTUS_QUARTZ.get())
+            .addIngredient(ItemHandler.CHUNK_CERTUS_QUARTZ.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "certus_quartz_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_CHARGED_CERTUS_QUARTZ.get())
+            .addIngredient(ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "charged_certus_quartz_ore_from_chunk"));
+
+    ShapelessRecipeBuilder.shapelessRecipe(BlockHandler.ORE_FLUORITE.get())
+            .addIngredient(ItemHandler.CHUNK_FLUORITE.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "fluorite_ore_from_chunk"));
   }
 }
