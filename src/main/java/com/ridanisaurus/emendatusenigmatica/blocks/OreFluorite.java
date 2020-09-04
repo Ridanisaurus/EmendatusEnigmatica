@@ -28,8 +28,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
+
+import java.util.Random;
 
 public class OreFluorite extends OreBlock {
     public OreFluorite() { super(Properties.create(Material.ROCK)
@@ -39,8 +42,12 @@ public class OreFluorite extends OreBlock {
             .setRequiresTool());
     }
 
+    protected int getExperience(Random rand) {
+        return MathHelper.nextInt(rand, 2, 5);
+    }
+
     @Override
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 1;
+        return silktouch == 0 ? this.getExperience(RANDOM) : 0;
     }
 }

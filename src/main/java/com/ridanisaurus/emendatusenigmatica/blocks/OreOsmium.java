@@ -42,6 +42,6 @@ public class OreOsmium extends OreBlock {
 
     @Override
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 1;
+        return 0;
     }
 }
