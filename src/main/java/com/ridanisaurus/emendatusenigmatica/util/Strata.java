@@ -17,7 +17,7 @@ public enum Strata {
     CREATE_SCORIA("create_scoria", "scoria", new ResourceLocation("create:natural_scoria"), "Scoria"),
     CREATE_WEATHERED_LIMESTONE("create_weathered_limestone", "weathered_limestone", new ResourceLocation("create:weathered_limestone"), "Weathered Limestone"),
 
-    QUARK_JASPER("quark_limestone", "jasper", new ResourceLocation("quark:jasper"), "Jasper"),
+    QUARK_JASPER("quark_jasper", "jasper", new ResourceLocation("quark:jasper"), "Jasper"),
     QUARK_LIMESTONE("quark_limestone", "q_limestone", new ResourceLocation("quark:limestone"), "Limestone"),
     QUARK_MARBLE("quark_marble", "marble", new ResourceLocation("quark:marlbe"), "Marble"),
     QUARK_SLATE("quark_slate", "slate", new ResourceLocation("quark:slate"), "Slate"),
