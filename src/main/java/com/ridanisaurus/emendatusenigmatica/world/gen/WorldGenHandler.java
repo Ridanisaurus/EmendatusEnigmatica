@@ -30,24 +30,21 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig.OreConfigs.Bak
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
 import java.util.Collection;
 
 import static com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica.LOGGER;
+import static net.minecraft.world.gen.feature.Features.*;
 
 public class WorldGenHandler {
 
@@ -84,27 +81,5 @@ public class WorldGenHandler {
                 .func_242728_a() // square vein
                 .func_242731_b(count) // max count per chunk
                 ;
-    }
-
-    public static void removeVanillaOres(BiomeGenerationSettingsBuilder builder) {
-        Collection<Block> vanillaOres = Sets.newHashSet(
-                Blocks.COAL_ORE,
-                Blocks.IRON_ORE,
-                Blocks.GOLD_ORE,
-                Blocks.DIAMOND_ORE,
-                Blocks.EMERALD_ORE,
-                Blocks.LAPIS_ORE,
-                Blocks.REDSTONE_ORE);
-
-        int stage = GenerationStage.Decoration.UNDERGROUND_ORES.ordinal();
-
-        builder.populateStageEntries(stage);
-        builder.features.get(stage).removeIf(s -> {
-            ConfiguredFeature<?, ?> cf = s.get();
-            if (cf.feature instanceof OreFeature) {
-                return vanillaOres.contains(((OreFeatureConfig) cf.config).state.getBlock());
-            }
-            return false;
-        });
     }
 }

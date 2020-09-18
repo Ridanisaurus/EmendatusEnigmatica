@@ -4,9 +4,11 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spongepowered.org/maven/" }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
@@ -19,6 +21,8 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
+
+apply plugin: 'org.spongepowered.mixin'
 
 version = '1.0'
 group = 'com.ridanisaurus.emendatusenigmatica' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -34,7 +38,7 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'snapshot', version: '20200916-1.16.2'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
+
     accessTransformer = file('src/main/resources/META-INF/at.cfg')
 
     // Default run configurations.
@@ -42,6 +46,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -53,6 +58,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -64,6 +70,7 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -100,6 +107,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.16.3-34.0.7'
 
+    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
@@ -131,20 +140,21 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "emendatusenigmatica",
-            "Specification-Vendor": "Ridanisaurus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"Ridanisaurus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "MixinConfigs"            : "emendatusenigmatica.mixins.json",
+                "Specification-Title"     : "emendatusenigmatica",
+                "Specification-Vendor"    : "Ridanisaurus",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "Ridanisaurus",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar') 
+jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
@@ -159,4 +169,8 @@ publishing {
             url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
+}
+
+mixin {
+    add sourceSets.main, "emendatusenigmatica.refmap.json"
 }

@@ -61,16 +61,11 @@ public class EmendatusEnigmatica {
 
         // Setup biome loading event for worldgen!
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesHigh);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::biomesNormal);
 
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
         WorldGenHandler.addEEOres(event.getGeneration());
-    }
-
-    public void biomesNormal(final BiomeLoadingEvent event) {
-        WorldGenHandler.removeVanillaOres(event.getGeneration());
     }
 
     private void setupOres(final FMLConstructModEvent event) {
