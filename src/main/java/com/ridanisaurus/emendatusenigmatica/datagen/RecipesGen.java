@@ -278,25 +278,25 @@ public class RecipesGen extends RecipeProvider {
         // Ore from Chunk in Stonecutter
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_COAL.get()), Blocks.COAL_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_coal_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/coal/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_IRON.get()), Blocks.IRON_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_iron_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/iron/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_GOLD.get()), Blocks.GOLD_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_gold_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/gold/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_DIAMOND.get()), Blocks.DIAMOND_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_diamond_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/diamond/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_EMERALD.get()), Blocks.EMERALD_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_emerald_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/emerald/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_LAPIS.get()), Blocks.LAPIS_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_lapis_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/lapis/vanilla"));
         SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.CHUNK_REDSTONE.get()), Blocks.REDSTONE_ORE)
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "vanilla_redstone_ore_from_chunk"));
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/redstone/vanilla"));
 
         for (Strata stratum : Strata.values()) {
             for (Ores ore : Ores.values()) {
