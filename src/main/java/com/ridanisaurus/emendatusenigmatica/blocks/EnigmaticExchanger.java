@@ -62,7 +62,7 @@ public class EnigmaticExchanger extends Block {
       Block.makeCuboidShape(12, 8, 0, 16, 10, 8),
       Block.makeCuboidShape(5, 8, 1, 11, 12, 7),
       Block.makeCuboidShape(5, 12, 9, 11, 16, 15)
-  ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
   private static final VoxelShape SHAPE_E = Stream.of(
           Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
@@ -71,7 +71,7 @@ public class EnigmaticExchanger extends Block {
           Block.makeCuboidShape(8, 8, 12, 16, 10, 16),
           Block.makeCuboidShape(9, 8, 5, 15, 12, 11),
           Block.makeCuboidShape(1, 12, 5, 7, 16, 11)
-  ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
   private static final VoxelShape SHAPE_S = Stream.of(
           Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
@@ -80,7 +80,7 @@ public class EnigmaticExchanger extends Block {
           Block.makeCuboidShape(0, 8, 8, 4, 10, 16),
           Block.makeCuboidShape(5, 8, 9, 11, 12, 15),
           Block.makeCuboidShape(5, 12, 1, 11, 16, 7)
-  ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
   private static final VoxelShape SHAPE_W = Stream.of(
           Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
@@ -89,7 +89,7 @@ public class EnigmaticExchanger extends Block {
           Block.makeCuboidShape(0, 8, 0, 8, 10, 4),
           Block.makeCuboidShape(1, 8, 5, 7, 12, 11),
           Block.makeCuboidShape(9, 12, 5, 15, 16, 11)
-  ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
   public EnigmaticExchanger() {
     super(Properties.create(Material.IRON)

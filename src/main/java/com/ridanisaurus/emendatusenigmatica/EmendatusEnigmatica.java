@@ -32,29 +32,24 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
-public class EmendatusEnigmatica
-{
+public class EmendatusEnigmatica {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-
-        // Register World Gen Config
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupOres);
 
         // Register Mod Classes - Blocks should always be registered first
         BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -62,13 +57,22 @@ public class EmendatusEnigmatica
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        // Register World Gen Config
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+        MinecraftForge.EVENT_BUS.register(WorldGenConfig.class);
+
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
-        DeferredWorkQueue.runLater(WorldGenHandler::generateWorld);
+    @SubscribeEvent
+    public void enhanceBiomes(final BiomeLoadingEvent event) {
+        WorldGenHandler.generateWorld(event.getGeneration());
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) {}
+    private void setupOres(final FMLConstructModEvent event) {
+        BlockHandler.oreBlocks();
+        ItemHandler.oreItems();
+    }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
         @Override

@@ -3,15 +3,22 @@ buildscript {
         maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
+
+plugins {
+    id "com.wynprice.cursemaven" version "2.1.1"
+
+    id "maven-publish"
+
+}
+
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 version = '1.0'
 group = 'com.ridanisaurus.emendatusenigmatica' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -25,10 +32,10 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20200723-1.16.1'
+    mappings channel: 'snapshot', version: '20200916-1.16.2'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/at.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -91,7 +98,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.1-32.0.98'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.0.7'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -112,10 +119,12 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //if (findProject(':workspace') == null) {
-    compileOnly fg.deobf("mezz.jei:jei-1.16.1:7.0.0.2:api")
+    compileOnly fg.deobf("mezz.jei:jei-1.16.2:$jei_version:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.1:7.0.0.2")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.16.2:$jei_version")
     //}
+
+    runtimeOnly fg.deobf("curse.maven:worldstripper:3054192")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
