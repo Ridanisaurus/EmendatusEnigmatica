@@ -61,7 +61,7 @@ public class EmendatusEnigmatica {
 
         // Setup biome loading event for worldgen!
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesHigh);
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesNormal);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.NORMAL, this::biomesNormal);
 
     }
 

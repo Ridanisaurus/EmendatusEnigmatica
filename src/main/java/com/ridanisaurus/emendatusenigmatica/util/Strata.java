@@ -35,10 +35,10 @@ public enum Strata {
         this.localisedName = localisedName;
     }
 
-    Strata(String id, String suffix, ResourceLocation block, String localisedName) {
+    Strata(String id, String suffix, ResourceLocation loc, String localisedName) {
         this.id = id;
         this.suffix = suffix;
-        this.block = () -> ForgeRegistries.BLOCKS.getValue(block);
+        this.block = () -> ForgeRegistries.BLOCKS.containsKey(loc) ? ForgeRegistries.BLOCKS.getValue(loc) : null;
         this.localisedName = localisedName;
     }
 

@@ -42,6 +42,7 @@ import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
 import java.util.Collection;
@@ -56,7 +57,7 @@ public class WorldGenHandler {
                 for (Ores ore : Ores.values()) {
                     BakedOreProps p = WorldGenConfig.COMMON.ORES.get(ore);
                     if (p.ACTIVE) {
-                        LOGGER.info("Adding ore {} with stratum {} to the world!", ore, stratum);
+                        LOGGER.debug("Adding ore {} with stratum {} to the world!", ore, stratum);
                         builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(
                                 p.COUNT_PER_CHUNK,
                                 p.VEIN_SIZE,
@@ -79,9 +80,10 @@ public class WorldGenHandler {
     private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int minY, int maxY, RuleTest filler, BlockState state) {
         Feature<OreFeatureConfig> oreFeature = Feature.ORE;
         return oreFeature.withConfiguration(new OreFeatureConfig(filler, state, size))
-                .withPlacement(Placement.field_242910_o.configure(new DepthAverageConfig(maxY, minY))) // min and max y using vanilla depth averages
+                .withPlacement(Placement.field_242910_o.configure(new DepthAverageConfig(minY, maxY))) // min and max y using vanilla depth averages
                 .func_242728_a() // square vein
-                .func_242731_b(count); // max count per chunk
+                .func_242731_b(count) // max count per chunk
+                ;
     }
 
     public static void removeVanillaOres(BiomeGenerationSettingsBuilder builder) {

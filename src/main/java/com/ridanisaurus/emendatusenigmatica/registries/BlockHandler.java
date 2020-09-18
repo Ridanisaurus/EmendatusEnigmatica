@@ -52,7 +52,6 @@ public class BlockHandler {
     public static void oreBlocks() {
         ImmutableTable.Builder<Strata, Ores, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
         for (Strata stratum : Strata.values()) {
-            EmendatusEnigmatica.LOGGER.info(Arrays.toString(Ores.values()));
             for (Ores ore : Ores.values()) {
                 String oreName = "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
                 builder.put(stratum, ore, BLOCKS.register(oreName, ore.block));
