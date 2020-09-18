@@ -33,7 +33,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -49,24 +49,28 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupOres);
 
-        // Register Mod Classes - Blocks should always be registered first
+        // Register Deferred Registers and populate their tables once the mod is done constructing
         BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupOres);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
-        MinecraftForge.EVENT_BUS.register(WorldGenConfig.class);
+
+        // Setup biome loading event for worldgen!
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesHigh);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesNormal);
 
     }
 
-    @SubscribeEvent
-    public void enhanceBiomes(final BiomeLoadingEvent event) {
-        WorldGenHandler.generateWorld(event.getGeneration());
+    public void biomesHigh(final BiomeLoadingEvent event) {
+        WorldGenHandler.addEEOres(event.getGeneration());
+    }
+
+    public void biomesNormal(final BiomeLoadingEvent event) {
+        WorldGenHandler.removeVanillaOres(event.getGeneration());
     }
 
     private void setupOres(final FMLConstructModEvent event) {

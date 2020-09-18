@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.config;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
@@ -35,11 +36,13 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 
+@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenConfig {
 
     public static class Common {
@@ -198,12 +201,12 @@ public class WorldGenConfig {
     }
 
     @SubscribeEvent
-    public void onModConfigEvent(final ModConfig.ModConfigEvent event) {
+    public static void onModConfigEvent(final ModConfig.ModConfigEvent event) {
 
     }
 
     @SubscribeEvent
-    public void onLoad(final ModConfig.Loading event) {
+    public static void onLoad(final ModConfig.Loading event) {
         final ModConfig config = event.getConfig();
         // Rebake the configs when they change
         if (config.getSpec() == COMMON_SPEC) {
@@ -213,7 +216,7 @@ public class WorldGenConfig {
     }
 
     @SubscribeEvent
-    public void onReload(final ModConfig.Reloading event) {
+    public static void onReload(final ModConfig.Reloading event) {
 
     }
 }

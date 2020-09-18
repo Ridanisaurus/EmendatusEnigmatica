@@ -50,9 +50,7 @@ import static com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica.LOGGER;
 
 public class WorldGenHandler {
 
-    public static void generateWorld(BiomeGenerationSettingsBuilder builder) {
-        overrideFeatures(builder);
-
+    public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
         for (Strata stratum : Strata.values()) {
             if (WorldGenConfig.COMMON.STRATA.get(stratum) && stratum.block.get() != null) {
                 for (Ores ore : Ores.values()) {
@@ -86,7 +84,7 @@ public class WorldGenHandler {
                 .func_242731_b(count); // max count per chunk
     }
 
-    public static void overrideFeatures(BiomeGenerationSettingsBuilder builder) {
+    public static void removeVanillaOres(BiomeGenerationSettingsBuilder builder) {
         Collection<Block> vanillaOres = Sets.newHashSet(
                 Blocks.COAL_ORE,
                 Blocks.IRON_ORE,
