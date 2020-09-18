@@ -76,8 +76,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
         if (stratum == Strata.STONE) return "blocks/ore_" + ore.id;
 
         // FIXME: PLEASE make this less ugly
-        String[] stone_id = stratum.id.split("_", 1);
-        return "blocks/strata_ores/" + stone_id[0] + "ore_" + ore.id + "_" + stone_id[1];
+        String[] stone_id = stratum.id.split("_", 2);
+        return "blocks/strata_ores/" + stone_id[0] + "/ore_" + ore.id + "_" + stone_id[1];
     }
 
     @Override
