@@ -208,6 +208,11 @@ public class WorldGenConfig {
 
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading event) {
+
+    }
+
+    @SubscribeEvent
+    public static void onReload(final ModConfig.Reloading event) {
         final ModConfig config = event.getConfig();
         // Rebake the configs when they change
         if (config.getSpec() == COMMON_SPEC) {
@@ -216,10 +221,5 @@ public class WorldGenConfig {
             // (re-)make ore features on config load
             WorldGenHandler.oreFeatures();
         }
-    }
-
-    @SubscribeEvent
-    public static void onReload(final ModConfig.Reloading event) {
-
     }
 }

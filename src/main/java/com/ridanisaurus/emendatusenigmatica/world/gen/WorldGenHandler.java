@@ -78,8 +78,8 @@ public class WorldGenHandler {
 
         oreFeatures = builder.build();
 
-        EmendatusEnigmatica.LOGGER.info("Enabled Strata: {}", activeStrata);
-        EmendatusEnigmatica.LOGGER.info("Enabled Ores: {}", activeOres);
+        EmendatusEnigmatica.LOGGER.debug("Enabled Strata: {}", activeStrata);
+        EmendatusEnigmatica.LOGGER.debug("Enabled Ores: {}", activeOres);
     }
 
     public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
