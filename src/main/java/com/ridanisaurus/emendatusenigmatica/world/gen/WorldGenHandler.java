@@ -40,8 +40,6 @@ import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
-import static com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica.LOGGER;
-
 public class WorldGenHandler {
 
     public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
@@ -50,7 +48,6 @@ public class WorldGenHandler {
                 for (Ores ore : Ores.values()) {
                     BakedOreProps p = WorldGenConfig.COMMON.ORES.get(ore);
                     if (p.ACTIVE) {
-                        LOGGER.debug("Adding ore {} with stratum {} to the world!", ore, stratum);
                         builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(
                                 p.COUNT_PER_CHUNK,
                                 p.VEIN_SIZE,
