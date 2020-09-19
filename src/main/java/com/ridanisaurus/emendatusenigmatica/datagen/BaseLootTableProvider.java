@@ -38,7 +38,6 @@ import net.minecraft.data.LootTableProvider;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.loot.*;
-import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.loot.conditions.MatchTool;
 import net.minecraft.loot.conditions.SurvivesExplosion;
 import net.minecraft.loot.functions.ApplyBonus;
@@ -54,89 +53,89 @@ import java.util.Map;
 
 public abstract class BaseLootTableProvider extends LootTableProvider {
 
-  private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-  // Filled by subclasses
-  protected final Map<Block, LootTable.Builder> blockLootTable = new HashMap<>();
-  protected final Map<Item, LootTable.Builder> itemLootTable = new HashMap<>();
+    // Filled by subclasses
+    protected final Map<Block, LootTable.Builder> blockLootTable = new HashMap<>();
+    protected final Map<Item, LootTable.Builder> itemLootTable = new HashMap<>();
 
-  private final DataGenerator generator;
+    private final DataGenerator generator;
 
-  public BaseLootTableProvider(DataGenerator dataGeneratorIn) {
-    super(dataGeneratorIn);
-    this.generator = dataGeneratorIn;
-  }
-
-  @Override
-  // Entry point
-  public void act(DirectoryCache cache) {
-    this.addTables();
-    Map<ResourceLocation, LootTable> tables = new HashMap<>();
-    for (Map.Entry<Block, LootTable.Builder> entry : this.blockLootTable.entrySet()) {
-      tables.put(entry.getKey().getLootTable(),
-              entry.getValue().setParameterSet(LootParameterSets.BLOCK).build());
+    public BaseLootTableProvider(DataGenerator dataGeneratorIn) {
+        super(dataGeneratorIn);
+        this.generator = dataGeneratorIn;
     }
 
-    this.writeTables(cache, tables);
-  }
+    @Override
+    // Entry point
+    public void act(DirectoryCache cache) {
+        this.addTables();
+        Map<ResourceLocation, LootTable> tables = new HashMap<>();
+        for (Map.Entry<Block, LootTable.Builder> entry : this.blockLootTable.entrySet()) {
+            tables.put(entry.getKey().getLootTable(),
+                    entry.getValue().setParameterSet(LootParameterSets.BLOCK).build());
+        }
 
-  @Override
-  public String getName() {
-    return "Emendatus Enigmatica LootTables";
-  }
+        this.writeTables(cache, tables);
+    }
 
-  // Subclasses can override this to fill the 'lootTables' map.
-  protected abstract void addTables();
+    @Override
+    public String getName() {
+        return "Emendatus Enigmatica LootTables";
+    }
 
-  protected LootTable.Builder createBlockLootTable(Block block) {
-    LootPool.Builder builder = LootPool.builder()
-            .rolls(ConstantRange.of(1))
-            .addEntry(ItemLootEntry.builder(block))
-            .acceptCondition(SurvivesExplosion.builder());
-    return LootTable.builder().addLootPool(builder);
-  }
+    // Subclasses can override this to fill the 'lootTables' map.
+    protected abstract void addTables();
 
-  protected LootTable.Builder createItemLootTable(Item item) {
-    LootPool.Builder builder = LootPool.builder()
-            .rolls(ConstantRange.of(1))
-            .addEntry(ItemLootEntry.builder(item))
-            .acceptCondition(SurvivesExplosion.builder());
-    return LootTable.builder().addLootPool(builder);
-  }
+    protected LootTable.Builder createBlockLootTable(Block block) {
+        LootPool.Builder builder = LootPool.builder()
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block))
+                .acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(builder);
+    }
 
-  protected LootTable.Builder createSpecialTable(Item item, IItemProvider itemProvider) {
-    LootPool.Builder builder = LootPool.builder()
-            .rolls(ConstantRange.of(1))
-            .addEntry(ItemLootEntry.builder(item)
-              .acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
-              .alternatively(ItemLootEntry.builder(itemProvider)
-              .acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))
-              .acceptFunction(ExplosionDecay.builder())));
-    return LootTable.builder().addLootPool(builder);
-  }
+    protected LootTable.Builder createItemLootTable(Item item) {
+        LootPool.Builder builder = LootPool.builder()
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(item))
+                .acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(builder);
+    }
 
-  protected LootTable.Builder createCountTable(Item item, IItemProvider itemProvider, float minCount, float maxCount) {
-    LootPool.Builder builder = LootPool.builder()
-            .rolls(ConstantRange.of(1))
-            .addEntry(ItemLootEntry.builder(item)
-                    .acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
-                    .alternatively(ItemLootEntry.builder(itemProvider)
-                            .acceptFunction(SetCount.builder(RandomValueRange.of(minCount, maxCount)))
-                            .acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))
-                            .acceptFunction(ExplosionDecay.builder())));
-    return LootTable.builder().addLootPool(builder);
-  }
+    protected LootTable.Builder createSpecialTable(Item item, IItemProvider itemProvider) {
+        LootPool.Builder builder = LootPool.builder()
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(item)
+                        .acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+                        .alternatively(ItemLootEntry.builder(itemProvider)
+                                .acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))
+                                .acceptFunction(ExplosionDecay.builder())));
+        return LootTable.builder().addLootPool(builder);
+    }
 
-  // Actually write out the tables in the output folder
-  private void writeTables(DirectoryCache cache, Map<ResourceLocation, LootTable> tables) {
-    Path outputFolder = this.generator.getOutputFolder();
-    tables.forEach((key, lootTable) -> {
-      Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
-      try {
-        IDataProvider.save(GSON, cache, LootTableManager.toJson(lootTable), path);
-      } catch (IOException e) {
-        EmendatusEnigmatica.LOGGER.error("Couldn't write loot table {}", path, e);
-      }
-    });
-  }
+    protected LootTable.Builder createCountTable(Item item, IItemProvider itemProvider, float minCount, float maxCount) {
+        LootPool.Builder builder = LootPool.builder()
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(item)
+                        .acceptCondition(MatchTool.builder(ItemPredicate.Builder.create().enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+                        .alternatively(ItemLootEntry.builder(itemProvider)
+                                .acceptFunction(SetCount.builder(RandomValueRange.of(minCount, maxCount)))
+                                .acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE))
+                                .acceptFunction(ExplosionDecay.builder())));
+        return LootTable.builder().addLootPool(builder);
+    }
+
+    // Actually write out the tables in the output folder
+    private void writeTables(DirectoryCache cache, Map<ResourceLocation, LootTable> tables) {
+        Path outputFolder = this.generator.getOutputFolder();
+        tables.forEach((key, lootTable) -> {
+            Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
+            try {
+                IDataProvider.save(GSON, cache, LootTableManager.toJson(lootTable), path);
+            } catch (IOException e) {
+                EmendatusEnigmatica.LOGGER.error("Couldn't write loot table {}", path, e);
+            }
+        });
+    }
 }

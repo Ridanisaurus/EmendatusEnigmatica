@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -36,11 +35,12 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class OreDiamond extends OreBlock {
-    public OreDiamond() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(2)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+    public OreDiamond() {
+        super(Properties.create(Material.ROCK)
+                .hardnessAndResistance(3.0f, 3.0f)
+                .harvestLevel(2)
+                .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool());
     }
 
     protected int getExperience(Random rand) {

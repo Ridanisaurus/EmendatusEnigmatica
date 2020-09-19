@@ -97,7 +97,7 @@ public class BlockTagsGen extends BlockTagsProvider {
         }
 
         // Misc
-        getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString().toString()))
+        getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString()))
                 .add(BlockHandler.ENIGMATIC_EXCHANGER.get());
 
         // Minecraft Additional Tags

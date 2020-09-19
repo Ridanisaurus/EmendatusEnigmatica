@@ -35,11 +35,12 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class OreFluorite extends OreBlock {
-    public OreFluorite() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(1)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+    public OreFluorite() {
+        super(Properties.create(Material.ROCK)
+                .hardnessAndResistance(3.0f, 3.0f)
+                .harvestLevel(1)
+                .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool());
     }
 
     protected int getExperience(Random rand) {

@@ -24,7 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
+import net.minecraft.block.RedstoneOreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -51,6 +54,7 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 import java.util.function.ToIntFunction;
 
+@SuppressWarnings("deprecation")
 public class OreRedstone extends OreBlock {
     public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
 
@@ -143,14 +147,14 @@ public class OreRedstone extends OreBlock {
         double d0 = 0.5625D;
         Random random = world.rand;
 
-        for(Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             BlockPos blockpos = pos.offset(direction);
             if (!world.getBlockState(blockpos).isOpaqueCube(world, blockpos)) {
                 Direction.Axis direction$axis = direction.getAxis();
-                double d1 = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double)direction.getXOffset() : (double)random.nextFloat();
-                double d2 = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double)direction.getYOffset() : (double)random.nextFloat();
-                double d3 = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double)direction.getZOffset() : (double)random.nextFloat();
-                world.addParticle(RedstoneParticleData.REDSTONE_DUST, (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+                double d1 = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getXOffset() : (double) random.nextFloat();
+                double d2 = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getYOffset() : (double) random.nextFloat();
+                double d3 = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getZOffset() : (double) random.nextFloat();
+                world.addParticle(RedstoneParticleData.REDSTONE_DUST, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
             }
         }
     }

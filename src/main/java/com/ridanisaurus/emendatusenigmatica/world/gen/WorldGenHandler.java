@@ -24,7 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.world.gen;
 
-import com.google.common.collect.Sets;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig.OreConfigs.BakedOreProps;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
@@ -41,10 +40,7 @@ import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
-import java.util.Collection;
-
 import static com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica.LOGGER;
-import static net.minecraft.world.gen.feature.Features.*;
 
 public class WorldGenHandler {
 

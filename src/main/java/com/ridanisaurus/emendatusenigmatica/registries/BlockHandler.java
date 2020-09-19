@@ -26,18 +26,16 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
-import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockBase;
 import com.ridanisaurus.emendatusenigmatica.blocks.EnigmaticExchanger;
+import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 

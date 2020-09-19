@@ -24,7 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,20 +32,20 @@ import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
 
-  @SubscribeEvent
-  public static void gatherData(GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    if (event.includeServer()) {
-      BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator);
-      generator.addProvider(new RecipesGen(generator));
-      generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration));
-      generator.addProvider(blockTagsGeneration);
-      generator.addProvider(new LootTablesGen(generator));
+    @SubscribeEvent
+    public static void gatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        if (event.includeServer()) {
+            BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator);
+            generator.addProvider(new RecipesGen(generator));
+            generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration));
+            generator.addProvider(blockTagsGeneration);
+            generator.addProvider(new LootTablesGen(generator));
+        }
+        if (event.includeClient()) {
+            generator.addProvider(new BlockStatesAndModelsGen(generator, event.getExistingFileHelper()));
+            generator.addProvider(new LangGen(generator));
+            generator.addProvider(new ItemModelsGen(generator, event.getExistingFileHelper()));
+        }
     }
-    if (event.includeClient()) {
-      generator.addProvider(new BlockStatesAndModelsGen(generator, event.getExistingFileHelper()));
-      generator.addProvider(new LangGen(generator));
-      generator.addProvider(new ItemModelsGen(generator, event.getExistingFileHelper()));
-    }
-  }
 }
