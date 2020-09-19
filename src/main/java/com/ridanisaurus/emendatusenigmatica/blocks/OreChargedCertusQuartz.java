@@ -26,21 +26,27 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.particles.RedstoneParticleData;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
 public class OreChargedCertusQuartz extends OreBlock {
-    public OreChargedCertusQuartz() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(2)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+    public OreChargedCertusQuartz() {
+        super(Properties.create(Material.ROCK)
+                .hardnessAndResistance(3.0f, 3.0f)
+                .harvestLevel(2)
+                .harvestTool(ToolType.PICKAXE)
+                .setRequiresTool()
+                .setLightLevel((state) -> 4));
     }
 
     protected int getExperience(Random rand) {
@@ -50,5 +56,28 @@ public class OreChargedCertusQuartz extends OreBlock {
     @Override
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
         return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState state, World world, BlockPos pos, Random r) {
+        double d0 = 0.5625D;
+        if (r.nextFloat() < 0.75f) {
+            float red = MathHelper.nextFloat(r, 0.2f, 0.4f);
+            float green = MathHelper.nextFloat(r, 0.4f, 0.8f);
+            float blue = MathHelper.nextFloat(r, 0.75f, 1f);
+            float alpha = MathHelper.nextFloat(r, 0.8f, 1f);
+
+            for (Direction direction : Direction.values()) {
+                BlockPos blockpos = pos.offset(direction);
+                if (!world.getBlockState(blockpos).isOpaqueCube(world, blockpos)) {
+                    Direction.Axis direction$axis = direction.getAxis();
+                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + d0 * (double) direction.getXOffset() : (double) r.nextFloat();
+                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + d0 * (double) direction.getYOffset() : (double) r.nextFloat();
+                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + d0 * (double) direction.getZOffset() : (double) r.nextFloat();
+                    world.addParticle(new RedstoneParticleData(red, green, blue, alpha), (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
     }
 }
