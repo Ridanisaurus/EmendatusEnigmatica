@@ -24,6 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.world.gen;
 
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig.OreConfigs.BakedOreProps;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
@@ -40,15 +43,30 @@ import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 public class WorldGenHandler {
 
-    public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
+    //Ore Blocks
+    private static Table<Strata, Ores, ConfiguredFeature<?, ?>> oreFeatures;
+    public static final Supplier<Table<Strata, Ores, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
+
+    public static void oreFeatures() {
+        Collection<Strata> activeStrata = EnumSet.noneOf(Strata.class);
+        Collection<Ores> activeOres = EnumSet.noneOf(Ores.class);
+
+        ImmutableTable.Builder<Strata, Ores, ConfiguredFeature<?, ?>> builder = new ImmutableTable.Builder<>();
         for (Strata stratum : Strata.values()) {
             if (WorldGenConfig.COMMON.STRATA.get(stratum) && stratum.block.get() != null) {
+                activeStrata.add(stratum);
                 for (Ores ore : Ores.values()) {
                     BakedOreProps p = WorldGenConfig.COMMON.ORES.get(ore);
                     if (p.ACTIVE) {
-                        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(
+                        activeOres.add(ore);
+                        builder.put(stratum, ore, getOreFeature(
                                 p.COUNT_PER_CHUNK,
                                 p.VEIN_SIZE,
                                 p.MIN_Y,
@@ -57,6 +75,16 @@ public class WorldGenHandler {
                 }
             }
         }
+
+        oreFeatures = builder.build();
+
+        EmendatusEnigmatica.LOGGER.info("Enabled Strata: {}", activeStrata);
+        EmendatusEnigmatica.LOGGER.info("Enabled Ores: {}", activeOres);
+    }
+
+    public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
+        oreFeatureTable.get().values().forEach(feature ->
+                builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature));
     }
 
     private static RuleTest getFilter(Strata stratum) {

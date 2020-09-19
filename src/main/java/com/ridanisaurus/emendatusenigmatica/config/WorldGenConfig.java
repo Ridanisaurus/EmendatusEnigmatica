@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -212,6 +213,8 @@ public class WorldGenConfig {
         if (config.getSpec() == COMMON_SPEC) {
             COMMON.bake();
             EmendatusEnigmatica.LOGGER.debug("Baked common configs on Load");
+            // (re-)make ore features on config load
+            WorldGenHandler.oreFeatures();
         }
     }
 
