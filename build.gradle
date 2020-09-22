@@ -99,6 +99,11 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.k-4u.nl"
     }
+    maven {
+        // temp fix for JEI being dumb with its dependencies
+        name = "LatMod / FTB Maven"
+        url "https://maven.latmod.com/"
+    }
 }
 
 dependencies {
@@ -126,6 +131,8 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    implementation fg.deobf("com.feed_the_beast.mods:ftb-gui-library:1.0.0.18")
 
     //if (findProject(':workspace') == null) {
     compileOnly fg.deobf("mezz.jei:jei-1.16.2:$jei_version:api")
