@@ -164,7 +164,7 @@ public class WorldGenConfig {
       COAL_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("coal.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       COAL_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 128]")
               .translation("coal.config.maximum_height")
               .worldRestart()
@@ -187,7 +187,7 @@ public class WorldGenConfig {
       IRON_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("iron.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       IRON_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 64]")
               .translation("iron.config.maximum_height")
               .worldRestart()
@@ -210,7 +210,7 @@ public class WorldGenConfig {
       GOLD_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("gold.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       GOLD_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 32]")
               .translation("gold.config.maximum_height")
               .worldRestart()
@@ -233,7 +233,7 @@ public class WorldGenConfig {
       DIAMOND_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("diamond.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       DIAMOND_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 16]")
               .translation("diamond.config.maximum_height")
               .worldRestart()
@@ -256,7 +256,7 @@ public class WorldGenConfig {
       EMERALD_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 64]")
               .translation("emerald.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 64, 0, 128);
+              .defineInRange("Minimum", 64, 0, 256);
       EMERALD_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 128]")
               .translation("emerald.config.maximum_height")
               .worldRestart()
@@ -279,7 +279,7 @@ public class WorldGenConfig {
       LAPIS_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("lapis.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       LAPIS_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 16]")
               .translation("lapis.config.maximum_height")
               .worldRestart()
@@ -302,7 +302,7 @@ public class WorldGenConfig {
       REDSTONE_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("redstone.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       REDSTONE_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 16]")
               .translation("redstone.config.maximum_height")
               .worldRestart()
@@ -325,7 +325,7 @@ public class WorldGenConfig {
       COPPER_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 45]")
               .translation("copper.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 45, 0, 128);
+              .defineInRange("Minimum", 45, 0, 256);
       COPPER_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 60]")
               .translation("copper.config.maximum_height")
               .worldRestart()
@@ -348,7 +348,7 @@ public class WorldGenConfig {
       ALUMINUM_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 50]")
               .translation("aluminum.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 50, 0, 128);
+              .defineInRange("Minimum", 50, 0, 256);
       ALUMINUM_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 70]")
               .translation("aluminum.config.maximum_height")
               .worldRestart()
@@ -371,7 +371,7 @@ public class WorldGenConfig {
       SILVER_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 30]")
               .translation("silver.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 30, 0, 128);
+              .defineInRange("Minimum", 30, 0, 256);
       SILVER_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 38]")
               .translation("silver.config.maximum_height")
               .worldRestart()
@@ -394,7 +394,7 @@ public class WorldGenConfig {
       LEAD_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 32]")
               .translation("lead.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 32, 0, 128);
+              .defineInRange("Minimum", 32, 0, 256);
       LEAD_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 40]")
               .translation("lead.config.maximum_height")
               .worldRestart()
@@ -417,7 +417,7 @@ public class WorldGenConfig {
       NICKEL_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 25]")
               .translation("nickel.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 25, 0, 128);
+              .defineInRange("Minimum", 25, 0, 256);
       NICKEL_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 40]")
               .translation("nickel.config.maximum_height")
               .worldRestart()
@@ -440,7 +440,7 @@ public class WorldGenConfig {
       URANIUM_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 5]")
               .translation("uranium.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 5, 0, 128);
+              .defineInRange("Minimum", 5, 0, 256);
       URANIUM_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 20]")
               .translation("uranium.config.maximum_height")
               .worldRestart()
@@ -463,7 +463,7 @@ public class WorldGenConfig {
       OSMIUM_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 20]")
               .translation("osmium.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 20, 0, 128);
+              .defineInRange("Minimum", 20, 0, 256);
       OSMIUM_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 45]")
               .translation("osmium.config.maximum_height")
               .worldRestart()
@@ -486,7 +486,7 @@ public class WorldGenConfig {
       TIN_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 40]")
               .translation("tin.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 40, 0, 128);
+              .defineInRange("Minimum", 40, 0, 256);
       TIN_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 55]")
               .translation("tin.config.maximum_height")
               .worldRestart()
@@ -509,7 +509,7 @@ public class WorldGenConfig {
       ZINC_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 35]")
               .translation("zinc.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 35, 0, 128);
+              .defineInRange("Minimum", 35, 0, 256);
       ZINC_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 50]")
               .translation("zinc.config.maximum_height")
               .worldRestart()
@@ -532,7 +532,7 @@ public class WorldGenConfig {
       CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("certus_quartz.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 64]")
               .translation("certus_quartz.config.maximum_height")
               .worldRestart()
@@ -555,7 +555,7 @@ public class WorldGenConfig {
       CHARGED_CERTUS_QUARTZ_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("charged_certus_quartz.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       CHARGED_CERTUS_QUARTZ_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 32]")
               .translation("charged_certus_quartz.config.maximum_height")
               .worldRestart()
@@ -578,7 +578,7 @@ public class WorldGenConfig {
       FLUORITE_BOTTOMOFFSET = builder.comment("Minimum Y-Level [Default: 0]")
               .translation("zinc.config.bottom_offset")
               .worldRestart()
-              .defineInRange("Minimum", 0, 0, 128);
+              .defineInRange("Minimum", 0, 0, 256);
       FLUORITE_MAXIMUM_HEIGHT = builder.comment("Maximum Y-Level [Default: 32]")
               .translation("zinc.config.maximum_height")
               .worldRestart()
