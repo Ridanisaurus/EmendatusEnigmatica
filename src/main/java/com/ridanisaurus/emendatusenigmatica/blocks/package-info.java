@@ -1,6 +1,6 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-package com.ridanisaurus.emendatusenigmatica;
+package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import mcp.MethodsReturnNonnullByDefault;
 
