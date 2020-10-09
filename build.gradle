@@ -14,9 +14,7 @@ buildscript {
 
 plugins {
     id "com.wynprice.cursemaven" version "2.1.1"
-
     id "maven-publish"
-
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -105,7 +103,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.16.3-34.0.7'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.14'
 
     implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
 
