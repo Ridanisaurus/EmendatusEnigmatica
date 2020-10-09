@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.ridanisaurus.emendatusenigmatica.core.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "emendatusenigmatica.refmap.json",
+  "mixins": [
+	"DefaultBiomeFeaturesMixin"
+  ],
+  "injectors": {
+	"maxShiftBy": 3,
+	"defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
