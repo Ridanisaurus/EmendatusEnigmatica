@@ -17,12 +17,12 @@ public class DefaultBiomeFeaturesMixin {
         ci.cancel();
     }
 
-    @Inject(method = "withOverworldOres", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "withExtraGoldOre", at = @At("HEAD"), cancellable = true)
     private static void withExtraGoldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
         ci.cancel();
     }
 
-    @Inject(method = "withOverworldOres", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "withEmeraldOre", at = @At("HEAD"), cancellable = true)
     private static void withEmeraldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
         ci.cancel();
     }
