@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/strata_ores/quark/ore_fluorite_jasper"
+    "base": "emendatusenigmatica:blocks/strata/quark_jasper",
+    "overlay": "emendatusenigmatica:blocks/overlays/fluorite"
   }
 }

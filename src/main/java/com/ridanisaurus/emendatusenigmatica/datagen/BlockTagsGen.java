@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -89,11 +90,11 @@ public class BlockTagsGen extends BlockTagsProvider {
 
     // Ores
     Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
-    BlockHandler.oreBlockTable.get().values().forEach(s -> forgeOres.add(s.get()));
+    OreHandler.oreBlockTable.get().values().forEach(s -> forgeOres.add(s.get()));
 
     for (Ores ore : Ores.values()) {
       Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + ore.id).toString()));
-      BlockHandler.oreBlockTable.get().column(ore).values().forEach(s -> oreTag.add(s.get()));
+      OreHandler.oreBlockTable.get().column(ore).values().forEach(s -> oreTag.add(s.get()));
     }
 
     // Misc

@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.data.DataGenerator;
@@ -56,7 +57,7 @@ public class LootTablesGen extends BaseLootTableProvider {
     // Ores
     for (Strata stratum : Strata.values()) {
       for (Ores ore : Ores.values()) {
-        blockLootTable.put(BlockHandler.oreBlockTable.get().get(stratum, ore).get(),
+        blockLootTable.put(OreHandler.oreBlockTable.get().get(stratum, ore).get(),
                 ore.drop == null
                         ? createItemLootTable(ore.chunk.get())
                         : createCountTable(ore.chunk.get(), ore.drop.item.get(), ore.drop.min, ore.drop.max));

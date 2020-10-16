@@ -25,12 +25,15 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class BlockStatesAndModelsGen extends BlockStateProvider {
@@ -61,23 +64,28 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     // Ores
     for (Strata stratum : Strata.values()) {
       for (Ores ore : Ores.values()) {
-        simpleBlock(BlockHandler.oreBlockTable.get().get(stratum, ore).get(),
-                models().cubeAll(getModelName(stratum, ore),
-                        new ResourceLocation(Reference.MOD_ID, getTextureName(stratum, ore))));
+        Block block = OreHandler.oreBlockTable.get().get(stratum, ore).get();
+        ResourceLocation loc = block.getRegistryName();
+        dynamicBlock(loc, getBaseTexture(stratum), getOverlayTexture(ore));
+        simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
       }
     }
+  }
+
+  public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
+    models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/cube_overlayered"))).texture("base", baseTexture).texture("overlay", overlayTexture);
   }
 
   public static String getModelName(Strata stratum, Ores ore) {
     return "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
   }
 
-  public static String getTextureName(Strata stratum, Ores ore) {
-    if (stratum == Strata.STONE) return "blocks/ore_" + ore.id;
+  public static String getBaseTexture(Strata stratum) {
+    return stratum.baseTexture;
+  }
 
-    // FIXME: PLEASE make this less ugly
-    String[] stone_id = stratum.id.split("_", 2);
-    return "blocks/strata_ores/" + stone_id[0] + "/ore_" + ore.id + "_" + stone_id[1];
+  public static String getOverlayTexture(Ores ore) {
+    return "blocks/overlays/" + ore.id;
   }
 
   @Override

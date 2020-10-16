@@ -27,16 +27,22 @@ package com.ridanisaurus.emendatusenigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -52,9 +58,11 @@ public class EmendatusEnigmatica {
 
         // Register Deferred Registers and populate their tables once the mod is done constructing
         BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupOres);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
@@ -69,8 +77,14 @@ public class EmendatusEnigmatica {
     }
 
     private void setupOres(final FMLConstructModEvent event) {
-        BlockHandler.oreBlocks();
+        OreHandler.oreBlocks();
         ItemHandler.oreItems();
+    }
+
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
+            RenderTypeLookup.setRenderLayer(block.get(), RenderType.getTranslucent());
+        }
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {

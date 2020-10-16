@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
@@ -76,7 +77,7 @@ public class LangGen extends LanguageProvider {
           sb.append(" - ");
           sb.append(stratum.localisedName);
         }
-        add(BlockHandler.oreBlockTable.get().get(stratum, ore).get(), sb.toString());
+        add(OreHandler.oreBlockTable.get().get(stratum, ore).get(), sb.toString());
       }
     }
 

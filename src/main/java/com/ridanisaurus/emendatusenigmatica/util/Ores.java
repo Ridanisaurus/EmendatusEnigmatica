@@ -21,7 +21,7 @@ public enum Ores {
   REDSTONE("redstone", "Redstone", OreRedstone::new, ItemHandler.CHUNK_REDSTONE, drop(() -> Items.REDSTONE, 4, 5), 8, 8, 0, 16),
 
   COPPER("copper", "Copper", OreCopper::new, ItemHandler.CHUNK_COPPER, 7, 20, 45, 60),
-  ALUMINUM("aluminum", "Aluminum", OreAluminum::new, ItemHandler.CHUNK_ALUMINUM, 3, 8, 50, 70), // rid pls, it's ALUMINIUM! >:(
+  ALUMINUM("aluminum", "Aluminum", OreAluminum::new, ItemHandler.CHUNK_ALUMINUM, 3, 8, 50, 70),
   SILVER("silver", "Silver", OreSilver::new, ItemHandler.CHUNK_SILVER, 4, 8, 30, 38),
   LEAD("lead", "Lead", OreLead::new, ItemHandler.CHUNK_LEAD, 3, 8, 32, 40),
   NICKEL("nickel", "Nickel", OreNickel::new, ItemHandler.CHUNK_NICKEL, 3, 8, 25, 40),

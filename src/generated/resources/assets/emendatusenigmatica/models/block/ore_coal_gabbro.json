@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/strata_ores/create/ore_coal_gabbro"
+    "base": "emendatusenigmatica:blocks/strata/create_gabbro",
+    "overlay": "emendatusenigmatica:blocks/overlays/coal"
   }
 }

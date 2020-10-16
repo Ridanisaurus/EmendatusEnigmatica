@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/strata_ores/create/ore_lapis_weathered_limestone"
+    "base": "emendatusenigmatica:blocks/strata/create_weathered_limestone",
+    "overlay": "emendatusenigmatica:blocks/overlays/lapis"
   }
 }

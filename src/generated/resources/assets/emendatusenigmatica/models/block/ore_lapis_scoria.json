@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/strata_ores/create/ore_lapis_scoria"
+    "base": "emendatusenigmatica:blocks/strata/create_scoria",
+    "overlay": "emendatusenigmatica:blocks/overlays/lapis"
   }
 }

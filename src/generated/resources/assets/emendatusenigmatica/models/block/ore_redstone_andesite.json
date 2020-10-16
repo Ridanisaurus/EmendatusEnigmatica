@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/strata_ores/minecraft/ore_redstone_andesite"
+    "base": "minecraft:block/andesite",
+    "overlay": "emendatusenigmatica:blocks/overlays/redstone"
   }
 }

@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "all": "emendatusenigmatica:blocks/ore_diamond"
+    "base": "minecraft:block/stone",
+    "overlay": "emendatusenigmatica:blocks/overlays/diamond"
   }
 }

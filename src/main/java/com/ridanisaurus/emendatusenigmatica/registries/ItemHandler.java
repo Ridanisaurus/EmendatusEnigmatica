@@ -73,7 +73,7 @@ public class ItemHandler {
     for (Strata stratum : Strata.values()) {
       for (Ores ore : Ores.values()) {
         String oreName = "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
-        builder.put(stratum, ore, ITEMS.register(oreName, () -> new BlockItemBase(BlockHandler.oreBlockTable.get().get(stratum, ore).get())));
+        builder.put(stratum, ore, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.oreBlockTable.get().get(stratum, ore).get())));
       }
     }
     backingOreItemTable = builder.build();

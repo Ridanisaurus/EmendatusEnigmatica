@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
@@ -300,7 +301,7 @@ public class RecipesGen extends RecipeProvider {
 
     for (Strata stratum : Strata.values()) {
       for (Ores ore : Ores.values()) {
-        SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ore.chunk.get()), BlockHandler.oreBlockTable.get().get(stratum, ore).get())
+        SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ore.chunk.get()), OreHandler.oreBlockTable.get().get(stratum, ore).get())
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
                 .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/" + ore.id + "/" + stratum.id));
       }
@@ -1036,6 +1037,6 @@ public class RecipesGen extends RecipeProvider {
   }
 
   static RegistryObject<Block> baseOre(Ores ore) {
-    return BlockHandler.oreBlockTable.get().get(Strata.STONE, ore);
+    return OreHandler.oreBlockTable.get().get(Strata.STONE, ore);
   }
 }

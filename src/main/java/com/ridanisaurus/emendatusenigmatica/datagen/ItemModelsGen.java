@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
@@ -393,7 +394,7 @@ public class ItemModelsGen extends ItemModelProvider {
     // Ore Items
     for (Strata stratum : Strata.values()) {
       for (Ores ore : Ores.values()) {
-        withExistingParent(BlockHandler.oreBlockTable.get().get(stratum, ore).getId().getPath(), modLoc(getModelName(stratum, ore)))
+        withExistingParent(OreHandler.oreBlockTable.get().get(stratum, ore).getId().getPath(), modLoc(getModelName(stratum, ore)))
                 .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, ore))));
 
       }

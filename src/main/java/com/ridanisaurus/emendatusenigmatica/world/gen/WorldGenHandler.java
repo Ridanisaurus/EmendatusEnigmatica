@@ -29,7 +29,7 @@ import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig.OreConfigs.BakedOreProps;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.BlockState;
@@ -92,7 +92,7 @@ public class WorldGenHandler {
   }
 
   private static BlockState getOreBlock(Strata stratum, Ores ore) {
-    return BlockHandler.oreBlockTable.get().get(stratum, ore).get().getDefaultState();
+    return OreHandler.oreBlockTable.get().get(stratum, ore).get().getDefaultState();
   }
 
   private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int minY, int maxY, RuleTest filler, BlockState state) {
