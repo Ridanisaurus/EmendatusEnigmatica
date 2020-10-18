@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.data.DataGenerator;

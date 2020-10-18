@@ -63,26 +63,6 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer);
 
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        // Ingot from Blocks
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
-          Block block = BlockHandler.storageBlockTable.get().get(processedMaterial, material).get();
-          ResourceLocation loc = block.getRegistryName();
-
-          ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.INGOT_COPPER.get(), 9)
-                  .addIngredient(BlockHandler.BLOCK_COPPER.get())
-                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                  .setGroup(Reference.MOD_ID)
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "copper_ingot_from_copper_block"));
-
-          simpleBlock(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(),
-                  models().cubeAll("block_" + material.id,
-                          new ResourceLocation(Reference.MOD_ID, "blocks/block_" + material.id)));
-        }
-      }
-    }
-
     /*// Ingot from Block
     ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.INGOT_COPPER.get(), 9)
             .addIngredient(BlockHandler.BLOCK_COPPER.get())

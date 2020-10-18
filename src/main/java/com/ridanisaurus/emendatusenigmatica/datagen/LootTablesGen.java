@@ -25,15 +25,12 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.RegistryObject;
 
 public class LootTablesGen extends BaseLootTableProvider {
 
