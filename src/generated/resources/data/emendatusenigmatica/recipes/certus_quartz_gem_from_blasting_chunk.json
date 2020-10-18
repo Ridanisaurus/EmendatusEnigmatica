@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:chunk_certus_quartz"
-  },
-  "result": "emendatusenigmatica:gem_certus_quartz",
-  "experience": 0.7,
-  "cookingtime": 100
-}

@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -42,80 +43,31 @@ public class BlockTagsGen extends BlockTagsProvider {
 
   @Override
   protected void registerTags() {
-    // Storage Blocks
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()))
-            .add(BlockHandler.BLOCK_COPPER.get())
-            .add(BlockHandler.BLOCK_ALUMINUM.get())
-            .add(BlockHandler.BLOCK_SILVER.get())
-            .add(BlockHandler.BLOCK_LEAD.get())
-            .add(BlockHandler.BLOCK_NICKEL.get())
-            .add(BlockHandler.BLOCK_URANIUM.get())
-            .add(BlockHandler.BLOCK_OSMIUM.get())
-            .add(BlockHandler.BLOCK_TIN.get())
-            .add(BlockHandler.BLOCK_ZINC.get())
-            .add(BlockHandler.BLOCK_BRONZE.get())
-            .add(BlockHandler.BLOCK_BRASS.get())
-            .add(BlockHandler.BLOCK_CONSTANTAN.get())
-            .add(BlockHandler.BLOCK_ELECTRUM.get())
-            .add(BlockHandler.BLOCK_STEEL.get());
 
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/copper").toString()))
-            .add(BlockHandler.BLOCK_COPPER.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/aluminum").toString()))
-            .add(BlockHandler.BLOCK_ALUMINUM.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/silver").toString()))
-            .add(BlockHandler.BLOCK_SILVER.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/lead").toString()))
-            .add(BlockHandler.BLOCK_LEAD.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/nickel").toString()))
-            .add(BlockHandler.BLOCK_NICKEL.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/uranium").toString()))
-            .add(BlockHandler.BLOCK_URANIUM.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/osmium").toString()))
-            .add(BlockHandler.BLOCK_OSMIUM.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/tin").toString()))
-            .add(BlockHandler.BLOCK_TIN.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/zinc").toString()))
-            .add(BlockHandler.BLOCK_ZINC.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/bronze").toString()))
-            .add(BlockHandler.BLOCK_BRONZE.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/brass").toString()))
-            .add(BlockHandler.BLOCK_BRASS.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/constantan").toString()))
-            .add(BlockHandler.BLOCK_CONSTANTAN.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/electrum").toString()))
-            .add(BlockHandler.BLOCK_ELECTRUM.get());
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/steel").toString()))
-            .add(BlockHandler.BLOCK_STEEL.get());
+    // Storage Blocks
+    Builder<Block> forgeBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
+    BlockHandler.storageBlockTable.get().values().forEach(block -> forgeBlocks.add(block.get()));
+
+    for (Materials material : Materials.values()) {
+      Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
+      BlockHandler.storageBlockTable.get().column(material).values().forEach(block -> blockTag.add(block.get()));
+    }
 
     // Ores
     Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
-    OreHandler.oreBlockTable.get().values().forEach(s -> forgeOres.add(s.get()));
+    OreHandler.oreBlockTable.get().values().forEach(ore -> forgeOres.add(ore.get()));
 
     for (Ores ore : Ores.values()) {
       Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + ore.id).toString()));
-      OreHandler.oreBlockTable.get().column(ore).values().forEach(s -> oreTag.add(s.get()));
+      OreHandler.oreBlockTable.get().column(ore).values().forEach(strataOre -> oreTag.add(strataOre.get()));
     }
+
+    // Minecraft Additional Tags (Beacon Base)
+    Builder<Block> beaconBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
+    BlockHandler.storageBlockTable.get().values().forEach(beaconBlock -> beaconBlocks.add(beaconBlock.get()));
 
     // Misc
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString()))
             .add(BlockHandler.ENIGMATIC_EXCHANGER.get());
-
-    // Minecraft Additional Tags
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()))
-            .add(BlockHandler.BLOCK_COPPER.get())
-            .add(BlockHandler.BLOCK_ALUMINUM.get())
-            .add(BlockHandler.BLOCK_SILVER.get())
-            .add(BlockHandler.BLOCK_LEAD.get())
-            .add(BlockHandler.BLOCK_NICKEL.get())
-            .add(BlockHandler.BLOCK_URANIUM.get())
-            .add(BlockHandler.BLOCK_OSMIUM.get())
-            .add(BlockHandler.BLOCK_TIN.get())
-            .add(BlockHandler.BLOCK_ZINC.get())
-            .add(BlockHandler.BLOCK_BRONZE.get())
-            .add(BlockHandler.BLOCK_BRASS.get())
-            .add(BlockHandler.BLOCK_CONSTANTAN.get())
-            .add(BlockHandler.BLOCK_ELECTRUM.get())
-            .add(BlockHandler.BLOCK_STEEL.get());
   }
 }

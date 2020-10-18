@@ -25,10 +25,15 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.RegistryObject;
 
 public class LootTablesGen extends BaseLootTableProvider {
 
@@ -39,20 +44,13 @@ public class LootTablesGen extends BaseLootTableProvider {
   @Override
   protected void addTables() {
     // Storage Blocks
-    blockLootTable.put(BlockHandler.BLOCK_COPPER.get(), createBlockLootTable(BlockHandler.BLOCK_COPPER.get()));
-    blockLootTable.put(BlockHandler.BLOCK_ALUMINUM.get(), createBlockLootTable(BlockHandler.BLOCK_ALUMINUM.get()));
-    blockLootTable.put(BlockHandler.BLOCK_SILVER.get(), createBlockLootTable(BlockHandler.BLOCK_SILVER.get()));
-    blockLootTable.put(BlockHandler.BLOCK_LEAD.get(), createBlockLootTable(BlockHandler.BLOCK_LEAD.get()));
-    blockLootTable.put(BlockHandler.BLOCK_NICKEL.get(), createBlockLootTable(BlockHandler.BLOCK_NICKEL.get()));
-    blockLootTable.put(BlockHandler.BLOCK_URANIUM.get(), createBlockLootTable(BlockHandler.BLOCK_URANIUM.get()));
-    blockLootTable.put(BlockHandler.BLOCK_OSMIUM.get(), createBlockLootTable(BlockHandler.BLOCK_OSMIUM.get()));
-    blockLootTable.put(BlockHandler.BLOCK_TIN.get(), createBlockLootTable(BlockHandler.BLOCK_TIN.get()));
-    blockLootTable.put(BlockHandler.BLOCK_ZINC.get(), createBlockLootTable(BlockHandler.BLOCK_ZINC.get()));
-    blockLootTable.put(BlockHandler.BLOCK_BRONZE.get(), createBlockLootTable(BlockHandler.BLOCK_BRONZE.get()));
-    blockLootTable.put(BlockHandler.BLOCK_BRASS.get(), createBlockLootTable(BlockHandler.BLOCK_BRASS.get()));
-    blockLootTable.put(BlockHandler.BLOCK_CONSTANTAN.get(), createBlockLootTable(BlockHandler.BLOCK_CONSTANTAN.get()));
-    blockLootTable.put(BlockHandler.BLOCK_ELECTRUM.get(), createBlockLootTable(BlockHandler.BLOCK_ELECTRUM.get()));
-    blockLootTable.put(BlockHandler.BLOCK_STEEL.get(), createBlockLootTable(BlockHandler.BLOCK_STEEL.get()));
+    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
+      for (Materials material : Materials.values()) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+          blockLootTable.put(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(), createBlockLootTable(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get()));
+        }
+      }
+    }
 
     // Ores
     for (Strata stratum : Strata.values()) {

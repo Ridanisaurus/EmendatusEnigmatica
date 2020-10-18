@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:ore_bitumen",
+    "emendatusenigmatica:ore_bitumen_andesite",
+    "emendatusenigmatica:ore_bitumen_gabbro",
+    "emendatusenigmatica:ore_bitumen_c_limestone",
+    "emendatusenigmatica:ore_bitumen_scoria",
+    "emendatusenigmatica:ore_bitumen_weathered_limestone",
+    "emendatusenigmatica:ore_bitumen_jasper",
+    "emendatusenigmatica:ore_bitumen_marble",
+    "emendatusenigmatica:ore_bitumen_slate"
+  ]
+}

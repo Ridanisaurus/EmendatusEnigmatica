@@ -1,0 +1,7 @@
+{
+  "parent": "emendatusenigmatica:block/cube_overlayered",
+  "textures": {
+    "base": "emendatusenigmatica:blocks/strata/create_scoria",
+    "overlay": "emendatusenigmatica:blocks/overlays/bitumen"
+  }
+}

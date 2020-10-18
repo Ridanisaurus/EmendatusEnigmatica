@@ -25,17 +25,14 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-
-import static com.ridanisaurus.emendatusenigmatica.datagen.BlockStatesAndModelsGen.getModelName;
 
 public class ItemModelsGen extends ItemModelProvider {
 
@@ -45,171 +42,13 @@ public class ItemModelsGen extends ItemModelProvider {
 
   @Override
   protected void registerModels() {
-
-    // Ingots
-    getBuilder("ingot_copper")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_copper"));
-    getBuilder("ingot_aluminum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_aluminum"));
-    getBuilder("ingot_silver")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_silver"));
-    getBuilder("ingot_lead")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_lead"));
-    getBuilder("ingot_nickel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_nickel"));
-    getBuilder("ingot_uranium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_uranium"));
-    getBuilder("ingot_osmium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_osmium"));
-    getBuilder("ingot_tin")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_tin"));
-    getBuilder("ingot_zinc")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_zinc"));
-    getBuilder("ingot_bronze")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_bronze"));
-    getBuilder("ingot_brass")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_brass"));
-    getBuilder("ingot_constantan")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_constantan"));
-    getBuilder("ingot_electrum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_electrum"));
-    getBuilder("ingot_steel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_steel"));
-
-    // Nuggets
-    getBuilder("nugget_copper")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_copper"));
-    getBuilder("nugget_aluminum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_aluminum"));
-    getBuilder("nugget_silver")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_silver"));
-    getBuilder("nugget_lead")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_lead"));
-    getBuilder("nugget_nickel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_nickel"));
-    getBuilder("nugget_uranium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_uranium"));
-    getBuilder("nugget_osmium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_osmium"));
-    getBuilder("nugget_tin")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_tin"));
-    getBuilder("nugget_zinc")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_zinc"));
-    getBuilder("nugget_bronze")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_bronze"));
-    getBuilder("nugget_brass")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_brass"));
-    getBuilder("nugget_constantan")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_constantan"));
-    getBuilder("nugget_electrum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_electrum"));
-    getBuilder("nugget_steel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_steel"));
-
     // Dusts
-    getBuilder("dust_copper")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_copper"));
-    getBuilder("dust_aluminum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_aluminum"));
-    getBuilder("dust_silver")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_silver"));
-    getBuilder("dust_lead")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_lead"));
-    getBuilder("dust_nickel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_nickel"));
-    getBuilder("dust_uranium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_uranium"));
-    getBuilder("dust_osmium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_osmium"));
-    getBuilder("dust_tin")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_tin"));
-    getBuilder("dust_zinc")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_zinc"));
-    getBuilder("dust_bronze")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_bronze"));
-    getBuilder("dust_brass")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_brass"));
-    getBuilder("dust_constantan")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_constantan"));
-    getBuilder("dust_electrum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_electrum"));
-    getBuilder("dust_steel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_steel"));
     getBuilder("dust_charcoal")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_charcoal"));
-    getBuilder("dust_coal")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_coal"));
-    getBuilder("dust_diamond")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_diamond"));
-    getBuilder("dust_emerald")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_emerald"));
-    getBuilder("dust_gold")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_gold"));
-    getBuilder("dust_iron")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_iron"));
-    getBuilder("dust_lapis")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_lapis"));
     getBuilder("dust_obsidian")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_obsidian"));
-    getBuilder("dust_quartz")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_quartz"));
-    getBuilder("dust_certus_quartz")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_certus_quartz"));
-    getBuilder("dust_fluix")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_fluix"));
     getBuilder("dust_ender")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_ender"));
@@ -228,76 +67,9 @@ public class ItemModelsGen extends ItemModelProvider {
     getBuilder("dust_sulfur")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_sulfur"));
-    getBuilder("dust_fluorite")
+    getBuilder("dust_quartz")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_fluorite"));
-
-    // Gems
-    getBuilder("gem_certus_quartz")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_certus_quartz"));
-    getBuilder("gem_charged_certus_quartz")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_charged_certus_quartz"));
-    getBuilder("gem_fluix")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_fluix"));
-    getBuilder("gem_fluorite")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_fluorite"));
-
-    // Plates
-    getBuilder("plate_copper")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_copper"));
-    getBuilder("plate_aluminum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_aluminum"));
-    getBuilder("plate_silver")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_silver"));
-    getBuilder("plate_lead")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_lead"));
-    getBuilder("plate_nickel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_nickel"));
-    getBuilder("plate_uranium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_uranium"));
-    getBuilder("plate_osmium")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_osmium"));
-    getBuilder("plate_tin")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_tin"));
-    getBuilder("plate_zinc")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_zinc"));
-    getBuilder("plate_bronze")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_bronze"));
-    getBuilder("plate_brass")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_brass"));
-    getBuilder("plate_constantan")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_constantan"));
-    getBuilder("plate_electrum")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_electrum"));
-    getBuilder("plate_steel")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_steel"));
-    getBuilder("plate_gold")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_gold"));
-    getBuilder("plate_iron")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_iron"));
-    getBuilder("plate_lapis")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_lapis"));
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_quartz"));
 
     // Chunks
     getBuilder("chunk_coal")
@@ -360,36 +132,71 @@ public class ItemModelsGen extends ItemModelProvider {
     getBuilder("chunk_fluorite")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/chunk_fluorite"));
+    getBuilder("chunk_bitumen")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/chunk_bitumen"));
 
-    // Block Items
-    withExistingParent(BlockHandler.BLOCK_COPPER.getId().getPath(), modLoc("block_copper"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_copper")));
-    withExistingParent(BlockHandler.BLOCK_ALUMINUM.getId().getPath(), modLoc("block_aluminum"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_aluminum")));
-    withExistingParent(BlockHandler.BLOCK_SILVER.getId().getPath(), modLoc("block_silver"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_silver")));
-    withExistingParent(BlockHandler.BLOCK_LEAD.getId().getPath(), modLoc("block_lead"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_lead")));
-    withExistingParent(BlockHandler.BLOCK_NICKEL.getId().getPath(), modLoc("block_nickel"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_nickel")));
-    withExistingParent(BlockHandler.BLOCK_URANIUM.getId().getPath(), modLoc("block_uranium"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_uranium")));
-    withExistingParent(BlockHandler.BLOCK_OSMIUM.getId().getPath(), modLoc("block_osmium"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_osmium")));
-    withExistingParent(BlockHandler.BLOCK_TIN.getId().getPath(), modLoc("block_tin"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_tin")));
-    withExistingParent(BlockHandler.BLOCK_ZINC.getId().getPath(), modLoc("block_zinc"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_zinc")));
-    withExistingParent(BlockHandler.BLOCK_BRONZE.getId().getPath(), modLoc("block_bronze"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_bronze")));
-    withExistingParent(BlockHandler.BLOCK_BRASS.getId().getPath(), modLoc("block_brass"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_brass")));
-    withExistingParent(BlockHandler.BLOCK_CONSTANTAN.getId().getPath(), modLoc("block_constantan"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_constantan")));
-    withExistingParent(BlockHandler.BLOCK_ELECTRUM.getId().getPath(), modLoc("block_electrum"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_electrum")));
-    withExistingParent(BlockHandler.BLOCK_STEEL.getId().getPath(), modLoc("block_steel"))
-            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_steel")));
+    // Gems
+    getBuilder("gem_certus_quartz")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_certus_quartz"));
+    getBuilder("gem_charged_certus_quartz")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_charged_certus_quartz"));
+    getBuilder("gem_fluix")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_fluix"));
+    getBuilder("gem_fluorite")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_fluorite"));
+    getBuilder("gem_bitumen")
+            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_bitumen"));
+
+    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
+      for (Materials material : Materials.values()) {
+        // Storage Blocks Items
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+          withExistingParent(BlockHandler.storageBlockTable.get().get(processedMaterial, material).getId().getPath(), modLoc("block_" + material.id))
+                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_" + material.id)));
+        }
+
+        // Ingots
+        if (processedMaterial == ProcessedMaterials.INGOT && !material.isGem() && !material.isVanilla()) {
+          getBuilder("ingot_" + material.id)
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_" + material.id));
+        }
+
+        /*// Gems
+        if (processedMaterial == ProcessedMaterials.GEM && material.isGem() && !material.isVanilla()) {
+          withExistingParent(ItemHandler.itemTable.get().get(processedMaterial, material).getId().getPath(), modLoc("gem_" + material.id))
+                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "item/gem_" + material.id)));
+        }*/
+
+        // Nuggets
+        if (processedMaterial == ProcessedMaterials.NUGGET && !material.isGem() && !material.isVanilla()) {
+          getBuilder("nugget_" + material.id)
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_" + material.id));
+        }
+
+        // Dusts
+        if (processedMaterial == ProcessedMaterials.DUST && material != Materials.REDSTONE && material != Materials.BITUMEN && material != Materials.CHARGED_CERTUS_QUARTZ) {
+          getBuilder("dust_" + material.id)
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_" + material.id));
+        }
+
+        // Plates
+        if (processedMaterial == ProcessedMaterials.PLATE && material != Materials.REDSTONE && material != Materials.COAL && !material.isGem()) {
+          getBuilder("plate_" + material.id)
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_" + material.id));
+        }
+
+      }
+    }
 
     // Ore Items
     for (Strata stratum : Strata.values()) {
@@ -399,6 +206,10 @@ public class ItemModelsGen extends ItemModelProvider {
 
       }
     }
+  }
+
+  public static String getModelName(Strata stratum, Ores ore) {
+    return "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
   }
 
   @Override

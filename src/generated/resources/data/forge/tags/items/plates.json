@@ -15,8 +15,10 @@
     "emendatusenigmatica:plate_constantan",
     "emendatusenigmatica:plate_electrum",
     "emendatusenigmatica:plate_steel",
-    "emendatusenigmatica:plate_gold",
     "emendatusenigmatica:plate_iron",
+    "emendatusenigmatica:plate_gold",
+    "emendatusenigmatica:plate_diamond",
+    "emendatusenigmatica:plate_emerald",
     "emendatusenigmatica:plate_lapis"
   ]
 }

@@ -26,9 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
@@ -46,20 +44,17 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
   protected void registerStatesAndModels() {
 
     // Storage Blocks
-    simpleBlock(BlockHandler.BLOCK_COPPER.get(), models().cubeAll("block_copper", new ResourceLocation(Reference.MOD_ID, "blocks/block_copper")));
-    simpleBlock(BlockHandler.BLOCK_ALUMINUM.get(), models().cubeAll("block_aluminum", new ResourceLocation(Reference.MOD_ID, "blocks/block_aluminum")));
-    simpleBlock(BlockHandler.BLOCK_SILVER.get(), models().cubeAll("block_silver", new ResourceLocation(Reference.MOD_ID, "blocks/block_silver")));
-    simpleBlock(BlockHandler.BLOCK_LEAD.get(), models().cubeAll("block_lead", new ResourceLocation(Reference.MOD_ID, "blocks/block_lead")));
-    simpleBlock(BlockHandler.BLOCK_NICKEL.get(), models().cubeAll("block_nickel", new ResourceLocation(Reference.MOD_ID, "blocks/block_nickel")));
-    simpleBlock(BlockHandler.BLOCK_URANIUM.get(), models().cubeAll("block_uranium", new ResourceLocation(Reference.MOD_ID, "blocks/block_uranium")));
-    simpleBlock(BlockHandler.BLOCK_OSMIUM.get(), models().cubeAll("block_osmium", new ResourceLocation(Reference.MOD_ID, "blocks/block_osmium")));
-    simpleBlock(BlockHandler.BLOCK_TIN.get(), models().cubeAll("block_tin", new ResourceLocation(Reference.MOD_ID, "blocks/block_tin")));
-    simpleBlock(BlockHandler.BLOCK_ZINC.get(), models().cubeAll("block_zinc", new ResourceLocation(Reference.MOD_ID, "blocks/block_zinc")));
-    simpleBlock(BlockHandler.BLOCK_BRONZE.get(), models().cubeAll("block_bronze", new ResourceLocation(Reference.MOD_ID, "blocks/block_bronze")));
-    simpleBlock(BlockHandler.BLOCK_BRASS.get(), models().cubeAll("block_brass", new ResourceLocation(Reference.MOD_ID, "blocks/block_brass")));
-    simpleBlock(BlockHandler.BLOCK_CONSTANTAN.get(), models().cubeAll("block_constantan", new ResourceLocation(Reference.MOD_ID, "blocks/block_constantan")));
-    simpleBlock(BlockHandler.BLOCK_ELECTRUM.get(), models().cubeAll("block_electrum", new ResourceLocation(Reference.MOD_ID, "blocks/block_electrum")));
-    simpleBlock(BlockHandler.BLOCK_STEEL.get(), models().cubeAll("block_steel", new ResourceLocation(Reference.MOD_ID, "blocks/block_steel")));
+    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
+      for (Materials material : Materials.values()) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+          Block block = BlockHandler.storageBlockTable.get().get(processedMaterial, material).get();
+          ResourceLocation loc = block.getRegistryName();
+          simpleBlock(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(),
+                  models().cubeAll("block_" + material.id,
+                          new ResourceLocation(Reference.MOD_ID, "blocks/block_" + material.id)));
+        }
+      }
+    }
 
     // Ores
     for (Strata stratum : Strata.values()) {
@@ -74,10 +69,6 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
 
   public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
     models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/cube_overlayered"))).texture("base", baseTexture).texture("overlay", overlayTexture);
-  }
-
-  public static String getModelName(Strata stratum, Ores ore) {
-    return "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
   }
 
   public static String getBaseTexture(Strata stratum) {

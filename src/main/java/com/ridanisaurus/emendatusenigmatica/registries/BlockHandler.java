@@ -24,35 +24,39 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries;
 
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockBase;
+import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.blocks.EnigmaticExchanger;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 public class BlockHandler {
 
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
-  //Blocks
-  public static final RegistryObject<Block> BLOCK_COPPER = BLOCKS.register("block_copper", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_ALUMINUM = BLOCKS.register("block_aluminum", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_SILVER = BLOCKS.register("block_silver", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_LEAD = BLOCKS.register("block_lead", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_NICKEL = BLOCKS.register("block_nickel", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_URANIUM = BLOCKS.register("block_uranium", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_OSMIUM = BLOCKS.register("block_osmium", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_TIN = BLOCKS.register("block_tin", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_ZINC = BLOCKS.register("block_zinc", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_BRONZE = BLOCKS.register("block_bronze", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_BRASS = BLOCKS.register("block_brass", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_CONSTANTAN = BLOCKS.register("block_constantan", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_ELECTRUM = BLOCKS.register("block_electrum", BlockBase::new);
-  public static final RegistryObject<Block> BLOCK_STEEL = BLOCKS.register("block_steel", BlockBase::new);
+  // Storage Blocks
+  private static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
+  public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
 
-  //Machines
+  public static void blockInit() {
+    ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
+    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
+      for (Materials material : Materials.values()) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+            String blockName = "block_" + material.id;
+            builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
+        }
+      }
+    }
+    backingStorageBlockTable = builder.build();
+  }
+
+  // Machines
   public static final RegistryObject<Block> ENIGMATIC_EXCHANGER = BLOCKS.register("enigmatic_exchanger", EnigmaticExchanger::new);
-
 }

@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -42,183 +43,24 @@ public class ItemTagsGen extends ItemTagsProvider {
 
   @Override
   protected void registerTags() {
-    // Ingots
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots").toString()))
-            .add(ItemHandler.INGOT_COPPER.get())
-            .add(ItemHandler.INGOT_ALUMINUM.get())
-            .add(ItemHandler.INGOT_SILVER.get())
-            .add(ItemHandler.INGOT_LEAD.get())
-            .add(ItemHandler.INGOT_NICKEL.get())
-            .add(ItemHandler.INGOT_URANIUM.get())
-            .add(ItemHandler.INGOT_OSMIUM.get())
-            .add(ItemHandler.INGOT_TIN.get())
-            .add(ItemHandler.INGOT_ZINC.get())
-            .add(ItemHandler.INGOT_BRONZE.get())
-            .add(ItemHandler.INGOT_BRASS.get())
-            .add(ItemHandler.INGOT_CONSTANTAN.get())
-            .add(ItemHandler.INGOT_ELECTRUM.get())
-            .add(ItemHandler.INGOT_STEEL.get());
-
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/copper").toString()))
-            .add(ItemHandler.INGOT_COPPER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/aluminum").toString()))
-            .add(ItemHandler.INGOT_ALUMINUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/silver").toString()))
-            .add(ItemHandler.INGOT_SILVER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/lead").toString()))
-            .add(ItemHandler.INGOT_LEAD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/nickel").toString()))
-            .add(ItemHandler.INGOT_NICKEL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/uranium").toString()))
-            .add(ItemHandler.INGOT_URANIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/osmium").toString()))
-            .add(ItemHandler.INGOT_OSMIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/tin").toString()))
-            .add(ItemHandler.INGOT_TIN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/zinc").toString()))
-            .add(ItemHandler.INGOT_ZINC.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/bronze").toString()))
-            .add(ItemHandler.INGOT_BRONZE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/brass").toString()))
-            .add(ItemHandler.INGOT_BRASS.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/constantan").toString()))
-            .add(ItemHandler.INGOT_CONSTANTAN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/electrum").toString()))
-            .add(ItemHandler.INGOT_ELECTRUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/steel").toString()))
-            .add(ItemHandler.INGOT_STEEL.get());
-
-    // Nuggets
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets").toString()))
-            .add(ItemHandler.NUGGET_COPPER.get())
-            .add(ItemHandler.NUGGET_ALUMINUM.get())
-            .add(ItemHandler.NUGGET_SILVER.get())
-            .add(ItemHandler.NUGGET_LEAD.get())
-            .add(ItemHandler.NUGGET_NICKEL.get())
-            .add(ItemHandler.NUGGET_URANIUM.get())
-            .add(ItemHandler.NUGGET_OSMIUM.get())
-            .add(ItemHandler.NUGGET_TIN.get())
-            .add(ItemHandler.NUGGET_ZINC.get())
-            .add(ItemHandler.NUGGET_BRONZE.get())
-            .add(ItemHandler.NUGGET_BRASS.get())
-            .add(ItemHandler.NUGGET_CONSTANTAN.get())
-            .add(ItemHandler.NUGGET_ELECTRUM.get())
-            .add(ItemHandler.NUGGET_STEEL.get());
-
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/copper").toString()))
-            .add(ItemHandler.NUGGET_COPPER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/aluminum").toString()))
-            .add(ItemHandler.NUGGET_ALUMINUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/silver").toString()))
-            .add(ItemHandler.NUGGET_SILVER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/lead").toString()))
-            .add(ItemHandler.NUGGET_LEAD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/nickel").toString()))
-            .add(ItemHandler.NUGGET_NICKEL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/uranium").toString()))
-            .add(ItemHandler.NUGGET_URANIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/osmium").toString()))
-            .add(ItemHandler.NUGGET_OSMIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/tin").toString()))
-            .add(ItemHandler.NUGGET_TIN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/zinc").toString()))
-            .add(ItemHandler.NUGGET_ZINC.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/bronze").toString()))
-            .add(ItemHandler.NUGGET_BRONZE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/brass").toString()))
-            .add(ItemHandler.NUGGET_BRASS.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/constantan").toString()))
-            .add(ItemHandler.NUGGET_CONSTANTAN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/electrum").toString()))
-            .add(ItemHandler.NUGGET_ELECTRUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/steel").toString()))
-            .add(ItemHandler.NUGGET_STEEL.get());
-
     // Dusts
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()))
-            .add(ItemHandler.DUST_COPPER.get())
-            .add(ItemHandler.DUST_ALUMINUM.get())
-            .add(ItemHandler.DUST_SILVER.get())
-            .add(ItemHandler.DUST_LEAD.get())
-            .add(ItemHandler.DUST_NICKEL.get())
-            .add(ItemHandler.DUST_URANIUM.get())
-            .add(ItemHandler.DUST_OSMIUM.get())
-            .add(ItemHandler.DUST_TIN.get())
-            .add(ItemHandler.DUST_ZINC.get())
-            .add(ItemHandler.DUST_BRONZE.get())
-            .add(ItemHandler.DUST_BRASS.get())
-            .add(ItemHandler.DUST_CONSTANTAN.get())
-            .add(ItemHandler.DUST_ELECTRUM.get())
-            .add(ItemHandler.DUST_STEEL.get())
             .add(ItemHandler.DUST_CHARCOAL.get())
-            .add(ItemHandler.DUST_COAL.get())
-            .add(ItemHandler.DUST_DIAMOND.get())
-            .add(ItemHandler.DUST_EMERALD.get())
-            .add(ItemHandler.DUST_GOLD.get())
-            .add(ItemHandler.DUST_IRON.get())
-            .add(ItemHandler.DUST_LAPIS.get())
             .add(ItemHandler.DUST_OBSIDIAN.get())
             .add(ItemHandler.DUST_QUARTZ.get())
-            .add(ItemHandler.DUST_CERTUS_QUARTZ.get())
-            .add(ItemHandler.DUST_FLUIX.get())
             .add(ItemHandler.DUST_ENDER.get())
             .add(ItemHandler.DUST_COKE.get())
             .add(ItemHandler.DUST_GRAPHITE.get())
             .add(ItemHandler.DUST_LITHIUM.get())
             .add(ItemHandler.DUST_SALTPETER.get())
-            .add(ItemHandler.DUST_SULFUR.get())
-            .add(ItemHandler.DUST_FLUORITE.get());
+            .add(ItemHandler.DUST_SULFUR.get());
 
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/copper").toString()))
-            .add(ItemHandler.DUST_COPPER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/aluminum").toString()))
-            .add(ItemHandler.DUST_ALUMINUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/silver").toString()))
-            .add(ItemHandler.DUST_SILVER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/lead").toString()))
-            .add(ItemHandler.DUST_LEAD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/nickel").toString()))
-            .add(ItemHandler.DUST_NICKEL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/uranium").toString()))
-            .add(ItemHandler.DUST_URANIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/osmium").toString()))
-            .add(ItemHandler.DUST_OSMIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/tin").toString()))
-            .add(ItemHandler.DUST_TIN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/zinc").toString()))
-            .add(ItemHandler.DUST_ZINC.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/bronze").toString()))
-            .add(ItemHandler.DUST_BRONZE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/brass").toString()))
-            .add(ItemHandler.DUST_BRASS.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/constantan").toString()))
-            .add(ItemHandler.DUST_CONSTANTAN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/electrum").toString()))
-            .add(ItemHandler.DUST_ELECTRUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/steel").toString()))
-            .add(ItemHandler.DUST_STEEL.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/charcoal").toString()))
             .add(ItemHandler.DUST_CHARCOAL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coal").toString()))
-            .add(ItemHandler.DUST_COAL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/diamond").toString()))
-            .add(ItemHandler.DUST_DIAMOND.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/emerald").toString()))
-            .add(ItemHandler.DUST_EMERALD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/gold").toString()))
-            .add(ItemHandler.DUST_GOLD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/iron").toString()))
-            .add(ItemHandler.DUST_IRON.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/lapis").toString()))
-            .add(ItemHandler.DUST_LAPIS.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/obsidian").toString()))
             .add(ItemHandler.DUST_OBSIDIAN.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/quartz").toString()))
             .add(ItemHandler.DUST_QUARTZ.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/certus_quartz").toString()))
-            .add(ItemHandler.DUST_CERTUS_QUARTZ.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/fluix").toString()))
-            .add(ItemHandler.DUST_FLUIX.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender").toString()))
             .add(ItemHandler.DUST_ENDER.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coke").toString()))
@@ -231,8 +73,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_SALTPETER.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/sulfur").toString()))
             .add(ItemHandler.DUST_SULFUR.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/fluorite").toString()))
-            .add(ItemHandler.DUST_FLUORITE.get());
 
     // Gems
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()))
@@ -253,61 +93,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.GEM_FLUIX.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/fluorite").toString()))
             .add(ItemHandler.GEM_FLUORITE.get());
-
-    // Plates
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()))
-            .add(ItemHandler.PLATE_COPPER.get())
-            .add(ItemHandler.PLATE_ALUMINUM.get())
-            .add(ItemHandler.PLATE_SILVER.get())
-            .add(ItemHandler.PLATE_LEAD.get())
-            .add(ItemHandler.PLATE_NICKEL.get())
-            .add(ItemHandler.PLATE_URANIUM.get())
-            .add(ItemHandler.PLATE_OSMIUM.get())
-            .add(ItemHandler.PLATE_TIN.get())
-            .add(ItemHandler.PLATE_ZINC.get())
-            .add(ItemHandler.PLATE_BRONZE.get())
-            .add(ItemHandler.PLATE_BRASS.get())
-            .add(ItemHandler.PLATE_CONSTANTAN.get())
-            .add(ItemHandler.PLATE_ELECTRUM.get())
-            .add(ItemHandler.PLATE_STEEL.get())
-            .add(ItemHandler.PLATE_GOLD.get())
-            .add(ItemHandler.PLATE_IRON.get())
-            .add(ItemHandler.PLATE_LAPIS.get());
-
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/copper").toString()))
-            .add(ItemHandler.PLATE_COPPER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/aluminum").toString()))
-            .add(ItemHandler.PLATE_ALUMINUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/silver").toString()))
-            .add(ItemHandler.PLATE_SILVER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/lead").toString()))
-            .add(ItemHandler.PLATE_LEAD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/nickel").toString()))
-            .add(ItemHandler.PLATE_NICKEL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/uranium").toString()))
-            .add(ItemHandler.PLATE_URANIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/osmium").toString()))
-            .add(ItemHandler.PLATE_OSMIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/tin").toString()))
-            .add(ItemHandler.PLATE_TIN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/zinc").toString()))
-            .add(ItemHandler.PLATE_ZINC.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/bronze").toString()))
-            .add(ItemHandler.PLATE_BRONZE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/brass").toString()))
-            .add(ItemHandler.PLATE_BRASS.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/constantan").toString()))
-            .add(ItemHandler.PLATE_CONSTANTAN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/electrum").toString()))
-            .add(ItemHandler.PLATE_ELECTRUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/steel").toString()))
-            .add(ItemHandler.PLATE_STEEL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/gold").toString()))
-            .add(ItemHandler.PLATE_GOLD.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/iron").toString()))
-            .add(ItemHandler.PLATE_IRON.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/lapis").toString()))
-            .add(ItemHandler.PLATE_LAPIS.get());
 
     // Chunks
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()))
@@ -370,51 +155,58 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/fluorite").toString()))
             .add(ItemHandler.CHUNK_FLUORITE.get());
 
-    // Block Items
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()))
-            .add(ItemHandler.BLOCK_COPPER_ITEM.get())
-            .add(ItemHandler.BLOCK_ALUMINUM_ITEM.get())
-            .add(ItemHandler.BLOCK_SILVER_ITEM.get())
-            .add(ItemHandler.BLOCK_LEAD_ITEM.get())
-            .add(ItemHandler.BLOCK_NICKEL_ITEM.get())
-            .add(ItemHandler.BLOCK_URANIUM_ITEM.get())
-            .add(ItemHandler.BLOCK_OSMIUM_ITEM.get())
-            .add(ItemHandler.BLOCK_TIN_ITEM.get())
-            .add(ItemHandler.BLOCK_ZINC_ITEM.get())
-            .add(ItemHandler.BLOCK_BRONZE_ITEM.get())
-            .add(ItemHandler.BLOCK_BRASS_ITEM.get())
-            .add(ItemHandler.BLOCK_CONSTANTAN_ITEM.get())
-            .add(ItemHandler.BLOCK_ELECTRUM_ITEM.get())
-            .add(ItemHandler.BLOCK_STEEL_ITEM.get());
+    // Forge Tags
+    Builder<Item> forgeBlocks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
+    Builder<Item> forgeIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots").toString()));
+    //Builder<Item> forgeGems = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()));
+    Builder<Item> forgeNuggets = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets").toString()));
+    Builder<Item> forgeDusts = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()));
+    Builder<Item> forgePlates = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
 
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/copper").toString()))
-            .add(ItemHandler.BLOCK_COPPER_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/aluminum").toString()))
-            .add(ItemHandler.BLOCK_ALUMINUM_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/silver").toString()))
-            .add(ItemHandler.BLOCK_SILVER_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/lead").toString()))
-            .add(ItemHandler.BLOCK_LEAD_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/nickel").toString()))
-            .add(ItemHandler.BLOCK_NICKEL_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/uranium").toString()))
-            .add(ItemHandler.BLOCK_URANIUM_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/osmium").toString()))
-            .add(ItemHandler.BLOCK_OSMIUM_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/tin").toString()))
-            .add(ItemHandler.BLOCK_TIN_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/zinc").toString()))
-            .add(ItemHandler.BLOCK_ZINC_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/bronze").toString()))
-            .add(ItemHandler.BLOCK_BRONZE_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/brass").toString()))
-            .add(ItemHandler.BLOCK_BRASS_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/constantan").toString()))
-            .add(ItemHandler.BLOCK_CONSTANTAN_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/electrum").toString()))
-            .add(ItemHandler.BLOCK_ELECTRUM_ITEM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/steel").toString()))
-            .add(ItemHandler.BLOCK_STEEL_ITEM.get());
+    Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
+
+    // Storage Block Items
+    ItemHandler.itemTable.get().row(ProcessedMaterials.STORAGE_BLOCK).forEach((mat, storageBlock) -> {
+      forgeBlocks.add(storageBlock.get());
+      Builder<Item> blockTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + mat.id).toString()));
+      blockTag.add(storageBlock.get());
+    });
+
+    // Ingots
+    ItemHandler.itemTable.get().row(ProcessedMaterials.INGOT).forEach((mat, ingot) -> {
+      forgeIngots.add(ingot.get());
+      beaconIngots.add(ingot.get());
+      Builder<Item> ingotTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/" + mat.id).toString()));
+      ingotTag.add(ingot.get());
+    });
+
+    /*// Gems
+    ItemHandler.itemTable.get().row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
+      forgeGems.add(gem.get());
+      Builder<Item> gemTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
+      gemTag.add(gem.get());
+    });*/
+
+    // Nuggets
+    ItemHandler.itemTable.get().row(ProcessedMaterials.NUGGET).forEach((mat, nugget) -> {
+      forgeNuggets.add(nugget.get());
+      Builder<Item> nuggetTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/" + mat.id).toString()));
+      nuggetTag.add(nugget.get());
+    });
+
+    // Dusts
+    ItemHandler.itemTable.get().row(ProcessedMaterials.DUST).forEach((mat, dust) -> {
+      forgeDusts.add(dust.get());
+      Builder<Item> dustTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/" + mat.id).toString()));
+      dustTag.add(dust.get());
+    });
+
+    // Plates
+    ItemHandler.itemTable.get().row(ProcessedMaterials.PLATE).forEach((mat, plate) -> {
+      forgePlates.add(plate.get());
+      Builder<Item> plateTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/" + mat.id).toString()));
+      plateTag.add(plate.get());
+    });
 
     // Ore Items
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
@@ -431,24 +223,7 @@ public class ItemTagsGen extends ItemTagsProvider {
       oreTag.add(ore.chunk.get());
     }
 
-    // Minecraft Additional Tags
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()))
-            .add(ItemHandler.INGOT_COPPER.get())
-            .add(ItemHandler.INGOT_ALUMINUM.get())
-            .add(ItemHandler.INGOT_SILVER.get())
-            .add(ItemHandler.INGOT_LEAD.get())
-            .add(ItemHandler.INGOT_NICKEL.get())
-            .add(ItemHandler.INGOT_URANIUM.get())
-            .add(ItemHandler.INGOT_OSMIUM.get())
-            .add(ItemHandler.INGOT_TIN.get())
-            .add(ItemHandler.INGOT_ZINC.get())
-            .add(ItemHandler.INGOT_BRONZE.get())
-            .add(ItemHandler.INGOT_BRASS.get())
-            .add(ItemHandler.INGOT_CONSTANTAN.get())
-            .add(ItemHandler.INGOT_ELECTRUM.get())
-            .add(ItemHandler.INGOT_STEEL.get());
-
-    // AE2 Additional Tags
+    /*// AE2 Additional Tags
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))
             .add(ItemHandler.DUST_CERTUS_QUARTZ.get())
             .add(ItemHandler.DUST_QUARTZ.get());
@@ -474,6 +249,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ.get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/fluix").toString()))
-            .add(ItemHandler.GEM_FLUIX.get());
+            .add(ItemHandler.GEM_FLUIX.get());*/
   }
 }

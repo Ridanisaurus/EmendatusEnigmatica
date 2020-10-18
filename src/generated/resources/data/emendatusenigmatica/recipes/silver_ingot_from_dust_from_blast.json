@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:dust_silver"
-  },
-  "result": "emendatusenigmatica:ingot_silver",
-  "experience": 0.7,
-  "cookingtime": 100
-}

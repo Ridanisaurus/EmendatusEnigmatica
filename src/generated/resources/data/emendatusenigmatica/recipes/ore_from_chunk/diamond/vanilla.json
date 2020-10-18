@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:chunk_diamond"
-  },
-  "result": "minecraft:diamond_ore",
-  "count": 1
-}

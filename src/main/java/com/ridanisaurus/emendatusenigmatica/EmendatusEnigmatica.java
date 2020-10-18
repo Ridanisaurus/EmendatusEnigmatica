@@ -29,6 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.TooltipTags;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
@@ -61,7 +62,10 @@ public class EmendatusEnigmatica {
         OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupOres);
+        TooltipTags handler = new TooltipTags();
+        MinecraftForge.EVENT_BUS.register(handler);
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register World Gen Config
@@ -76,9 +80,12 @@ public class EmendatusEnigmatica {
         WorldGenHandler.addEEOres(event.getGeneration());
     }
 
-    private void setupOres(final FMLConstructModEvent event) {
+    private void init(final FMLConstructModEvent event) {
         OreHandler.oreBlocks();
         ItemHandler.oreItems();
+
+        BlockHandler.blockInit();
+        ItemHandler.itemInit();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

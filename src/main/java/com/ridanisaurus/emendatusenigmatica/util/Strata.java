@@ -23,6 +23,9 @@ public enum Strata {
   QUARK_SLATE("quark_slate", "emendatusenigmatica:blocks/strata/quark_slate",  "slate", new ResourceLocation("quark:slate"), "Slate"),
   ;
 
+  //create:block/palettes/gabbro/plain
+  //emendatusenigmatica:blocks/strata/create_gabbro
+
   public final String id;
   public final String baseTexture;
   public final String suffix;

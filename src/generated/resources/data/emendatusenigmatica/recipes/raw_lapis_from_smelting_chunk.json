@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "emendatusenigmatica:chunk_lapis"
-  },
-  "result": "minecraft:lapis_lazuli",
-  "experience": 0.7,
-  "cookingtime": 200
-}

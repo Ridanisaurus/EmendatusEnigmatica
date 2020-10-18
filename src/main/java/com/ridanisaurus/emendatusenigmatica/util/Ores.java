@@ -33,7 +33,7 @@ public enum Ores {
   CERTUS_QUARTZ("certus_quartz", "Certus Quartz", OreCertusQuartz::new, ItemHandler.CHUNK_CERTUS_QUARTZ, drop(ItemHandler.GEM_CERTUS_QUARTZ), 8, 16, 0, 64),
   CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", OreChargedCertusQuartz::new, ItemHandler.CHUNK_CHARGED_CERTUS_QUARTZ, drop(ItemHandler.GEM_CHARGED_CERTUS_QUARTZ), 4, 8, 0, 32),
   FLUORITE("fluorite", "Fluorite", OreFluorite::new, ItemHandler.CHUNK_FLUORITE, drop(ItemHandler.GEM_FLUORITE, 2, 4), 12, 6, 0, 32),
-  ;
+  BITUMEN("bitumen", "Bitumen", OreBitumen::new, ItemHandler.CHUNK_BITUMEN, drop(ItemHandler.GEM_BITUMEN, 2, 6), 18, 25, 40, 160);
 
   public final String id;
   public final Supplier<OreBlock> block;
