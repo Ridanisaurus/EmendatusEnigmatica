@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emendatusenigmatica:gem_fluorite"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:block_fluorite"
+  }
+}

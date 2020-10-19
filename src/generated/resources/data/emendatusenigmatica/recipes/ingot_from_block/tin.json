@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:block_tin"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ingot_tin",
+    "count": 9
+  }
+}

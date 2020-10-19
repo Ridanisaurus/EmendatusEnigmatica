@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_lead"
+  },
+  "result": "emendatusenigmatica:ingot_lead",
+  "experience": 0.7,
+  "cookingtime": 100
+}

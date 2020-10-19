@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "emendatusenigmatica:ore_aluminum"
+  },
+  "result": "emendatusenigmatica:ingot_aluminum",
+  "experience": 0.7,
+  "cookingtime": 200
+}

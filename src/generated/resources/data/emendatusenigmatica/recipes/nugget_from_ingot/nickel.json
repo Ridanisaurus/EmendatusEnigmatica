@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_nickel"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_nickel",
+    "count": 9
+  }
+}

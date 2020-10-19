@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "emendatusenigmatica:nugget_osmium"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:ingot_osmium"
+  }
+}

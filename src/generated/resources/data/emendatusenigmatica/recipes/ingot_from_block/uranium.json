@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:block_uranium"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ingot_uranium",
+    "count": 9
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_nickel"
+  },
+  "result": "emendatusenigmatica:ore_nickel_andesite",
+  "count": 1
+}

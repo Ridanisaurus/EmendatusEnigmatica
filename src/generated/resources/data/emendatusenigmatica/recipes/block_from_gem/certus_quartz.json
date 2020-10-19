@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "emendatusenigmatica:gem_certus_quartz"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:block_certus_quartz"
+  }
+}

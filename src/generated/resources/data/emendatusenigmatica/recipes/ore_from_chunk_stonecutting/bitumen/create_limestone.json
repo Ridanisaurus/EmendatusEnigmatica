@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:chunk_bitumen"
+  },
+  "result": "emendatusenigmatica:ore_bitumen_c_limestone",
+  "count": 1
+}

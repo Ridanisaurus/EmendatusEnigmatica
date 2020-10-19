@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_lead"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_lead",
+    "count": 9
+  }
+}

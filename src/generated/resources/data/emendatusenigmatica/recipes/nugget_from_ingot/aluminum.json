@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_aluminum"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_aluminum",
+    "count": 9
+  }
+}

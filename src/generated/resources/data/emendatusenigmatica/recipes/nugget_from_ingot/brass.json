@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ingot_brass"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:nugget_brass",
+    "count": 9
+  }
+}

@@ -34,7 +34,7 @@ public enum Materials {
   CERTUS_QUARTZ("certus_quartz", "Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("CERTUS_QUARTZ")).get()), 8, 16, 0, 64),
   CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 4, 8, 0, 32),
   FLUIX("fluix", "Fluix Crystal", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, ItemBase::new, Source.MODDED),
-  FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 12, 6, 0, 32),
+  FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 12, 6, 0, 32),
   BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreBitumen::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 18, 25, 40, 160),
 
   BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY),
