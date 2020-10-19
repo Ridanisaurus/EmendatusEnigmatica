@@ -2,43 +2,46 @@ package com.ridanisaurus.emendatusenigmatica.util;
 
 import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public enum Materials {
 
-  COAL("coal", "Coal", BlockBase::new, OreCoal::new, ItemBase::new, Source.VANILLA, Type.INGOT, 17, 20, 0, 128),
-  IRON("iron", "Iron", BlockBase::new, OreIron::new, ItemBase::new, Source.VANILLA, Type.INGOT, 9,20, 0, 64),
-  GOLD("gold", "Gold", BlockBase::new, OreGold::new, ItemBase::new, Source.VANILLA, Type.INGOT, 9, 2, 0, 32),
-  DIAMOND("diamond", "Diamond", BlockBase::new, OreDiamond::new, ItemBase::new, Source.VANILLA, Type.GEM, 8, 1, 0, 16),
-  EMERALD("emerald", "Emerald", BlockBase::new, OreEmerald::new, ItemBase::new, Source.VANILLA, Type.GEM, 4, 1, 64, 128),
-  LAPIS("lapis", "Lapis Lazuli", BlockBase::new, OreLapis::new, ItemBase::new, Source.VANILLA, Type.GEM, 7, 2, 0, 16),
-  REDSTONE("redstone", "Redstone", BlockBase::new, OreRedstone::new, ItemBase::new, Source.VANILLA, Type.GEM, 8, 8, 0, 16),
+  COAL("coal", "Coal", new String[] {"Ore", "Chunk", "Dust"}, BlockBase::new, OreCoal::new, ItemBase::new, Source.VANILLA, drop(() -> Items.COAL),17, 20, 0, 128),
+  IRON("iron", "Iron", new String[] {"Ore", "Chunk", "Dust", "Plate"}, BlockBase::new, OreIron::new, ItemBase::new, Source.VANILLA,  9,20, 0, 64),
+  GOLD("gold", "Gold", new String[] {"Ore", "Chunk", "Dust", "Plate"}, BlockBase::new, OreGold::new, ItemBase::new, Source.VANILLA, 9, 2, 0, 32),
+  DIAMOND("diamond", "Diamond", new String[] {"Ore", "Chunk", "Dust", "Plate"}, BlockBase::new, OreDiamond::new, ItemBase::new, Source.VANILLA, drop(() -> Items.DIAMOND), 8, 1, 0, 16),
+  EMERALD("emerald", "Emerald", new String[] {"Ore", "Chunk", "Dust", "Plate"}, BlockBase::new, OreEmerald::new, ItemBase::new, Source.VANILLA, drop(() -> Items.EMERALD), 4, 1, 64, 128),
+  LAPIS("lapis", "Lapis Lazuli", new String[] {"Ore", "Chunk", "Dust", "Plate"}, BlockBase::new, OreLapis::new, ItemBase::new, Source.VANILLA, drop(() -> Items.LAPIS_LAZULI, 4, 9), 7, 2, 0, 16),
+  REDSTONE("redstone", "Redstone", new String[] {"Ore", "Chunk"}, BlockBase::new, OreRedstone::new, ItemBase::new, Source.VANILLA, drop(() -> Items.REDSTONE, 4, 5), 8, 8, 0, 16),
 
-  COPPER("copper", "Copper", BlockBase::new, OreCopper::new, ItemBase::new, Source.MODDED, Type.INGOT, 7, 20, 45, 60),
-  ALUMINUM("aluminum", "Aluminum", BlockBase::new, OreAluminum::new, ItemBase::new, Source.MODDED, Type.INGOT, 3, 8, 50, 70),
-  SILVER("silver", "Silver", BlockBase::new, OreSilver::new, ItemBase::new, Source.MODDED, Type.INGOT, 4, 8, 30, 38),
-  LEAD("lead", "Lead", BlockBase::new, OreLead::new, ItemBase::new, Source.MODDED, Type.INGOT, 3, 8, 32, 40),
-  NICKEL("nickel", "Nickel", BlockBase::new, OreNickel::new, ItemBase::new, Source.MODDED, Type.INGOT, 3, 8, 25, 40),
-  URANIUM("uranium", "Uranium", BlockBase::new, OreUranium::new, ItemBase::new, Source.MODDED, Type.INGOT, 3, 4, 5, 20),
-  OSMIUM("osmium", "Osmium", BlockBase::new, OreOsmium::new, ItemBase::new, Source.MODDED, Type.INGOT, 6, 20, 20, 45),
-  TIN("tin", "Tin", BlockBase::new, OreTin::new, ItemBase::new, Source.MODDED, Type.INGOT, 6, 20, 40, 55),
-  ZINC("zinc", "Zinc", BlockBase::new, OreZinc::new, ItemBase::new, Source.MODDED, Type.INGOT, 4, 8, 35, 50),
-  CERTUS_QUARTZ("certus_quartz", "Certus Quartz", BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, Type.GEM, 8, 16, 0, 64),
-  CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, Type.GEM, 4, 8, 0, 32),
-  FLUIX("fluix", "Fluix Crystal", BlockBase::new, ItemBase::new, Source.MODDED, Type.GEM),
-  FLUORITE("fluorite", "Fluorite", BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, Type.GEM, 12, 6, 0, 32),
-  BITUMEN("bitumen", "Bitumen", BlockBase::new, OreBitumen::new, ItemBase::new, Source.MODDED, Type.GEM, 18, 25, 40, 160),
+  COPPER("copper", "Copper", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreCopper::new, ItemBase::new, Source.MODDED, 7, 20, 45, 60),
+  ALUMINUM("aluminum", "Aluminum", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreAluminum::new, ItemBase::new, Source.MODDED, 3, 8, 50, 70),
+  SILVER("silver", "Silver", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreSilver::new, ItemBase::new, Source.MODDED, 4, 8, 30, 38),
+  LEAD("lead", "Lead", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreLead::new, ItemBase::new, Source.MODDED, 3, 8, 32, 40),
+  NICKEL("nickel", "Nickel", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreNickel::new, ItemBase::new, Source.MODDED, 3, 8, 25, 40),
+  URANIUM("uranium", "Uranium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreUranium::new, ItemBase::new, Source.MODDED, 3, 4, 5, 20),
+  OSMIUM("osmium", "Osmium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreOsmium::new, ItemBase::new, Source.MODDED, 6, 20, 20, 45),
+  TIN("tin", "Tin", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreTin::new, ItemBase::new, Source.MODDED, 6, 20, 40, 55),
+  ZINC("zinc", "Zinc", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate"}, BlockBase::new, OreZinc::new, ItemBase::new, Source.MODDED, 4, 8, 35, 50),
+  CERTUS_QUARTZ("certus_quartz", "Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("CERTUS_QUARTZ")).get()), 8, 16, 0, 64),
+  CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 4, 8, 0, 32),
+  FLUIX("fluix", "Fluix Crystal", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, ItemBase::new, Source.MODDED),
+  FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 12, 6, 0, 32),
+  BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreBitumen::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 18, 25, 40, 160),
 
-  BRONZE("bronze", "Bronze", BlockBase::new, ItemBase::new, Source.ALLOY, Type.INGOT),
-  BRASS("brass", "Brass", BlockBase::new, ItemBase::new, Source.ALLOY, Type.INGOT),
-  CONSTANTAN("constantan", "Constantan", BlockBase::new, ItemBase::new, Source.ALLOY, Type.INGOT),
-  ELECTRUM("electrum", "Electrum", BlockBase::new, ItemBase::new, Source.ALLOY, Type.INGOT),
-  STEEL("steel", "Steel", BlockBase::new, ItemBase::new, Source.ALLOY, Type.INGOT);
+  BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY),
+  BRASS("brass", "Brass", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY),
+  CONSTANTAN("constantan", "Constantan", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY),
+  ELECTRUM("electrum", "Electrum", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY),
+  STEEL("steel", "Steel", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate"}, BlockBase::new, ItemBase::new, Source.ALLOY);
 
   public final String id;
   public final String localisedName;
@@ -46,7 +49,6 @@ public enum Materials {
   public final Supplier<OreBlock> oreBlock;
   public final Supplier<Item> item;
   private final Source source;
-  private final Type type;
 
   public final OreDropInfo drop;
 
@@ -55,15 +57,15 @@ public enum Materials {
   public final int defaultMinY;
   public final int defaultMaxY;
 
+  public final String[] type;
 
-  Materials(String id, String localisedName, Supplier<Block> block, @Nullable Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, Type type, @Nullable OreDropInfo nonSilkDrop, int s, int c, int minY, int maxY) {
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, @Nullable Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, @Nullable OreDropInfo nonSilkDrop, int s, int c, int minY, int maxY) {
     this.id = id;
     this.localisedName = localisedName;
     this.block = block;
     this.oreBlock = oreBlock;
     this.item = item;
     this.source = source;
-    this.type = type;
 
     this.drop = nonSilkDrop;
 
@@ -71,14 +73,16 @@ public enum Materials {
     this.defaultCount = c;
     this.defaultMinY = minY;
     this.defaultMaxY = maxY;
+
+    this.type = type;
   }
 
-  Materials(String id, String localisedName, Supplier<Block> block, Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, Type type, int s, int c, int minY, int maxY) {
-    this(id, localisedName, block, oreBlock, item, source, type, null, s, c, minY, maxY);
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, int s, int c, int minY, int maxY) {
+    this(id, localisedName, type, block, oreBlock, item, source, null, s, c, minY, maxY);
   }
 
-  Materials(String id, String localisedName, Supplier<Block> block, Supplier<Item> item, Source source, Type type) {
-    this(id, localisedName, block, null, item, source, type, null, 0, 0, 0, 0);
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<Item> item, Source source) {
+    this(id, localisedName, type, block, null, item, source, null, 0, 0, 0, 0);
   }
 
   public boolean isVanilla() {
@@ -93,23 +97,10 @@ public enum Materials {
     return source == Source.ALLOY;
   }
 
-  public boolean isGem() {
-    return type == Type.GEM;
-  }
-
-  public boolean isIngot() {
-    return type == Type.INGOT;
-  }
-
   private enum Source {
     VANILLA,
     MODDED,
     ALLOY
-  }
-
-  private enum Type {
-    INGOT,
-    GEM
   }
 
   static OreDropInfo drop(Supplier<Item> item) {

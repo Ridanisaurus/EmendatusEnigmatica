@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "emendatusenigmatica:ore_diamond"
-  },
-  "result": "minecraft:diamond",
-  "experience": 0.7,
-  "cookingtime": 200
-}

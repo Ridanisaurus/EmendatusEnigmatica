@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.util.*;
@@ -34,6 +35,8 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -48,53 +51,47 @@ public class ItemHandler {
     ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
+        List<String> toCreate = Arrays.asList(material.type);
 
         //Storage Block Items
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           String storageBlockName = "block_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get())));
         }
-
         // Ingots
-        if (processedMaterial == ProcessedMaterials.INGOT && !material.isGem() && !material.isVanilla()) {
+        if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
           String ingotName = "ingot_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(ingotName, material.item));
         }
-
-        /*// Gems
-        if (processedMaterial == ProcessedMaterials.GEM && material.isGem() && !material.isVanilla()) {
+        // Gems
+        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
           String gemName = "gem_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(gemName, material.item));
-        }*/
-
+        }
         // Nuggets
-        if (processedMaterial == ProcessedMaterials.NUGGET && !material.isGem() && !material.isVanilla()) {
+        if (processedMaterial == ProcessedMaterials.NUGGET && toCreate.contains("Nugget")) {
           String nuggetName = "nugget_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(nuggetName, material.item));
         }
-
         // Dusts
-        if (processedMaterial == ProcessedMaterials.DUST && material != Materials.REDSTONE && material != Materials.BITUMEN && material != Materials.CHARGED_CERTUS_QUARTZ) {
+        if (processedMaterial == ProcessedMaterials.DUST && toCreate.contains("Dust")) {
           String dustName = "dust_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(dustName, material.item));
         }
-
         // Plates
-        if (processedMaterial == ProcessedMaterials.PLATE && material != Materials.REDSTONE && material != Materials.COAL && !material.isGem()) {
+        if (processedMaterial == ProcessedMaterials.PLATE && toCreate.contains("Plate")) {
           String plateName = "plate_" + material.id;
           builder.put(processedMaterial, material, ITEMS.register(plateName, material.item));
+        }
+        // Chunks
+        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
+          String chunkName = "chunk_" + material.id;
+          builder.put(processedMaterial, material, ITEMS.register(chunkName, material.item));
         }
       }
     }
     backingItemTable = builder.build();
   }
-
-  // Gems
-  public static final RegistryObject<Item> GEM_CERTUS_QUARTZ = ITEMS.register("gem_certus_quartz", ItemBase::new);
-  public static final RegistryObject<Item> GEM_CHARGED_CERTUS_QUARTZ = ITEMS.register("gem_charged_certus_quartz", ItemBase::new);
-  public static final RegistryObject<Item> GEM_FLUIX = ITEMS.register("gem_fluix", ItemBase::new);
-  public static final RegistryObject<Item> GEM_FLUORITE = ITEMS.register("gem_fluorite", ItemBase::new);
-  public static final RegistryObject<Item> GEM_BITUMEN = ITEMS.register("gem_bitumen", ItemBase::new);
 
   // Dusts
   public static final RegistryObject<Item> DUST_CHARCOAL = ITEMS.register("dust_charcoal", ItemBase::new);
@@ -107,38 +104,19 @@ public class ItemHandler {
   public static final RegistryObject<Item> DUST_SALTPETER = ITEMS.register("dust_saltpeter", ItemBase::new);
   public static final RegistryObject<Item> DUST_SULFUR = ITEMS.register("dust_sulfur", ItemBase::new);
 
-  //Ore Chunks
-  public static final RegistryObject<Item> CHUNK_COAL = ITEMS.register("chunk_coal", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_IRON = ITEMS.register("chunk_iron", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_GOLD = ITEMS.register("chunk_gold", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_DIAMOND = ITEMS.register("chunk_diamond", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_EMERALD = ITEMS.register("chunk_emerald", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_LAPIS = ITEMS.register("chunk_lapis", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_REDSTONE = ITEMS.register("chunk_redstone", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_COPPER = ITEMS.register("chunk_copper", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_ALUMINUM = ITEMS.register("chunk_aluminum", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_SILVER = ITEMS.register("chunk_silver", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_LEAD = ITEMS.register("chunk_lead", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_NICKEL = ITEMS.register("chunk_nickel", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_URANIUM = ITEMS.register("chunk_uranium", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_OSMIUM = ITEMS.register("chunk_osmium", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_TIN = ITEMS.register("chunk_tin", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_ZINC = ITEMS.register("chunk_zinc", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_CERTUS_QUARTZ = ITEMS.register("chunk_certus_quartz", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_CHARGED_CERTUS_QUARTZ = ITEMS.register("chunk_charged_certus_quartz", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_FLUORITE = ITEMS.register("chunk_fluorite", ItemBase::new);
-  public static final RegistryObject<Item> CHUNK_BITUMEN = ITEMS.register("chunk_bitumen", ItemBase::new);
-
   //Ore Items
-  private static Table<Strata, Ores, RegistryObject<Item>> backingOreItemTable;
-  public static final Supplier<Table<Strata, Ores, RegistryObject<Item>>> oreItemTable = () -> Optional.ofNullable(backingOreItemTable).orElse(ImmutableTable.of());
+  private static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;
+  public static final Supplier<Table<Strata, Materials, RegistryObject<Item>>> oreItemTable = () -> Optional.ofNullable(backingOreItemTable).orElse(ImmutableTable.of());
 
   public static void oreItems() {
-    ImmutableTable.Builder<Strata, Ores, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
-      for (Ores ore : Ores.values()) {
-        String oreName = "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
-        builder.put(stratum, ore, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.oreBlockTable.get().get(stratum, ore).get())));
+      for (Materials material : Materials.values()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (material.oreBlock != null && toCreate.contains("Ore")) {
+          String oreName = "ore_" + material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
+          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.oreBlockTable.get().get(stratum, material).get())));
+        }
       }
     }
     backingOreItemTable = builder.build();

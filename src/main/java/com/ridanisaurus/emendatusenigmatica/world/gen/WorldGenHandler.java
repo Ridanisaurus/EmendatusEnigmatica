@@ -30,7 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig.OreConfigs.BakedOreProps;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.GenerationStage;
@@ -51,26 +51,28 @@ import java.util.function.Supplier;
 public class WorldGenHandler {
 
   //Ore Blocks
-  private static Table<Strata, Ores, ConfiguredFeature<?, ?>> oreFeatures;
-  public static final Supplier<Table<Strata, Ores, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
+  private static Table<Strata, Materials, ConfiguredFeature<?, ?>> oreFeatures;
+  public static final Supplier<Table<Strata, Materials, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
 
   public static void oreFeatures() {
     Collection<Strata> activeStrata = EnumSet.noneOf(Strata.class);
-    Collection<Ores> activeOres = EnumSet.noneOf(Ores.class);
+    Collection<Materials> activeOres = EnumSet.noneOf(Materials.class);
 
-    ImmutableTable.Builder<Strata, Ores, ConfiguredFeature<?, ?>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, ConfiguredFeature<?, ?>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       if (WorldGenConfig.COMMON.STRATA.get(stratum) && stratum.block.get() != null) {
         activeStrata.add(stratum);
-        for (Ores ore : Ores.values()) {
-          BakedOreProps p = WorldGenConfig.COMMON.ORES.get(ore);
-          if (p.ACTIVE) {
-            activeOres.add(ore);
-            builder.put(stratum, ore, getOreFeature(
-                    p.COUNT_PER_CHUNK,
-                    p.VEIN_SIZE,
-                    p.MIN_Y,
-                    p.MAX_Y, getFilter(stratum), getOreBlock(stratum, ore)));
+        for (Materials material : Materials.values()) {
+          if (material.oreBlock != null) {
+            BakedOreProps p = WorldGenConfig.COMMON.ORES.get(material);
+            if (p.ACTIVE) {
+              activeOres.add(material);
+              builder.put(stratum, material, getOreFeature(
+                      p.COUNT_PER_CHUNK,
+                      p.VEIN_SIZE,
+                      p.MIN_Y,
+                      p.MAX_Y, getFilter(stratum), getOreBlock(stratum, material)));
+            }
           }
         }
       }
@@ -91,8 +93,8 @@ public class WorldGenHandler {
     return new BlockMatchRuleTest(stratum.block.get());
   }
 
-  private static BlockState getOreBlock(Strata stratum, Ores ore) {
-    return OreHandler.oreBlockTable.get().get(stratum, ore).get().getDefaultState();
+  private static BlockState getOreBlock(Strata stratum, Materials material) {
+    return OreHandler.oreBlockTable.get().get(stratum, material).get().getDefaultState();
   }
 
   private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int minY, int maxY, RuleTest filler, BlockState state) {

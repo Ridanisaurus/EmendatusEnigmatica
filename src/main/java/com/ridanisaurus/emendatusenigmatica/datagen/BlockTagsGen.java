@@ -27,13 +27,15 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
@@ -49,17 +51,23 @@ public class BlockTagsGen extends BlockTagsProvider {
     BlockHandler.storageBlockTable.get().values().forEach(block -> forgeBlocks.add(block.get()));
 
     for (Materials material : Materials.values()) {
-      Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
-      BlockHandler.storageBlockTable.get().column(material).values().forEach(block -> blockTag.add(block.get()));
+      List<String> toCreate = Arrays.asList(material.type);
+      if (toCreate.contains("Block")) {
+        Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
+        BlockHandler.storageBlockTable.get().column(material).values().forEach(block -> blockTag.add(block.get()));
+      }
     }
 
     // Ores
     Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
     OreHandler.oreBlockTable.get().values().forEach(ore -> forgeOres.add(ore.get()));
 
-    for (Ores ore : Ores.values()) {
-      Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + ore.id).toString()));
-      OreHandler.oreBlockTable.get().column(ore).values().forEach(strataOre -> oreTag.add(strataOre.get()));
+    for (Materials material : Materials.values()) {
+      List<String> toCreate = Arrays.asList(material.type);
+      if (material.oreBlock != null && toCreate.contains("Ore")) {
+        Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id).toString()));
+        OreHandler.oreBlockTable.get().column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
+      }
     }
 
     // Minecraft Additional Tags (Beacon Base)

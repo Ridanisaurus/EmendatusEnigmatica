@@ -298,13 +298,13 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/redstone/vanilla"));*/
 
-    for (Strata stratum : Strata.values()) {
-      for (Ores ore : Ores.values()) {
-        SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ore.chunk.get()), OreHandler.oreBlockTable.get().get(stratum, ore).get())
+    /*for (Strata stratum : Strata.values()) {
+      for (Materials material : Materials.values()) {
+        SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(material.chunk.get()), OreHandler.oreBlockTable.get().get(stratum, ore).get())
                 .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
                 .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk/" + ore.id + "/" + stratum.id));
       }
-    }
+    }*/
 
     /*// Ingot+Gems from Dusts
     CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.DUST_COPPER.get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 200)
@@ -764,7 +764,7 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "fluorite_gem_from_blasting_chunk"));*/
 
-    // Ore Smelting
+   /* // Ore Smelting
 
     CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Ores.COAL).get()), Items.COAL, 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
@@ -792,7 +792,7 @@ public class RecipesGen extends RecipeProvider {
 
     CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Ores.REDSTONE).get()), Items.REDSTONE, 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone_from_smelting_ore"));
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone_from_smelting_ore"));*/
 
     /*CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Ores.COPPER).get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
@@ -842,7 +842,7 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "fluorite_gem_from_smelting_ore"));*/
 
-    // Ore Blasting
+   /* // Ore Blasting
     CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Ores.COAL).get()), Items.COAL, 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_coal_from_blasting_ore"));
@@ -869,7 +869,7 @@ public class RecipesGen extends RecipeProvider {
 
     CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Ores.REDSTONE).get()), Items.REDSTONE, 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone_from_blasting_ore"));
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "raw_redstone_from_blasting_ore"));*/
 
     /*CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Ores.COPPER).get()), ItemHandler.INGOT_COPPER.get(), 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
@@ -1035,7 +1035,7 @@ public class RecipesGen extends RecipeProvider {
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "fluorite_ore_from_chunk"));*/
   }
 
-  static RegistryObject<Block> baseOre(Ores ore) {
-    return OreHandler.oreBlockTable.get().get(Strata.STONE, ore);
+  static RegistryObject<Block> baseOre(Materials material) {
+    return OreHandler.oreBlockTable.get().get(Strata.STONE, material);
   }
 }

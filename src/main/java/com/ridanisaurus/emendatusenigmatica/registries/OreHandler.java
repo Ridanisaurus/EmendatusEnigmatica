@@ -26,9 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockBase;
-import com.ridanisaurus.emendatusenigmatica.blocks.EnigmaticExchanger;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.Block;
@@ -44,15 +42,17 @@ public class OreHandler {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Ore Blocks
-  private static Table<Strata, Ores, RegistryObject<Block>> backingOreBlockTable;
-  public static final Supplier<Table<Strata, Ores, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
+  private static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
+  public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
   public static void oreBlocks() {
-    ImmutableTable.Builder<Strata, Ores, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
-      for (Ores ore : Ores.values()) {
-        String oreName = "ore_" + ore.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
-        builder.put(stratum, ore, BLOCKS.register(oreName, ore.block));
+      for (Materials material : Materials.values()) {
+        if (material.oreBlock != null) {
+          String oreName = "ore_" + material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
+          builder.put(stratum, material, BLOCKS.register(oreName, material.oreBlock));
+        }
       }
     }
     backingOreBlockTable = builder.build();

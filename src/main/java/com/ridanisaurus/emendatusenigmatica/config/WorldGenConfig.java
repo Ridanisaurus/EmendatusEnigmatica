@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.config;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
@@ -63,29 +63,31 @@ public class WorldGenConfig {
   }
 
   public static class OreConfigs {
-    private final Map<Ores, Properties> configMap = new Object2ObjectOpenHashMap<>();
+    private final Map<Materials, Properties> configMap = new Object2ObjectOpenHashMap<>();
     private final boolean configured;
 
-    private final Map<Ores, BakedOreProps> bakedMap = new Object2ObjectOpenHashMap<>();
+    private final Map<Materials, BakedOreProps> bakedMap = new Object2ObjectOpenHashMap<>();
 
     OreConfigs(ForgeConfigSpec.Builder builder) {
 
       // start
       builder.comment("World Gen - Ore Generation Configuration");
 
-      for (Ores ore : Ores.values()) {
-        addValue(ore, builder, ore.defaultSize, ore.defaultCount, ore.defaultMinY, ore.defaultMaxY);
+      for (Materials material : Materials.values()) {
+        if (material.oreBlock != null) {
+          addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultMinY, material.defaultMaxY);
+        }
       }
 
       configured = true;
     }
 
-    void addValue(Ores ore, ForgeConfigSpec.Builder builder, int size, int count, int minY, int maxY) {
-      addValue(ore, new Properties(ore.id, builder, size, count, minY, maxY));
+    void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int minY, int maxY) {
+      addValue(material, new Properties(material.id, builder, size, count, minY, maxY));
     }
 
-    void addValue(Ores ore, Properties props) {
-      configMap.put(ore, props);
+    void addValue(Materials material, Properties props) {
+      configMap.put(material, props);
     }
 
     private void bake() {
@@ -97,8 +99,8 @@ public class WorldGenConfig {
       configMap.forEach((s, p) -> bakedMap.put(s, new BakedOreProps(p)));
     }
 
-    public BakedOreProps get(Ores ore) {
-      return bakedMap.get(ore);
+    public BakedOreProps get(Materials material) {
+      return bakedMap.get(material);
     }
 
     public static class BakedOreProps {

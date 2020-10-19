@@ -34,6 +34,9 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
   public BlockStatesAndModelsGen(DataGenerator gen, ExistingFileHelper exFileHelper) {
@@ -46,7 +49,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     // Storage Blocks
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           Block block = BlockHandler.storageBlockTable.get().get(processedMaterial, material).get();
           ResourceLocation loc = block.getRegistryName();
           simpleBlock(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(),
@@ -58,11 +62,14 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
 
     // Ores
     for (Strata stratum : Strata.values()) {
-      for (Ores ore : Ores.values()) {
-        Block block = OreHandler.oreBlockTable.get().get(stratum, ore).get();
-        ResourceLocation loc = block.getRegistryName();
-        dynamicBlock(loc, getBaseTexture(stratum), getOverlayTexture(ore));
-        simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
+      for (Materials material : Materials.values()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (material.oreBlock != null && toCreate.contains("Ore")) {
+          Block block = OreHandler.oreBlockTable.get().get(stratum, material).get();
+          ResourceLocation loc = block.getRegistryName();
+          dynamicBlock(loc, getBaseTexture(stratum), getOverlayTexture(material));
+          simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
+        }
       }
     }
   }
@@ -75,8 +82,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     return stratum.baseTexture;
   }
 
-  public static String getOverlayTexture(Ores ore) {
-    return "blocks/overlays/" + ore.id;
+  public static String getOverlayTexture(Materials material) {
+    return "blocks/overlays/" + material.id;
   }
 
   @Override

@@ -1,13 +1,6 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:chunk_coal",
-    "emendatusenigmatica:chunk_iron",
-    "emendatusenigmatica:chunk_gold",
-    "emendatusenigmatica:chunk_diamond",
-    "emendatusenigmatica:chunk_emerald",
-    "emendatusenigmatica:chunk_lapis",
-    "emendatusenigmatica:chunk_redstone",
     "emendatusenigmatica:chunk_copper",
     "emendatusenigmatica:chunk_aluminum",
     "emendatusenigmatica:chunk_silver",
@@ -19,6 +12,14 @@
     "emendatusenigmatica:chunk_zinc",
     "emendatusenigmatica:chunk_certus_quartz",
     "emendatusenigmatica:chunk_charged_certus_quartz",
-    "emendatusenigmatica:chunk_fluorite"
+    "emendatusenigmatica:chunk_fluorite",
+    "emendatusenigmatica:chunk_bitumen",
+    "emendatusenigmatica:chunk_coal",
+    "emendatusenigmatica:chunk_iron",
+    "emendatusenigmatica:chunk_gold",
+    "emendatusenigmatica:chunk_diamond",
+    "emendatusenigmatica:chunk_emerald",
+    "emendatusenigmatica:chunk_lapis",
+    "emendatusenigmatica:chunk_redstone"
   ]
 }

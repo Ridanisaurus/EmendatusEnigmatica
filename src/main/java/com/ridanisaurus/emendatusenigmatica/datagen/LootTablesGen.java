@@ -25,12 +25,15 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
-import com.ridanisaurus.emendatusenigmatica.util.Ores;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.data.DataGenerator;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class LootTablesGen extends BaseLootTableProvider {
 
@@ -43,7 +46,8 @@ public class LootTablesGen extends BaseLootTableProvider {
     // Storage Blocks
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           blockLootTable.put(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(), createBlockLootTable(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get()));
         }
       }
@@ -51,11 +55,14 @@ public class LootTablesGen extends BaseLootTableProvider {
 
     // Ores
     for (Strata stratum : Strata.values()) {
-      for (Ores ore : Ores.values()) {
-        blockLootTable.put(OreHandler.oreBlockTable.get().get(stratum, ore).get(),
-                ore.drop == null
-                        ? createItemLootTable(ore.chunk.get())
-                        : createCountTable(ore.chunk.get(), ore.drop.item.get(), ore.drop.min, ore.drop.max));
+      for (Materials material : Materials.values()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (material.oreBlock != null && toCreate.contains("Ore")) {
+          blockLootTable.put(OreHandler.oreBlockTable.get().get(stratum, material).get(),
+                  material.drop == null
+                          ? createItemLootTable(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get())
+                          : createCountTable(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get(), material.drop.item.get(), material.drop.min, material.drop.max));
+        }
       }
     }
   }
