@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_lead"
+    "item": "emendatusenigmatica:lead_chunk"
   },
-  "result": "emendatusenigmatica:ore_lead_jasper",
+  "result": "emendatusenigmatica:lead_jasper_ore",
   "count": 1
 }

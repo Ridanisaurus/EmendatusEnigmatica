@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_diamond"
+      "item": "emendatusenigmatica:diamond_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_diamond"
+    "item": "emendatusenigmatica:diamond_ore"
   }
 }

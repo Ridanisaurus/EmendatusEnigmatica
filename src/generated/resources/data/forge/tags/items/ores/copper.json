@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_copper",
-    "emendatusenigmatica:ore_copper_andesite",
-    "emendatusenigmatica:ore_copper_gabbro",
-    "emendatusenigmatica:ore_copper_c_limestone",
-    "emendatusenigmatica:ore_copper_scoria",
-    "emendatusenigmatica:ore_copper_weathered_limestone",
-    "emendatusenigmatica:ore_copper_jasper",
-    "emendatusenigmatica:ore_copper_marble",
-    "emendatusenigmatica:ore_copper_slate",
-    "emendatusenigmatica:chunk_copper"
+    "emendatusenigmatica:copper_ore",
+    "emendatusenigmatica:copper_andesite_ore",
+    "emendatusenigmatica:copper_gabbro_ore",
+    "emendatusenigmatica:copper_c_limestone_ore",
+    "emendatusenigmatica:copper_scoria_ore",
+    "emendatusenigmatica:copper_weathered_limestone_ore",
+    "emendatusenigmatica:copper_jasper_ore",
+    "emendatusenigmatica:copper_marble_ore",
+    "emendatusenigmatica:copper_slate_ore",
+    "emendatusenigmatica:copper_chunk"
   ]
 }

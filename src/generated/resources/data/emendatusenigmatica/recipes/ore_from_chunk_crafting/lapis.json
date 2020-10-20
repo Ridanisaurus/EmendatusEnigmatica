@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_lapis"
+      "item": "emendatusenigmatica:lapis_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_lapis"
+    "item": "emendatusenigmatica:lapis_ore"
   }
 }

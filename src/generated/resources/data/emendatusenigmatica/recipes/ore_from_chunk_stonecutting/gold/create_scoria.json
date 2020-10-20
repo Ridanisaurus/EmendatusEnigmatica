@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_gold"
+    "item": "emendatusenigmatica:gold_chunk"
   },
-  "result": "emendatusenigmatica:ore_gold_scoria",
+  "result": "emendatusenigmatica:gold_scoria_ore",
   "count": 1
 }

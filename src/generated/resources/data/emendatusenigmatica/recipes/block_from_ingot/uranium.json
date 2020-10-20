@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_uranium"
+      "item": "emendatusenigmatica:uranium_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_uranium"
+    "item": "emendatusenigmatica:uranium_block"
   }
 }

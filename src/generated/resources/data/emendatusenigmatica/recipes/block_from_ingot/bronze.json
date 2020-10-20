@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_bronze"
+      "item": "emendatusenigmatica:bronze_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_bronze"
+    "item": "emendatusenigmatica:bronze_block"
   }
 }

@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_brass"
+      "item": "emendatusenigmatica:brass_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_brass",
+    "item": "emendatusenigmatica:brass_ingot",
     "count": 9
   }
 }

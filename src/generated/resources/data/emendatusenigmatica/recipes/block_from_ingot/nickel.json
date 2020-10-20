@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_nickel"
+      "item": "emendatusenigmatica:nickel_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_nickel"
+    "item": "emendatusenigmatica:nickel_block"
   }
 }

@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_tin"
+      "item": "emendatusenigmatica:tin_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_tin"
+    "item": "emendatusenigmatica:tin_ingot"
   }
 }

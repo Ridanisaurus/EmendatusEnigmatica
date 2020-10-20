@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_bronze"
+      "item": "emendatusenigmatica:bronze_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_bronze"
+    "item": "emendatusenigmatica:bronze_ingot"
   }
 }

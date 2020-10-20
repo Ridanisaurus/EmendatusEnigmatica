@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_zinc"
+      "item": "emendatusenigmatica:zinc_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_zinc"
+    "item": "emendatusenigmatica:zinc_block"
   }
 }

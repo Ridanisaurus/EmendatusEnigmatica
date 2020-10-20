@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_certus_quartz"
+      "item": "emendatusenigmatica:certus_quartz_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_certus_quartz"
+    "item": "emendatusenigmatica:certus_quartz_ore"
   }
 }

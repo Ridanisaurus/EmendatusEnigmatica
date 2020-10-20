@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_constantan"
+      "item": "emendatusenigmatica:constantan_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_constantan"
+    "item": "emendatusenigmatica:constantan_ingot"
   }
 }

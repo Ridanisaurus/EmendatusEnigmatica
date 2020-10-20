@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_lead"
+      "item": "emendatusenigmatica:lead_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_lead",
+    "item": "emendatusenigmatica:lead_ingot",
     "count": 9
   }
 }

@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_bitumen"
+      "item": "emendatusenigmatica:bitumen_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_bitumen"
+    "item": "emendatusenigmatica:bitumen_ore"
   }
 }

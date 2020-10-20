@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_electrum"
+      "item": "emendatusenigmatica:electrum_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_electrum",
+    "item": "emendatusenigmatica:electrum_ingot",
     "count": 9
   }
 }

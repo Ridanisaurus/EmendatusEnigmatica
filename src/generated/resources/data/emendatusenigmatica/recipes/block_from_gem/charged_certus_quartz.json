@@ -7,10 +7,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:gem_charged_certus_quartz"
+      "item": "emendatusenigmatica:charged_certus_quartz_gem"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_charged_certus_quartz"
+    "item": "emendatusenigmatica:charged_certus_quartz_block"
   }
 }

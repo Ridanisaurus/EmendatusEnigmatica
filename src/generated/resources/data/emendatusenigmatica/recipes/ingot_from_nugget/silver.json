@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_silver"
+      "item": "emendatusenigmatica:silver_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_silver"
+    "item": "emendatusenigmatica:silver_ingot"
   }
 }

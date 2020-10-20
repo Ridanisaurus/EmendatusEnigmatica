@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_aluminum"
+      "item": "emendatusenigmatica:aluminum_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_aluminum",
+    "item": "emendatusenigmatica:aluminum_ingot",
     "count": 9
   }
 }

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_copper"
+    "item": "emendatusenigmatica:copper_ore"
   },
-  "result": "emendatusenigmatica:ingot_copper",
+  "result": "emendatusenigmatica:copper_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

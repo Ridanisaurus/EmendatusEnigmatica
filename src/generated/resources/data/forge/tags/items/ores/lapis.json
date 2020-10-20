@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_lapis",
-    "emendatusenigmatica:ore_lapis_andesite",
-    "emendatusenigmatica:ore_lapis_gabbro",
-    "emendatusenigmatica:ore_lapis_c_limestone",
-    "emendatusenigmatica:ore_lapis_scoria",
-    "emendatusenigmatica:ore_lapis_weathered_limestone",
-    "emendatusenigmatica:ore_lapis_jasper",
-    "emendatusenigmatica:ore_lapis_marble",
-    "emendatusenigmatica:ore_lapis_slate",
-    "emendatusenigmatica:chunk_lapis"
+    "emendatusenigmatica:lapis_ore",
+    "emendatusenigmatica:lapis_andesite_ore",
+    "emendatusenigmatica:lapis_gabbro_ore",
+    "emendatusenigmatica:lapis_c_limestone_ore",
+    "emendatusenigmatica:lapis_scoria_ore",
+    "emendatusenigmatica:lapis_weathered_limestone_ore",
+    "emendatusenigmatica:lapis_jasper_ore",
+    "emendatusenigmatica:lapis_marble_ore",
+    "emendatusenigmatica:lapis_slate_ore",
+    "emendatusenigmatica:lapis_chunk"
   ]
 }

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_tin"
+    "item": "emendatusenigmatica:tin_chunk"
   },
-  "result": "emendatusenigmatica:ingot_tin",
+  "result": "emendatusenigmatica:tin_ingot",
   "experience": 0.7,
   "cookingtime": 100
 }

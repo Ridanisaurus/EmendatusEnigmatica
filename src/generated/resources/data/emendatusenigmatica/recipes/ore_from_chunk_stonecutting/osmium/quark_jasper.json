@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_osmium"
+    "item": "emendatusenigmatica:osmium_chunk"
   },
-  "result": "emendatusenigmatica:ore_osmium_jasper",
+  "result": "emendatusenigmatica:osmium_jasper_ore",
   "count": 1
 }

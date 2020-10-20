@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_fluorite",
-    "emendatusenigmatica:ore_fluorite_andesite",
-    "emendatusenigmatica:ore_fluorite_gabbro",
-    "emendatusenigmatica:ore_fluorite_c_limestone",
-    "emendatusenigmatica:ore_fluorite_scoria",
-    "emendatusenigmatica:ore_fluorite_weathered_limestone",
-    "emendatusenigmatica:ore_fluorite_jasper",
-    "emendatusenigmatica:ore_fluorite_marble",
-    "emendatusenigmatica:ore_fluorite_slate"
+    "emendatusenigmatica:fluorite_ore",
+    "emendatusenigmatica:fluorite_andesite_ore",
+    "emendatusenigmatica:fluorite_gabbro_ore",
+    "emendatusenigmatica:fluorite_c_limestone_ore",
+    "emendatusenigmatica:fluorite_scoria_ore",
+    "emendatusenigmatica:fluorite_weathered_limestone_ore",
+    "emendatusenigmatica:fluorite_jasper_ore",
+    "emendatusenigmatica:fluorite_marble_ore",
+    "emendatusenigmatica:fluorite_slate_ore"
   ]
 }

@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_zinc"
+      "item": "emendatusenigmatica:zinc_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_zinc"
+    "item": "emendatusenigmatica:zinc_ingot"
   }
 }

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_aluminum"
+    "item": "emendatusenigmatica:aluminum_chunk"
   },
-  "result": "emendatusenigmatica:ingot_aluminum",
+  "result": "emendatusenigmatica:aluminum_ingot",
   "experience": 0.7,
   "cookingtime": 100
 }

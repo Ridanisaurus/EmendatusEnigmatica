@@ -24,24 +24,19 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class ItemTagsGen extends ItemTagsProvider {
 

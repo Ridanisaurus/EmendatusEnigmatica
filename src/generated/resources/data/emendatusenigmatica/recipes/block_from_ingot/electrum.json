@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_electrum"
+      "item": "emendatusenigmatica:electrum_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_electrum"
+    "item": "emendatusenigmatica:electrum_block"
   }
 }

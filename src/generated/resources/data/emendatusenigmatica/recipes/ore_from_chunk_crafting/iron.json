@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_iron"
+      "item": "emendatusenigmatica:iron_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_iron"
+    "item": "emendatusenigmatica:iron_ore"
   }
 }

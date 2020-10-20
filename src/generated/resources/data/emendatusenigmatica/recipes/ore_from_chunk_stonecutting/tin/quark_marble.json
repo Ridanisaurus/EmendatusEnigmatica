@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_tin"
+    "item": "emendatusenigmatica:tin_chunk"
   },
-  "result": "emendatusenigmatica:ore_tin_marble",
+  "result": "emendatusenigmatica:tin_marble_ore",
   "count": 1
 }

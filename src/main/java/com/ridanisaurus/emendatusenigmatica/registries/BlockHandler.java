@@ -49,7 +49,7 @@ public class BlockHandler {
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
-            String blockName = "block_" + material.id;
+            String blockName = material.id + "_block";
             builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
         }
       }

@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_uranium",
-    "emendatusenigmatica:ore_uranium_andesite",
-    "emendatusenigmatica:ore_uranium_gabbro",
-    "emendatusenigmatica:ore_uranium_c_limestone",
-    "emendatusenigmatica:ore_uranium_scoria",
-    "emendatusenigmatica:ore_uranium_weathered_limestone",
-    "emendatusenigmatica:ore_uranium_jasper",
-    "emendatusenigmatica:ore_uranium_marble",
-    "emendatusenigmatica:ore_uranium_slate"
+    "emendatusenigmatica:uranium_ore",
+    "emendatusenigmatica:uranium_andesite_ore",
+    "emendatusenigmatica:uranium_gabbro_ore",
+    "emendatusenigmatica:uranium_c_limestone_ore",
+    "emendatusenigmatica:uranium_scoria_ore",
+    "emendatusenigmatica:uranium_weathered_limestone_ore",
+    "emendatusenigmatica:uranium_jasper_ore",
+    "emendatusenigmatica:uranium_marble_ore",
+    "emendatusenigmatica:uranium_slate_ore"
   ]
 }

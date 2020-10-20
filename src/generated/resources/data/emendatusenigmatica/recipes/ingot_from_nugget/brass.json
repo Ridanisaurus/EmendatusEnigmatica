@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_brass"
+      "item": "emendatusenigmatica:brass_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_brass"
+    "item": "emendatusenigmatica:brass_ingot"
   }
 }

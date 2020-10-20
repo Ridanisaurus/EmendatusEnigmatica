@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_gold"
+      "item": "emendatusenigmatica:gold_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_gold"
+    "item": "emendatusenigmatica:gold_ore"
   }
 }

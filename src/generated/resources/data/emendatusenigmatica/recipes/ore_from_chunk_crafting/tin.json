@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_tin"
+      "item": "emendatusenigmatica:tin_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_tin"
+    "item": "emendatusenigmatica:tin_ore"
   }
 }

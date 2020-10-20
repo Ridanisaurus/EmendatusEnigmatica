@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_uranium"
+    "item": "emendatusenigmatica:uranium_chunk"
   },
-  "result": "emendatusenigmatica:ore_uranium_scoria",
+  "result": "emendatusenigmatica:uranium_scoria_ore",
   "count": 1
 }

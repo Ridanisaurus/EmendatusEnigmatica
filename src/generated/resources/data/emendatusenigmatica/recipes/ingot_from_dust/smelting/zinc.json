@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:dust_zinc"
+    "item": "emendatusenigmatica:zinc_dust"
   },
-  "result": "emendatusenigmatica:ingot_zinc",
+  "result": "emendatusenigmatica:zinc_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

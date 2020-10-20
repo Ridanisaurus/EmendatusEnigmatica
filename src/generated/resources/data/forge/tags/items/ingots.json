@@ -1,19 +1,19 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ingot_copper",
-    "emendatusenigmatica:ingot_aluminum",
-    "emendatusenigmatica:ingot_silver",
-    "emendatusenigmatica:ingot_lead",
-    "emendatusenigmatica:ingot_nickel",
-    "emendatusenigmatica:ingot_uranium",
-    "emendatusenigmatica:ingot_osmium",
-    "emendatusenigmatica:ingot_tin",
-    "emendatusenigmatica:ingot_zinc",
-    "emendatusenigmatica:ingot_bronze",
-    "emendatusenigmatica:ingot_brass",
-    "emendatusenigmatica:ingot_constantan",
-    "emendatusenigmatica:ingot_electrum",
-    "emendatusenigmatica:ingot_steel"
+    "emendatusenigmatica:copper_ingot",
+    "emendatusenigmatica:aluminum_ingot",
+    "emendatusenigmatica:silver_ingot",
+    "emendatusenigmatica:lead_ingot",
+    "emendatusenigmatica:nickel_ingot",
+    "emendatusenigmatica:uranium_ingot",
+    "emendatusenigmatica:osmium_ingot",
+    "emendatusenigmatica:tin_ingot",
+    "emendatusenigmatica:zinc_ingot",
+    "emendatusenigmatica:bronze_ingot",
+    "emendatusenigmatica:brass_ingot",
+    "emendatusenigmatica:constantan_ingot",
+    "emendatusenigmatica:electrum_ingot",
+    "emendatusenigmatica:steel_ingot"
   ]
 }

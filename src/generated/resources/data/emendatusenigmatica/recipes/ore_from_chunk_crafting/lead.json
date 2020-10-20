@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_lead"
+      "item": "emendatusenigmatica:lead_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_lead"
+    "item": "emendatusenigmatica:lead_ore"
   }
 }

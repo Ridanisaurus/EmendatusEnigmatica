@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_lead",
-    "emendatusenigmatica:ore_lead_andesite",
-    "emendatusenigmatica:ore_lead_gabbro",
-    "emendatusenigmatica:ore_lead_c_limestone",
-    "emendatusenigmatica:ore_lead_scoria",
-    "emendatusenigmatica:ore_lead_weathered_limestone",
-    "emendatusenigmatica:ore_lead_jasper",
-    "emendatusenigmatica:ore_lead_marble",
-    "emendatusenigmatica:ore_lead_slate"
+    "emendatusenigmatica:lead_ore",
+    "emendatusenigmatica:lead_andesite_ore",
+    "emendatusenigmatica:lead_gabbro_ore",
+    "emendatusenigmatica:lead_c_limestone_ore",
+    "emendatusenigmatica:lead_scoria_ore",
+    "emendatusenigmatica:lead_weathered_limestone_ore",
+    "emendatusenigmatica:lead_jasper_ore",
+    "emendatusenigmatica:lead_marble_ore",
+    "emendatusenigmatica:lead_slate_ore"
   ]
 }

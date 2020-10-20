@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_emerald",
-    "emendatusenigmatica:ore_emerald_andesite",
-    "emendatusenigmatica:ore_emerald_gabbro",
-    "emendatusenigmatica:ore_emerald_c_limestone",
-    "emendatusenigmatica:ore_emerald_scoria",
-    "emendatusenigmatica:ore_emerald_weathered_limestone",
-    "emendatusenigmatica:ore_emerald_jasper",
-    "emendatusenigmatica:ore_emerald_marble",
-    "emendatusenigmatica:ore_emerald_slate",
-    "emendatusenigmatica:chunk_emerald"
+    "emendatusenigmatica:emerald_ore",
+    "emendatusenigmatica:emerald_andesite_ore",
+    "emendatusenigmatica:emerald_gabbro_ore",
+    "emendatusenigmatica:emerald_c_limestone_ore",
+    "emendatusenigmatica:emerald_scoria_ore",
+    "emendatusenigmatica:emerald_weathered_limestone_ore",
+    "emendatusenigmatica:emerald_jasper_ore",
+    "emendatusenigmatica:emerald_marble_ore",
+    "emendatusenigmatica:emerald_slate_ore",
+    "emendatusenigmatica:emerald_chunk"
   ]
 }

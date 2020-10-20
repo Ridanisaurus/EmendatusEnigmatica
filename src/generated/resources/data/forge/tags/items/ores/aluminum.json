@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_aluminum",
-    "emendatusenigmatica:ore_aluminum_andesite",
-    "emendatusenigmatica:ore_aluminum_gabbro",
-    "emendatusenigmatica:ore_aluminum_c_limestone",
-    "emendatusenigmatica:ore_aluminum_scoria",
-    "emendatusenigmatica:ore_aluminum_weathered_limestone",
-    "emendatusenigmatica:ore_aluminum_jasper",
-    "emendatusenigmatica:ore_aluminum_marble",
-    "emendatusenigmatica:ore_aluminum_slate",
-    "emendatusenigmatica:chunk_aluminum"
+    "emendatusenigmatica:aluminum_ore",
+    "emendatusenigmatica:aluminum_andesite_ore",
+    "emendatusenigmatica:aluminum_gabbro_ore",
+    "emendatusenigmatica:aluminum_c_limestone_ore",
+    "emendatusenigmatica:aluminum_scoria_ore",
+    "emendatusenigmatica:aluminum_weathered_limestone_ore",
+    "emendatusenigmatica:aluminum_jasper_ore",
+    "emendatusenigmatica:aluminum_marble_ore",
+    "emendatusenigmatica:aluminum_slate_ore",
+    "emendatusenigmatica:aluminum_chunk"
   ]
 }

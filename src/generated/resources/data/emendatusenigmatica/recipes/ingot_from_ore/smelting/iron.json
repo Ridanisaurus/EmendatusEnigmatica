@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_iron"
+    "item": "emendatusenigmatica:iron_ore"
   },
   "result": "minecraft:iron_ingot",
   "experience": 0.7,

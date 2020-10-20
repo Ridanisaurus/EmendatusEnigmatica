@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_aluminum"
+      "item": "emendatusenigmatica:aluminum_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_aluminum"
+    "item": "emendatusenigmatica:aluminum_ingot"
   }
 }

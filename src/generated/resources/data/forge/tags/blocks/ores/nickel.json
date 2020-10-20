@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_nickel",
-    "emendatusenigmatica:ore_nickel_andesite",
-    "emendatusenigmatica:ore_nickel_gabbro",
-    "emendatusenigmatica:ore_nickel_c_limestone",
-    "emendatusenigmatica:ore_nickel_scoria",
-    "emendatusenigmatica:ore_nickel_weathered_limestone",
-    "emendatusenigmatica:ore_nickel_jasper",
-    "emendatusenigmatica:ore_nickel_marble",
-    "emendatusenigmatica:ore_nickel_slate"
+    "emendatusenigmatica:nickel_ore",
+    "emendatusenigmatica:nickel_andesite_ore",
+    "emendatusenigmatica:nickel_gabbro_ore",
+    "emendatusenigmatica:nickel_c_limestone_ore",
+    "emendatusenigmatica:nickel_scoria_ore",
+    "emendatusenigmatica:nickel_weathered_limestone_ore",
+    "emendatusenigmatica:nickel_jasper_ore",
+    "emendatusenigmatica:nickel_marble_ore",
+    "emendatusenigmatica:nickel_slate_ore"
   ]
 }

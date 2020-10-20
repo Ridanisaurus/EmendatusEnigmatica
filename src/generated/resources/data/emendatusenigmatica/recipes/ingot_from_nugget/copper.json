@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_copper"
+      "item": "emendatusenigmatica:copper_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_copper"
+    "item": "emendatusenigmatica:copper_ingot"
   }
 }

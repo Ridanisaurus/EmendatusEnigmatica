@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_redstone"
+      "item": "emendatusenigmatica:redstone_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_redstone"
+    "item": "emendatusenigmatica:redstone_ore"
   }
 }

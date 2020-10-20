@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:dust_tin"
+    "item": "emendatusenigmatica:tin_dust"
   },
-  "result": "emendatusenigmatica:ingot_tin",
+  "result": "emendatusenigmatica:tin_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

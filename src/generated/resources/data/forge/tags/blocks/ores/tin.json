@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_tin",
-    "emendatusenigmatica:ore_tin_andesite",
-    "emendatusenigmatica:ore_tin_gabbro",
-    "emendatusenigmatica:ore_tin_c_limestone",
-    "emendatusenigmatica:ore_tin_scoria",
-    "emendatusenigmatica:ore_tin_weathered_limestone",
-    "emendatusenigmatica:ore_tin_jasper",
-    "emendatusenigmatica:ore_tin_marble",
-    "emendatusenigmatica:ore_tin_slate"
+    "emendatusenigmatica:tin_ore",
+    "emendatusenigmatica:tin_andesite_ore",
+    "emendatusenigmatica:tin_gabbro_ore",
+    "emendatusenigmatica:tin_c_limestone_ore",
+    "emendatusenigmatica:tin_scoria_ore",
+    "emendatusenigmatica:tin_weathered_limestone_ore",
+    "emendatusenigmatica:tin_jasper_ore",
+    "emendatusenigmatica:tin_marble_ore",
+    "emendatusenigmatica:tin_slate_ore"
   ]
 }

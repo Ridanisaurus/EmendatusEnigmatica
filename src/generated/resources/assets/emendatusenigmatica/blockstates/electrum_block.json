@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "emendatusenigmatica:block/electrum_block"
+    }
+  }
+}

@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.TooltipTags;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
@@ -56,24 +55,19 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
-
         // Register Deferred Registers and populate their tables once the mod is done constructing
         BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
-        TooltipTags handler = new TooltipTags();
-        MinecraftForge.EVENT_BUS.register(handler);
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientEvents);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
         // Setup biome loading event for worldgen!
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, this::biomesHigh);
-
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -88,7 +82,7 @@ public class EmendatusEnigmatica {
         ItemHandler.itemInit();
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) {
+    private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
             RenderTypeLookup.setRenderLayer(block.get(), RenderType.getTranslucent());
         }

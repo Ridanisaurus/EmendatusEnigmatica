@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:gem_certus_quartz",
-    "emendatusenigmatica:gem_charged_certus_quartz",
-    "emendatusenigmatica:gem_fluix",
-    "emendatusenigmatica:gem_fluorite",
-    "emendatusenigmatica:gem_bitumen"
+    "emendatusenigmatica:certus_quartz_gem",
+    "emendatusenigmatica:charged_certus_quartz_gem",
+    "emendatusenigmatica:fluix_gem",
+    "emendatusenigmatica:fluorite_gem",
+    "emendatusenigmatica:bitumen_gem"
   ]
 }

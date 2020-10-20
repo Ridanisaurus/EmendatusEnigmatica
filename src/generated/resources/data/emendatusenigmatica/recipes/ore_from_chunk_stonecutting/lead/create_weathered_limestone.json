@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_lead"
+    "item": "emendatusenigmatica:lead_chunk"
   },
-  "result": "emendatusenigmatica:ore_lead_weathered_limestone",
+  "result": "emendatusenigmatica:lead_weathered_limestone_ore",
   "count": 1
 }

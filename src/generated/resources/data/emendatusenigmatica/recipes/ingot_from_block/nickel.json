@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_nickel"
+      "item": "emendatusenigmatica:nickel_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_nickel",
+    "item": "emendatusenigmatica:nickel_ingot",
     "count": 9
   }
 }

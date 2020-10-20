@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_coal"
+    "item": "emendatusenigmatica:coal_chunk"
   },
-  "result": "emendatusenigmatica:ore_coal_andesite",
+  "result": "emendatusenigmatica:coal_andesite_ore",
   "count": 1
 }

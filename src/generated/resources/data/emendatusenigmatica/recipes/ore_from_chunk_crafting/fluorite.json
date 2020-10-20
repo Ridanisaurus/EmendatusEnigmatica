@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_fluorite"
+      "item": "emendatusenigmatica:fluorite_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_fluorite"
+    "item": "emendatusenigmatica:fluorite_ore"
   }
 }

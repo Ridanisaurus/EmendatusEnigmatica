@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_lapis"
+    "item": "emendatusenigmatica:lapis_chunk"
   },
   "result": "minecraft:lapis_lazuli",
   "experience": 0.7,

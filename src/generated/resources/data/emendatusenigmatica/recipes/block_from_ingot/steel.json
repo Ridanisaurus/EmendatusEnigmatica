@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_steel"
+      "item": "emendatusenigmatica:steel_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_steel"
+    "item": "emendatusenigmatica:steel_block"
   }
 }

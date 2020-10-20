@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_copper"
+      "item": "emendatusenigmatica:copper_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_copper",
+    "item": "emendatusenigmatica:copper_ingot",
     "count": 9
   }
 }

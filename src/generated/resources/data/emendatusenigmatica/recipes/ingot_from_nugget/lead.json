@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:nugget_lead"
+      "item": "emendatusenigmatica:lead_nugget"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:ingot_lead"
+    "item": "emendatusenigmatica:lead_ingot"
   }
 }

@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_bronze"
+      "item": "emendatusenigmatica:bronze_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_bronze",
+    "item": "emendatusenigmatica:bronze_ingot",
     "count": 9
   }
 }

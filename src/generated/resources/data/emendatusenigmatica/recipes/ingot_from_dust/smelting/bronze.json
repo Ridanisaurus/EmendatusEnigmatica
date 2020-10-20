@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:dust_bronze"
+    "item": "emendatusenigmatica:bronze_dust"
   },
-  "result": "emendatusenigmatica:ingot_bronze",
+  "result": "emendatusenigmatica:bronze_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

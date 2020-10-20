@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_silver"
+    "item": "emendatusenigmatica:silver_chunk"
   },
-  "result": "emendatusenigmatica:ore_silver_marble",
+  "result": "emendatusenigmatica:silver_marble_ore",
   "count": 1
 }

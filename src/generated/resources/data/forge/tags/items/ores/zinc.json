@@ -1,15 +1,15 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_zinc",
-    "emendatusenigmatica:ore_zinc_andesite",
-    "emendatusenigmatica:ore_zinc_gabbro",
-    "emendatusenigmatica:ore_zinc_c_limestone",
-    "emendatusenigmatica:ore_zinc_scoria",
-    "emendatusenigmatica:ore_zinc_weathered_limestone",
-    "emendatusenigmatica:ore_zinc_jasper",
-    "emendatusenigmatica:ore_zinc_marble",
-    "emendatusenigmatica:ore_zinc_slate",
-    "emendatusenigmatica:chunk_zinc"
+    "emendatusenigmatica:zinc_ore",
+    "emendatusenigmatica:zinc_andesite_ore",
+    "emendatusenigmatica:zinc_gabbro_ore",
+    "emendatusenigmatica:zinc_c_limestone_ore",
+    "emendatusenigmatica:zinc_scoria_ore",
+    "emendatusenigmatica:zinc_weathered_limestone_ore",
+    "emendatusenigmatica:zinc_jasper_ore",
+    "emendatusenigmatica:zinc_marble_ore",
+    "emendatusenigmatica:zinc_slate_ore",
+    "emendatusenigmatica:zinc_chunk"
   ]
 }

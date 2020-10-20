@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:ingot_zinc"
+      "item": "emendatusenigmatica:zinc_ingot"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:nugget_zinc",
+    "item": "emendatusenigmatica:zinc_nugget",
     "count": 9
   }
 }

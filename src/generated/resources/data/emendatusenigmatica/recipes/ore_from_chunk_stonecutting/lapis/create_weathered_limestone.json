@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_lapis"
+    "item": "emendatusenigmatica:lapis_chunk"
   },
-  "result": "emendatusenigmatica:ore_lapis_weathered_limestone",
+  "result": "emendatusenigmatica:lapis_weathered_limestone_ore",
   "count": 1
 }

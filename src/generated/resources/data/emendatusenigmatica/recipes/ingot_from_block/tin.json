@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_tin"
+      "item": "emendatusenigmatica:tin_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_tin",
+    "item": "emendatusenigmatica:tin_ingot",
     "count": 9
   }
 }

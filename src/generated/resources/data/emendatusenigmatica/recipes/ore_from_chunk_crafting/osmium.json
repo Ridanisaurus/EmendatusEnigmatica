@@ -3,10 +3,10 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:chunk_osmium"
+      "item": "emendatusenigmatica:osmium_chunk"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ore_osmium"
+    "item": "emendatusenigmatica:osmium_ore"
   }
 }

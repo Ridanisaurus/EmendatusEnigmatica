@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_osmium",
-    "emendatusenigmatica:ore_osmium_andesite",
-    "emendatusenigmatica:ore_osmium_gabbro",
-    "emendatusenigmatica:ore_osmium_c_limestone",
-    "emendatusenigmatica:ore_osmium_scoria",
-    "emendatusenigmatica:ore_osmium_weathered_limestone",
-    "emendatusenigmatica:ore_osmium_jasper",
-    "emendatusenigmatica:ore_osmium_marble",
-    "emendatusenigmatica:ore_osmium_slate"
+    "emendatusenigmatica:osmium_ore",
+    "emendatusenigmatica:osmium_andesite_ore",
+    "emendatusenigmatica:osmium_gabbro_ore",
+    "emendatusenigmatica:osmium_c_limestone_ore",
+    "emendatusenigmatica:osmium_scoria_ore",
+    "emendatusenigmatica:osmium_weathered_limestone_ore",
+    "emendatusenigmatica:osmium_jasper_ore",
+    "emendatusenigmatica:osmium_marble_ore",
+    "emendatusenigmatica:osmium_slate_ore"
   ]
 }

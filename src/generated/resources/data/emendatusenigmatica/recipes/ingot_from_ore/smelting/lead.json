@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:ore_lead"
+    "item": "emendatusenigmatica:lead_ore"
   },
-  "result": "emendatusenigmatica:ingot_lead",
+  "result": "emendatusenigmatica:lead_ingot",
   "experience": 0.7,
   "cookingtime": 200
 }

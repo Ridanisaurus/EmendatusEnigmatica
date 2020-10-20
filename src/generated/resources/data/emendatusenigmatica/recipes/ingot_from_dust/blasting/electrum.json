@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "emendatusenigmatica:dust_electrum"
+    "item": "emendatusenigmatica:electrum_dust"
   },
-  "result": "emendatusenigmatica:ingot_electrum",
+  "result": "emendatusenigmatica:electrum_ingot",
   "experience": 0.7,
   "cookingtime": 100
 }

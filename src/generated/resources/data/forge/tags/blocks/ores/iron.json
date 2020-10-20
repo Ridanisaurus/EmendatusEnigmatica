@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:ore_iron",
-    "emendatusenigmatica:ore_iron_andesite",
-    "emendatusenigmatica:ore_iron_gabbro",
-    "emendatusenigmatica:ore_iron_c_limestone",
-    "emendatusenigmatica:ore_iron_scoria",
-    "emendatusenigmatica:ore_iron_weathered_limestone",
-    "emendatusenigmatica:ore_iron_jasper",
-    "emendatusenigmatica:ore_iron_marble",
-    "emendatusenigmatica:ore_iron_slate"
+    "emendatusenigmatica:iron_ore",
+    "emendatusenigmatica:iron_andesite_ore",
+    "emendatusenigmatica:iron_gabbro_ore",
+    "emendatusenigmatica:iron_c_limestone_ore",
+    "emendatusenigmatica:iron_scoria_ore",
+    "emendatusenigmatica:iron_weathered_limestone_ore",
+    "emendatusenigmatica:iron_jasper_ore",
+    "emendatusenigmatica:iron_marble_ore",
+    "emendatusenigmatica:iron_slate_ore"
   ]
 }

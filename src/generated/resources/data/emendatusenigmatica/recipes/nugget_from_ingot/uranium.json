@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:ingot_uranium"
+      "item": "emendatusenigmatica:uranium_ingot"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:nugget_uranium",
+    "item": "emendatusenigmatica:uranium_nugget",
     "count": 9
   }
 }

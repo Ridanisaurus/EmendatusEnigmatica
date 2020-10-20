@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.data.DataGenerator;
@@ -46,77 +45,77 @@ public class ItemModelsGen extends ItemModelProvider {
   @Override
   protected void registerModels() {
     // Dusts
-    getBuilder("dust_charcoal")
+    getBuilder("charcoal_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_charcoal"));
-    getBuilder("dust_obsidian")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/charcoal_dust"));
+    getBuilder("obsidian_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_obsidian"));
-    getBuilder("dust_ender")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/obsidian_dust"));
+    getBuilder("ender_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_ender"));
-    getBuilder("dust_coke")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ender_dust"));
+    getBuilder("coke_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_coke"));
-    getBuilder("dust_graphite")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/coke_dust"));
+    getBuilder("graphite_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_graphite"));
-    getBuilder("dust_lithium")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/graphite_dust"));
+    getBuilder("lithium_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_lithium"));
-    getBuilder("dust_saltpeter")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/lithium_dust"));
+    getBuilder("saltpeter_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_saltpeter"));
-    getBuilder("dust_sulfur")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/saltpeter_dust"));
+    getBuilder("sulfur_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_sulfur"));
-    getBuilder("dust_quartz")
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/sulfur_dust"));
+    getBuilder("quartz_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_quartz"));
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/quartz_dust"));
 
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         // Storage Blocks Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          withExistingParent(BlockHandler.storageBlockTable.get().get(processedMaterial, material).getId().getPath(), modLoc("block_" + material.id))
-                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/block_" + material.id)));
+          withExistingParent(BlockHandler.storageBlockTable.get().get(processedMaterial, material).getId().getPath(), modLoc(material.id + "_block"))
+                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.id + "_block")));
         }
         // Ingots
         if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
-          getBuilder("ingot_" + material.id)
+          getBuilder(material.id + "_ingot")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ingot_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_ingot"));
         }
         // Gems
         if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
-          getBuilder("gem_" + material.id)
+          getBuilder(material.id + "_gem")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/gem_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gem"));
         }
         // Nuggets
         if (processedMaterial == ProcessedMaterials.NUGGET && toCreate.contains("Nugget")) {
-          getBuilder("nugget_" + material.id)
+          getBuilder(material.id + "_nugget")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/nugget_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_nugget"));
         }
         // Dusts
         if (processedMaterial == ProcessedMaterials.DUST && toCreate.contains("Dust")) {
-          getBuilder("dust_" + material.id)
+          getBuilder(material.id + "_dust")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/dust_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_dust"));
         }
         // Plates
         if (processedMaterial == ProcessedMaterials.PLATE && toCreate.contains("Plate")) {
-          getBuilder("plate_" + material.id)
+          getBuilder(material.id + "_plate")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/plate_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_plate"));
         }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
-          getBuilder("chunk_" + material.id)
+          getBuilder(material.id + "_chunk")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/chunk_" + material.id));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_chunk"));
         }
       }
     }
@@ -134,7 +133,7 @@ public class ItemModelsGen extends ItemModelProvider {
   }
 
   public static String getModelName(Strata stratum, Materials material) {
-    return "ore_" + material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "");
+    return material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
   }
 
   @Override

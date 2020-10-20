@@ -54,8 +54,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
           Block block = BlockHandler.storageBlockTable.get().get(processedMaterial, material).get();
           ResourceLocation loc = block.getRegistryName();
           simpleBlock(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(),
-                  models().cubeAll("block_" + material.id,
-                          new ResourceLocation(Reference.MOD_ID, "blocks/block_" + material.id)));
+                  models().cubeAll(material.id + "_block",
+                          new ResourceLocation(Reference.MOD_ID, "blocks/" + material.id + "_block")));
         }
       }
     }

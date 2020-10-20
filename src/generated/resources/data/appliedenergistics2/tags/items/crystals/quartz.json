@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "emendatusenigmatica:gem_certus_quartz",
-    "emendatusenigmatica:gem_charged_certus_quartz"
+    "emendatusenigmatica:certus_quartz_gem",
+    "emendatusenigmatica:charged_certus_quartz_gem"
   ]
 }

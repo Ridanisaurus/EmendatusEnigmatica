@@ -8,10 +8,10 @@
   ],
   "key": {
     "#": {
-      "item": "emendatusenigmatica:ingot_osmium"
+      "item": "emendatusenigmatica:osmium_ingot"
     }
   },
   "result": {
-    "item": "emendatusenigmatica:block_osmium"
+    "item": "emendatusenigmatica:osmium_block"
   }
 }

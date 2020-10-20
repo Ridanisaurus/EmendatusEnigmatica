@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_constantan"
+      "item": "emendatusenigmatica:constantan_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_constantan",
+    "item": "emendatusenigmatica:constantan_ingot",
     "count": 9
   }
 }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_iron"
+    "item": "emendatusenigmatica:iron_chunk"
   },
   "result": "minecraft:iron_ingot",
   "experience": 0.7,

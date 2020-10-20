@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_silver"
+      "item": "emendatusenigmatica:silver_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_silver",
+    "item": "emendatusenigmatica:silver_ingot",
     "count": 9
   }
 }

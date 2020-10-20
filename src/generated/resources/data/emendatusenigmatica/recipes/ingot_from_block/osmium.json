@@ -3,11 +3,11 @@
   "group": "emendatusenigmatica",
   "ingredients": [
     {
-      "item": "emendatusenigmatica:block_osmium"
+      "item": "emendatusenigmatica:osmium_block"
     }
   ],
   "result": {
-    "item": "emendatusenigmatica:ingot_osmium",
+    "item": "emendatusenigmatica:osmium_ingot",
     "count": 9
   }
 }

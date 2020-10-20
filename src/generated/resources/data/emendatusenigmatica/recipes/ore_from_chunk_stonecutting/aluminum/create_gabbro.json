@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "emendatusenigmatica:chunk_aluminum"
+    "item": "emendatusenigmatica:aluminum_chunk"
   },
-  "result": "emendatusenigmatica:ore_aluminum_gabbro",
+  "result": "emendatusenigmatica:aluminum_gabbro_ore",
   "count": 1
 }
