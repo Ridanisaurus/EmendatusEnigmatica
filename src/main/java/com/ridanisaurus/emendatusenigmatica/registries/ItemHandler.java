@@ -82,6 +82,11 @@ public class ItemHandler {
           String plateName = material.id + "_plate";
           builder.put(processedMaterial, material, ITEMS.register(plateName, material.item));
         }
+        // Gears
+        if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
+          String gearName = material.id + "_gear";
+          builder.put(processedMaterial, material, ITEMS.register(gearName, material.item));
+        }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           String chunkName = material.id + "_chunk";
@@ -95,13 +100,11 @@ public class ItemHandler {
   // Dusts
   public static final RegistryObject<Item> DUST_CHARCOAL = ITEMS.register("charcoal_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_OBSIDIAN = ITEMS.register("obsidian_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_QUARTZ = ITEMS.register("quartz_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_ENDER = ITEMS.register("ender_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_COKE = ITEMS.register("coke_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_GRAPHITE = ITEMS.register("graphite_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_LITHIUM = ITEMS.register("lithium_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_SALTPETER = ITEMS.register("saltpeter_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_SULFUR = ITEMS.register("sulfur_dust", ItemBase::new);
+  public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemBase::new);
 
   //Ore Items
   private static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;

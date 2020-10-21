@@ -15,10 +15,18 @@
     "emendatusenigmatica:constantan_block",
     "emendatusenigmatica:electrum_block",
     "emendatusenigmatica:steel_block",
+    "emendatusenigmatica:invar_block",
+    "emendatusenigmatica:signalum_block",
+    "emendatusenigmatica:lumium_block",
+    "emendatusenigmatica:enderium_block",
     "emendatusenigmatica:certus_quartz_block",
     "emendatusenigmatica:charged_certus_quartz_block",
     "emendatusenigmatica:fluix_block",
     "emendatusenigmatica:fluorite_block",
-    "emendatusenigmatica:bitumen_block"
+    "emendatusenigmatica:bitumen_block",
+    "emendatusenigmatica:cinnabar_block",
+    "emendatusenigmatica:apatite_block",
+    "emendatusenigmatica:sulfur_block",
+    "emendatusenigmatica:potassium_nitrate_block"
   ]
 }

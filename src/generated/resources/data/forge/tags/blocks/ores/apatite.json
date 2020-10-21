@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:apatite_ore",
+    "emendatusenigmatica:apatite_andesite_ore",
+    "emendatusenigmatica:apatite_gabbro_ore",
+    "emendatusenigmatica:apatite_c_limestone_ore",
+    "emendatusenigmatica:apatite_scoria_ore",
+    "emendatusenigmatica:apatite_weathered_limestone_ore",
+    "emendatusenigmatica:apatite_jasper_ore",
+    "emendatusenigmatica:apatite_marble_ore",
+    "emendatusenigmatica:apatite_slate_ore"
+  ]
+}

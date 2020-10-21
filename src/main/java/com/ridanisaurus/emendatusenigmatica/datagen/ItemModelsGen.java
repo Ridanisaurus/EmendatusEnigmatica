@@ -63,15 +63,9 @@ public class ItemModelsGen extends ItemModelProvider {
     getBuilder("lithium_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/lithium_dust"));
-    getBuilder("saltpeter_dust")
+    getBuilder("wood_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/saltpeter_dust"));
-    getBuilder("sulfur_dust")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/sulfur_dust"));
-    getBuilder("quartz_dust")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/quartz_dust"));
+            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/wood_dust"));
 
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
@@ -110,6 +104,12 @@ public class ItemModelsGen extends ItemModelProvider {
           getBuilder(material.id + "_plate")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_plate"));
+        }
+        // Gears
+        if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
+          getBuilder(material.id + "_gear")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gear"));
         }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {

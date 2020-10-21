@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:sulfur_chunk"
+  },
+  "result": "emendatusenigmatica:sulfur_c_limestone_ore",
+  "count": 1
+}

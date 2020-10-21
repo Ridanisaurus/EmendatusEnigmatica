@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "emendatusenigmatica:signalum_dust"
+  },
+  "result": "emendatusenigmatica:signalum_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

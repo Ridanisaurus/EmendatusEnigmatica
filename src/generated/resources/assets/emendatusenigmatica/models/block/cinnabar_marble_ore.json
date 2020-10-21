@@ -1,0 +1,7 @@
+{
+  "parent": "emendatusenigmatica:block/cube_overlayered",
+  "textures": {
+    "base": "emendatusenigmatica:blocks/strata/quark_marble",
+    "overlay": "emendatusenigmatica:blocks/overlays/cinnabar"
+  }
+}

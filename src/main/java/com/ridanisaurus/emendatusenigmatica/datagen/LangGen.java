@@ -102,6 +102,14 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
         }
 
+        // Gears
+        if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Gear");
+          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+        }
+
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           StringBuilder sb = new StringBuilder();
@@ -135,8 +143,6 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
     add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
-    add(ItemHandler.DUST_QUARTZ.get(), "Nether Quartz Dust");
-    add(ItemHandler.DUST_SALTPETER.get(), "Saltpeter Dust");
-    add(ItemHandler.DUST_SULFUR.get(), "Sulfur Dust");
+    add(ItemHandler.DUST_WOOD.get(), "Nether Quartz Dust");
   }
 }

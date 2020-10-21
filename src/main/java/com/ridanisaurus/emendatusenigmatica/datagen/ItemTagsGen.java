@@ -46,37 +46,6 @@ public class ItemTagsGen extends ItemTagsProvider {
 
   @Override
   protected void registerTags() {
-    // Dusts
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()))
-            .add(ItemHandler.DUST_CHARCOAL.get())
-            .add(ItemHandler.DUST_OBSIDIAN.get())
-            .add(ItemHandler.DUST_QUARTZ.get())
-            .add(ItemHandler.DUST_ENDER.get())
-            .add(ItemHandler.DUST_COKE.get())
-            .add(ItemHandler.DUST_GRAPHITE.get())
-            .add(ItemHandler.DUST_LITHIUM.get())
-            .add(ItemHandler.DUST_SALTPETER.get())
-            .add(ItemHandler.DUST_SULFUR.get());
-
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/charcoal").toString()))
-            .add(ItemHandler.DUST_CHARCOAL.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/obsidian").toString()))
-            .add(ItemHandler.DUST_OBSIDIAN.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/quartz").toString()))
-            .add(ItemHandler.DUST_QUARTZ.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender").toString()))
-            .add(ItemHandler.DUST_ENDER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coke").toString()))
-            .add(ItemHandler.DUST_COKE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/graphite").toString()))
-            .add(ItemHandler.DUST_GRAPHITE.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/lithium").toString()))
-            .add(ItemHandler.DUST_LITHIUM.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/saltpeter").toString()))
-            .add(ItemHandler.DUST_SALTPETER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/sulfur").toString()))
-            .add(ItemHandler.DUST_SULFUR.get());
-
     // Forge Tags
     Builder<Item> forgeBlocks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
     Builder<Item> forgeIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots").toString()));
@@ -84,6 +53,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgeNuggets = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets").toString()));
     Builder<Item> forgeDusts = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()));
     Builder<Item> forgePlates = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
+    Builder<Item> forgeGears = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
 
@@ -132,6 +102,13 @@ public class ItemTagsGen extends ItemTagsProvider {
       plateTag.add(plate.get());
     });
 
+    // Gears
+    ItemHandler.itemTable.get().row(ProcessedMaterials.GEAR).forEach((mat, gear) -> {
+      forgeGears.add(gear.get());
+      Builder<Item> gearTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears/" + mat.id).toString()));
+      gearTag.add(gear.get());
+    });
+
     // Chunks
     ItemHandler.itemTable.get().row(ProcessedMaterials.CHUNK).forEach((mat, chunk) -> {
       forgeChunks.add(chunk.get());
@@ -152,16 +129,52 @@ public class ItemTagsGen extends ItemTagsProvider {
       }
     }
 
+    // Dusts
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()))
+            .add(ItemHandler.DUST_CHARCOAL.get())
+            .add(ItemHandler.DUST_OBSIDIAN.get())
+            .add(ItemHandler.DUST_ENDER.get())
+            .add(ItemHandler.DUST_COKE.get())
+            .add(ItemHandler.DUST_GRAPHITE.get())
+            .add(ItemHandler.DUST_LITHIUM.get())
+            .add(ItemHandler.DUST_WOOD.get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/charcoal").toString()))
+            .add(ItemHandler.DUST_CHARCOAL.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/obsidian").toString()))
+            .add(ItemHandler.DUST_OBSIDIAN.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender").toString()))
+            .add(ItemHandler.DUST_ENDER.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coke").toString()))
+            .add(ItemHandler.DUST_COKE.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/graphite").toString()))
+            .add(ItemHandler.DUST_GRAPHITE.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/lithium").toString()))
+            .add(ItemHandler.DUST_LITHIUM.get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/wood").toString()))
+            .add(ItemHandler.DUST_WOOD.get());
+
+    // Potassium Nitrate Compact
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/niter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/niter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/saltpeter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/saltpeter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+
     // AE2 Additional Tags
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get())
-            .add(ItemHandler.DUST_QUARTZ.get());
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get())
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/certus_quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get());
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz").toString()))
-            .add(ItemHandler.DUST_QUARTZ.get());
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus_quartz").toString()))
             .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get());

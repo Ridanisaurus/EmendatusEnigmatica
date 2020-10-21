@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "emendatusenigmatica:enderium_dust"
+  },
+  "result": "emendatusenigmatica:enderium_ingot",
+  "experience": 0.7,
+  "cookingtime": 200
+}

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "emendatusenigmatica:items/saltpeter_dust"
+    "layer0": "emendatusenigmatica:items/silver_gear"
   }
 }

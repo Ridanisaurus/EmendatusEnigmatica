@@ -1,0 +1,7 @@
+{
+  "parent": "emendatusenigmatica:block/cube_overlayered",
+  "textures": {
+    "base": "minecraft:block/andesite",
+    "overlay": "emendatusenigmatica:blocks/overlays/sulfur"
+  }
+}
