@@ -26,14 +26,17 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -42,20 +45,22 @@ public class OreHandler {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Ore Blocks
-  private static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
-  public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
+  public static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
+  //public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
   public static void oreBlocks() {
     ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
-        if (material.oreBlock != null) {
+        // REMOVE: && stratum.block.get() != null when generating data
+        if (material.oreBlock != null && stratum.block.get() != null) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
           builder.put(stratum, material, BLOCKS.register(oreName, material.oreBlock));
         }
       }
     }
     backingOreBlockTable = builder.build();
+    EmendatusEnigmatica.LOGGER.info("Ore Table: {}", backingOreBlockTable);
   }
 
 }

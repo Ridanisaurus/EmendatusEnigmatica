@@ -60,14 +60,14 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
 
     // Storage Block Items
-    ItemHandler.itemTable.get().row(ProcessedMaterials.STORAGE_BLOCK).forEach((mat, storageBlock) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.STORAGE_BLOCK).forEach((mat, storageBlock) -> {
       forgeBlocks.add(storageBlock.get());
       Builder<Item> blockTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + mat.id).toString()));
       blockTag.add(storageBlock.get());
     });
 
     // Ingots
-    ItemHandler.itemTable.get().row(ProcessedMaterials.INGOT).forEach((mat, ingot) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.INGOT).forEach((mat, ingot) -> {
       forgeIngots.add(ingot.get());
       beaconIngots.add(ingot.get());
       Builder<Item> ingotTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ingots/" + mat.id).toString()));
@@ -75,42 +75,42 @@ public class ItemTagsGen extends ItemTagsProvider {
     });
 
     // Gems
-    ItemHandler.itemTable.get().row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
       forgeGems.add(gem.get());
       Builder<Item> gemTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
       gemTag.add(gem.get());
     });
 
     // Nuggets
-    ItemHandler.itemTable.get().row(ProcessedMaterials.NUGGET).forEach((mat, nugget) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.NUGGET).forEach((mat, nugget) -> {
       forgeNuggets.add(nugget.get());
       Builder<Item> nuggetTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "nuggets/" + mat.id).toString()));
       nuggetTag.add(nugget.get());
     });
 
     // Dusts
-    ItemHandler.itemTable.get().row(ProcessedMaterials.DUST).forEach((mat, dust) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.DUST).forEach((mat, dust) -> {
       forgeDusts.add(dust.get());
       Builder<Item> dustTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/" + mat.id).toString()));
       dustTag.add(dust.get());
     });
 
     // Plates
-    ItemHandler.itemTable.get().row(ProcessedMaterials.PLATE).forEach((mat, plate) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.PLATE).forEach((mat, plate) -> {
       forgePlates.add(plate.get());
       Builder<Item> plateTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates/" + mat.id).toString()));
       plateTag.add(plate.get());
     });
 
     // Gears
-    ItemHandler.itemTable.get().row(ProcessedMaterials.GEAR).forEach((mat, gear) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.GEAR).forEach((mat, gear) -> {
       forgeGears.add(gear.get());
       Builder<Item> gearTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears/" + mat.id).toString()));
       gearTag.add(gear.get());
     });
 
     // Chunks
-    ItemHandler.itemTable.get().row(ProcessedMaterials.CHUNK).forEach((mat, chunk) -> {
+    ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).forEach((mat, chunk) -> {
       forgeChunks.add(chunk.get());
       Builder<Item> chunkTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/" + mat.id).toString()));
       chunkTag.add(chunk.get());
@@ -118,14 +118,14 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     // Ore Items
 
-    ItemHandler.oreItemTable.get().values().forEach(s -> forgeOres.add(s.get()));
+    ItemHandler.backingOreItemTable.values().forEach(s -> forgeOres.add(s.get()));
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
         Builder<Item> oreTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id).toString()));
-        ItemHandler.oreItemTable.get().column(material).values().forEach(s -> oreTag.add(s.get()));
-        forgeOres.add(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get());
-        oreTag.add(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get());
+        ItemHandler.backingOreItemTable.column(material).values().forEach(s -> oreTag.add(s.get()));
+        forgeOres.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
+        oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
       }
     }
 
@@ -156,46 +156,46 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     // Potassium Nitrate Compact
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/niter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/niter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/saltpeter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/saltpeter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/saltpeter").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
 
     // AE2 Additional Tags
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get())
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/certus_quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus_quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/charged_certus_quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/quartz").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get())
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get())
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CHARGED_CERTUS_QUARTZ).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/fluix").toString()))
-            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.FLUIX).get());
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.FLUIX).get());
   }
 }

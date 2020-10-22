@@ -1,7 +1,7 @@
 {
   "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "base": "emendatusenigmatica:blocks/strata/create_scoria",
+    "base": "create:block/palettes/natural_scoria",
     "overlay": "emendatusenigmatica:blocks/overlays/fluorite"
   }
 }

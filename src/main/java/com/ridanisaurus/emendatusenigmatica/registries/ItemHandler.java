@@ -35,6 +35,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -43,8 +44,8 @@ public class ItemHandler {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
-  private static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;
-  public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Item>>> itemTable = () -> Optional.ofNullable(backingItemTable).orElse(ImmutableTable.of());
+  public static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;
+  //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Item>>> itemTable = () -> Optional.ofNullable(backingItemTable).orElse(ImmutableTable.of());
 
   public static void itemInit() {
     ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
@@ -55,7 +56,7 @@ public class ItemHandler {
         //Storage Block Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           String storageBlockName = material.id + "_block";
-          builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get())));
+          builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get())));
         }
         // Ingots
         if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
@@ -107,17 +108,18 @@ public class ItemHandler {
   public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemBase::new);
 
   //Ore Items
-  private static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;
-  public static final Supplier<Table<Strata, Materials, RegistryObject<Item>>> oreItemTable = () -> Optional.ofNullable(backingOreItemTable).orElse(ImmutableTable.of());
+  public static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;
+  //public static final Supplier<Table<Strata, Materials, RegistryObject<Item>>> oreItemTable = () -> Optional.ofNullable(backingOreItemTable).orElse(ImmutableTable.of());
 
   public static void oreItems() {
     ImmutableTable.Builder<Strata, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
-        if (material.oreBlock != null && toCreate.contains("Ore")) {
+        // REMOVE: && stratum.block.get() != null when generating data
+        if (material.oreBlock != null && toCreate.contains("Ore") && stratum.block.get() != null) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
-          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.oreBlockTable.get().get(stratum, material).get())));
+          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get())));
         }
       }
     }

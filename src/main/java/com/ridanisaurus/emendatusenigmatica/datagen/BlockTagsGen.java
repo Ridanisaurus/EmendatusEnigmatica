@@ -50,38 +50,38 @@ public class BlockTagsGen extends BlockTagsProvider {
   protected void registerTags() {
     // Storage Blocks
     Builder<Block> forgeBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
-    BlockHandler.storageBlockTable.get().values().forEach(block -> forgeBlocks.add(block.get()));
+    BlockHandler.backingStorageBlockTable.values().forEach(block -> forgeBlocks.add(block.get()));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (toCreate.contains("Block")) {
         Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
-        BlockHandler.storageBlockTable.get().column(material).values().forEach(block -> blockTag.add(block.get()));
+        BlockHandler.backingStorageBlockTable.column(material).values().forEach(block -> blockTag.add(block.get()));
       }
     }
 
     // Ores
     Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
-    OreHandler.oreBlockTable.get().values().forEach(ore -> forgeOres.add(ore.get()));
+    OreHandler.backingOreBlockTable.values().forEach(ore -> forgeOres.add(ore.get()));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
         Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id).toString()));
-        OreHandler.oreBlockTable.get().column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
+        OreHandler.backingOreBlockTable.column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
       }
     }
 
     // Minecraft Additional Tags (Beacon Base)
     Builder<Block> beaconBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
-    BlockHandler.storageBlockTable.get().values().forEach(beaconBlock -> beaconBlocks.add(beaconBlock.get()));
+    BlockHandler.backingStorageBlockTable.values().forEach(beaconBlock -> beaconBlocks.add(beaconBlock.get()));
 
     // Potassium Nitrate Compact
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
-            .add(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
+            .add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/saltpeter").toString()))
-            .add(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
+            .add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
     // Misc
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString()))

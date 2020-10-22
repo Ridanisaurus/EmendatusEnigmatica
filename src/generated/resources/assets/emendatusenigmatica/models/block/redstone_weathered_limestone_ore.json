@@ -1,7 +1,7 @@
 {
   "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "base": "emendatusenigmatica:blocks/strata/create_weathered_limestone",
+    "base": "create:block/palettes/weathered_limestone/plain",
     "overlay": "emendatusenigmatica:blocks/overlays/redstone"
   }
 }

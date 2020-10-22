@@ -60,7 +60,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Block");
-          add(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Ingots
@@ -68,14 +68,14 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Ingot");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Gems
         if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Nuggets
@@ -83,7 +83,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Nugget");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Dusts
@@ -91,7 +91,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Dust");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Plates
@@ -99,7 +99,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Plate");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Gears
@@ -107,7 +107,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Gear");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Chunks
@@ -115,7 +115,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Chunk");
-          add(ItemHandler.itemTable.get().get(processedMaterial, material).get(), sb.toString());
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
       }
     }
@@ -132,7 +132,7 @@ public class LangGen extends LanguageProvider {
             sb.append(" - ");
             sb.append(stratum.localisedName);
           }
-          add(OreHandler.oreBlockTable.get().get(stratum, material).get(), sb.toString());
+          add(OreHandler.backingOreBlockTable.get(stratum, material).get(), sb.toString());
         }
       }
     }
@@ -143,6 +143,6 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
     add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
-    add(ItemHandler.DUST_WOOD.get(), "Nether Quartz Dust");
+    add(ItemHandler.DUST_WOOD.get(), "Sawdust");
   }
 }

@@ -48,7 +48,7 @@ public class LootTablesGen extends BaseLootTableProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          blockLootTable.put(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(), createBlockLootTable(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get()));
+          blockLootTable.put(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), createBlockLootTable(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get()));
         }
       }
     }
@@ -58,10 +58,10 @@ public class LootTablesGen extends BaseLootTableProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
-          blockLootTable.put(OreHandler.oreBlockTable.get().get(stratum, material).get(),
+          blockLootTable.put(OreHandler.backingOreBlockTable.get(stratum, material).get(),
                   material.drop == null
-                          ? createItemLootTable(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get())
-                          : createCountTable(ItemHandler.itemTable.get().get(ProcessedMaterials.CHUNK, material).get(), material.drop.item.get(), material.drop.min, material.drop.max));
+                          ? createItemLootTable(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                          : createCountTable(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get(), material.drop.item.get(), material.drop.min, material.drop.max));
         }
       }
     }

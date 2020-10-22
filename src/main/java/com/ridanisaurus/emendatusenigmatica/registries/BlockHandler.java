@@ -41,8 +41,8 @@ public class BlockHandler {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   // Storage Blocks
-  private static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
-  public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
+  public static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
+  //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
 
   public static void blockInit() {
     ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();

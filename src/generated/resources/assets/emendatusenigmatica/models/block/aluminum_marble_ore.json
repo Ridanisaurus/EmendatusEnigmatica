@@ -1,7 +1,7 @@
 {
   "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "base": "emendatusenigmatica:blocks/strata/quark_marble",
+    "base": "quark:block/marble",
     "overlay": "emendatusenigmatica:blocks/overlays/aluminum"
   }
 }

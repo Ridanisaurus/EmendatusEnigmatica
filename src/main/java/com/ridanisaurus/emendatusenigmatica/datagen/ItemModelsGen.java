@@ -72,7 +72,7 @@ public class ItemModelsGen extends ItemModelProvider {
         List<String> toCreate = Arrays.asList(material.type);
         // Storage Blocks Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          withExistingParent(BlockHandler.storageBlockTable.get().get(processedMaterial, material).getId().getPath(), modLoc(material.id + "_block"))
+          withExistingParent(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).getId().getPath(), modLoc(material.id + "_block"))
                   .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.id + "_block")));
         }
         // Ingots
@@ -124,7 +124,7 @@ public class ItemModelsGen extends ItemModelProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
-          withExistingParent(OreHandler.oreBlockTable.get().get(stratum, material).getId().getPath(), modLoc(getModelName(stratum, material)))
+          withExistingParent(OreHandler.backingOreBlockTable.get(stratum, material).getId().getPath(), modLoc(getModelName(stratum, material)))
                   .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material))));
         }
 

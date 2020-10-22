@@ -1,7 +1,7 @@
 {
   "parent": "emendatusenigmatica:block/cube_overlayered",
   "textures": {
-    "base": "emendatusenigmatica:blocks/strata/quark_jasper",
+    "base": "quark:block/jasper",
     "overlay": "emendatusenigmatica:blocks/overlays/diamond"
   }
 }

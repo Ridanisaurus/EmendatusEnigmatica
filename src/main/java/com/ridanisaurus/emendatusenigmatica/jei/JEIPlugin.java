@@ -46,7 +46,7 @@ public class JEIPlugin implements IModPlugin {
   @Override
   public void registerRecipes(IRecipeRegistration registration) {
 
-    ItemHandler.oreItemTable.get().values().forEach(item -> {
+    ItemHandler.backingOreItemTable.values().forEach(item -> {
       ItemStack stack = new ItemStack(item.get());
       registration.addIngredientInfo(stack, VanillaTypes.ITEM, "tooltip.emendatusenigmatica.ores.1", "tooltip.emendatusenigmatica.ores.2", "tooltip.emendatusenigmatica.ores.3");
     });

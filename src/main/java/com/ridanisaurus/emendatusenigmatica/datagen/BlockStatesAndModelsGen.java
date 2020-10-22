@@ -51,9 +51,9 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          Block block = BlockHandler.storageBlockTable.get().get(processedMaterial, material).get();
+          Block block = BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get();
           ResourceLocation loc = block.getRegistryName();
-          simpleBlock(BlockHandler.storageBlockTable.get().get(processedMaterial, material).get(),
+          simpleBlock(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(),
                   models().cubeAll(material.id + "_block",
                           new ResourceLocation(Reference.MOD_ID, "blocks/" + material.id + "_block")));
         }
@@ -65,7 +65,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
-          Block block = OreHandler.oreBlockTable.get().get(stratum, material).get();
+          Block block = OreHandler.backingOreBlockTable.get(stratum, material).get();
           ResourceLocation loc = block.getRegistryName();
           dynamicBlock(loc, getBaseTexture(stratum), getOverlayTexture(material));
           simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
