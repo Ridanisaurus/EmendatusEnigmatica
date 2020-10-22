@@ -225,8 +225,8 @@ public class RecipesGen extends RecipeProvider {
                 .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_ingot/" + material.id));
       }
 
-      // Block from Gem
-      if (toCreate.contains("Gem") && toCreate.contains("Block")) {
+      // Block from Gem x4
+      if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
         ShapedRecipeBuilder.shapedRecipe(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, material).get())
                 .key('#', ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, material).get())
                 .patternLine("##")
@@ -234,6 +234,36 @@ public class RecipesGen extends RecipeProvider {
                 .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                 .setGroup(Reference.MOD_ID)
                 .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
+      }
+
+      // Block from Gem x9
+      if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
+        ShapedRecipeBuilder.shapedRecipe(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .key('#', ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, material).get())
+                .patternLine("###")
+                .patternLine("###")
+                .patternLine("###")
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
+      }
+
+      // Gem from Block x4
+      if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, material).get(), 4)
+                .addIngredient(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
+      }
+
+      // Gem from Block x9
+      if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, material).get(), 9)
+                .addIngredient(BlockHandler.storageBlockTable.get().get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
       }
 
       // Chunk Smelting & Blasting

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:fluix_block"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:fluix_gem",
+    "count": 4
+  }
+}

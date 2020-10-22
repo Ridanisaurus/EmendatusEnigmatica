@@ -159,11 +159,16 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/niter").toString()))
             .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/saltpeter").toString()))
             .add(ItemHandler.itemTable.get().get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/saltpeter").toString()))
             .add(ItemHandler.itemTable.get().get(ProcessedMaterials.GEM, Materials.POTASSIUM_NITRATE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/saltpeter").toString()))
+            .add(ItemHandler.itemTable.get().get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
+
 
     // AE2 Additional Tags
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))

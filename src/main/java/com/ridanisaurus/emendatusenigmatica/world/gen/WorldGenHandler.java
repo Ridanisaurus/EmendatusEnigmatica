@@ -85,7 +85,7 @@ public class WorldGenHandler {
   }
 
   public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
-    oreFeatureTable.get().values().forEach(feature ->
+    oreFeatures.values().forEach(feature ->
             builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature));
   }
 

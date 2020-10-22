@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:bitumen_block"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:bitumen_gem",
+    "count": 9
+  }
+}
