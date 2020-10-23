@@ -21,7 +21,7 @@ issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues" #o
 modId="emendatusenigmatica" #mandatory
 
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.16.3-1.0.1" #mandatory
+version="1.16.3-1.0.2" #mandatory
 
 # A display name for the mod
 displayName="Emendatus Enigmatica" #mandatory
@@ -62,15 +62,11 @@ All blocks, and items have been properly tagged, and have all the basic recipes.
     versionRange="[1.16.3]"
     ordering="NONE"
     side="BOTH"
+
 # Quark
 [[dependencies.emendatusenigmatica]] #optional
-    # the modid of the dependency
-    modId="quark" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=false #mandatory
-    # The version range of the dependency
-    versionRange="[r2.4,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
+    modId="quark"
+    mandatory=false
+    versionRange="[r2.4-269,)"
     ordering="AFTER"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"

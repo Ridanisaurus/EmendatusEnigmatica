@@ -55,7 +55,7 @@ public class WorldGenHandler {
 
   //Ore Blocks
   private static Table<Strata, Materials, ConfiguredFeature<?, ?>> oreFeatures;
-  public static final Supplier<Table<Strata, Materials, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
+  //public static final Supplier<Table<Strata, Materials, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
 
   public static void oreFeatures() {
     Collection<Strata> activeStrata = EnumSet.noneOf(Strata.class);
@@ -97,7 +97,7 @@ public class WorldGenHandler {
   }
 
   private static BlockState getOreBlock(Strata stratum, Materials material) {
-    EmendatusEnigmatica.LOGGER.info("Ore Recorded: {}", stratum + " " + material);
+    EmendatusEnigmatica.LOGGER.debug("Ores Recorded: {}", stratum + " " + material);
     return OreHandler.backingOreBlockTable.get(stratum, material).get().getDefaultState();
   }
 

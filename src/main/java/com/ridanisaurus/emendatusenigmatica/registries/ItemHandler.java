@@ -30,15 +30,13 @@ import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public class ItemHandler {
 
@@ -116,8 +114,7 @@ public class ItemHandler {
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
-        // REMOVE: && stratum.block.get() != null when generating data
-        if (material.oreBlock != null && toCreate.contains("Ore") && stratum.block.get() != null) {
+        if (material.oreBlock != null && toCreate.contains("Ore") && ModList.get().isLoaded(stratum.modid)) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
           builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get())));
         }

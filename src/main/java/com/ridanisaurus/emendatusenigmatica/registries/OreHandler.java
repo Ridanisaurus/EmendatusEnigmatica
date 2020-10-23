@@ -26,19 +26,14 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
-import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.EnumSet;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public class OreHandler {
 
@@ -52,15 +47,13 @@ public class OreHandler {
     ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
-        // REMOVE: && stratum.block.get() != null when generating data
-        if (material.oreBlock != null && stratum.block.get() != null) {
-          String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
+        String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
+        if (material.oreBlock != null && ModList.get().isLoaded(stratum.modid)) {
           builder.put(stratum, material, BLOCKS.register(oreName, material.oreBlock));
         }
       }
     }
     backingOreBlockTable = builder.build();
-    EmendatusEnigmatica.LOGGER.info("Ore Table: {}", backingOreBlockTable);
   }
 
 }
