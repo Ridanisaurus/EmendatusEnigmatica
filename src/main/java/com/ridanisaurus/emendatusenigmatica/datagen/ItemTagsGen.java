@@ -55,7 +55,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgePlates = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
     Builder<Item> forgeGears = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
-    Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
+    Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
 
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
 
@@ -122,7 +122,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
-        Builder<Item> oreTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id).toString()));
+        Builder<Item> oreTag = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
         ItemHandler.backingOreItemTable.column(material).values().forEach(s -> oreTag.add(s.get()));
         forgeOres.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
         oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());

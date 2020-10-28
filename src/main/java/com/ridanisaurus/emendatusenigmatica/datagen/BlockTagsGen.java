@@ -61,13 +61,13 @@ public class BlockTagsGen extends BlockTagsProvider {
     }
 
     // Ores
-    Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
+    Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
     OreHandler.backingOreBlockTable.values().forEach(ore -> forgeOres.add(ore.get()));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
-        Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id).toString()));
+        Builder<Block> oreTag = getOrCreateBuilder(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
         OreHandler.backingOreBlockTable.column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
       }
     }

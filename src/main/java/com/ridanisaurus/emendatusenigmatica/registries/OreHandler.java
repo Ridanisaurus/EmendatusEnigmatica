@@ -48,7 +48,7 @@ public class OreHandler {
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
-        if (material.oreBlock != null && ModList.get().isLoaded(stratum.modid)) {
+        if (material.oreBlock != null) {
           builder.put(stratum, material, BLOCKS.register(oreName, material.oreBlock));
         }
       }
