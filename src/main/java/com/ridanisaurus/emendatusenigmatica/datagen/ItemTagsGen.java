@@ -154,6 +154,10 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/wood").toString()))
             .add(ItemHandler.DUST_WOOD.get());
 
+    // Mana Gem
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/mana").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get());
+
     // Potassium Nitrate Compact
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/niter").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.POTASSIUM_NITRATE).get());
