@@ -8,7 +8,7 @@
 modLoader="javafml" #mandatory
 
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[32,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[35,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="MIT License"
 
 # A URL to refer people to when problems occur with this mod
@@ -21,7 +21,7 @@ issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues" #o
 modId="emendatusenigmatica" #mandatory
 
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.16.3-1.0.3" #mandatory
+version="1.16.4-1.0.0" #mandatory
 
 # A display name for the mod
 displayName="Emendatus Enigmatica" #mandatory
@@ -33,7 +33,7 @@ displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica" #optional
 logoFile="logo.png" #optional
 
 # A text field displayed in the mod UI
-credits="Thanks to Buuz135, MaxNeedsSnacks, and Darkere for their guidance and help, and to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, continues support on this journey." #optional
+credits="Thanks to Buuz135, MaxNeedsSnacks, and Darkere for their guidance and help, and to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, and continues support on this journey." #optional
 
 # A text field displayed in the mod UI
 authors="Ridanisaurus" #optional
@@ -59,7 +59,7 @@ All blocks, and items have been properly tagged, and have all the basic recipes.
 [[dependencies.emendatusenigmatica]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3]"
+    versionRange="[1.16.4]"
     ordering="NONE"
     side="BOTH"
 

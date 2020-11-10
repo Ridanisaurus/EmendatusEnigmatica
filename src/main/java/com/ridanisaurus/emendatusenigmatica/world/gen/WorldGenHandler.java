@@ -104,8 +104,8 @@ public class WorldGenHandler {
   private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int minY, int maxY, RuleTest filler, BlockState state) {
     Feature<OreFeatureConfig> oreFeature = Feature.ORE;
     return oreFeature.withConfiguration(new OreFeatureConfig(filler, state, size))
-            .withPlacement(Placement.field_242910_o.configure(new DepthAverageConfig(minY, maxY))) // min and max y using vanilla depth averages
-            .func_242728_a() // square vein
+            .withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(minY, maxY))) // min and max y using vanilla depth averages
+            .square() // square vein
             .func_242731_b(count) // max count per chunk
             ;
   }
