@@ -85,7 +85,7 @@ public class EmendatusEnigmatica {
 
     private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
-            RenderTypeLookup.setRenderLayer(block.get(), RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
         }
     }
 

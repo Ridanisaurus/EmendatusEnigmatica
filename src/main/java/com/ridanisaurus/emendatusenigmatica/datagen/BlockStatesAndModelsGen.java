@@ -28,14 +28,21 @@ import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.MultiLayerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
@@ -74,8 +81,45 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     }
   }
 
+  /*public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
+    models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block"))).texture("base", baseTexture).texture("overlay", overlayTexture);
+  }*/
+
   public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
-    models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/cube_overlayered"))).texture("base", baseTexture).texture("overlay", overlayTexture);
+    models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+            .texture("particle", modLoc(overlayTexture))
+            .transforms()
+            .transform(ModelBuilder.Perspective.THIRDPERSON_LEFT)
+            .rotation(75F, 45F, 0F)
+            .translation(0F, 2.5F, 0)
+            .scale(0.375F, 0.375F, 0.375F)
+            .end()
+            .transform(ModelBuilder.Perspective.THIRDPERSON_RIGHT)
+            .rotation(75F, 45F, 0F)
+            .translation(0F, 2.5F, 0)
+            .scale(0.375F, 0.375F, 0.375F)
+            .end()
+            .end()
+            .customLoader(MultiLayerModelBuilder::begin)
+            .submodel(RenderType.getSolid(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                    .texture("base", baseTexture)
+                    .element()
+                    .from(0, 0, 0)
+                    .to(16, 16,16)
+                    .cube("#base")
+                    //.allFaces((dir, uv) -> uv.uvs(0F,0.0F, 16F,16F))
+                    .end()
+            )
+            .submodel(RenderType.getTranslucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                    .texture("overlay", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+                    .element()
+                    .from(0, 0, 0)
+                    .to(16, 16,16)
+                    .cube("#overlay")
+                    //.allFaces((dir, uv) -> uv.uvs(0F,0F, 16F,16F))
+                    .end()
+            )
+            .end();
   }
 
   public static String getBaseTexture(Strata stratum) {
