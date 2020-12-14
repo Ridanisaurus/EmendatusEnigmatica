@@ -11,6 +11,8 @@ public enum Strata {
 
   STONE("minecraft_stone", "minecraft:block/stone", "stone", Blocks.STONE, "Stone", "minecraft"),
   ANDESITE("minecraft_andesite", "minecraft:block/andesite",  "andesite", Blocks.ANDESITE, "Andesite", "minecraft"),
+  //NETHERRACK("minecraft_netherrack", "minecraft:block/netherrack",  "netherrack", Blocks.NETHERRACK, "Netherrack", "minecraft"),
+  //BLACKSTONE("minecraft_blackstone", "minecraft:block/blackstone",  "blackstone", Blocks.BLACKSTONE, "Blackstone", "minecraft"),
 
   CREATE_GABBRO("create_gabbro", "create:block/palettes/gabbro/plain",  "gabbro", new ResourceLocation("create:gabbro"), "Gabbro", "create"),
   CREATE_LIMESTONE("create_limestone", "create:block/palettes/limestone/plain",  "c_limestone", new ResourceLocation("create:limestone"), "Limestone", "create"),
