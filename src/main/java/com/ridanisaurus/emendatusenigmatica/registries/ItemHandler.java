@@ -33,6 +33,8 @@ import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -88,6 +90,11 @@ public class ItemHandler {
         if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
           String gearName = material.id + "_gear";
           builder.put(processedMaterial, material, ITEMS.register(gearName, material.item));
+        }
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          String rodName = material.id + "_rod";
+          builder.put(processedMaterial, material, ITEMS.register(rodName, material.item));
         }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {

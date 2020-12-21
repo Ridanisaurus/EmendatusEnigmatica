@@ -111,6 +111,12 @@ public class ItemModelsGen extends ItemModelProvider {
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gear"));
         }
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          getBuilder(material.id + "_rod")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_rod"));
+        }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           getBuilder(material.id + "_chunk")

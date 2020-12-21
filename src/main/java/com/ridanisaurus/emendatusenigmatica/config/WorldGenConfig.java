@@ -75,15 +75,15 @@ public class WorldGenConfig {
 
       for (Materials material : Materials.values()) {
         if (material.oreBlock != null) {
-          addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultMinY, material.defaultMaxY);
+          addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultBaseline, material.defaultSpread);
         }
       }
 
       configured = true;
     }
 
-    void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int minY, int maxY) {
-      addValue(material, new Properties(material.id, builder, size, count, minY, maxY));
+    void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
+      addValue(material, new Properties(material.id, builder, size, count, baseline, spread));
     }
 
     void addValue(Materials material, Properties props) {
@@ -107,15 +107,15 @@ public class WorldGenConfig {
       public final boolean ACTIVE;
       public final int VEIN_SIZE;
       public final int COUNT_PER_CHUNK;
-      public final int MIN_Y;
-      public final int MAX_Y;
+      public final int BASELINE_Y;
+      public final int SPREAD_AMOUNT;
 
       BakedOreProps(Properties properties) {
         ACTIVE = properties.ACTIVE.get();
         VEIN_SIZE = properties.VEIN_SIZE.get();
         COUNT_PER_CHUNK = properties.COUNT_PER_CHUNK.get();
-        MIN_Y = properties.MIN_Y.get();
-        MAX_Y = properties.MAX_Y.get();
+        BASELINE_Y = properties.BASELINE_Y.get();
+        SPREAD_AMOUNT = properties.SPREAD_AMOUNT.get();
       }
     }
 
@@ -123,10 +123,10 @@ public class WorldGenConfig {
       public final BooleanValue ACTIVE;
       public final IntValue VEIN_SIZE;
       public final IntValue COUNT_PER_CHUNK;
-      public final IntValue MIN_Y;
-      public final IntValue MAX_Y;
+      public final IntValue BASELINE_Y;
+      public final IntValue SPREAD_AMOUNT;
 
-      public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int minY, int maxY) {
+      public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
         builder.push("Ore Config: " + id);
         ACTIVE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
                 .translation(id + ".config.state")
@@ -140,14 +140,14 @@ public class WorldGenConfig {
                 .translation(id + ".config.count_per_chunk")
                 .worldRestart()
                 .defineInRange("count", count, 0, 64);
-        MIN_Y = builder.comment(String.format("Minimum Y-Level [Range: 0-256, Default: %d]", minY))
+        BASELINE_Y = builder.comment(String.format("Baseline Y-Level [Range: 0-256, Default: %d]", baseline))
                 .translation(id + ".config.bottom_offset")
                 .worldRestart()
-                .defineInRange("min_y", minY, 0, 256);
-        MAX_Y = builder.comment(String.format("Maximum Y-Level [Range: 0-256, Default: %d]", maxY))
+                .defineInRange("baseline", baseline, 0, 256);
+        SPREAD_AMOUNT = builder.comment(String.format("Spread Amount (# of Y-Levels above and below the baseline) [Range: 0-256, Default: %d]", spread))
                 .translation(id + ".config.maximum_height")
                 .worldRestart()
-                .defineInRange("max_y", maxY, 0, 256);
+                .defineInRange("spread", spread, 0, 256);
         builder.pop();
       }
 

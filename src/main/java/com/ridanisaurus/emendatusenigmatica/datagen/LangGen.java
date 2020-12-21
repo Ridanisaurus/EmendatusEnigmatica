@@ -72,7 +72,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Gems
-        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
+        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
@@ -110,6 +110,14 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Rod");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           StringBuilder sb = new StringBuilder();
@@ -136,6 +144,8 @@ public class LangGen extends LanguageProvider {
         }
       }
     }
+
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_COKE.get(), "Coke Dust");

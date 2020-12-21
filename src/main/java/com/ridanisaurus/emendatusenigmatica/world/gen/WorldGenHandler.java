@@ -33,8 +33,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.BlockState;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.loot.LootTableManager;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
@@ -45,11 +43,8 @@ import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 public class WorldGenHandler {
 
@@ -73,8 +68,8 @@ public class WorldGenHandler {
               builder.put(stratum, material, getOreFeature(
                       p.COUNT_PER_CHUNK,
                       p.VEIN_SIZE,
-                      p.MIN_Y,
-                      p.MAX_Y, getFilter(stratum), getOreBlock(stratum, material)));
+                      p.BASELINE_Y,
+                      p.SPREAD_AMOUNT, getFilter(stratum), getOreBlock(stratum, material)));
             }
           }
         }
@@ -101,10 +96,10 @@ public class WorldGenHandler {
     return OreHandler.backingOreBlockTable.get(stratum, material).get().getDefaultState();
   }
 
-  private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int minY, int maxY, RuleTest filler, BlockState state) {
+  private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
     Feature<OreFeatureConfig> oreFeature = Feature.ORE;
     return oreFeature.withConfiguration(new OreFeatureConfig(filler, state, size))
-            .withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(minY, maxY))) // min and max y using vanilla depth averages
+            .withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(baseline, spread)))
             .square() // square vein
             .func_242731_b(count) // max count per chunk
             ;

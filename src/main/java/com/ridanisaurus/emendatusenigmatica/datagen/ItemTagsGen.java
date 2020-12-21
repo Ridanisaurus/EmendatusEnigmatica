@@ -54,6 +54,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgeDusts = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()));
     Builder<Item> forgePlates = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
     Builder<Item> forgeGears = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
+    Builder<Item> forgeRods = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "rods").toString()));
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
 
@@ -76,9 +77,11 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     // Gems
     ItemHandler.backingItemTable.row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
+      if (!mat.id.equals("arcane")) {
       forgeGems.add(gem.get());
       Builder<Item> gemTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
       gemTag.add(gem.get());
+      }
     });
 
     // Nuggets
@@ -107,6 +110,13 @@ public class ItemTagsGen extends ItemTagsProvider {
       forgeGears.add(gear.get());
       Builder<Item> gearTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears/" + mat.id).toString()));
       gearTag.add(gear.get());
+    });
+
+    // Rods
+    ItemHandler.backingItemTable.row(ProcessedMaterials.ROD).forEach((mat, rod) -> {
+      forgeRods.add(rod.get());
+      Builder<Item> rodTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "rods/" + mat.id).toString()));
+      rodTag.add(rod.get());
     });
 
     // Chunks
@@ -156,6 +166,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 
     // Mana Gem
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/mana").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get());
 
     // Potassium Nitrate Compact
