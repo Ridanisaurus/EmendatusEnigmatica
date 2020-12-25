@@ -78,15 +78,9 @@ public class ItemTagsGen extends ItemTagsProvider {
     // Gems
     ItemHandler.backingItemTable.row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
       if (!mat.id.equals("arcane")) {
-<<<<<<< Updated upstream
-      forgeGems.add(gem.get());
-      Builder<Item> gemTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
-      gemTag.add(gem.get());
-=======
         forgeGems.add(gem.get());
         Builder<Item> gemTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
         gemTag.add(gem.get());
->>>>>>> Stashed changes
       }
     });
 

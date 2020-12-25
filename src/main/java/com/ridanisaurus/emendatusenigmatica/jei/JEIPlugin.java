@@ -24,7 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.jei;
 
+import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -46,13 +48,6 @@ public class JEIPlugin implements IModPlugin {
   @Override
   public void registerRecipes(IRecipeRegistration registration) {
 
-<<<<<<< Updated upstream
-    ItemHandler.backingOreItemTable.values().forEach(item -> {
-      ItemStack stack = new ItemStack(item.get());
-      registration.addIngredientInfo(stack, VanillaTypes.ITEM, "tooltip.emendatusenigmatica.ores.1", "tooltip.emendatusenigmatica.ores.2", "tooltip.emendatusenigmatica.ores.3");
-    });
-
-=======
     for (Materials material : Materials.values()) {
       ItemHandler.backingOreItemTable.column(material).values().forEach(item -> {
         ItemStack stack = new ItemStack(item.get());
@@ -88,6 +83,5 @@ public class JEIPlugin implements IModPlugin {
                 "tooltip.emendatusenigmatica.ores.3");
       });
     }
->>>>>>> Stashed changes
   }
 }

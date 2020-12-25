@@ -1,11 +1,7 @@
 {
   "block.emendatusenigmatica.aluminum_andesite_ore": "Aluminum Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.aluminum_block": "Aluminum Block",
-=======
   "block.emendatusenigmatica.aluminum_blackstone_ore": "Aluminum Ore - Blackstone",
   "block.emendatusenigmatica.aluminum_block": "Block of Aluminum",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.aluminum_c_limestone_ore": "Aluminum Ore - Limestone",
   "block.emendatusenigmatica.aluminum_end_stone_ore": "Aluminum Ore - End Stone",
   "block.emendatusenigmatica.aluminum_gabbro_ore": "Aluminum Ore - Gabbro",
@@ -17,12 +13,8 @@
   "block.emendatusenigmatica.aluminum_slate_ore": "Aluminum Ore - Slate",
   "block.emendatusenigmatica.aluminum_weathered_limestone_ore": "Aluminum Ore - Weathered Limestone",
   "block.emendatusenigmatica.apatite_andesite_ore": "Apatite Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.apatite_block": "Apatite Block",
-=======
   "block.emendatusenigmatica.apatite_blackstone_ore": "Apatite Ore - Blackstone",
   "block.emendatusenigmatica.apatite_block": "Block of Apatite",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.apatite_c_limestone_ore": "Apatite Ore - Limestone",
   "block.emendatusenigmatica.apatite_end_stone_ore": "Apatite Ore - End Stone",
   "block.emendatusenigmatica.apatite_gabbro_ore": "Apatite Ore - Gabbro",
@@ -34,12 +26,8 @@
   "block.emendatusenigmatica.apatite_slate_ore": "Apatite Ore - Slate",
   "block.emendatusenigmatica.apatite_weathered_limestone_ore": "Apatite Ore - Weathered Limestone",
   "block.emendatusenigmatica.arcane_andesite_ore": "Arcane Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.arcane_block": "Arcane Block",
-=======
   "block.emendatusenigmatica.arcane_blackstone_ore": "Arcane Ore - Blackstone",
   "block.emendatusenigmatica.arcane_block": "Block of Mana Gems",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.arcane_c_limestone_ore": "Arcane Ore - Limestone",
   "block.emendatusenigmatica.arcane_end_stone_ore": "Arcane Ore - End Stone",
   "block.emendatusenigmatica.arcane_gabbro_ore": "Arcane Ore - Gabbro",
@@ -51,12 +39,8 @@
   "block.emendatusenigmatica.arcane_slate_ore": "Arcane Ore - Slate",
   "block.emendatusenigmatica.arcane_weathered_limestone_ore": "Arcane Ore - Weathered Limestone",
   "block.emendatusenigmatica.bitumen_andesite_ore": "Bitumen Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.bitumen_block": "Bitumen Block",
-=======
   "block.emendatusenigmatica.bitumen_blackstone_ore": "Bitumen Ore - Blackstone",
   "block.emendatusenigmatica.bitumen_block": "Block of Bitumen",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.bitumen_c_limestone_ore": "Bitumen Ore - Limestone",
   "block.emendatusenigmatica.bitumen_end_stone_ore": "Bitumen Ore - End Stone",
   "block.emendatusenigmatica.bitumen_gabbro_ore": "Bitumen Ore - Gabbro",
@@ -70,12 +54,8 @@
   "block.emendatusenigmatica.brass_block": "Brass Block",
   "block.emendatusenigmatica.bronze_block": "Bronze Block",
   "block.emendatusenigmatica.certus_quartz_andesite_ore": "Certus Quartz Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.certus_quartz_block": "Certus Quartz Block",
-=======
   "block.emendatusenigmatica.certus_quartz_blackstone_ore": "Certus Quartz Ore - Blackstone",
   "block.emendatusenigmatica.certus_quartz_block": "Block of Certus Quartz",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.certus_quartz_c_limestone_ore": "Certus Quartz Ore - Limestone",
   "block.emendatusenigmatica.certus_quartz_end_stone_ore": "Certus Quartz Ore - End Stone",
   "block.emendatusenigmatica.certus_quartz_gabbro_ore": "Certus Quartz Ore - Gabbro",
@@ -87,12 +67,8 @@
   "block.emendatusenigmatica.certus_quartz_slate_ore": "Certus Quartz Ore - Slate",
   "block.emendatusenigmatica.certus_quartz_weathered_limestone_ore": "Certus Quartz Ore - Weathered Limestone",
   "block.emendatusenigmatica.charged_certus_quartz_andesite_ore": "Charged Certus Quartz Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.charged_certus_quartz_block": "Charged Certus Quartz Block",
-=======
   "block.emendatusenigmatica.charged_certus_quartz_blackstone_ore": "Charged Certus Quartz Ore - Blackstone",
   "block.emendatusenigmatica.charged_certus_quartz_block": "Block of Charged Certus Quartz",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.charged_certus_quartz_c_limestone_ore": "Charged Certus Quartz Ore - Limestone",
   "block.emendatusenigmatica.charged_certus_quartz_end_stone_ore": "Charged Certus Quartz Ore - End Stone",
   "block.emendatusenigmatica.charged_certus_quartz_gabbro_ore": "Charged Certus Quartz Ore - Gabbro",
@@ -104,12 +80,8 @@
   "block.emendatusenigmatica.charged_certus_quartz_slate_ore": "Charged Certus Quartz Ore - Slate",
   "block.emendatusenigmatica.charged_certus_quartz_weathered_limestone_ore": "Charged Certus Quartz Ore - Weathered Limestone",
   "block.emendatusenigmatica.cinnabar_andesite_ore": "Cinnabar Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.cinnabar_block": "Cinnabar Block",
-=======
   "block.emendatusenigmatica.cinnabar_blackstone_ore": "Cinnabar Ore - Blackstone",
   "block.emendatusenigmatica.cinnabar_block": "Block of Cinnabar",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.cinnabar_c_limestone_ore": "Cinnabar Ore - Limestone",
   "block.emendatusenigmatica.cinnabar_end_stone_ore": "Cinnabar Ore - End Stone",
   "block.emendatusenigmatica.cinnabar_gabbro_ore": "Cinnabar Ore - Gabbro",
@@ -134,12 +106,8 @@
   "block.emendatusenigmatica.coal_weathered_limestone_ore": "Coal Ore - Weathered Limestone",
   "block.emendatusenigmatica.constantan_block": "Constantan Block",
   "block.emendatusenigmatica.copper_andesite_ore": "Copper Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.copper_block": "Copper Block",
-=======
   "block.emendatusenigmatica.copper_blackstone_ore": "Copper Ore - Blackstone",
   "block.emendatusenigmatica.copper_block": "Block of Copper",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.copper_c_limestone_ore": "Copper Ore - Limestone",
   "block.emendatusenigmatica.copper_end_stone_ore": "Copper Ore - End Stone",
   "block.emendatusenigmatica.copper_gabbro_ore": "Copper Ore - Gabbro",
@@ -179,12 +147,8 @@
   "block.emendatusenigmatica.enigmatic_exchanger": "Enigmatic Exchanger",
   "block.emendatusenigmatica.fluix_block": "Fluix Crystal Block",
   "block.emendatusenigmatica.fluorite_andesite_ore": "Fluorite Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.fluorite_block": "Fluorite Block",
-=======
   "block.emendatusenigmatica.fluorite_blackstone_ore": "Fluorite Ore - Blackstone",
   "block.emendatusenigmatica.fluorite_block": "Block of Fluorite",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.fluorite_c_limestone_ore": "Fluorite Ore - Limestone",
   "block.emendatusenigmatica.fluorite_end_stone_ore": "Fluorite Ore - End Stone",
   "block.emendatusenigmatica.fluorite_gabbro_ore": "Fluorite Ore - Gabbro",
@@ -233,12 +197,8 @@
   "block.emendatusenigmatica.lapis_slate_ore": "Lapis Lazuli Ore - Slate",
   "block.emendatusenigmatica.lapis_weathered_limestone_ore": "Lapis Lazuli Ore - Weathered Limestone",
   "block.emendatusenigmatica.lead_andesite_ore": "Lead Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.lead_block": "Lead Block",
-=======
   "block.emendatusenigmatica.lead_blackstone_ore": "Lead Ore - Blackstone",
   "block.emendatusenigmatica.lead_block": "Block of Lead",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.lead_c_limestone_ore": "Lead Ore - Limestone",
   "block.emendatusenigmatica.lead_end_stone_ore": "Lead Ore - End Stone",
   "block.emendatusenigmatica.lead_gabbro_ore": "Lead Ore - Gabbro",
@@ -251,12 +211,8 @@
   "block.emendatusenigmatica.lead_weathered_limestone_ore": "Lead Ore - Weathered Limestone",
   "block.emendatusenigmatica.lumium_block": "Lumium Block",
   "block.emendatusenigmatica.nickel_andesite_ore": "Nickel Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.nickel_block": "Nickel Block",
-=======
   "block.emendatusenigmatica.nickel_blackstone_ore": "Nickel Ore - Blackstone",
   "block.emendatusenigmatica.nickel_block": "Block of Nickel",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.nickel_c_limestone_ore": "Nickel Ore - Limestone",
   "block.emendatusenigmatica.nickel_end_stone_ore": "Nickel Ore - End Stone",
   "block.emendatusenigmatica.nickel_gabbro_ore": "Nickel Ore - Gabbro",
@@ -268,12 +224,8 @@
   "block.emendatusenigmatica.nickel_slate_ore": "Nickel Ore - Slate",
   "block.emendatusenigmatica.nickel_weathered_limestone_ore": "Nickel Ore - Weathered Limestone",
   "block.emendatusenigmatica.osmium_andesite_ore": "Osmium Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.osmium_block": "Osmium Block",
-=======
   "block.emendatusenigmatica.osmium_blackstone_ore": "Osmium Ore - Blackstone",
   "block.emendatusenigmatica.osmium_block": "Block of Osmium",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.osmium_c_limestone_ore": "Osmium Ore - Limestone",
   "block.emendatusenigmatica.osmium_end_stone_ore": "Osmium Ore - End Stone",
   "block.emendatusenigmatica.osmium_gabbro_ore": "Osmium Ore - Gabbro",
@@ -285,12 +237,8 @@
   "block.emendatusenigmatica.osmium_slate_ore": "Osmium Ore - Slate",
   "block.emendatusenigmatica.osmium_weathered_limestone_ore": "Osmium Ore - Weathered Limestone",
   "block.emendatusenigmatica.potassium_nitrate_andesite_ore": "Potassium Nitrate Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.potassium_nitrate_block": "Potassium Nitrate Block",
-=======
   "block.emendatusenigmatica.potassium_nitrate_blackstone_ore": "Potassium Nitrate Ore - Blackstone",
   "block.emendatusenigmatica.potassium_nitrate_block": "Block of Potassium Nitrate",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.potassium_nitrate_c_limestone_ore": "Potassium Nitrate Ore - Limestone",
   "block.emendatusenigmatica.potassium_nitrate_end_stone_ore": "Potassium Nitrate Ore - End Stone",
   "block.emendatusenigmatica.potassium_nitrate_gabbro_ore": "Potassium Nitrate Ore - Gabbro",
@@ -315,12 +263,8 @@
   "block.emendatusenigmatica.redstone_weathered_limestone_ore": "Redstone Ore - Weathered Limestone",
   "block.emendatusenigmatica.signalum_block": "Signalum Block",
   "block.emendatusenigmatica.silver_andesite_ore": "Silver Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.silver_block": "Silver Block",
-=======
   "block.emendatusenigmatica.silver_blackstone_ore": "Silver Ore - Blackstone",
   "block.emendatusenigmatica.silver_block": "Block of Silver",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.silver_c_limestone_ore": "Silver Ore - Limestone",
   "block.emendatusenigmatica.silver_end_stone_ore": "Silver Ore - End Stone",
   "block.emendatusenigmatica.silver_gabbro_ore": "Silver Ore - Gabbro",
@@ -333,12 +277,8 @@
   "block.emendatusenigmatica.silver_weathered_limestone_ore": "Silver Ore - Weathered Limestone",
   "block.emendatusenigmatica.steel_block": "Steel Block",
   "block.emendatusenigmatica.sulfur_andesite_ore": "Sulfur Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.sulfur_block": "Sulfur Block",
-=======
   "block.emendatusenigmatica.sulfur_blackstone_ore": "Sulfur Ore - Blackstone",
   "block.emendatusenigmatica.sulfur_block": "Block of Sulfur",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.sulfur_c_limestone_ore": "Sulfur Ore - Limestone",
   "block.emendatusenigmatica.sulfur_end_stone_ore": "Sulfur Ore - End Stone",
   "block.emendatusenigmatica.sulfur_gabbro_ore": "Sulfur Ore - Gabbro",
@@ -350,12 +290,8 @@
   "block.emendatusenigmatica.sulfur_slate_ore": "Sulfur Ore - Slate",
   "block.emendatusenigmatica.sulfur_weathered_limestone_ore": "Sulfur Ore - Weathered Limestone",
   "block.emendatusenigmatica.tin_andesite_ore": "Tin Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.tin_block": "Tin Block",
-=======
   "block.emendatusenigmatica.tin_blackstone_ore": "Tin Ore - Blackstone",
   "block.emendatusenigmatica.tin_block": "Block of Tin",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.tin_c_limestone_ore": "Tin Ore - Limestone",
   "block.emendatusenigmatica.tin_end_stone_ore": "Tin Ore - End Stone",
   "block.emendatusenigmatica.tin_gabbro_ore": "Tin Ore - Gabbro",
@@ -367,12 +303,8 @@
   "block.emendatusenigmatica.tin_slate_ore": "Tin Ore - Slate",
   "block.emendatusenigmatica.tin_weathered_limestone_ore": "Tin Ore - Weathered Limestone",
   "block.emendatusenigmatica.uranium_andesite_ore": "Uranium Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.uranium_block": "Uranium Block",
-=======
   "block.emendatusenigmatica.uranium_blackstone_ore": "Uranium Ore - Blackstone",
   "block.emendatusenigmatica.uranium_block": "Block of Uranium",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.uranium_c_limestone_ore": "Uranium Ore - Limestone",
   "block.emendatusenigmatica.uranium_end_stone_ore": "Uranium Ore - End Stone",
   "block.emendatusenigmatica.uranium_gabbro_ore": "Uranium Ore - Gabbro",
@@ -384,12 +316,8 @@
   "block.emendatusenigmatica.uranium_slate_ore": "Uranium Ore - Slate",
   "block.emendatusenigmatica.uranium_weathered_limestone_ore": "Uranium Ore - Weathered Limestone",
   "block.emendatusenigmatica.zinc_andesite_ore": "Zinc Ore - Andesite",
-<<<<<<< Updated upstream
-  "block.emendatusenigmatica.zinc_block": "Zinc Block",
-=======
   "block.emendatusenigmatica.zinc_blackstone_ore": "Zinc Ore - Blackstone",
   "block.emendatusenigmatica.zinc_block": "Block of Zinc",
->>>>>>> Stashed changes
   "block.emendatusenigmatica.zinc_c_limestone_ore": "Zinc Ore - Limestone",
   "block.emendatusenigmatica.zinc_end_stone_ore": "Zinc Ore - End Stone",
   "block.emendatusenigmatica.zinc_gabbro_ore": "Zinc Ore - Gabbro",
@@ -474,10 +402,7 @@
   "item.emendatusenigmatica.enderium_nugget": "Enderium Nugget",
   "item.emendatusenigmatica.enderium_plate": "Enderium Plate",
   "item.emendatusenigmatica.enderium_rod": "Enderium Rod",
-<<<<<<< Updated upstream
-=======
   "item.emendatusenigmatica.enigmatic_hammer": "Enigmatic Hammer",
->>>>>>> Stashed changes
   "item.emendatusenigmatica.fluix_dust": "Fluix Crystal Dust",
   "item.emendatusenigmatica.fluix_gem": "Fluix Crystal",
   "item.emendatusenigmatica.fluorite_chunk": "Fluorite Chunk",

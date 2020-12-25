@@ -75,24 +75,17 @@ public class WorldGenConfig {
 
       for (Materials material : Materials.values()) {
         if (material.oreBlock != null) {
-<<<<<<< Updated upstream
-          addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultBaseline, material.defaultSpread);
-=======
+
           addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultBaseline, material.defaultSpread, material.netherModifier, material.endModifier);
->>>>>>> Stashed changes
+
         }
       }
 
       configured = true;
     }
 
-<<<<<<< Updated upstream
-    void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
-      addValue(material, new Properties(material.id, builder, size, count, baseline, spread));
-=======
     void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread, int netherMod, int endMod) {
       addValue(material, new Properties(material.id, builder, size, count, baseline, spread, netherMod, endMod));
->>>>>>> Stashed changes
     }
 
     void addValue(Materials material, Properties props) {
@@ -118,13 +111,10 @@ public class WorldGenConfig {
       public final int COUNT_PER_CHUNK;
       public final int BASELINE_Y;
       public final int SPREAD_AMOUNT;
-<<<<<<< Updated upstream
-=======
       public final boolean NETHER_ACTIVE;
       public final int NETHER_MODIFIER;
       public final boolean END_ACTIVE;
       public final int END_MODIFIER;
->>>>>>> Stashed changes
 
       BakedOreProps(Properties properties) {
         OVERWORLD_ACTIVE = properties.OVERWORLD_ACTIVE.get();
@@ -132,13 +122,10 @@ public class WorldGenConfig {
         COUNT_PER_CHUNK = properties.COUNT_PER_CHUNK.get();
         BASELINE_Y = properties.BASELINE_Y.get();
         SPREAD_AMOUNT = properties.SPREAD_AMOUNT.get();
-<<<<<<< Updated upstream
-=======
         NETHER_ACTIVE = properties.NETHER_ACTIVE.get();
         NETHER_MODIFIER = properties.NETHER_MODIFIER.get();
         END_ACTIVE = properties.END_ACTIVE.get();
         END_MODIFIER = properties.END_MODIFIER.get();
->>>>>>> Stashed changes
       }
     }
 
@@ -148,17 +135,12 @@ public class WorldGenConfig {
       public final IntValue COUNT_PER_CHUNK;
       public final IntValue BASELINE_Y;
       public final IntValue SPREAD_AMOUNT;
-<<<<<<< Updated upstream
-
-      public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
-=======
       public final BooleanValue NETHER_ACTIVE;
       public final IntValue NETHER_MODIFIER;
       public final BooleanValue END_ACTIVE;
       public final IntValue END_MODIFIER;
 
       public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread, int netherMod, int endMod) {
->>>>>>> Stashed changes
         builder.push("Ore Config: " + id);
         OVERWORLD_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The Overworld [Default: true]")
                 .translation(id + ".config.state")
@@ -172,16 +154,6 @@ public class WorldGenConfig {
                 .translation(id + ".config.count_per_chunk")
                 .worldRestart()
                 .defineInRange("count", count, 0, 64);
-<<<<<<< Updated upstream
-        BASELINE_Y = builder.comment(String.format("Baseline Y-Level [Range: 0-256, Default: %d]", baseline))
-                .translation(id + ".config.bottom_offset")
-                .worldRestart()
-                .defineInRange("baseline", baseline, 0, 256);
-        SPREAD_AMOUNT = builder.comment(String.format("Spread Amount (# of Y-Levels above and below the baseline) [Range: 0-256, Default: %d]", spread))
-                .translation(id + ".config.maximum_height")
-                .worldRestart()
-                .defineInRange("spread", spread, 0, 256);
-=======
         BASELINE_Y = builder.comment(String.format("Baseline Y-Level [Range: 0 to 256, Default: %d]", baseline))
                 .translation(id + ".config.bottom_offset")
                 .worldRestart()
@@ -208,7 +180,6 @@ public class WorldGenConfig {
                 .translation(id + ".config.end_modifier")
                 .worldRestart()
                 .defineInRange("end_modifier", endMod, -256, 256);
->>>>>>> Stashed changes
         builder.pop();
       }
 

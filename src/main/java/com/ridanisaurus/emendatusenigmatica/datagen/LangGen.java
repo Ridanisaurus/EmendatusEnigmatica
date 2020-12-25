@@ -145,11 +145,8 @@ public class LangGen extends LanguageProvider {
       }
     }
 
-<<<<<<< Updated upstream
-=======
     add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
->>>>>>> Stashed changes
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");

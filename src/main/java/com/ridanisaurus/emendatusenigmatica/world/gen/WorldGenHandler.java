@@ -33,12 +33,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.BlockState;
-<<<<<<< Updated upstream
-=======
-import net.minecraft.data.IDataProvider;
-import net.minecraft.loot.LootTableManager;
-import net.minecraft.world.biome.Biome;
->>>>>>> Stashed changes
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
@@ -48,20 +42,9 @@ import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
 
-<<<<<<< Updated upstream
 import java.util.Collection;
 import java.util.EnumSet;
-=======
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Supplier;
->>>>>>> Stashed changes
 
 public class WorldGenHandler {
 
@@ -82,13 +65,6 @@ public class WorldGenHandler {
             BakedOreProps p = WorldGenConfig.COMMON.ORES.get(material);
             if (p.OVERWORLD_ACTIVE && stratum.dim.equals("overworld")) {
               activeOres.add(material);
-<<<<<<< Updated upstream
-              builder.put(stratum, material, getOreFeature(
-                      p.COUNT_PER_CHUNK,
-                      p.VEIN_SIZE,
-                      p.BASELINE_Y,
-                      p.SPREAD_AMOUNT, getFilter(stratum), getOreBlock(stratum, material)));
-=======
               builder.put(stratum, material,
                       getOreFeature(
                               p.COUNT_PER_CHUNK,
@@ -120,7 +96,6 @@ public class WorldGenHandler {
                               getFilter(stratum),
                               getOreBlock(stratum, material))
               );
->>>>>>> Stashed changes
             }
           }
         }
