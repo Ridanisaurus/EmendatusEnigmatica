@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:fluorite_chunk"
+  },
+  "result": "emendatusenigmatica:fluorite_end_stone_ore",
+  "count": 1
+}

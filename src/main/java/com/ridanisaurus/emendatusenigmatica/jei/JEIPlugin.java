@@ -46,10 +46,48 @@ public class JEIPlugin implements IModPlugin {
   @Override
   public void registerRecipes(IRecipeRegistration registration) {
 
+<<<<<<< Updated upstream
     ItemHandler.backingOreItemTable.values().forEach(item -> {
       ItemStack stack = new ItemStack(item.get());
       registration.addIngredientInfo(stack, VanillaTypes.ITEM, "tooltip.emendatusenigmatica.ores.1", "tooltip.emendatusenigmatica.ores.2", "tooltip.emendatusenigmatica.ores.3");
     });
 
+=======
+    for (Materials material : Materials.values()) {
+      ItemHandler.backingOreItemTable.column(material).values().forEach(item -> {
+        ItemStack stack = new ItemStack(item.get());
+        WorldGenConfig.OreConfigs.BakedOreProps oreConfig = WorldGenConfig.COMMON.ORES.get(material);
+        int min_y = oreConfig.BASELINE_Y - oreConfig.SPREAD_AMOUNT;
+        int max_y = oreConfig.BASELINE_Y + oreConfig.SPREAD_AMOUNT;
+
+        String overworldInfo = "Min Y: \u00a77N/A\u00a7r - Max Y: \u00a77N/A\u00a7r";
+        String netherInfo = "Min Y: \u00a77N/A\u00a7r - Max Y: \u00a77N/A\u00a7r";
+        String endInfo = "Min Y: \u00a77N/A\u00a7r - Max Y: \u00a77N/A\u00a7r";
+
+        if (oreConfig.OVERWORLD_ACTIVE) {
+          overworldInfo = "Min Y: \u00a78" + min_y + "\u00a7r - Max Y: \u00a78" + max_y + "\u00a7r";
+        }
+        if (oreConfig.NETHER_ACTIVE) {
+          netherInfo = "Min Y: \u00a78" + (min_y + oreConfig.NETHER_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.NETHER_MODIFIER) + "\u00a7r";
+        }
+        if (oreConfig.END_ACTIVE) {
+          endInfo = "Min Y: \u00a78" + (min_y + oreConfig.END_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.END_MODIFIER) + "\u00a7r";
+        }
+
+        registration.addIngredientInfo(stack, VanillaTypes.ITEM,
+                "Spawns in the Overworld: \u00a78" + oreConfig.OVERWORLD_ACTIVE + "\u00a7r",
+                overworldInfo + "\n",
+                "Spawns in the Nether: \u00a78" + oreConfig.NETHER_ACTIVE + "\u00a7r",
+                netherInfo + "\n",
+                "Spawns in the End: \u00a78" + oreConfig.END_ACTIVE + "\u00a7r",
+                endInfo + "\n",
+                "tooltip.emendatusenigmatica.ores.1",
+                "\n",
+                "tooltip.emendatusenigmatica.ores.2",
+                "\n",
+                "tooltip.emendatusenigmatica.ores.3");
+      });
+    }
+>>>>>>> Stashed changes
   }
 }

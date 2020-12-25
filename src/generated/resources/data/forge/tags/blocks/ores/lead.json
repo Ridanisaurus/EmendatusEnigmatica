@@ -3,6 +3,9 @@
   "values": [
     "emendatusenigmatica:lead_ore",
     "emendatusenigmatica:lead_andesite_ore",
+    "emendatusenigmatica:lead_netherrack_ore",
+    "emendatusenigmatica:lead_blackstone_ore",
+    "emendatusenigmatica:lead_end_stone_ore",
     "emendatusenigmatica:lead_gabbro_ore",
     "emendatusenigmatica:lead_c_limestone_ore",
     "emendatusenigmatica:lead_scoria_ore",

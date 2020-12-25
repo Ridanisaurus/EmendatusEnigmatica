@@ -3,6 +3,9 @@
   "values": [
     "emendatusenigmatica:osmium_ore",
     "emendatusenigmatica:osmium_andesite_ore",
+    "emendatusenigmatica:osmium_netherrack_ore",
+    "emendatusenigmatica:osmium_blackstone_ore",
+    "emendatusenigmatica:osmium_end_stone_ore",
     "emendatusenigmatica:osmium_gabbro_ore",
     "emendatusenigmatica:osmium_c_limestone_ore",
     "emendatusenigmatica:osmium_scoria_ore",

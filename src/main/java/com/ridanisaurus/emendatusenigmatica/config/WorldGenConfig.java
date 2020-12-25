@@ -75,15 +75,24 @@ public class WorldGenConfig {
 
       for (Materials material : Materials.values()) {
         if (material.oreBlock != null) {
+<<<<<<< Updated upstream
           addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultBaseline, material.defaultSpread);
+=======
+          addValue(material, builder, material.defaultSize, material.defaultCount, material.defaultBaseline, material.defaultSpread, material.netherModifier, material.endModifier);
+>>>>>>> Stashed changes
         }
       }
 
       configured = true;
     }
 
+<<<<<<< Updated upstream
     void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
       addValue(material, new Properties(material.id, builder, size, count, baseline, spread));
+=======
+    void addValue(Materials material, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread, int netherMod, int endMod) {
+      addValue(material, new Properties(material.id, builder, size, count, baseline, spread, netherMod, endMod));
+>>>>>>> Stashed changes
     }
 
     void addValue(Materials material, Properties props) {
@@ -104,42 +113,66 @@ public class WorldGenConfig {
     }
 
     public static class BakedOreProps {
-      public final boolean ACTIVE;
+      public final boolean OVERWORLD_ACTIVE;
       public final int VEIN_SIZE;
       public final int COUNT_PER_CHUNK;
       public final int BASELINE_Y;
       public final int SPREAD_AMOUNT;
+<<<<<<< Updated upstream
+=======
+      public final boolean NETHER_ACTIVE;
+      public final int NETHER_MODIFIER;
+      public final boolean END_ACTIVE;
+      public final int END_MODIFIER;
+>>>>>>> Stashed changes
 
       BakedOreProps(Properties properties) {
-        ACTIVE = properties.ACTIVE.get();
+        OVERWORLD_ACTIVE = properties.OVERWORLD_ACTIVE.get();
         VEIN_SIZE = properties.VEIN_SIZE.get();
         COUNT_PER_CHUNK = properties.COUNT_PER_CHUNK.get();
         BASELINE_Y = properties.BASELINE_Y.get();
         SPREAD_AMOUNT = properties.SPREAD_AMOUNT.get();
+<<<<<<< Updated upstream
+=======
+        NETHER_ACTIVE = properties.NETHER_ACTIVE.get();
+        NETHER_MODIFIER = properties.NETHER_MODIFIER.get();
+        END_ACTIVE = properties.END_ACTIVE.get();
+        END_MODIFIER = properties.END_MODIFIER.get();
+>>>>>>> Stashed changes
       }
     }
 
     public static class Properties {
-      public final BooleanValue ACTIVE;
+      public final BooleanValue OVERWORLD_ACTIVE;
       public final IntValue VEIN_SIZE;
       public final IntValue COUNT_PER_CHUNK;
       public final IntValue BASELINE_Y;
       public final IntValue SPREAD_AMOUNT;
+<<<<<<< Updated upstream
 
       public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread) {
+=======
+      public final BooleanValue NETHER_ACTIVE;
+      public final IntValue NETHER_MODIFIER;
+      public final BooleanValue END_ACTIVE;
+      public final IntValue END_MODIFIER;
+
+      public Properties(String id, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread, int netherMod, int endMod) {
+>>>>>>> Stashed changes
         builder.push("Ore Config: " + id);
-        ACTIVE = builder.comment("Activate/Deactivate the World Gen [Default: true]")
+        OVERWORLD_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The Overworld [Default: true]")
                 .translation(id + ".config.state")
                 .worldRestart()
-                .define("active", true);
+                .define("generate_in_the_overworld", true);
         VEIN_SIZE = builder.comment(String.format("Configure the ore Vein Size [Default: %d]", size))
                 .translation(id + ".config.vein_size")
                 .worldRestart()
                 .defineInRange("vein_size", size, 0, 64);
-        COUNT_PER_CHUNK = builder.comment(String.format("Average ores per Chunk [Range: 0-64, Default: %d]", count))
+        COUNT_PER_CHUNK = builder.comment(String.format("Average ores per Chunk [Range: 0 to 64, Default: %d]", count))
                 .translation(id + ".config.count_per_chunk")
                 .worldRestart()
                 .defineInRange("count", count, 0, 64);
+<<<<<<< Updated upstream
         BASELINE_Y = builder.comment(String.format("Baseline Y-Level [Range: 0-256, Default: %d]", baseline))
                 .translation(id + ".config.bottom_offset")
                 .worldRestart()
@@ -148,6 +181,34 @@ public class WorldGenConfig {
                 .translation(id + ".config.maximum_height")
                 .worldRestart()
                 .defineInRange("spread", spread, 0, 256);
+=======
+        BASELINE_Y = builder.comment(String.format("Baseline Y-Level [Range: 0 to 256, Default: %d]", baseline))
+                .translation(id + ".config.bottom_offset")
+                .worldRestart()
+                .defineInRange("baseline", baseline, 0, 256);
+        SPREAD_AMOUNT = builder.comment(String.format("Spread Amount (# of Y-Levels above and below the Baseline) [Range: 0 to 256, Default: %d]", spread))
+                .translation(id + ".config.maximum_height")
+                .worldRestart()
+                .defineInRange("spread", spread, 0, 256);
+        NETHER_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The Nether [Default: true]")
+                .translation(id + ".config.nether_state")
+                .worldRestart()
+                .define("generate_in_the_nether", true);
+        NETHER_MODIFIER = builder.comment(String.format("Y-Level Modifier [Range: -256 to 256, Default: %d]", netherMod))
+                .comment("Ores in The Nether use the same Baseline and Spread of the Overworld +/- the Modifier")
+                .translation(id + ".config.nether_modifier")
+                .worldRestart()
+                .defineInRange("nether_modifier", netherMod, -256, 256);
+        END_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The End [Default: true]")
+                .translation(id + ".config.end_state")
+                .worldRestart()
+                .define("generate_in_the_end", true);
+        END_MODIFIER = builder.comment(String.format("Y-Level Modifier [Range: -256 to 256, Default: %d]", endMod))
+                .comment("Ores in The End use the same Baseline and Spread of the Overworld +/- the Modifier")
+                .translation(id + ".config.end_modifier")
+                .worldRestart()
+                .defineInRange("end_modifier", endMod, -256, 256);
+>>>>>>> Stashed changes
         builder.pop();
       }
 

@@ -3,6 +3,9 @@
   "values": [
     "emendatusenigmatica:bitumen_ore",
     "emendatusenigmatica:bitumen_andesite_ore",
+    "emendatusenigmatica:bitumen_netherrack_ore",
+    "emendatusenigmatica:bitumen_blackstone_ore",
+    "emendatusenigmatica:bitumen_end_stone_ore",
     "emendatusenigmatica:bitumen_gabbro_ore",
     "emendatusenigmatica:bitumen_c_limestone_ore",
     "emendatusenigmatica:bitumen_scoria_ore",

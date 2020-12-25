@@ -52,12 +52,15 @@ import java.util.Random;
 import java.util.function.ToIntFunction;
 
 public class OreRedstone extends OreBlock {
+<<<<<<< Updated upstream
     /*public OreRedstone() { super(Properties.create(Material.ROCK)
             .hardnessAndResistance(3.0f,3.0f)
             .harvestLevel(2)
             .harvestTool(ToolType.PICKAXE)
             .setRequiresTool());
     }*/
+=======
+>>>>>>> Stashed changes
     public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
 
     private static ToIntFunction<BlockState> getLightLevel() {
