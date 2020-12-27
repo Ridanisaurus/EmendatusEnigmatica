@@ -45,9 +45,9 @@ public class LangGen extends LanguageProvider {
     add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
     // JEI Compat
-    add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft.\n\n");
-    add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.\n\n\n");
-    add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter.");
+    add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft.");
+    add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.");
+    add("tooltip.emendatusenigmatica.ores.3", "\nFurthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter.");
 
     // Misc
     add(BlockHandler.ENIGMATIC_EXCHANGER.get(), "Enigmatic Exchanger");
@@ -56,10 +56,10 @@ public class LangGen extends LanguageProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         // Storage Blocks
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
+          sb.append("Block of ");
           sb.append(material.localisedName);
-          sb.append(" Block");
           add(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), sb.toString());
         }
 
@@ -119,7 +119,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Chunks
-        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
+        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Chunk");

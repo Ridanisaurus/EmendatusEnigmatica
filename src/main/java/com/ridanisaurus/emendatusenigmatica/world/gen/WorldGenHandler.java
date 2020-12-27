@@ -78,10 +78,10 @@ public class WorldGenHandler {
               activeOres.add(material);
               builder.put(stratum, material,
                       getOreFeature(
-                              p.COUNT_PER_CHUNK,
-                              p.VEIN_SIZE,
-                              p.BASELINE_Y + p.NETHER_MODIFIER,
-                              p.SPREAD_AMOUNT,
+                              p.COUNT_PER_CHUNK + p.NETHER_COUNT_MODIFIER,
+                              p.VEIN_SIZE + + p.NETHER_SIZE_MODIFIER,
+                              p.BASELINE_Y + p.NETHER_BASE_MODIFIER,
+                              p.SPREAD_AMOUNT + + p.NETHER_SPREAD_MODIFIER,
                               getFilter(stratum),
                               getOreBlock(stratum, material))
               );
@@ -89,10 +89,10 @@ public class WorldGenHandler {
               activeOres.add(material);
               builder.put(stratum, material,
                       getOreFeature(
-                              p.COUNT_PER_CHUNK,
-                              p.VEIN_SIZE,
-                              p.BASELINE_Y + p.END_MODIFIER,
-                              p.SPREAD_AMOUNT,
+                              p.COUNT_PER_CHUNK + p.END_COUNT_MODIFIER,
+                              p.VEIN_SIZE + p.END_SIZE_MODIFIER,
+                              p.BASELINE_Y + p.END_BASE_MODIFIER,
+                              p.SPREAD_AMOUNT + p.END_SPREAD_MODIFIER,
                               getFilter(stratum),
                               getOreBlock(stratum, material))
               );

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:dimensional_ore",
+    "emendatusenigmatica:dimensional_andesite_ore",
+    "emendatusenigmatica:dimensional_netherrack_ore",
+    "emendatusenigmatica:dimensional_blackstone_ore",
+    "emendatusenigmatica:dimensional_end_stone_ore",
+    "emendatusenigmatica:dimensional_gabbro_ore",
+    "emendatusenigmatica:dimensional_c_limestone_ore",
+    "emendatusenigmatica:dimensional_scoria_ore",
+    "emendatusenigmatica:dimensional_weathered_limestone_ore",
+    "emendatusenigmatica:dimensional_jasper_ore",
+    "emendatusenigmatica:dimensional_marble_ore",
+    "emendatusenigmatica:dimensional_slate_ore",
+    "emendatusenigmatica:dimensional_chunk"
+  ]
+}

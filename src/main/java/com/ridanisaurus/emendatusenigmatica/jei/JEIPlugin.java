@@ -63,10 +63,10 @@ public class JEIPlugin implements IModPlugin {
           overworldInfo = "Min Y: \u00a78" + min_y + "\u00a7r - Max Y: \u00a78" + max_y + "\u00a7r";
         }
         if (oreConfig.NETHER_ACTIVE) {
-          netherInfo = "Min Y: \u00a78" + (min_y + oreConfig.NETHER_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.NETHER_MODIFIER) + "\u00a7r";
+          netherInfo = "Min Y: \u00a78" + (min_y + oreConfig.NETHER_BASE_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.NETHER_BASE_MODIFIER) + "\u00a7r";
         }
         if (oreConfig.END_ACTIVE) {
-          endInfo = "Min Y: \u00a78" + (min_y + oreConfig.END_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.END_MODIFIER) + "\u00a7r";
+          endInfo = "Min Y: \u00a78" + (min_y + oreConfig.END_BASE_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.END_BASE_MODIFIER) + "\u00a7r";
         }
 
         registration.addIngredientInfo(stack, VanillaTypes.ITEM,
