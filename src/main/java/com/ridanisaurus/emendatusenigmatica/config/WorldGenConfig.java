@@ -186,7 +186,7 @@ public class WorldGenConfig {
         NETHER_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The Nether [Default: true]")
                 .translation(localisedName + ".config.nether_state")
                 .worldRestart()
-                .define("generate_in_the_nether", true);
+                .define("generate_in_the_nether", false);
         NETHER_BASE_MODIFIER = builder.comment(String.format("Baseline Modifier [Range: -256 to 256, Default: %d]", netherBaseMod))
                 .translation(localisedName + ".config.nether_base_modifier")
                 .worldRestart()
@@ -208,7 +208,7 @@ public class WorldGenConfig {
         END_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The End [Default: true]")
                 .translation(localisedName + ".config.end_state")
                 .worldRestart()
-                .define("generate_in_the_end", true);
+                .define("generate_in_the_end", false);
         END_BASE_MODIFIER = builder.comment(String.format("Baseline Modifier [Range: -256 to 256, Default: %d]", endBaseMod))
                 .translation(localisedName + ".config.end_base_modifier")
                 .worldRestart()
