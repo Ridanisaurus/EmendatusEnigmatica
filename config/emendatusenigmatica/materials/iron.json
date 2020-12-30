@@ -1,0 +1,33 @@
+{
+  "id": "iron",
+  "localisedName": "Iron",
+  "processedType": [
+    "ore",
+    "chunk",
+    "dust",
+    "plate",
+    "gear"
+  ],
+  "oreBlockType": "metal",
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 20,
+      "count": 10,
+      "baseline": 64,
+      "spread": 64
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 20,
+      "count": 10,
+      "baseline": 94,
+      "spread": 64
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 20,
+      "count": 10,
+      "baseline": 74,
+      "spread": 64
+    }]
+}

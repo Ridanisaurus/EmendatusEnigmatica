@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica;
 
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
@@ -56,6 +57,7 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
+        EELoader.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
         BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
