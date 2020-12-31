@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
+import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -127,6 +128,9 @@ public class ItemHandler {
     backingOreItemTable = builder.build();
   }
 
-  //Machine Items
+  // Machine Items
   public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get()));
+
+  // Hammer
+  public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 }

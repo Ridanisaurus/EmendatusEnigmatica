@@ -36,6 +36,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.Tags;
@@ -63,6 +64,18 @@ public class RecipesGen extends RecipeProvider {
             .key('R', Tags.Items.DUSTS_REDSTONE)
             .key('D', Tags.Items.GEMS_DIAMOND)
             .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
+            .setGroup("emendatusenigmatica")
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer);
+
+    // Hammer
+    ShapedRecipeBuilder.shapedRecipe(ItemHandler.ENIGMATIC_HAMMER.get())
+            .patternLine(" IN")
+            .patternLine(" SI")
+            .patternLine("S  ")
+            .key('I', Tags.Items.INGOTS_IRON)
+            .key('N', Tags.Items.NUGGETS_IRON)
+            .key('S', Tags.Items.RODS_WOODEN)
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer);
@@ -169,6 +182,41 @@ public class RecipesGen extends RecipeProvider {
     CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/gold"));
+
+    // Plate from Ingot
+    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get(), 1)
+            .addIngredient(Items.IRON_INGOT)
+            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/iron"));
+    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.GOLD).get(), 1)
+            .addIngredient(Items.GOLD_INGOT)
+            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/gold"));
+
+    // Plate from Gem
+    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.DIAMOND).get(), 1)
+            .addIngredient(Items.DIAMOND)
+            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/diamond"));
+    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.EMERALD).get(), 1)
+            .addIngredient(Items.EMERALD)
+            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/emerald"));
+    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.LAPIS).get(), 1)
+            .addIngredient(Items.LAPIS_LAZULI)
+            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .setGroup(Reference.MOD_ID)
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/lapis"));
+
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
@@ -303,6 +351,25 @@ public class RecipesGen extends RecipeProvider {
                   .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.id + "/" + stratum.id));
         }
+      }
+
+      // Plate from Ingot
+      if (toCreate.contains("Ingot") && toCreate.contains("Plate")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.id));
+      }
+      // Plate from Gem
+      if (toCreate.contains("Gem") && toCreate.contains("Plate")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.id));
       }
 
     }
