@@ -1,0 +1,10 @@
+{
+  "id": "electrum",
+  "localisedName": "Electrum",
+  "processedType": [
+	"dust",
+	"block",
+	"gear",
+	"ingot"
+  ]
+}

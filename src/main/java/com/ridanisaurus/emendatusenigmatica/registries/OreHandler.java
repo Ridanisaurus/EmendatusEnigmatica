@@ -44,7 +44,7 @@ public class OreHandler {
   //public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
   public static void oreBlocks() {
-    ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
+    /*ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
@@ -53,7 +53,10 @@ public class OreHandler {
         }
       }
     }
-    backingOreBlockTable = builder.build();
+    backingOreBlockTable = builder.build();*/
+
+
   }
+
 
 }

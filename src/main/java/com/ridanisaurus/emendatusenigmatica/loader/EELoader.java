@@ -27,8 +27,13 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.AlloyParser;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.MaterialParser;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.StrataParser;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.AlloyModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
@@ -41,6 +46,8 @@ import java.util.ArrayList;
 
 public class EELoader {
   private static final StrataParser STRATA_PARSER = new StrataParser();
+  private static final MaterialParser MATERIAL_PARSER = new MaterialParser();
+  private static final AlloyParser ALLOY_PARSER = new AlloyParser();
   public static void load() {
     // Set the path to the defined folder
     Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
@@ -55,11 +62,39 @@ public class EELoader {
       EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/strata/");
     }
 
+    File materialDir = configDir.resolve("material/").toFile();
+    if (!materialDir.exists() && materialDir.mkdirs()) {
+      EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
+    }
+
+    File alloyDir = configDir.resolve("alloy/").toFile();
+    if (!alloyDir.exists() && alloyDir.mkdirs()) {
+      EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/alloy/");
+    }
+
     ArrayList<JsonObject> strataDefinition = loadFilesAsJsonObjects(strataDir);
+    ArrayList<JsonObject> materialDefinition = loadFilesAsJsonObjects(materialDir);
+    ArrayList<JsonObject> alloyDefinition = loadFilesAsJsonObjects(alloyDir);
 
     ArrayList<StrataModel> strataModels = new ArrayList<>();
     for (JsonObject jsonObject : strataDefinition) {
       strataModels.add(STRATA_PARSER.parse(jsonObject));
+    }
+
+    ArrayList<MaterialModel> materialModels = new ArrayList<>();
+    for (JsonObject jsonObject : materialDefinition) {
+      materialModels.add(MATERIAL_PARSER.parse(jsonObject));
+    }
+
+    ArrayList<AlloyModel> alloyModels = new ArrayList<>();
+    for (JsonObject jsonObject : alloyDefinition) {
+      alloyModels.add(ALLOY_PARSER.parse(jsonObject));
+    }
+
+    for (StrataModel strata : strataModels) {
+      for (MaterialModel material : materialModels) {
+        EERegistrar.RegisterOre(strata, material);
+      }
     }
   }
 
