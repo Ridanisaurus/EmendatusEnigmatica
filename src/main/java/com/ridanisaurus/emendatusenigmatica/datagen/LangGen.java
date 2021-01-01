@@ -51,6 +51,7 @@ public class LangGen extends LanguageProvider {
 
     // Misc
     add(BlockHandler.ENIGMATIC_EXCHANGER.get(), "Enigmatic Exchanger");
+    add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {

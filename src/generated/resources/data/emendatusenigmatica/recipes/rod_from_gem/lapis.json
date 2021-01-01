@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    " G ",
+    " G ",
+    "   "
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:gems/lapis"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:lapis_rod",
+    "count": 2
+  }
+}
