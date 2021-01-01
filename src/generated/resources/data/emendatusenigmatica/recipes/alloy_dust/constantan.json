@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:copper_dust"
+    },
+    {
+      "item": "emendatusenigmatica:nickel_dust"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:constantan_dust",
+    "count": 2
+  }
+}

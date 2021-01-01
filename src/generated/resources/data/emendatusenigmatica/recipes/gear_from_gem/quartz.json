@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    " G ",
+    "GNG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:gems/quartz"
+    },
+    "N": {
+      "tag": "forge:nuggets/iron"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:quartz_gear"
+  }
+}
