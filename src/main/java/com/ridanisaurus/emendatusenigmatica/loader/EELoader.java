@@ -48,6 +48,7 @@ public class EELoader {
   private static final StrataParser STRATA_PARSER = new StrataParser();
   private static final MaterialParser MATERIAL_PARSER = new MaterialParser();
   private static final AlloyParser ALLOY_PARSER = new AlloyParser();
+
   public static void load() {
     // Set the path to the defined folder
     Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
@@ -93,7 +94,19 @@ public class EELoader {
 
     for (StrataModel strata : strataModels) {
       for (MaterialModel material : materialModels) {
-        EERegistrar.RegisterOre(strata, material);
+        // Do I need Ore if it's under Material and not Alloy?
+        if (material.getProcessedType().contains("ore")) {
+          EERegistrar.RegisterOre(strata, material);
+        }
+      }
+    }
+
+    for (MaterialModel material : materialModels) {
+      if (material.getProcessedType().contains("storage_block")) {
+        EERegistrar.RegisterStorageBlocks(material);
+      }
+      if (material.getProcessedType().contains("ingot")) {
+        EERegistrar.RegisterIngots(material);
       }
     }
   }

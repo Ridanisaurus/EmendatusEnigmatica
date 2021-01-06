@@ -6,7 +6,8 @@
     "chunk",
     "dust",
     "plate",
-    "gear"
+    "gear",
+    "storage_block"
   ],
   "oreBlockType": "metal",
   "properties": {

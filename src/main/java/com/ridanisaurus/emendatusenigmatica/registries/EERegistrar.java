@@ -24,32 +24,79 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries;
 
+import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicOreBlock;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
+import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class EERegistrar {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
+  public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
-  public static Table<String, String, RegistryObject<Block>> blockTable;
+  public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
+  public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
+  public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> chunkMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> ingotMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> nuggetMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> gemMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> dustMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> plateMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
   public static void RegisterOre(StrataModel strata, MaterialModel material) {
     String oreName = material.getId() + (!strata.getId().equals("stone") ? "_" + strata.getSuffix() : "") + "_ore";
 
-    blockTable.put(strata.getId(), material.getId(), BLOCKS.register(oreName, () -> new BasicOreBlock(
+    RegistryObject<Block> oreBlock = BLOCKS.register(oreName, () -> new BasicOreBlock(
             Material.ROCK,
             material.getProperties().getHardness(),
             material.getProperties().getResistance(),
             material.getProperties().getHarvestLevel(),
             ToolType.PICKAXE,
-            material.getLocalisedName())));
+            material.getLocalisedName()));
+
+    oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
+
+    oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+  }
+
+  public static void RegisterStorageBlocks(MaterialModel material) {
+    String storageBlockName = material.getId() + "_block";
+
+    RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
+            Material.ROCK,
+            material.getProperties().getHardness(),
+            material.getProperties().getResistance(),
+            material.getProperties().getHarvestLevel(),
+            ToolType.PICKAXE,
+            material.getLocalisedName()));
+
+    storageBlockMap.put(material.getId(), storageBlock);
+
+    storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BlockItem(storageBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+  }
+
+  public static void RegisterIngots(MaterialModel material) {
+    String itemName = material.getId() + "_ingot";
+
+    ingotMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 }
