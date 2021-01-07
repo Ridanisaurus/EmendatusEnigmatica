@@ -8,25 +8,30 @@
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "minecraft:coal",
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  },
   "dimensions": [{
       "dim": "minecraft:overworld",
-      "size": 20,
-      "count": 10,
-      "baseline": 64,
-      "spread": 64
+      "size": 17,
+      "count": 20,
+      "baseline": 60,
+      "spread": 60
     },
     {
       "dim": "minecraft:the_nether",
-      "size": 20,
-      "count": 10,
-      "baseline": 94,
-      "spread": 64
+      "size": 17,
+      "count": 20,
+      "baseline": 60,
+      "spread": 60
     },
     {
       "dim": "minecraft:the_end",
-      "size": 20,
-      "count": 10,
-      "baseline": 74,
-      "spread": 64
+      "size": 17,
+      "count": 20,
+      "baseline": 60,
+      "spread": 60
     }]
 }

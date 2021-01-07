@@ -1,0 +1,15 @@
+{
+  "id": "nether_quartz",
+  "localisedName": "Nether Quartz",
+  "processedType": [
+    "dust",
+    "gear"
+  ],
+  "oreBlockType": "gem",
+  "defaultItemDrop": "minecraft:quartz",
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  }
+}

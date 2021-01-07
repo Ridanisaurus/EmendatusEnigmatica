@@ -2,9 +2,12 @@
   "id": "electrum",
   "localisedName": "Electrum",
   "processedType": [
-	"dust",
 	"block",
+	"ingot",
+	"nugget",
+	"dust",
+	"plate",
 	"gear",
-	"ingot"
+	"rod"
   ]
 }

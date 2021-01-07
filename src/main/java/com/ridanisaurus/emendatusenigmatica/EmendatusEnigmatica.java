@@ -59,36 +59,36 @@ public class EmendatusEnigmatica {
     public EmendatusEnigmatica() {
         EELoader.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
-        BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        //ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientEvents);
 
         // Register World Gen Config
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
         // Setup biome loading event for worldgen!
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
+        //MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
-        WorldGenHandler.addEEOres(event.getGeneration());
+        //WorldGenHandler.addEEOres(event.getGeneration());
     }
 
     private void init(final FMLConstructModEvent event) {
-        OreHandler.oreBlocks();
-        ItemHandler.oreItems();
+        //OreHandler.oreBlocks();
+        //ItemHandler.oreItems();
 
-        BlockHandler.blockInit();
-        ItemHandler.itemInit();
+        //BlockHandler.blockInit();
+        //ItemHandler.itemInit();
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {
-        for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
+        /*for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
             RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }
+        }*/
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {

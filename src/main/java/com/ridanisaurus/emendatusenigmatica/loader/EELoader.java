@@ -105,8 +105,29 @@ public class EELoader {
       if (material.getProcessedType().contains("storage_block")) {
         EERegistrar.RegisterStorageBlocks(material);
       }
+      if (material.getProcessedType().contains("chunk")) {
+        EERegistrar.RegisterChunks(material);
+      }
       if (material.getProcessedType().contains("ingot")) {
         EERegistrar.RegisterIngots(material);
+      }
+      if (material.getProcessedType().contains("nugget")) {
+        EERegistrar.RegisterNuggets(material);
+      }
+      if (material.getProcessedType().contains("gem")) {
+        EERegistrar.RegisterGems(material);
+      }
+      if (material.getProcessedType().contains("dust")) {
+        EERegistrar.RegisterDusts(material);
+      }
+      if (material.getProcessedType().contains("plate")) {
+        EERegistrar.RegisterPlates(material);
+      }
+      if (material.getProcessedType().contains("gear")) {
+        EERegistrar.RegisterGears(material);
+      }
+      if (material.getProcessedType().contains("rod")) {
+        EERegistrar.RegisterRods(material);
       }
     }
   }

@@ -7,7 +7,7 @@
     "dust",
     "plate",
     "gear",
-    "storage_block"
+    "rod"
   ],
   "oreBlockType": "metal",
   "properties": {
@@ -17,23 +17,23 @@
   },
   "dimensions": [{
       "dim": "minecraft:overworld",
-      "size": 20,
-      "count": 10,
-      "baseline": 64,
-      "spread": 64
+      "size": 11,
+      "count": 20,
+      "baseline": 32,
+      "spread": 32
     },
     {
       "dim": "minecraft:the_nether",
-      "size": 20,
-      "count": 10,
-      "baseline": 94,
-      "spread": 64
+      "size": 11,
+      "count": 20,
+      "baseline": 32,
+      "spread": 32
     },
     {
       "dim": "minecraft:the_end",
-      "size": 20,
-      "count": 10,
-      "baseline": 74,
-      "spread": 64
+      "size": 11,
+      "count": 20,
+      "baseline": 32,
+      "spread": 32
     }]
 }

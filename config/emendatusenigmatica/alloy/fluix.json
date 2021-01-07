@@ -1,0 +1,9 @@
+{
+  "id": "fluix",
+  "localisedName": "Fluix",
+  "processedType": [
+	"block",
+	"gem",
+	"dust"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "copper",
+  "localisedName": "Copper",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "chunk",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "oreBlockType": "metal",
+  "properties": {
+      "hardness": 3.0,
+      "resistance": 3.0,
+      "harvestLevel": 1
+  },
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 7,
+      "count": 20,
+      "baseline": 52,
+      "spread": 8
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 7,
+      "count": 20,
+      "baseline": 52,
+      "spread": 8
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 7,
+      "count": 20,
+      "baseline": 52,
+      "spread": 8
+    }]
+}
