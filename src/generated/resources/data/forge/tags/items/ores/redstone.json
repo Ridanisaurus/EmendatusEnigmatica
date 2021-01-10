@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:redstone_ore",
+    "emendatusenigmatica:redstone_granite_ore",
+    "emendatusenigmatica:redstone_diorite_ore",
     "emendatusenigmatica:redstone_andesite_ore",
     "emendatusenigmatica:redstone_netherrack_ore",
     "emendatusenigmatica:redstone_blackstone_ore",

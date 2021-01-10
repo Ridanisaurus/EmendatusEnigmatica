@@ -10,6 +10,8 @@ import java.util.function.Supplier;
 public enum Strata {
 
   STONE("minecraft_stone", "minecraft:block/stone", "stone", Blocks.STONE, "Stone", "minecraft", "overworld"),
+  GRANITE("minecraft_granite", "minecraft:block/granite", "granite", Blocks.GRANITE, "Granite", "minecraft", "overworld"),
+  DIORITE("minecraft_diorite", "minecraft:block/diorite", "diorite", Blocks.DIORITE, "Diorite", "minecraft", "overworld"),
   ANDESITE("minecraft_andesite", "minecraft:block/andesite",  "andesite", Blocks.ANDESITE, "Andesite", "minecraft", "overworld"),
   NETHERRACK("minecraft_netherrack", "minecraft:block/netherrack",  "netherrack", Blocks.NETHERRACK, "Netherrack", "minecraft", "nether"),
   BLACKSTONE("minecraft_blackstone", "minecraft:block/blackstone",  "blackstone", Blocks.BLACKSTONE, "Blackstone", "minecraft", "nether"),

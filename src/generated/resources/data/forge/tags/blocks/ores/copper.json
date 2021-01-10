@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:copper_ore",
+    "emendatusenigmatica:copper_granite_ore",
+    "emendatusenigmatica:copper_diorite_ore",
     "emendatusenigmatica:copper_andesite_ore",
     "emendatusenigmatica:copper_netherrack_ore",
     "emendatusenigmatica:copper_blackstone_ore",

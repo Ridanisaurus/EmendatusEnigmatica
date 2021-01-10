@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:certus_quartz_ore",
+    "emendatusenigmatica:certus_quartz_granite_ore",
+    "emendatusenigmatica:certus_quartz_diorite_ore",
     "emendatusenigmatica:certus_quartz_andesite_ore",
     "emendatusenigmatica:certus_quartz_netherrack_ore",
     "emendatusenigmatica:certus_quartz_blackstone_ore",

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:coal_ore",
+    "emendatusenigmatica:coal_granite_ore",
+    "emendatusenigmatica:coal_diorite_ore",
     "emendatusenigmatica:coal_andesite_ore",
     "emendatusenigmatica:coal_netherrack_ore",
     "emendatusenigmatica:coal_blackstone_ore",

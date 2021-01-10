@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:zinc_ore",
+    "emendatusenigmatica:zinc_granite_ore",
+    "emendatusenigmatica:zinc_diorite_ore",
     "emendatusenigmatica:zinc_andesite_ore",
     "emendatusenigmatica:zinc_netherrack_ore",
     "emendatusenigmatica:zinc_blackstone_ore",

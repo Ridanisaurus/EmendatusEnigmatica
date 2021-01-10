@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:tin_ore",
+    "emendatusenigmatica:tin_granite_ore",
+    "emendatusenigmatica:tin_diorite_ore",
     "emendatusenigmatica:tin_andesite_ore",
     "emendatusenigmatica:tin_netherrack_ore",
     "emendatusenigmatica:tin_blackstone_ore",

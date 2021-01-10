@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:uranium_ore",
+    "emendatusenigmatica:uranium_granite_ore",
+    "emendatusenigmatica:uranium_diorite_ore",
     "emendatusenigmatica:uranium_andesite_ore",
     "emendatusenigmatica:uranium_netherrack_ore",
     "emendatusenigmatica:uranium_blackstone_ore",

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:bitumen_ore",
+    "emendatusenigmatica:bitumen_granite_ore",
+    "emendatusenigmatica:bitumen_diorite_ore",
     "emendatusenigmatica:bitumen_andesite_ore",
     "emendatusenigmatica:bitumen_netherrack_ore",
     "emendatusenigmatica:bitumen_blackstone_ore",

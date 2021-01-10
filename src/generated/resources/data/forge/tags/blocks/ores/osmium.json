@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:osmium_ore",
+    "emendatusenigmatica:osmium_granite_ore",
+    "emendatusenigmatica:osmium_diorite_ore",
     "emendatusenigmatica:osmium_andesite_ore",
     "emendatusenigmatica:osmium_netherrack_ore",
     "emendatusenigmatica:osmium_blackstone_ore",

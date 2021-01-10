@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:sulfur_ore",
+    "emendatusenigmatica:sulfur_granite_ore",
+    "emendatusenigmatica:sulfur_diorite_ore",
     "emendatusenigmatica:sulfur_andesite_ore",
     "emendatusenigmatica:sulfur_netherrack_ore",
     "emendatusenigmatica:sulfur_blackstone_ore",

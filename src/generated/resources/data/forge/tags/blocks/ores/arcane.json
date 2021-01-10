@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:arcane_ore",
+    "emendatusenigmatica:arcane_granite_ore",
+    "emendatusenigmatica:arcane_diorite_ore",
     "emendatusenigmatica:arcane_andesite_ore",
     "emendatusenigmatica:arcane_netherrack_ore",
     "emendatusenigmatica:arcane_blackstone_ore",

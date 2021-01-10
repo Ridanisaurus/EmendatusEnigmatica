@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:fluorite_ore",
+    "emendatusenigmatica:fluorite_granite_ore",
+    "emendatusenigmatica:fluorite_diorite_ore",
     "emendatusenigmatica:fluorite_andesite_ore",
     "emendatusenigmatica:fluorite_netherrack_ore",
     "emendatusenigmatica:fluorite_blackstone_ore",

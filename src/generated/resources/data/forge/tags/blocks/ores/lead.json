@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:lead_ore",
+    "emendatusenigmatica:lead_granite_ore",
+    "emendatusenigmatica:lead_diorite_ore",
     "emendatusenigmatica:lead_andesite_ore",
     "emendatusenigmatica:lead_netherrack_ore",
     "emendatusenigmatica:lead_blackstone_ore",

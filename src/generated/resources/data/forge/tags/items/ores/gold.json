@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "emendatusenigmatica:gold_ore",
+    "emendatusenigmatica:gold_granite_ore",
+    "emendatusenigmatica:gold_diorite_ore",
     "emendatusenigmatica:gold_andesite_ore",
     "emendatusenigmatica:gold_netherrack_ore",
     "emendatusenigmatica:gold_blackstone_ore",
