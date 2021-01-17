@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:redstone_ore",
     "emendatusenigmatica:redstone_andesite_ore",
+    "emendatusenigmatica:redstone_granite_ore",
+    "emendatusenigmatica:redstone_diorite_ore",
+    "emendatusenigmatica:redstone_sand_ore",
+    "emendatusenigmatica:redstone_gravel_ore",
     "emendatusenigmatica:redstone_netherrack_ore",
     "emendatusenigmatica:redstone_blackstone_ore",
     "emendatusenigmatica:redstone_end_stone_ore",

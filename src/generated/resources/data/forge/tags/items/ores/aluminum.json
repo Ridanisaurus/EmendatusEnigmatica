@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:aluminum_ore",
     "emendatusenigmatica:aluminum_andesite_ore",
+    "emendatusenigmatica:aluminum_granite_ore",
+    "emendatusenigmatica:aluminum_diorite_ore",
+    "emendatusenigmatica:aluminum_sand_ore",
+    "emendatusenigmatica:aluminum_gravel_ore",
     "emendatusenigmatica:aluminum_netherrack_ore",
     "emendatusenigmatica:aluminum_blackstone_ore",
     "emendatusenigmatica:aluminum_end_stone_ore",

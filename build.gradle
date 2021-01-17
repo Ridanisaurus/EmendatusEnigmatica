@@ -87,11 +87,10 @@ sourceSets.main.resources {
 }
 
 repositories {
-    maven {
-        // JEI
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
+    // JEI
+    maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" }
+    // IE
+    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {
 //        // location of a maven mirror for JEI files, as a fallback
 //        name = "ModMaven"
@@ -131,7 +130,8 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     //}
 
-    //runtimeOnly fg.deobf("curse.maven:worldstripper:3054192")
+    runtimeOnly fg.deobf("curse.maven:worldstripper:3054192")
+    runtimeOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:1.16.3-4.1.1-127")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

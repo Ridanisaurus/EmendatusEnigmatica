@@ -36,14 +36,15 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
-  public BlockTagsGen(DataGenerator gen) {
-    super(gen);
+  public BlockTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {
+    super(gen, Reference.MOD_ID, existingFileHelper);
   }
 
   @Override

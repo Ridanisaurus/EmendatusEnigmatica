@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:coal_ore",
     "emendatusenigmatica:coal_andesite_ore",
+    "emendatusenigmatica:coal_granite_ore",
+    "emendatusenigmatica:coal_diorite_ore",
+    "emendatusenigmatica:coal_sand_ore",
+    "emendatusenigmatica:coal_gravel_ore",
     "emendatusenigmatica:coal_netherrack_ore",
     "emendatusenigmatica:coal_blackstone_ore",
     "emendatusenigmatica:coal_end_stone_ore",

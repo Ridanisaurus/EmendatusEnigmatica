@@ -31,7 +31,11 @@
               "functions": [
                 {
                   "function": "minecraft:set_count",
-                  "count": 1.0
+                  "count": {
+                    "min": 4.0,
+                    "max": 5.0,
+                    "type": "minecraft:uniform"
+                  }
                 },
                 {
                   "function": "minecraft:apply_bonus",

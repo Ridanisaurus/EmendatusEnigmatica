@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:tin_ore",
     "emendatusenigmatica:tin_andesite_ore",
+    "emendatusenigmatica:tin_granite_ore",
+    "emendatusenigmatica:tin_diorite_ore",
+    "emendatusenigmatica:tin_sand_ore",
+    "emendatusenigmatica:tin_gravel_ore",
     "emendatusenigmatica:tin_netherrack_ore",
     "emendatusenigmatica:tin_blackstone_ore",
     "emendatusenigmatica:tin_end_stone_ore",
