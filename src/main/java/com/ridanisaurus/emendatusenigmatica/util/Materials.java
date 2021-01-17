@@ -43,7 +43,7 @@ public enum Materials {
   POTASSIUM_NITRATE("potassium_nitrate", "Potassium Nitrate", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OrePotassiumNitrate::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("POTASSIUM_NITRATE")).get(), 3, 5), 5, 4, 25, 7, 0, 0, 0, 0, 0, 0, 0, 0),
   ARCANE("arcane", "Arcane", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreArcane::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("ARCANE")).get()), 6, 5, 33, 13, 0, 0, 0, 0, 0, 0, 0, 0),
   DIMENSIONAL("dimensional", "Dimensional Shard", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreDimensional::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("DIMENSIONAL")).get(), 4 , 5), 8, 8, 21, 19, 0, 0, 0, 0, 0, 0, 0, 0),
-  COKE("coke", "Coke Coal", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, ItemBase::new, Source.MODDED),
+  COKE("coke", "Coal Coke", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, ItemBase::new, Source.MODDED),
   SILICON("silicon", "Silicon", new String[] {"Gem"}, BlockBase::new, ItemBase::new, Source.MODDED),
 
   BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
