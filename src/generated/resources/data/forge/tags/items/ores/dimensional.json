@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:dimensional_ore",
     "emendatusenigmatica:dimensional_andesite_ore",
+    "emendatusenigmatica:dimensional_granite_ore",
+    "emendatusenigmatica:dimensional_diorite_ore",
+    "emendatusenigmatica:dimensional_sand_ore",
+    "emendatusenigmatica:dimensional_gravel_ore",
     "emendatusenigmatica:dimensional_netherrack_ore",
     "emendatusenigmatica:dimensional_blackstone_ore",
     "emendatusenigmatica:dimensional_end_stone_ore",

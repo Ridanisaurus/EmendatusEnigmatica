@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:cinnabar_ore",
     "emendatusenigmatica:cinnabar_andesite_ore",
+    "emendatusenigmatica:cinnabar_granite_ore",
+    "emendatusenigmatica:cinnabar_diorite_ore",
+    "emendatusenigmatica:cinnabar_sand_ore",
+    "emendatusenigmatica:cinnabar_gravel_ore",
     "emendatusenigmatica:cinnabar_netherrack_ore",
     "emendatusenigmatica:cinnabar_blackstone_ore",
     "emendatusenigmatica:cinnabar_end_stone_ore",

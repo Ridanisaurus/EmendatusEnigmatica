@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:copper_ore",
     "emendatusenigmatica:copper_andesite_ore",
+    "emendatusenigmatica:copper_granite_ore",
+    "emendatusenigmatica:copper_diorite_ore",
+    "emendatusenigmatica:copper_sand_ore",
+    "emendatusenigmatica:copper_gravel_ore",
     "emendatusenigmatica:copper_netherrack_ore",
     "emendatusenigmatica:copper_blackstone_ore",
     "emendatusenigmatica:copper_end_stone_ore",

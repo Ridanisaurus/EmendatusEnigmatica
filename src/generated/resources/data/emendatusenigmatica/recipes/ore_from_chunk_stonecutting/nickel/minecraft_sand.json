@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:nickel_chunk"
+  },
+  "result": "emendatusenigmatica:nickel_sand_ore",
+  "count": 1
+}

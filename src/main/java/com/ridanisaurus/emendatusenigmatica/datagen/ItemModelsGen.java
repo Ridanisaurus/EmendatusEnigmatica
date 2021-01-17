@@ -54,9 +54,6 @@ public class ItemModelsGen extends ItemModelProvider {
     getBuilder("ender_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ender_dust"));
-    getBuilder("coke_dust")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/coke_dust"));
     getBuilder("graphite_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/graphite_dust"));

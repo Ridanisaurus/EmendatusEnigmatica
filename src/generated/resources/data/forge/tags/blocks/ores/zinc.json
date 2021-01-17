@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:zinc_ore",
     "emendatusenigmatica:zinc_andesite_ore",
+    "emendatusenigmatica:zinc_granite_ore",
+    "emendatusenigmatica:zinc_diorite_ore",
+    "emendatusenigmatica:zinc_sand_ore",
+    "emendatusenigmatica:zinc_gravel_ore",
     "emendatusenigmatica:zinc_netherrack_ore",
     "emendatusenigmatica:zinc_blackstone_ore",
     "emendatusenigmatica:zinc_end_stone_ore",

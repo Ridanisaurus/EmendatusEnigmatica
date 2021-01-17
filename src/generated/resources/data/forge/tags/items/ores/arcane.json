@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:arcane_ore",
     "emendatusenigmatica:arcane_andesite_ore",
+    "emendatusenigmatica:arcane_granite_ore",
+    "emendatusenigmatica:arcane_diorite_ore",
+    "emendatusenigmatica:arcane_sand_ore",
+    "emendatusenigmatica:arcane_gravel_ore",
     "emendatusenigmatica:arcane_netherrack_ore",
     "emendatusenigmatica:arcane_blackstone_ore",
     "emendatusenigmatica:arcane_end_stone_ore",

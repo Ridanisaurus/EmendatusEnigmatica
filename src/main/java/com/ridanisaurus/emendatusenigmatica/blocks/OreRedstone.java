@@ -52,22 +52,22 @@ import java.util.Random;
 import java.util.function.ToIntFunction;
 
 public class OreRedstone extends OreBlock {
-    public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
+    /*public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
 
     private static ToIntFunction<BlockState> getLightLevel() {
         return (state) -> state.get(BlockStateProperties.LIT) ? 9 : 0;
-    }
+    }*/
 
     public OreRedstone() {
         super(Properties.create(Material.ROCK)
                 .hardnessAndResistance(3.0F, 3.0F)
                 .harvestLevel(2)
                 .harvestTool(ToolType.PICKAXE)
-                .setRequiresTool()
-                .tickRandomly()
-                .setLightLevel(getLightLevel()));
+                .setRequiresTool());
+                /*.tickRandomly()
+                .setLightLevel(getLightLevel()));*/
 
-        this.setDefaultState(this.getDefaultState().with(LIT, Boolean.FALSE));
+        /*this.setDefaultState(this.getDefaultState().with(LIT, Boolean.FALSE));*/
     }
 
     @Override
@@ -80,7 +80,7 @@ public class OreRedstone extends OreBlock {
         return silktouch == 0 ? this.getExperience(RANDOM) : 0;
     }
 
-    @Override
+/*    @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         activate(state, worldIn, pos);
         super.onBlockClicked(state, worldIn, pos, player);
@@ -158,5 +158,5 @@ public class OreRedstone extends OreBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(LIT);
-    }
+    }*/
 }

@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:nickel_ore",
     "emendatusenigmatica:nickel_andesite_ore",
+    "emendatusenigmatica:nickel_granite_ore",
+    "emendatusenigmatica:nickel_diorite_ore",
+    "emendatusenigmatica:nickel_sand_ore",
+    "emendatusenigmatica:nickel_gravel_ore",
     "emendatusenigmatica:nickel_netherrack_ore",
     "emendatusenigmatica:nickel_blackstone_ore",
     "emendatusenigmatica:nickel_end_stone_ore",

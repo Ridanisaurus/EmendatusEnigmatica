@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:gold_ore",
     "emendatusenigmatica:gold_andesite_ore",
+    "emendatusenigmatica:gold_granite_ore",
+    "emendatusenigmatica:gold_diorite_ore",
+    "emendatusenigmatica:gold_sand_ore",
+    "emendatusenigmatica:gold_gravel_ore",
     "emendatusenigmatica:gold_netherrack_ore",
     "emendatusenigmatica:gold_blackstone_ore",
     "emendatusenigmatica:gold_end_stone_ore",

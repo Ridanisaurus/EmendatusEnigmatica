@@ -52,8 +52,14 @@ public class JEIPlugin implements IModPlugin {
       ItemHandler.backingOreItemTable.column(material).values().forEach(item -> {
         ItemStack stack = new ItemStack(item.get());
         WorldGenConfig.OreConfigs.BakedOreProps oreConfig = WorldGenConfig.COMMON.ORES.get(material);
-        int min_y = oreConfig.BASELINE_Y - oreConfig.SPREAD_AMOUNT;
-        int max_y = oreConfig.BASELINE_Y + oreConfig.SPREAD_AMOUNT;
+        int min_y = oreConfig.BASELINE - oreConfig.SPREAD;
+        int max_y = oreConfig.BASELINE + oreConfig.SPREAD;
+
+        int nether_min_y = oreConfig.NETHER_BASE - oreConfig.NETHER_SPREAD;
+        int nether_max_y = oreConfig.NETHER_BASE + oreConfig.NETHER_SPREAD;
+
+        int end_min_y = oreConfig.END_BASE - oreConfig.END_SPREAD;
+        int end_max_y = oreConfig.END_BASE + oreConfig.END_SPREAD;
 
         String overworldInfo = "Min Y: \u00a77N/A\u00a7r - Max Y: \u00a77N/A\u00a7r";
         String netherInfo = "Min Y: \u00a77N/A\u00a7r - Max Y: \u00a77N/A\u00a7r";
@@ -63,10 +69,10 @@ public class JEIPlugin implements IModPlugin {
           overworldInfo = "Min Y: \u00a78" + min_y + "\u00a7r - Max Y: \u00a78" + max_y + "\u00a7r";
         }
         if (oreConfig.NETHER_ACTIVE) {
-          netherInfo = "Min Y: \u00a78" + (min_y + oreConfig.NETHER_BASE_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.NETHER_BASE_MODIFIER) + "\u00a7r";
+          netherInfo = "Min Y: \u00a78" + nether_min_y + "\u00a7r - Max Y: \u00a78" + nether_max_y + "\u00a7r";
         }
         if (oreConfig.END_ACTIVE) {
-          endInfo = "Min Y: \u00a78" + (min_y + oreConfig.END_BASE_MODIFIER) + "\u00a7r - Max Y: \u00a78" + (max_y + oreConfig.END_BASE_MODIFIER) + "\u00a7r";
+          endInfo = "Min Y: \u00a78" + end_min_y + "\u00a7r - Max Y: \u00a78" + end_max_y + "\u00a7r";
         }
 
         registration.addIngredientInfo(stack, VanillaTypes.ITEM,

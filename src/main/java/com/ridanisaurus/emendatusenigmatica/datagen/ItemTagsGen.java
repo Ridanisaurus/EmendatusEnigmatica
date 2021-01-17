@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
@@ -139,12 +140,23 @@ public class ItemTagsGen extends ItemTagsProvider {
       }
     }
 
+    // Silicon
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "silicon").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.SILICON).get());
+
+    // Coke
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "coal_coke").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.COKE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coal_coke").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COKE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_block/coal_coke").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.COKE).get());
+
     // Dusts
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()))
             .add(ItemHandler.DUST_CHARCOAL.get())
             .add(ItemHandler.DUST_OBSIDIAN.get())
             .add(ItemHandler.DUST_ENDER.get())
-            .add(ItemHandler.DUST_COKE.get())
             .add(ItemHandler.DUST_GRAPHITE.get())
             .add(ItemHandler.DUST_LITHIUM.get())
             .add(ItemHandler.DUST_WOOD.get());
@@ -155,8 +167,6 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.DUST_OBSIDIAN.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/ender").toString()))
             .add(ItemHandler.DUST_ENDER.get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coke").toString()))
-            .add(ItemHandler.DUST_COKE.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/graphite").toString()))
             .add(ItemHandler.DUST_GRAPHITE.get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/lithium").toString()))

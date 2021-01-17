@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:certus_quartz_ore",
     "emendatusenigmatica:certus_quartz_andesite_ore",
+    "emendatusenigmatica:certus_quartz_granite_ore",
+    "emendatusenigmatica:certus_quartz_diorite_ore",
+    "emendatusenigmatica:certus_quartz_sand_ore",
+    "emendatusenigmatica:certus_quartz_gravel_ore",
     "emendatusenigmatica:certus_quartz_netherrack_ore",
     "emendatusenigmatica:certus_quartz_blackstone_ore",
     "emendatusenigmatica:certus_quartz_end_stone_ore",

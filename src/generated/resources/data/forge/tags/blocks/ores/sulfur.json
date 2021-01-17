@@ -3,6 +3,10 @@
   "values": [
     "emendatusenigmatica:sulfur_ore",
     "emendatusenigmatica:sulfur_andesite_ore",
+    "emendatusenigmatica:sulfur_granite_ore",
+    "emendatusenigmatica:sulfur_diorite_ore",
+    "emendatusenigmatica:sulfur_sand_ore",
+    "emendatusenigmatica:sulfur_gravel_ore",
     "emendatusenigmatica:sulfur_netherrack_ore",
     "emendatusenigmatica:sulfur_blackstone_ore",
     "emendatusenigmatica:sulfur_end_stone_ore",
