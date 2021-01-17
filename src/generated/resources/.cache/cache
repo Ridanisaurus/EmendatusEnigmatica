@@ -3910,7 +3910,6 @@ bbfeecb4c54c08d01d3fb26f09f19339668d1b90 data/forge/tags/items/rods/osmium.json
 1da287637a0138fc896e8be197bf71a497bcbace data/forge/tags/items/rods/uranium.json
 f53c25e7268d5f328b2fd5ff72d2a53f10df8f6c data/forge/tags/items/rods/zinc.json
 ec7b2e082374619dedab7480ae3ba6a20e30d08a data/forge/tags/items/silicon.json
-a7038e08a8e07bd0bef19c3fc6e58529e96ddedc data/forge/tags/items/storage_block/coal_coke.json
 dac63e04e82f307e95e7b3fff5c64519b2947fee data/forge/tags/items/storage_blocks.json
 8c8172b534530ad562704b6f4f5bc585b5f62f27 data/forge/tags/items/storage_blocks/aluminum.json
 fae7312499bd458594056da931b84be7b99e0320 data/forge/tags/items/storage_blocks/apatite.json
@@ -3921,6 +3920,7 @@ fd8cb5bf89b932d39a21cad4f3a14d612187b078 data/forge/tags/items/storage_blocks/br
 df1f8d5f2795d131c01bd08b94b38a46aaa43329 data/forge/tags/items/storage_blocks/certus_quartz.json
 0050f55cb0b0ffb14aaeef7c3d4b9a7c25040dc3 data/forge/tags/items/storage_blocks/charged_certus_quartz.json
 4132a3a6ba84c4b60d0ed35965ee2d1dc72d3132 data/forge/tags/items/storage_blocks/cinnabar.json
+a7038e08a8e07bd0bef19c3fc6e58529e96ddedc data/forge/tags/items/storage_blocks/coal_coke.json
 a7038e08a8e07bd0bef19c3fc6e58529e96ddedc data/forge/tags/items/storage_blocks/coke.json
 3f12245124dbd90f71d926f6748729925fc392e3 data/forge/tags/items/storage_blocks/constantan.json
 325bae2c7a1e996814abe71b09388e32cda932e2 data/forge/tags/items/storage_blocks/copper.json

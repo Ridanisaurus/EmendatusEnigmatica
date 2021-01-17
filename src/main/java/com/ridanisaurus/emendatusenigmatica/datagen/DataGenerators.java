@@ -36,9 +36,9 @@ public class DataGenerators {
   public static void gatherData(GatherDataEvent event) {
     DataGenerator generator = event.getGenerator();
     if (event.includeServer()) {
-      BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator);
+      BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, event.getExistingFileHelper());
       generator.addProvider(new RecipesGen(generator));
-      generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration));
+      generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, event.getExistingFileHelper()));
       generator.addProvider(blockTagsGeneration);
       generator.addProvider(new LootTablesGen(generator));
     }

@@ -35,14 +35,15 @@ import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class ItemTagsGen extends ItemTagsProvider {
 
-  public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider) {
-    super(gen, blockTagProvider);
+  public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+    super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
   }
 
   @Override
@@ -149,7 +150,7 @@ public class ItemTagsGen extends ItemTagsProvider {
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.COKE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coal_coke").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COKE).get());
-    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_block/coal_coke").toString()))
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/coal_coke").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.COKE).get());
 
     // Dusts
