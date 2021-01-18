@@ -1,6 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
 import com.ridanisaurus.emendatusenigmatica.blocks.*;
+import com.ridanisaurus.emendatusenigmatica.items.BurnableItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import net.minecraft.block.Block;
@@ -36,14 +37,14 @@ public enum Materials {
   CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "4xRecipe"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 4, 8, 16, 16, 0, 0, 0, 0, 0, 0, 0, 0),
   FLUIX("fluix", "Fluix Crystal", new String[] {"Block", "Gem", "Dust", "4xRecipe"}, BlockBase::new, ItemBase::new, Source.MODDED),
   FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 12, 6, 16, 16, 0, 0, 0, 0, 0, 0, 0, 0),
-  BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreBitumen::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 18, 2, 100, 60, 0, 0, 0, 0, 0, 0, 0, 0),
+  BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreBitumen::new, () -> new BurnableItemBase(1600), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 18, 2, 100, 60, 0, 0, 0, 0, 0, 0, 0, 0),
   CINNABAR("cinnabar", "Cinnabar", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreCinnabar::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CINNABAR")).get(), 1, 2), 5, 4, 10, 6, 0, 0, 0, 0, 0, 0, 0, 0),
   APATITE("apatite", "Apatite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreApatite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("APATITE")).get(), 4, 9), 22, 2, 96, 32, 0, 0, 0, 0, 0, 0, 0, 0),
-  SULFUR("sulfur", "Sulfur", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreSulfur::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("SULFUR")).get(), 3, 5), 7, 3, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0),
+  SULFUR("sulfur", "Sulfur", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreSulfur::new, () -> new BurnableItemBase(1200), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("SULFUR")).get(), 3, 5), 7, 3, 8, 8, 0, 0, 0, 0, 0, 0, 0, 0),
   POTASSIUM_NITRATE("potassium_nitrate", "Potassium Nitrate", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OrePotassiumNitrate::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("POTASSIUM_NITRATE")).get(), 3, 5), 5, 4, 25, 7, 0, 0, 0, 0, 0, 0, 0, 0),
   ARCANE("arcane", "Arcane", new String[] {"Ore", "Block", "Gem", "Chunk"}, BlockBase::new, OreArcane::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("ARCANE")).get()), 6, 5, 33, 13, 0, 0, 0, 0, 0, 0, 0, 0),
   DIMENSIONAL("dimensional", "Dimensional Shard", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust"}, BlockBase::new, OreDimensional::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("DIMENSIONAL")).get(), 4 , 5), 8, 8, 21, 19, 0, 0, 0, 0, 0, 0, 0, 0),
-  COKE("coke", "Coal Coke", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, ItemBase::new, Source.MODDED),
+  COKE("coke", "Coal Coke", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, () -> new BurnableItemBase(3200), Source.MODDED),
   SILICON("silicon", "Silicon", new String[] {"Gem"}, BlockBase::new, ItemBase::new, Source.MODDED),
 
   BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),

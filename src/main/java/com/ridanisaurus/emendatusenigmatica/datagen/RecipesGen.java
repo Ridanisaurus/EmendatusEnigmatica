@@ -183,6 +183,11 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/gold"));
 
+    // Silicon from Quartz
+    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(Tags.Items.GEMS_QUARTZ), ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.SILICON).get(), 0.7F, 200)
+            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "silicon_from_quartz/smelting/nether_quartz"));
+
     // Plate from Ingot
     ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get(), 1)
             .addIngredient(Items.IRON_INGOT)

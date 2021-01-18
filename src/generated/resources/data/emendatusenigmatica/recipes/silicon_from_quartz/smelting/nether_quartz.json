@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:gems/quartz"
+  },
+  "result": "emendatusenigmatica:silicon_gem",
+  "experience": 0.7,
+  "cookingtime": 200
+}

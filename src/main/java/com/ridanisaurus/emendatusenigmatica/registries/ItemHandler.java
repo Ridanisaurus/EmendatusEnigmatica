@@ -54,7 +54,16 @@ public class ItemHandler {
         //Storage Block Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           String storageBlockName = material.id + "_block";
-          builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get())));
+          if(material.id.equals("bitumen")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 16000)));
+          } else if(material.id.equals("coke")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 32000)));
+          } else if(material.id.equals("sulfur")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 12000)));
+          }
+          else {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 0)));
+          }
         }
         // Ingots
         if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
@@ -94,7 +103,7 @@ public class ItemHandler {
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           String chunkName = material.id + "_chunk";
-          builder.put(processedMaterial, material, ITEMS.register(chunkName, material.item));
+          builder.put(processedMaterial, material, ITEMS.register(chunkName, ItemBase::new));
         }
       }
     }
@@ -120,7 +129,7 @@ public class ItemHandler {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
-          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get())));
+          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get(), 0)));
         }
       }
     }
@@ -128,7 +137,7 @@ public class ItemHandler {
   }
 
   // Machine Items
-  public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get()));
+  public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get(), 0));
 
   // Hammer
   public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
