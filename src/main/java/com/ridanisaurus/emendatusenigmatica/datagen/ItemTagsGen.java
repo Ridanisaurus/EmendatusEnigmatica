@@ -148,6 +148,8 @@ public class ItemTagsGen extends ItemTagsProvider {
     // Coke
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "coal_coke").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.COKE).get());
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/coal_coke").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.COKE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/coal_coke").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COKE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/coal_coke").toString()))
