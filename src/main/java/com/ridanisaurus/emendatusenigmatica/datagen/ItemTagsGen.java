@@ -210,6 +210,9 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.QUARTZ).get());
 
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/fluix").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.FLUIX).get());
+
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/certus_quartz").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.CERTUS_QUARTZ).get());
 
