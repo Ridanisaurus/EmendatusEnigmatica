@@ -29,7 +29,9 @@ public enum Strata {
   QUARK_MARBLE("quark_marble", "quark:block/marble",  "marble", new ResourceLocation("quark:marble"), "Marble", "quark", "overworld", false),
   QUARK_SLATE("quark_slate", "quark:block/slate",  "slate", new ResourceLocation("quark:slate"), "Slate", "quark", "overworld", false),
 
-  BYG_MOSSY_STONE("byg_mossy_stone", "byg:block/mossy_stone", "mossy_stone", new ResourceLocation("byg:mossy_stone"), "Mossy Stone", "byg", "overworld", false);
+  BYG_MOSSY_STONE("byg_mossy_stone", "byg:block/mossy_stone", "mossy_stone", new ResourceLocation("byg:mossy_stone"), "Mossy Stone", "byg", "overworld", false),
+
+  ASTRAL_MARBLE("astral_marble", "astralsorcery:block/marble_raw", "raw_marble", new ResourceLocation("astralsorcery:marble_raw"), "Marble", "astralsorcery", "overworld", false);
 
   //create:block/palettes/gabbro/plain
   //emendatusenigmatica:blocks/strata/create_gabbro
