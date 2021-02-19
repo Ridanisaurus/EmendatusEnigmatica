@@ -141,6 +141,14 @@ public class ItemTagsGen extends ItemTagsProvider {
       }
     }
 
+    // Piglin Loved
+    getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "piglin_loved").toString()))
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.GOLD).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.GOLD).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
+            .add(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.GOLD).get());
+
     // Silicon
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "silicon").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.SILICON).get());

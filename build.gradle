@@ -50,7 +50,8 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
+            properties 'mixin.env.disableRefMap': 'true'
             source sourceSets.main
         }
 
@@ -62,7 +63,8 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
+            properties 'mixin.env.disableRefMap': 'true'
             source sourceSets.main
         }
 
@@ -74,7 +76,8 @@ minecraft {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
+            properties 'mixin.env.disableRefMap': 'true'
 
             args '--mod', 'emendatusenigmatica', '--all', '--output', '"' + rootProject.file('src/generated/resources/') + '"', '--existing', '"' + sourceSets.main.resources.srcDirs[0] + '"'
             source sourceSets.main
@@ -90,7 +93,7 @@ repositories {
     // JEI
     maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" }
     // IE
-    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
+//    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {
 //        // location of a maven mirror for JEI files, as a fallback
 //        name = "ModMaven"
@@ -125,13 +128,17 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //if (findProject(':workspace') == null) {
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     //}
 
-    runtimeOnly fg.deobf("curse.maven:worldstripper:3054192")
-    runtimeOnly fg.deobf("blusunrize.immersiveengineering:ImmersiveEngineering:1.16.3-4.1.1-127")
+    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
+    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
+    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
+    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
+    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
+    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:arcane_chunk"
+  },
+  "result": "emendatusenigmatica:arcane_sulphuric_rock_ore",
+  "count": 1
+}

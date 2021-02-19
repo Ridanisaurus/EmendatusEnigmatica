@@ -18,6 +18,8 @@ public enum Strata {
   GRAVEL("minecraft_gravel", "minecraft:block/gravel",  "gravel", Blocks.GRAVEL, "Gravel", "minecraft", "overworld", false),
   NETHERRACK("minecraft_netherrack", "minecraft:block/netherrack",  "netherrack", Blocks.NETHERRACK, "Netherrack", "minecraft", "nether", false),
   BLACKSTONE("minecraft_blackstone", "minecraft:block/blackstone",  "blackstone", Blocks.BLACKSTONE, "Blackstone", "minecraft", "nether", false),
+  BASALT("minecraft_basalt", "minecraft:block/basalt_side",  "basalt", Blocks.BASALT, "Basalt", "minecraft", "nether", false),
+  SOUL_SOIL("minecraft_soul_soil", "minecraft:block/soul_soil",  "soul_soil", Blocks.SOUL_SOIL, "Soul Soil", "minecraft", "nether", false),
   END_STONE("minecraft_end_stone", "minecraft:block/end_stone",  "end_stone", Blocks.END_STONE, "End Stone", "minecraft", "end", false),
 
   CREATE_GABBRO("create_gabbro", "create:block/palettes/gabbro/plain",  "gabbro", new ResourceLocation("create:gabbro"), "Gabbro", "create", "overworld", false),
@@ -30,6 +32,16 @@ public enum Strata {
   QUARK_SLATE("quark_slate", "quark:block/slate",  "slate", new ResourceLocation("quark:slate"), "Slate", "quark", "overworld", false),
 
   BYG_MOSSY_STONE("byg_mossy_stone", "byg:block/mossy_stone", "mossy_stone", new ResourceLocation("byg:mossy_stone"), "Mossy Stone", "byg", "overworld", false),
+  BYG_BRIMSTONE("byg_brimstone", "byg:block/brimstone", "brimstone", new ResourceLocation("byg:brimstone"), "Brimstone", "byg", "nether", false),
+  BYG_SUBZERO_ASH("byg_subzero_ash", "byg:block/subzero_ash", "subzero_ash", new ResourceLocation("byg:subzero_ash_block"), "Subzero Ash Block", "byg", "nether", false),
+  BYG_BLUE_NETHERRACK("byg_blue_netherrack", "byg:block/blue_netherrack", "blue_netherrack", new ResourceLocation("byg:blue_netherrack"), "Blue Netherrack", "byg", "nether", false),
+  BYG_NYLIUM_SOUL_SOIL("byg_nylium_soul_soil", "byg:block/nylium_soul_soil", "nylium_soul_soil", new ResourceLocation("byg:nylium_soul_soil"), "Nylium Soul Soil", "byg", "nether", false),
+  BYG_ETHER_STONE("byg_ether_stone", "byg:block/ether_stone", "ether_stone", new ResourceLocation("byg:ether_stone"), "Ether Stone", "byg", "end", false),
+  BYG_CRYPTIC_STONE("byg_cryptic_stone", "byg:block/cryptic_stone", "cryptic_stone", new ResourceLocation("byg:cryptic_stone"), "Cryptic Stone", "byg", "end", false),
+
+  BETTEREND_FLAVOLITE("betterend_flavolite", "betterendforge:block/flavolite", "flavolite", new ResourceLocation("betterendforge:flavolite"), "Flavolite", "betterendforge", "end", false),
+  BETTEREND_SULPHURIC_ROCK("betterend_sulphuric_rock", "betterendforge:block/sulphuric_rock", "sulphuric_rock", new ResourceLocation("betterendforge:sulphuric_rock"), "Sulphuric Rock", "betterendforge", "end", false),
+  BETTEREND_VIOLECITE("betterend_violecite", "betterendforge:block/violecite", "violecite", new ResourceLocation("betterendforge:violecite"), "Violecite", "betterendforge", "end", false),
 
   ASTRAL_MARBLE("astral_marble", "astralsorcery:block/marble_raw", "raw_marble", new ResourceLocation("astralsorcery:marble_raw"), "Marble", "astralsorcery", "overworld", false);
 

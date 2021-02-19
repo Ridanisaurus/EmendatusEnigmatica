@@ -9,6 +9,8 @@
     "emendatusenigmatica:nickel_gravel_ore",
     "emendatusenigmatica:nickel_netherrack_ore",
     "emendatusenigmatica:nickel_blackstone_ore",
+    "emendatusenigmatica:nickel_basalt_ore",
+    "emendatusenigmatica:nickel_soul_soil_ore",
     "emendatusenigmatica:nickel_end_stone_ore",
     "emendatusenigmatica:nickel_gabbro_ore",
     "emendatusenigmatica:nickel_c_limestone_ore",
@@ -18,6 +20,15 @@
     "emendatusenigmatica:nickel_marble_ore",
     "emendatusenigmatica:nickel_slate_ore",
     "emendatusenigmatica:nickel_mossy_stone_ore",
+    "emendatusenigmatica:nickel_brimstone_ore",
+    "emendatusenigmatica:nickel_subzero_ash_ore",
+    "emendatusenigmatica:nickel_blue_netherrack_ore",
+    "emendatusenigmatica:nickel_nylium_soul_soil_ore",
+    "emendatusenigmatica:nickel_ether_stone_ore",
+    "emendatusenigmatica:nickel_cryptic_stone_ore",
+    "emendatusenigmatica:nickel_flavolite_ore",
+    "emendatusenigmatica:nickel_sulphuric_rock_ore",
+    "emendatusenigmatica:nickel_violecite_ore",
     "emendatusenigmatica:nickel_raw_marble_ore"
   ]
 }

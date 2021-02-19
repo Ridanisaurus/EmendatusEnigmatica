@@ -28,9 +28,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.particles.RedstoneParticleData;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
@@ -50,5 +53,23 @@ public class OreChargedCertusQuartz extends OreBlock {
     @Override
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
         return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+    }
+
+    @Override
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        super.animateTick(stateIn, worldIn, pos, rand);
+
+        if(rand.nextInt(10) == 0) {
+            for(Direction direction : Direction.values()) {
+                BlockPos blockpos = pos.offset(direction);
+                if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+                    Direction.Axis direction$axis = direction.getAxis();
+                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getXOffset() : (double)rand.nextFloat();
+                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getYOffset() : (double)rand.nextFloat();
+                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getZOffset() : (double)rand.nextFloat();
+                    worldIn.addParticle(new RedstoneParticleData(0.73F,0.91F,0.98F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+                }
+            }
+        }
     }
 }

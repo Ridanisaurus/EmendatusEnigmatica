@@ -32,6 +32,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ItemHammer extends Item {
+  Random random = new Random();
   public ItemHammer() {
     super(new Item.Properties()
             .defaultMaxDamage(128)
@@ -44,7 +45,7 @@ public class ItemHammer extends Item {
   public ItemStack getContainerItem(@Nonnull ItemStack stack)
   {
     ItemStack container = stack.copy();
-    if(container.attemptDamageItem(1, new Random(), null))
+    if(container.attemptDamageItem(1, random, null))
       return ItemStack.EMPTY;
     else
       return container;

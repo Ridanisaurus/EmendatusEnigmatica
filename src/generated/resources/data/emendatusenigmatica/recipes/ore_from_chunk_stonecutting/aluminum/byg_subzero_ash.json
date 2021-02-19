@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:aluminum_chunk"
+  },
+  "result": "emendatusenigmatica:aluminum_subzero_ash_ore",
+  "count": 1
+}

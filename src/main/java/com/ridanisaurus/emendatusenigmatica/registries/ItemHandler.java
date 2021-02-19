@@ -137,7 +137,7 @@ public class ItemHandler {
   }
 
   // Machine Items
-  public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get(), 0));
+  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BlockItemBase(BlockHandler.ENIGMATIC_FORTUNIZER.get(), 0));
 
   // Hammer
   public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:aluminum_chunk"
+  },
+  "result": "emendatusenigmatica:aluminum_soul_soil_ore",
+  "count": 1
+}

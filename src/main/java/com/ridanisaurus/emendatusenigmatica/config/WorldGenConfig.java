@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.config;
 
+import com.google.common.collect.Lists;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -33,6 +34,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
@@ -41,7 +43,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenConfig {
@@ -98,7 +104,11 @@ public class WorldGenConfig {
         return;
       }
       bakedMap.clear();
-      configMap.forEach((s, p) -> bakedMap.put(s, new BakedOreProps(p)));
+      for (Map.Entry<Materials, Properties> entry : configMap.entrySet()) {
+        Materials s = entry.getKey();
+        Properties p = entry.getValue();
+        bakedMap.put(s, new BakedOreProps(p));
+      }
     }
 
     public BakedOreProps get(Materials material) {
@@ -107,10 +117,10 @@ public class WorldGenConfig {
 
     public static class BakedOreProps {
       public final boolean OVERWORLD_ACTIVE;
-      public final int SIZE;
-      public final int COUNT;
-      public final int BASELINE;
-      public final int SPREAD;
+      public final int OVERWORLD_BASE;
+      public final int OVERWORLD_SPREAD;
+      public final int OVERWORLD_COUNT;
+      public final int OVERWORLD_SIZE;
       public final boolean NETHER_ACTIVE;
       public final int NETHER_BASE;
       public final int NETHER_SPREAD;
@@ -121,13 +131,32 @@ public class WorldGenConfig {
       public final int END_SPREAD;
       public final int END_COUNT;
       public final int END_SIZE;
+      public final Set<ResourceLocation> OVERWORLD_BIOME_BLACKLIST;
+      public final Set<String> OVERWORLD_MOD_BLACKLIST;
+      public final boolean OVERWORLD_BIOMELIST_INVERT;
+      public final Set<ResourceLocation> NETHER_BIOME_BLACKLIST;
+      public final Set<String> NETHER_MOD_BLACKLIST;
+      public final boolean NETHER_BIOMELIST_INVERT;
+      public final Set<ResourceLocation> END_BIOME_BLACKLIST;
+      public final Set<String> END_MOD_BLACKLIST;
+      public final boolean END_BIOMELIST_INVERT;
+
+      public boolean isOverworldListed(@Nullable ResourceLocation biome) {
+          return biome != null && (OVERWORLD_BIOME_BLACKLIST.contains(biome) || OVERWORLD_MOD_BLACKLIST.contains(biome.getNamespace()));
+      }
+      public boolean isNetherListed(@Nullable ResourceLocation biome) {
+        return biome != null && (NETHER_BIOME_BLACKLIST.contains(biome) || NETHER_MOD_BLACKLIST.contains(biome.getNamespace()));
+      }
+      public boolean isEndListed(@Nullable ResourceLocation biome) {
+        return biome != null && (END_BIOME_BLACKLIST.contains(biome) || END_MOD_BLACKLIST.contains(biome.getNamespace()));
+      }
 
       BakedOreProps(Properties properties) {
         OVERWORLD_ACTIVE = properties.OVERWORLD_ACTIVE.get();
-        SIZE = properties.SIZE.get();
-        COUNT = properties.COUNT.get();
-        BASELINE = properties.BASELINE.get();
-        SPREAD = properties.SPREAD.get();
+        OVERWORLD_BASE = properties.OVERWORLD_BASE.get();
+        OVERWORLD_SPREAD = properties.OVERWORLD_SPREAD.get();
+        OVERWORLD_COUNT = properties.OVERWORLD_COUNT.get();
+        OVERWORLD_SIZE = properties.OVERWORLD_SIZE.get();
         NETHER_ACTIVE = properties.NETHER_ACTIVE.get();
         NETHER_BASE = properties.NETHER_BASE.get();
         NETHER_SPREAD = properties.NETHER_SPREAD.get();
@@ -138,15 +167,51 @@ public class WorldGenConfig {
         END_SPREAD = properties.END_SPREAD.get();
         END_COUNT = properties.END_COUNT.get();
         END_SIZE = properties.END_SIZE.get();
+
+        OVERWORLD_BIOME_BLACKLIST = properties.OVERWORLD_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> !string.endsWith(":*"))
+                .map(ResourceLocation::new)
+                .collect(Collectors.toSet());
+        OVERWORLD_MOD_BLACKLIST = properties.OVERWORLD_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> string.endsWith(":*"))
+                .map(string -> string.substring(0, string.length() - 2))
+                .collect(Collectors.toSet());
+        OVERWORLD_BIOMELIST_INVERT = properties.OVERWORLD_BIOMELIST_INVERT.get();
+
+        NETHER_BIOME_BLACKLIST = properties.NETHER_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> !string.endsWith(":*"))
+                .map(ResourceLocation::new)
+                .collect(Collectors.toSet());
+        NETHER_MOD_BLACKLIST = properties.NETHER_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> string.endsWith(":*"))
+                .map(string -> string.substring(0, string.length() - 2))
+                .collect(Collectors.toSet());
+        NETHER_BIOMELIST_INVERT = properties.NETHER_BIOMELIST_INVERT.get();
+
+        END_BIOME_BLACKLIST = properties.END_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> !string.endsWith(":*"))
+                .map(ResourceLocation::new)
+                .collect(Collectors.toSet());
+        END_MOD_BLACKLIST = properties.END_BIOME_BLACKLIST.get()
+                .stream()
+                .filter(string -> string.endsWith(":*"))
+                .map(string -> string.substring(0, string.length() - 2))
+                .collect(Collectors.toSet());
+        END_BIOMELIST_INVERT = properties.END_BIOMELIST_INVERT.get();
       }
     }
 
     public static class Properties {
       public final BooleanValue OVERWORLD_ACTIVE;
-      public final IntValue SIZE;
-      public final IntValue COUNT;
-      public final IntValue BASELINE;
-      public final IntValue SPREAD;
+      public final IntValue OVERWORLD_BASE;
+      public final IntValue OVERWORLD_SPREAD;
+      public final IntValue OVERWORLD_COUNT;
+      public final IntValue OVERWORLD_SIZE;
       public final BooleanValue NETHER_ACTIVE;
       public final IntValue NETHER_BASE;
       public final IntValue NETHER_SPREAD;
@@ -157,6 +222,12 @@ public class WorldGenConfig {
       public final IntValue END_SPREAD;
       public final IntValue END_COUNT;
       public final IntValue END_SIZE;
+      public final ForgeConfigSpec.ConfigValue<List<String>> OVERWORLD_BIOME_BLACKLIST;
+      public final BooleanValue OVERWORLD_BIOMELIST_INVERT;
+      public final ForgeConfigSpec.ConfigValue<List<String>> NETHER_BIOME_BLACKLIST;
+      public final BooleanValue NETHER_BIOMELIST_INVERT;
+      public final ForgeConfigSpec.ConfigValue<List<String>> END_BIOME_BLACKLIST;
+      public final BooleanValue END_BIOMELIST_INVERT;
 
       public Properties(String localisedName, ForgeConfigSpec.Builder builder, int size, int count, int baseline, int spread, int netherBase, int netherSpread, int netherCount, int netherSize, int endBase, int endSpread, int endCount, int endSize) {
         builder.push(localisedName + " Config");
@@ -165,22 +236,31 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.state")
                 .worldRestart()
                 .define("generate_in_the_overworld", true);
-        SIZE = builder.comment(String.format("Configure the ore Vein Size [Default: %d]", size))
-                .translation(localisedName + ".config.vein_size")
+        OVERWORLD_BASE = builder.comment(String.format("Baseline Y-Level [Default: %d]", baseline))
+                .translation(localisedName + ".config.overworld_base")
                 .worldRestart()
-                .defineInRange("vein_size", size, 0, 64);
-        COUNT = builder.comment(String.format("Average Ores per Chunk [Default: %d]", count))
-                .translation(localisedName + ".config.count_per_chunk")
+                .defineInRange("overworld_base", baseline, 0, 256);
+        OVERWORLD_SPREAD = builder.comment(String.format("Spread Amount (# of Y-Levels above and below the Baseline) [Default: %d]", spread))
+                .translation(localisedName + ".config.overworld_spread")
                 .worldRestart()
-                .defineInRange("count", count, 0, 64);
-        BASELINE = builder.comment(String.format("Baseline Y-Level [Default: %d]", baseline))
-                .translation(localisedName + ".config.baseline")
+                .defineInRange("overworld_spread", spread, 0, 256);
+        OVERWORLD_COUNT = builder.comment(String.format("Average Ores per Chunk [Default: %d]", count))
+                .translation(localisedName + ".config.overworld_count")
                 .worldRestart()
-                .defineInRange("baseline", baseline, 0, 256);
-        SPREAD = builder.comment(String.format("Spread Amount (# of Y-Levels above and below the Baseline) [Default: %d]", spread))
-                .translation(localisedName + ".config.spread")
+                .defineInRange("overworld_count", count, 0, 64);
+        OVERWORLD_SIZE = builder.comment(String.format("Configure the ore Vein Size [Default: %d]", size))
+                .translation(localisedName + ".config.overworld_size")
                 .worldRestart()
-                .defineInRange("spread", spread, 0, 256);
+                .defineInRange("overworld_size", size, 0, 64);
+        OVERWORLD_BIOME_BLACKLIST = builder
+                .worldRestart()
+                .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
+                .translation(localisedName + ".config.overworld_biome_blacklist")
+                .define("overworld_biome_blacklist", Lists.newArrayList());
+        OVERWORLD_BIOMELIST_INVERT = builder.comment("Invert Blacklist to Whitelist [Default: false]")
+                .translation(localisedName + ".config.overworld_biome_list_invert")
+                .worldRestart()
+                .define("overworld_biome_list_invert", false);
         builder.pop();
         builder.push("The Nether");
         NETHER_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The Nether [Default: false]")
@@ -203,6 +283,15 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.nether_size")
                 .worldRestart()
                 .defineInRange("nether_size", netherSize, 0, 64);
+        NETHER_BIOME_BLACKLIST = builder
+                .worldRestart()
+                .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
+                .translation(localisedName + ".config.nether_biome_blacklist")
+                .define("nether_biome_blacklist", Lists.newArrayList());
+        NETHER_BIOMELIST_INVERT = builder.comment("Invert Blacklist to Whitelist [Default: false]")
+                .translation(localisedName + ".config.nether_biome_list_invert")
+                .worldRestart()
+                .define("nether_biome_list_invert", false);
         builder.pop();
         builder.push("The End");
         END_ACTIVE = builder.comment("Activate/Deactivate the Ore Gen in The End [Default: false]")
@@ -225,6 +314,15 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.end_size")
                 .worldRestart()
                 .defineInRange("end_size", endSize, 0, 64);
+        END_BIOME_BLACKLIST = builder
+                .worldRestart()
+                .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
+                .translation(localisedName + ".config.end_biome_blacklist")
+                .define("end_biome_blacklist", Lists.newArrayList());
+        END_BIOMELIST_INVERT = builder.comment("Invert Blacklist to Whitelist [Default: false]")
+                .translation(localisedName + ".config.end_biome_list_invert")
+                .worldRestart()
+                .define("end_biome_list_invert", false);
         builder.pop();
         builder.pop();
       }
