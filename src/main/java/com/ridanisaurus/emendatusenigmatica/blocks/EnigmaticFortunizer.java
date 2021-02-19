@@ -103,7 +103,7 @@ public class EnigmaticFortunizer extends Block {
   public EnigmaticFortunizer() {
     super(Properties.create(Material.IRON)
       .hardnessAndResistance(3.5f, 4.0f)
-      .sound(SoundType.ANVIL)
+      .sound(SoundType.METAL)
       .harvestLevel(0)
       .harvestTool(ToolType.PICKAXE)
       .setRequiresTool());
