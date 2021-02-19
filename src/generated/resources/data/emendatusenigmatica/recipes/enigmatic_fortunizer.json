@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "group": "emendatusenigmatica",
   "pattern": [
-    "IDI",
+    "IEI",
     "DPD",
-    "BBB"
+    "BNB"
   ],
   "key": {
     "I": {
       "tag": "forge:ingots/iron"
+    },
+    "E": {
+      "tag": "forge:gems/emerald"
     },
     "P": {
       "item": "minecraft:netherite_pickaxe"
@@ -18,6 +21,9 @@
     },
     "B": {
       "tag": "forge:storage_blocks/iron"
+    },
+    "N": {
+      "item": "emendatusenigmatica:enderium_block"
     }
   },
   "result": {

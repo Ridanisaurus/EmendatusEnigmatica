@@ -153,8 +153,8 @@ public class EnigmaticFortunizer extends Block {
   @Override
   public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
     if(KeyboardHelper.isHoldingShift()) {
-      tooltip.add(new StringTextComponent("The Enigmatic Fortunizer takes Gem-Based §3§nChunks§r + a §3§nPickaxe§r, and will output the appropriate §9§nItem§r, applying enchantment effects where applicable such as Fortune" +
-              "\nOnce your §3§nPickaxe§r reaches §61§r Durability, the operation will stop, and your Pickaxe can be extracted for repairs" +
+      tooltip.add(new StringTextComponent("The Enigmatic Fortunizer takes Gem-Based §3§nChunks/Ores§r + a §3§nPickaxe§r, and will output the appropriate §9§nItem§r, applying enchantment effects where applicable such as §cFortune§r, §cUnbreaking§r, §cEfficiency§r... etc." +
+              "\nOnce your §3§nPickaxe§r reaches §60§r Durability, the operation will stop, and your Pickaxe can be extracted for repairs." +
               "\n\n§6Example:§r Diamond Chunks + Pickaxe = Diamonds"));
     } else {
       tooltip.add(new StringTextComponent("Hold §c§l[SHIFT]§r for more information."));

@@ -30,7 +30,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -50,7 +49,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -104,6 +102,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   public void tick() {
     if (!this.world.isRemote) {
       ItemStack pickaxe = this.itemSH.getStackInSlot(SLOT_PICKAXE);
+
       // Validate whether the slot has a Pickaxe
       if(pickaxe.getItem().getToolTypes(pickaxe).contains(ToolType.PICKAXE)) {
         ItemStack input = this.itemSH.getStackInSlot(SLOT_INPUT);
@@ -116,7 +115,9 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
           // Check Speed and EfficiencyEnchant and adjust processing time accordingly
           int pickaxeDestroySpeed = (int) pickaxe.getItem().getDestroySpeed(pickaxe, Blocks.STONE.getDefaultState());
           int pickaxeEfficiencyEnchant = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, pickaxe);
-          MAX_PROGRESS = 500 / (pickaxeDestroySpeed * (pickaxeEfficiencyEnchant+1));
+          if (!pickaxe.isEmpty()) {
+            MAX_PROGRESS = 500 / (pickaxeDestroySpeed * (pickaxeEfficiencyEnchant+1));
+          }
 
           if(this.itemSH.internal.insertItem(SLOT_OUTPUT, output, true).isEmpty() && pickaxe.getDamage() != pickaxe.getMaxDamage()) {
             progress++;
@@ -158,6 +159,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
       compound.put("itemSH", itemSH.serializeNBT());
     }
     compound.putInt("progress", progress);
+    compound.putInt("max_progress", MAX_PROGRESS);
     return super.write(compound, forClient);
   }
 
@@ -167,6 +169,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
       itemSH.deserializeNBT(compound.getCompound("itemSH"));
     }
     progress = compound.getInt("progress");
+    MAX_PROGRESS = compound.getInt("max_progress");
     super.read(state, compound, forClient);
   }
 
@@ -200,11 +203,13 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   public static Materials.OreDropInfo getDropInfo(ItemStack itemStack) {
     if(!itemStack.isEmpty()) {
       Item item = itemStack.getItem();
-      for(Map.Entry<Materials, RegistryObject<Item>> cell : ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).entrySet()) {
+      /*for(Map.Entry<Materials, RegistryObject<Item>> cell : ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).entrySet()) {
         if (cell.getValue().get() == item) {
           return cell.getKey().drop;
         }
-      }
+      }*/
+      Materials material =  ItemHandler.materialsByName.get(item.getRegistryName());
+      return material == null ? null : material.drop;
     }
     return null;
   }
@@ -221,6 +226,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   @OnlyIn(Dist.CLIENT)
   public int getProgress(int scale) {
     int progressMin = progress;
-    return progressMin * scale / MAX_PROGRESS;
+    int progressMax = MAX_PROGRESS;
+    return progressMin * scale / progressMax;
   }
 }

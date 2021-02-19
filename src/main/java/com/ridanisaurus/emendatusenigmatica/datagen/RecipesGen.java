@@ -53,13 +53,15 @@ public class RecipesGen extends RecipeProvider {
 
     // Machines
     ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_FORTUNIZER.get())
-            .patternLine("IDI")
+            .patternLine("IEI")
             .patternLine("DPD")
-            .patternLine("BBB")
+            .patternLine("BNB")
             .key('I', Tags.Items.INGOTS_IRON)
+            .key('E', Tags.Items.GEMS_EMERALD)
             .key('P', Items.NETHERITE_PICKAXE)
             .key('D', Tags.Items.GEMS_DIAMOND)
             .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
+            .key('N', ItemHandler.backingItemTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ENDERIUM).get())
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer);

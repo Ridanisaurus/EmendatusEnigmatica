@@ -31,18 +31,22 @@ import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemHandler {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
   public static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;
+  public static Map<ResourceLocation, Materials> materialsByName = new HashMap<>();
   //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Item>>> itemTable = () -> Optional.ofNullable(backingItemTable).orElse(ImmutableTable.of());
 
   public static void itemInit() {
@@ -104,6 +108,7 @@ public class ItemHandler {
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           String chunkName = material.id + "_chunk";
           builder.put(processedMaterial, material, ITEMS.register(chunkName, ItemBase::new));
+          materialsByName.put(new ResourceLocation(Reference.MOD_ID, chunkName),material);
         }
       }
     }
@@ -130,6 +135,7 @@ public class ItemHandler {
         if (material.oreBlock != null && toCreate.contains("Ore")) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
           builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get(), 0)));
+          materialsByName.put(new ResourceLocation(Reference.MOD_ID, oreName),material);
         }
       }
     }
