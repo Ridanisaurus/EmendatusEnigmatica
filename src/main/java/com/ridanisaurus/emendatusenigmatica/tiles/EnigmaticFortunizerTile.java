@@ -114,7 +114,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
           ItemStack output = new ItemStack(oreDropInfo.item.get(), (int) oreDropInfo.min);
 
           // Check Speed and EfficiencyEnchant and adjust processing time accordingly
-          int pickaxeDestroySpeed = (int) pickaxe.getItem().getDestroySpeed(pickaxe, Blocks.STONE.getDefaultState());
+          int pickaxeDestroySpeed = (int) pickaxe.getItem().getDestroySpeed(pickaxe, BlockHandler.materialsByName.get(pickaxe.getItem().getRegistryName()).block.get().getDefaultState());
           int pickaxeEfficiencyEnchant = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, pickaxe);
           MAX_PROGRESS = 500 / (pickaxeDestroySpeed * (pickaxeEfficiencyEnchant+1));
 
