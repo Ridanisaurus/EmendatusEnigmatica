@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:gold_chunk",
+    "emendatusenigmatica:gold_dust",
+    "emendatusenigmatica:gold_plate",
+    "emendatusenigmatica:gold_gear",
+    "emendatusenigmatica:gold_rod"
+  ]
+}

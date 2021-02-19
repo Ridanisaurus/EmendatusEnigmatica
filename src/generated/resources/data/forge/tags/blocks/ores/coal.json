@@ -9,6 +9,8 @@
     "emendatusenigmatica:coal_gravel_ore",
     "emendatusenigmatica:coal_netherrack_ore",
     "emendatusenigmatica:coal_blackstone_ore",
+    "emendatusenigmatica:coal_basalt_ore",
+    "emendatusenigmatica:coal_soul_soil_ore",
     "emendatusenigmatica:coal_end_stone_ore",
     "emendatusenigmatica:coal_gabbro_ore",
     "emendatusenigmatica:coal_c_limestone_ore",
@@ -18,6 +20,15 @@
     "emendatusenigmatica:coal_marble_ore",
     "emendatusenigmatica:coal_slate_ore",
     "emendatusenigmatica:coal_mossy_stone_ore",
+    "emendatusenigmatica:coal_brimstone_ore",
+    "emendatusenigmatica:coal_subzero_ash_ore",
+    "emendatusenigmatica:coal_blue_netherrack_ore",
+    "emendatusenigmatica:coal_nylium_soul_soil_ore",
+    "emendatusenigmatica:coal_ether_stone_ore",
+    "emendatusenigmatica:coal_cryptic_stone_ore",
+    "emendatusenigmatica:coal_flavolite_ore",
+    "emendatusenigmatica:coal_sulphuric_rock_ore",
+    "emendatusenigmatica:coal_violecite_ore",
     "emendatusenigmatica:coal_raw_marble_ore"
   ]
 }

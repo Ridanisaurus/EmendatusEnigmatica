@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:uranium_chunk"
+  },
+  "result": "emendatusenigmatica:uranium_flavolite_ore",
+  "count": 1
+}

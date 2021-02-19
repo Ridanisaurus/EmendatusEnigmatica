@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:certus_quartz_chunk"
+  },
+  "result": "emendatusenigmatica:certus_quartz_blue_netherrack_ore",
+  "count": 1
+}

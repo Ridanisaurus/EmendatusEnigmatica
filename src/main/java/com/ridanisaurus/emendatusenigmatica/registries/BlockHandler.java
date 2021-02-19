@@ -26,19 +26,25 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.ridanisaurus.emendatusenigmatica.blocks.EnigmaticExchanger;
+import com.ridanisaurus.emendatusenigmatica.blocks.EnigmaticFortunizer;
+import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BlockHandler {
 
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
+  public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
   // Storage Blocks
   public static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
@@ -48,7 +54,8 @@ public class BlockHandler {
     ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla()) {
+        List<String> toCreate = Arrays.asList(material.type);
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla() && toCreate.contains("Block")) {
             String blockName = material.id + "_block";
             builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
         }
@@ -58,5 +65,7 @@ public class BlockHandler {
   }
 
   // Machines
-  public static final RegistryObject<Block> ENIGMATIC_EXCHANGER = BLOCKS.register("enigmatic_exchanger", EnigmaticExchanger::new);
+  public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
+
+  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
 }

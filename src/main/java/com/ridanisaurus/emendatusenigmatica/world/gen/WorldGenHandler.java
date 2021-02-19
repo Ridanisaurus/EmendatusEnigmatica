@@ -33,6 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.block.BlockState;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
@@ -42,6 +43,7 @@ import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -63,40 +65,42 @@ public class WorldGenHandler {
         for (Materials material : Materials.values()) {
           if (material.oreBlock != null) {
             BakedOreProps p = WorldGenConfig.COMMON.ORES.get(material);
-            if (p.OVERWORLD_ACTIVE && stratum.dim.equals("overworld")) {
-              activeOres.add(material);
-              builder.put(stratum, material,
-                      getOreFeature(
-                              p.COUNT,
-                              p.SIZE,
-                              p.BASELINE,
-                              p.SPREAD,
-                              getFilter(stratum),
-                              getOreBlock(stratum, material))
-              );
-            } else if (p.NETHER_ACTIVE && stratum.dim.equals("nether")) {
-              activeOres.add(material);
-              builder.put(stratum, material,
-                      getOreFeature(
-                              p.NETHER_COUNT,
-                              p.NETHER_SIZE,
-                              p.NETHER_BASE,
-                              p.NETHER_SPREAD,
-                              getFilter(stratum),
-                              getOreBlock(stratum, material))
-              );
-            } else if (p.END_ACTIVE && stratum.dim.equals("end")) {
-              activeOres.add(material);
-              builder.put(stratum, material,
-                      getOreFeature(
-                              p.END_COUNT,
-                              p.END_SIZE,
-                              p.END_BASE,
-                              p.END_SPREAD,
-                              getFilter(stratum),
-                              getOreBlock(stratum, material))
-              );
-            }
+
+              if (p.OVERWORLD_ACTIVE && stratum.dim.equals("overworld")) {
+                activeOres.add(material);
+                builder.put(stratum, material,
+                        getOreFeature(
+                                p.OVERWORLD_COUNT,
+                                p.OVERWORLD_SIZE,
+                                p.OVERWORLD_BASE,
+                                p.OVERWORLD_SPREAD,
+                                getFilter(stratum),
+                                getOreBlock(stratum, material))
+                );
+              } else if (p.NETHER_ACTIVE && stratum.dim.equals("nether")) {
+                activeOres.add(material);
+                builder.put(stratum, material,
+                        getOreFeature(
+                                p.NETHER_COUNT,
+                                p.NETHER_SIZE,
+                                p.NETHER_BASE,
+                                p.NETHER_SPREAD,
+                                getFilter(stratum),
+                                getOreBlock(stratum, material))
+                );
+              } else if (p.END_ACTIVE && stratum.dim.equals("end")) {
+                activeOres.add(material);
+                builder.put(stratum, material,
+                        getOreFeature(
+                                p.END_COUNT,
+                                p.END_SIZE,
+                                p.END_BASE,
+                                p.END_SPREAD,
+                                getFilter(stratum),
+                                getOreBlock(stratum, material))
+                );
+              }
+
           }
         }
       }
@@ -104,13 +108,24 @@ public class WorldGenHandler {
 
     oreFeatures = builder.build();
 
+
     EmendatusEnigmatica.LOGGER.debug("Enabled Strata: {}", activeStrata);
     EmendatusEnigmatica.LOGGER.debug("Enabled Ores: {}", activeOres);
   }
 
-  public static void addEEOres(BiomeGenerationSettingsBuilder builder) {
-    oreFeatures.values().forEach(feature ->
-            builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature));
+  public static void addEEOres(BiomeGenerationSettingsBuilder builder, BiomeLoadingEvent event) {
+    for (Table.Cell<Strata, Materials, ConfiguredFeature<?, ?>> cell : oreFeatures.cellSet()) {
+      BakedOreProps p = WorldGenConfig.COMMON.ORES.get(cell.getColumnKey());
+      if (p.isOverworldListed(event.getName()) == p.OVERWORLD_BIOMELIST_INVERT && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.THEEND) {
+        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      }
+      if (p.isNetherListed(event.getName()) == p.NETHER_BIOMELIST_INVERT && event.getCategory() == Biome.Category.NETHER) {
+        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      }
+      if (p.isEndListed(event.getName()) == p.END_BIOMELIST_INVERT && event.getCategory() == Biome.Category.THEEND) {
+        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      }
+    }
   }
 
   private static RuleTest getFilter(Strata stratum) {

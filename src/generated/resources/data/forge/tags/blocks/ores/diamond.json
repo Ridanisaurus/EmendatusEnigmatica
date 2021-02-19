@@ -9,6 +9,8 @@
     "emendatusenigmatica:diamond_gravel_ore",
     "emendatusenigmatica:diamond_netherrack_ore",
     "emendatusenigmatica:diamond_blackstone_ore",
+    "emendatusenigmatica:diamond_basalt_ore",
+    "emendatusenigmatica:diamond_soul_soil_ore",
     "emendatusenigmatica:diamond_end_stone_ore",
     "emendatusenigmatica:diamond_gabbro_ore",
     "emendatusenigmatica:diamond_c_limestone_ore",
@@ -18,6 +20,15 @@
     "emendatusenigmatica:diamond_marble_ore",
     "emendatusenigmatica:diamond_slate_ore",
     "emendatusenigmatica:diamond_mossy_stone_ore",
+    "emendatusenigmatica:diamond_brimstone_ore",
+    "emendatusenigmatica:diamond_subzero_ash_ore",
+    "emendatusenigmatica:diamond_blue_netherrack_ore",
+    "emendatusenigmatica:diamond_nylium_soul_soil_ore",
+    "emendatusenigmatica:diamond_ether_stone_ore",
+    "emendatusenigmatica:diamond_cryptic_stone_ore",
+    "emendatusenigmatica:diamond_flavolite_ore",
+    "emendatusenigmatica:diamond_sulphuric_rock_ore",
+    "emendatusenigmatica:diamond_violecite_ore",
     "emendatusenigmatica:diamond_raw_marble_ore"
   ]
 }

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:apatite_chunk"
+  },
+  "result": "emendatusenigmatica:apatite_ether_stone_ore",
+  "count": 1
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:dimensional_chunk"
+  },
+  "result": "emendatusenigmatica:dimensional_soul_soil_ore",
+  "count": 1
+}

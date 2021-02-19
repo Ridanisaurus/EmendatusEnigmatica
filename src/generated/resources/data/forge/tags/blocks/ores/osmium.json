@@ -9,6 +9,8 @@
     "emendatusenigmatica:osmium_gravel_ore",
     "emendatusenigmatica:osmium_netherrack_ore",
     "emendatusenigmatica:osmium_blackstone_ore",
+    "emendatusenigmatica:osmium_basalt_ore",
+    "emendatusenigmatica:osmium_soul_soil_ore",
     "emendatusenigmatica:osmium_end_stone_ore",
     "emendatusenigmatica:osmium_gabbro_ore",
     "emendatusenigmatica:osmium_c_limestone_ore",
@@ -18,6 +20,15 @@
     "emendatusenigmatica:osmium_marble_ore",
     "emendatusenigmatica:osmium_slate_ore",
     "emendatusenigmatica:osmium_mossy_stone_ore",
+    "emendatusenigmatica:osmium_brimstone_ore",
+    "emendatusenigmatica:osmium_subzero_ash_ore",
+    "emendatusenigmatica:osmium_blue_netherrack_ore",
+    "emendatusenigmatica:osmium_nylium_soul_soil_ore",
+    "emendatusenigmatica:osmium_ether_stone_ore",
+    "emendatusenigmatica:osmium_cryptic_stone_ore",
+    "emendatusenigmatica:osmium_flavolite_ore",
+    "emendatusenigmatica:osmium_sulphuric_rock_ore",
+    "emendatusenigmatica:osmium_violecite_ore",
     "emendatusenigmatica:osmium_raw_marble_ore"
   ]
 }

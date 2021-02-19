@@ -32,13 +32,9 @@ import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
-import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.fml.RegistryObject;
 
@@ -56,13 +52,16 @@ public class RecipesGen extends RecipeProvider {
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
     // Machines
-    ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_EXCHANGER.get())
-            .patternLine("III")
-            .patternLine("RDR")
-            .patternLine("BBB")
-            .key('I', Tags.Items.INGOTS_IRON)
-            .key('R', Tags.Items.DUSTS_REDSTONE)
-            .key('D', Tags.Items.GEMS_DIAMOND)
+    ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_FORTUNIZER.get())
+            .patternLine("PGP")
+            .patternLine("DNE")
+            .patternLine("RBR")
+            .key('P', ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get())
+            .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
+            .key('D', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.DIAMOND).get())
+            .key('N', Tags.Items.INGOTS_NETHERITE)
+            .key('E', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.EMERALD).get())
+            .key('R', ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.ENDERIUM).get())
             .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
