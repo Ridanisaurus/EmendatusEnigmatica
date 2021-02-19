@@ -200,11 +200,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   public static Materials.OreDropInfo getDropInfo(ItemStack itemStack) {
     if(!itemStack.isEmpty()) {
       Item item = itemStack.getItem();
-      for(Map.Entry<Materials, RegistryObject<Item>> cell : ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).entrySet()) {
-        if (cell.getValue().get() == item) {
-          return cell.getKey().drop;
-        }
-      }
+      return BlockHandler.materialsByName.get(item.getRegistryName()).drop;
     }
     return null;
   }

@@ -31,12 +31,15 @@ import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlockHandler {
 
@@ -45,6 +48,7 @@ public class BlockHandler {
 
   // Storage Blocks
   public static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
+  public static Map<ResourceLocation, Materials> materialsByName = new HashMap<>();
   //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
 
   public static void blockInit() {
@@ -55,6 +59,7 @@ public class BlockHandler {
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla() && toCreate.contains("Block")) {
             String blockName = material.id + "_block";
             builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
+            materialsByName.put(new ResourceLocation(Reference.MOD_ID, blockName),material);
         }
       }
     }
