@@ -25,7 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -33,9 +35,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
+
+// Credit: Ellpeck - https://github.com/Ellpeck/NaturesAura/blob/main/src/main/java/de/ellpeck/naturesaura/blocks/tiles/TileEntityImpl.java
 
 public class TileEntityBase extends TileEntity {
   public TileEntityBase(TileEntityType<?> tileEntityTypeIn) {
@@ -90,5 +96,24 @@ public class TileEntityBase extends TileEntity {
   @Override
   public void handleUpdateTag(BlockState state, CompoundNBT tag) {
     this.read(state, tag, true);
+  }
+
+  public IItemHandlerModifiable getItemHandler() {
+    return null;
+  }
+
+  public void dropInventory() {
+    IItemHandler handler = this.getItemHandler();
+    if (handler != null) {
+      for (int i = 0; i < handler.getSlots(); i++) {
+        ItemStack stack = handler.getStackInSlot(i);
+        if (!stack.isEmpty()) {
+          ItemEntity item = new ItemEntity(this.world,
+                  this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5,
+                  stack);
+          this.world.addEntity(item);
+        }
+      }
+    }
   }
 }

@@ -52,6 +52,10 @@ public class LangGen extends LanguageProvider {
     // Misc
     add(BlockHandler.ENIGMATIC_FORTUNIZER.get(), "Enigmatic Fortunizer");
     add("container.emendatusenigmatica.enigmatic_fortunizer", "Enigmatic Fortunizer");
+    add("tooltip.emendatusenigmatica.enigmatic_fortunizer.1", "The Enigmatic Fortunizer takes Gem-Based \u00A73\u00A7nChunks/Ores\u00A7r + a \u00A73\u00A7nPickaxe\u00A7r, and will output the appropriate \u00A79\u00A7nItem\u00A7r, applying enchantment effects where applicable such as \u00A7cFortune\u00A7r, \u00A7cUnbreaking\u00A7r, \u00A7cEfficiency\u00A7r... etc.\n" +
+            "Once your \u00A73\u00A7nPickaxe\u00A7r reaches \u00A760\u00A7r Durability, the operation will stop, and your Pickaxe can be extracted for repairs.\n\n" +
+            "\u00A76Example:\u00A7r Diamond Chunks + Pickaxe = Diamonds");
+    add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
     add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
