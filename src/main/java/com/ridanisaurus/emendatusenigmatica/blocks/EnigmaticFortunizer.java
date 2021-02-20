@@ -34,15 +34,18 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.BrewingStandTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -51,17 +54,20 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class EnigmaticFortunizer extends Block {
-
   private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
   private static final VoxelShape SHAPE_N = Stream.of(
@@ -153,11 +159,9 @@ public class EnigmaticFortunizer extends Block {
   @Override
   public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
     if(KeyboardHelper.isHoldingShift()) {
-      tooltip.add(new StringTextComponent("The Enigmatic Fortunizer takes Gem-Based §3§nChunks/Ores§r + a §3§nPickaxe§r, and will output the appropriate §9§nItem§r, applying enchantment effects where applicable such as §cFortune§r, §cUnbreaking§r, §cEfficiency§r... etc." +
-              "\nOnce your §3§nPickaxe§r reaches §60§r Durability, the operation will stop, and your Pickaxe can be extracted for repairs." +
-              "\n\n§6Example:§r Diamond Chunks + Pickaxe = Diamonds"));
+      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.1"));
     } else {
-      tooltip.add(new StringTextComponent("Hold §c§l[SHIFT]§r for more information."));
+      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.2"));
     }
     super.addInformation(stack, worldIn, tooltip, flagIn);
   }
@@ -182,5 +186,15 @@ public class EnigmaticFortunizer extends Block {
       return ActionResultType.SUCCESS;
     }
       return ActionResultType.PASS;
+  }
+
+  @Override
+  public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    if (state.getBlock() != newState.getBlock()) {
+      TileEntity tile = worldIn.getTileEntity(pos);
+      if (tile instanceof EnigmaticFortunizerTile)
+        ((EnigmaticFortunizerTile) tile).dropInventory();
+    }
+    super.onReplaced(state, worldIn, pos, newState, isMoving);
   }
 }
