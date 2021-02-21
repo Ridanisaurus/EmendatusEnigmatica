@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
@@ -34,16 +33,16 @@ import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
-  public BlockTagsGen(DataGenerator gen) {
-    super(gen);
+  public BlockTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {
+    super(gen, Reference.MOD_ID, existingFileHelper);
   }
 
   @Override
@@ -84,7 +83,7 @@ public class BlockTagsGen extends BlockTagsProvider {
             .add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());
 
     // Misc
-    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_exchanger").toString()))
-            .add(BlockHandler.ENIGMATIC_EXCHANGER.get());
+    getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_fortunizer").toString()))
+            .add(BlockHandler.ENIGMATIC_FORTUNIZER.get());
   }
 }

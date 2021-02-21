@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:emerald_chunk"
+  },
+  "result": "emendatusenigmatica:emerald_violecite_ore",
+  "count": 1
+}

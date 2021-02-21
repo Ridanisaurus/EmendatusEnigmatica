@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:tin_dust"
+    },
+    {
+      "item": "emendatusenigmatica:tin_dust"
+    },
+    {
+      "item": "emendatusenigmatica:tin_dust"
+    },
+    {
+      "item": "emendatusenigmatica:silver_dust"
+    },
+    {
+      "tag": "forge:dusts/glowstone"
+    },
+    {
+      "tag": "forge:dusts/glowstone"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:lumium_dust",
+    "count": 4
+  }
+}

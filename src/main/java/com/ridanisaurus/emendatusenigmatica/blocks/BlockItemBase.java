@@ -27,10 +27,19 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
 
 public class BlockItemBase extends BlockItem {
 
-    public BlockItemBase(Block block) {
+    private final int burnTime;
+
+    public BlockItemBase(Block block, int burnTime) {
         super(block, new Properties().group(EmendatusEnigmatica.TAB));
+        this.burnTime = burnTime;
+    }
+
+    @Override
+    public int getBurnTime(ItemStack itemStack) {
+        return burnTime;
     }
 }

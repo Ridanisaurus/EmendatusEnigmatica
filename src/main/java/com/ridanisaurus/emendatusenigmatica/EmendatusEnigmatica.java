@@ -25,13 +25,15 @@
 package com.ridanisaurus.emendatusenigmatica;
 
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.item.ItemGroup;
@@ -39,7 +41,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -57,44 +59,47 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
-        EELoader.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
-        //BlockHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //OreHandler.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        //ItemHandler.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        BlockHandler.BLOCKS.register(modEventBus);
+        OreHandler.BLOCKS.register(modEventBus);
+        ItemHandler.ITEMS.register(modEventBus);
+        BlockHandler.TILE_ENTITY.register(modEventBus);
+        ContainerHandler.CONTAINERS.register(modEventBus);
 
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientEvents);
+        modEventBus.addListener(this::init);
+        modEventBus.addListener(this::clientEvents);
 
         // Register World Gen Config
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
         // Setup biome loading event for worldgen!
-        //MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
-        //WorldGenHandler.addEEOres(event.getGeneration());
+        WorldGenHandler.addEEOres(event.getGeneration(), event);
     }
 
     private void init(final FMLConstructModEvent event) {
-        //OreHandler.oreBlocks();
-        //ItemHandler.oreItems();
-
-        //BlockHandler.blockInit();
-        //ItemHandler.itemInit();
+        OreHandler.oreBlocks();
+        ItemHandler.oreItems();
+        BlockHandler.blockInit();
+        ItemHandler.itemInit();
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {
-        /*for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
+        for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
             RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }*/
+        }
+
+        ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(BlockHandler.ENIGMATIC_EXCHANGER.get());
+            return new ItemStack(BlockHandler.ENIGMATIC_FORTUNIZER.get());
         }
     };
 }

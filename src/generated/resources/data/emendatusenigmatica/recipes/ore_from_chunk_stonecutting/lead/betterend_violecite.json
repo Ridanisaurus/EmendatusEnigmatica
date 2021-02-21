@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:lead_chunk"
+  },
+  "result": "emendatusenigmatica:lead_violecite_ore",
+  "count": 1
+}

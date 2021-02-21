@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:gold_chunk"
+  },
+  "result": "emendatusenigmatica:gold_mossy_stone_ore",
+  "count": 1
+}

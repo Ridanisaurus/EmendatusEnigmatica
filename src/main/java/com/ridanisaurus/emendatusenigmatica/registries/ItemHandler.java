@@ -28,24 +28,25 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
+import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.util.*;
-import net.minecraft.data.TagsProvider;
 import net.minecraft.item.Item;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ItemHandler {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
   public static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;
+  public static Map<ResourceLocation, Materials> materialsByName = new HashMap<>();
   //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Item>>> itemTable = () -> Optional.ofNullable(backingItemTable).orElse(ImmutableTable.of());
 
   public static void itemInit() {
@@ -57,7 +58,16 @@ public class ItemHandler {
         //Storage Block Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           String storageBlockName = material.id + "_block";
-          builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get())));
+          if(material.id.equals("bitumen")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 16000)));
+          } else if(material.id.equals("coke")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 32000)));
+          } else if(material.id.equals("sulfur")) {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 12000)));
+          }
+          else {
+            builder.put(processedMaterial, material, ITEMS.register(storageBlockName, () -> new BlockItemBase(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), 0)));
+          }
         }
         // Ingots
         if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
@@ -89,10 +99,16 @@ public class ItemHandler {
           String gearName = material.id + "_gear";
           builder.put(processedMaterial, material, ITEMS.register(gearName, material.item));
         }
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          String rodName = material.id + "_rod";
+          builder.put(processedMaterial, material, ITEMS.register(rodName, material.item));
+        }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
           String chunkName = material.id + "_chunk";
-          builder.put(processedMaterial, material, ITEMS.register(chunkName, material.item));
+          builder.put(processedMaterial, material, ITEMS.register(chunkName, ItemBase::new));
+          materialsByName.put(new ResourceLocation(Reference.MOD_ID, chunkName),material);
         }
       }
     }
@@ -103,7 +119,6 @@ public class ItemHandler {
   public static final RegistryObject<Item> DUST_CHARCOAL = ITEMS.register("charcoal_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_OBSIDIAN = ITEMS.register("obsidian_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_ENDER = ITEMS.register("ender_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_COKE = ITEMS.register("coke_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_GRAPHITE = ITEMS.register("graphite_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_LITHIUM = ITEMS.register("lithium_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemBase::new);
@@ -119,13 +134,17 @@ public class ItemHandler {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
           String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
-          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get())));
+          builder.put(stratum, material, ITEMS.register(oreName, () -> new BlockItemBase(OreHandler.backingOreBlockTable.get(stratum, material).get(), 0)));
+          materialsByName.put(new ResourceLocation(Reference.MOD_ID, oreName),material);
         }
       }
     }
     backingOreItemTable = builder.build();
   }
 
-  //Machine Items
-  public static final RegistryObject<Item> ENIGMATIC_EXCHANGER_ITEM = ITEMS.register("enigmatic_exchanger", () -> new BlockItemBase(BlockHandler.ENIGMATIC_EXCHANGER.get()));
+  // Machine Items
+  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BlockItemBase(BlockHandler.ENIGMATIC_FORTUNIZER.get(), 0));
+
+  // Hammer
+  public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 }

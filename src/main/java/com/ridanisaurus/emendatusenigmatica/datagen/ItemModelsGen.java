@@ -54,9 +54,6 @@ public class ItemModelsGen extends ItemModelProvider {
     getBuilder("ender_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/ender_dust"));
-    getBuilder("coke_dust")
-            .parent(new ModelFile.UncheckedModelFile("item/generated"))
-            .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/coke_dust"));
     getBuilder("graphite_dust")
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/graphite_dust"));
@@ -110,6 +107,12 @@ public class ItemModelsGen extends ItemModelProvider {
           getBuilder(material.id + "_gear")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gear"));
+        }
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          getBuilder(material.id + "_rod")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_rod"));
         }
         // Chunks
         if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {

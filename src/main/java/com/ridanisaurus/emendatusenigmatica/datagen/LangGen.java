@@ -45,21 +45,27 @@ public class LangGen extends LanguageProvider {
     add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
     // JEI Compat
-    add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk, while using non-Enchanted, or Fortune Enchanted tools will use the same logic used in Vanilla Minecraft.\n\n");
-    add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block where it can be smelted, or have its output doubled/tripled ..etc. through other means of ore processing setups.\n\n\n");
-    add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter.");
+    add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk. The Vanilla Minecraft logic will apply when using non-Enchanted, or Fortune Enchanted tools.");
+    add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block in an Item form, and it can be smelted, doubled, tripled ..etc.");
+    add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter or in a Crafting Grid.");
 
     // Misc
-    add(BlockHandler.ENIGMATIC_EXCHANGER.get(), "Enigmatic Exchanger");
+    add(BlockHandler.ENIGMATIC_FORTUNIZER.get(), "\u00A7aEnigmatic Fortunizer\u00A7r");
+    add("container.emendatusenigmatica.enigmatic_fortunizer", "Enigmatic Fortunizer");
+    add("tooltip.emendatusenigmatica.enigmatic_fortunizer.1", "The Enigmatic Fortunizer takes Gem-Based \u00A73\u00A7nChunks/Ores\u00A7r + a \u00A73\u00A7nPickaxe\u00A7r, and will output the appropriate \u00A79\u00A7nItem\u00A7r, applying enchantment effects where applicable such as \u00A7cFortune\u00A7r, \u00A7cUnbreaking\u00A7r, \u00A7cEfficiency\u00A7r... etc.\n" +
+            "Once your \u00A73\u00A7nPickaxe\u00A7r reaches \u00A760\u00A7r Durability, the operation will stop, and your Pickaxe can be extracted for repairs.\n\n" +
+            "\u00A76Example:\u00A7r Diamond Chunks + Pickaxe = Diamonds");
+    add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
+    add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         // Storage Blocks
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
+        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
+          sb.append("Block of ");
           sb.append(material.localisedName);
-          sb.append(" Block");
           add(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), sb.toString());
         }
 
@@ -72,7 +78,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Gems
-        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
+        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
@@ -110,8 +116,16 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
+        // Rods
+        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Rod");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
         // Chunks
-        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
+        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Chunk");
@@ -137,8 +151,11 @@ public class LangGen extends LanguageProvider {
       }
     }
 
+    add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
+
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
-    add(ItemHandler.DUST_COKE.get(), "Coke Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
     add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");

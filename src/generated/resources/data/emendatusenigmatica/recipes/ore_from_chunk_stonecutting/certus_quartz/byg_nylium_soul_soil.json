@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:certus_quartz_chunk"
+  },
+  "result": "emendatusenigmatica:certus_quartz_nylium_soul_soil_ore",
+  "count": 1
+}
