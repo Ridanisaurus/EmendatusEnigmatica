@@ -392,7 +392,7 @@ public class WorldGenConfig {
       COMMON.bake();
       EmendatusEnigmatica.LOGGER.debug("Baked common configs on Load");
       // (re-)make ore features on config load
-      WorldGenHandler.oreFeatures();
+      //WorldGenHandler.oreFeatures();
     }
   }
 

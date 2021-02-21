@@ -26,10 +26,8 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
@@ -59,6 +57,7 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public EmendatusEnigmatica() {
+        EELoader.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockHandler.BLOCKS.register(modEventBus);
@@ -66,6 +65,8 @@ public class EmendatusEnigmatica {
         ItemHandler.ITEMS.register(modEventBus);
         BlockHandler.TILE_ENTITY.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
+
+        EERegistrar.Finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
@@ -78,20 +79,20 @@ public class EmendatusEnigmatica {
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
-        WorldGenHandler.addEEOres(event.getGeneration(), event);
+        //WorldGenHandler.addEEOres(event.getGeneration(), event);
     }
 
     private void init(final FMLConstructModEvent event) {
-        OreHandler.oreBlocks();
+        /*OreHandler.oreBlocks();
         ItemHandler.oreItems();
         BlockHandler.blockInit();
-        ItemHandler.itemInit();
+        ItemHandler.itemInit();*/
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {
-        for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
+        /*for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
             RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }
+        }*/
 
         ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
     }

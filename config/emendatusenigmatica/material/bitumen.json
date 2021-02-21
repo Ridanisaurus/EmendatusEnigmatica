@@ -8,7 +8,7 @@
     "chunk"
   ],
   "oreBlockType": "gem",
-  "defaultItemDrop": "???:???",
+  "defaultItemDrop": "emendatusenigmatica:bitumen_gem",
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,
