@@ -22,44 +22,19 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
+package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.IPackFinder;
+import net.minecraft.resources.ResourcePackInfo;
 
-public class StrataModel {
-  private final String id;
-  private final ResourceLocation baseTexture;
-  private final String suffix;
-  private final ResourceLocation fillerType;
-  private final String localisedName;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 
+public class EEPackFinder implements IPackFinder {
 
-  public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localisedName) {
+  @Override
+  public void findPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
+    Path rootPath = MemoryDataGeneratorFactory.ROOT_PATH;
 
-    this.id = id;
-    this.baseTexture = baseTexture;
-    this.suffix = suffix;
-    this.fillerType = fillerType;
-    this.localisedName = localisedName;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public ResourceLocation getBaseTexture() {
-    return baseTexture;
-  }
-
-  public String getSuffix() {
-    return suffix;
-  }
-
-  public ResourceLocation getFillerType() {
-    return fillerType;
-  }
-
-  public String getLocalisedName() {
-    return localisedName;
   }
 }

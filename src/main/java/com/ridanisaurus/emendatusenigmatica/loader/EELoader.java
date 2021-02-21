@@ -43,11 +43,14 @@ import java.io.FileFilter;
 import java.io.FileReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EELoader {
   private static final StrataParser STRATA_PARSER = new StrataParser();
   private static final MaterialParser MATERIAL_PARSER = new MaterialParser();
   private static final AlloyParser ALLOY_PARSER = new AlloyParser();
+  public static final List<MaterialModel> MATERIALS = new ArrayList<>();
+  public static final List<StrataModel> STRATA = new ArrayList<>();
 
   public static void load() {
     // Set the path to the defined folder
@@ -79,12 +82,16 @@ public class EELoader {
 
     ArrayList<StrataModel> strataModels = new ArrayList<>();
     for (JsonObject jsonObject : strataDefinition) {
-      strataModels.add(STRATA_PARSER.parse(jsonObject));
+      StrataModel strataModel = STRATA_PARSER.parse(jsonObject);
+      strataModels.add(strataModel);
+      STRATA.add(strataModel);
     }
 
     ArrayList<MaterialModel> materialModels = new ArrayList<>();
     for (JsonObject jsonObject : materialDefinition) {
-      materialModels.add(MATERIAL_PARSER.parse(jsonObject));
+      MaterialModel materialModel = MATERIAL_PARSER.parse(jsonObject);
+      materialModels.add(materialModel);
+      MATERIALS.add(materialModel);
     }
 
     ArrayList<AlloyModel> alloyModels = new ArrayList<>();
@@ -103,7 +110,7 @@ public class EELoader {
 
     for (MaterialModel material : materialModels) {
       if (material.getProcessedType().contains("storage_block")) {
-        EERegistrar.RegisterStorageBlocks(material);
+        EERegistrar.registerStorageBlocks(material);
       }
       if (material.getProcessedType().contains("chunk")) {
         EERegistrar.RegisterChunks(material);

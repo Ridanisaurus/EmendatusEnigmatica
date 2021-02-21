@@ -22,44 +22,38 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
+package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.util.ResourceLocation;
+import com.google.common.collect.ImmutableList;
+import com.google.common.jimfs.Configuration;
+import com.google.common.jimfs.Jimfs;
+import net.minecraft.data.DataGenerator;
 
-public class StrataModel {
-  private final String id;
-  private final ResourceLocation baseTexture;
-  private final String suffix;
-  private final ResourceLocation fillerType;
-  private final String localisedName;
+import java.io.IOException;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Set;
 
+public class MemoryDataGeneratorFactory {
+  public static Path ROOT_PATH;
 
-  public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localisedName) {
+  public static DataGenerator createMemoryDataGenerator() {
+    FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix());
+    Path path = fileSystem.getPath("/emendatusenigmatica");
 
-    this.id = id;
-    this.baseTexture = baseTexture;
-    this.suffix = suffix;
-    this.fillerType = fillerType;
-    this.localisedName = localisedName;
-  }
+    ROOT_PATH = path;
 
-  public String getId() {
-    return id;
-  }
-
-  public ResourceLocation getBaseTexture() {
-    return baseTexture;
-  }
-
-  public String getSuffix() {
-    return suffix;
-  }
-
-  public ResourceLocation getFillerType() {
-    return fillerType;
-  }
-
-  public String getLocalisedName() {
-    return localisedName;
+    if(Files.exists(path)) {
+      Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+      try {
+        Files.createDirectory(path, PosixFilePermissions.asFileAttribute(perms));
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    return new DataGenerator(ROOT_PATH, ImmutableList.of());
   }
 }

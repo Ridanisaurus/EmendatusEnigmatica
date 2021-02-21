@@ -24,28 +24,38 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
 
   @SubscribeEvent
-  public static void gatherData(GatherDataEvent event) {
-    DataGenerator generator = event.getGenerator();
-    if (event.includeServer()) {
-      BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, event.getExistingFileHelper());
-      generator.addProvider(new RecipesGen(generator));
-      generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, event.getExistingFileHelper()));
-      generator.addProvider(blockTagsGeneration);
-      generator.addProvider(new LootTablesGen(generator));
-    }
-    if (event.includeClient()) {
-      generator.addProvider(new BlockStatesAndModelsGen(generator, event.getExistingFileHelper()));
-      generator.addProvider(new LangGen(generator));
-      generator.addProvider(new ItemModelsGen(generator, event.getExistingFileHelper()));
-    }
+  public static void gatherCommonData(FMLCommonSetupEvent event) {
+    DataGenerator generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
+    ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
+
+   // BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+    //generator.addProvider(new RecipesGen(generator));
+    //generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+    //generator.addProvider(blockTagsGeneration);
+    //generator.addProvider(new LootTablesGen(generator));
+  }
+
+  @SubscribeEvent
+  public static void gatherClientData(FMLClientSetupEvent event) {
+    DataGenerator generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
+    ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
+
+    //generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
+    generator.addProvider(new LangGen(generator));
+    //generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
   }
 }

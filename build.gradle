@@ -15,12 +15,18 @@ buildscript {
 plugins {
     id "com.wynprice.cursemaven" version "2.1.1"
     id "maven-publish"
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
 apply plugin: 'org.spongepowered.mixin'
+
+configurations {
+    shade
+    compile.extendsFrom shade
+}
 
 version = '1.1'
 group = 'com.ridanisaurus.emendatusenigmatica' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -108,6 +114,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+    implementation 'com.google.jimfs:jimfs:1.1'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -139,6 +146,11 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
     //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
     //runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+}
+
+shadowJar{
+    configurations = [project.configurations.shade]
+    relocate 'com.google', 'com.ridanisaurus.emendatusenigmatica.lib.google'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -178,4 +190,16 @@ publishing {
 
 mixin {
     add sourceSets.main, "emendatusenigmatica.refmap.json"
+}
+
+artifacts {
+    archives shadowJar
+    shadow shadowJar
+}
+
+reobf {
+    shadowJar {
+        dependsOn createMcpToSrg
+        mappings = createMcpToSrg.outputs.files.singleFile
+    }
 }

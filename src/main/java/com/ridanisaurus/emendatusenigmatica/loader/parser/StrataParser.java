@@ -36,10 +36,11 @@ public class StrataParser implements IParser<StrataModel> {
     String baseTexture = object.get("baseTexture").getAsString();
     String suffix = object.get("suffix").getAsString();
     String fillerType = object.get("fillerType").getAsString();
+    String localizedName = object.get("localizedName").getAsString();
 
     ResourceLocation baseTextureRL = ResourceLocation.create(baseTexture, ':');
     ResourceLocation fillerTypeRL = ResourceLocation.create(fillerType, ':');
 
-    return new StrataModel(id, baseTextureRL, suffix, fillerTypeRL);
+    return new StrataModel(id, baseTextureRL, suffix, fillerTypeRL, localizedName);
   }
 }

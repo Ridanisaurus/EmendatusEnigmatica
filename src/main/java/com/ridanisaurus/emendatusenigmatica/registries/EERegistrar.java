@@ -80,7 +80,7 @@ public class EERegistrar {
     oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
   }
 
-  public static void RegisterStorageBlocks(MaterialModel material) {
+  public static void registerStorageBlocks(MaterialModel material) {
     String storageBlockName = material.getId() + "_block";
 
     RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(

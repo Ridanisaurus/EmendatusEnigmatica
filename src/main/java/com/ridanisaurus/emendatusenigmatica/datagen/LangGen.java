@@ -24,15 +24,22 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.fml.RegistryObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class LangGen extends LanguageProvider {
   public LangGen(DataGenerator gen) {
@@ -58,108 +65,112 @@ public class LangGen extends LanguageProvider {
     add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
     add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        // Storage Blocks
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block") && !material.id.equals("arcane")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append("Block of ");
-          sb.append(material.localisedName);
-          add(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Ingots
-        if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Ingot");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Gems
-        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem") && !material.id.equals("arcane")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Nuggets
-        if (processedMaterial == ProcessedMaterials.NUGGET && toCreate.contains("Nugget")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Nugget");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Dusts
-        if (processedMaterial == ProcessedMaterials.DUST && toCreate.contains("Dust")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Dust");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Plates
-        if (processedMaterial == ProcessedMaterials.PLATE && toCreate.contains("Plate")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Plate");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Gears
-        if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Gear");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Rods
-        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Rod");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-
-        // Chunks
-        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk") && !material.id.equals("arcane")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Chunk");
-          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
-        }
-      }
-    }
-
-    // Ores
-    for (Strata stratum : Strata.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (material.oreBlock != null && toCreate.contains("Ore")) {
-          StringBuilder sb = new StringBuilder();
-          sb.append(material.localisedName);
-          sb.append(" Ore");
-          if (stratum != Strata.STONE) {
-            sb.append(" - ");
-            sb.append(stratum.localisedName);
-          }
-          add(OreHandler.backingOreBlockTable.get(stratum, material).get(), sb.toString());
-        }
-      }
-    }
-
+    // Special Arcane Lang
     add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
+    // Compat Dust
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
     add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
     add(ItemHandler.DUST_WOOD.get(), "Sawdust");
+
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (String processedType : material.getProcessedType()) {
+
+        // Storage Blocks
+        if (processedType.equals("storage_block") && !material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Block of ");
+          sb.append(material.getLocalisedName());
+          add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Ingots
+        if (processedType.equals("ingot")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Ingot");
+          add(EERegistrar.ingotMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Gems
+        if (processedType.equals("gem") && !material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Gem");
+          add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Nuggets
+        if (processedType.equals("nugget")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Nugget");
+          add(EERegistrar.nuggetMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Dusts
+        if (processedType.equals("dust")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Dust");
+          add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Plates
+        if (processedType.equals("plate")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Plate");
+          add(EERegistrar.plateMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Gears
+        if (processedType.equals("gear")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Gear");
+          add(EERegistrar.gearMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Rods
+        if (processedType.equals("rod")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Rod");
+          add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
+        }
+
+        // Chunks
+        if (processedType.equals("chunk") && !material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Chunk");
+          add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
+        }
+      }
+    }
+
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (StrataModel stratum : EELoader.STRATA) {
+        if (material.getProcessedType().contains("ore")) {
+
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Ore");
+
+          if (!stratum.getId().equals("minecraft_stone")) {
+            sb.append(" - ");
+            sb.append(stratum.getLocalisedName());
+          }
+
+          add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
+        }
+      }
+    }
   }
 }
