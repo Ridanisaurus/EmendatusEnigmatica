@@ -42,11 +42,11 @@ public class DataGenerators {
     DataGenerator generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
     ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
-   // BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-    //generator.addProvider(new RecipesGen(generator));
+    BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+    generator.addProvider(new RecipesGen(generator)); // REQUIRE REVIEW
     //generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
     //generator.addProvider(blockTagsGeneration);
-    //generator.addProvider(new LootTablesGen(generator));
+    generator.addProvider(new LootTablesGen(generator)); // REQUIRES REVIEW - Ore ResourceLocation from getDefaultItemDrop
   }
 
   @SubscribeEvent
@@ -54,8 +54,8 @@ public class DataGenerators {
     DataGenerator generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
     ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
-    //generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
+    generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
     generator.addProvider(new LangGen(generator));
-    //generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
+    generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
   }
 }

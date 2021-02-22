@@ -1,0 +1,8 @@
+{
+  "id": "minecraft_basalt",
+  "baseTexture": "minecraft:block/basalt",
+  "suffix": "basalt",
+  "fillerType": "minecraft:basalt",
+  "localizedName": "Basalt",
+  "modid": "minecraft"
+}

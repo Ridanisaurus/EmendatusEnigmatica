@@ -1,0 +1,9 @@
+{
+  "id": "coal_coke",
+  "localisedName": "Coal Coke",
+  "processedType": [
+	"block",
+	"gem",
+	"dust"
+  ]
+}

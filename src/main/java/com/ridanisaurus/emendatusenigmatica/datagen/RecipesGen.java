@@ -24,7 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
@@ -80,7 +84,7 @@ public class RecipesGen extends RecipeProvider {
             .build(consumer);
 
     /*-- Vanilla Compat --*/
-    // Chunk Smelting & Blasting
+    /*// Chunk Smelting & Blasting
     CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.COAL).get()), Items.COAL, 0.7F, 200)
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/coal"));
@@ -396,226 +400,238 @@ public class RecipesGen extends RecipeProvider {
             .patternLine(" G ")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/quartz"));
+            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/quartz"));*/
 
-    for (Materials material : Materials.values()) {
-      List<String> toCreate = Arrays.asList(material.type);
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (String processedType : material.getProcessedType()) {
+        // Ingot from Block
+        if (processedType.contains("storage_block") && processedType.contains("ingot")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.ingotMap.get(material.getId()).get(), 9)
+                  .addIngredient(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.getId()));
+        }
 
-      // Ingot from Block
-      if (toCreate.contains("Ingot") && toCreate.contains("Block")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 9)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.id));
-      }
+        // Ingot from Nugget
+        if (processedType.contains("nugget") && processedType.contains("ingot")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.ingotMap.get(material.getId()).get())
+                  .key('#', EERegistrar.nuggetMap.get(material.getId()).get())
+                  .patternLine("###")
+                  .patternLine("###")
+                  .patternLine("###")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_nugget/" + material.getId()));
+        }
 
-      // Ingot from Nugget
-      if (toCreate.contains("Ingot") && toCreate.contains("Nugget")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_nugget/" + material.id));
-      }
+        // Nugget from Ingot
+        if (processedType.contains("ingot") && processedType.contains("nugget")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.nuggetMap.get(material.getId()).get(), 9)
+                  .addIngredient(EERegistrar.ingotMap.get(material.getId()).get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "nugget_from_ingot/" + material.getId()));
+        }
 
-      // Nugget from Ingot
-      if (toCreate.contains("Ingot") && toCreate.contains("Nugget")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get(), 9)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "nugget_from_ingot/" + material.id));
-      }
+        // Ingot from Dust
+        if (processedType.contains("dust") && processedType.contains("ingot")) {
+          CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.dustMap.get(material.getId()).get()),
+                  EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/" + material.getId()));
+          CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.dustMap.get(material.getId()).get()),
+                  EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/" + material.getId()));
+        }
 
-      // Ingot from Dust
-      if (toCreate.contains("Ingot") && toCreate.contains("Dust")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/" + material.id));
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/" + material.id));
-      }
+        // Ingot from Chunk Smelting and Blasting
+        if (processedType.contains("chunk") && processedType.contains("ingot")) {
+          CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.chunkMap.get(material.getId()).get()),
+                  EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/" + material.getId()));
+          CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.chunkMap.get(material.getId()).get()),
+                  EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/" + material.getId()));
+        }
 
-      // Block from Ingot
-      if (toCreate.contains("Ingot") && toCreate.contains("Block")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_ingot/" + material.id));
-      }
+        // Block from Ingot
+        if (processedType.contains("ingot") && processedType.contains("block")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .key('#', EERegistrar.ingotMap.get(material.getId()).get())
+                  .patternLine("###")
+                  .patternLine("###")
+                  .patternLine("###")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_ingot/" + material.getId()));
+        }
 
-      // Block from Gem x4
-      if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine("##")
-                .patternLine("##")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
-      }
+        // Block from Gem x4
+        if (processedType.contains("gem") && processedType.contains("block") && processedType.contains("4x_block_recipe")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .key('#', EERegistrar.gemMap.get(material.getId()).get())
+                  .patternLine("##")
+                  .patternLine("##")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.getId()));
+        }
+        // Block from Gem x9
+        if (processedType.contains("gem") && processedType.contains("block") && !processedType.contains("4x_block_recipe")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .key('#', EERegistrar.gemMap.get(material.getId()).get())
+                  .patternLine("###")
+                  .patternLine("###")
+                  .patternLine("###")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.getId()));
+        }
 
-      // Block from Gem x9
-      if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
-      }
+        // Gem from Block x4
+        if (processedType.contains("gem") && processedType.contains("block") && processedType.contains("4x_block_recipe")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.gemMap.get(material.getId()).get(), 4)
+                  .addIngredient(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.getId()));
+        }
+        // Gem from Block x9
+        if (processedType.contains("gem") && processedType.contains("block") && !processedType.contains("4x_block_recipe")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.gemMap.get(material.getId()).get(), 9)
+                  .addIngredient(EERegistrar.storageBlockMap.get(material.getId()).get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.getId()));
+        }
 
-      // Gem from Block x4
-      if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 4)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
-      }
+        // Dust from Chunk
+        if (processedType.contains("chunk") && processedType.contains("dust")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.dustMap.get(material.getId()).get(), 1)
+                  .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_chunk/" + material.getId()));
+        }
 
-      // Gem from Block x9
-      if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 9)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
-      }
+        // Plate from Ingot
+        if (processedType.contains("ingot") && processedType.contains("plate")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.plateMap.get(material.getId()).get(), 1)
+                  .addIngredient(EERegistrar.ingotMap.get(material.getId()).get())
+                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.getId()));
+        }
+        // Plate from Gem
+        if (processedType.contains("gem") && processedType.contains("plate")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.plateMap.get(material.getId()).get(), 1)
+                  .addIngredient(EERegistrar.gemMap.get(material.getId()).get())
+                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.getId()));
+        }
 
-      // Chunk Smelting & Blasting
-      if (toCreate.contains("Ingot") && toCreate.contains("Chunk")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/" + material.id));
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/" + material.id));
-      }
+        // Gear from Ingot
+        if (processedType.contains("ingot") && processedType.contains("gear")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.gearMap.get(material.getId()).get())
+                  .key('I', EERegistrar.ingotMap.get(material.getId()).get())
+                  .key('N', Tags.Items.NUGGETS_IRON)
+                  .patternLine(" I ")
+                  .patternLine("INI")
+                  .patternLine(" I ")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/" + material.getId()));
+        }
+        // Gear from Gem
+        if (processedType.contains("gem") && processedType.contains("gear")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.gearMap.get(material.getId()).get())
+                  .key('G', EERegistrar.gemMap.get(material.getId()).get())
+                  .key('N', Tags.Items.NUGGETS_IRON)
+                  .patternLine(" G ")
+                  .patternLine("GNG")
+                  .patternLine(" G ")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/" + material.getId()));
+        }
 
-      // Ore Block from Chunk
-      if (toCreate.contains("Ore") && toCreate.contains("Chunk")) {
-        ShapelessRecipeBuilder.shapelessRecipe(baseOre(material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.id));
-      }
-
-      // Ore Smelting & Blasting
-      if (toCreate.contains("Ore") && toCreate.contains("Ingot")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.id));
-
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.id));
-      }
-
-      // Ore from Chunk in Stonecutter
-      if (toCreate.contains("Chunk") && toCreate.contains("Ore")) {
-        for (Strata stratum : Strata.values()) {
-          SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), OreHandler.backingOreBlockTable.get(stratum, material).get())
-                  .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.id + "/" + stratum.id));
+        // Rod from Ingot
+        if (processedType.contains("ingot") && processedType.contains("rod")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.rodMap.get(material.getId()).get(), 2)
+                  .key('I', EERegistrar.ingotMap.get(material.getId()).get())
+                  .patternLine(" I ")
+                  .patternLine(" I ")
+                  .patternLine("   ")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/" + material.getId()));
+        }
+        // Rod from Gem
+        if (processedType.contains("gem") && processedType.contains("rod")) {
+          ShapedRecipeBuilder.shapedRecipe(EERegistrar.rodMap.get(material.getId()).get(), 2)
+                  .key('G', EERegistrar.gemMap.get(material.getId()).get())
+                  .patternLine(" G ")
+                  .patternLine(" G ")
+                  .patternLine("   ")
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/" + material.getId()));
         }
       }
-
-      // Dust from Chunk
-      if (toCreate.contains("Dust") && toCreate.contains("Chunk")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_chunk/" + material.id));
-      }
-
-      // Plate from Ingot
-      if (toCreate.contains("Ingot") && toCreate.contains("Plate")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.id));
-      }
-      // Plate from Gem
-      if (toCreate.contains("Gem") && toCreate.contains("Plate")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.id));
-      }
-
-      // Gears from Ingots
-      if (toCreate.contains("Ingot") && toCreate.contains("Gear")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
-                .key('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .key('N', Tags.Items.NUGGETS_IRON)
-                .patternLine(" I ")
-                .patternLine("INI")
-                .patternLine(" I ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/" + material.id));
-      }
-
-      // Gears from Gems
-      if (toCreate.contains("Gem") && toCreate.contains("Gear")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
-                .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .key('N', Tags.Items.NUGGETS_IRON)
-                .patternLine(" G ")
-                .patternLine("GNG")
-                .patternLine(" G ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/" + material.id));
-      }
-
-      // Rods from Ingots
-      if (toCreate.contains("Ingot") && toCreate.contains("Rod")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
-                .key('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .patternLine(" I ")
-                .patternLine(" I ")
-                .patternLine("   ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/" + material.id));
-      }
-
-      // Rods from Gems
-      if (toCreate.contains("Gem") && toCreate.contains("Rod")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
-                .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine(" G ")
-                .patternLine(" G ")
-                .patternLine("   ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/" + material.id));
-      }
-
     }
-  }
 
-  static RegistryObject<Block> baseOre(Materials material) {
-    return OreHandler.backingOreBlockTable.get(Strata.STONE, material);
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (StrataModel stratum : EELoader.STRATA) {
+        for (String processedType : material.getProcessedType()) {
+          // Ore from Chunk
+          if (processedType.contains("chunk") && processedType.contains("ore")) {
+            if (!stratum.getId().equals("minecraft_stone")) {
+              ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get())
+                      .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                      .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                      .setGroup(Reference.MOD_ID)
+                      .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.getId()));
+            }
+          }
+
+          // Ore Smelting & Blasting
+          if (processedType.contains("ingot") && processedType.contains("ore")) {
+            CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
+                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
+                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.getId()));
+            CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
+                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
+                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.getId()));
+          }
+
+          // Ore from Chunk in Stonecutter
+          if (processedType.contains("chunk") && processedType.contains("ore")) {
+            CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
+                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
+                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.getId()));
+            CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
+                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
+                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.getId()));
+
+            SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(EERegistrar.chunkMap.get(material.getId()).get()),
+                    EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get())
+                    .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.getId() + "/" + stratum.getId()));
+          }
+        }
+      }
+    }
   }
 }

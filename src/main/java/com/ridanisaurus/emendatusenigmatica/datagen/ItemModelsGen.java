@@ -24,9 +24,14 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -64,79 +69,85 @@ public class ItemModelsGen extends ItemModelProvider {
             .parent(new ModelFile.UncheckedModelFile("item/generated"))
             .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/wood_dust"));
 
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        // Storage Blocks Items
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          withExistingParent(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).getId().getPath(), modLoc(material.id + "_block"))
-                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.id + "_block")));
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (String processedType : material.getProcessedType()) {
+        // Storage Blocks
+        if (processedType.equals("storage_block")) {
+          withExistingParent(EERegistrar.storageBlockMap.get(material.getId()).getId().getPath(), modLoc(material.getId() + "_block"))
+                  .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block")));
         }
+
         // Ingots
-        if (processedMaterial == ProcessedMaterials.INGOT && toCreate.contains("Ingot")) {
-          getBuilder(material.id + "_ingot")
+        if (processedType.equals("ingot")) {
+          getBuilder(material.getId() + "_ingot")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_ingot"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
         }
-        // Gems
-        if (processedMaterial == ProcessedMaterials.GEM && toCreate.contains("Gem")) {
-          getBuilder(material.id + "_gem")
-                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gem"));
-        }
+
         // Nuggets
-        if (processedMaterial == ProcessedMaterials.NUGGET && toCreate.contains("Nugget")) {
-          getBuilder(material.id + "_nugget")
+        if (processedType.equals("nugget")) {
+          getBuilder(material.getId() + "_nugget")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_nugget"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget"));
         }
+
+        // Gems
+        if (processedType.equals("gem")) {
+          getBuilder(material.getId() + "_gem")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem"));
+        }
+
         // Dusts
-        if (processedMaterial == ProcessedMaterials.DUST && toCreate.contains("Dust")) {
-          getBuilder(material.id + "_dust")
+        if (processedType.equals("dust")) {
+          getBuilder(material.getId() + "_dust")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_dust"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust"));
         }
+
         // Plates
-        if (processedMaterial == ProcessedMaterials.PLATE && toCreate.contains("Plate")) {
-          getBuilder(material.id + "_plate")
+        if (processedType.equals("plate")) {
+          getBuilder(material.getId() + "_plate")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_plate"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate"));
         }
+
         // Gears
-        if (processedMaterial == ProcessedMaterials.GEAR && toCreate.contains("Gear")) {
-          getBuilder(material.id + "_gear")
+        if (processedType.equals("gear")) {
+          getBuilder(material.getId() + "_gear")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gear"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear"));
         }
+
         // Rods
-        if (processedMaterial == ProcessedMaterials.ROD && toCreate.contains("Rod")) {
-          getBuilder(material.id + "_rod")
+        if (processedType.equals("rod")) {
+          getBuilder(material.getId() + "_rod")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_rod"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod"));
         }
+
         // Chunks
-        if (processedMaterial == ProcessedMaterials.CHUNK && toCreate.contains("Chunk")) {
-          getBuilder(material.id + "_chunk")
+        if (processedType.equals("chunk")) {
+          getBuilder(material.getId() + "_chunk")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_chunk"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_chunk"));
         }
       }
     }
-    // Ore Items
-    for (Strata stratum : Strata.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (material.oreBlock != null && toCreate.contains("Ore")) {
-          withExistingParent(OreHandler.backingOreBlockTable.get(stratum, material).getId().getPath(), modLoc(getModelName(stratum, material)))
+
+    // Ores
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (StrataModel stratum : EELoader.STRATA) {
+        if (material.getProcessedType().contains("ore")) {
+          withExistingParent(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId().getPath(), modLoc(getModelName(stratum, material)))
                   .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material))));
         }
-
       }
     }
   }
 
-  public static String getModelName(Strata stratum, Materials material) {
-    return material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";
+  public static String getModelName(StrataModel stratum, MaterialModel material) {
+    return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
   }
 
   @Override

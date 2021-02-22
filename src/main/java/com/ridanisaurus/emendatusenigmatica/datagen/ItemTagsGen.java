@@ -36,9 +36,11 @@ import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.RegistryObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ItemTagsGen extends ItemTagsProvider {
 
@@ -63,11 +65,13 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
 
     // Storage Block Items
-    ItemHandler.backingItemTable.row(ProcessedMaterials.STORAGE_BLOCK).forEach((mat, storageBlock) -> {
+    for (Map.Entry<Materials, RegistryObject<Item>> entry : ItemHandler.backingItemTable.row(ProcessedMaterials.STORAGE_BLOCK).entrySet()) {
+      Materials key = entry.getKey();
+      RegistryObject<Item> storageBlock = entry.getValue();
       forgeBlocks.add(storageBlock.get());
-      Builder<Item> blockTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + mat.id).toString()));
+      Builder<Item> blockTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + key.id).toString()));
       blockTag.add(storageBlock.get());
-    });
+    }
 
     // Ingots
     ItemHandler.backingItemTable.row(ProcessedMaterials.INGOT).forEach((mat, ingot) -> {

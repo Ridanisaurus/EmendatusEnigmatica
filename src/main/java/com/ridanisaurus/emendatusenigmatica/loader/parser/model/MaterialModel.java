@@ -33,9 +33,11 @@ public class MaterialModel {
   private final String oreBlockType;
   private final MaterialPropertiesModel properties;
   private final String defaultItemDrop;
+  private final int dropMin;
+  private final int dropMax;
   private final List<MaterialDimModel> dimensions;
 
-  public MaterialModel(String id, String localisedName, List<String> processedType, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, List<MaterialDimModel> dimensions) {
+  public MaterialModel(String id, String localisedName, List<String> processedType, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, List<MaterialDimModel> dimensions) {
 
     this.id = id;
     this.localisedName = localisedName;
@@ -43,6 +45,8 @@ public class MaterialModel {
     this.oreBlockType = oreBlockType;
     this.properties = properties;
     this.defaultItemDrop = defaultItemDrop;
+    this.dropMin = dropMin;
+    this.dropMax = dropMax;
     this.dimensions = dimensions;
   }
 
@@ -72,5 +76,13 @@ public class MaterialModel {
 
   public MaterialPropertiesModel getProperties() {
     return properties;
+  }
+
+  public int getDropMin() {
+    return dropMin;
+  }
+
+  public int getDropMax() {
+    return dropMax;
   }
 }

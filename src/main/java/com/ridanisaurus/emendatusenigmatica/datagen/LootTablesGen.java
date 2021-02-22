@@ -24,13 +24,22 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,24 +53,24 @@ public class LootTablesGen extends BaseLootTableProvider {
   @Override
   protected void addTables() {
     // Storage Blocks
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          blockLootTable.put(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(), createBlockLootTable(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get()));
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (String processedType : material.getProcessedType()) {
+        if (processedType.equals("storage_block")) {
+          blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(),
+                  createBlockLootTable(EERegistrar.storageBlockMap.get(material.getId()).get()));
         }
       }
     }
 
     // Ores
-    for (Strata stratum : Strata.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (material.oreBlock != null && toCreate.contains("Ore")) {
-          blockLootTable.put(OreHandler.backingOreBlockTable.get(stratum, material).get(),
-                  material.drop == null
-                          ? createItemLootTable(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                          : createCountTable(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get(), material.drop.item.get(), material.drop.min, material.drop.max));
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (StrataModel stratum : EELoader.STRATA) {
+        if (material.getProcessedType().contains("ore")) {
+          blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+                  material.getDefaultItemDrop() == null
+                          ? createItemLootTable(EERegistrar.chunkMap.get(material.getId()).get())
+                          : createCountTable(EERegistrar.chunkMap.get(material.getId()).get(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
+                          material.getDropMin(), material.getDropMax()));
         }
       }
     }

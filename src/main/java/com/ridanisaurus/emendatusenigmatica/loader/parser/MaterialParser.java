@@ -54,8 +54,12 @@ public class MaterialParser {
     MaterialPropertiesModel materialProperties = new MaterialPropertiesModel(hardness, resistance, harvestLevel);
 
     String defaultItemDrop = "";
+    int dropMin = 1;
+    int dropMax = 1;
     if(oreBlockType.equals("gem")) {
       defaultItemDrop = object.get("defaultItemDrop").getAsString();
+      dropMin = object.get("dropMin").getAsInt();
+      dropMax = object.get("dropMax").getAsInt();
     }
 
     List<MaterialDimModel> dimensions = new ArrayList<>();
@@ -70,6 +74,6 @@ public class MaterialParser {
 
       dimensions.add(new MaterialDimModel(dim, size, count, baseline, spread));
     }
-    return new MaterialModel(id, localisedName, processedType, oreBlockType, materialProperties, defaultItemDrop, dimensions);
+    return new MaterialModel(id, localisedName, processedType, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, dimensions);
   }
 }

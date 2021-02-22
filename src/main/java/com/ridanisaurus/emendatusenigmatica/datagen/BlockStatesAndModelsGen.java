@@ -24,7 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
@@ -54,36 +58,28 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
   protected void registerStatesAndModels() {
 
     // Storage Blocks
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          Block block = BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get();
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (String processedType : material.getProcessedType()) {
+        if (processedType.equals("storage_block")) {
+          Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
           ResourceLocation loc = block.getRegistryName();
-          simpleBlock(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(),
-                  models().cubeAll(material.id + "_block",
-                          new ResourceLocation(Reference.MOD_ID, "blocks/" + material.id + "_block")));
+          simpleBlock(block, models().cubeAll(material.getId() + "_block", new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block")));
         }
       }
     }
 
     // Ores
-    for (Strata stratum : Strata.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (material.oreBlock != null && toCreate.contains("Ore")) {
-          Block block = OreHandler.backingOreBlockTable.get(stratum, material).get();
-          ResourceLocation loc = block.getRegistryName();
-          dynamicBlock(loc, getBaseTexture(stratum), getOverlayTexture(material));
-          simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
+    for (MaterialModel material : EELoader.MATERIALS) {
+      for (StrataModel stratum : EELoader.STRATA) {
+        if (material.getProcessedType().contains("ore")) {
+          Block ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get();
+          ResourceLocation loc = ore.getRegistryName();
+          dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId());
+          simpleBlock(ore, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.toString().split(":")[1])));
         }
       }
     }
   }
-
-  /*public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
-    models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block"))).texture("base", baseTexture).texture("overlay", overlayTexture);
-  }*/
 
   public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
     models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
@@ -120,14 +116,6 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                     .end()
             )
             .end();
-  }
-
-  public static String getBaseTexture(Strata stratum) {
-    return stratum.baseTexture;
-  }
-
-  public static String getOverlayTexture(Materials material) {
-    return "blocks/overlays/" + material.id;
   }
 
   @Override

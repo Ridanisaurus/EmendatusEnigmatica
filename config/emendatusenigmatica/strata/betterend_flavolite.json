@@ -1,0 +1,8 @@
+{
+  "id": "betterend_flavolite",
+  "baseTexture": "betterendforge:block/flavolite",
+  "suffix": "flavolite",
+  "fillerType": "betterendforge:flavolite",
+  "localizedName": "Flavolite",
+  "modid": "betterendforge"
+}

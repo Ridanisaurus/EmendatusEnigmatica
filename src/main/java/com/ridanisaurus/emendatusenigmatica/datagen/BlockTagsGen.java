@@ -24,7 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
@@ -35,6 +38,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.RegistryObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,25 +53,26 @@ public class BlockTagsGen extends BlockTagsProvider {
   protected void registerTags() {
     // Storage Blocks
     Builder<Block> forgeBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
-    BlockHandler.backingStorageBlockTable.values().forEach(block -> forgeBlocks.add(block.get()));
 
-    for (Materials material : Materials.values()) {
-      List<String> toCreate = Arrays.asList(material.type);
-      if (toCreate.contains("Block")) {
-        Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
-        BlockHandler.backingStorageBlockTable.column(material).values().forEach(block -> blockTag.add(block.get()));
-      }
+    for (MaterialModel material : EELoader.MATERIALS) {
+      Builder<Block> blockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.getId()).toString()));
+      forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
+      blockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
     }
 
     // Ores
     Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
-    OreHandler.backingOreBlockTable.values().forEach(ore -> forgeOres.add(ore.get()));
+    for (RegistryObject<Block> ore : OreHandler.backingOreBlockTable.values()) {
+      forgeOres.add(ore.get());
+    }
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
         Builder<Block> oreTag = getOrCreateBuilder(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
-        OreHandler.backingOreBlockTable.column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
+        for (RegistryObject<Block> strataOre : OreHandler.backingOreBlockTable.column(material).values()) {
+          oreTag.add(strataOre.get());
+        }
       }
     }
 
