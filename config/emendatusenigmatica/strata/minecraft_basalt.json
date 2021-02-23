@@ -1,6 +1,6 @@
 {
   "id": "minecraft_basalt",
-  "baseTexture": "minecraft:block/basalt",
+  "baseTexture": "minecraft:block/basalt_side",
   "suffix": "basalt",
   "fillerType": "minecraft:basalt",
   "localizedName": "Basalt",

@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import net.minecraft.resources.IPackFinder;
+import net.minecraft.resources.IPackNameDecorator;
 import net.minecraft.resources.ResourcePackInfo;
 
 import java.nio.file.Path;
@@ -35,6 +36,10 @@ public class EEPackFinder implements IPackFinder {
   @Override
   public void findPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
     Path rootPath = MemoryDataGeneratorFactory.ROOT_PATH;
-
+    ResourcePackInfo pack = ResourcePackInfo.createResourcePack("emendatusenigmatica", true,
+            () -> new InMemoryPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.BUILTIN);
+    if(pack != null) {
+      infoConsumer.accept(pack);
+    }
   }
 }

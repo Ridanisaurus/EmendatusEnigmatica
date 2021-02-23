@@ -40,12 +40,10 @@ import java.util.Set;
 public class MemoryDataGeneratorFactory {
   public static Path ROOT_PATH;
 
-  public static DataGenerator createMemoryDataGenerator() {
+  public static void init() {
     FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix());
     Path path = fileSystem.getPath("/emendatusenigmatica");
-
     ROOT_PATH = path;
-
     if(Files.exists(path)) {
       Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
       try {
@@ -54,6 +52,9 @@ public class MemoryDataGeneratorFactory {
         e.printStackTrace();
       }
     }
+  }
+
+  public static DataGenerator createMemoryDataGenerator() {
     return new DataGenerator(ROOT_PATH, ImmutableList.of());
   }
 }

@@ -10,6 +10,8 @@
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:dimensional_gem",
+  "dropMin": 4,
+  "dropMax": 5,
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,

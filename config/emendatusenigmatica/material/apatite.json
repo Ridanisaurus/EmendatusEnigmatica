@@ -10,6 +10,8 @@
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:apatite_gem",
+  "dropMin": 4,
+  "dropMax": 9,
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,

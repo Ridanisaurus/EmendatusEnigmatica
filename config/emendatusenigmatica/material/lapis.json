@@ -11,6 +11,8 @@
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "minecraft:lapis_lazuli",
+  "dropMin": 4,
+  "dropMax": 9,
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,

@@ -4,6 +4,7 @@
   "processedType": [
 	"block",
 	"gem",
-	"dust"
+	"dust",
+	"4x_block_recipe"
   ]
 }

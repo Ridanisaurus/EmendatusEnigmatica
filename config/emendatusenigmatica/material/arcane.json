@@ -9,6 +9,8 @@
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:arcane_gem",
+  "dropMin": 1,
+  "dropMax": 1,
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,

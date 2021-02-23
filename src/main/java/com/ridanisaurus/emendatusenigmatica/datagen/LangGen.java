@@ -65,10 +65,10 @@ public class LangGen extends LanguageProvider {
     add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
     add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
-    // Special Arcane Lang
+    /*// Special Arcane Lang
     add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");*/
 
     // Compat Dust
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
@@ -150,7 +150,7 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append(material.getLocalisedName());
           sb.append(" Chunk");
-          add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
+          add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
         }
       }
     }

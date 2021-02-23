@@ -24,19 +24,26 @@
 
 package com.ridanisaurus.emendatusenigmatica;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
+import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -46,17 +53,27 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
 public class EmendatusEnigmatica {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
+    private DataGenerator generator;
+    private static boolean hasGenerated = false;
+
+    private static EmendatusEnigmatica instance = null;
 
     public EmendatusEnigmatica() {
+        instance = this;
+        MemoryDataGeneratorFactory.init();
         EELoader.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -70,12 +87,26 @@ public class EmendatusEnigmatica {
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
+        modEventBus.addListener(DataGenerators::gatherClientData);
+        modEventBus.addListener(DataGenerators::gatherCommonData);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
         // Setup biome loading event for worldgen!
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
+
+        registerDataGen();
+        // Resource Pack
+        if(FMLEnvironment.dist == Dist.CLIENT) {
+            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder());
+        }
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onServerStart);
+    }
+
+    // Data Pack
+    public void onServerStart(final FMLServerAboutToStartEvent event) {
+        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder());
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -90,9 +121,9 @@ public class EmendatusEnigmatica {
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {
-        /*for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
+        for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
             RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }*/
+        }
 
         ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
     }
@@ -103,4 +134,29 @@ public class EmendatusEnigmatica {
             return new ItemStack(BlockHandler.ENIGMATIC_FORTUNIZER.get());
         }
     };
+
+    private void registerDataGen() {
+        generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
+        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
+
+        BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+        generator.addProvider(new RecipesGen(generator)); // REQUIRE REVIEW
+        //generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+        //generator.addProvider(blockTagsGeneration);
+        generator.addProvider(new LootTablesGen(generator)); // REQUIRES REVIEW - Ore ResourceLocation from getDefaultItemDrop
+        generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
+        generator.addProvider(new LangGen(generator));
+        generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
+    }
+
+    public static void generate() {
+        if(!hasGenerated) {
+            try {
+                instance.generator.run();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            hasGenerated = true;
+        }
+    }
 }

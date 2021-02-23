@@ -6,10 +6,13 @@
     "storage_block",
     "gem",
     "chunk",
-    "dust"
+    "dust",
+    "4x_block_recipe"
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:certus_quartz_gem",
+  "dropMin": 1,
+  "dropMax": 1,
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,

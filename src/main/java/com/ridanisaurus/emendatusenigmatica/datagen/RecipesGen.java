@@ -55,7 +55,7 @@ public class RecipesGen extends RecipeProvider {
   @Override
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
-    // Machines
+    /*// Machines
     ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_FORTUNIZER.get())
             .patternLine("PGP")
             .patternLine("DNE")
@@ -81,7 +81,7 @@ public class RecipesGen extends RecipeProvider {
             .key('S', Tags.Items.RODS_WOODEN)
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);
+            .build(consumer);*/
 
     /*-- Vanilla Compat --*/
     /*// Chunk Smelting & Blasting
@@ -593,7 +593,7 @@ public class RecipesGen extends RecipeProvider {
         for (String processedType : material.getProcessedType()) {
           // Ore from Chunk
           if (processedType.contains("chunk") && processedType.contains("ore")) {
-            if (!stratum.getId().equals("minecraft_stone")) {
+            if (stratum.getId().equals("minecraft_stone")) {
               ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get())
                       .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
                       .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
