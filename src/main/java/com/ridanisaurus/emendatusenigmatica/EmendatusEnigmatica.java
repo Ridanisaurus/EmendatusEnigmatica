@@ -32,7 +32,6 @@ import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
@@ -100,13 +99,16 @@ public class EmendatusEnigmatica {
 
         registerDataGen();
         // Resource Pack
-        Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder());
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder("res"));
+        }
+
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onServerStart);
     }
 
     // Data Pack
     public void onServerStart(final FMLServerAboutToStartEvent event) {
-        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder());
+        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder("data"));
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -162,7 +164,7 @@ public class EmendatusEnigmatica {
 
     public static void injectDatapackFinder (ResourcePackList resourcePacks) {
         if (DistExecutor.unsafeRunForDist( () -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
-            resourcePacks.addPackFinder(new EEPackFinder());
+            resourcePacks.addPackFinder(new EEPackFinder("res"));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
     }

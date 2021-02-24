@@ -24,11 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 import com.google.common.collect.ImmutableList;
-import com.google.common.jimfs.Configuration;
-import com.google.common.jimfs.Feature;
-import com.google.common.jimfs.Jimfs;
-import com.google.common.jimfs.PathType;
 import net.minecraft.data.DataGenerator;
 
 import java.io.IOException;
@@ -38,22 +35,16 @@ import java.nio.file.Path;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
-
 public class MemoryDataGeneratorFactory {
+
   public static Path ROOT_PATH;
 
   public static void init() {
-    FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix().toBuilder().setWorkingDirectory("/emendatusenigmatica").setMaxCacheSize(0).setSupportedFeatures(Feature.FILE_CHANNEL, Feature.SECURE_DIRECTORY_STREAM)
-            .setBlockSize(4096).setAttributeViews("basic", "owner", "posix", "unix").build());
-    Path path = fileSystem.getPath("/emendatusenigmatica");
-    ROOT_PATH = path;
-    if(Files.exists(path)) {
-      Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
-      try {
-        Files.createDirectory(path, PosixFilePermissions.asFileAttribute(perms));
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
+    try {
+      FileSystem fs = MemoryFileSystemBuilder.newEmpty().addRoot("/").setCurrentWorkingDirectory("/emendatusenigmatica").setCaseSensitive(true).build();
+      ROOT_PATH = fs.getPath("/emendatusenigmatica");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
