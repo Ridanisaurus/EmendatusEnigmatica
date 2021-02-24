@@ -12,6 +12,8 @@
     "gear",
     "rod"
   ],
+  "isBurnable": true,
+  "burnTime": 3200,
   "oreBlockType": "metal",
   "properties": {
       "hardness": 3.0,

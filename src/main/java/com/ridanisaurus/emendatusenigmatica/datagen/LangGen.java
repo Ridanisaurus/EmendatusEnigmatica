@@ -63,15 +63,7 @@ public class LangGen extends LanguageProvider {
             "Once your \u00A73\u00A7nPickaxe\u00A7r reaches \u00A760\u00A7r Durability, the operation will stop, and your Pickaxe can be extracted for repairs.\n\n" +
             "\u00A76Example:\u00A7r Diamond Chunks + Pickaxe = Diamonds");
     add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
-    add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
-
-    // Compat Dust
-    add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
-    add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
-    add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
-    add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
-    add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
-    add(ItemHandler.DUST_WOOD.get(), "Sawdust");
+    add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
     for (MaterialModel material : EELoader.MATERIALS) {
       for (String processedType : material.getProcessedType()) {
@@ -124,10 +116,15 @@ public class LangGen extends LanguageProvider {
         }
 
         // Dusts
-        if (processedType.equals("dust")) {
+        if (processedType.equals("dust") && !material.getId().equals("wood")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.getLocalisedName());
           sb.append(" Dust");
+          add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
+        }
+        if (processedType.equals("dust") && material.getId().equals("wood")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Sawdust");
           add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
         }
 

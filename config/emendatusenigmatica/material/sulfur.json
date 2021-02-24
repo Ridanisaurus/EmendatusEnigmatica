@@ -8,6 +8,8 @@
     "chunk",
     "dust"
   ],
+  "isBurnable": true,
+  "burnTime": 1200,
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:sulfur_gem",
   "dropMin": 3,

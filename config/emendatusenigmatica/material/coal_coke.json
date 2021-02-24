@@ -5,5 +5,7 @@
 	"storage_block",
 	"gem",
 	"dust"
-  ]
+  ],
+  "isBurnable": true,
+  "burnTime": 3200
 }

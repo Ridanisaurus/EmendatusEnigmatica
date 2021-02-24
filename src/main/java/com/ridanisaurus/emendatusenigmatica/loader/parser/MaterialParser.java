@@ -43,13 +43,20 @@ public class MaterialParser {
     for (JsonElement element : processedTypeJson) {
       processedType.add(element.getAsString());
     }
-    // Will need to get value from Enum
+
+    boolean isBurnable = false;
+    int burnTime = 0;
     String oreBlockType = "";
     String defaultItemDrop = "";
     int dropMin = 1;
     int dropMax = 1;
     List<MaterialDimModel> dimensions = new ArrayList<>();
     MaterialPropertiesModel materialProperties = new MaterialPropertiesModel(0, 0, 0);
+
+    if(object.has("isBurnable")) {
+      isBurnable = object.get("isBurnable").getAsBoolean();
+      burnTime = object.get("burnTime").getAsInt();
+    }
 
     if(object.has("oreBlockType")) {
       oreBlockType = object.get("oreBlockType").getAsString();
@@ -78,6 +85,6 @@ public class MaterialParser {
         dimensions.add(new MaterialDimModel(dim, size, count, baseline, spread));
       }
     }
-    return new MaterialModel(id, localisedName, processedType, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, dimensions);
+    return new MaterialModel(id, localisedName, processedType, isBurnable, burnTime, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, dimensions);
   }
 }

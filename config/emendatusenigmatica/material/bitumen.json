@@ -7,6 +7,8 @@
     "gem",
     "chunk"
   ],
+  "isBurnable": true,
+  "burnTime": 1600,
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:bitumen_gem",
   "dropMin": 2,

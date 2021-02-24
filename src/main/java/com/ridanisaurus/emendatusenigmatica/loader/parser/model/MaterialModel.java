@@ -30,6 +30,8 @@ public class MaterialModel {
   private final String id;
   private final String localisedName;
   private final List<String> processedType;
+  private final boolean isBurnable;
+  private final int burnTime;
   private final String oreBlockType;
   private final MaterialPropertiesModel properties;
   private final String defaultItemDrop;
@@ -37,11 +39,13 @@ public class MaterialModel {
   private final int dropMax;
   private final List<MaterialDimModel> dimensions;
 
-  public MaterialModel(String id, String localisedName, List<String> processedType, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, List<MaterialDimModel> dimensions) {
+  public MaterialModel(String id, String localisedName, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, List<MaterialDimModel> dimensions) {
 
     this.id = id;
     this.localisedName = localisedName;
     this.processedType = processedType;
+    this.isBurnable = isBurnable;
+    this.burnTime = burnTime;
     this.oreBlockType = oreBlockType;
     this.properties = properties;
     this.defaultItemDrop = defaultItemDrop;
@@ -84,5 +88,13 @@ public class MaterialModel {
 
   public int getDropMax() {
     return dropMax;
+  }
+
+  public boolean isBurnable() {
+    return isBurnable;
+  }
+
+  public int getBurnTime() {
+    return burnTime;
   }
 }

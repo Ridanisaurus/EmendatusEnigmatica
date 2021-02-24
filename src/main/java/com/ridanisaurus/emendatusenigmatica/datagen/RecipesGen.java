@@ -513,7 +513,7 @@ public class RecipesGen extends RecipeProvider {
         if (processedType.contains("chunk") && processedType.contains("dust")) {
           ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.dustMap.get(material.getId()).get(), 1)
                   .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
-                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addIngredient(EERegistrar.ENIGMATIC_HAMMER.get())
                   .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                   .setGroup(Reference.MOD_ID)
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_chunk/" + material.getId()));
@@ -523,7 +523,7 @@ public class RecipesGen extends RecipeProvider {
         if (processedType.contains("ingot") && processedType.contains("plate")) {
           ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.plateMap.get(material.getId()).get(), 1)
                   .addIngredient(EERegistrar.ingotMap.get(material.getId()).get())
-                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addIngredient(EERegistrar.ENIGMATIC_HAMMER.get())
                   .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                   .setGroup(Reference.MOD_ID)
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.getId()));
@@ -532,7 +532,7 @@ public class RecipesGen extends RecipeProvider {
         if (processedType.contains("gem") && processedType.contains("plate")) {
           ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.plateMap.get(material.getId()).get(), 1)
                   .addIngredient(EERegistrar.gemMap.get(material.getId()).get())
-                  .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
+                  .addIngredient(EERegistrar.ENIGMATIC_HAMMER.get())
                   .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                   .setGroup(Reference.MOD_ID)
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.getId()));
