@@ -147,7 +147,7 @@ public class ItemModelsGen extends ItemModelProvider {
   }
 
   public static String getModelName(StrataModel stratum, MaterialModel material) {
-    return material.getId() + "_" + stratum.getSuffix() + "_ore";
+    return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
   }
 
   @Override

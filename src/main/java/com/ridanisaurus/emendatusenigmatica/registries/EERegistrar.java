@@ -64,8 +64,8 @@ public class EERegistrar {
   public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
   public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
-  public static void RegisterOre(StrataModel strata, MaterialModel material) {
-    String oreName = material.getId() + (!strata.getId().equals("stone") ? "_" + strata.getSuffix() : "") + "_ore";
+  public static void registerOre(StrataModel strata, MaterialModel material) {
+    String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
 
     RegistryObject<Block> oreBlock = BLOCKS.register(oreName, () -> new BasicOreBlock(
             Material.ROCK,
@@ -96,49 +96,49 @@ public class EERegistrar {
     storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BlockItem(storageBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
   }
 
-  public static void RegisterChunks(MaterialModel material) {
+  public static void registerChunks(MaterialModel material) {
     String itemName = material.getId() + "_chunk";
 
     chunkMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterIngots(MaterialModel material) {
+  public static void registerIngots(MaterialModel material) {
     String itemName = material.getId() + "_ingot";
 
     ingotMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterNuggets(MaterialModel material) {
+  public static void registerNuggets(MaterialModel material) {
     String itemName = material.getId() + "_nugget";
 
     nuggetMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterGems(MaterialModel material) {
+  public static void registerGems(MaterialModel material) {
     String itemName = material.getId() + "_gem";
 
     gemMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterDusts(MaterialModel material) {
+  public static void registerDusts(MaterialModel material) {
     String itemName = material.getId() + "_dust";
 
     dustMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterPlates(MaterialModel material) {
+  public static void registerPlates(MaterialModel material) {
     String itemName = material.getId() + "_plate";
 
     plateMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterGears(MaterialModel material) {
+  public static void registerGears(MaterialModel material) {
     String itemName = material.getId() + "_gear";
 
     gearMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
   }
 
-  public static void RegisterRods(MaterialModel material) {
+  public static void registerRods(MaterialModel material) {
     String itemName = material.getId() + "_rod";
 
     rodMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));

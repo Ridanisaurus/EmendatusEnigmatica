@@ -103,7 +103,7 @@ public class EELoader {
       for (MaterialModel material : materialModels) {
         // Do I need Ore if it's under Material and not Alloy?
         if (material.getProcessedType().contains("ore")) {
-          EERegistrar.RegisterOre(strata, material);
+          EERegistrar.registerOre(strata, material);
         }
       }
     }
@@ -113,28 +113,28 @@ public class EELoader {
         EERegistrar.registerStorageBlocks(material);
       }
       if (material.getProcessedType().contains("chunk")) {
-        EERegistrar.RegisterChunks(material);
+        EERegistrar.registerChunks(material);
       }
       if (material.getProcessedType().contains("ingot")) {
-        EERegistrar.RegisterIngots(material);
+        EERegistrar.registerIngots(material);
       }
       if (material.getProcessedType().contains("nugget")) {
-        EERegistrar.RegisterNuggets(material);
+        EERegistrar.registerNuggets(material);
       }
       if (material.getProcessedType().contains("gem")) {
-        EERegistrar.RegisterGems(material);
+        EERegistrar.registerGems(material);
       }
       if (material.getProcessedType().contains("dust")) {
-        EERegistrar.RegisterDusts(material);
+        EERegistrar.registerDusts(material);
       }
       if (material.getProcessedType().contains("plate")) {
-        EERegistrar.RegisterPlates(material);
+        EERegistrar.registerPlates(material);
       }
       if (material.getProcessedType().contains("gear")) {
-        EERegistrar.RegisterGears(material);
+        EERegistrar.registerGears(material);
       }
       if (material.getProcessedType().contains("rod")) {
-        EERegistrar.RegisterRods(material);
+        EERegistrar.registerRods(material);
       }
     }
   }

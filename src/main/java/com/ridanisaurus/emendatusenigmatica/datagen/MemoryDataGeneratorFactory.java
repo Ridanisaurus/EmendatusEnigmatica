@@ -26,7 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.jimfs.Configuration;
+import com.google.common.jimfs.Feature;
 import com.google.common.jimfs.Jimfs;
+import com.google.common.jimfs.PathType;
 import net.minecraft.data.DataGenerator;
 
 import java.io.IOException;
@@ -41,7 +43,8 @@ public class MemoryDataGeneratorFactory {
   public static Path ROOT_PATH;
 
   public static void init() {
-    FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix());
+    FileSystem fileSystem = Jimfs.newFileSystem(Configuration.unix().toBuilder().setWorkingDirectory("/emendatusenigmatica").setMaxCacheSize(0).setSupportedFeatures(Feature.FILE_CHANNEL, Feature.SECURE_DIRECTORY_STREAM)
+            .setBlockSize(4096).setAttributeViews("basic", "owner", "posix", "unix").build());
     Path path = fileSystem.getPath("/emendatusenigmatica");
     ROOT_PATH = path;
     if(Files.exists(path)) {

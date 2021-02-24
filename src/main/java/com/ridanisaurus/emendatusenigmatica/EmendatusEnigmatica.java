@@ -41,12 +41,14 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resources.ResourcePackList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
@@ -98,9 +100,7 @@ public class EmendatusEnigmatica {
 
         registerDataGen();
         // Resource Pack
-        if(FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder());
-        }
+        Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder());
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onServerStart);
     }
 
@@ -140,10 +140,10 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(new RecipesGen(generator)); // REQUIRE REVIEW
+        generator.addProvider(new RecipesGen(generator));
         //generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
         //generator.addProvider(blockTagsGeneration);
-        generator.addProvider(new LootTablesGen(generator)); // REQUIRES REVIEW - Ore ResourceLocation from getDefaultItemDrop
+        generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
         generator.addProvider(new LangGen(generator));
         generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
@@ -157,6 +157,13 @@ public class EmendatusEnigmatica {
                 e.printStackTrace();
             }
             hasGenerated = true;
+        }
+    }
+
+    public static void injectDatapackFinder (ResourcePackList resourcePacks) {
+        if (DistExecutor.unsafeRunForDist( () -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
+            resourcePacks.addPackFinder(new EEPackFinder());
+            EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
     }
 }

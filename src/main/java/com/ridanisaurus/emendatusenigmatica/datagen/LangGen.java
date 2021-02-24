@@ -65,11 +65,6 @@ public class LangGen extends LanguageProvider {
     add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
     add(ItemHandler.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
-    /*// Special Arcane Lang
-    add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");*/
-
     // Compat Dust
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
@@ -88,6 +83,11 @@ public class LangGen extends LanguageProvider {
           sb.append(material.getLocalisedName());
           add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
         }
+        if (processedType.equals("storage_block") && material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Block of Mana Gems");
+          add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
+        }
 
         // Ingots
         if (processedType.equals("ingot")) {
@@ -98,10 +98,20 @@ public class LangGen extends LanguageProvider {
         }
 
         // Gems
-        if (processedType.equals("gem") && !material.getId().equals("arcane")) {
+        if (processedType.equals("gem") && !material.getId().equals("arcane") && !material.getId().equals("coal_coke")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.getLocalisedName());
           sb.append(" Gem");
+          add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
+        }
+        if (processedType.equals("gem") && material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Mana Gem");
+          add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
+        }
+        if (processedType.equals("gem") && material.getId().equals("coal_coke")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Coal Coke");
           add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
         }
 
@@ -152,6 +162,11 @@ public class LangGen extends LanguageProvider {
           sb.append(" Chunk");
           add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
         }
+        if (processedType.equals("chunk") && material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Mana Chunk");
+          add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
+        }
       }
     }
 
@@ -172,5 +187,9 @@ public class LangGen extends LanguageProvider {
         }
       }
     }
+  }
+  @Override
+  public String getName() {
+    return "Emendatus Enigmatica Languages: en_us";
   }
 }

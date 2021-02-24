@@ -91,4 +91,9 @@ public class BlockTagsGen extends BlockTagsProvider {
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_fortunizer").toString()))
             .add(BlockHandler.ENIGMATIC_FORTUNIZER.get());
   }
+
+  @Override
+  public String getName() {
+    return "Emendatus Enigmatica Block Tags";
+  }
 }

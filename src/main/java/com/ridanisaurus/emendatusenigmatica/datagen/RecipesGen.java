@@ -634,4 +634,9 @@ public class RecipesGen extends RecipeProvider {
       }
     }
   }
+
+  @Override
+  public String getName() {
+    return "Emendatus Enigmatica Recipes";
+  }
 }

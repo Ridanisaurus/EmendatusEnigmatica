@@ -44,35 +44,39 @@ public class MaterialParser {
       processedType.add(element.getAsString());
     }
     // Will need to get value from Enum
-    String oreBlockType = object.get("oreBlockType").getAsString();
-
-    JsonObject propertiesJson = object.get("properties").getAsJsonObject();
-    float hardness = propertiesJson.get("hardness").getAsFloat();
-    float resistance = propertiesJson.get("resistance").getAsFloat();
-    int harvestLevel = propertiesJson.get("harvestLevel").getAsInt();
-
-    MaterialPropertiesModel materialProperties = new MaterialPropertiesModel(hardness, resistance, harvestLevel);
-
+    String oreBlockType = "";
     String defaultItemDrop = "";
     int dropMin = 1;
     int dropMax = 1;
-    if(oreBlockType.equals("gem")) {
-      defaultItemDrop = object.get("defaultItemDrop").getAsString();
-      dropMin = object.get("dropMin").getAsInt();
-      dropMax = object.get("dropMax").getAsInt();
-    }
-
     List<MaterialDimModel> dimensions = new ArrayList<>();
-    JsonArray dimJson = object.getAsJsonArray("dimensions");
-    for (JsonElement element : dimJson) {
-      JsonObject dimModelJson = element.getAsJsonObject();
-      String dim = dimModelJson.get("dim").getAsString();
-      int size = dimModelJson.get("size").getAsInt();
-      int count = dimModelJson.get("count").getAsInt();
-      int baseline = dimModelJson.get("baseline").getAsInt();
-      int spread = dimModelJson.get("spread").getAsInt();
+    MaterialPropertiesModel materialProperties = new MaterialPropertiesModel(0, 0, 0);
 
-      dimensions.add(new MaterialDimModel(dim, size, count, baseline, spread));
+    if(object.has("oreBlockType")) {
+      oreBlockType = object.get("oreBlockType").getAsString();
+
+      JsonObject propertiesJson = object.get("properties").getAsJsonObject();
+      float hardness = propertiesJson.get("hardness").getAsFloat();
+      float resistance = propertiesJson.get("resistance").getAsFloat();
+      int harvestLevel = propertiesJson.get("harvestLevel").getAsInt();
+
+      materialProperties = new MaterialPropertiesModel(hardness, resistance, harvestLevel);
+      if(oreBlockType.equals("gem")) {
+        defaultItemDrop = object.get("defaultItemDrop").getAsString();
+        dropMin = object.get("dropMin").getAsInt();
+        dropMax = object.get("dropMax").getAsInt();
+      }
+
+      JsonArray dimJson = object.getAsJsonArray("dimensions");
+      for (JsonElement element : dimJson) {
+        JsonObject dimModelJson = element.getAsJsonObject();
+        String dim = dimModelJson.get("dim").getAsString();
+        int size = dimModelJson.get("size").getAsInt();
+        int count = dimModelJson.get("count").getAsInt();
+        int baseline = dimModelJson.get("baseline").getAsInt();
+        int spread = dimModelJson.get("spread").getAsInt();
+
+        dimensions.add(new MaterialDimModel(dim, size, count, baseline, spread));
+      }
     }
     return new MaterialModel(id, localisedName, processedType, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, dimensions);
   }

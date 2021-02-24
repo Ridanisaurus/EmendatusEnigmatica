@@ -242,4 +242,9 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/fluix").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.FLUIX).get());
   }
+
+  @Override
+  public String getName() {
+    return "Emendatus Enigmatica Item Tags";
+  }
 }
