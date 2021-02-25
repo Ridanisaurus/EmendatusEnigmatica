@@ -88,8 +88,6 @@ public class EmendatusEnigmatica {
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
-        modEventBus.addListener(DataGenerators::gatherClientData);
-        modEventBus.addListener(DataGenerators::gatherCommonData);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
@@ -100,15 +98,15 @@ public class EmendatusEnigmatica {
         registerDataGen();
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder("res"));
+            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder(PackType.RESOURCE));
         }
 
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::onServerStart);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
     }
 
     // Data Pack
     public void onServerStart(final FMLServerAboutToStartEvent event) {
-        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder("data"));
+        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder(PackType.DATA));
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -164,7 +162,7 @@ public class EmendatusEnigmatica {
 
     public static void injectDatapackFinder (ResourcePackList resourcePacks) {
         if (DistExecutor.unsafeRunForDist( () -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
-            resourcePacks.addPackFinder(new EEPackFinder("res"));
+            resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
     }

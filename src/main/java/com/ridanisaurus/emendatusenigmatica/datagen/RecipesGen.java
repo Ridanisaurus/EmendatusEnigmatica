@@ -27,22 +27,19 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.*;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -54,7 +51,7 @@ public class RecipesGen extends RecipeProvider {
 
   @Override
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-
+    
     /*// Machines
     ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_FORTUNIZER.get())
             .patternLine("PGP")
@@ -403,18 +400,18 @@ public class RecipesGen extends RecipeProvider {
             .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/quartz"));*/
 
     for (MaterialModel material : EELoader.MATERIALS) {
-      for (String processedType : material.getProcessedType()) {
-        // Ingot from Block
-        if (processedType.contains("storage_block") && processedType.contains("ingot")) {
-          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.ingotMap.get(material.getId()).get(), 9)
-                  .addIngredient(EERegistrar.storageBlockMap.get(material.getId()).get())
-                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                  .setGroup(Reference.MOD_ID)
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.getId()));
-        }
+      List<String> processedType = material.getProcessedType();
+      // Ingot from Block
+      if (processedType.contains("storage_block") && processedType.contains("ingot")) {
+        ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.ingotMap.get(material.getId()).get(), 9)
+                .addIngredient(EERegistrar.storageBlockMap.get(material.getId()).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.getId()));
+      }
 
-        // Ingot from Nugget
-        if (processedType.contains("nugget") && processedType.contains("ingot")) {
+      // Ingot from Nugget
+      if (processedType.contains("nugget") && processedType.contains("ingot")) {
           ShapedRecipeBuilder.shapedRecipe(EERegistrar.ingotMap.get(material.getId()).get())
                   .key('#', EERegistrar.nuggetMap.get(material.getId()).get())
                   .patternLine("###")
@@ -542,7 +539,7 @@ public class RecipesGen extends RecipeProvider {
         if (processedType.contains("ingot") && processedType.contains("gear")) {
           ShapedRecipeBuilder.shapedRecipe(EERegistrar.gearMap.get(material.getId()).get())
                   .key('I', EERegistrar.ingotMap.get(material.getId()).get())
-                  .key('N', Tags.Items.NUGGETS_IRON)
+                  .key('N', new MockedNamedTag<>(new ResourceLocation("forge", "nuggets/iron")))
                   .patternLine(" I ")
                   .patternLine("INI")
                   .patternLine(" I ")
@@ -554,7 +551,7 @@ public class RecipesGen extends RecipeProvider {
         if (processedType.contains("gem") && processedType.contains("gear")) {
           ShapedRecipeBuilder.shapedRecipe(EERegistrar.gearMap.get(material.getId()).get())
                   .key('G', EERegistrar.gemMap.get(material.getId()).get())
-                  .key('N', Tags.Items.NUGGETS_IRON)
+                  .key('N', new MockedNamedTag<>(new ResourceLocation("forge", "nuggets/iron")))
                   .patternLine(" G ")
                   .patternLine("GNG")
                   .patternLine(" G ")
@@ -585,20 +582,19 @@ public class RecipesGen extends RecipeProvider {
                   .setGroup(Reference.MOD_ID)
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/" + material.getId()));
         }
-      }
     }
 
     for (MaterialModel material : EELoader.MATERIALS) {
       for (StrataModel stratum : EELoader.STRATA) {
-        for (String processedType : material.getProcessedType()) {
           // Ore from Chunk
-          if (processedType.contains("chunk") && processedType.contains("ore")) {
+        List<String> processedType = material.getProcessedType();
+        if (processedType.contains("chunk") && processedType.contains("ore")) {
             if (stratum.getId().equals("minecraft_stone")) {
               ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get())
                       .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
                       .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                       .setGroup(Reference.MOD_ID)
-                      .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.getId()));
+                      .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.getId() + "_" + stratum.getId()));
             }
           }
 
@@ -607,29 +603,19 @@ public class RecipesGen extends RecipeProvider {
             CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
                     EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
                     .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.getId()));
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.getId() + "_" + stratum.getId()));
             CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
                     EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
                     .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.getId()));
+                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.getId() + "_" + stratum.getId()));
           }
 
           // Ore from Chunk in Stonecutter
           if (processedType.contains("chunk") && processedType.contains("ore")) {
-            CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
-                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
-                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.getId()));
-            CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()),
-                    EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
-                    .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                    .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.getId()));
-
             SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(EERegistrar.chunkMap.get(material.getId()).get()),
                     EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get())
                     .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
                     .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.getId() + "/" + stratum.getId()));
-          }
         }
       }
     }

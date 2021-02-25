@@ -67,7 +67,7 @@ public class LootTablesGen extends BaseLootTableProvider {
       for (StrataModel stratum : EELoader.STRATA) {
         if (material.getProcessedType().contains("ore")) {
           blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-                  material.getDefaultItemDrop() == null
+                  material.getDefaultItemDrop().isEmpty()
                           ? createItemLootTable(EERegistrar.chunkMap.get(material.getId()).get())
                           : createCountTable(EERegistrar.chunkMap.get(material.getId()).get(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
                           material.getDropMin(), material.getDropMax()));

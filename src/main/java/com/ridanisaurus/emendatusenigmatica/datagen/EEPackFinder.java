@@ -33,16 +33,18 @@ import java.util.function.Consumer;
 
 public class EEPackFinder implements IPackFinder {
 
-  private String suffix;
 
-  public EEPackFinder(String suffix) {
+  private final PackType type;
 
-    this.suffix = suffix;
+  public EEPackFinder(PackType type) {
+
+    this.type = type;
   }
   @Override
   public void findPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
     Path rootPath = MemoryDataGeneratorFactory.ROOT_PATH;
-    ResourcePackInfo pack = ResourcePackInfo.createResourcePack("emendatusenigmatica_" + suffix, true,
+
+    ResourcePackInfo pack = ResourcePackInfo.createResourcePack("emendatusenigmatica_" + type.getSuffix(), true,
             () -> new InMemoryPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.PLAIN);
     if(pack != null) {
       infoConsumer.accept(pack);
