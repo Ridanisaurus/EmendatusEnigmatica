@@ -6,6 +6,8 @@
     "chunk",
     "dust"
   ],
+  "isBurnable": true,
+  "burnTime": 1600,
   "oreBlockType": "gem",
   "defaultItemDrop": "minecraft:coal",
   "dropMin": 1,

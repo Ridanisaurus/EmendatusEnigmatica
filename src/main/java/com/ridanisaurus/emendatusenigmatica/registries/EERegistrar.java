@@ -27,20 +27,19 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicOreBlock;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicBlockItem;
+import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -53,7 +52,7 @@ import java.util.Map;
 public class EERegistrar {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
-
+  public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
   public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
   public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
@@ -191,10 +190,13 @@ public class EERegistrar {
   public static void Finalize(IEventBus eventBus) {
     ITEMS.register(eventBus);
     BLOCKS.register(eventBus);
+    TILE_ENTITY.register(eventBus);
   }
 
   // Machine Items
-  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(BlockHandler.ENIGMATIC_FORTUNIZER.get()));
+  public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
+  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
 
   // Hammer
   public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);

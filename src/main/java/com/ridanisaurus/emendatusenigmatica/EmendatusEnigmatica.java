@@ -131,7 +131,7 @@ public class EmendatusEnigmatica {
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(BlockHandler.ENIGMATIC_FORTUNIZER.get());
+            return new ItemStack(EERegistrar.ENIGMATIC_FORTUNIZER.get());
         }
     };
 
@@ -141,8 +141,8 @@ public class EmendatusEnigmatica {
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
         generator.addProvider(new RecipesGen(generator));
-        //generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-        //generator.addProvider(blockTagsGeneration);
+        generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+        generator.addProvider(blockTagsGeneration);
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
         generator.addProvider(new LangGen(generator));

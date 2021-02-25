@@ -24,27 +24,23 @@
 
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerContainer;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
-import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -55,13 +51,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.Random;
 
 public class EnigmaticFortunizerTile extends TileEntityBase implements ITickableTileEntity, INamedContainerProvider {
@@ -99,7 +93,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   private final LazyOptional<EEItemStackHandler> lazyItemStorage = LazyOptional.of(() -> itemSH);
 
   public EnigmaticFortunizerTile() {
-    super(BlockHandler.ENIGMATIC_FORTUNIZER_TILE.get());
+    super(EERegistrar.ENIGMATIC_FORTUNIZER_TILE.get());
   }
 
   @Override
