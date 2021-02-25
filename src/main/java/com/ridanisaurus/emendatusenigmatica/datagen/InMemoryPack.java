@@ -49,7 +49,7 @@ public class InMemoryPack implements IResourcePack {
     @Override
     public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
         List<ResourceLocation> result = new ArrayList<>();
-        getChildResourceLocations(result, 1, maxDepthIn, filterIn, path.resolve(type.getDirectoryName() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
+        getChildResourceLocations(result, 0, maxDepthIn, filterIn, path.resolve(type.getDirectoryName() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
         return result;
     }
 
@@ -58,15 +58,20 @@ public class InMemoryPack implements IResourcePack {
             return;
         }
         try {
+            if (!Files.exists(current) || !Files.isDirectory(current)){
+                return;
+            }
             Stream<Path> list = Files.list(current);
-            for (Path child : list.filter(x -> filter.test(x.toString())).collect(Collectors.toList())) {
+            for (Path child : list.collect(Collectors.toList())) {
                 if (!Files.isDirectory(child)) {
                     result.add(new ResourceLocation(currentRLNS, currentRLPath + "/" + child.getFileName()));
-                    return;
+                    continue;
                 }
                 getChildResourceLocations(result, depth + 1, maxDepth, filter, child, currentRLNS, currentRLPath + "/" + child.getFileName());
             }
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
     }
 
 
