@@ -1,8 +1,0 @@
-{
-  "id": "quark_slate",
-  "baseTexture": "quark:block/slate",
-  "suffix": "slate",
-  "fillerType": "quark:slate",
-  "localizedName": "Slate",
-  "modid": "quark"
-}

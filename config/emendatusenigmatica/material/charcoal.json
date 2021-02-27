@@ -1,9 +1,0 @@
-{
-  "id": "charcoal",
-  "localisedName": "Charcoal",
-  "processedType": [
-    "dust"
-  ],
-  "isBurnable": true,
-  "burnTime": 1600
-}

@@ -1,8 +1,0 @@
-{
-  "id": "quark_jasper",
-  "baseTexture": "quark:block/jasper",
-  "suffix": "jasper",
-  "fillerType": "quark:jasper",
-  "localizedName": "Jasper",
-  "modid": "quark"
-}

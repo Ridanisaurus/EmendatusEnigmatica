@@ -1,8 +1,0 @@
-{
-  "id": "minecraft_gravel",
-  "baseTexture": "minecraft:block/gravel",
-  "suffix": "gravel",
-  "fillerType": "minecraft:gravel",
-  "localizedName": "Gravel",
-  "modid": "minecraft"
-}

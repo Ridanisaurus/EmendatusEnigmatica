@@ -1,8 +1,0 @@
-{
-  "id": "minecraft_sand",
-  "baseTexture": "minecraft:block/sand",
-  "suffix": "sand",
-  "fillerType": "minecraft:sand",
-  "localizedName": "Sand",
-  "modid": "minecraft"
-}

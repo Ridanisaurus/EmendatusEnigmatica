@@ -1,8 +1,0 @@
-{
-  "id": "byg_mossy_stone",
-  "baseTexture": "byg:block/mossy_stone",
-  "suffix": "mossy_stone",
-  "fillerType": "byg:mossy_stone",
-  "localizedName": "Mossy Stone",
-  "modid": "byg"
-}

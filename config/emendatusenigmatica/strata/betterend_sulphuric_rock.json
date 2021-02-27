@@ -1,8 +1,0 @@
-{
-  "id": "betterend_sulphuric_rock",
-  "baseTexture": "betterendforge:block/sulphuric_rock",
-  "suffix": "sulphuric_rock",
-  "fillerType": "betterendforge:sulphuric_rock",
-  "localizedName": "Sulphuric Rock",
-  "modid": "betterendforge"
-}

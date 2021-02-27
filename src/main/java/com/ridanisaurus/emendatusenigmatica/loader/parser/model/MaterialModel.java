@@ -37,9 +37,10 @@ public class MaterialModel {
   private final String defaultItemDrop;
   private final int dropMin;
   private final int dropMax;
+  private final boolean useCustomWorldGen;
   private final List<MaterialDimModel> dimensions;
 
-  public MaterialModel(String id, String localisedName, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, List<MaterialDimModel> dimensions) {
+  public MaterialModel(String id, String localisedName, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, boolean useCustomWorldGen, List<MaterialDimModel> dimensions) {
 
     this.id = id;
     this.localisedName = localisedName;
@@ -51,6 +52,7 @@ public class MaterialModel {
     this.defaultItemDrop = defaultItemDrop;
     this.dropMin = dropMin;
     this.dropMax = dropMax;
+    this.useCustomWorldGen = useCustomWorldGen;
     this.dimensions = dimensions;
   }
 
@@ -96,5 +98,9 @@ public class MaterialModel {
 
   public int getBurnTime() {
     return burnTime;
+  }
+
+  public boolean isUseCustomWorldGen() {
+    return useCustomWorldGen;
   }
 }

@@ -1,8 +1,0 @@
-{
-  "id": "minecraft_diorite",
-  "baseTexture": "minecraft:block/diorite",
-  "suffix": "diorite",
-  "fillerType": "minecraft:diorite",
-  "localizedName": "Diorite",
-  "modid": "minecraft"
-}

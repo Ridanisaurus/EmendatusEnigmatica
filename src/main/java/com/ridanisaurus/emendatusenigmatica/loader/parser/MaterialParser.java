@@ -50,6 +50,7 @@ public class MaterialParser {
     String defaultItemDrop = "";
     int dropMin = 1;
     int dropMax = 1;
+    boolean useCustomWorldGen = false;
     List<MaterialDimModel> dimensions = new ArrayList<>();
     MaterialPropertiesModel materialProperties = new MaterialPropertiesModel(0, 0, 0);
 
@@ -67,10 +68,15 @@ public class MaterialParser {
       int harvestLevel = propertiesJson.get("harvestLevel").getAsInt();
 
       materialProperties = new MaterialPropertiesModel(hardness, resistance, harvestLevel);
+
       if(oreBlockType.equals("gem")) {
         defaultItemDrop = object.get("defaultItemDrop").getAsString();
         dropMin = object.get("dropMin").getAsInt();
         dropMax = object.get("dropMax").getAsInt();
+      }
+
+      if(object.has("useCustomWorldGen")) {
+        useCustomWorldGen = object.get("useCustomWorldGen").getAsBoolean();
       }
 
       JsonArray dimJson = object.getAsJsonArray("dimensions");
@@ -85,6 +91,6 @@ public class MaterialParser {
         dimensions.add(new MaterialDimModel(dim, size, count, baseline, spread));
       }
     }
-    return new MaterialModel(id, localisedName, processedType, isBurnable, burnTime, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, dimensions);
+    return new MaterialModel(id, localisedName, processedType, isBurnable, burnTime, oreBlockType, materialProperties, defaultItemDrop, dropMin, dropMax, useCustomWorldGen, dimensions);
   }
 }
