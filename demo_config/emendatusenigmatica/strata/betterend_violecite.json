@@ -1,0 +1,8 @@
+{
+  "id": "betterend_violecite",
+  "baseTexture": "betterendforge:block/violecite",
+  "suffix": "violecite",
+  "fillerType": "betterendforge:violecite",
+  "localizedName": "Violecite",
+  "modid": "betterendforge"
+}

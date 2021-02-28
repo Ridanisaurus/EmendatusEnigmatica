@@ -1,0 +1,8 @@
+{
+  "id": "byg_brimstone",
+  "baseTexture": "byg:block/brimstone",
+  "suffix": "brimstone",
+  "fillerType": "byg:brimstone",
+  "localizedName": "Brimstone",
+  "modid": "byg"
+}

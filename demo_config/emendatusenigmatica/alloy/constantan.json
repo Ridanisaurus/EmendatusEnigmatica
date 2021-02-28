@@ -1,0 +1,13 @@
+{
+  "id": "constantan",
+  "localisedName": "Constantan",
+  "processedType": [
+	"block",
+	"ingot",
+	"nugget",
+	"dust",
+	"plate",
+	"gear",
+	"rod"
+  ]
+}

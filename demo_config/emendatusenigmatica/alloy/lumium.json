@@ -1,0 +1,13 @@
+{
+  "id": "lumium",
+  "localisedName": "Lumium",
+  "processedType": [
+	"block",
+	"ingot",
+	"nugget",
+	"dust",
+	"plate",
+	"gear",
+	"rod"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "uranium",
+  "localisedName": "Uranium",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "chunk",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "isBurnable": true,
+  "burnTime": 3200,
+  "oreBlockType": "metal",
+  "properties": {
+      "hardness": 3.0,
+      "resistance": 3.0,
+      "harvestLevel": 1
+  },
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 6,
+      "count": 6,
+      "baseline": 12,
+      "spread": 8
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 6,
+      "count": 6,
+      "baseline": 12,
+      "spread": 8
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 6,
+      "count": 6,
+      "baseline": 12,
+      "spread": 8
+    }]
+}

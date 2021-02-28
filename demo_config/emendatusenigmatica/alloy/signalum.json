@@ -1,0 +1,13 @@
+{
+  "id": "signalum",
+  "localisedName": "Signalum",
+  "processedType": [
+	"block",
+	"ingot",
+	"nugget",
+	"dust",
+	"plate",
+	"gear",
+	"rod"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "apatite",
+  "localisedName": "Apatite",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "gem",
+    "chunk",
+    "dust"
+  ],
+  "oreBlockType": "gem",
+  "defaultItemDrop": "emendatusenigmatica:apatite_gem",
+  "dropMin": 4,
+  "dropMax": 9,
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  },
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 22,
+      "count": 2,
+      "baseline": 96,
+      "spread": 32
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 22,
+      "count": 2,
+      "baseline": 96,
+      "spread": 32
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 22,
+      "count": 2,
+      "baseline": 96,
+      "spread": 32
+    }]
+}

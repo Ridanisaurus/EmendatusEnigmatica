@@ -1,0 +1,41 @@
+{
+  "id": "fluorite",
+  "localisedName": "Fluorite",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "gem",
+    "chunk",
+    "dust"
+  ],
+  "oreBlockType": "gem",
+  "defaultItemDrop": "emendatusenigmatica:fluorite_gem",
+  "dropMin": 2,
+  "dropMax": 4,
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  },
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 12,
+      "count": 6,
+      "baseline": 16,
+      "spread": 16
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 12,
+      "count": 6,
+      "baseline": 16,
+      "spread": 16
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 12,
+      "count": 6,
+      "baseline": 16,
+      "spread": 16
+    }]
+}

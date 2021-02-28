@@ -1,0 +1,42 @@
+{
+  "id": "bitumen",
+  "localisedName": "Bitumen",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "gem",
+    "chunk"
+  ],
+  "isBurnable": true,
+  "burnTime": 1600,
+  "oreBlockType": "gem",
+  "defaultItemDrop": "emendatusenigmatica:bitumen_gem",
+  "dropMin": 2,
+  "dropMax": 6,
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  },
+  "dimensions": [{
+      "dim": "minecraft:overworld",
+      "size": 18,
+      "count": 2,
+      "baseline": 100,
+      "spread": 60
+    },
+    {
+      "dim": "minecraft:the_nether",
+      "size": 18,
+      "count": 2,
+      "baseline": 100,
+      "spread": 60
+    },
+    {
+      "dim": "minecraft:the_end",
+      "size": 18,
+      "count": 2,
+      "baseline": 100,
+      "spread": 60
+    }]
+}

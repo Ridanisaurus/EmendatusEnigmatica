@@ -1,0 +1,8 @@
+{
+  "id": "quark_marble",
+  "baseTexture": "quark:block/marble",
+  "suffix": "marble",
+  "fillerType": "quark:marble",
+  "localizedName": "Marble",
+  "modid": "quark"
+}
