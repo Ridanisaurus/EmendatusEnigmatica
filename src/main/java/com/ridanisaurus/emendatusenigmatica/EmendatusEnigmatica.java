@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -76,6 +77,7 @@ public class EmendatusEnigmatica {
         instance = this;
         MemoryDataGeneratorFactory.init();
         EELoader.load();
+        EEDeposits.load();
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockHandler.BLOCKS.register(modEventBus);
@@ -111,6 +113,7 @@ public class EmendatusEnigmatica {
 
     public void biomesHigh(final BiomeLoadingEvent event) {
         //WorldGenHandler.addEEOres(event.getGeneration(), event);
+        EEDeposits.generateBiomes(event);
     }
 
     private void init(final FMLConstructModEvent event) {

@@ -1,0 +1,8 @@
+{
+  "id": "minecraft_soul_soil",
+  "baseTexture": "minecraft:block/soul_soil",
+  "suffix": "soul_soil",
+  "fillerType": "minecraft:soul_soil",
+  "localizedName": "Soul Soil",
+  "modid": "minecraft"
+}

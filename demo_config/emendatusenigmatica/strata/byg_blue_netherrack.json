@@ -1,0 +1,8 @@
+{
+  "id": "byg_blue_netherrack",
+  "baseTexture": "byg:block/blue_netherrack",
+  "suffix": "blue_netherrack",
+  "fillerType": "byg:blue_netherrack",
+  "localizedName": "Blue Netherrack",
+  "modid": "byg"
+}

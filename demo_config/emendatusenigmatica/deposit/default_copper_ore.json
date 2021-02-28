@@ -1,0 +1,13 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "config": {
+    "block": "emendatusenigmatica:copper_ore",
+    "chance": 20,
+    "size": 7,
+    "minYLevel": 0,
+    "maxYLevel": 64
+  }
+}

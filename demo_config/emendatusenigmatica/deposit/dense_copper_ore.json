@@ -1,0 +1,26 @@
+{
+  "type": "emendatusenigmatica:custom_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "config": {
+    "blocks": [
+      {
+        "block": "minecraft:diamond_block",
+        "weight": 10
+      },
+      {
+        "tag": "forge:storage_blocks",
+        "weight": 50
+      },
+      {
+        "block": "minecraft:granite",
+        "weight": 20
+      }
+    ],
+    "chance": 20,
+    "density": 10,
+    "minYLevel": 7,
+    "maxYLevel": 100
+  }
+}

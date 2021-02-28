@@ -1,0 +1,13 @@
+{
+  "id": "brass",
+  "localisedName": "Brass",
+  "processedType": [
+	"block",
+	"ingot",
+	"nugget",
+	"dust",
+	"plate",
+	"gear",
+	"rod"
+  ]
+}

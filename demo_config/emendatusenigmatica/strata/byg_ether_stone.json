@@ -1,0 +1,8 @@
+{
+  "id": "byg_ether_stone",
+  "baseTexture": "byg:block/ether_stone",
+  "suffix": "ether_stone",
+  "fillerType": "byg:ether_stone",
+  "localizedName": "Ether Stone",
+  "modid": "byg"
+}

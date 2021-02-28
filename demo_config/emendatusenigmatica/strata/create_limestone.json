@@ -1,0 +1,8 @@
+{
+  "id": "create_limestone",
+  "baseTexture": "create:block/palettes/limestone/plain",
+  "suffix": "limestone",
+  "fillerType": "create:limestone",
+  "localizedName": "Limestone",
+  "modid": "create"
+}

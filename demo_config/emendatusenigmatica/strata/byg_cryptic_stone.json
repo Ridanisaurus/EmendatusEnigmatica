@@ -1,0 +1,8 @@
+{
+  "id": "byg_cryptic_stone",
+  "baseTexture": "byg:block/cryptic_stone",
+  "suffix": "cryptic_stone",
+  "fillerType": "byg:cryptic_stone",
+  "localizedName": "Cryptic Stone",
+  "modid": "byg"
+}

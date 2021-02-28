@@ -1,0 +1,8 @@
+{
+  "id": "astral_sorcery_raw_marble",
+  "baseTexture": "astralsorcery:block/marble_raw",
+  "suffix": "raw_marble",
+  "fillerType": "astralsorcery:marble_raw",
+  "localizedName": "Marble",
+  "modid": "astral_sorcery"
+}

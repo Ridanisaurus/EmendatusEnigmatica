@@ -1,0 +1,8 @@
+{
+  "id": "minecraft_stone",
+  "baseTexture": "minecraft:block/stone",
+  "suffix": "stone",
+  "fillerType": "minecraft:stone",
+  "localizedName": "Stone",
+  "modid": "minecraft"
+}
