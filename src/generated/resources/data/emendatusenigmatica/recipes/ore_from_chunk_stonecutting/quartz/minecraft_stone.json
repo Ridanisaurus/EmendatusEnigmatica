@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:quartz_chunk"
+  },
+  "result": "emendatusenigmatica:quartz_ore",
+  "count": 1
+}

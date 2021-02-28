@@ -21,7 +21,7 @@ public enum Materials {
   EMERALD("emerald", "Emerald", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, OreEmerald::new, ItemBase::new, Source.VANILLA, drop(() -> Items.EMERALD), 156, 56, 3, 4),
   LAPIS("lapis", "Lapis Lazuli", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, OreLapis::new, ItemBase::new, Source.VANILLA, drop(() -> Items.LAPIS_LAZULI, 4, 9), 8, 8, 4, 7),
   REDSTONE("redstone", "Redstone", new String[] {"Ore", "Chunk"}, BlockBase::new, OreRedstone::new, ItemBase::new, Source.VANILLA, drop(() -> Items.REDSTONE, 4, 5), 8, 8, 8, 11),
-  QUARTZ("quartz", "Quartz", new String[] {"Dust", "Gear"}, BlockBase::new, ItemBase::new, Source.VANILLA),
+  QUARTZ("quartz", "Nether Quartz", new String[] {"Ore", "Chunk", "Dust", "Gear"}, BlockBase::new, OreNetherQuartz::new, ItemBase::new, Source.VANILLA, drop(() -> Items.QUARTZ), 60, 50, 16, 14),
 
   COPPER("copper", "Copper", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, OreCopper::new, ItemBase::new, Source.MODDED, 52, 8, 17, 7),
   ALUMINUM("aluminum", "Aluminum", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, OreAluminum::new, ItemBase::new, Source.MODDED, 60, 10, 8, 5),
