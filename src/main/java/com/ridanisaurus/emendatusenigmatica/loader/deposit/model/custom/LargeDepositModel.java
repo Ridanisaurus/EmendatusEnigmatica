@@ -6,17 +6,17 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDe
 
 import java.util.List;
 
-public class CustomDepositModel extends CommonDepositModelBase {
-    public static final Codec<CustomDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class LargeDepositModel extends CommonDepositModelBase {
+    public static final Codec<LargeDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.STRING.fieldOf("type").forGetter(it -> it.type),
             Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
             Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
             CustomDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
-    ).apply(x, CustomDepositModel::new));
+    ).apply(x, LargeDepositModel::new));
 
     private final CustomDepositConfigModel config;
 
-    public CustomDepositModel(String type, List<String> dimensions, String name, CustomDepositConfigModel config) {
+    public LargeDepositModel(String type, List<String> dimensions, String name, CustomDepositConfigModel config) {
         super(type, dimensions, name);
         this.config = config;
     }

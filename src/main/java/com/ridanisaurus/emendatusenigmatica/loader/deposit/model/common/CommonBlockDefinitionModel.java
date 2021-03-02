@@ -36,4 +36,8 @@ public class CommonBlockDefinitionModel {
     public String getTag() {
         return tag;
     }
+
+    public String getMaterial() {
+        return material;
+    }
 }
