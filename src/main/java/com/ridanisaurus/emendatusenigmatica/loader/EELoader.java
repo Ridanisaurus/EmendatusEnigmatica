@@ -39,7 +39,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EELoader {
   private static final StrataParser STRATA_PARSER = new StrataParser();
@@ -47,6 +49,7 @@ public class EELoader {
   private static final AlloyParser ALLOY_PARSER = new AlloyParser();
   public static final List<MaterialModel> MATERIALS = new ArrayList<>();
   public static final List<StrataModel> STRATA = new ArrayList<>();
+  public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
 
   public static void load() {
     // Set the path to the defined folder
@@ -81,6 +84,7 @@ public class EELoader {
       StrataModel strataModel = STRATA_PARSER.parse(jsonObject);
       strataModels.add(strataModel);
       STRATA.add(strataModel);
+      STRATA_INDEX_BY_FILLER.put(strataModel.getFillerType().toString(), STRATA.size() - 1);
     }
 
     ArrayList<MaterialModel> materialModels = new ArrayList<>();

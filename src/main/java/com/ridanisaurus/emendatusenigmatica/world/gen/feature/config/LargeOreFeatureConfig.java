@@ -6,13 +6,13 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRu
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.template.RuleTest;
 
-public class CustomOreFeatureConfig implements IFeatureConfig {
-    public static final Codec<CustomOreFeatureConfig> CODEC = RecordCodecBuilder.create((x) -> x.group(
+public class LargeOreFeatureConfig implements IFeatureConfig {
+    public static final Codec<LargeOreFeatureConfig> CODEC = RecordCodecBuilder.create((x) -> x.group(
             MultiStrataRuleTest.CODEC.fieldOf("target").forGetter(it -> (MultiStrataRuleTest) it.target)
-    ).apply(x, CustomOreFeatureConfig::new));
+    ).apply(x, LargeOreFeatureConfig::new));
     public final RuleTest target;
 
-    public CustomOreFeatureConfig(RuleTest target) {
+    public LargeOreFeatureConfig(RuleTest target) {
         this.target = target;
     }
 }
