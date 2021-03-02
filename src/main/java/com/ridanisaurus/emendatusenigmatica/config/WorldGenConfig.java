@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WorldGenConfig {
-
+/*
   public static class Common {
 
     public final OreConfigs ORES;
@@ -397,13 +397,13 @@ public class WorldGenConfig {
 
   @SubscribeEvent
   public static void onReload(final ModConfig.Reloading event) {
-    /*final ModConfig config = event.getConfig();
+    *//*final ModConfig config = event.getConfig();
     // Rebake the configs when they change
     if (config.getSpec() == COMMON_SPEC) {
       COMMON.bake();
       EmendatusEnigmatica.LOGGER.debug("Baked common configs on Load");
       // (re-)make ore features on config load
       WorldGenHandler.oreFeatures();
-    }*/
-  }
+    }*//*
+  }*/
 }
