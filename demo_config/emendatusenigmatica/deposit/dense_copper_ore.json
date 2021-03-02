@@ -3,6 +3,7 @@
   "dimensions": [
     "minecraft:overworld"
   ],
+  "registryName": "custom_ore_copper_deposit",
   "config": {
     "blocks": [
       {
@@ -18,9 +19,12 @@
         "weight": 20
       }
     ],
-    "chance": 20,
-    "density": 10,
-    "minYLevel": 7,
-    "maxYLevel": 100
+    "fillerTypes": [
+      "minecraft_stone"
+    ],
+    "chance": 100,
+    "density": 100,
+    "minYLevel": 32,
+    "maxYLevel": 64
   }
 }

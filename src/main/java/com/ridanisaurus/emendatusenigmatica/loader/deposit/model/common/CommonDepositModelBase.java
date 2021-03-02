@@ -5,11 +5,12 @@ import java.util.List;
 public class CommonDepositModelBase {
     protected String type;
     protected List<String> dimensions;
+    protected String name;
 
-    public CommonDepositModelBase(String type, List<String> dimensions) {
+    public CommonDepositModelBase(String type, List<String> dimensions, String name) {
         this.type = type;
-
         this.dimensions = dimensions;
+        this.name = name;
     }
 
     public List<String> getDimensions() {
@@ -18,5 +19,9 @@ public class CommonDepositModelBase {
 
     public String getType() {
         return type;
+    }
+
+    public String getName() {
+        return name;
     }
 }
