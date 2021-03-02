@@ -1,13 +1,19 @@
 {
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimensions": [
-    "minecraft:overworld"
+    "minecraft:the_nether"
   ],
+  "registryName": "nether_vanilla_ore_copper_deposit",
   "config": {
-    "block": "emendatusenigmatica:copper_ore",
+    "material": "copper",
+    "fillerTypes": [
+      "minecraft_basalt",
+      "minecraft_netherrack",
+      "minecraft_soul_soil"
+    ],
     "chance": 20,
     "size": 7,
-    "minYLevel": 0,
-    "maxYLevel": 64
+    "minYLevel": 30,
+    "maxYLevel": 94
   }
 }
