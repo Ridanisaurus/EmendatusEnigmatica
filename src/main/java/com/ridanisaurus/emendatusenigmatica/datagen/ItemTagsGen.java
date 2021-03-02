@@ -144,6 +144,20 @@ public class ItemTagsGen extends ItemTagsProvider {
         getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/mana").toString()))
                 .add(EERegistrar.gemMap.get(material.getId()).get());
       }
+      // AE2 Tags
+      if(material.getId().equals("fluix")) {
+        getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "crystals/fluix").toString()))
+                .add(EERegistrar.gemMap.get(material.getId()).get());
+        getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/fluix").toString()))
+                .add(EERegistrar.dustMap.get(material.getId()).get());
+      }
+      if(material.getId().equals("nether_quartz")) {
+        getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/nether_quartz_dust").toString()))
+                .add(EERegistrar.dustMap.get(material.getId()).get());
+        getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.AE2_TAG, "dusts/quartz").toString()))
+                .add(EERegistrar.dustMap.get(material.getId()).get());
+      }
+
       // Potassium Nitrate Compact
       if(material.getId().equals("potassium_nitrate")) {
         getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/niter").toString()))

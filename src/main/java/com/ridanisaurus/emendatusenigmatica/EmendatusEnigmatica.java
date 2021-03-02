@@ -92,7 +92,7 @@ public class EmendatusEnigmatica {
         modEventBus.addListener(this::clientEvents);
 
         // Register World Gen Config
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
         // Setup biome loading event for worldgen!
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);

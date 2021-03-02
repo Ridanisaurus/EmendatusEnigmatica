@@ -37,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
+/*
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
@@ -166,4 +167,4 @@ public class JEIPlugin implements IModPlugin {
       });
     }
   }
-}
+}*/

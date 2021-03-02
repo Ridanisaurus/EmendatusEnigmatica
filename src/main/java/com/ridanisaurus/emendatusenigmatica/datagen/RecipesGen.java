@@ -36,6 +36,7 @@ import net.minecraft.data.*;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.Tags;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -57,7 +58,7 @@ public class RecipesGen extends RecipeProvider {
             .key('P', EETags.MATERIAL_PLATE.apply("iron"))
             .key('G', EETags.MATERIAL_GEAR.apply("gold"))
             .key('D', EETags.MATERIAL_GEAR.apply("diamond"))
-            .key('N', EETags.MATERIAL_INGOT.apply("netherrite"))
+            .key('N', EETags.MATERIAL_INGOT.apply("netherite"))
             .key('E', EETags.MATERIAL_GEAR.apply("emerald"))
             .key('R', EETags.MATERIAL_ROD.apply("enderium"))
             .key('B', EETags.MATERIAL_STORAGE_BLOCK.apply("iron"))
@@ -71,7 +72,7 @@ public class RecipesGen extends RecipeProvider {
             .patternLine("S  ")
             .key('I', EETags.MATERIAL_INGOT.apply("iron"))
             .key('N', EETags.MATERIAL_NUGGET.apply("iron"))
-            .key('S', EETags.MATERIAL_ROD.apply("wood"))
+            .key('S', EETags.MATERIAL_ROD.apply("wooden"))
             .setGroup("emendatusenigmatica")
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer);

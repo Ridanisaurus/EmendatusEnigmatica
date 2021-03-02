@@ -7,16 +7,16 @@
   "config": {
     "blocks": [
       {
-        "block": "minecraft:diamond_block",
+        "block": "emendatusenigmatica:lead_ore",
         "weight": 10
       },
       {
-        "tag": "forge:storage_blocks",
-        "weight": 50
+        "block": "emdnatusenigmatica:uranium_ore",
+        "weight": 20
       },
       {
-        "block": "minecraft:granite",
-        "weight": 20
+        "block": "emdnatusenigmatica:cinnabar_ore",
+        "weight": 50
       }
     ],
     "fillerTypes": [
