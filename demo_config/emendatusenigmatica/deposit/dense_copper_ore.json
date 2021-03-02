@@ -7,24 +7,24 @@
   "config": {
     "blocks": [
       {
-        "block": "minecraft:diamond_block",
+        "material": "copper",
         "weight": 10
       },
       {
-        "tag": "forge:storage_blocks",
-        "weight": 50
-      },
-      {
-        "block": "minecraft:granite",
-        "weight": 20
+        "material": "gold",
+        "weight": 3
       }
     ],
     "fillerTypes": [
-      "minecraft_stone"
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite"
     ],
-    "chance": 100,
-    "density": 100,
-    "minYLevel": 32,
-    "maxYLevel": 64
+    "radius": 10,
+    "chance": 5,
+    "density": 60,
+    "minYLevel": 0,
+    "maxYLevel": 256
   }
 }
