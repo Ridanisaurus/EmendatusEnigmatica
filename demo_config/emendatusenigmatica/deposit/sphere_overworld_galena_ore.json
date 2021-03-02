@@ -1,17 +1,17 @@
 {
-  "type": "emendatusenigmatica:custom_deposit",
+  "type": "emendatusenigmatica:sphere_deposit",
   "dimensions": [
     "minecraft:overworld"
   ],
-  "registryName": "custom_ore_copper_deposit",
+  "registryName": "sphere_overworld_galena_ore_deposit",
   "config": {
     "blocks": [
       {
-        "material": "copper",
+        "material": "lead",
         "weight": 10
       },
       {
-        "material": "gold",
+        "material": "silver",
         "weight": 3
       }
     ],
@@ -24,7 +24,7 @@
     "radius": 10,
     "chance": 5,
     "density": 60,
-    "minYLevel": 0,
-    "maxYLevel": 256
+    "minYLevel": 32,
+    "maxYLevel": 64
   }
 }

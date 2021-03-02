@@ -1,0 +1,18 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "registryName": "vanilla_overworld_uranium_ore_deposit",
+  "config": {
+    "material": "uranium",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite"
+    ],
+    "chance": 10,
+    "size": 8,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

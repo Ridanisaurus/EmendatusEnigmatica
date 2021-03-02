@@ -7,7 +7,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.LargeDep
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.LargeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tags.BlockTags;
@@ -24,13 +24,13 @@ import org.spongepowered.noise.module.source.Spheres;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class LargeOreFeature extends Feature<LargeOreFeatureConfig> {
+public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private final Spheres noise;
     private boolean hasSeeded = false;
     private LargeDepositModel model;
     private ArrayList<CommonBlockDefinitionModel> blocks;
 
-    public LargeOreFeature(Codec<LargeOreFeatureConfig> codec, LargeDepositModel model) {
+    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, LargeDepositModel model) {
         super(codec);
         this.model = model;
         noise = new Spheres();
@@ -42,7 +42,7 @@ public class LargeOreFeature extends Feature<LargeOreFeatureConfig> {
     }
 
     @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, LargeOreFeatureConfig config) {
+    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
         if (!hasSeeded) {
             hasSeeded = true;
         }
@@ -112,7 +112,7 @@ public class LargeOreFeature extends Feature<LargeOreFeatureConfig> {
     }
 
     private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
-            pos, LargeOreFeatureConfig config) {
+            pos, SphereOreFeatureConfig config) {
         if (!config.target.test(reader.getBlockState(pos), rand)) {
             return;
         }

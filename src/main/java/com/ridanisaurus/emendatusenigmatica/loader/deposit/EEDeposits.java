@@ -3,11 +3,10 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.CustomDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
-import org.omg.PortableInterceptor.ACTIVE;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -23,7 +22,7 @@ public class EEDeposits {
 
     public static void initProcessors() {
         DEPOSIT_PROCESSORS.put("emendatusenigmatica:vanilla_deposit", VanillaDepositProcessor::new);
-        DEPOSIT_PROCESSORS.put("emendatusenigmatica:custom_deposit", CustomDepositProcessor::new);
+        DEPOSIT_PROCESSORS.put("emendatusenigmatica:sphere_deposit", SphereDepositProcessor::new);
     }
 
     public static void load(){
