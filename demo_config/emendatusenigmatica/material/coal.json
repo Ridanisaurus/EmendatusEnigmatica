@@ -4,8 +4,11 @@
   "processedType": [
     "ore",
     "chunk",
+    "cluster",
     "dust"
   ],
+  "isBurnable": true,
+  "burnTime": 1600,
   "oreBlockType": "gem",
   "defaultItemDrop": "minecraft:coal",
   "dropMin": 1,
@@ -14,26 +17,5 @@
     "hardness": 3.0,
     "resistance": 3.0,
     "harvestLevel": 1
-  },
-  "dimensions": [{
-      "dim": "minecraft:overworld",
-      "size": 17,
-      "count": 20,
-      "baseline": 60,
-      "spread": 60
-    },
-    {
-      "dim": "minecraft:the_nether",
-      "size": 17,
-      "count": 20,
-      "baseline": 60,
-      "spread": 60
-    },
-    {
-      "dim": "minecraft:the_end",
-      "size": 17,
-      "count": 20,
-      "baseline": 60,
-      "spread": 60
-    }]
+  }
 }

@@ -2,7 +2,7 @@
   "id": "fluix",
   "localisedName": "Fluix",
   "processedType": [
-	"block",
+	"storage_block",
 	"gem",
 	"dust",
 	"4x_block_recipe"

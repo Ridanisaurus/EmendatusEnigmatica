@@ -301,6 +301,26 @@ public class RecipesGen extends RecipeProvider {
                   .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.getId()));
         }
 
+        // Cluster from Chunk
+        if (processedType.contains("chunk") && processedType.contains("cluster")) {
+          ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.clusterMap.get(material.getId()).get(), 1)
+                  .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                  .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                  .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                  .addIngredient(EERegistrar.chunkMap.get(material.getId()).get())
+                  .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                  .setGroup(Reference.MOD_ID)
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "cluster_from_chunk/" + material.getId()));
+        }
+      // Chunk from Cluster
+      if (processedType.contains("cluster") && processedType.contains("chunk")) {
+        ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.chunkMap.get(material.getId()).get(), 4)
+                .addIngredient(EERegistrar.clusterMap.get(material.getId()).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "chunk_from_cluster/" + material.getId()));
+      }
+
         // Dust from Chunk
         if (processedType.contains("chunk") && processedType.contains("dust")) {
           ShapelessRecipeBuilder.shapelessRecipe(EERegistrar.dustMap.get(material.getId()).get(), 1)
@@ -606,11 +626,11 @@ public class RecipesGen extends RecipeProvider {
                   .addIngredient(EETags.MATERIAL_DUST.apply("lead"))
                   .addIngredient(EETags.MATERIAL_DUST.apply("lead"))
                   .addIngredient(EETags.MATERIAL_DUST.apply("diamond"))
-                  .addIngredient(EETags.MATERIAL_GEM.apply("ender"))
-                  .addIngredient(EETags.MATERIAL_GEM.apply("ender"))
+                  .addIngredient(EETags.MATERIAL_NONE.apply("ender_pearls"))
+                  .addIngredient(EETags.MATERIAL_NONE.apply("ender_pearls"))
                   .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                   .setGroup(Reference.MOD_ID)
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/signalum"));
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/enderium"));
         }
 
         // Dust from Ore

@@ -126,6 +126,12 @@ public class ItemModelsGen extends ItemModelProvider {
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_chunk"));
         }
+        // Cluster
+        if (processedType.equals("cluster")) {
+          getBuilder(material.getId() + "_cluster")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_cluster"));
+        }
       }
     }
 

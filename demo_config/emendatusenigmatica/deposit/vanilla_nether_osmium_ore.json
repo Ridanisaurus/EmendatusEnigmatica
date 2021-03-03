@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimensions": [
+    "minecraft:the_nether"
+  ],
+  "registryName": "vanilla_nether_osmium_ore_deposit",
+  "config": {
+    "material": "osmium",
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_basalt",
+      "minecraft_blackstone"
+    ],
+    "chance": 10,
+    "size": 16,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

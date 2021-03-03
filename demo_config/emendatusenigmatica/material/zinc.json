@@ -7,6 +7,7 @@
     "ingot",
     "nugget",
     "chunk",
+    "cluster",
     "dust",
     "plate",
     "gear",
@@ -17,26 +18,5 @@
       "hardness": 3.0,
       "resistance": 3.0,
       "harvestLevel": 1
-  },
-  "dimensions": [{
-      "dim": "minecraft:overworld",
-      "size": 5,
-      "count": 9,
-      "baseline": 42,
-      "spread": 8
-    },
-    {
-      "dim": "minecraft:the_nether",
-      "size": 5,
-      "count": 9,
-      "baseline": 42,
-      "spread": 8
-    },
-    {
-      "dim": "minecraft:the_end",
-      "size": 5,
-      "count": 9,
-      "baseline": 42,
-      "spread": 8
-    }]
+  }
 }

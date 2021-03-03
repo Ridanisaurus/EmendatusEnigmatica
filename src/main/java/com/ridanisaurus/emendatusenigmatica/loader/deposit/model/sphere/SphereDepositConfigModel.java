@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom;
+package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

@@ -6,6 +6,7 @@
     "storage_block",
     "gem",
     "chunk",
+    "cluster",
     "4x_block_recipe"
   ],
   "oreBlockType": "gem",
@@ -16,26 +17,5 @@
     "hardness": 3.0,
     "resistance": 3.0,
     "harvestLevel": 1
-  },
-  "dimensions": [{
-      "dim": "minecraft:overworld",
-      "size": 4,
-      "count": 8,
-      "baseline": 16,
-      "spread": 16
-    },
-    {
-      "dim": "minecraft:the_nether",
-      "size": 4,
-      "count": 8,
-      "baseline": 16,
-      "spread": 16
-    },
-    {
-      "dim": "minecraft:the_end",
-      "size": 4,
-      "count": 8,
-      "baseline": 16,
-      "spread": 16
-    }]
+  }
 }

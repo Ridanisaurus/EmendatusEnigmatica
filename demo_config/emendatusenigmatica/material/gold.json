@@ -4,6 +4,7 @@
   "processedType": [
     "ore",
     "chunk",
+    "cluster",
     "dust",
     "plate",
     "gear",
@@ -14,26 +15,5 @@
       "hardness": 3.0,
       "resistance": 3.0,
       "harvestLevel": 1
-  },
-  "dimensions": [{
-      "dim": "minecraft:overworld",
-      "size": 8,
-      "count": 7,
-      "baseline": 16,
-      "spread": 16
-    },
-    {
-      "dim": "minecraft:the_nether",
-      "size": 8,
-      "count": 7,
-      "baseline": 16,
-      "spread": 16
-    },
-    {
-      "dim": "minecraft:the_end",
-      "size": 8,
-      "count": 7,
-      "baseline": 16,
-      "spread": 16
-    }]
+  }
 }

@@ -1,0 +1,40 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimensions": [
+    "minecraft:the_nether"
+  ],
+  "registryName": "geode_nether_vanilla_ore_deposit",
+  "config": {
+    "shellBlocks": [
+      {
+        "block": "minecraft:obsidian",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:stone",
+        "weight": 3
+      }
+    ],
+    "innerBlocks": [
+      {
+        "material": "diamond",
+        "weight": 10
+      },
+      {
+        "material": "emerald",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_soul_soil",
+      "minecraft_basalt",
+      "minecraft_blackstone"
+    ],
+    "chance": 25,
+    "chanceChunkSkip": 5,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

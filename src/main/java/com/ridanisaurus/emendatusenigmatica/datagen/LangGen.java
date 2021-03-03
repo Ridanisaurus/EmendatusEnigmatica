@@ -155,6 +155,19 @@ public class LangGen extends LanguageProvider {
           sb.append("Mana Chunk");
           add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
         }
+
+        // Clusters
+        if (processedType.equals("cluster") && !material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.getLocalisedName());
+          sb.append(" Cluster");
+          add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
+        }
+        if (processedType.equals("cluster") && material.getId().equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Mana Cluster");
+          add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
+        }
       }
     }
 

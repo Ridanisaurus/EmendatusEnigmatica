@@ -3,8 +3,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositConfigModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositModel;
 
 import java.util.List;
 

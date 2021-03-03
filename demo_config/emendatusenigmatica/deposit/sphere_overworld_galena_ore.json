@@ -21,10 +21,10 @@
       "minecraft_diorite",
       "minecraft_granite"
     ],
-    "radius": 10,
-    "chance": 5,
-    "density": 60,
+    "chance": 25,
+    "radius": 6,
+    "density": 50,
     "minYLevel": 32,
-    "maxYLevel": 64
+    "maxYLevel": 128
   }
 }

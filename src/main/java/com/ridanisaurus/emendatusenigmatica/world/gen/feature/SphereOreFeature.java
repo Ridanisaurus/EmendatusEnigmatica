@@ -3,7 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
@@ -20,7 +20,6 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.noise.module.source.Spheres;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,9 +40,6 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
 
     @Override
     public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
-
         if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
             return false;
         }
@@ -51,6 +47,9 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         if (rand.nextInt(100) > model.getConfig().getChance()) {
             return false;
         }
+
+        int yTop = model.getConfig().getMaxYLevel();
+        int yBottom = model.getConfig().getMinYLevel();
 
         int yPos = rand.nextInt(yTop);
         yPos = Math.max(yPos, yBottom);
@@ -98,15 +97,14 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                     if (y + yPos > yTop || y + yPos < yBottom) {
                         continue;
                     }
-
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ -y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ -y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos + y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + -y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos + -y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + -y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos + y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos + -y, pos.getZ() + -z), config);
                 }
             }
         }
