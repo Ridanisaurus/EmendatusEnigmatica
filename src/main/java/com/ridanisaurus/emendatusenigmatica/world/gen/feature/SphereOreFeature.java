@@ -52,6 +52,9 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             return false;
         }
 
+        int yPos = rand.nextInt(yTop);
+        yPos = Math.max(yPos, yBottom);
+
         int radius = model.getConfig().getRadius();
 
         radius += 0.5;
@@ -92,18 +95,18 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                         }
                         break forZ;
                     }
-                    if (y >= yTop || y <= yBottom) {
+                    if (y + yPos > yTop || y + yPos < yBottom) {
                         continue;
                     }
 
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ -y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ -y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ -y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ -y, pos.getZ() + z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x,  yPos+ -y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ y, pos.getZ() + -z), config);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos+ -y, pos.getZ() + -z), config);
                 }
             }
         }
