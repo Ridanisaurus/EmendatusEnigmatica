@@ -57,6 +57,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgeGears = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
     Builder<Item> forgeRods = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "rods").toString()));
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
+    Builder<Item> forgeClusters = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "clusters").toString()));
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
 
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
@@ -125,6 +126,14 @@ public class ItemTagsGen extends ItemTagsProvider {
         Builder<Item> oreTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.getId()).toString()));
         chunkTag.add(EERegistrar.chunkMap.get(material.getId()).get());
         oreTag.add(EERegistrar.chunkMap.get(material.getId()).get());
+      }
+      // Clusters
+      if(processedType.contains("cluster")) {
+        forgeClusters.add(EERegistrar.clusterMap.get(material.getId()).get());
+        Builder<Item> clusterTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "clusters/" + material.getId()).toString()));
+        Builder<Item> oreClusterTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores_cluster/" + material.getId()).toString()));
+        clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
+        oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
       }
       // Piglin Loved
       if(material.getId().equals("gold")) {

@@ -62,6 +62,7 @@ public class EERegistrar {
   public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 
   public static Map<String, RegistryObject<Item>> chunkMap = new HashMap<>();
+  public static Map<String, RegistryObject<Item>> clusterMap = new HashMap<>();
   public static Map<String, RegistryObject<Item>> ingotMap = new HashMap<>();
   public static Map<String, RegistryObject<Item>> nuggetMap = new HashMap<>();
   public static Map<String, RegistryObject<Item>> gemMap = new HashMap<>();
@@ -115,6 +116,16 @@ public class EERegistrar {
       chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
       chunkMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+    }
+  }
+
+  public static void registerClusters(MaterialModel material) {
+    String itemName = material.getId() + "_cluster";
+
+    if(material.isBurnable()) {
+      clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4)));
+    } else {
+      clusterMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
     }
   }
 

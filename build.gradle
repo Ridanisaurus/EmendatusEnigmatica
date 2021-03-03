@@ -145,7 +145,7 @@ dependencies {
     //}
 
     runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
-//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
+    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
     //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
     //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
     //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
