@@ -1,8 +1,8 @@
 {
-  "id": "signalum",
-  "localisedName": "Signalum",
+  "id": "constantan",
+  "localisedName": "Constantan",
   "processedType": [
-	"block",
+	"storage_block",
 	"ingot",
 	"nugget",
 	"dust",

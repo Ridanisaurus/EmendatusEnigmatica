@@ -17,26 +17,5 @@
     "hardness": 3.0,
     "resistance": 3.0,
     "harvestLevel": 1
-  },
-  "dimensions": [{
-      "dim": "minecraft:overworld",
-      "size": 6,
-      "count": 1,
-      "baseline": 95,
-      "spread": 32
-    },
-    {
-      "dim": "minecraft:the_nether",
-      "size": 6,
-      "count": 1,
-      "baseline": 95,
-      "spread": 32
-    },
-    {
-      "dim": "minecraft:the_end",
-      "size": 6,
-      "count": 1,
-      "baseline": 95,
-      "spread": 32
-    }]
+  }
 }

@@ -1,25 +1,24 @@
 {
   "type": "emendatusenigmatica:sphere_deposit",
   "dimensions": [
-    "minecraft:overworld"
+    "minecraft:the_nether"
   ],
-  "registryName": "sphere_overworld_galena_ore_deposit",
+  "registryName": "sphere_nether_sulfur_ore_deposit",
   "config": {
     "blocks": [
       {
-        "material": "lead",
+        "material": "sulfur",
         "weight": 10
       },
       {
-        "material": "silver",
+        "material": "potassium_nitrate",
         "weight": 3
       }
     ],
     "fillerTypes": [
-      "minecraft_stone",
-      "minecraft_andesite",
-      "minecraft_diorite",
-      "minecraft_granite"
+      "minecraft_netherrack",
+      "minecraft_basalt",
+      "minecraft_blackstone"
     ],
     "chance": 25,
     "radius": 6,

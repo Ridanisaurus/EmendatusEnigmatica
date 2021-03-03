@@ -1,8 +1,8 @@
 {
-  "id": "invar",
-  "localisedName": "Invar",
+  "id": "steel",
+  "localisedName": "Steel",
   "processedType": [
-	"block",
+	"storage_block",
 	"ingot",
 	"nugget",
 	"dust",

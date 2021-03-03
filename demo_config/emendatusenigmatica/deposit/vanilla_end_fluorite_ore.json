@@ -3,14 +3,14 @@
   "dimensions": [
     "minecraft:the_end"
   ],
-  "registryName": "vanilla_end_uranium_ore_deposit",
+  "registryName": "vanilla_end_fluorite_ore_deposit",
   "config": {
-    "material": "uranium",
+    "material": "fluorite",
     "fillerTypes": [
       "minecraft_end_stone"
     ],
     "chance": 10,
-    "size": 8,
+    "size": 16,
     "minYLevel": 0,
     "maxYLevel": 128
   }

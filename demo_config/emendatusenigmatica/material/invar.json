@@ -1,8 +1,8 @@
 {
-  "id": "brass",
-  "localisedName": "Brass",
+  "id": "invar",
+  "localisedName": "Invar",
   "processedType": [
-	"block",
+	"storage_block",
 	"ingot",
 	"nugget",
 	"dust",

@@ -2,7 +2,7 @@
   "id": "enderium",
   "localisedName": "Enderium",
   "processedType": [
-	"block",
+	"storage_block",
 	"ingot",
 	"nugget",
 	"dust",

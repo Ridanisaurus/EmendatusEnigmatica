@@ -606,11 +606,11 @@ public class RecipesGen extends RecipeProvider {
                   .addIngredient(EETags.MATERIAL_DUST.apply("lead"))
                   .addIngredient(EETags.MATERIAL_DUST.apply("lead"))
                   .addIngredient(EETags.MATERIAL_DUST.apply("diamond"))
-                  .addIngredient(EETags.MATERIAL_GEM.apply("ender"))
-                  .addIngredient(EETags.MATERIAL_GEM.apply("ender"))
+                  .addIngredient(EETags.MATERIAL_NONE.apply("ender_pearls"))
+                  .addIngredient(EETags.MATERIAL_NONE.apply("ender_pearls"))
                   .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
                   .setGroup(Reference.MOD_ID)
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/signalum"));
+                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/enderium"));
         }
 
         // Dust from Ore

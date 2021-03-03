@@ -1,0 +1,40 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "registryName": "geode_overworld_galena_ore_deposit",
+  "config": {
+    "shellBlocks": [
+      {
+        "block": "minecraft:obsidian",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:bedrock",
+        "weight": 3
+      }
+    ],
+    "innerBlocks": [
+      {
+        "block": "emendatusenigmatica:lead_ore",
+        "weight": 10
+      },
+      {
+        "block": "emendatusenigmatica:silver_ore",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite"
+    ],
+    "chance": 25,
+    "chanceChunkSkip": 5,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

@@ -1,8 +1,8 @@
 {
-  "id": "electrum",
-  "localisedName": "Electrum",
+  "id": "bronze",
+  "localisedName": "Bronze",
   "processedType": [
-	"block",
+	"storage_block",
 	"ingot",
 	"nugget",
 	"dust",

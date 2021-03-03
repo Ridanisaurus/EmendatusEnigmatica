@@ -1,0 +1,41 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimensions": [
+    "minecraft:the_end"
+  ],
+  "registryName": "geode_end_vanilla_ore_deposit",
+  "config": {
+    "shellBlocks": [
+      {
+        "block": "minecraft:obsidian",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:bedrock",
+        "weight": 3
+      }
+    ],
+    "innerBlocks": [
+      {
+        "material": "iron",
+        "weight": 10
+      },
+      {
+        "material": "coal",
+        "weight": 3
+      },
+      {
+        "material": "gold",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_end_stone"
+    ],
+    "chance": 25,
+    "chanceChunkSkip": 5,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

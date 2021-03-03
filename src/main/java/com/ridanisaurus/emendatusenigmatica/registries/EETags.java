@@ -42,4 +42,5 @@ public class EETags {
   public static final Function<String, MockedNamedTag<Item>> MATERIAL_ROD = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "rods/" + material));
   public static final Function<String, MockedNamedTag<Item>> MATERIAL_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "ores/" + material));
   public static final Function<String, MockedNamedTag<Item>> MATERIAL_CHUNK = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "chunks/" + material));
+  public static final Function<String, MockedNamedTag<Item>> MATERIAL_NONE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", material));
 }
