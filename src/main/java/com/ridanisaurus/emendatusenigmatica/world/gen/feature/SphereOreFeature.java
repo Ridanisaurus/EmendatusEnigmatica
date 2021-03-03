@@ -3,7 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.LargeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
@@ -27,10 +27,10 @@ import java.util.Random;
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private final Spheres noise;
     private boolean hasSeeded = false;
-    private LargeDepositModel model;
+    private SphereDepositModel model;
     private ArrayList<CommonBlockDefinitionModel> blocks;
 
-    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, LargeDepositModel model) {
+    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, SphereDepositModel model) {
         super(codec);
         this.model = model;
         noise = new Spheres();

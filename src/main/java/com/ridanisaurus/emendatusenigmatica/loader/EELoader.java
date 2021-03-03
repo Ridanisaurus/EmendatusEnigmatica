@@ -49,6 +49,7 @@ public class EELoader {
   private static final AlloyParser ALLOY_PARSER = new AlloyParser();
   public static final List<MaterialModel> MATERIALS = new ArrayList<>();
   public static final List<StrataModel> STRATA = new ArrayList<>();
+  public static final List<AlloyModel> ALLOYS = new ArrayList<>();
   public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
 
   public static void load() {
@@ -96,7 +97,9 @@ public class EELoader {
 
     ArrayList<AlloyModel> alloyModels = new ArrayList<>();
     for (JsonObject jsonObject : alloyDefinition) {
-      alloyModels.add(ALLOY_PARSER.parse(jsonObject));
+      AlloyModel alloyModel = ALLOY_PARSER.parse(jsonObject);
+      alloyModels.add(alloyModel);
+      ALLOYS.add(alloyModel);
     }
 
     for (StrataModel strata : strataModels) {

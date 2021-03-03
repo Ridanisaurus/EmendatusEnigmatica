@@ -6,8 +6,8 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBl
 
 import java.util.List;
 
-public class CustomDepositConfigModel {
-    public static final Codec<CustomDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class SphereDepositConfigModel {
+    public static final Codec<SphereDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
             Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
             Codec.DOUBLE.fieldOf("chance").forGetter(it -> it.chance),
@@ -15,7 +15,7 @@ public class CustomDepositConfigModel {
             Codec.INT.fieldOf("density").forGetter(it -> it.density),
             Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
             Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel)
-    ).apply(x, CustomDepositConfigModel::new));
+    ).apply(x, SphereDepositConfigModel::new));
 
     private final List<CommonBlockDefinitionModel> blocks;
     private List<String> fillerTypes;
@@ -25,7 +25,7 @@ public class CustomDepositConfigModel {
     private final int minYLevel;
     private final int maxYLevel;
 
-    public CustomDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, double chance, int radius, int density, int minYLevel, int maxYLevel) {
+    public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, double chance, int radius, int density, int minYLevel, int maxYLevel) {
 
         this.blocks = blocks;
         this.chance = chance;

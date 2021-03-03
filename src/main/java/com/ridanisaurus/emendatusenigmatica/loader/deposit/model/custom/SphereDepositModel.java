@@ -6,17 +6,17 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDe
 
 import java.util.List;
 
-public class LargeDepositModel extends CommonDepositModelBase {
-    public static final Codec<LargeDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class SphereDepositModel extends CommonDepositModelBase {
+    public static final Codec<SphereDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.STRING.fieldOf("type").forGetter(it -> it.type),
             Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
             Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
-            CustomDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
-    ).apply(x, LargeDepositModel::new));
+            SphereDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
+    ).apply(x, SphereDepositModel::new));
 
-    private final CustomDepositConfigModel config;
+    private final SphereDepositConfigModel config;
 
-    public LargeDepositModel(String type, List<String> dimensions, String name, CustomDepositConfigModel config) {
+    public SphereDepositModel(String type, List<String> dimensions, String name, SphereDepositConfigModel config) {
         super(type, dimensions, name);
         this.config = config;
     }
@@ -26,7 +26,7 @@ public class LargeDepositModel extends CommonDepositModelBase {
         return super.getName();
     }
 
-    public CustomDepositConfigModel getConfig() {
+    public SphereDepositConfigModel getConfig() {
         return config;
     }
 

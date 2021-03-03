@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.LargeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.SphereOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class SphereDepositProcessor implements IDepositProcessor {
 
     private JsonObject object;
-    private LargeDepositModel model;
+    private SphereDepositModel model;
 
     public SphereDepositProcessor(JsonObject object) {
 
@@ -29,7 +29,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 
     @Override
     public void load() {
-        Optional<Pair<LargeDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(LargeDepositModel.CODEC).apply(object).result();
+        Optional<Pair<SphereDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(SphereDepositModel.CODEC).apply(object).result();
         if (!result.isPresent()) {
             return;
         }
