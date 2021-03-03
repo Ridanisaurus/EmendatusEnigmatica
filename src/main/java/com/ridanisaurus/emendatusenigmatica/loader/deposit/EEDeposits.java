@@ -2,6 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
@@ -23,6 +24,7 @@ public class EEDeposits {
     public static void initProcessors() {
         DEPOSIT_PROCESSORS.put("emendatusenigmatica:vanilla_deposit", VanillaDepositProcessor::new);
         DEPOSIT_PROCESSORS.put("emendatusenigmatica:sphere_deposit", SphereDepositProcessor::new);
+        DEPOSIT_PROCESSORS.put("emendatusenigmatica:geode_deposit", GeodeDepositProcessor::new);
     }
 
     public static void load(){

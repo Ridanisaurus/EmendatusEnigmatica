@@ -24,8 +24,17 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
-public class MaterialPropertiesModel {
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import java.util.Optional;
+
+public class MaterialPropertiesModel {
+  public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+          Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
+          Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
+          Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel))
+  ).apply(x, (f, f2, i) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1))));
 
   private final float hardness;
   private final float resistance;
@@ -35,6 +44,12 @@ public class MaterialPropertiesModel {
     this.hardness = hardness;
     this.resistance = resistance;
     this.harvestLevel = harvestLevel;
+  }
+
+  public MaterialPropertiesModel(){
+    this.hardness = 3f;
+    this.resistance = 3f;
+    this.harvestLevel = 1;
   }
 
   public float getHardness() {

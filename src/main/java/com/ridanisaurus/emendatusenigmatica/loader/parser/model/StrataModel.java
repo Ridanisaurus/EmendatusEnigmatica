@@ -24,23 +24,33 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ResourceLocation;
 
 public class StrataModel {
+  public static final Codec<StrataModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+          Codec.STRING.fieldOf("id").forGetter(i -> i.id),
+          Codec.STRING.fieldOf("baseTexture").forGetter(i -> i.baseTexture.toString()),
+          Codec.STRING.fieldOf("suffix").forGetter(i -> i.suffix),
+          Codec.STRING.fieldOf("fillerType").forGetter(i -> i.fillerType.toString()),
+          Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName)
+  ).apply(x, (s, s2, s3, s4, s5) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5)));
+
   private final String id;
   private final ResourceLocation baseTexture;
   private final String suffix;
   private final ResourceLocation fillerType;
-  private final String localisedName;
+  private final String localizedName;
 
 
-  public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localisedName) {
+  public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName) {
 
     this.id = id;
     this.baseTexture = baseTexture;
     this.suffix = suffix;
     this.fillerType = fillerType;
-    this.localisedName = localisedName;
+    this.localizedName = localizedName;
   }
 
   public String getId() {
@@ -59,7 +69,7 @@ public class StrataModel {
     return fillerType;
   }
 
-  public String getLocalisedName() {
-    return localisedName;
+  public String getLocalizedName() {
+    return localizedName;
   }
 }

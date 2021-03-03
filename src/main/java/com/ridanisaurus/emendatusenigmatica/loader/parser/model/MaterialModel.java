@@ -24,9 +24,26 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import java.util.List;
+import java.util.Optional;
 
 public class MaterialModel {
+  public static final Codec<MaterialModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+          Codec.STRING.fieldOf("id").forGetter(i -> i.id),
+          Codec.STRING.fieldOf("localisedName").forGetter(i -> i.localisedName),
+          Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
+          Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
+          Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
+          Codec.STRING.optionalFieldOf("oreBlockType").forGetter(i -> Optional.ofNullable(i.oreBlockType)),
+          MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
+          Codec.STRING.optionalFieldOf("defaultItemDrop").forGetter(i -> Optional.ofNullable(i.defaultItemDrop)),
+          Codec.INT.optionalFieldOf("dropMin").forGetter(i -> Optional.of(i.dropMin)),
+          Codec.INT.optionalFieldOf("dropMax").forGetter(i -> Optional.of(i.dropMax))
+  ).apply(x, (s, s2, sl, b, i, s3, mm, s4, i2, i3) -> new MaterialModel(s, s2, sl, b.orElse(false), i.orElse(0), s3.orElse(""), mm.orElse(new MaterialPropertiesModel()), s4.orElse(""), i2.orElse(1), i3.orElse(1))));
+
   private final String id;
   private final String localisedName;
   private final List<String> processedType;
@@ -37,11 +54,8 @@ public class MaterialModel {
   private final String defaultItemDrop;
   private final int dropMin;
   private final int dropMax;
-  private final boolean useCustomWorldGen;
-  private final List<MaterialDimModel> dimensions;
 
-  public MaterialModel(String id, String localisedName, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax, boolean useCustomWorldGen, List<MaterialDimModel> dimensions) {
-
+  public MaterialModel(String id, String localisedName, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax) {
     this.id = id;
     this.localisedName = localisedName;
     this.processedType = processedType;
@@ -52,8 +66,6 @@ public class MaterialModel {
     this.defaultItemDrop = defaultItemDrop;
     this.dropMin = dropMin;
     this.dropMax = dropMax;
-    this.useCustomWorldGen = useCustomWorldGen;
-    this.dimensions = dimensions;
   }
 
   public String getId() {
@@ -76,10 +88,6 @@ public class MaterialModel {
     return defaultItemDrop;
   }
 
-  public List<MaterialDimModel> getDimensions() {
-    return dimensions;
-  }
-
   public MaterialPropertiesModel getProperties() {
     return properties;
   }
@@ -98,9 +106,5 @@ public class MaterialModel {
 
   public int getBurnTime() {
     return burnTime;
-  }
-
-  public boolean isUseCustomWorldGen() {
-    return useCustomWorldGen;
   }
 }
