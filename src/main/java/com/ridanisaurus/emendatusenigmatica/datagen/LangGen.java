@@ -168,7 +168,7 @@ public class LangGen extends LanguageProvider {
 
           if (!stratum.getId().equals("minecraft_stone")) {
             sb.append(" - ");
-            sb.append(stratum.getLocalisedName());
+            sb.append(stratum.getLocalizedName());
           }
 
           add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());

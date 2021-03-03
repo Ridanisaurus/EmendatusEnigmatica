@@ -3,12 +3,12 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.custom.SphereDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.tags.BlockTags;
@@ -19,40 +19,63 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.spongepowered.noise.module.source.Spheres;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
-    private SphereDepositModel model;
-    private ArrayList<CommonBlockDefinitionModel> blocks;
+public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 
-    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, SphereDepositModel model) {
+    private final List<CommonBlockDefinitionModel> shellBlocks;
+    private final List<CommonBlockDefinitionModel> innerBlocks;
+    private final GeodeDepositModel model;
+
+    public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
         super(codec);
         this.model = model;
-        blocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getBlocks()) {
+        shellBlocks = new ArrayList<>();
+        for (CommonBlockDefinitionModel block : model.getConfig().getShellBlocks()) {
             NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
-            blocks.addAll(filled);
+            shellBlocks.addAll(filled);
+        }
+        innerBlocks = new ArrayList<>();
+        for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
+            NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+            innerBlocks.addAll(filled);
         }
     }
 
     @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
+    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
 
         if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
             return false;
         }
 
-        if (rand.nextInt(100) > model.getConfig().getChance()) {
+
+        int intRand = rand.nextInt(100);
+        double doubleRand = rand.nextDouble();
+        if (intRand >= 1) {
+            doubleRand += intRand - 1;
+        }
+        if (doubleRand > model.getConfig().getChance() / model.getConfig().getChanceChunkSkip()) {
             return false;
         }
+        int yTop = model.getConfig().getMaxYLevel();
+        int yBottom = model.getConfig().getMinYLevel();
+        int yPos = rand.nextInt(yTop);
+        yPos = Math.max(yPos, yBottom);
 
-        int radius = model.getConfig().getRadius();
+        generateHollowSphere(reader, generator, rand, pos, config, shellBlocks, model.getConfig().getRadius(), yPos);
+        generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
+        return true;
+    }
+
+    private void generateHollowSphere(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
+        int yTop = model.getConfig().getMaxYLevel();
+        int yBottom = model.getConfig().getMinYLevel();
 
         radius += 0.5;
         radius += 0.5;
@@ -92,33 +115,32 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                         }
                         break forZ;
                     }
-                    if (y >= yTop || y <= yBottom) {
+                    if (y + yPos > yTop || y + yPos < yBottom) {
                         continue;
                     }
 
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ -y, pos.getZ() + z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, pos.getY()+ -y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ y, pos.getZ() + -z), config);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, pos.getY()+ -y, pos.getZ() + -z), config);
+                    if (MathHelper.lengthSq(nextXn, yn, zn) <= 1 && MathHelper.lengthSq(xn, nextYn, zn) <= 1 && MathHelper.lengthSq(xn, yn, nextZn) <= 1) {
+                        continue;
+                    }
+
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + -z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + -z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + -z), config.target, blocks);
+                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + -z), config.target, blocks);
                 }
             }
         }
-        return true;
     }
 
     private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
-            pos, SphereOreFeatureConfig config) {
-        if (!config.target.test(reader.getBlockState(pos), rand)) {
+            pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
+        if (!filler.test(reader.getBlockState(pos), rand)) {
             return;
         }
-        if (rand.nextInt(100) > model.getConfig().getDensity()) {
-            return;
-        }
-
 
         int index = rand.nextInt(blocks.size());
         CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
@@ -140,7 +162,4 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             }
         }
     }
-
-
 }
-

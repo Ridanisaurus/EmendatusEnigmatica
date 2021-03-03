@@ -24,12 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.AlloyParser;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.MaterialParser;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.StrataParser;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.AlloyModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -38,18 +37,11 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EELoader {
-  private static final StrataParser STRATA_PARSER = new StrataParser();
-  private static final MaterialParser MATERIAL_PARSER = new MaterialParser();
-  private static final AlloyParser ALLOY_PARSER = new AlloyParser();
   public static final List<MaterialModel> MATERIALS = new ArrayList<>();
   public static final List<StrataModel> STRATA = new ArrayList<>();
-  public static final List<AlloyModel> ALLOYS = new ArrayList<>();
   public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
 
   public static void load() {
@@ -71,18 +63,16 @@ public class EELoader {
       EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
     }
 
-    File alloyDir = configDir.resolve("alloy/").toFile();
-    if (!alloyDir.exists() && alloyDir.mkdirs()) {
-      EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/alloy/");
-    }
-
     ArrayList<JsonObject> strataDefinition = FileIOHelper.loadFilesAsJsonObjects(strataDir);
     ArrayList<JsonObject> materialDefinition = FileIOHelper.loadFilesAsJsonObjects(materialDir);
-    ArrayList<JsonObject> alloyDefinition = FileIOHelper.loadFilesAsJsonObjects(alloyDir);
 
     ArrayList<StrataModel> strataModels = new ArrayList<>();
     for (JsonObject jsonObject : strataDefinition) {
-      StrataModel strataModel = STRATA_PARSER.parse(jsonObject);
+      Optional<Pair<StrataModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(StrataModel.CODEC).apply(jsonObject).result();
+      if (!result.isPresent()) {
+        continue;
+      }
+      StrataModel strataModel = result.get().getFirst();
       strataModels.add(strataModel);
       STRATA.add(strataModel);
       STRATA_INDEX_BY_FILLER.put(strataModel.getFillerType().toString(), STRATA.size() - 1);
@@ -90,16 +80,13 @@ public class EELoader {
 
     ArrayList<MaterialModel> materialModels = new ArrayList<>();
     for (JsonObject jsonObject : materialDefinition) {
-      MaterialModel materialModel = MATERIAL_PARSER.parse(jsonObject);
+      Optional<Pair<MaterialModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(MaterialModel.CODEC).apply(jsonObject).result();
+      if (!result.isPresent()) {
+        continue;
+      }
+      MaterialModel materialModel = result.get().getFirst();
       materialModels.add(materialModel);
       MATERIALS.add(materialModel);
-    }
-
-    ArrayList<AlloyModel> alloyModels = new ArrayList<>();
-    for (JsonObject jsonObject : alloyDefinition) {
-      AlloyModel alloyModel = ALLOY_PARSER.parse(jsonObject);
-      alloyModels.add(alloyModel);
-      ALLOYS.add(alloyModel);
     }
 
     for (StrataModel strata : strataModels) {
