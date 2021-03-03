@@ -6,6 +6,7 @@
     "storage_block",
     "gem",
     "chunk",
+    "cluster",
     "4x_block_recipe"
   ],
   "oreBlockType": "gem",

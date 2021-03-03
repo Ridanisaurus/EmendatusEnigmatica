@@ -3,7 +3,8 @@
   "localisedName": "Redstone",
   "processedType": [
     "ore",
-    "chunk"
+    "chunk",
+    "cluster"
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "minecraft:redstone",

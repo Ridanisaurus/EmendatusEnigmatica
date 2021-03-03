@@ -4,6 +4,7 @@
   "processedType": [
     "ore",
     "chunk",
+    "cluster",
     "dust",
     "gear"
   ],

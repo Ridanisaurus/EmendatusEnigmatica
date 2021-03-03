@@ -5,7 +5,8 @@
     "ore",
     "storage_block",
     "gem",
-    "chunk"
+    "chunk",
+    "cluster"
   ],
   "oreBlockType": "gem",
   "defaultItemDrop": "emendatusenigmatica:arcane_gem",
