@@ -22,28 +22,27 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.blocks;
+package com.ridanisaurus.emendatusenigmatica.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.common.ToolType;
+import java.awt.*;
 
-public class BasicOreBlock extends Block {
-	private final String localisedName;
-
-	public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
-		super(Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
-				.harvestLevel(harvestLevel)
-				.harvestTool(tool)
-				.setRequiresTool());
-		this.localisedName = localisedName;
-	}
-
-	@Override
-	public IFormattableTextComponent getTranslatedName() {
-		return new StringTextComponent(localisedName);
+public class ParticleColorHelper {
+	public static Color HexToColor(String hex)
+	{
+		hex = hex.replace("#", "");
+		switch (hex.length()) {
+			case 6:
+				return new Color(
+						Integer.valueOf(hex.substring(0, 2), 16),
+						Integer.valueOf(hex.substring(2, 4), 16),
+						Integer.valueOf(hex.substring(4, 6), 16));
+			case 8:
+				return new Color(
+						Integer.valueOf(hex.substring(0, 2), 16),
+						Integer.valueOf(hex.substring(2, 4), 16),
+						Integer.valueOf(hex.substring(4, 6), 16),
+						Integer.valueOf(hex.substring(6, 8), 16));
+		}
+		return null;
 	}
 }

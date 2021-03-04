@@ -33,23 +33,31 @@ public class MaterialPropertiesModel {
 	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
 			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
-			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel))
-	).apply(x, (f, f2, i) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1))));
+			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel)),
+			Codec.BOOL.optionalFieldOf("hasParticle").forGetter(i -> Optional.of(i.hasParticle)),
+			Codec.STRING.optionalFieldOf("particleHex").forGetter(i -> Optional.ofNullable(i.particleHex))
+	).apply(x, (f, f2, i, b, s) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1), b.orElse(false), s.orElse(""))));
 
 	private final float hardness;
 	private final float resistance;
 	private final int harvestLevel;
+	private final boolean hasParticle;
+	private final String particleHex;
 
-	public MaterialPropertiesModel(float hardness, float resistance, int harvestLevel) {
+	public MaterialPropertiesModel(float hardness, float resistance, int harvestLevel, boolean hasParticle, String particleHex) {
 		this.hardness = hardness;
 		this.resistance = resistance;
 		this.harvestLevel = harvestLevel;
+		this.hasParticle = hasParticle;
+		this.particleHex = particleHex;
 	}
 
 	public MaterialPropertiesModel() {
 		this.hardness = 3f;
 		this.resistance = 3f;
 		this.harvestLevel = 1;
+		this.hasParticle = false;
+		this.particleHex = "";
 	}
 
 	public float getHardness() {
@@ -63,4 +71,14 @@ public class MaterialPropertiesModel {
 	public int getHarvestLevel() {
 		return harvestLevel;
 	}
+
+	public boolean getHasParticle() {
+		return hasParticle;
+	}
+
+	public String getParticleHex() {
+		return particleHex;
+	}
+
+
 }
