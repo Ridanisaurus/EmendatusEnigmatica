@@ -50,6 +50,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
 
         int yTop = model.getConfig().getMaxYLevel();
         int yBottom = model.getConfig().getMinYLevel();
+
         int yPos = rand.nextInt(yTop);
         yPos = Math.max(yPos, yBottom);
 
@@ -96,7 +97,6 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                     if (y + yPos > yTop || y + yPos < yBottom) {
                         continue;
                     }
-
                     placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + y, pos.getZ() + z), config);
                     placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ -x, yPos + y, pos.getZ() + z), config);
                     placeBlock(reader, generator, rand, new BlockPos(pos.getX()+ x, yPos + -y, pos.getZ() + z), config);

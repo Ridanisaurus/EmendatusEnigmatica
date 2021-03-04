@@ -116,9 +116,9 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    implementation 'org.spongepowered:noise:2.0.0-SNAPSHOT'
+    shade 'org.spongepowered:noise:2.0.0-SNAPSHOT'
     implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
-    implementation 'com.github.marschall:memoryfilesystem:2.1.0'
+    shade 'com.github.marschall:memoryfilesystem:2.1.0'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -154,7 +154,6 @@ dependencies {
 
 shadowJar{
     configurations = [project.configurations.shade]
-    relocate 'com.google', 'com.ridanisaurus.emendatusenigmatica.lib.google'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -175,7 +174,7 @@ jar {
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
+jar.finalizedBy('reobfShadowJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
