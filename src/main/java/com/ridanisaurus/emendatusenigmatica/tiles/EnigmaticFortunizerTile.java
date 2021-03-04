@@ -25,9 +25,10 @@
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerContainer;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.util.Materials;
+import com.ridanisaurus.emendatusenigmatica.util.OreDropHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -41,6 +42,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -53,6 +55,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -104,7 +107,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 			// Validate whether the slot has a Pickaxe
 			if (pickaxe.getItem().getToolTypes(pickaxe).contains(ToolType.PICKAXE)) {
 				ItemStack input = this.itemSH.getStackInSlot(SLOT_INPUT);
-				Materials.OreDropInfo oreDropInfo = getDropInfo(input);
+				OreDropHelper.OreDropInfo oreDropInfo = getDropInfo(input);
 
 				// Does the Chunk have an OreDropInfo (this case, GEM chunks)
 				if (oreDropInfo != null) {
@@ -198,16 +201,14 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 		return new EnigmaticFortunizerContainer(windowID, player, this.pos);
 	}
 
-	public static Materials.OreDropInfo getDropInfo(ItemStack itemStack) {
+	public static OreDropHelper.OreDropInfo getDropInfo(ItemStack itemStack) {
 		if (!itemStack.isEmpty()) {
 			Item item = itemStack.getItem();
-      /*for(Map.Entry<Materials, RegistryObject<Item>> cell : ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).entrySet()) {
-        if (cell.getValue().get() == item) {
-          return cell.getKey().drop;
-        }
-      }*/
-			Materials material = ItemHandler.materialsByName.get(item.getRegistryName());
-			return material == null ? null : material.drop;
+
+			MaterialModel material = EELoader.materialsByName.get(item.getRegistryName());
+			return material != null && material.getOreBlockType().equals("gem") ? OreDropHelper.drop(() ->
+					ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())), material.getDropMin(), material.getDropMax()) : null;
+
 		}
 		return null;
 	}

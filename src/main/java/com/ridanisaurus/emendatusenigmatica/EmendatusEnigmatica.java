@@ -80,10 +80,10 @@ public class EmendatusEnigmatica {
 		EEDeposits.load();
 		// Register Deferred Registers and populate their tables once the mod is done constructing
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		BlockHandler.BLOCKS.register(modEventBus);
-		OreHandler.BLOCKS.register(modEventBus);
-		ItemHandler.ITEMS.register(modEventBus);
-		BlockHandler.TILE_ENTITY.register(modEventBus);
+//		BlockHandler.BLOCKS.register(modEventBus);
+//		OreHandler.BLOCKS.register(modEventBus);
+//		ItemHandler.ITEMS.register(modEventBus);
+//		BlockHandler.TILE_ENTITY.register(modEventBus);
 		ContainerHandler.CONTAINERS.register(modEventBus);
 
 		EERegistrar.Finalize(modEventBus);

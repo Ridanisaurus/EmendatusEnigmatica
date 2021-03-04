@@ -33,6 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
@@ -43,6 +44,7 @@ public class EELoader {
 	public static final List<MaterialModel> MATERIALS = new ArrayList<>();
 	public static final List<StrataModel> STRATA = new ArrayList<>();
 	public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
+	public static Map<ResourceLocation, MaterialModel> materialsByName = new HashMap<>();
 
 	public static void load() {
 		// Set the path to the defined folder

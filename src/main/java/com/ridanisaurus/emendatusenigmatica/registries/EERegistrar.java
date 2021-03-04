@@ -31,6 +31,7 @@ import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
@@ -41,6 +42,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,6 +52,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class EERegistrar {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
@@ -73,17 +76,34 @@ public class EERegistrar {
 
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
-		RegistryObject<Block> oreBlock = BLOCKS.register(oreName, () -> new BasicOreBlock(
-				Material.ROCK,
-				material.getProperties().getHardness(),
-				material.getProperties().getResistance(),
-				material.getProperties().getHarvestLevel(),
-				ToolType.PICKAXE,
-				material.getLocalisedName()));
+		if (material.getOreBlockType().equals("metal")) {
+			RegistryObject<Block> metalOreBlock = BLOCKS.register(oreName, () -> new BasicOreBlock(
+					Material.ROCK,
+					material.getProperties().getHardness(),
+					material.getProperties().getResistance(),
+					material.getProperties().getHarvestLevel(),
+					ToolType.PICKAXE,
+					material.getLocalisedName()));
 
-		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
+			oreBlockTable.put(strata.getId(), material.getId(), metalOreBlock);
+			oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+		}
+		if (material.getOreBlockType().equals("gem")) {
+			RegistryObject<Block> gemOreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
+					Material.ROCK,
+					material.getProperties().getHardness(),
+					material.getProperties().getResistance(),
+					material.getProperties().getHarvestLevel(),
+					ToolType.PICKAXE,
+					material.getLocalisedName(),
+					material.getDropMin(),
+					material.getDropMax()));
 
-		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+			oreBlockTable.put(strata.getId(), material.getId(), gemOreBlock);
+			oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(gemOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+		}
+
+		EELoader.materialsByName.put(new ResourceLocation(Reference.MOD_ID, oreName),material);
 	}
 
 	public static void registerStorageBlocks(MaterialModel material) {
@@ -117,6 +137,8 @@ public class EERegistrar {
 		} else {
 			chunkMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
 		}
+
+		EELoader.materialsByName.put(new ResourceLocation(Reference.MOD_ID, itemName),material);
 	}
 
 	public static void registerClusters(MaterialModel material) {
