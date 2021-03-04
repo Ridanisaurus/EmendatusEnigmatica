@@ -1,17 +1,16 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 public enum PackType {
-    DATA("data"),
-    RESOURCE("resource")
-    ;
-    private final String suffix;
+	DATA("data"),
+	RESOURCE("resource");
+	private final String suffix;
 
-    PackType(String suffix) {
+	PackType(String suffix) {
 
-        this.suffix = suffix;
-    }
+		this.suffix = suffix;
+	}
 
-    public String getSuffix() {
-        return suffix;
-    }
+	public String getSuffix() {
+		return suffix;
+	}
 }

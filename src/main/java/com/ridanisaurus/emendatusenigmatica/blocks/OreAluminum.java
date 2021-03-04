@@ -33,15 +33,16 @@ import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
 public class OreAluminum extends OreBlock {
-    public OreAluminum() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(1)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
-    }
+	public OreAluminum() {
+		super(Properties.create(Material.ROCK)
+				.hardnessAndResistance(3.0f, 3.0f)
+				.harvestLevel(1)
+				.harvestTool(ToolType.PICKAXE)
+				.setRequiresTool());
+	}
 
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 0;
-    }
+	@Override
+	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+		return 0;
+	}
 }

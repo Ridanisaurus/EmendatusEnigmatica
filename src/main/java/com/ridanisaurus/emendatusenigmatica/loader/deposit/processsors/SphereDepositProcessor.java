@@ -19,29 +19,29 @@ import java.util.Optional;
 
 public class SphereDepositProcessor implements IDepositProcessor {
 
-    private JsonObject object;
-    private SphereDepositModel model;
+	private JsonObject object;
+	private SphereDepositModel model;
 
-    public SphereDepositProcessor(JsonObject object) {
+	public SphereDepositProcessor(JsonObject object) {
 
-        this.object = object;
-    }
+		this.object = object;
+	}
 
-    @Override
-    public void load() {
-        Optional<Pair<SphereDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(SphereDepositModel.CODEC).apply(object).result();
-        if (!result.isPresent()) {
-            return;
-        }
-        model = result.get().getFirst();
-    }
+	@Override
+	public void load() {
+		Optional<Pair<SphereDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(SphereDepositModel.CODEC).apply(object).result();
+		if (!result.isPresent()) {
+			return;
+		}
+		model = result.get().getFirst();
+	}
 
-    @Override
-    public void setupOres(BiomeLoadingEvent event) {
-        event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
-    }
+	@Override
+	public void setupOres(BiomeLoadingEvent event) {
+		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
+	}
 
-    private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-        return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).withConfiguration(new SphereOreFeatureConfig(filler)));
-    }
+	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
+		return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).withConfiguration(new SphereOreFeatureConfig(filler)));
+	}
 }

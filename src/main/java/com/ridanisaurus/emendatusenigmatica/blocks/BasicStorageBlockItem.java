@@ -30,15 +30,15 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 
 public class BasicStorageBlockItem extends BlockItem {
-    private final int burnTime;
+	private final int burnTime;
 
-    public BasicStorageBlockItem(Block block, int burnTime) {
-        super(block, new Properties().group(EmendatusEnigmatica.TAB));
-        this.burnTime = burnTime;
-    }
+	public BasicStorageBlockItem(Block block, int burnTime) {
+		super(block, new Properties().group(EmendatusEnigmatica.TAB));
+		this.burnTime = burnTime;
+	}
 
-    @Override
-    public int getBurnTime(ItemStack itemStack) {
-        return burnTime;
-    }
+	@Override
+	public int getBurnTime(ItemStack itemStack) {
+		return burnTime;
+	}
 }

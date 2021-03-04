@@ -7,24 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockedNamedTag<T> implements ITag.INamedTag<T> {
-    private final ResourceLocation name;
+	private final ResourceLocation name;
 
-    public MockedNamedTag(ResourceLocation name) {
-        this.name = name;
-    }
+	public MockedNamedTag(ResourceLocation name) {
+		this.name = name;
+	}
 
-    @Override
-    public ResourceLocation getName() {
-        return name;
-    }
+	@Override
+	public ResourceLocation getName() {
+		return name;
+	}
 
-    @Override
-    public boolean contains(T element) {
-        return false;
-    }
+	@Override
+	public boolean contains(T element) {
+		return false;
+	}
 
-    @Override
-    public List<T> getAllElements() {
-        return new ArrayList<>();
-    }
+	@Override
+	public List<T> getAllElements() {
+		return new ArrayList<>();
+	}
 }

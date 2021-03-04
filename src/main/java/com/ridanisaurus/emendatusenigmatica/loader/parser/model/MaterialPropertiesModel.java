@@ -30,37 +30,37 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
 
 public class MaterialPropertiesModel {
-  public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-          Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
-          Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
-          Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel))
-  ).apply(x, (f, f2, i) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1))));
+	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
+			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
+			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel))
+	).apply(x, (f, f2, i) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1))));
 
-  private final float hardness;
-  private final float resistance;
-  private final int harvestLevel;
+	private final float hardness;
+	private final float resistance;
+	private final int harvestLevel;
 
-  public MaterialPropertiesModel(float hardness, float resistance, int harvestLevel) {
-    this.hardness = hardness;
-    this.resistance = resistance;
-    this.harvestLevel = harvestLevel;
-  }
+	public MaterialPropertiesModel(float hardness, float resistance, int harvestLevel) {
+		this.hardness = hardness;
+		this.resistance = resistance;
+		this.harvestLevel = harvestLevel;
+	}
 
-  public MaterialPropertiesModel(){
-    this.hardness = 3f;
-    this.resistance = 3f;
-    this.harvestLevel = 1;
-  }
+	public MaterialPropertiesModel() {
+		this.hardness = 3f;
+		this.resistance = 3f;
+		this.harvestLevel = 1;
+	}
 
-  public float getHardness() {
-    return hardness;
-  }
+	public float getHardness() {
+		return hardness;
+	}
 
-  public float getResistance() {
-    return resistance;
-  }
+	public float getResistance() {
+		return resistance;
+	}
 
-  public int getHarvestLevel() {
-    return harvestLevel;
-  }
+	public int getHarvestLevel() {
+		return harvestLevel;
+	}
 }

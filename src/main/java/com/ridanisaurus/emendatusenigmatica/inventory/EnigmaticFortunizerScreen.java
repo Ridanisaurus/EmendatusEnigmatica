@@ -33,24 +33,24 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
 public class EnigmaticFortunizerScreen extends ContainerScreen<EnigmaticFortunizerContainer> {
-  private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/enigmatic_fortunizer.png");
+	private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/enigmatic_fortunizer.png");
 
-  public EnigmaticFortunizerScreen(EnigmaticFortunizerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
-    super(screenContainer, inv, titleIn);
-  }
+	public EnigmaticFortunizerScreen(EnigmaticFortunizerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+		super(screenContainer, inv, titleIn);
+	}
 
-  @Override
-  protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-    this.renderBackground(matrixStack);
-    this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-    this.blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+	@Override
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+		this.renderBackground(matrixStack);
+		this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+		this.blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 
-    int progressBar = this.container.tileEntity.getProgress(62);
-    this.blit(matrixStack, this.guiLeft + 57, this.guiTop + 37, 176, 0, progressBar + 1, 28);
-  }
+		int progressBar = this.container.tileEntity.getProgress(62);
+		this.blit(matrixStack, this.guiLeft + 57, this.guiTop + 37, 176, 0, progressBar + 1, 28);
+	}
 
-  public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-    super.render(matrixStack, mouseX, mouseY, partialTicks);
-    this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
-  }
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+	}
 }

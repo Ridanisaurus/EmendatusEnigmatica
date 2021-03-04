@@ -42,25 +42,24 @@ import java.util.List;
 import java.util.Map;
 
 public class BlockHandler {
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
+	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
-  public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
-  public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
+	// Storage Blocks
+	public static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
+	//public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
 
-  // Storage Blocks
-  public static Table<ProcessedMaterials, Materials, RegistryObject<Block>> backingStorageBlockTable;
-  //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Block>>> storageBlockTable = () -> Optional.ofNullable(backingStorageBlockTable).orElse(ImmutableTable.of());
-
-  public static void blockInit() {
-    ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
-    for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
-      for (Materials material : Materials.values()) {
-        List<String> toCreate = Arrays.asList(material.type);
-        if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla() && toCreate.contains("Block")) {
-            String blockName = material.id + "_block";
-            builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
-        }
-      }
-    }
-    backingStorageBlockTable = builder.build();
-  }
+	public static void blockInit() {
+		ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
+		for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
+			for (Materials material : Materials.values()) {
+				List<String> toCreate = Arrays.asList(material.type);
+				if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && !material.isVanilla() && toCreate.contains("Block")) {
+					String blockName = material.id + "_block";
+					builder.put(processedMaterial, material, BLOCKS.register(blockName, material.block));
+				}
+			}
+		}
+		backingStorageBlockTable = builder.build();
+	}
 }

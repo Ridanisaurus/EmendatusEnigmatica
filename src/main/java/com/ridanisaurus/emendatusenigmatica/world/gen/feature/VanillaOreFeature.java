@@ -15,24 +15,24 @@ import net.minecraft.world.gen.feature.OreFeatureConfig;
 import java.util.Random;
 
 public class VanillaOreFeature extends OreFeature {
-    private VanillaDepositModel model;
+	private VanillaDepositModel model;
 
-    public VanillaOreFeature(Codec<OreFeatureConfig> p_i231976_1_, VanillaDepositModel model) {
-        super(p_i231976_1_);
-        this.model = model;
-    }
+	public VanillaOreFeature(Codec<OreFeatureConfig> p_i231976_1_, VanillaDepositModel model) {
+		super(p_i231976_1_);
+		this.model = model;
+	}
 
 
-    @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
-        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
-            return false;
-        }
-        return super.generate(reader, generator, rand, pos, config);
-    }
+	@Override
+	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+			return false;
+		}
+		return super.generate(reader, generator, rand, pos, config);
+	}
 
-    @Override
-    protected boolean func_207803_a(IWorld worldIn, Random random, OreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
-        return super.func_207803_a(worldIn, random, config, p_207803_4_, p_207803_6_, p_207803_8_, p_207803_10_, p_207803_12_, p_207803_14_, p_207803_16_, p_207803_17_, p_207803_18_, p_207803_19_, p_207803_20_);
-    }
+	@Override
+	protected boolean func_207803_a(IWorld worldIn, Random random, OreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
+		return super.func_207803_a(worldIn, random, config, p_207803_4_, p_207803_6_, p_207803_8_, p_207803_10_, p_207803_12_, p_207803_14_, p_207803_16_, p_207803_17_, p_207803_18_, p_207803_19_, p_207803_20_);
+	}
 }

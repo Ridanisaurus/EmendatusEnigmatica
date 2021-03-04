@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemHandler {
-
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
   public static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;

@@ -36,14 +36,13 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class OreHandler {
+	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
-  public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
+	//Ore Blocks
+	public static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
+	//public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
-  //Ore Blocks
-  public static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
-  //public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
-
-  public static void oreBlocks() {
+	public static void oreBlocks() {
     /*ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
@@ -56,7 +55,7 @@ public class OreHandler {
     backingOreBlockTable = builder.build();*/
 
 
-  }
+	}
 
 
 }

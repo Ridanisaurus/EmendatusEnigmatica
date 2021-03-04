@@ -28,9 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.item.Item;
 
 public class BasicItem extends Item {
-
-  public BasicItem() {
-    super(new Properties().group(EmendatusEnigmatica.TAB));
-  }
-
+	public BasicItem() {
+		super(new Properties().group(EmendatusEnigmatica.TAB));
+	}
 }

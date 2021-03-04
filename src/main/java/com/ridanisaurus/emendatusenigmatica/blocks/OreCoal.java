@@ -36,19 +36,20 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class OreCoal extends OreBlock {
-    public OreCoal() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(0)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
-    }
+	public OreCoal() {
+		super(Properties.create(Material.ROCK)
+				.hardnessAndResistance(3.0f, 3.0f)
+				.harvestLevel(0)
+				.harvestTool(ToolType.PICKAXE)
+				.setRequiresTool());
+	}
 
-    protected int getExperience(Random rand) {
-        return MathHelper.nextInt(rand, 0, 2);
-    }
+	protected int getExperience(Random rand) {
+		return MathHelper.nextInt(rand, 0, 2);
+	}
 
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return silktouch == 0 ? this.getExperience(RANDOM) : 0;
-    }
+	@Override
+	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	}
 }

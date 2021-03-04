@@ -66,107 +66,107 @@ import java.io.IOException;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
 public class EmendatusEnigmatica {
-    // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger();
-    private DataGenerator generator;
-    private static boolean hasGenerated = false;
+	// Directly reference a log4j logger.
+	public static final Logger LOGGER = LogManager.getLogger();
+	private DataGenerator generator;
+	private static boolean hasGenerated = false;
 
-    private static EmendatusEnigmatica instance = null;
+	private static EmendatusEnigmatica instance = null;
 
-    public EmendatusEnigmatica() {
-        instance = this;
-        MemoryDataGeneratorFactory.init();
-        EELoader.load();
-        EEDeposits.load();
-        // Register Deferred Registers and populate their tables once the mod is done constructing
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        BlockHandler.BLOCKS.register(modEventBus);
-        OreHandler.BLOCKS.register(modEventBus);
-        ItemHandler.ITEMS.register(modEventBus);
-        BlockHandler.TILE_ENTITY.register(modEventBus);
-        ContainerHandler.CONTAINERS.register(modEventBus);
+	public EmendatusEnigmatica() {
+		instance = this;
+		MemoryDataGeneratorFactory.init();
+		EELoader.load();
+		EEDeposits.load();
+		// Register Deferred Registers and populate their tables once the mod is done constructing
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		BlockHandler.BLOCKS.register(modEventBus);
+		OreHandler.BLOCKS.register(modEventBus);
+		ItemHandler.ITEMS.register(modEventBus);
+		BlockHandler.TILE_ENTITY.register(modEventBus);
+		ContainerHandler.CONTAINERS.register(modEventBus);
 
-        EERegistrar.Finalize(modEventBus);
+		EERegistrar.Finalize(modEventBus);
 
-        modEventBus.addListener(this::init);
-        modEventBus.addListener(this::clientEvents);
+		modEventBus.addListener(this::init);
+		modEventBus.addListener(this::clientEvents);
 
-        // Register World Gen Config
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+		// Register World Gen Config
+		//ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
 
-        // Setup biome loading event for worldgen!
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
+		// Setup biome loading event for worldgen!
+		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
 
-        registerDataGen();
-        // Resource Pack
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder(PackType.RESOURCE));
-        }
+		registerDataGen();
+		// Resource Pack
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder(PackType.RESOURCE));
+		}
 
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
-    }
+		MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
+	}
 
-    // Data Pack
-    public void onServerStart(final FMLServerAboutToStartEvent event) {
-        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder(PackType.DATA));
-    }
+	// Data Pack
+	public void onServerStart(final FMLServerAboutToStartEvent event) {
+		event.getServer().getResourcePacks().addPackFinder(new EEPackFinder(PackType.DATA));
+	}
 
-    public void biomesHigh(final BiomeLoadingEvent event) {
-        //WorldGenHandler.addEEOres(event.getGeneration(), event);
-        EEDeposits.generateBiomes(event);
-    }
+	public void biomesHigh(final BiomeLoadingEvent event) {
+		//WorldGenHandler.addEEOres(event.getGeneration(), event);
+		EEDeposits.generateBiomes(event);
+	}
 
-    private void init(final FMLConstructModEvent event) {
+	private void init(final FMLConstructModEvent event) {
         /*OreHandler.oreBlocks();
         ItemHandler.oreItems();
         BlockHandler.blockInit();
         ItemHandler.itemInit();*/
-    }
+	}
 
-    private void clientEvents(final FMLClientSetupEvent event) {
-        for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
-            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }
+	private void clientEvents(final FMLClientSetupEvent event) {
+		for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
+			RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
+		}
 
-        ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
-    }
+		ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+	}
 
-    public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
-        @Override
-        public ItemStack createIcon() {
-            return new ItemStack(EERegistrar.ENIGMATIC_FORTUNIZER.get());
-        }
-    };
+	public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(EERegistrar.ENIGMATIC_FORTUNIZER.get());
+		}
+	};
 
-    private void registerDataGen() {
-        generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
-        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
+	private void registerDataGen() {
+		generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
+		ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
-        BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(new RecipesGen(generator));
-        generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-        generator.addProvider(blockTagsGeneration);
-        generator.addProvider(new LootTablesGen(generator));
-        generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
-        generator.addProvider(new LangGen(generator));
-        generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
-    }
+		BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+		generator.addProvider(new RecipesGen(generator));
+		generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+		generator.addProvider(blockTagsGeneration);
+		generator.addProvider(new LootTablesGen(generator));
+		generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
+		generator.addProvider(new LangGen(generator));
+		generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
+	}
 
-    public static void generate() {
-        if(!hasGenerated) {
-            try {
-                instance.generator.run();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            hasGenerated = true;
-        }
-    }
+	public static void generate() {
+		if (!hasGenerated) {
+			try {
+				instance.generator.run();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			hasGenerated = true;
+		}
+	}
 
-    public static void injectDatapackFinder (ResourcePackList resourcePacks) {
-        if (DistExecutor.unsafeRunForDist( () -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
-            resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
-            EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
-        }
-    }
+	public static void injectDatapackFinder(ResourcePackList resourcePacks) {
+		if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
+			resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
+			EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
+		}
+	}
 }

@@ -35,25 +35,23 @@ import net.minecraftforge.items.SlotItemHandler;
 import javax.annotation.Nonnull;
 
 public class SlotItemHandlerTakeable extends SlotItemHandler {
-  public SlotItemHandlerTakeable(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-    super(itemHandler, index, xPosition, yPosition);
-  }
+	public SlotItemHandlerTakeable(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+		super(itemHandler, index, xPosition, yPosition);
+	}
 
-  @Override
-  public boolean canTakeStack(PlayerEntity playerIn)
-  {
-    return true;
-  }
+	@Override
+	public boolean canTakeStack(PlayerEntity playerIn) {
+		return true;
+	}
 
-  @Override
-  @Nonnull
-  public ItemStack decrStackSize(int amount)
-  {
-    ItemStack stack = this.getStack();
-    int possible = Math.min(amount, stack.getCount());
-    ItemStack returned = ItemHandlerHelper.copyStackWithSize(stack, possible);
-    stack.shrink(possible);
+	@Override
+	@Nonnull
+	public ItemStack decrStackSize(int amount) {
+		ItemStack stack = this.getStack();
+		int possible = Math.min(amount, stack.getCount());
+		ItemStack returned = ItemHandlerHelper.copyStackWithSize(stack, possible);
+		stack.shrink(possible);
 
-    return returned;
-  }
+		return returned;
+	}
 }

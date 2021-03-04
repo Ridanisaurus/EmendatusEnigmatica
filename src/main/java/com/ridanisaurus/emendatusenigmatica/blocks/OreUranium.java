@@ -41,34 +41,35 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class OreUranium extends OreBlock {
-    public OreUranium() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
-            .harvestLevel(2)
-            .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
-    }
+	public OreUranium() {
+		super(Properties.create(Material.ROCK)
+				.hardnessAndResistance(3.0f, 3.0f)
+				.harvestLevel(2)
+				.harvestTool(ToolType.PICKAXE)
+				.setRequiresTool());
+	}
 
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 0;
-    }
+	@Override
+	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+		return 0;
+	}
 
-    @Override
-    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        super.animateTick(stateIn, worldIn, pos, rand);
+	@Override
+	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		super.animateTick(stateIn, worldIn, pos, rand);
 
-        if(rand.nextInt(10) == 0) {
-            for(Direction direction : Direction.values()) {
-                BlockPos blockpos = pos.offset(direction);
-                if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
-                    Direction.Axis direction$axis = direction.getAxis();
-                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getXOffset() : (double)rand.nextFloat();
-                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getYOffset() : (double)rand.nextFloat();
-                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getZOffset() : (double)rand.nextFloat();
-                    worldIn.addParticle(new RedstoneParticleData(0.67F,0.98F,0.01F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
-                    worldIn.addParticle(new RedstoneParticleData(0.82F,0.88F,0.11F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-    }
+		if (rand.nextInt(10) == 0) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockpos = pos.offset(direction);
+				if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+					Direction.Axis direction$axis = direction.getAxis();
+					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double) direction.getXOffset() : (double) rand.nextFloat();
+					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double) direction.getYOffset() : (double) rand.nextFloat();
+					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double) direction.getZOffset() : (double) rand.nextFloat();
+					worldIn.addParticle(new RedstoneParticleData(0.67F, 0.98F, 0.01F, 1F), (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+					worldIn.addParticle(new RedstoneParticleData(0.82F, 0.88F, 0.11F, 1F), (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+				}
+			}
+		}
+	}
 }

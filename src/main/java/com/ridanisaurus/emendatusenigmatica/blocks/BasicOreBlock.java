@@ -31,19 +31,19 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
 public class BasicOreBlock extends Block {
-  private final String localisedName;
+	private final String localisedName;
 
-  public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
-    super(Properties.create(material)
-          .hardnessAndResistance(hardness,resistance)
-          .harvestLevel(harvestLevel)
-          .harvestTool(tool)
-          .setRequiresTool());
-    this.localisedName = localisedName;
-  }
+	public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
+		super(Properties.create(material)
+				.hardnessAndResistance(hardness, resistance)
+				.harvestLevel(harvestLevel)
+				.harvestTool(tool)
+				.setRequiresTool());
+		this.localisedName = localisedName;
+	}
 
-  @Override
-  public IFormattableTextComponent getTranslatedName() {
-    return new StringTextComponent(localisedName);
-  }
+	@Override
+	public IFormattableTextComponent getTranslatedName() {
+		return new StringTextComponent(localisedName);
+	}
 }

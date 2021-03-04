@@ -36,44 +36,45 @@ import net.minecraftforge.common.ToolType;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class EnigmaticFortunizerContainer extends Container {
-  public final EnigmaticFortunizerTile tileEntity;
-  public EnigmaticFortunizerContainer(int id, PlayerEntity player, BlockPos pos) {
-    super(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), id);
-    // Container Slots comes before Player Slots
-    tileEntity = (EnigmaticFortunizerTile) player.world.getTileEntity(pos);
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_INPUT, 26, 47));
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_PICKAXE, 80, 19));
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_OUTPUT, 134, 47));
+	public final EnigmaticFortunizerTile tileEntity;
 
-    // Inv
-    for(int i = 0; i < 3; ++i) {
-      for(int j = 0; j < 9; ++j) {
-        this.addSlot(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-      }
-    }
+	public EnigmaticFortunizerContainer(int id, PlayerEntity player, BlockPos pos) {
+		super(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), id);
+		// Container Slots comes before Player Slots
+		tileEntity = (EnigmaticFortunizerTile) player.world.getTileEntity(pos);
+		this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_INPUT, 26, 47));
+		this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_PICKAXE, 80, 19));
+		this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_OUTPUT, 134, 47));
 
-    // Hotbar
-    for(int k = 0; k < 9; ++k) {
-      this.addSlot(new Slot(player.inventory, k, 8 + k * 18, 142));
-    }
-  }
+		// Inv
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				this.addSlot(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+			}
+		}
 
-  // TODO Close container when away
-  @Override
-  public boolean canInteractWith(PlayerEntity playerIn) {
-    return true;
-  }
+		// Hotbar
+		for (int k = 0; k < 9; ++k) {
+			this.addSlot(new Slot(player.inventory, k, 8 + k * 18, 142));
+		}
+	}
 
-  @Override
-  public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-    return TileEntityHelper.transferStackInSlot(this, this::mergeItemStack, playerIn, index, stack -> {
-      if(EnigmaticFortunizerTile.getDropInfo(stack) != null) {
-        return Pair.of(EnigmaticFortunizerTile.SLOT_INPUT, EnigmaticFortunizerTile.SLOT_INPUT+1);
-      }
-      if(stack.getItem().getToolTypes(stack).contains(ToolType.PICKAXE)) {
-        return Pair.of(EnigmaticFortunizerTile.SLOT_PICKAXE, EnigmaticFortunizerTile.SLOT_PICKAXE+1);
-      }
-      return null;
-    });
-  }
+	// TODO Close container when away
+	@Override
+	public boolean canInteractWith(PlayerEntity playerIn) {
+		return true;
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+		return TileEntityHelper.transferStackInSlot(this, this::mergeItemStack, playerIn, index, stack -> {
+			if (EnigmaticFortunizerTile.getDropInfo(stack) != null) {
+				return Pair.of(EnigmaticFortunizerTile.SLOT_INPUT, EnigmaticFortunizerTile.SLOT_INPUT + 1);
+			}
+			if (stack.getItem().getToolTypes(stack).contains(ToolType.PICKAXE)) {
+				return Pair.of(EnigmaticFortunizerTile.SLOT_PICKAXE, EnigmaticFortunizerTile.SLOT_PICKAXE + 1);
+			}
+			return null;
+		});
+	}
 }

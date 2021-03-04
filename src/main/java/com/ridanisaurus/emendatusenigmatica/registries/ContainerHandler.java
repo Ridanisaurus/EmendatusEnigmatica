@@ -33,9 +33,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ContainerHandler {
-  public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
+	public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
 
-  public static final RegistryObject<ContainerType<EnigmaticFortunizerContainer>> ENIGMATIC_FORTUNIZER_CONTAINER = CONTAINERS.register("enigmatic_fortunizer", () ->
-          // Call container on the client
-          IForgeContainerType.create((windowID, inventory, data) -> new EnigmaticFortunizerContainer(windowID, inventory.player, data.readBlockPos())));
+	public static final RegistryObject<ContainerType<EnigmaticFortunizerContainer>> ENIGMATIC_FORTUNIZER_CONTAINER = CONTAINERS.register("enigmatic_fortunizer", () ->
+			// Call container on the client
+			IForgeContainerType.create((windowID, inventory, data) -> new EnigmaticFortunizerContainer(windowID, inventory.player, data.readBlockPos())));
 }

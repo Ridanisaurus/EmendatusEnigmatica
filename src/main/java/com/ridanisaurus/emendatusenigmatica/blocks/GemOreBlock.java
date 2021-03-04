@@ -38,32 +38,32 @@ import net.minecraftforge.common.ToolType;
 import java.util.Random;
 
 public class GemOreBlock extends Block {
-  private final String localisedName;
-  private final int minExp;
-  private final int maxExp;
+	private final String localisedName;
+	private final int minExp;
+	private final int maxExp;
 
-  public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp) {
-    super(AbstractBlock.Properties.create(material)
-          .hardnessAndResistance(hardness,resistance)
-          .harvestLevel(harvestLevel)
-          .harvestTool(tool)
-          .setRequiresTool());
-    this.localisedName = localisedName;
-    this.minExp = minExp;
-    this.maxExp = maxExp;
-  }
+	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp) {
+		super(AbstractBlock.Properties.create(material)
+				.hardnessAndResistance(hardness, resistance)
+				.harvestLevel(harvestLevel)
+				.harvestTool(tool)
+				.setRequiresTool());
+		this.localisedName = localisedName;
+		this.minExp = minExp;
+		this.maxExp = maxExp;
+	}
 
-  @Override
-  public IFormattableTextComponent getTranslatedName() {
-    return new StringTextComponent(localisedName);
-  }
+	@Override
+	public IFormattableTextComponent getTranslatedName() {
+		return new StringTextComponent(localisedName);
+	}
 
-  protected int getExperience(Random rand) {
-    return MathHelper.nextInt(rand, minExp, maxExp);
-  }
+	protected int getExperience(Random rand) {
+		return MathHelper.nextInt(rand, minExp, maxExp);
+	}
 
-  @Override
-  public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-    return silktouch == 0 ? this.getExperience(RANDOM) : 0;
-  }
+	@Override
+	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	}
 }

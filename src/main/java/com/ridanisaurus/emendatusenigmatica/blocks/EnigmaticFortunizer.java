@@ -68,133 +68,133 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 public class EnigmaticFortunizer extends Block {
-  private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+	private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-  private static final VoxelShape SHAPE_N = Stream.of(
-          Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
-          Block.makeCuboidShape(0, 8, 0, 4, 10, 16),
-          Block.makeCuboidShape(4, 8, 8, 16, 12, 16),
-          Block.makeCuboidShape(12, 8, 0, 16, 10, 8),
-          Block.makeCuboidShape(5, 8, 1, 11, 12, 7),
-          Block.makeCuboidShape(5, 12, 9, 11, 16, 15)
-  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+	private static final VoxelShape SHAPE_N = Stream.of(
+			Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
+			Block.makeCuboidShape(0, 8, 0, 4, 10, 16),
+			Block.makeCuboidShape(4, 8, 8, 16, 12, 16),
+			Block.makeCuboidShape(12, 8, 0, 16, 10, 8),
+			Block.makeCuboidShape(5, 8, 1, 11, 12, 7),
+			Block.makeCuboidShape(5, 12, 9, 11, 16, 15)
+	).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
-  private static final VoxelShape SHAPE_E = Stream.of(
-          Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
-          Block.makeCuboidShape(0, 8, 0, 16, 10, 4),
-          Block.makeCuboidShape(0, 8, 4, 8, 12, 16),
-          Block.makeCuboidShape(8, 8, 12, 16, 10, 16),
-          Block.makeCuboidShape(9, 8, 5, 15, 12, 11),
-          Block.makeCuboidShape(1, 12, 5, 7, 16, 11)
-  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+	private static final VoxelShape SHAPE_E = Stream.of(
+			Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
+			Block.makeCuboidShape(0, 8, 0, 16, 10, 4),
+			Block.makeCuboidShape(0, 8, 4, 8, 12, 16),
+			Block.makeCuboidShape(8, 8, 12, 16, 10, 16),
+			Block.makeCuboidShape(9, 8, 5, 15, 12, 11),
+			Block.makeCuboidShape(1, 12, 5, 7, 16, 11)
+	).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
-  private static final VoxelShape SHAPE_S = Stream.of(
-          Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
-          Block.makeCuboidShape(12, 8, 0, 16, 10, 16),
-          Block.makeCuboidShape(0, 8, 0, 12, 12, 8),
-          Block.makeCuboidShape(0, 8, 8, 4, 10, 16),
-          Block.makeCuboidShape(5, 8, 9, 11, 12, 15),
-          Block.makeCuboidShape(5, 12, 1, 11, 16, 7)
-  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+	private static final VoxelShape SHAPE_S = Stream.of(
+			Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
+			Block.makeCuboidShape(12, 8, 0, 16, 10, 16),
+			Block.makeCuboidShape(0, 8, 0, 12, 12, 8),
+			Block.makeCuboidShape(0, 8, 8, 4, 10, 16),
+			Block.makeCuboidShape(5, 8, 9, 11, 12, 15),
+			Block.makeCuboidShape(5, 12, 1, 11, 16, 7)
+	).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
-  private static final VoxelShape SHAPE_W = Stream.of(
-          Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
-          Block.makeCuboidShape(0, 8, 12, 16, 10, 16),
-          Block.makeCuboidShape(8, 8, 0, 16, 12, 12),
-          Block.makeCuboidShape(0, 8, 0, 8, 10, 4),
-          Block.makeCuboidShape(1, 8, 5, 7, 12, 11),
-          Block.makeCuboidShape(9, 12, 5, 15, 16, 11)
-  ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+	private static final VoxelShape SHAPE_W = Stream.of(
+			Block.makeCuboidShape(0, 0, 0, 16, 8, 16),
+			Block.makeCuboidShape(0, 8, 12, 16, 10, 16),
+			Block.makeCuboidShape(8, 8, 0, 16, 12, 12),
+			Block.makeCuboidShape(0, 8, 0, 8, 10, 4),
+			Block.makeCuboidShape(1, 8, 5, 7, 12, 11),
+			Block.makeCuboidShape(9, 12, 5, 15, 16, 11)
+	).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
-  public EnigmaticFortunizer() {
-    super(Properties.create(Material.IRON)
-      .hardnessAndResistance(3.5f, 4.0f)
-      .sound(SoundType.METAL)
-      .harvestLevel(0)
-      .harvestTool(ToolType.PICKAXE)
-      .setRequiresTool());
-  }
+	public EnigmaticFortunizer() {
+		super(Properties.create(Material.IRON)
+				.hardnessAndResistance(3.5f, 4.0f)
+				.sound(SoundType.METAL)
+				.harvestLevel(0)
+				.harvestTool(ToolType.PICKAXE)
+				.setRequiresTool());
+	}
 
-  @Override
-  public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    switch (state.get(FACING)) {
-      case NORTH:
-        return SHAPE_N;
-      case EAST:
-        return SHAPE_E;
-      case SOUTH:
-        return SHAPE_S;
-      case WEST:
-        return SHAPE_W;
-      default:
-        throw new IllegalStateException("Invalid State");
-    }
-  }
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		switch (state.get(FACING)) {
+			case NORTH:
+				return SHAPE_N;
+			case EAST:
+				return SHAPE_E;
+			case SOUTH:
+				return SHAPE_S;
+			case WEST:
+				return SHAPE_W;
+			default:
+				throw new IllegalStateException("Invalid State");
+		}
+	}
 
-  @Override
-  public BlockState getStateForPlacement(BlockItemUseContext context) {
-    return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
-  }
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+	}
 
-  @Override
-  public BlockState rotate (BlockState state, Rotation rot) {
-    return state.with(FACING, rot.rotate(state.get(FACING)));
-  }
+	@Override
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
+	}
 
-  @Override
-  public BlockState mirror (BlockState state, Mirror mirrorIn) {
-    return state.rotate(mirrorIn.toRotation(state.get(FACING)));
-  }
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirrorIn) {
+		return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+	}
 
-  @Override
-  protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-    builder.add(FACING);
-  }
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
 
-  @Override
-  public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
-    return 0.6f;
-  }
+	@Override
+	public float getAmbientOcclusionLightValue(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		return 0.6f;
+	}
 
-  @Override
-  public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-    if(KeyboardHelper.isHoldingShift()) {
-      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.1"));
-    } else {
-      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.2"));
-    }
-    super.addInformation(stack, worldIn, tooltip, flagIn);
-  }
+	@Override
+	public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		if (KeyboardHelper.isHoldingShift()) {
+			tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.1"));
+		} else {
+			tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.2"));
+		}
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
 
-  @Nullable
-  @Override
-  public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    return new EnigmaticFortunizerTile();
-  }
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+		return new EnigmaticFortunizerTile();
+	}
 
-  @Override
-  public boolean hasTileEntity(BlockState state) {
-    return true;
-  }
+	@Override
+	public boolean hasTileEntity(BlockState state) {
+		return true;
+	}
 
-  @Override
-  public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-    TileEntity tileEntity = worldIn.getTileEntity(pos);
-    // worldIn.isRemote means it's on the server
-    if (tileEntity instanceof EnigmaticFortunizerTile && !worldIn.isRemote) {
-      NetworkHooks.openGui((ServerPlayerEntity) player, (EnigmaticFortunizerTile)tileEntity, pos);
-      return ActionResultType.SUCCESS;
-    }
-      return ActionResultType.PASS;
-  }
+	@Override
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		TileEntity tileEntity = worldIn.getTileEntity(pos);
+		// worldIn.isRemote means it's on the server
+		if (tileEntity instanceof EnigmaticFortunizerTile && !worldIn.isRemote) {
+			NetworkHooks.openGui((ServerPlayerEntity) player, (EnigmaticFortunizerTile) tileEntity, pos);
+			return ActionResultType.SUCCESS;
+		}
+		return ActionResultType.PASS;
+	}
 
-  @Override
-  public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-    if (state.getBlock() != newState.getBlock()) {
-      TileEntity tile = worldIn.getTileEntity(pos);
-      if (tile instanceof EnigmaticFortunizerTile)
-        ((EnigmaticFortunizerTile) tile).dropInventory();
-    }
-    super.onReplaced(state, worldIn, pos, newState, isMoving);
-  }
+	@Override
+	public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (state.getBlock() != newState.getBlock()) {
+			TileEntity tile = worldIn.getTileEntity(pos);
+			if (tile instanceof EnigmaticFortunizerTile)
+				((EnigmaticFortunizerTile) tile).dropInventory();
+		}
+		super.onReplaced(state, worldIn, pos, newState, isMoving);
+	}
 }
