@@ -71,6 +71,15 @@ public class EERegistrar {
   public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
   public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
+  // Machine Items
+  public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
+  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
+
+  // Hammer
+  public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
+
+
   public static void registerOre(StrataModel strata, MaterialModel material) {
     String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
     RegistryObject<Block> oreBlock = BLOCKS.register(oreName, () -> new BasicOreBlock(
@@ -79,7 +88,8 @@ public class EERegistrar {
             material.getProperties().getResistance(),
             material.getProperties().getHarvestLevel(),
             ToolType.PICKAXE,
-            material.getLocalisedName()));
+            material.getLocalisedName(),
+            material.getColor()));
 
     oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
 
@@ -115,7 +125,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
-      chunkMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -125,7 +135,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4)));
     } else {
-      clusterMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -135,7 +145,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
-      ingotMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -145,7 +155,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() / 10)));
     } else {
-      nuggetMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -155,7 +165,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
-      gemMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -165,7 +175,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
-      dustMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -175,7 +185,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
     } else {
-      plateMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -185,7 +195,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4)));
     } else {
-      gearMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -195,7 +205,7 @@ public class EERegistrar {
     if(material.isBurnable()) {
       rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 2)));
     } else {
-      rodMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+      rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
     }
   }
 
@@ -205,11 +215,4 @@ public class EERegistrar {
     TILE_ENTITY.register(eventBus);
   }
 
-  // Machine Items
-  public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
-  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
-  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
-
-  // Hammer
-  public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 }

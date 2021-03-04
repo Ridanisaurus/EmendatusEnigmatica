@@ -26,9 +26,13 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicOreBlock;
+import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
+import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
+import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
+import com.ridanisaurus.emendatusenigmatica.items.OreBlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
@@ -39,20 +43,20 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -78,6 +82,7 @@ public class EmendatusEnigmatica {
         MemoryDataGeneratorFactory.init();
         EELoader.load();
         EEDeposits.load();
+
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockHandler.BLOCKS.register(modEventBus);
@@ -90,6 +95,7 @@ public class EmendatusEnigmatica {
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
+        modEventBus.addListener(this::colorHandler);
 
         // Register World Gen Config
         //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
@@ -129,6 +135,14 @@ public class EmendatusEnigmatica {
         }
 
         ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+        event.getMinecraftSupplier().get().enqueue(() -> {
+            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getItemColors().register(new OreBlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+        });
+    }
+
+    private void colorHandler(ColorHandlerEvent.Block event) {
+        event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof BasicOreBlock).map(RegistryObject::get).toArray(Block[]::new));
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {

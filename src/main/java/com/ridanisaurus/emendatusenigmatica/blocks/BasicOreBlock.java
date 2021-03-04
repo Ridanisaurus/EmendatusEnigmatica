@@ -33,17 +33,20 @@ import net.minecraftforge.common.ToolType;
 public class BasicOreBlock extends Block {
   private final String localisedName;
 
-  public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
+  public final int color;
+  public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
     super(Properties.create(material)
           .hardnessAndResistance(hardness,resistance)
           .harvestLevel(harvestLevel)
           .harvestTool(tool)
           .setRequiresTool());
     this.localisedName = localisedName;
+    this.color = color;
   }
 
   @Override
   public IFormattableTextComponent getTranslatedName() {
     return new StringTextComponent(localisedName);
   }
+
 }

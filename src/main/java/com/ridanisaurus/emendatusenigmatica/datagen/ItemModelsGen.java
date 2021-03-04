@@ -75,56 +75,56 @@ public class ItemModelsGen extends ItemModelProvider {
         if (processedType.equals("ingot")) {
           getBuilder(material.getId() + "_ingot")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot"));
         }
 
         // Nuggets
         if (processedType.equals("nugget")) {
           getBuilder(material.getId() + "_nugget")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget"));
         }
 
         // Gems
         if (processedType.equals("gem")) {
           getBuilder(material.getId() + "_gem")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem"));
         }
 
         // Dusts
         if (processedType.equals("dust")) {
           getBuilder(material.getId() + "_dust")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust"));
         }
 
         // Plates
         if (processedType.equals("plate")) {
           getBuilder(material.getId() + "_plate")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate"));
         }
 
         // Gears
         if (processedType.equals("gear")) {
           getBuilder(material.getId() + "_gear")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear"));
         }
 
         // Rods
         if (processedType.equals("rod")) {
           getBuilder(material.getId() + "_rod")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod"));
         }
 
         // Chunks
         if (processedType.equals("chunk")) {
           getBuilder(material.getId() + "_chunk")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_chunk"));
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/chunk_metal"));
         }
         // Cluster
         if (processedType.equals("cluster")) {

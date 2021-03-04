@@ -51,7 +51,7 @@ public class RecipesGen extends RecipeProvider {
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
     // Enigmatic Fortunizer
-    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_FORTUNIZER.get())
+    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_FORTUNIZER_ITEM::get)
             .patternLine("PGP")
             .patternLine("DNE")
             .patternLine("RBR")
@@ -66,7 +66,7 @@ public class RecipesGen extends RecipeProvider {
             .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
             .build(consumer);
 
-    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_HAMMER.get())
+    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_HAMMER::get)
             .patternLine(" IN")
             .patternLine(" SI")
             .patternLine("S  ")

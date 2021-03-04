@@ -72,6 +72,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     }
   }
 
+
   public void dynamicBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
     models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
             .texture("particle", modLoc(overlayTexture))
@@ -98,11 +99,12 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                     .end()
             )
             .submodel(RenderType.getTranslucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
-                    .texture("overlay", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+                    .texture("overlay", new ResourceLocation(Reference.MOD_ID, "blocks/overlays/templates/ore_metal"))
                     .element()
                     .from(0, 0, 0)
                     .to(16, 16,16)
                     .cube("#overlay")
+                    .allFaces((x, b) -> b.tintindex(1))
                     //.allFaces((dir, uv) -> uv.uvs(0F,0F, 16F,16F))
                     .end()
             )

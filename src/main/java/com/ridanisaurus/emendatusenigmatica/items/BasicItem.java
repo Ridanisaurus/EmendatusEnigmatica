@@ -29,8 +29,11 @@ import net.minecraft.item.Item;
 
 public class BasicItem extends Item {
 
-  public BasicItem() {
+  public final int color;
+  public BasicItem(int color) {
     super(new Properties().group(EmendatusEnigmatica.TAB));
+    this.color = color;
   }
+
 
 }
