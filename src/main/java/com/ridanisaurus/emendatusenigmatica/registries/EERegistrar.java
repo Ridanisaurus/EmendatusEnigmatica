@@ -74,17 +74,30 @@ public class EERegistrar {
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
 		if (material.getOreBlockType().equals("metal")) {
-			// TODO Add MetalOreBlock with Particles
-			RegistryObject<Block> metalOreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
-					Material.ROCK,
-					material.getProperties().getHardness(),
-					material.getProperties().getResistance(),
-					material.getProperties().getHarvestLevel(),
-					ToolType.PICKAXE,
-					material.getLocalisedName()));
+			if (!material.getProperties().getHasParticle()) {
+				RegistryObject<Block> metalOreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
+						Material.ROCK,
+						material.getProperties().getHardness(),
+						material.getProperties().getResistance(),
+						material.getProperties().getHarvestLevel(),
+						ToolType.PICKAXE,
+						material.getLocalisedName()));
 
-			oreBlockTable.put(strata.getId(), material.getId(), metalOreBlock);
-			oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+				oreBlockTable.put(strata.getId(), material.getId(), metalOreBlock);
+				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+			} else {
+				RegistryObject<Block> metalOreBlockWithParticles = BLOCKS.register(oreName, () -> new MetalOreBlockWithParticles(
+						Material.ROCK,
+						material.getProperties().getHardness(),
+						material.getProperties().getResistance(),
+						material.getProperties().getHarvestLevel(),
+						ToolType.PICKAXE,
+						material.getLocalisedName(),
+						material.getProperties().getParticleHex()));
+
+				oreBlockTable.put(strata.getId(), material.getId(), metalOreBlockWithParticles);
+				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlockWithParticles.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+			}
 		}
 		if (material.getOreBlockType().equals("gem")) {
 			if (!material.getProperties().getHasParticle()) {

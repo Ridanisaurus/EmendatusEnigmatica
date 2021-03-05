@@ -26,12 +26,13 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
+import com.ridanisaurus.emendatusenigmatica.config.Config;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
-import com.ridanisaurus.emendatusenigmatica.registries.*;
+import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -49,10 +50,8 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -80,10 +79,6 @@ public class EmendatusEnigmatica {
 		EEDeposits.load();
 		// Register Deferred Registers and populate their tables once the mod is done constructing
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-//		BlockHandler.BLOCKS.register(modEventBus);
-//		OreHandler.BLOCKS.register(modEventBus);
-//		ItemHandler.ITEMS.register(modEventBus);
-//		BlockHandler.TILE_ENTITY.register(modEventBus);
 		ContainerHandler.CONTAINERS.register(modEventBus);
 
 		EERegistrar.Finalize(modEventBus);
@@ -91,8 +86,8 @@ public class EmendatusEnigmatica {
 		modEventBus.addListener(this::init);
 		modEventBus.addListener(this::clientEvents);
 
-		// Register World Gen Config
-		//ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
+		// Register Config
+		Config.register();
 
 		// Setup biome loading event for worldgen!
 		MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
@@ -112,15 +107,11 @@ public class EmendatusEnigmatica {
 	}
 
 	public void biomesHigh(final BiomeLoadingEvent event) {
-		//WorldGenHandler.addEEOres(event.getGeneration(), event);
 		EEDeposits.generateBiomes(event);
 	}
 
 	private void init(final FMLConstructModEvent event) {
-        /*OreHandler.oreBlocks();
-        ItemHandler.oreItems();
-        BlockHandler.blockInit();
-        ItemHandler.itemInit();*/
+
 	}
 
 	private void clientEvents(final FMLClientSetupEvent event) {

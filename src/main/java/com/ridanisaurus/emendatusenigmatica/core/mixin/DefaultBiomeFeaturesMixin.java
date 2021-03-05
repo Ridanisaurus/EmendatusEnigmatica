@@ -1,5 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.core.mixin;
 
+import com.ridanisaurus.emendatusenigmatica.config.Config;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
@@ -13,15 +14,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DefaultBiomeFeaturesMixin {
 
 	// TODO: (maybe) add config option to overwrite vanilla ores
-
 	@Inject(method = "withOverworldOres", at = @At("HEAD"), cancellable = true)
 	private static void withOverworldOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+		//if (Config.disableVanillaOres) {
 		ci.cancel();
+		//}
 	}
 
 	@Inject(method = "withExtraGoldOre", at = @At("HEAD"), cancellable = true)
 	private static void withExtraGoldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		ci.cancel();
+
 	}
 
 	@Inject(method = "withEmeraldOre", at = @At("HEAD"), cancellable = true)
@@ -32,6 +35,7 @@ public class DefaultBiomeFeaturesMixin {
 	@Inject(method = "withDebrisOre", at = @At("HEAD"), cancellable = true)
 	private static void withDebrisOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		ci.cancel();
+
 	}
 
 	@Inject(method = "withCommonNetherBlocks", at = @At("HEAD"), cancellable = true)

@@ -41,14 +41,16 @@ import java.util.Random;
 
 public class MetalOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
+	private final String particleHex;
 
-	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
+	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, String particleHex) {
 		super(Properties.create(material)
 				.hardnessAndResistance(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
 				.setRequiresTool());
 		this.localisedName = localisedName;
+		this.particleHex = particleHex;
 	}
 
 	@Override
@@ -60,9 +62,9 @@ public class MetalOreBlockWithParticles extends OreBlock {
 	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
-		float red = (float) ParticleColorHelper.HexToColor("#0099ff").getRed() / 255;
-		float green = (float) ParticleColorHelper.HexToColor("#0099ff").getGreen() / 255;
-		float blue = (float) ParticleColorHelper.HexToColor("#0099ff").getBlue() / 255;
+		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;
+		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
+		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
 
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {

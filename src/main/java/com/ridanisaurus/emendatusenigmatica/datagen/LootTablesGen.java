@@ -54,11 +54,38 @@ public class LootTablesGen extends BaseLootTableProvider {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (material.getProcessedType().contains("ore")) {
-					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-							material.getDefaultItemDrop().isEmpty()
-									? createItemLootTable(EERegistrar.chunkMap.get(material.getId()).get())
-									: createCountTable(EERegistrar.chunkMap.get(material.getId()).get(), ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
-									material.getDropMin(), material.getDropMax()));
+					if (material.getDefaultItemDrop().isEmpty()) {
+						if (material.getOreBlockDropType().equals("block")) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createItemLootTable(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()));
+						}
+						else if (material.getOreBlockDropType().equals("cluster")) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createItemLootTable(EERegistrar.clusterMap.get(material.getId()).get()));
+						} else {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createItemLootTable(EERegistrar.chunkMap.get(material.getId()).get()));
+						}
+					}
+					else {
+						if (material.getOreBlockDropType().equals("block")) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createCountTable(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get(),
+											ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
+											material.getDropMin(), material.getDropMax()));
+						}
+						else if (material.getOreBlockDropType().equals("cluster")) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createCountTable(EERegistrar.clusterMap.get(material.getId()).get(),
+											ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
+											material.getDropMin(), material.getDropMax()));
+						} else {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									createCountTable(EERegistrar.chunkMap.get(material.getId()).get(),
+											ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())),
+											material.getDropMin(), material.getDropMax()));
+						}
+					}
 				}
 			}
 		}

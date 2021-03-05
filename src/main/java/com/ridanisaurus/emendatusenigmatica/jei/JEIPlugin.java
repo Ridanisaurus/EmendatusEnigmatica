@@ -24,7 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.jei;
 
-import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.resources.I18n;
 import mezz.jei.api.IModPlugin;
