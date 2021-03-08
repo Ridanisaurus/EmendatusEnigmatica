@@ -2,5 +2,9 @@
   {
 	"name": "Ridanis",
 	"item": "emendatusenigmatica:uranium_ingot"
+  },
+  {
+	"name": "Dev",
+	"item": "emendatusenigmatica:copper_ingot"
   }
 ]
