@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:dimensional_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:dimensional_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:dimensional_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:dimensional_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:dimensional_cluster"
+  }
+}

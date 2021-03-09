@@ -58,6 +58,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgeGears = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
     Builder<Item> forgeRods = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "rods").toString()));
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
+    Builder<Item> forgeClusters = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "clusters").toString()));
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
 
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
@@ -126,6 +127,15 @@ public class ItemTagsGen extends ItemTagsProvider {
       forgeChunks.add(chunk.get());
       Builder<Item> chunkTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks/" + mat.id).toString()));
       chunkTag.add(chunk.get());
+    });
+
+    // Clusters
+    ItemHandler.backingItemTable.row(ProcessedMaterials.CLUSTER).forEach((mat, cluster) -> {
+      forgeClusters.add(cluster.get());
+      Builder<Item> clusterTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "clusters/" + mat.id).toString()));
+      Builder<Item> oreClusterTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores_cluster/" + mat.id).toString()));
+      clusterTag.add(cluster.get());
+      oreClusterTag.add(cluster.get());
     });
 
     // Ore Items

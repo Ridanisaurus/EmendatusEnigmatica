@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:silver_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:silver_chunk",
+    "count": 4
+  }
+}

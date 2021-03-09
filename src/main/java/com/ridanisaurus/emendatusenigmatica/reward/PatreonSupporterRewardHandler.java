@@ -22,12 +22,11 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.Reward;
+package com.ridanisaurus.emendatusenigmatica.reward;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -50,14 +49,12 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @OnlyIn(Dist.CLIENT)
 public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> {
-	private static Map<String, ItemStack> rewardMap = new HashMap<>();
+	private static final Map<String, ItemStack> REWARD_MAP = new HashMap<>();
 
 	static {
 		load();
-		EmendatusEnigmatica.LOGGER.info("resource loaded" + rewardMap);
 	}
 
 	public PatreonSupporterRewardHandler(IEntityRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>> playerModel) {
@@ -73,7 +70,7 @@ public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientP
 			matrixStack.translate(0, -0.75, 0);
 			matrixStack.scale(0.5f, -0.5f, -0.5f);
 			matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F - player.rotationYaw));
-			Minecraft.getInstance().getItemRenderer().renderItem(player, rewardMap.getOrDefault(name, ItemStack.EMPTY), ItemCameraTransforms.TransformType.NONE, false, matrixStack, buffer, player.world, 0xF000F0, OverlayTexture.NO_OVERLAY);
+			Minecraft.getInstance().getItemRenderer().renderItem(player, REWARD_MAP.getOrDefault(name, ItemStack.EMPTY), ItemCameraTransforms.TransformType.NONE, false, matrixStack, buffer, player.world, 0xF000F0, OverlayTexture.NO_OVERLAY);
 			matrixStack.pop();
 		}
 	}
@@ -87,8 +84,7 @@ public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientP
 					Supporter[] supportersList = jsonParser.fromJson(reader, Supporter[].class);
 					for (Supporter supporter : supportersList) {
 						ItemStack item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(supporter.item)));
-						rewardMap.put(supporter.name, item);
-						EmendatusEnigmatica.LOGGER.info("Added resources for: " + supporter.name);
+						REWARD_MAP.put(supporter.name, item);
 					}
 				}
 			} catch (Exception e) {

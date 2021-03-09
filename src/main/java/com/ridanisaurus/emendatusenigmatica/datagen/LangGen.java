@@ -131,6 +131,14 @@ public class LangGen extends LanguageProvider {
           sb.append(" Chunk");
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
+
+        // Chunks
+        if (processedMaterial == ProcessedMaterials.CLUSTER && toCreate.contains("Cluster") && !material.id.equals("arcane")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Cluster");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
       }
     }
 
@@ -153,6 +161,7 @@ public class LangGen extends LanguageProvider {
 
     add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Mana Cluster");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");

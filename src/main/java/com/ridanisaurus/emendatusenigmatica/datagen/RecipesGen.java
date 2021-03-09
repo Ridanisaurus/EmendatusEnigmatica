@@ -513,6 +513,27 @@ public class RecipesGen extends RecipeProvider {
                 .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.id));
       }
 
+      // Cluster from Chunk
+      if (toCreate.contains("Cluster") && toCreate.contains("Chunk")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "cluster_from_chunk/" + material.id));
+      }
+
+      // Chunk from Cluster
+      if (toCreate.contains("Chunk") && toCreate.contains("Cluster")) {
+        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get(), 4)
+                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
+                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+                .setGroup(Reference.MOD_ID)
+                .build(consumer, new ResourceLocation(Reference.MOD_ID, "chunk_from_cluster/" + material.id));
+      }
+
       // Ore Smelting & Blasting
       if (toCreate.contains("Ore") && toCreate.contains("Ingot")) {
         CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)

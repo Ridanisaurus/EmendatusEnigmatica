@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:tin_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:tin_chunk",
+    "count": 4
+  }
+}

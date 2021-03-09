@@ -120,6 +120,12 @@ public class ItemModelsGen extends ItemModelProvider {
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_chunk"));
         }
+        // Clusters
+        if (processedMaterial == ProcessedMaterials.CLUSTER && toCreate.contains("Cluster")) {
+          getBuilder(material.id + "_cluster")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_cluster"));
+        }
       }
     }
     // Ore Items

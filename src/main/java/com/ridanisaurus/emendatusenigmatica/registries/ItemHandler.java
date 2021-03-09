@@ -110,6 +110,12 @@ public class ItemHandler {
           builder.put(processedMaterial, material, ITEMS.register(chunkName, ItemBase::new));
           materialsByName.put(new ResourceLocation(Reference.MOD_ID, chunkName),material);
         }
+        // Cluster
+        if (processedMaterial == ProcessedMaterials.CLUSTER && toCreate.contains("Cluster")) {
+          String clusterName = material.id + "_cluster";
+          builder.put(processedMaterial, material, ITEMS.register(clusterName, ItemBase::new));
+          materialsByName.put(new ResourceLocation(Reference.MOD_ID, clusterName),material);
+        }
       }
     }
     backingItemTable = builder.build();

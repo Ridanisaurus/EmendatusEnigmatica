@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:certus_quartz_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:certus_quartz_chunk",
+    "count": 4
+  }
+}

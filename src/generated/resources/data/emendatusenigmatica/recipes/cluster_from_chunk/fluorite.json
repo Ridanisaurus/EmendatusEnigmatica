@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:fluorite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:fluorite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:fluorite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:fluorite_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:fluorite_cluster"
+  }
+}

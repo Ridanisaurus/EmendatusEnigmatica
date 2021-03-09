@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:apatite_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:apatite_chunk",
+    "count": 4
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:sulfur_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:sulfur_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:sulfur_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:sulfur_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:sulfur_cluster"
+  }
+}

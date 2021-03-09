@@ -24,38 +24,31 @@
 
 package com.ridanisaurus.emendatusenigmatica;
 
-import com.ridanisaurus.emendatusenigmatica.Reward.PatreonSupporterRewardHandler;
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
-import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
+import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
+import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
+import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -63,7 +56,11 @@ public class EmendatusEnigmatica {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
 
+    public static EmendatusEnigmatica instance;
+    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+
     public EmendatusEnigmatica() {
+        instance = this;
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BlockHandler.BLOCKS.register(modEventBus);
@@ -72,8 +69,8 @@ public class EmendatusEnigmatica {
         BlockHandler.TILE_ENTITY.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
 
-        modEventBus.addListener(this::init);
-        modEventBus.addListener(this::clientEvents);
+        modEventBus.addListener(this::setup);
+        modEventBus.addListener(this::construct);
 
         // Register World Gen Config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
@@ -86,23 +83,29 @@ public class EmendatusEnigmatica {
         WorldGenHandler.addEEOres(event.getGeneration(), event);
     }
 
-    private void init(final FMLConstructModEvent event) {
+    private void construct(final FMLConstructModEvent event) {
         OreHandler.oreBlocks();
         ItemHandler.oreItems();
         BlockHandler.blockInit();
         ItemHandler.itemInit();
     }
 
-    private void clientEvents(final FMLClientSetupEvent event) {
-        for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
-            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
-        }
+    public void setup(FMLCommonSetupEvent event) {
+        this.preInit(event);
+        this.init(event);
+        this.postInit(event);
+    }
 
-        ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+    private void preInit(FMLCommonSetupEvent event) {
+        proxy.preInit(event);
+    }
 
-        Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
-        for (PlayerRenderer render : new PlayerRenderer[]{skinMap.get("default"), skinMap.get("slim")})
-            render.addLayer(new PatreonSupporterRewardHandler(render));
+    private void init(FMLCommonSetupEvent event) {
+        proxy.init(event);
+    }
+
+    private void postInit(FMLCommonSetupEvent event) {
+        proxy.postInit(event);
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {

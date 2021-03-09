@@ -15,7 +15,8 @@ public enum ProcessedMaterials {
   CHUNK("chunk", "Chunk"),
   GEAR("gear", "Gear"),
   PLATE("plate", "Plate"),
-  ROD("rod", "Rod");
+  ROD("rod", "Rod"),
+  CLUSTER("cluster", "Cluster");
 
   public final String id;
   public final String localisedName;

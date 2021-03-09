@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:copper_cluster",
+    "emendatusenigmatica:aluminum_cluster",
+    "emendatusenigmatica:silver_cluster",
+    "emendatusenigmatica:lead_cluster",
+    "emendatusenigmatica:nickel_cluster",
+    "emendatusenigmatica:uranium_cluster",
+    "emendatusenigmatica:osmium_cluster",
+    "emendatusenigmatica:tin_cluster",
+    "emendatusenigmatica:zinc_cluster",
+    "emendatusenigmatica:certus_quartz_cluster",
+    "emendatusenigmatica:charged_certus_quartz_cluster",
+    "emendatusenigmatica:fluorite_cluster",
+    "emendatusenigmatica:bitumen_cluster",
+    "emendatusenigmatica:cinnabar_cluster",
+    "emendatusenigmatica:apatite_cluster",
+    "emendatusenigmatica:sulfur_cluster",
+    "emendatusenigmatica:potassium_nitrate_cluster",
+    "emendatusenigmatica:arcane_cluster",
+    "emendatusenigmatica:dimensional_cluster",
+    "emendatusenigmatica:coal_cluster",
+    "emendatusenigmatica:iron_cluster",
+    "emendatusenigmatica:gold_cluster",
+    "emendatusenigmatica:diamond_cluster",
+    "emendatusenigmatica:emerald_cluster",
+    "emendatusenigmatica:lapis_cluster",
+    "emendatusenigmatica:quartz_cluster",
+    "emendatusenigmatica:redstone_cluster"
+  ]
+}

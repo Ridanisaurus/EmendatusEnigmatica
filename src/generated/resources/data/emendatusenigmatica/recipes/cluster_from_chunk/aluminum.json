@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:aluminum_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:aluminum_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:aluminum_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:aluminum_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:aluminum_cluster"
+  }
+}

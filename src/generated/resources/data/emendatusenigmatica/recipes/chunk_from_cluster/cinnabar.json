@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:cinnabar_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:cinnabar_chunk",
+    "count": 4
+  }
+}

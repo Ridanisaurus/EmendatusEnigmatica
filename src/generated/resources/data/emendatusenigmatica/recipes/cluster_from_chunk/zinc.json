@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:zinc_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:zinc_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:zinc_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:zinc_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:zinc_cluster"
+  }
+}
