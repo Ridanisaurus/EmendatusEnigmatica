@@ -10,5 +10,9 @@
   {
 	"name": "Merlocraft",
 	"item": "emendatusenigmatica:uranium_gear"
+  },
+  {
+	"name": "Halfdeaf",
+	"item": "emendatusenigmatica:gold_chunk"
   }
 ]
