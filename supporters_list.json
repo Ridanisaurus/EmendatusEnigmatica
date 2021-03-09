@@ -14,5 +14,9 @@
   {
 	"name": "Halfdeaf",
 	"item": "emendatusenigmatica:gold_chunk"
+  },
+  {
+	"name": "gefailter",
+	"item": "emendatusenigmatica:enderium_chunk"
   }
 ]
