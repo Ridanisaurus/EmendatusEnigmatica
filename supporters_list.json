@@ -5,7 +5,7 @@
   },
   {
 	"name": "Dev",
-	"item": "emendatusenigmatica:arcane_gem"
+	"item": "emendatusenigmatica:dimensional_block"
   },
   {
 	"name": "Merlocraft",
@@ -34,5 +34,9 @@
   {
 	"name": "Ellpeck",
 	"item": "emendatusenigmatica:gold_gear"
+  },
+  {
+	"name": "Buuz135",
+	"item": "emendatusenigmatica:dimensional_block"
   }
 ]
