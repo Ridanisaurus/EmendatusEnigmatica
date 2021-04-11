@@ -39,7 +39,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -64,12 +66,13 @@ public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientP
 	@Override
 	public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		String name = player.getGameProfile().getName();
-		if (player.hasPlayerInfo() && !player.isInvisible() && player.isWearing(PlayerModelPart.CAPE)) {
+		World world = player.getEntityWorld();
+		if (player.hasPlayerInfo() && !player.isInvisible()) {
 			matrixStack.push();
 			getEntityModel().bipedHead.translateRotate(matrixStack);
-			matrixStack.translate(0, -0.75, 0);
-			matrixStack.scale(0.5f, -0.5f, -0.5f);
-			matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F - player.rotationYaw));
+			matrixStack.translate(0, -1.25, 0);
+			matrixStack.scale(0.40f, -0.40f, -0.40f);
+			matrixStack.rotate(Vector3f.YP.rotationDegrees((world.getGameTime() % 360)  * 3));
 			Minecraft.getInstance().getItemRenderer().renderItem(player, REWARD_MAP.getOrDefault(name, ItemStack.EMPTY), ItemCameraTransforms.TransformType.NONE, false, matrixStack, buffer, player.world, 0xF000F0, OverlayTexture.NO_OVERLAY);
 			matrixStack.pop();
 		}
