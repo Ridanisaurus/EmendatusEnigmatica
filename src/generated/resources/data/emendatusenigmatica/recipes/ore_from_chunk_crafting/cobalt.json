@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:cobalt_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:cobalt_ore"
+  }
+}

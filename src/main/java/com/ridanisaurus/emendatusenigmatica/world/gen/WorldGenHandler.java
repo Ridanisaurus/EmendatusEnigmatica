@@ -142,7 +142,7 @@ public class WorldGenHandler {
     return oreFeature.withConfiguration(new OreFeatureConfig(filler, state, size))
             .withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(baseline, spread)))
             .square() // square vein
-            .func_242731_b(count) // max count per chunk
+            .count(count) // max count per chunk
             ;
   }
 }

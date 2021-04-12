@@ -24,7 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.blocks.OreCobalt;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
@@ -74,6 +76,9 @@ public class BlockTagsGen extends BlockTagsProvider {
     // Minecraft Additional Tags (Beacon Base)
     Builder<Block> beaconBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
     BlockHandler.backingStorageBlockTable.values().forEach(beaconBlock -> beaconBlocks.add(beaconBlock.get()));
+    // Minecraft Additional Tags (Angers Piglin)
+    Builder<Block> guardedBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "guarded_by_piglins").toString()));
+    OreHandler.backingOreBlockTable.column(Materials.GOLD).values().forEach(guardedBlock -> guardedBlocks.add(guardedBlock.get()));
 
     // Potassium Nitrate Compact
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))

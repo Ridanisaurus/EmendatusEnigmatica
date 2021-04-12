@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:cobalt_ingot"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:cobalt_nugget",
+    "count": 9
+  }
+}

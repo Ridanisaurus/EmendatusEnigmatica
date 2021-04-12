@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:cobalt_chunk"
+  },
+  "result": "emendatusenigmatica:cobalt_netherrack_ore",
+  "count": 1
+}
