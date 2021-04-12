@@ -29,6 +29,7 @@ import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
+import com.ridanisaurus.emendatusenigmatica.items.ItemSawdust;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -127,7 +128,7 @@ public class ItemHandler {
   public static final RegistryObject<Item> DUST_ENDER = ITEMS.register("ender_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_GRAPHITE = ITEMS.register("graphite_dust", ItemBase::new);
   public static final RegistryObject<Item> DUST_LITHIUM = ITEMS.register("lithium_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemBase::new);
+  public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemSawdust::new);
 
   //Ore Items
   public static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;

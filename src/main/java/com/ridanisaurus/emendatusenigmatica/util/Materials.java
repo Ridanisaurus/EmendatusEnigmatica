@@ -32,6 +32,7 @@ public enum Materials {
   OSMIUM("osmium", "Osmium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreOsmium::new, ItemBase::new, Source.MODDED, 32, 12, 15, 6),
   TIN("tin", "Tin", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreTin::new, ItemBase::new, Source.MODDED, 47, 7, 15, 7),
   ZINC("zinc", "Zinc", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreZinc::new, ItemBase::new, Source.MODDED, 42, 8, 9, 5),
+  COBALT("cobalt", "Cobalt", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreCobalt::new, ItemBase::new, Source.MODDED, 32, 16, 4, 8),
 
   CERTUS_QUARTZ("certus_quartz", "Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "4xRecipe", "Cluster"}, BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CERTUS_QUARTZ")).get()), 32, 32, 16, 8),
   CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "4xRecipe", "Cluster"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 16, 16, 8, 4),
