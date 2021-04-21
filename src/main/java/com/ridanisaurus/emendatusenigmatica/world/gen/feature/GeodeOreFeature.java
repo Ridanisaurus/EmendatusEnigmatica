@@ -28,138 +28,138 @@ import java.util.Random;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 
-    private final List<CommonBlockDefinitionModel> shellBlocks;
-    private final List<CommonBlockDefinitionModel> innerBlocks;
-    private final GeodeDepositModel model;
+	private final List<CommonBlockDefinitionModel> shellBlocks;
+	private final List<CommonBlockDefinitionModel> innerBlocks;
+	private final GeodeDepositModel model;
 
-    public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
-        super(codec);
-        this.model = model;
-        shellBlocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getShellBlocks()) {
-            NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
-            shellBlocks.addAll(filled);
-        }
-        innerBlocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
-            NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
-            innerBlocks.addAll(filled);
-        }
-    }
+	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
+		super(codec);
+		this.model = model;
+		shellBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getShellBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			shellBlocks.addAll(filled);
+		}
+		innerBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			innerBlocks.addAll(filled);
+		}
+	}
 
-    @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
+	@Override
+	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
 
-        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
-            return false;
-        }
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+			return false;
+		}
 
 
-        int intRand = rand.nextInt(100);
-        double doubleRand = rand.nextDouble();
-        if (intRand >= 1) {
-            doubleRand += intRand - 1;
-        }
-        if (doubleRand > model.getConfig().getChance() / model.getConfig().getChanceChunkSkip()) {
-            return false;
-        }
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
-        int yPos = rand.nextInt(yTop);
-        yPos = Math.max(yPos, yBottom);
+		int intRand = rand.nextInt(100);
+		double doubleRand = rand.nextDouble();
+		if (intRand >= 1) {
+			doubleRand += intRand - 1;
+		}
+		if (doubleRand > model.getConfig().getChance() / model.getConfig().getChanceChunkSkip()) {
+			return false;
+		}
+		int yTop = model.getConfig().getMaxYLevel();
+		int yBottom = model.getConfig().getMinYLevel();
+		int yPos = rand.nextInt(yTop);
+		yPos = Math.max(yPos, yBottom);
 
-        generateHollowSphere(reader, generator, rand, pos, config, shellBlocks, model.getConfig().getRadius(), yPos);
-        generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
-        return true;
-    }
+		generateHollowSphere(reader, generator, rand, pos, config, shellBlocks, model.getConfig().getRadius(), yPos);
+		generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
+		return true;
+	}
 
-    private void generateHollowSphere(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
+	private void generateHollowSphere(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
+		int yTop = model.getConfig().getMaxYLevel();
+		int yBottom = model.getConfig().getMinYLevel();
 
-        radius += 0.5;
-        radius += 0.5;
-        radius += 0.5;
+		radius += 0.5;
+		radius += 0.5;
+		radius += 0.5;
 
-        final double invRadiusX = 1d / radius;
-        final double invRadiusY = 1d / radius;
-        final double invRadiusZ = 1d / radius;
+		final double invRadiusX = 1d / radius;
+		final double invRadiusY = 1d / radius;
+		final double invRadiusZ = 1d / radius;
 
-        final int ceilRadiusX = (int) Math.ceil(radius);
-        final int ceilRadiusY = (int) Math.ceil(radius);
-        final int ceilRadiusZ = (int) Math.ceil(radius);
+		final int ceilRadiusX = (int) Math.ceil(radius);
+		final int ceilRadiusY = (int) Math.ceil(radius);
+		final int ceilRadiusZ = (int) Math.ceil(radius);
 
-        double nextXn = 0;
-        forX:
-        for (int x = 0; x <= ceilRadiusX; ++x) {
-            final double xn = nextXn;
-            nextXn = (x + 1) * invRadiusX;
-            double nextYn = 0;
-            forY:
-            for (int y = 0; y <= ceilRadiusY; ++y) {
-                final double yn = nextYn;
-                nextYn = (y + 1) * invRadiusY;
-                double nextZn = 0;
-                forZ:
-                for (int z = 0; z <= ceilRadiusZ; ++z) {
-                    final double zn = nextZn;
-                    nextZn = (z + 1) * invRadiusZ;
+		double nextXn = 0;
+		forX:
+		for (int x = 0; x <= ceilRadiusX; ++x) {
+			final double xn = nextXn;
+			nextXn = (x + 1) * invRadiusX;
+			double nextYn = 0;
+			forY:
+			for (int y = 0; y <= ceilRadiusY; ++y) {
+				final double yn = nextYn;
+				nextYn = (y + 1) * invRadiusY;
+				double nextZn = 0;
+				forZ:
+				for (int z = 0; z <= ceilRadiusZ; ++z) {
+					final double zn = nextZn;
+					nextZn = (z + 1) * invRadiusZ;
 
-                    double distanceSq = MathHelper.lengthSq(xn, yn, zn);
-                    if (distanceSq > 1) {
-                        if (z == 0) {
-                            if (y == 0) {
-                                break forX;
-                            }
-                            break forY;
-                        }
-                        break forZ;
-                    }
-                    if (y + yPos > yTop || y + yPos < yBottom) {
-                        continue;
-                    }
+					double distanceSq = MathHelper.lengthSq(xn, yn, zn);
+					if (distanceSq > 1) {
+						if (z == 0) {
+							if (y == 0) {
+								break forX;
+							}
+							break forY;
+						}
+						break forZ;
+					}
+					if (y + yPos > yTop || y + yPos < yBottom) {
+						continue;
+					}
 
-                    if (MathHelper.lengthSq(nextXn, yn, zn) <= 1 && MathHelper.lengthSq(xn, nextYn, zn) <= 1 && MathHelper.lengthSq(xn, yn, nextZn) <= 1) {
-                        continue;
-                    }
+					if (MathHelper.lengthSq(nextXn, yn, zn) <= 1 && MathHelper.lengthSq(xn, nextYn, zn) <= 1 && MathHelper.lengthSq(xn, yn, nextZn) <= 1) {
+						continue;
+					}
 
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + -z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + -z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + -z), config.target, blocks);
-                    placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + -z), config.target, blocks);
-                }
-            }
-        }
-    }
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + -z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + -z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + -z), config.target, blocks);
+					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + -z), config.target, blocks);
+				}
+			}
+		}
+	}
 
-    private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
-            pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
-        if (!filler.test(reader.getBlockState(pos), rand)) {
-            return;
-        }
+	private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
+			pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
+		if (!filler.test(reader.getBlockState(pos), rand)) {
+			return;
+		}
 
-        int index = rand.nextInt(blocks.size());
-        CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
-        if (commonBlockDefinitionModel.getBlock() != null) {
-            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-            reader.setBlockState(pos, block.getDefaultState(), 2);
-        } else if (commonBlockDefinitionModel.getTag() != null) {
-            ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
-            Block block = blockITag.getRandomElement(rand);
-            reader.setBlockState(pos, block.getDefaultState(), 2);
-        } else if (commonBlockDefinitionModel.getMaterial() != null) {
-            BlockState currentFiller = reader.getBlockState(pos);
-            String fillerId = currentFiller.getBlock().getRegistryName().toString();
-            Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
-            if (strataIndex != null) {
-                StrataModel stratum = EELoader.STRATA.get(strataIndex);
-                Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-                reader.setBlockState(pos, block.getDefaultState(), 2);
-            }
-        }
-    }
+		int index = rand.nextInt(blocks.size());
+		CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
+		if (commonBlockDefinitionModel.getBlock() != null) {
+			Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
+			reader.setBlockState(pos, block.getDefaultState(), 2);
+		} else if (commonBlockDefinitionModel.getTag() != null) {
+			ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
+			Block block = blockITag.getRandomElement(rand);
+			reader.setBlockState(pos, block.getDefaultState(), 2);
+		} else if (commonBlockDefinitionModel.getMaterial() != null) {
+			BlockState currentFiller = reader.getBlockState(pos);
+			String fillerId = currentFiller.getBlock().getRegistryName().toString();
+			Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
+			if (strataIndex != null) {
+				StrataModel stratum = EELoader.STRATA.get(strataIndex);
+				Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
+				reader.setBlockState(pos, block.getDefaultState(), 2);
+			}
+		}
+	}
 }

@@ -22,36 +22,31 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.inventory;
+package com.ridanisaurus.emendatusenigmatica.blocks;
 
-// Credit: Ellpeck
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraftforge.common.ToolType;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.SlotItemHandler;
+public class BasicOreBlock extends Block {
+  private final String localisedName;
 
-import javax.annotation.Nonnull;
+	public final int color;
+  public MetalOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
+    super(Properties.create(material)
+          .hardnessAndResistance(hardness,resistance)
+          .harvestLevel(harvestLevel)
+          .harvestTool(tool)
+          .setRequiresTool());
+    this.localisedName = localisedName;
+    this.color = color;
+  }
 
-public class SlotItemHandlerTakeable extends SlotItemHandler {
-	public SlotItemHandlerTakeable(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-		super(itemHandler, index, xPosition, yPosition);
-	}
+  @Override
+  public IFormattableTextComponent getTranslatedName() {
+    return new StringTextComponent(localisedName);
+  }
 
-	@Override
-	public boolean canTakeStack(PlayerEntity playerIn) {
-		return true;
-	}
-
-	@Override
-	@Nonnull
-	public ItemStack decrStackSize(int amount) {
-		ItemStack stack = this.getStack();
-		int possible = Math.min(amount, stack.getCount());
-		ItemStack returned = ItemHandlerHelper.copyStackWithSize(stack, possible);
-		stack.shrink(possible);
-
-		return returned;
-	}
 }

@@ -11,6 +11,7 @@
     "rod"
   ],
   "oreBlockType": "gem",
+  "oreBlockDropType": "cluster",
   "defaultItemDrop": "minecraft:emerald",
   "dropMin": 1,
   "dropMax": 1,

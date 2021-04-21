@@ -24,33 +24,33 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
+import com.ridanisaurus.emendatusenigmatica.util.ParticleColorHelper;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.particles.RedstoneParticleData;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
+import java.awt.*;
 import java.util.Random;
 
-public class GemOreBlock extends Block {
+public class MetalOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
-	private final int minExp;
-	private final int maxExp;
+	private final String particleHex;
 
-	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp) {
-		super(AbstractBlock.Properties.create(material)
+	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, String particleHex) {
+		super(Properties.create(material)
 				.hardnessAndResistance(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
 				.setRequiresTool());
 		this.localisedName = localisedName;
-		this.minExp = minExp;
-		this.maxExp = maxExp;
+		this.particleHex = particleHex;
 	}
 
 	@Override
@@ -58,12 +58,25 @@ public class GemOreBlock extends Block {
 		return new StringTextComponent(localisedName);
 	}
 
-	protected int getExperience(Random rand) {
-		return MathHelper.nextInt(rand, minExp, maxExp);
-	}
-
 	@Override
-	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		super.animateTick(stateIn, worldIn, pos, rand);
+
+		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;
+		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
+		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
+
+		if(rand.nextInt(10) == 0) {
+			for(Direction direction : Direction.values()) {
+				BlockPos blockpos = pos.offset(direction);
+				if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+					Direction.Axis direction$axis = direction.getAxis();
+					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getXOffset() : (double)rand.nextFloat();
+					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getYOffset() : (double)rand.nextFloat();
+					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getZOffset() : (double)rand.nextFloat();
+					worldIn.addParticle(new RedstoneParticleData(red, green, blue, 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+				}
+			}
+		}
 	}
 }

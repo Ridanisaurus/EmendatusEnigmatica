@@ -31,17 +31,16 @@ import net.minecraft.util.ResourceLocation;
 import java.util.function.Function;
 
 public class EETags {
-
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_INGOT = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "ingots/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_NUGGET = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "nuggets/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_STORAGE_BLOCK = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "storage_blocks/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEM = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "gems/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_DUST = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "dusts/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEAR = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "gears/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_PLATE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "plates/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_ROD = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "rods/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "ores/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_CHUNK = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "chunks/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_CLUSTER = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "clusters/" + material));
-  public static final Function<String, MockedNamedTag<Item>> MATERIAL_NONE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_INGOT = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "ingots/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_NUGGET = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "nuggets/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_STORAGE_BLOCK = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "storage_blocks/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEM = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "gems/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_DUST = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "dusts/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEAR = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "gears/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_PLATE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "plates/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ROD = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "rods/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "ores/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CHUNK = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "chunks/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CLUSTER = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", "clusters/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_NONE = material -> new MockedNamedTag<Item>(new ResourceLocation("forge", material));
 }

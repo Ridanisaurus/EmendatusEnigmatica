@@ -30,8 +30,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 
 public class BasicBlockItem extends BlockItem {
-
-    public BasicBlockItem(Block block) {
-        super(block, new Properties().group(EmendatusEnigmatica.TAB));
-    }
+	public BasicBlockItem(Block block) {
+		super(block, new Properties().group(EmendatusEnigmatica.TAB));
+	}
 }

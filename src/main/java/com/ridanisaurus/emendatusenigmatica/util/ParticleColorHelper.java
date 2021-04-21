@@ -22,36 +22,27 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.inventory;
+package com.ridanisaurus.emendatusenigmatica.util;
 
-// Credit: Ellpeck
+import java.awt.*;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.SlotItemHandler;
-
-import javax.annotation.Nonnull;
-
-public class SlotItemHandlerTakeable extends SlotItemHandler {
-	public SlotItemHandlerTakeable(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
-		super(itemHandler, index, xPosition, yPosition);
-	}
-
-	@Override
-	public boolean canTakeStack(PlayerEntity playerIn) {
-		return true;
-	}
-
-	@Override
-	@Nonnull
-	public ItemStack decrStackSize(int amount) {
-		ItemStack stack = this.getStack();
-		int possible = Math.min(amount, stack.getCount());
-		ItemStack returned = ItemHandlerHelper.copyStackWithSize(stack, possible);
-		stack.shrink(possible);
-
-		return returned;
+public class ParticleColorHelper {
+	public static Color HexToColor(String hex)
+	{
+		hex = hex.replace("#", "");
+		switch (hex.length()) {
+			case 6:
+				return new Color(
+						Integer.valueOf(hex.substring(0, 2), 16),
+						Integer.valueOf(hex.substring(2, 4), 16),
+						Integer.valueOf(hex.substring(4, 6), 16));
+			case 8:
+				return new Color(
+						Integer.valueOf(hex.substring(0, 2), 16),
+						Integer.valueOf(hex.substring(2, 4), 16),
+						Integer.valueOf(hex.substring(4, 6), 16),
+						Integer.valueOf(hex.substring(6, 8), 16));
+		}
+		return null;
 	}
 }

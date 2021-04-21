@@ -14,6 +14,7 @@
     "rod"
   ],
   "oreBlockType": "metal",
+  "oreBlockDropType": "block",
   "properties": {
       "hardness": 3.0,
       "resistance": 3.0,

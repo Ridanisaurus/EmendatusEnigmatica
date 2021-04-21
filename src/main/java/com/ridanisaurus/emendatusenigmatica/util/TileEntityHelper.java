@@ -42,51 +42,50 @@ import java.util.stream.Stream;
 // Credit: Ellpeck - https://github.com/Ellpeck/PrettyPipes/blob/main/src/main/java/de/ellpeck/prettypipes/Utility.java#L71-L112
 
 public class TileEntityHelper {
+	public static ItemStack transferStackInSlot(Container container, IMergeItemStack merge, PlayerEntity player, int slotIndex, Function<ItemStack, Pair<Integer, Integer>> predicate) {
+		int inventoryStart = (int) container.inventorySlots.stream().filter(slot -> slot.inventory != player.inventory).count();
+		int inventoryEnd = inventoryStart + 26;
+		int hotbarStart = inventoryEnd + 1;
+		int hotbarEnd = hotbarStart + 8;
 
-  public static ItemStack transferStackInSlot(Container container, IMergeItemStack merge, PlayerEntity player, int slotIndex, Function<ItemStack, Pair<Integer, Integer>> predicate) {
-    int inventoryStart = (int) container.inventorySlots.stream().filter(slot -> slot.inventory != player.inventory).count();
-    int inventoryEnd = inventoryStart + 26;
-    int hotbarStart = inventoryEnd + 1;
-    int hotbarEnd = hotbarStart + 8;
+		Slot slot = container.inventorySlots.get(slotIndex);
+		if (slot != null && slot.getHasStack()) {
+			ItemStack newStack = slot.getStack();
+			ItemStack currentStack = newStack.copy();
 
-    Slot slot = container.inventorySlots.get(slotIndex);
-    if (slot != null && slot.getHasStack()) {
-      ItemStack newStack = slot.getStack();
-      ItemStack currentStack = newStack.copy();
+			if (slotIndex >= inventoryStart) {
+				// shift into this container here
+				// mergeItemStack with the slots that newStack should go into
+				// return an empty stack if mergeItemStack fails
+				Pair<Integer, Integer> slots = predicate.apply(newStack);
+				if (slots != null) {
+					if (!merge.mergeItemStack(newStack, slots.getLeft(), slots.getRight(), false))
+						return ItemStack.EMPTY;
+				}
+				// end custom code
+				else if (slotIndex <= inventoryEnd) {
+					if (!merge.mergeItemStack(newStack, hotbarStart, hotbarEnd + 1, false))
+						return ItemStack.EMPTY;
+				} else if (slotIndex >= inventoryEnd + 1 && slotIndex < hotbarEnd + 1 && !merge.mergeItemStack(newStack, inventoryStart, inventoryEnd + 1, false)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!merge.mergeItemStack(newStack, inventoryStart, hotbarEnd + 1, false)) {
+				return ItemStack.EMPTY;
+			}
+			if (newStack.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
+			if (newStack.getCount() == currentStack.getCount())
+				return ItemStack.EMPTY;
+			slot.onTake(player, newStack);
+			return currentStack;
+		}
+		return ItemStack.EMPTY;
+	}
 
-      if (slotIndex >= inventoryStart) {
-        // shift into this container here
-        // mergeItemStack with the slots that newStack should go into
-        // return an empty stack if mergeItemStack fails
-        Pair<Integer, Integer> slots = predicate.apply(newStack);
-        if (slots != null) {
-          if (!merge.mergeItemStack(newStack, slots.getLeft(), slots.getRight(), false))
-            return ItemStack.EMPTY;
-        }
-        // end custom code
-        else if (slotIndex <= inventoryEnd) {
-          if (!merge.mergeItemStack(newStack, hotbarStart, hotbarEnd + 1, false))
-            return ItemStack.EMPTY;
-        } else if (slotIndex >= inventoryEnd + 1 && slotIndex < hotbarEnd + 1 && !merge.mergeItemStack(newStack, inventoryStart, inventoryEnd + 1, false)) {
-          return ItemStack.EMPTY;
-        }
-      } else if (!merge.mergeItemStack(newStack, inventoryStart, hotbarEnd + 1, false)) {
-        return ItemStack.EMPTY;
-      }
-      if (newStack.isEmpty()) {
-        slot.putStack(ItemStack.EMPTY);
-      } else {
-        slot.onSlotChanged();
-      }
-      if (newStack.getCount() == currentStack.getCount())
-        return ItemStack.EMPTY;
-      slot.onTake(player, newStack);
-      return currentStack;
-    }
-    return ItemStack.EMPTY;
-  }
-
-  public interface IMergeItemStack {
-    boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection);
-  }
+	public interface IMergeItemStack {
+		boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection);
+	}
 }

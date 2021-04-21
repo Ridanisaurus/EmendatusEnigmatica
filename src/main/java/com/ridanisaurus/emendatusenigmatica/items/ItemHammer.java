@@ -32,34 +32,32 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ItemHammer extends Item {
-  Random random = new Random();
-  public ItemHammer() {
-    super(new Item.Properties()
-            .defaultMaxDamage(128)
-            .setNoRepair()
-            .group(EmendatusEnigmatica.TAB));
-  }
+	Random random = new Random();
 
-  @Nonnull
-  @Override
-  public ItemStack getContainerItem(@Nonnull ItemStack stack)
-  {
-    ItemStack container = stack.copy();
-    if(container.attemptDamageItem(1, random, null))
-      return ItemStack.EMPTY;
-    else
-      return container;
-  }
+	public ItemHammer() {
+		super(new Item.Properties()
+				.defaultMaxDamage(128)
+				.setNoRepair()
+				.group(EmendatusEnigmatica.TAB));
+	}
 
-  @Override
-  public boolean hasContainerItem(@Nonnull ItemStack stack)
-  {
-    return true;
-  }
+	@Nonnull
+	@Override
+	public ItemStack getContainerItem(@Nonnull ItemStack stack) {
+		ItemStack container = stack.copy();
+		if (container.attemptDamageItem(1, random, null))
+			return ItemStack.EMPTY;
+		else
+			return container;
+	}
 
-  @Override
-  public boolean isEnchantable(@Nonnull ItemStack stack)
-  {
-    return false;
-  }
+	@Override
+	public boolean hasContainerItem(@Nonnull ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public boolean isEnchantable(@Nonnull ItemStack stack) {
+		return false;
+	}
 }

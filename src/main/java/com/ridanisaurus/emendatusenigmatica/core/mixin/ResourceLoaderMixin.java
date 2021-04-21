@@ -41,10 +41,10 @@ import java.util.function.BiFunction;
 
 @Mixin(ResourcePackLoader.class)
 public class ResourceLoaderMixin {
-  @Inject(method = "loadResourcePacks(Lnet/minecraft/resources/ResourcePackList;Ljava/util/function/BiFunction;)V", at = @At("RETURN"), remap = false)
-  private static <T extends ResourcePackInfo> void injectPacks (ResourcePackList resourcePacks, BiFunction<Map<ModFile, ? extends ModFileResourcePack>,
-            BiConsumer<? super ModFileResourcePack, T>, ResourcePackLoader.IPackInfoFinder> packFinder, CallbackInfo callback) {
+	@Inject(method = "loadResourcePacks(Lnet/minecraft/resources/ResourcePackList;Ljava/util/function/BiFunction;)V", at = @At("RETURN"), remap = false)
+	private static <T extends ResourcePackInfo> void injectPacks(ResourcePackList resourcePacks, BiFunction<Map<ModFile, ? extends ModFileResourcePack>,
+			BiConsumer<? super ModFileResourcePack, T>, ResourcePackLoader.IPackInfoFinder> packFinder, CallbackInfo callback) {
 
-    EmendatusEnigmatica.injectDatapackFinder(resourcePacks);
-  }
+		EmendatusEnigmatica.injectDatapackFinder(resourcePacks);
+	}
 }

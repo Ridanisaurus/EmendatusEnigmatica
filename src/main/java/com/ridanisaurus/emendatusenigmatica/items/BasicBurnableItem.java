@@ -29,15 +29,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class BasicBurnableItem extends Item {
-  private final int burnTime;
+	private final int burnTime;
 
-  public BasicBurnableItem(int burnTime) {
-    super(new Properties().group(EmendatusEnigmatica.TAB));
-    this.burnTime = burnTime;
-  }
+	public BasicBurnableItem(int burnTime) {
+		super(new Properties().group(EmendatusEnigmatica.TAB));
+		this.burnTime = burnTime;
+	}
 
-  @Override
-  public int getBurnTime(ItemStack itemStack) {
-    return burnTime;
-  }
+	@Override
+	public int getBurnTime(ItemStack itemStack) {
+		return burnTime;
+	}
 }

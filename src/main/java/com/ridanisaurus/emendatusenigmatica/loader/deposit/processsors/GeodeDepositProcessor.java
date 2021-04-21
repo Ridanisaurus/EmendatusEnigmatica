@@ -19,29 +19,29 @@ import java.util.Optional;
 
 public class GeodeDepositProcessor implements IDepositProcessor {
 
-    private final JsonObject object;
-    private GeodeDepositModel model;
+	private final JsonObject object;
+	private GeodeDepositModel model;
 
-    public GeodeDepositProcessor(JsonObject object) {
+	public GeodeDepositProcessor(JsonObject object) {
 
-        this.object = object;
-    }
+		this.object = object;
+	}
 
-    @Override
-    public void load() {
-        Optional<Pair<GeodeDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(GeodeDepositModel.CODEC).apply(object).result();
-        if (!result.isPresent()) {
-            return;
-        }
-        model = result.get().getFirst();
-    }
+	@Override
+	public void load() {
+		Optional<Pair<GeodeDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(GeodeDepositModel.CODEC).apply(object).result();
+		if (!result.isPresent()) {
+			return;
+		}
+		model = result.get().getFirst();
+	}
 
-    @Override
-    public void setupOres(BiomeLoadingEvent event) {
-        event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
-    }
+	@Override
+	public void setupOres(BiomeLoadingEvent event) {
+		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
+	}
 
-    private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-        return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).withConfiguration(new GeodeOreFeatureConfig(filler)));
-    }
+	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
+		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).withConfiguration(new GeodeOreFeatureConfig(filler)));
+	}
 }

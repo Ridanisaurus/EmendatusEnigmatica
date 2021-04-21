@@ -22,31 +22,30 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.blocks;
+package com.ridanisaurus.emendatusenigmatica.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.item.Item;
 
-public class BasicOreBlock extends Block {
-  private final String localisedName;
+import java.util.function.Supplier;
 
-  public final int color;
-  public BasicOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
-    super(Properties.create(material)
-          .hardnessAndResistance(hardness,resistance)
-          .harvestLevel(harvestLevel)
-          .harvestTool(tool)
-          .setRequiresTool());
-    this.localisedName = localisedName;
-    this.color = color;
-  }
+public class OreDropHelper {
+	static OreDropInfo drop(Supplier<Item> item) {
+		return drop(item, 1, 1);
+	}
 
-  @Override
-  public IFormattableTextComponent getTranslatedName() {
-    return new StringTextComponent(localisedName);
-  }
+	public static OreDropInfo drop(Supplier<Item> item, float min, float max) {
+		return new OreDropInfo(item, min, max);
+	}
 
+	public static class OreDropInfo {
+		public final Supplier<Item> item;
+		public final float min;
+		public final float max;
+
+		public OreDropInfo(Supplier<Item> item, float min, float max) {
+			this.item = item;
+			this.min = min;
+			this.max = max;
+		}
+	}
 }

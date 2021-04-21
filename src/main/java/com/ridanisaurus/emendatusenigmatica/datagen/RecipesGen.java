@@ -50,32 +50,32 @@ public class RecipesGen extends RecipeProvider {
   @Override
   protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
 
-    // Enigmatic Fortunizer
-    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_FORTUNIZER_ITEM::get)
-            .patternLine("PGP")
-            .patternLine("DNE")
-            .patternLine("RBR")
-            .key('P', EETags.MATERIAL_PLATE.apply("iron"))
-            .key('G', EETags.MATERIAL_GEAR.apply("gold"))
-            .key('D', EETags.MATERIAL_GEAR.apply("diamond"))
-            .key('N', EETags.MATERIAL_INGOT.apply("netherite"))
-            .key('E', EETags.MATERIAL_GEAR.apply("emerald"))
-            .key('R', EETags.MATERIAL_ROD.apply("enderium"))
-            .key('B', EETags.MATERIAL_STORAGE_BLOCK.apply("iron"))
-            .setGroup("emendatusenigmatica")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);
+		// Enigmatic Fortunizer
+		ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_FORTUNIZER_ITEM::get)
+				.patternLine("PGP")
+				.patternLine("DNE")
+				.patternLine("RBR")
+				.key('P', EETags.MATERIAL_PLATE.apply("iron"))
+				.key('G', EETags.MATERIAL_GEAR.apply("gold"))
+				.key('D', EETags.MATERIAL_GEAR.apply("diamond"))
+				.key('N', EETags.MATERIAL_INGOT.apply("netherite"))
+				.key('E', EETags.MATERIAL_GEAR.apply("emerald"))
+				.key('R', EETags.MATERIAL_ROD.apply("enderium"))
+				.key('B', EETags.MATERIAL_STORAGE_BLOCK.apply("iron"))
+				.setGroup("emendatusenigmatica")
+				.addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+				.build(consumer);
 
-    ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_HAMMER::get)
-            .patternLine(" IN")
-            .patternLine(" SI")
-            .patternLine("S  ")
-            .key('I', EETags.MATERIAL_INGOT.apply("iron"))
-            .key('N', EETags.MATERIAL_NUGGET.apply("iron"))
-            .key('S', EETags.MATERIAL_ROD.apply("wooden"))
-            .setGroup("emendatusenigmatica")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);
+		ShapedRecipeBuilder.shapedRecipe(EERegistrar.ENIGMATIC_HAMMER::get)
+				.patternLine(" IN")
+				.patternLine(" SI")
+				.patternLine("S  ")
+				.key('I', EETags.MATERIAL_INGOT.apply("iron"))
+				.key('N', EETags.MATERIAL_NUGGET.apply("iron"))
+				.key('S', EETags.MATERIAL_ROD.apply("wooden"))
+				.setGroup("emendatusenigmatica")
+				.addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
+				.build(consumer);
 
     /*-- Vanilla Compat --*/
     // Chunk Smelting & Blasting

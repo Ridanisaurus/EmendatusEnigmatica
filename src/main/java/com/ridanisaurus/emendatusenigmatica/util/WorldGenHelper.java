@@ -10,17 +10,17 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class WorldGenHelper {
-    public static String getDimensionAsString(IWorld world) {
-        if (world instanceof World) {
-            return ((World) world).getDimensionKey().getLocation().toString();
-        }
-        if (world instanceof WorldGenRegion) {
-            return ((WorldGenRegion) world).getWorld().getDimensionKey().getLocation().toString();
-        }
-        return null;
-    }
+	public static String getDimensionAsString(IWorld world) {
+		if (world instanceof World) {
+			return ((World) world).getDimensionKey().getLocation().toString();
+		}
+		if (world instanceof WorldGenRegion) {
+			return ((WorldGenRegion) world).getWorld().getDimensionKey().getLocation().toString();
+		}
+		return null;
+	}
 
-    public static <FC extends IFeatureConfig, F extends Feature<FC>> ConfiguredFeature<FC, F> registerFeature(final String name, final ConfiguredFeature<FC, F> feature) {
-        return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, Reference.MOD_ID + ":" + name, feature);
-    }
+	public static <FC extends IFeatureConfig, F extends Feature<FC>> ConfiguredFeature<FC, F> registerFeature(final String name, final ConfiguredFeature<FC, F> feature) {
+		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, Reference.MOD_ID + ":" + name, feature);
+	}
 }

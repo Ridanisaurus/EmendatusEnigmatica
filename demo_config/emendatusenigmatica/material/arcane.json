@@ -15,6 +15,8 @@
   "properties": {
     "hardness": 3.0,
     "resistance": 3.0,
-    "harvestLevel": 1
+    "harvestLevel": 1,
+    "hasParticle": true,
+    "particleHex": "#8134e0"
   }
 }
