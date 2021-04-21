@@ -1,6 +1,10 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
@@ -120,25 +124,30 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             return;
         }
 
-
         int index = rand.nextInt(blocks.size());
-        CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
-        if (commonBlockDefinitionModel.getBlock() != null) {
-            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-            reader.setBlockState(pos, block.getDefaultState(), 2);
-        } else if (commonBlockDefinitionModel.getTag() != null) {
-            ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
-            Block block = blockITag.getRandomElement(rand);
-            reader.setBlockState(pos, block.getDefaultState(), 2);
-        } else if (commonBlockDefinitionModel.getMaterial() != null) {
-            BlockState currentFiller = reader.getBlockState(pos);
-            String fillerId = currentFiller.getBlock().getRegistryName().toString();
-            Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
-            if (strataIndex != null) {
-                StrataModel stratum = EELoader.STRATA.get(strataIndex);
-                Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
+        try {
+            CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
+            if (commonBlockDefinitionModel.getBlock() != null) {
+                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
                 reader.setBlockState(pos, block.getDefaultState(), 2);
+            } else if (commonBlockDefinitionModel.getTag() != null) {
+                ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
+                Block block = blockITag.getRandomElement(rand);
+                reader.setBlockState(pos, block.getDefaultState(), 2);
+            } else if (commonBlockDefinitionModel.getMaterial() != null) {
+                BlockState currentFiller = reader.getBlockState(pos);
+                String fillerId = currentFiller.getBlock().getRegistryName().toString();
+                Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
+                if (strataIndex != null) {
+                    StrataModel stratum = EELoader.STRATA.get(strataIndex);
+                    Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
+                    reader.setBlockState(pos, block.getDefaultState(), 2);
+                }
             }
+        } catch (Exception e) {
+            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(SphereDepositModel.CODEC).apply(model).result().get();
+            EmendatusEnigmatica.LOGGER.error("index: " + index + ", model: " + new Gson().toJson(modelJson));
+            e.printStackTrace();
         }
     }
 

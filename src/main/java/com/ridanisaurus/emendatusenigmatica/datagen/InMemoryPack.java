@@ -43,6 +43,9 @@ public class InMemoryPack implements IResourcePack {
     @Override
     public InputStream getResourceStream(ResourcePackType type, ResourceLocation location) throws IOException {
         Path resolved = path.resolve(getFullPath(type, location));
+        if (!Files.exists(resolved)){
+            throw new IOException("Resource does not exist");
+        }
         return Files.newInputStream(resolved);
     }
 
