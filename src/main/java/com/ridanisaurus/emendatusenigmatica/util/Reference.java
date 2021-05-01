@@ -31,4 +31,5 @@ public class Reference {
   public static final String MINECRAFT_TAG = "minecraft";
 
   public static final String AE2_TAG = "appliedenergistics2";
+  public static final String MEKANISM = "mekanism";
 }

@@ -117,6 +117,26 @@ public class ItemHandler {
           builder.put(processedMaterial, material, ITEMS.register(clusterName, ItemBase::new));
           materialsByName.put(new ResourceLocation(Reference.MOD_ID, clusterName),material);
         }
+        // Clump
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          String clumpName = material.id + "_clump";
+          builder.put(processedMaterial, material, ITEMS.register(clumpName, ItemBase::new));
+        }
+        // Crystal
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          String crystalName = material.id + "_crystal";
+          builder.put(processedMaterial, material, ITEMS.register(crystalName, ItemBase::new));
+        }
+        // Dirty Dust
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          String dirtyDustName = material.id + "_dirty_dust";
+          builder.put(processedMaterial, material, ITEMS.register(dirtyDustName, ItemBase::new));
+        }
+        // Shard
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard")) {
+          String shardName = material.id + "_shard";
+          builder.put(processedMaterial, material, ITEMS.register(shardName, ItemBase::new));
+        }
       }
     }
     backingItemTable = builder.build();

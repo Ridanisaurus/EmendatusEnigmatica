@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:aluminum_shard",
+    "emendatusenigmatica:silver_shard",
+    "emendatusenigmatica:nickel_shard",
+    "emendatusenigmatica:zinc_shard",
+    "emendatusenigmatica:cobalt_shard",
+    "emendatusenigmatica:certus_quartz_shard",
+    "emendatusenigmatica:charged_certus_quartz_shard",
+    "emendatusenigmatica:fluorite_shard",
+    "emendatusenigmatica:bitumen_shard",
+    "emendatusenigmatica:cinnabar_shard",
+    "emendatusenigmatica:apatite_shard",
+    "emendatusenigmatica:sulfur_shard",
+    "emendatusenigmatica:potassium_nitrate_shard",
+    "emendatusenigmatica:arcane_shard",
+    "emendatusenigmatica:dimensional_shard",
+    "emendatusenigmatica:coal_shard",
+    "emendatusenigmatica:diamond_shard",
+    "emendatusenigmatica:emerald_shard",
+    "emendatusenigmatica:lapis_shard",
+    "emendatusenigmatica:quartz_shard",
+    "emendatusenigmatica:redstone_shard"
+  ]
+}

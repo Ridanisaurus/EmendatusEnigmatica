@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "emendatusenigmatica:items/redstone_dirty_dust"
+  }
+}

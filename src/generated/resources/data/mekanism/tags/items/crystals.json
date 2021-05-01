@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:aluminum_crystal",
+    "emendatusenigmatica:silver_crystal",
+    "emendatusenigmatica:nickel_crystal",
+    "emendatusenigmatica:zinc_crystal",
+    "emendatusenigmatica:cobalt_crystal",
+    "emendatusenigmatica:certus_quartz_crystal",
+    "emendatusenigmatica:charged_certus_quartz_crystal",
+    "emendatusenigmatica:fluorite_crystal",
+    "emendatusenigmatica:bitumen_crystal",
+    "emendatusenigmatica:cinnabar_crystal",
+    "emendatusenigmatica:apatite_crystal",
+    "emendatusenigmatica:sulfur_crystal",
+    "emendatusenigmatica:potassium_nitrate_crystal",
+    "emendatusenigmatica:arcane_crystal",
+    "emendatusenigmatica:dimensional_crystal",
+    "emendatusenigmatica:coal_crystal",
+    "emendatusenigmatica:diamond_crystal",
+    "emendatusenigmatica:emerald_crystal",
+    "emendatusenigmatica:lapis_crystal",
+    "emendatusenigmatica:quartz_crystal",
+    "emendatusenigmatica:redstone_crystal"
+  ]
+}

@@ -27,7 +27,9 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.SlurryHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
+import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -132,11 +134,62 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
-        // Chunks
+        // Clusters
         if (processedMaterial == ProcessedMaterials.CLUSTER && toCreate.contains("Cluster") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Cluster");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Clean Slurry
+        if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Clean ");
+          sb.append(material.localisedName);
+          sb.append(" Slurry");
+          add(SlurryHandler.backingSlurryTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Dirty Slurry
+        if (processedMaterial == ProcessedMaterials.DIRTY_SLURRY && toCreate.contains("DirtySlurry")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Dirty ");
+          sb.append(material.localisedName);
+          sb.append(" Slurry");
+          add(SlurryHandler.backingSlurryTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Clumps
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Clump");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Crystals
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Crystal");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Dirty Dusts
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Dirty ");
+          sb.append(material.localisedName);
+          sb.append(" Dust");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Shards
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard") && !material.id.equals("dimensional")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Shard");
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
       }
@@ -164,11 +217,17 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Mana Cluster");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Chemical Shard");
+
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
     add(ItemHandler.DUST_LITHIUM.get(), "Lithium Dust");
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
     add(ItemHandler.DUST_WOOD.get(), "Sawdust");
+  }
+
+  private void add(Slurry slurry, String name) {
+    add(slurry.getTranslationKey(), name);
   }
 }

@@ -126,6 +126,30 @@ public class ItemModelsGen extends ItemModelProvider {
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_cluster"));
         }
+        // Clumps
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          getBuilder(material.id + "_clump")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_clump"));
+        }
+        // Crystals
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          getBuilder(material.id + "_crystal")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_crystal"));
+        }
+        // Dirty Dusts
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          getBuilder(material.id + "_dirty_dust")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_dirty_dust"));
+        }
+        // Shards
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard")) {
+          getBuilder(material.id + "_shard")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_shard"));
+        }
       }
     }
     // Ore Items

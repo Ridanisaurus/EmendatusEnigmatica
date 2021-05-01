@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:aluminum_clump",
+    "emendatusenigmatica:silver_clump",
+    "emendatusenigmatica:nickel_clump",
+    "emendatusenigmatica:zinc_clump",
+    "emendatusenigmatica:cobalt_clump",
+    "emendatusenigmatica:certus_quartz_clump",
+    "emendatusenigmatica:charged_certus_quartz_clump",
+    "emendatusenigmatica:fluorite_clump",
+    "emendatusenigmatica:bitumen_clump",
+    "emendatusenigmatica:cinnabar_clump",
+    "emendatusenigmatica:apatite_clump",
+    "emendatusenigmatica:sulfur_clump",
+    "emendatusenigmatica:potassium_nitrate_clump",
+    "emendatusenigmatica:arcane_clump",
+    "emendatusenigmatica:dimensional_clump",
+    "emendatusenigmatica:coal_clump",
+    "emendatusenigmatica:diamond_clump",
+    "emendatusenigmatica:emerald_clump",
+    "emendatusenigmatica:lapis_clump",
+    "emendatusenigmatica:quartz_clump",
+    "emendatusenigmatica:redstone_clump"
+  ]
+}

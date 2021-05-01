@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:aluminum_dirty_dust",
+    "emendatusenigmatica:silver_dirty_dust",
+    "emendatusenigmatica:nickel_dirty_dust",
+    "emendatusenigmatica:zinc_dirty_dust",
+    "emendatusenigmatica:cobalt_dirty_dust",
+    "emendatusenigmatica:certus_quartz_dirty_dust",
+    "emendatusenigmatica:charged_certus_quartz_dirty_dust",
+    "emendatusenigmatica:fluorite_dirty_dust",
+    "emendatusenigmatica:bitumen_dirty_dust",
+    "emendatusenigmatica:cinnabar_dirty_dust",
+    "emendatusenigmatica:apatite_dirty_dust",
+    "emendatusenigmatica:sulfur_dirty_dust",
+    "emendatusenigmatica:potassium_nitrate_dirty_dust",
+    "emendatusenigmatica:arcane_dirty_dust",
+    "emendatusenigmatica:dimensional_dirty_dust",
+    "emendatusenigmatica:coal_dirty_dust",
+    "emendatusenigmatica:diamond_dirty_dust",
+    "emendatusenigmatica:emerald_dirty_dust",
+    "emendatusenigmatica:lapis_dirty_dust",
+    "emendatusenigmatica:quartz_dirty_dust",
+    "emendatusenigmatica:redstone_dirty_dust"
+  ]
+}

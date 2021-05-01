@@ -28,10 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.item.ItemGroup;
@@ -66,6 +63,7 @@ public class EmendatusEnigmatica {
         BlockHandler.BLOCKS.register(modEventBus);
         OreHandler.BLOCKS.register(modEventBus);
         ItemHandler.ITEMS.register(modEventBus);
+        SlurryHandler.SLURRIES.register(modEventBus);
         BlockHandler.TILE_ENTITY.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
 
@@ -88,6 +86,7 @@ public class EmendatusEnigmatica {
         ItemHandler.oreItems();
         BlockHandler.blockInit();
         ItemHandler.itemInit();
+        SlurryHandler.slurryInit();
     }
 
     public void setup(FMLCommonSetupEvent event) {

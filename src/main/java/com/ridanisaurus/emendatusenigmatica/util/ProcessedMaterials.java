@@ -16,7 +16,13 @@ public enum ProcessedMaterials {
   GEAR("gear", "Gear"),
   PLATE("plate", "Plate"),
   ROD("rod", "Rod"),
-  CLUSTER("cluster", "Cluster");
+  CLUSTER("cluster", "Cluster"),
+  CLEAN_SLURRY("clean_slurry", "Clean Slurry"),
+  DIRTY_SLURRY("dirty_slurry", "Dirty Slurry"),
+  CLUMP("clump", "Clump"),
+  CRYSTAL("crystal", "Crystal"),
+  DIRTY_DUST("dirty_dust", "Dirty Dust"),
+  SHARD("shard", "Shard");
 
   public final String id;
   public final String localisedName;

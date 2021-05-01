@@ -92,6 +92,7 @@ sourceSets.main.resources {
 repositories {
     // JEI
     maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" }
+    maven { url 'https://modmaven.dev/' }
     // IE
 //    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {
@@ -133,8 +134,11 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     //}
 
+    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+
     //runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
-    //runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
+//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
     //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
     //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
     //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
