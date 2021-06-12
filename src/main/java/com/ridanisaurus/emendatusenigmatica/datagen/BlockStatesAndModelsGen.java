@@ -25,9 +25,11 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
@@ -53,16 +55,25 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
   @Override
   protected void registerStatesAndModels() {
 
-    // Storage Blocks
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
+
+        // Storage Blocks
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
           Block block = BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get();
           ResourceLocation loc = block.getRegistryName();
-          simpleBlock(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get(),
+          simpleBlock(block,
                   models().cubeAll(material.id + "_block",
                           new ResourceLocation(Reference.MOD_ID, "blocks/" + material.id + "_block")));
+        }
+
+        // Fluid Blocks
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          FlowingFluidBlock fluidBlock = FluidHandler.fluidBlockByMaterial.get(material.id).get();
+          ResourceLocation loc = fluidBlock.getRegistryName();
+          simpleBlock(fluidBlock,
+                  models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
         }
       }
     }

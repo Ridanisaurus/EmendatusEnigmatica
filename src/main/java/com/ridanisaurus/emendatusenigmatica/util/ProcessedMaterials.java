@@ -22,7 +22,11 @@ public enum ProcessedMaterials {
   CLUMP("clump", "Clump"),
   CRYSTAL("crystal", "Crystal"),
   DIRTY_DUST("dirty_dust", "Dirty Dust"),
-  SHARD("shard", "Shard");
+  SHARD("shard", "Shard"),
+  CRUSHED("crushed", "Crushed"),
+  FRAGMENT("fragment", "Fragment"),
+  GRAVEL("gravel", "Gravel"),
+  FLUID("fluid", "Fluid");
 
   public final String id;
   public final String localisedName;

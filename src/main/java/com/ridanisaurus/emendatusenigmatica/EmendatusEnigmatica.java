@@ -60,12 +60,13 @@ public class EmendatusEnigmatica {
         instance = this;
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        FluidHandler.FLUIDS.register(modEventBus);
         BlockHandler.BLOCKS.register(modEventBus);
+        BlockHandler.TILE_ENTITY.register(modEventBus);
+        ContainerHandler.CONTAINERS.register(modEventBus);
         OreHandler.BLOCKS.register(modEventBus);
         ItemHandler.ITEMS.register(modEventBus);
         SlurryHandler.SLURRIES.register(modEventBus);
-        BlockHandler.TILE_ENTITY.register(modEventBus);
-        ContainerHandler.CONTAINERS.register(modEventBus);
 
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::construct);
@@ -82,6 +83,7 @@ public class EmendatusEnigmatica {
     }
 
     private void construct(final FMLConstructModEvent event) {
+        FluidHandler.fluifInit();
         OreHandler.oreBlocks();
         ItemHandler.oreItems();
         BlockHandler.blockInit();

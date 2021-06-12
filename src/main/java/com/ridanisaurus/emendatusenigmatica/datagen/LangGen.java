@@ -24,14 +24,12 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.SlurryHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import java.util.Arrays;
 import java.util.List;
@@ -192,6 +190,46 @@ public class LangGen extends LanguageProvider {
           sb.append(" Shard");
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
+
+        // Crushed
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Crushed ");
+          sb.append(material.localisedName);
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Fragment
+        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Fragment");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Gravel
+        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Gravel");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Fluid Block
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Molten ");
+          sb.append(material.localisedName);
+          add("fluid.emendatusenigmatica.molten_" + material.id, sb.toString());
+        }
+
+        // Fluid Bucket
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Bucket of Molten ");
+          sb.append(material.localisedName);
+          add(FluidHandler.fluidBucketByMaterial.get(material.id).get(), sb.toString());
+        }
       }
     }
 
@@ -230,4 +268,7 @@ public class LangGen extends LanguageProvider {
   private void add(Slurry slurry, String name) {
     add(slurry.getTranslationKey(), name);
   }
+//  private void add(String something, String name) {
+//    add("fluid.emendatusenigmatica.molten_" + something , name);
+//  }
 }

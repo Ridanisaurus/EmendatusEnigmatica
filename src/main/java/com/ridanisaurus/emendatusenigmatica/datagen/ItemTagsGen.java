@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
@@ -59,11 +60,17 @@ public class ItemTagsGen extends ItemTagsProvider {
     Builder<Item> forgeChunks = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
     Builder<Item> forgeClusters = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "clusters").toString()));
     Builder<Item> forgeOres = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
+    Builder<Item> forgeBuckets = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "buckets")));
 
     Builder<Item> mekaClumps = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MEKANISM, "clumps").toString()));
     Builder<Item> mekaCrystals = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MEKANISM, "crystals").toString()));
     Builder<Item> mekaDirtyDusts = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MEKANISM, "dirty_dusts").toString()));
     Builder<Item> mekaShards = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MEKANISM, "shards").toString()));
+
+    Builder<Item> createCrushed = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
+
+    Builder<Item> bloodMagicFragment = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments").toString()));
+    Builder<Item> bloodMagicGravel = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels").toString()));
 
     Builder<Item> beaconIngots = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
 
@@ -168,6 +175,34 @@ public class ItemTagsGen extends ItemTagsProvider {
       mekaShards.add(shard.get());
       Builder<Item> shardTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.MEKANISM, "shards/" + mat.id).toString()));
       shardTag.add(shard.get());
+    });
+
+    // Crushed
+    ItemHandler.backingItemTable.row(ProcessedMaterials.CRUSHED).forEach((mat, crushed) -> {
+      createCrushed.add(crushed.get());
+      Builder<Item> crushedTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.CREATE, "crushed_ores/" + mat.id).toString()));
+      crushedTag.add(crushed.get());
+    });
+
+    // Fragment
+    ItemHandler.backingItemTable.row(ProcessedMaterials.FRAGMENT).forEach((mat, fragment) -> {
+      bloodMagicFragment.add(fragment.get());
+      Builder<Item> fragmentTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments/" + mat.id).toString()));
+      fragmentTag.add(fragment.get());
+    });
+
+    // Gravel
+    ItemHandler.backingItemTable.row(ProcessedMaterials.GRAVEL).forEach((mat, gravel) -> {
+      bloodMagicGravel.add(gravel.get());
+      Builder<Item> gravelTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels/" + mat.id).toString()));
+      gravelTag.add(gravel.get());
+    });
+
+    // Fluid Buckets
+    FluidHandler.fluidBucketByMaterial.forEach((mat, fluid) -> {
+      forgeBuckets.add(fluid.get());
+      Builder<Item> bucketTag = getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "buckets/" + mat).toString()));
+      bucketTag.add(fluid.get());
     });
 
     // Ore Items

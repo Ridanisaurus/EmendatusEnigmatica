@@ -51,13 +51,13 @@ public class SlurryHandler {
 				if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")) {
 					builder.put(processedMaterial, material, SLURRIES.register("clean_" + material.id, () -> {
 						ResourceLocation ore = new ResourceLocation("forge", "ores/" + material.id);
-						return new Slurry(SlurryBuilder.clean().ore(ore).color(material.tintColour));
+						return new Slurry(SlurryBuilder.clean().color(material.tintColour));
 					}));
 				}
 				if (processedMaterial == ProcessedMaterials.DIRTY_SLURRY && toCreate.contains("DirtySlurry")) {
 					builder.put(processedMaterial, material, SLURRIES.register("dirty_" + material.id, () -> {
 						ResourceLocation ore = new ResourceLocation("forge", "ores/" + material.id);
-						return new Slurry(SlurryBuilder.dirty().ore(ore).color(material.tintColour));
+						return new Slurry(SlurryBuilder.dirty().color(material.tintColour));
 					}));
 				}
 			}
