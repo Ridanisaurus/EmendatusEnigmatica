@@ -14,49 +14,58 @@ import java.util.function.Supplier;
 
 public enum Materials {
 
-  COAL("coal", "Coal", new String[] {"Ore", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreCoal::new, ItemBase::new, Source.VANILLA, drop(() -> Items.COAL), 60, 60, 15, 17),
-  IRON("iron", "Iron", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreIron::new, ItemBase::new, Source.VANILLA, 32, 32, 17, 11),
-  GOLD("gold", "Gold", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreGold::new, ItemBase::new, Source.VANILLA, 16, 16, 7, 8),
-  DIAMOND("diamond", "Diamond", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreDiamond::new, ItemBase::new, Source.VANILLA, drop(() -> Items.DIAMOND), 8, 8, 3, 8),
-  EMERALD("emerald", "Emerald", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreEmerald::new, ItemBase::new, Source.VANILLA, drop(() -> Items.EMERALD), 156, 56, 3, 4),
-  LAPIS("lapis", "Lapis Lazuli", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreLapis::new, ItemBase::new, Source.VANILLA, drop(() -> Items.LAPIS_LAZULI, 4, 9), 8, 8, 4, 7),
-  REDSTONE("redstone", "Redstone", new String[] {"Ore", "Chunk", "Cluster"}, BlockBase::new, OreRedstone::new, ItemBase::new, Source.VANILLA, drop(() -> Items.REDSTONE, 4, 5), 8, 8, 8, 11),
-  QUARTZ("quartz", "Nether Quartz", new String[] {"Ore", "Chunk", "Dust", "Gear", "Cluster"}, BlockBase::new, OreNetherQuartz::new, ItemBase::new, Source.VANILLA, drop(() -> Items.QUARTZ), 60, 50, 16, 14),
+  COAL("coal", "Coal", new String[] {"Ore", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreCoal::new, ItemBase::new, Source.VANILLA, drop(() -> Items.COAL), 0xFF252525, 60, 60, 15, 17),
+  IRON("iron", "Iron", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fluid"}, BlockBase::new, OreIron::new, ItemBase::new, Source.VANILLA, 0xFFa8a8a8, 32, 32, 17, 11),
+  GOLD("gold", "Gold", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fluid"}, BlockBase::new, OreGold::new, ItemBase::new, Source.VANILLA, 0xFFfad64a, 16, 16, 7, 8),
+  DIAMOND("diamond", "Diamond", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreDiamond::new, ItemBase::new, Source.VANILLA, drop(() -> Items.DIAMOND), 0xFF4aedd9, 8, 8, 3, 8),
+  EMERALD("emerald", "Emerald", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreEmerald::new, ItemBase::new, Source.VANILLA, drop(() -> Items.EMERALD), 0xFF00aa2c, 156, 56, 3, 4),
+  LAPIS("lapis", "Lapis Lazuli", new String[] {"Ore", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreLapis::new, ItemBase::new, Source.VANILLA, drop(() -> Items.LAPIS_LAZULI, 4, 9), 0xFF275fb5, 8, 8, 4, 7),
+  REDSTONE("redstone", "Redstone", new String[] {"Ore", "Chunk", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreRedstone::new, ItemBase::new, Source.VANILLA, drop(() -> Items.REDSTONE, 4, 5), 0xFFaa0f01, 8, 8, 8, 11),
+  QUARTZ("quartz", "Nether Quartz", new String[] {"Ore", "Chunk", "Dust", "Gear", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreNetherQuartz::new, ItemBase::new, Source.VANILLA, drop(() -> Items.QUARTZ), 0xFFd4caba, 60, 50, 16, 14),
+  ANCIENT_DEBRIS("ancient_debris", "Ancient Debris", new String[] {"Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.VANILLA, 0xFF3c3232),
 
-  COPPER("copper", "Copper", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreCopper::new, ItemBase::new, Source.MODDED, 52, 8, 17, 7),
-  ALUMINUM("aluminum", "Aluminum", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreAluminum::new, ItemBase::new, Source.MODDED, 60, 10, 8, 5),
-  SILVER("silver", "Silver", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreSilver::new, ItemBase::new, Source.MODDED, 34, 4, 8, 5),
-  LEAD("lead", "Lead", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreLead::new, ItemBase::new, Source.MODDED, 36, 4, 8, 5),
-  NICKEL("nickel", "Nickel", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreNickel::new, ItemBase::new, Source.MODDED, 32, 8, 8, 4),
-  URANIUM("uranium", "Uranium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreUranium::new, ItemBase::new, Source.MODDED, 12, 8, 6, 6),
-  OSMIUM("osmium", "Osmium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreOsmium::new, ItemBase::new, Source.MODDED, 32, 12, 15, 6),
-  TIN("tin", "Tin", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreTin::new, ItemBase::new, Source.MODDED, 47, 7, 15, 7),
-  ZINC("zinc", "Zinc", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreZinc::new, ItemBase::new, Source.MODDED, 42, 8, 9, 5),
-  COBALT("cobalt", "Cobalt", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster"}, BlockBase::new, OreCobalt::new, ItemBase::new, Source.MODDED, 32, 16, 4, 8),
+  COPPER("copper", "Copper", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreCopper::new, ItemBase::new, Source.MODDED, 0xFFcc6d51, 52, 8, 17, 7),
+  ALUMINUM("aluminum", "Aluminum", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreAluminum::new, ItemBase::new, Source.MODDED, 0xFFdfedf2, 60, 10, 8, 5),
+  SILVER("silver", "Silver", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreSilver::new, ItemBase::new, Source.MODDED, 0xFFc5dffe, 34, 4, 8, 5),
+  LEAD("lead", "Lead", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreLead::new, ItemBase::new, Source.MODDED, 0xFF414a6a, 36, 4, 8, 5),
+  NICKEL("nickel", "Nickel", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreNickel::new, ItemBase::new, Source.MODDED, 0xFFa0a883, 32, 8, 8, 4),
+  URANIUM("uranium", "Uranium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreUranium::new, ItemBase::new, Source.MODDED, 0xFF799c46, 12, 8, 6, 6),
+  OSMIUM("osmium", "Osmium", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreOsmium::new, ItemBase::new, Source.MODDED, 0xFF95c9c9, 32, 12, 15, 6),
+  TIN("tin", "Tin", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreTin::new, ItemBase::new, Source.MODDED, 0xFFbccbe5, 47, 7, 15, 7),
+  ZINC("zinc", "Zinc", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreZinc::new, ItemBase::new, Source.MODDED, 0xFFd1d1a5, 42, 8, 9, 5),
+  COBALT("cobalt", "Cobalt", new String[] {"Ore", "Block", "Ingot", "Nugget", "Chunk", "Dust", "Plate", "Gear", "Rod", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreCobalt::new, ItemBase::new, Source.MODDED, 0xFF1589b3, 32, 16, 4, 8),
 
-  CERTUS_QUARTZ("certus_quartz", "Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "4xRecipe", "Cluster"}, BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CERTUS_QUARTZ")).get()), 32, 32, 16, 8),
-  CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "4xRecipe", "Cluster"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 16, 16, 8, 4),
-  FLUIX("fluix", "Fluix", new String[] {"Block", "Gem", "Dust", "4xRecipe"}, BlockBase::new, ItemBase::new, Source.MODDED),
-  FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 16, 16, 5, 9),
-  BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk", "Cluster"}, BlockBase::new, OreBitumen::new, () -> new BurnableItemBase(1600), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 100, 60, 2, 18),
-  CINNABAR("cinnabar", "Cinnabar", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreCinnabar::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CINNABAR")).get(), 1, 2), 10, 6, 4, 5),
-  APATITE("apatite", "Apatite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreApatite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("APATITE")).get(), 4, 9), 96, 32, 2, 22),
-  SULFUR("sulfur", "Sulfur", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreSulfur::new, () -> new BurnableItemBase(1200), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("SULFUR")).get(), 3, 5), 8, 8, 3, 7),
-  POTASSIUM_NITRATE("potassium_nitrate", "Potassium Nitrate", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OrePotassiumNitrate::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("POTASSIUM_NITRATE")).get(), 3, 5), 25, 7, 4, 5),
-  ARCANE("arcane", "Arcane", new String[] {"Ore", "Block", "Gem", "Chunk", "Cluster"}, BlockBase::new, OreArcane::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("ARCANE")).get()), 33, 13, 5, 6),
-  DIMENSIONAL("dimensional", "Dimensional Shard", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster"}, BlockBase::new, OreDimensional::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("DIMENSIONAL")).get(), 4 , 5), 10, 10, 2, 2),
-  COKE("coke", "Coal Coke", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, () -> new BurnableItemBase(3200), Source.MODDED),
-  SILICON("silicon", "Silicon", new String[] {"Gem"}, BlockBase::new, ItemBase::new, Source.MODDED),
+  CERTUS_QUARTZ("certus_quartz", "Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "4xRecipe", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CERTUS_QUARTZ")).get()), 0xFF85b4e5, 32, 32, 16, 8),
+  CHARGED_CERTUS_QUARTZ("charged_certus_quartz", "Charged Certus Quartz", new String[] {"Ore", "Block", "Gem", "Chunk", "4xRecipe", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreChargedCertusQuartz::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CHARGED_CERTUS_QUARTZ")).get()), 0xFFace9ff, 16, 16, 8, 4),
+  FLUIX("fluix", "Fluix", new String[] {"Block", "Gem", "Dust", "4xRecipe", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF6e5cb8),
+  FLUORITE("fluorite", "Fluorite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreFluorite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("FLUORITE")).get(), 2, 4), 0xFF8899ba, 16, 16, 5, 9),
+  BITUMEN("bitumen", "Bitumen", new String[] {"Ore", "Block", "Gem", "Chunk", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreBitumen::new, () -> new BurnableItemBase(1600), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("BITUMEN")).get(), 2, 6), 0xFF35424f, 100, 60, 2, 18),
+  CINNABAR("cinnabar", "Cinnabar", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreCinnabar::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("CINNABAR")).get(), 1, 2), 0xFF4f002c, 10, 6, 4, 5),
+  APATITE("apatite", "Apatite", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreApatite::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("APATITE")).get(), 4, 9), 0xFF27abbd, 96, 32, 2, 22),
+  SULFUR("sulfur", "Sulfur", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreSulfur::new, () -> new BurnableItemBase(1200), Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("SULFUR")).get(), 3, 5), 0xFFded531, 8, 8, 3, 7),
+  POTASSIUM_NITRATE("potassium_nitrate", "Potassium Nitrate", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OrePotassiumNitrate::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("POTASSIUM_NITRATE")).get(), 3, 5), 0xFFe0dde4, 25, 7, 4, 5),
+  ARCANE("arcane", "Arcane", new String[] {"Ore", "Block", "Gem", "Chunk", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreArcane::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("ARCANE")).get()), 0xFFdd7ee0, 33, 13, 5, 6),
+  DIMENSIONAL("dimensional", "Dimensional Shard", new String[] {"Ore", "Block", "Gem", "Chunk", "Dust", "Cluster", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, OreDimensional::new, ItemBase::new, Source.MODDED, drop(() -> ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.valueOf("DIMENSIONAL")).get(), 4 , 5), 0xFF8dd4d3, 10, 10, 2, 2),
+  COKE("coke", "Coal Coke", new String[] {"Block", "Gem", "Dust"}, BlockBase::new, () -> new BurnableItemBase(3200), Source.MODDED, 0),
+  SILICON("silicon", "Silicon", new String[] {"Gem"}, BlockBase::new, ItemBase::new, Source.MODDED, 0),
 
-  BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  BRASS("brass", "Brass", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  CONSTANTAN("constantan", "Constantan", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  ELECTRUM("electrum", "Electrum", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  STEEL("steel", "Steel", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  INVAR("invar", "Invar", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  SIGNALUM("signalum", "Signalum", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  LUMIUM("lumium", "Lumium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY),
-  ENDERIUM("enderium", "Enderium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod"}, BlockBase::new, ItemBase::new, Source.ALLOY);
+  BRONZE("bronze", "Bronze", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFd38c53),
+  BRASS("brass", "Brass", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFc7d477),
+  CONSTANTAN("constantan", "Constantan", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFdbab81),
+  ELECTRUM("electrum", "Electrum", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFedda6f),
+  STEEL("steel", "Steel", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFF818185),
+  INVAR("invar", "Invar", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFF9aaaa2),
+  SIGNALUM("signalum", "Signalum", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFfc8638),
+  LUMIUM("lumium", "Lumium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFe5f3b5),
+  ENDERIUM("enderium", "Enderium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFF1d7e80),
+
+  THALLASIUM("thallasium", "Thallasium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF367e97),
+  IESNIUM("iesnium", "Iesnium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF55a5b7),
+  REGALIUM("regalium", "Regalium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFa86e42),
+  UTHERIUM("utherium", "Utherium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFc1424b),
+  FROSTSTEEL("froststeel", "Froststeel", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF6886ae),
+  CLOGGRUM("cloggrum", "Cloggrum", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF796a5d),
+  NEBU("nebu", "Nebu", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFd19607);
 
   public final String id;
   public final String localisedName;
@@ -66,6 +75,8 @@ public enum Materials {
   private final Source source;
 
   public final OreDropInfo drop;
+
+  public final int tintColour;
 
   public final int defaultSize;
   public final int defaultCount;
@@ -83,7 +94,7 @@ public enum Materials {
 
   public final String[] type;
 
-  Materials(String id, String localisedName, String[] type, Supplier<Block> block, @Nullable Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, @Nullable OreDropInfo nonSilkDrop, int baseline, int spread, int count, int size) {
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, @Nullable Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, @Nullable OreDropInfo nonSilkDrop, int tintColour, int baseline, int spread, int count, int size) {
     this.id = id;
     this.localisedName = localisedName;
     this.block = block;
@@ -93,6 +104,8 @@ public enum Materials {
 
     this.drop = nonSilkDrop;
 
+    this.tintColour = tintColour;
+
     this.defaultBaseline = baseline;
     this.defaultSpread = spread;
     this.defaultCount = count;
@@ -110,7 +123,7 @@ public enum Materials {
     this.type = type;
   }
 
-  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, int baseline, int spread, int count, int size) {
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, int tintColour, int baseline, int spread, int count, int size) {
     this.id = id;
     this.localisedName = localisedName;
     this.block = block;
@@ -120,6 +133,8 @@ public enum Materials {
 
     this.drop = null;
 
+    this.tintColour = tintColour;
+
     this.defaultBaseline = baseline;
     this.defaultSpread = spread;
     this.defaultCount = count;
@@ -137,8 +152,8 @@ public enum Materials {
     this.type = type;
   }
 
-  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<Item> item, Source source) {
-    this(id, localisedName, type, block, null, item, source, null, 0, 0, 0, 0);
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<Item> item, Source source, int tintColour) {
+    this(id, localisedName, type, block, null, item, source, null, tintColour, 0, 0, 0, 0);
   }
 
   public boolean isVanilla() {

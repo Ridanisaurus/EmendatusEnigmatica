@@ -26,11 +26,13 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.items.ItemSawdust;
 import com.ridanisaurus.emendatusenigmatica.util.*;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
@@ -117,6 +119,48 @@ public class ItemHandler {
           builder.put(processedMaterial, material, ITEMS.register(clusterName, ItemBase::new));
           materialsByName.put(new ResourceLocation(Reference.MOD_ID, clusterName),material);
         }
+        // Clump
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          String clumpName = material.id + "_clump";
+          builder.put(processedMaterial, material, ITEMS.register(clumpName, ItemBase::new));
+        }
+        // Crystal
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          String crystalName = material.id + "_crystal";
+          builder.put(processedMaterial, material, ITEMS.register(crystalName, ItemBase::new));
+        }
+        // Dirty Dust
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          String dirtyDustName = material.id + "_dirty_dust";
+          builder.put(processedMaterial, material, ITEMS.register(dirtyDustName, ItemBase::new));
+        }
+        // Shard
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard")) {
+          String shardName = material.id + "_shard";
+          builder.put(processedMaterial, material, ITEMS.register(shardName, ItemBase::new));
+        }
+        // Crushed
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed")) {
+          String crushedName = material.id + "_crushed";
+          builder.put(processedMaterial, material, ITEMS.register(crushedName, ItemBase::new));
+        }
+        // Fragment
+        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment")) {
+          String fragmentName = material.id + "_fragment";
+          builder.put(processedMaterial, material, ITEMS.register(fragmentName, ItemBase::new));
+        }
+        // Gravel
+        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel")) {
+          String gravelName = material.id + "_gravel";
+          builder.put(processedMaterial, material, ITEMS.register(gravelName, ItemBase::new));
+        }
+//        // Fluid Buckets
+//        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+//          String bucketName = "molten_" + material.id + "_bucket";
+//          builder.put(processedMaterial, material, ITEMS.register(bucketName, () ->
+//                  new BucketItem(FluidHandler.fluidByMaterial.get(material.id).get(),
+//                          new Item.Properties().group(EmendatusEnigmatica.TAB).maxStackSize(1))));
+//        }
       }
     }
     backingItemTable = builder.build();

@@ -25,12 +25,14 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.loaders.DynamicBucketModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
@@ -125,6 +127,55 @@ public class ItemModelsGen extends ItemModelProvider {
           getBuilder(material.id + "_cluster")
                   .parent(new ModelFile.UncheckedModelFile("item/generated"))
                   .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_cluster"));
+        }
+        // Clumps
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          getBuilder(material.id + "_clump")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_clump"));
+        }
+        // Crystals
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          getBuilder(material.id + "_crystal")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_crystal"));
+        }
+        // Dirty Dusts
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          getBuilder(material.id + "_dirty_dust")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_dirty_dust"));
+        }
+        // Shards
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard")) {
+          getBuilder(material.id + "_shard")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_shard"));
+        }
+        // Crushed
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed")) {
+          getBuilder(material.id + "_crushed")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_crushed"));
+        }
+        // Fragment
+        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment")) {
+          getBuilder(material.id + "_fragment")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_fragment"));
+        }
+        // Gravel
+        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel")) {
+          getBuilder(material.id + "_gravel")
+                  .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                  .texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.id + "_gravel"));
+        }
+        // Fluid Buckets
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          getBuilder("molten_" + material.id + "_bucket")
+                  .parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
+                  .customLoader(DynamicBucketModelBuilder::begin)
+                  .fluid(FluidHandler.flowingFluidByMaterial.get(material.id).get());
         }
       }
     }

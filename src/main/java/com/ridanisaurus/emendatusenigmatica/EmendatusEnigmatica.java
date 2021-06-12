@@ -28,10 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
 import net.minecraft.item.ItemGroup;
@@ -63,11 +60,13 @@ public class EmendatusEnigmatica {
         instance = this;
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        FluidHandler.FLUIDS.register(modEventBus);
         BlockHandler.BLOCKS.register(modEventBus);
-        OreHandler.BLOCKS.register(modEventBus);
-        ItemHandler.ITEMS.register(modEventBus);
         BlockHandler.TILE_ENTITY.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
+        OreHandler.BLOCKS.register(modEventBus);
+        ItemHandler.ITEMS.register(modEventBus);
+        SlurryHandler.SLURRIES.register(modEventBus);
 
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::construct);
@@ -84,10 +83,12 @@ public class EmendatusEnigmatica {
     }
 
     private void construct(final FMLConstructModEvent event) {
+        FluidHandler.fluifInit();
         OreHandler.oreBlocks();
         ItemHandler.oreItems();
         BlockHandler.blockInit();
         ItemHandler.itemInit();
+        SlurryHandler.slurryInit();
     }
 
     public void setup(FMLCommonSetupEvent event) {

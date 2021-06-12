@@ -24,12 +24,12 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.*;
+import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 import java.util.Arrays;
 import java.util.List;
@@ -132,12 +132,103 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
-        // Chunks
+        // Clusters
         if (processedMaterial == ProcessedMaterials.CLUSTER && toCreate.contains("Cluster") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Cluster");
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Clean Slurry
+        if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Clean ");
+          sb.append(material.localisedName);
+          sb.append(" Slurry");
+          add(SlurryHandler.backingSlurryTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Dirty Slurry
+        if (processedMaterial == ProcessedMaterials.DIRTY_SLURRY && toCreate.contains("DirtySlurry")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Dirty ");
+          sb.append(material.localisedName);
+          sb.append(" Slurry");
+          add(SlurryHandler.backingSlurryTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Clumps
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Clump");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Crystals
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Crystal");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Dirty Dusts
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Dirty ");
+          sb.append(material.localisedName);
+          sb.append(" Dust");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Shards
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard") && !material.id.equals("dimensional")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Shard");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Crushed
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Crushed ");
+          sb.append(material.localisedName);
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Fragment
+        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Fragment");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Gravel
+        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(material.localisedName);
+          sb.append(" Gravel");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        // Fluid Block
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Molten ");
+          sb.append(material.localisedName);
+          add("fluid.emendatusenigmatica.molten_" + material.id, sb.toString());
+        }
+
+        // Fluid Bucket
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Bucket of Molten ");
+          sb.append(material.localisedName);
+          add(FluidHandler.fluidBucketByMaterial.get(material.id).get(), sb.toString());
         }
       }
     }
@@ -164,6 +255,8 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Mana Cluster");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
 
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Chemical Shard");
+
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
     add(ItemHandler.DUST_GRAPHITE.get(), "Graphite Dust");
@@ -171,4 +264,11 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.DUST_OBSIDIAN.get(), "Obsidian Dust");
     add(ItemHandler.DUST_WOOD.get(), "Sawdust");
   }
+
+  private void add(Slurry slurry, String name) {
+    add(slurry.getTranslationKey(), name);
+  }
+//  private void add(String something, String name) {
+//    add("fluid.emendatusenigmatica.molten_" + something , name);
+//  }
 }
