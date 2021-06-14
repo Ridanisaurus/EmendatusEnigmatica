@@ -141,7 +141,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Clean Slurry
-        if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")) {
+        if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append("Clean ");
           sb.append(material.localisedName);
@@ -150,7 +150,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Dirty Slurry
-        if (processedMaterial == ProcessedMaterials.DIRTY_SLURRY && toCreate.contains("DirtySlurry")) {
+        if (processedMaterial == ProcessedMaterials.DIRTY_SLURRY && toCreate.contains("DirtySlurry")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append("Dirty ");
           sb.append(material.localisedName);
@@ -159,7 +159,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Clumps
-        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")) {
+        if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Clump");
@@ -167,7 +167,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Crystals
-        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")) {
+        if (processedMaterial == ProcessedMaterials.CRYSTAL && toCreate.contains("Crystal")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Crystal");
@@ -175,7 +175,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Dirty Dusts
-        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")) {
+        if (processedMaterial == ProcessedMaterials.DIRTY_DUST && toCreate.contains("DirtyDust")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append("Dirty ");
           sb.append(material.localisedName);
@@ -184,7 +184,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Shards
-        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard") && !material.id.equals("dimensional")) {
+        if (processedMaterial == ProcessedMaterials.SHARD && toCreate.contains("Shard") && !material.id.equals("dimensional") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Shard");
@@ -196,11 +196,12 @@ public class LangGen extends LanguageProvider {
           StringBuilder sb = new StringBuilder();
           sb.append("Crushed ");
           sb.append(material.localisedName);
+          sb.append(" Ore");
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
         // Fragment
-        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment")) {
+        if (processedMaterial == ProcessedMaterials.FRAGMENT && toCreate.contains("Fragment") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Fragment");
@@ -208,7 +209,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Gravel
-        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel")) {
+        if (processedMaterial == ProcessedMaterials.GRAVEL && toCreate.contains("Gravel") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append(material.localisedName);
           sb.append(" Gravel");
@@ -216,7 +217,7 @@ public class LangGen extends LanguageProvider {
         }
 
         // Fluid Block
-        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append("Molten ");
           sb.append(material.localisedName);
@@ -224,12 +225,17 @@ public class LangGen extends LanguageProvider {
         }
 
         // Fluid Bucket
-        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
+        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid") && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
           sb.append("Bucket of Molten ");
           sb.append(material.localisedName);
           add(FluidHandler.fluidBucketByMaterial.get(material.id).get(), sb.toString());
         }
+
+//        if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid") && material.id.equals("arcane")) {
+//          add("fluid.emendatusenigmatica.molten_" + material.id, "Molten Mana");
+//          add(FluidHandler.fluidBucketByMaterial.get(material.id).get(), "Bucket of Molten Mana");
+//        }
       }
     }
 
@@ -254,6 +260,16 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Mana Cluster");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
+    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.DIRTY_SLURRY, Materials.ARCANE).get(), "Dirty Mana Slurry");
+    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.CLEAN_SLURRY, Materials.ARCANE).get(), "Clean Mana Slurry");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUMP, Materials.ARCANE).get(), "Mana Clump");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CRYSTAL, Materials.ARCANE).get(), "Mana Crystal");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.DIRTY_DUST, Materials.ARCANE).get(), "Dirty Mana Dust");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.ARCANE).get(), "Mana Shard");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.FRAGMENT, Materials.ARCANE).get(), "Mana Fragment");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GRAVEL, Materials.ARCANE).get(), "Mana Gravel");
+    add("fluid.emendatusenigmatica.molten_arcane", "Molten Mana Gem");
+    add(FluidHandler.fluidBucketByMaterial.get(Materials.ARCANE.id).get(), "Bucket of Molten Mana Gem");
 
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Chemical Shard");
 

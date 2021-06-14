@@ -26,13 +26,13 @@
     "emendatusenigmatica:emerald_fragment",
     "emendatusenigmatica:lapis_fragment",
     "emendatusenigmatica:quartz_fragment",
-    "emendatusenigmatica:redstone_fragment",
     "emendatusenigmatica:thallasium_fragment",
-    "emendatusenigmatica:iesnium_fragment",
     "emendatusenigmatica:regalium_fragment",
     "emendatusenigmatica:utherium_fragment",
     "emendatusenigmatica:froststeel_fragment",
     "emendatusenigmatica:cloggrum_fragment",
-    "emendatusenigmatica:nebu_fragment"
+    "emendatusenigmatica:nebu_fragment",
+    "emendatusenigmatica:redstone_fragment",
+    "emendatusenigmatica:iesnium_fragment"
   ]
 }

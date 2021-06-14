@@ -59,13 +59,13 @@ public enum Materials {
   LUMIUM("lumium", "Lumium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFFe5f3b5),
   ENDERIUM("enderium", "Enderium", new String[] {"Block", "Ingot", "Nugget", "Dust", "Plate", "Gear", "Rod", "Crushed", "Fluid"}, BlockBase::new, ItemBase::new, Source.ALLOY, 0xFF1d7e80),
 
-  THALLASIUM("thallasium", "Thallasium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF367e97),
+  THALLASIUM("thallasium", "Thallasium", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF367e97),
   IESNIUM("iesnium", "Iesnium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF55a5b7),
-  REGALIUM("regalium", "Regalium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFa86e42),
-  UTHERIUM("utherium", "Utherium", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFc1424b),
-  FROSTSTEEL("froststeel", "Froststeel", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF6886ae),
-  CLOGGRUM("cloggrum", "Cloggrum", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF796a5d),
-  NEBU("nebu", "Nebu", new String[] {"CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFd19607);
+  REGALIUM("regalium", "Regalium", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFa86e42),
+  UTHERIUM("utherium", "Utherium", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFc1424b),
+  FROSTSTEEL("froststeel", "Froststeel", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF6886ae),
+  CLOGGRUM("cloggrum", "Cloggrum", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFF796a5d),
+  NEBU("nebu", "Nebu", new String[] {"Dust", "CleanSlurry", "DirtySlurry", "Clump", "Crystal", "DirtyDust", "Shard", "Crushed", "Fragment", "Gravel", "Fluid"}, BlockBase::new, ItemBase::new, Source.MODDED, 0xFFd19607);
 
   public final String id;
   public final String localisedName;

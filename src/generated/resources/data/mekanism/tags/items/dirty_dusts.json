@@ -21,13 +21,13 @@
     "emendatusenigmatica:emerald_dirty_dust",
     "emendatusenigmatica:lapis_dirty_dust",
     "emendatusenigmatica:quartz_dirty_dust",
-    "emendatusenigmatica:redstone_dirty_dust",
     "emendatusenigmatica:thallasium_dirty_dust",
-    "emendatusenigmatica:iesnium_dirty_dust",
     "emendatusenigmatica:regalium_dirty_dust",
     "emendatusenigmatica:utherium_dirty_dust",
     "emendatusenigmatica:froststeel_dirty_dust",
     "emendatusenigmatica:cloggrum_dirty_dust",
-    "emendatusenigmatica:nebu_dirty_dust"
+    "emendatusenigmatica:nebu_dirty_dust",
+    "emendatusenigmatica:redstone_dirty_dust",
+    "emendatusenigmatica:iesnium_dirty_dust"
   ]
 }

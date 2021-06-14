@@ -21,13 +21,13 @@
     "emendatusenigmatica:emerald_crystal",
     "emendatusenigmatica:lapis_crystal",
     "emendatusenigmatica:quartz_crystal",
-    "emendatusenigmatica:redstone_crystal",
     "emendatusenigmatica:thallasium_crystal",
-    "emendatusenigmatica:iesnium_crystal",
     "emendatusenigmatica:regalium_crystal",
     "emendatusenigmatica:utherium_crystal",
     "emendatusenigmatica:froststeel_crystal",
     "emendatusenigmatica:cloggrum_crystal",
-    "emendatusenigmatica:nebu_crystal"
+    "emendatusenigmatica:nebu_crystal",
+    "emendatusenigmatica:redstone_crystal",
+    "emendatusenigmatica:iesnium_crystal"
   ]
 }

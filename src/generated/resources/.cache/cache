@@ -887,7 +887,7 @@ bbe78c4857e2cb87ad77c6adcc3d72a6e055d160 assets/emendatusenigmatica/blockstates/
 22253558e10e6c6ac260fdf3733a3f4db518b959 assets/emendatusenigmatica/blockstates/zinc_sulphuric_rock_ore.json
 f7754691644ee5655052dc66e68eb8156943916c assets/emendatusenigmatica/blockstates/zinc_violecite_ore.json
 3510b5eb8bb19f1a0edf4f63d5f0e403ff0f69c2 assets/emendatusenigmatica/blockstates/zinc_weathered_limestone_ore.json
-2db5f8de9d1a4d6da0018375e45aae53315e5949 assets/emendatusenigmatica/lang/en_us.json
+e55fea09995bab750eb9a3ee6dbe42a8913a31ec assets/emendatusenigmatica/lang/en_us.json
 f69ed32e854aad9d9ed5442784121a6167572f19 assets/emendatusenigmatica/models/block/aluminum_andesite_ore.json
 7299ac863d44db7cd4c1a861513b7dfb2a0fd667 assets/emendatusenigmatica/models/block/aluminum_basalt_ore.json
 3b7cfccc30c3566112a1ae94faaa59320b6300b1 assets/emendatusenigmatica/models/block/aluminum_blackstone_ore.json
@@ -2085,6 +2085,7 @@ a54acd9f48d40ba1f8f2dda4338208699dd346d7 assets/emendatusenigmatica/models/item/
 568e2793e36bf2bf77c66485b690ecbe0e3468c1 assets/emendatusenigmatica/models/item/cloggrum_crushed.json
 d6db92ab3f06ce4967a9494b2e6170e11747906f assets/emendatusenigmatica/models/item/cloggrum_crystal.json
 1cde1a3390e2703931c23a2d7eb3161fd98c7693 assets/emendatusenigmatica/models/item/cloggrum_dirty_dust.json
+9e2f8ac3e60225bfebbfc57cfcc610023bc011bb assets/emendatusenigmatica/models/item/cloggrum_dust.json
 7476e043a0fe358e250337eb3fd8fa3934db7619 assets/emendatusenigmatica/models/item/cloggrum_fragment.json
 eca6f2efd84386a93cde4da0f7eee1a4881d630d assets/emendatusenigmatica/models/item/cloggrum_gravel.json
 6bf22fec83ff8278453d745626de46bacb3901cb assets/emendatusenigmatica/models/item/cloggrum_shard.json
@@ -2413,6 +2414,7 @@ d6281976ad96cd2747715460b5c3b06ec56a4ec7 assets/emendatusenigmatica/models/item/
 fdf8596a4e007a81bc0a3acd8e4a3367f5e73e98 assets/emendatusenigmatica/models/item/froststeel_crushed.json
 890ef13714000655c3b7600b94f798134996a750 assets/emendatusenigmatica/models/item/froststeel_crystal.json
 16e1419f8e9c11b7a5b7fe93ca188dd1166e02dc assets/emendatusenigmatica/models/item/froststeel_dirty_dust.json
+d28782d825b5f97b7a30bd17a6de9e04deb182b6 assets/emendatusenigmatica/models/item/froststeel_dust.json
 abe031c0507190b7baf8a6c9c73392f4df199c6d assets/emendatusenigmatica/models/item/froststeel_fragment.json
 5b62a0027b85f0cddffe844b373658bdb1106aaf assets/emendatusenigmatica/models/item/froststeel_gravel.json
 7ae7047b90a7bae32dd931425cb5fe4068ba5952 assets/emendatusenigmatica/models/item/froststeel_shard.json
@@ -2643,6 +2645,7 @@ d0e5fe10569ecb6c259bc5da9f198c0acef44b98 assets/emendatusenigmatica/models/item/
 14f6b8e639a292ca8c66a46b3e3ecaacac2ddb60 assets/emendatusenigmatica/models/item/nebu_crushed.json
 79b0bb6791b8e2f48850bdf52e3a0bef7ae72048 assets/emendatusenigmatica/models/item/nebu_crystal.json
 49322997c9a440ded8979ba7efd7159b99c48eef assets/emendatusenigmatica/models/item/nebu_dirty_dust.json
+18a06f8c92f08afe387cda4aa7e9dd1e7247e7b1 assets/emendatusenigmatica/models/item/nebu_dust.json
 85097070d367752a2ec44664b4c3523a2845eff8 assets/emendatusenigmatica/models/item/nebu_fragment.json
 94c464a80928ef7d07466c13e30ebbd082dd4940 assets/emendatusenigmatica/models/item/nebu_gravel.json
 04e7d60b492b4cd62a73746c3003d941f9be6d6c assets/emendatusenigmatica/models/item/nebu_shard.json
@@ -2854,6 +2857,7 @@ fcaf4289737ef475254693957346111b31ae9ac5 assets/emendatusenigmatica/models/item/
 5d71824549788ccdb8d2cdff750c6c17e9a0a6a6 assets/emendatusenigmatica/models/item/regalium_crushed.json
 0dc3f5052a693ab2e591087e048320761eaa3c8e assets/emendatusenigmatica/models/item/regalium_crystal.json
 7d907331c1494cc50f2b70dd9e1d2f85eba51423 assets/emendatusenigmatica/models/item/regalium_dirty_dust.json
+660693a35fc568ca3634c964ae43528deb2640ba assets/emendatusenigmatica/models/item/regalium_dust.json
 302bdaa813b0e3e51a3d01c78b46a297b366dc22 assets/emendatusenigmatica/models/item/regalium_fragment.json
 cbc72c114ae64a64fce5ca0ed2871e249d137d4d assets/emendatusenigmatica/models/item/regalium_gravel.json
 fb5d08c2ecd0ccfb4252aa801096116cf4082203 assets/emendatusenigmatica/models/item/regalium_shard.json
@@ -2963,6 +2967,7 @@ d2b978ad128153f31af5a4fa8bc7756013c7a010 assets/emendatusenigmatica/models/item/
 399a2f895cf38ef2a3c580097959128a69105ac2 assets/emendatusenigmatica/models/item/thallasium_crushed.json
 d87551a9f130f4634e3c73a7af9d7dcb1acee23a assets/emendatusenigmatica/models/item/thallasium_crystal.json
 87e67dbb8b55e6313e5b82862cedb4d433e2939a assets/emendatusenigmatica/models/item/thallasium_dirty_dust.json
+c49ee871d28e24ae0850df85710edf5d8bea7824 assets/emendatusenigmatica/models/item/thallasium_dust.json
 f819966ca962e032450e7d82fd80a093c68ce413 assets/emendatusenigmatica/models/item/thallasium_fragment.json
 f08875f0e32f9abc3e98d4b2b7dfa750684ab06a assets/emendatusenigmatica/models/item/thallasium_gravel.json
 7204e6069c4713755ea9a6da5215ce97dda85377 assets/emendatusenigmatica/models/item/thallasium_shard.json
@@ -3050,6 +3055,7 @@ c8efbad2d4623a16d276a610de112d318609fd47 assets/emendatusenigmatica/models/item/
 ec0e61eeb83d009c9fe10b3eba527ade2305b559 assets/emendatusenigmatica/models/item/utherium_crushed.json
 05c9a2b6467ae6831f171524fb9be4c35372e94a assets/emendatusenigmatica/models/item/utherium_crystal.json
 5e912075da4330e1c5ee073105d66b96b5fbfac7 assets/emendatusenigmatica/models/item/utherium_dirty_dust.json
+e7e8c291de90736c67acc01f101160b0b81aeb03 assets/emendatusenigmatica/models/item/utherium_dust.json
 a28ddb15ed7ebb04b95bdcf7e38ea4bafec03187 assets/emendatusenigmatica/models/item/utherium_fragment.json
 f7a03a521776610f6c4c607dfe8409e792975061 assets/emendatusenigmatica/models/item/utherium_gravel.json
 fed6f654cadc297ee46672ed76a69c856fea4973 assets/emendatusenigmatica/models/item/utherium_shard.json
@@ -3107,7 +3113,7 @@ ac834af2dd8a4f28119137c8579e0e98ad619c69 data/appliedenergistics2/tags/items/cry
 3a71ba71996c76278094e1f5ebdf67cd9427774f data/appliedenergistics2/tags/items/dusts/fluix.json
 a4f2e4b24b851b4272dc59b242cfbaf277f82d89 data/appliedenergistics2/tags/items/dusts/nether_quartz.json
 d068f1619cab82dd574aee22bfd44d26ec68df6b data/appliedenergistics2/tags/items/dusts/quartz.json
-5abfba588b21105025b9128f751a608e6412a464 data/bloodmagic/tags/items/fragments.json
+bbb715e372b56f268c65015b0ce064bab94caf07 data/bloodmagic/tags/items/fragments.json
 42b36982da6028e342bf041a16211597e5c517e1 data/bloodmagic/tags/items/fragments/aluminum.json
 097265c8dc21ca646d49c384a40b7ca2d586da79 data/bloodmagic/tags/items/fragments/apatite.json
 8309be30264bdc460fc7e63b4bbc18de1f411f6a data/bloodmagic/tags/items/fragments/arcane.json
@@ -3141,7 +3147,7 @@ a0ea7b95a09fa8af007f2f045437f8d95fb3f750 data/bloodmagic/tags/items/fragments/re
 09ff6b2a527ff400239ce60b3e81be9da9a538a3 data/bloodmagic/tags/items/fragments/uranium.json
 ab9c6fc2cb75276f0f2515b83d6a543a70ce386e data/bloodmagic/tags/items/fragments/utherium.json
 b985e16bfbf4c1a2dbb4acb5a72d92e016f5a7a4 data/bloodmagic/tags/items/fragments/zinc.json
-94b1ec6ea35bf2fdae6375b9e9995245bb652197 data/bloodmagic/tags/items/gravels.json
+e69880b39a751f320c718a8f30761f1d197365dc data/bloodmagic/tags/items/gravels.json
 9bbc4f642c3cf0ba2edf6c91bac0f333044897aa data/bloodmagic/tags/items/gravels/aluminum.json
 2e89264f5688de364a7123876659c15409641142 data/bloodmagic/tags/items/gravels/apatite.json
 d1da55e89b25cf7459f10a4aa21d7f5fa7062d6f data/bloodmagic/tags/items/gravels/arcane.json
@@ -3175,7 +3181,7 @@ d114e878a571bda1d375db887fb3843c11ad2a9d data/bloodmagic/tags/items/gravels/tin.
 e55acdf0154d076a373e2a5067bb35fbdf147c29 data/bloodmagic/tags/items/gravels/uranium.json
 2e390224fb10b8387f60d5f1de2231b53b9e26b2 data/bloodmagic/tags/items/gravels/utherium.json
 bff057218aa55ad45235e1df77a953a7f0fac7d9 data/bloodmagic/tags/items/gravels/zinc.json
-31ea748d9d0700c5662db0ac0fa7e69536088d31 data/create/tags/items/crushed_ores.json
+e367d8bfbe53641facc75834789b0297a6f87b00 data/create/tags/items/crushed_ores.json
 457dce7f072598dd1f045b53ad33e5976ef58eae data/create/tags/items/crushed_ores/ancient_debris.json
 594b7b3fbd1a41ce3a31a53fe587fccf5285ce56 data/create/tags/items/crushed_ores/apatite.json
 05269af8b5eb3ba2fd97b262a2d6cfbce1bca625 data/create/tags/items/crushed_ores/arcane.json
@@ -6653,7 +6659,7 @@ f73bc63339ac27799e92208d81c1680ea52c97e7 data/forge/tags/items/clusters/sulfur.j
 248afce59df7c5cb2d38bc390bde17de2fb00f38 data/forge/tags/items/clusters/uranium.json
 355cc217d1bcdcd0e87400683acac4c2fcd33139 data/forge/tags/items/clusters/zinc.json
 b3ddd6241cf650a42d8497bb688f5441e0ff2779 data/forge/tags/items/coal_coke.json
-ec0f6ea50ad5d7878d7953b1d5cb369c730b5a1f data/forge/tags/items/dusts.json
+ba7940f6b0416e2963cbbd36ea8ec1f4f49b5520 data/forge/tags/items/dusts.json
 5e4650bdc0f257c8eaa9d6e1943374c9d2c612fa data/forge/tags/items/dusts/aluminum.json
 607367c8fd91341f18fcf1f3ae0bfbb2d71bcde8 data/forge/tags/items/dusts/apatite.json
 8273dc426c933d9d94b5c19a4a6ddc7bdf60a6b8 data/forge/tags/items/dusts/brass.json
@@ -6661,6 +6667,7 @@ ec0f6ea50ad5d7878d7953b1d5cb369c730b5a1f data/forge/tags/items/dusts.json
 7686aa08ee02247810825b2aaade7fcaf64d253d data/forge/tags/items/dusts/certus_quartz.json
 496b42247509b130a88b435afa6ba640f64badea data/forge/tags/items/dusts/charcoal.json
 60d00a0bc76188040f2161640cb95213a1703738 data/forge/tags/items/dusts/cinnabar.json
+cce405588ed3f7e5d6ffcc89df89d39f5506c6e6 data/forge/tags/items/dusts/cloggrum.json
 a7e848b119a08a5df87fa4e0a4568f493341fb22 data/forge/tags/items/dusts/coal.json
 41b60c2b57201f98458a47bbd81378c1ec475a1b data/forge/tags/items/dusts/coal_coke.json
 7279a5a825d6babd3bfff54f33515cb4536a6d0c data/forge/tags/items/dusts/cobalt.json
@@ -6675,6 +6682,7 @@ ffa4195205600e9a37fd2d42a297e7735df13966 data/forge/tags/items/dusts/ender.json
 d5fea9af1b29b32ed7f5d69efa261c33dc840823 data/forge/tags/items/dusts/enderium.json
 3a71ba71996c76278094e1f5ebdf67cd9427774f data/forge/tags/items/dusts/fluix.json
 60724689583be70b6728b8b65b14d4e71608a6ce data/forge/tags/items/dusts/fluorite.json
+3b3d3707ee5bd73f5f8a949aad1695a94bb75b5f data/forge/tags/items/dusts/froststeel.json
 ca9b20b6f73dc8c83d1bf4ab3abc0140b1650b18 data/forge/tags/items/dusts/gold.json
 94e235741cf5edc2349ce256042ba3e76b1ec0e4 data/forge/tags/items/dusts/graphite.json
 ff579ddef5a961fc9b0387cfae1ca53e1fc29e98 data/forge/tags/items/dusts/invar.json
@@ -6683,19 +6691,23 @@ ff579ddef5a961fc9b0387cfae1ca53e1fc29e98 data/forge/tags/items/dusts/invar.json
 dcc7550b14ecaf62a4ac1fdf883620a63589c942 data/forge/tags/items/dusts/lead.json
 f167be7c694809f071d08f1cb0ad64d77f84ff21 data/forge/tags/items/dusts/lithium.json
 307a40ddf26ce25b8771dee866fb4b37ee74637e data/forge/tags/items/dusts/lumium.json
+01089ba2f115db24190ef945927f7394db7504cf data/forge/tags/items/dusts/nebu.json
 045b9eabace1b6ad4398d289f5cb8584d6b39d46 data/forge/tags/items/dusts/nickel.json
 4a4bd572fcc4760949215e017e8c3966b9bb2f3c data/forge/tags/items/dusts/niter.json
 444dbd88dcbd0fadc9704a5539e2f76291588cfb data/forge/tags/items/dusts/obsidian.json
 1a8b77d068ed2a4bbeec23e341bf770749fadd7b data/forge/tags/items/dusts/osmium.json
 4a4bd572fcc4760949215e017e8c3966b9bb2f3c data/forge/tags/items/dusts/potassium_nitrate.json
 a4f2e4b24b851b4272dc59b242cfbaf277f82d89 data/forge/tags/items/dusts/quartz.json
+13a27194143f3acec1d37fc29b15d9dc68eb03a3 data/forge/tags/items/dusts/regalium.json
 4a4bd572fcc4760949215e017e8c3966b9bb2f3c data/forge/tags/items/dusts/saltpeter.json
 51f2989b3cb7416dadbb198de3acc6c67d2e6e1f data/forge/tags/items/dusts/signalum.json
 75d429f8bba7236d3754f8d049349899b98ab649 data/forge/tags/items/dusts/silver.json
 966f622d48225bd1b808d3b85ed2dcb81f3c2bd7 data/forge/tags/items/dusts/steel.json
 f8bfe6b239b54f01192f21f210abf34eda9e8a67 data/forge/tags/items/dusts/sulfur.json
+6e625c214f2e94e31fb89895838e3f4f23d8ec7c data/forge/tags/items/dusts/thallasium.json
 b0bb74fd532774c7b768913f766ddf82ad674a16 data/forge/tags/items/dusts/tin.json
 2c65bd81feda512ec1135fe9d734e14e0982f838 data/forge/tags/items/dusts/uranium.json
+2184b02e7a44365968eddb7f6a31a7b6062bd9f9 data/forge/tags/items/dusts/utherium.json
 e7cd0e43a8769530e66b0c8f5f9b8d687edd08ee data/forge/tags/items/dusts/wood.json
 94e3078c0a3769877e1dd12c2bbd56b8b0a60c91 data/forge/tags/items/dusts/zinc.json
 1c225c25504fa1ddfdbe40449d6eec1b2bfbab6c data/forge/tags/items/gears.json
@@ -6924,7 +6936,7 @@ a3cbfaccdd770b40a452def93a39b7818d974a8f data/forge/tags/items/storage_blocks/si
 211b1197dc2192b7881a325366e39b894f59b829 data/forge/tags/items/storage_blocks/tin.json
 da420633fbd463dd91ad1818a2918f87dbe33539 data/forge/tags/items/storage_blocks/uranium.json
 090dfe37ca7a5bd1018999ba6b61d4f9904998fa data/forge/tags/items/storage_blocks/zinc.json
-271b5aff12ee38f885dfe97ff76a5a1f908ec6cf data/mekanism/tags/items/clumps.json
+41c92d14fbe266a72c534c85805b6bfdfa69ecd6 data/mekanism/tags/items/clumps.json
 bc4a0e6a8bb772e3910ac9dcc9b3b87332e18412 data/mekanism/tags/items/clumps/aluminum.json
 704535d512d025e6327d25a184e84858aaf4b6b2 data/mekanism/tags/items/clumps/apatite.json
 17d066dbd3e360efb04d1909392e561ed9d3f6d2 data/mekanism/tags/items/clumps/arcane.json
@@ -6953,7 +6965,7 @@ fb06003d9a966664a62b85cdbfafaf3c08c0c3e6 data/mekanism/tags/items/clumps/potassi
 dab7fdfb5bc65f945c35fb9b488cb8a615bb0f76 data/mekanism/tags/items/clumps/thallasium.json
 68612fa77a2d5228e016c4f51261efeacb32d601 data/mekanism/tags/items/clumps/utherium.json
 2de10c7cc6cebb13bd6df7069fa31767176cd384 data/mekanism/tags/items/clumps/zinc.json
-f46378ba702c1ed52766962188379495f945e978 data/mekanism/tags/items/crystals.json
+d22b0785d78bc6bdfa6f1904db6adcc5f17cac73 data/mekanism/tags/items/crystals.json
 7beca6231d330214a160151ff129881b9ae04804 data/mekanism/tags/items/crystals/aluminum.json
 6cccc76759f5303ece414b4f7de9ea380c56a858 data/mekanism/tags/items/crystals/apatite.json
 f75b4253b911134fcefc5df19e6dc0f15fb6d867 data/mekanism/tags/items/crystals/arcane.json
@@ -6982,7 +6994,7 @@ bc93078a255b1e7989095af869c9fe121e7db8d1 data/mekanism/tags/items/crystals/redst
 39fba087d2b257ea13e74722cfa5b7ba73e4b535 data/mekanism/tags/items/crystals/thallasium.json
 0064d1bfa5693fe31a4bd93cb55623656f0dd42a data/mekanism/tags/items/crystals/utherium.json
 c35b3403156b70bda35bf23d6039f0c57f8108d8 data/mekanism/tags/items/crystals/zinc.json
-1383dd73fb7130cb5cf53866fbd43b29929dbf21 data/mekanism/tags/items/dirty_dusts.json
+8fa39b46994bad47520a2df66555870bd7b2a3ef data/mekanism/tags/items/dirty_dusts.json
 f8c3133ceade697241f3e34a922dbc15446b44b5 data/mekanism/tags/items/dirty_dusts/aluminum.json
 ef56a458a83657e623e45f120793d0e0c9fd83f5 data/mekanism/tags/items/dirty_dusts/apatite.json
 148a4994f37106ac4c5620e317f91666e67dfb3f data/mekanism/tags/items/dirty_dusts/arcane.json
@@ -7011,7 +7023,7 @@ f5a3e4a8ecff772c060a5c94fba598b57f160185 data/mekanism/tags/items/dirty_dusts/si
 be85a87c3be363930c6e307d87fa404f14177e2a data/mekanism/tags/items/dirty_dusts/thallasium.json
 2447fb69f8c9fb903b6616cdb1ffb61bb786f80f data/mekanism/tags/items/dirty_dusts/utherium.json
 f039e55d9e04540a2edbf43236c57dcd6af2300d data/mekanism/tags/items/dirty_dusts/zinc.json
-f0974251531a9e5d8ce8c2cbd1c33dc656c8ded6 data/mekanism/tags/items/shards.json
+a98f110af254d47ebd0edc8fbd15ba710624cdd3 data/mekanism/tags/items/shards.json
 48e99467e765e65100fda235af596f59d13bbdf3 data/mekanism/tags/items/shards/aluminum.json
 6bc1abacaec711f1fefb3756458d1274934a89e2 data/mekanism/tags/items/shards/apatite.json
 6d59ccc8e3393b105b1918f245ba5972ef4d04bd data/mekanism/tags/items/shards/arcane.json

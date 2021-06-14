@@ -26,13 +26,13 @@
     "emendatusenigmatica:emerald_gravel",
     "emendatusenigmatica:lapis_gravel",
     "emendatusenigmatica:quartz_gravel",
-    "emendatusenigmatica:redstone_gravel",
     "emendatusenigmatica:thallasium_gravel",
-    "emendatusenigmatica:iesnium_gravel",
     "emendatusenigmatica:regalium_gravel",
     "emendatusenigmatica:utherium_gravel",
     "emendatusenigmatica:froststeel_gravel",
     "emendatusenigmatica:cloggrum_gravel",
-    "emendatusenigmatica:nebu_gravel"
+    "emendatusenigmatica:nebu_gravel",
+    "emendatusenigmatica:redstone_gravel",
+    "emendatusenigmatica:iesnium_gravel"
   ]
 }
