@@ -21,13 +21,13 @@
     "emendatusenigmatica:emerald_clump",
     "emendatusenigmatica:lapis_clump",
     "emendatusenigmatica:quartz_clump",
-    "emendatusenigmatica:redstone_clump",
     "emendatusenigmatica:thallasium_clump",
-    "emendatusenigmatica:iesnium_clump",
     "emendatusenigmatica:regalium_clump",
     "emendatusenigmatica:utherium_clump",
     "emendatusenigmatica:froststeel_clump",
     "emendatusenigmatica:cloggrum_clump",
-    "emendatusenigmatica:nebu_clump"
+    "emendatusenigmatica:nebu_clump",
+    "emendatusenigmatica:redstone_clump",
+    "emendatusenigmatica:iesnium_clump"
   ]
 }

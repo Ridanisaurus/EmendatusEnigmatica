@@ -266,7 +266,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "dusts/wood").toString()))
             .add(ItemHandler.DUST_WOOD.get());
 
-    // Mana Gem
+    // Mana
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems/mana").toString()))
             .add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get());
     getOrCreateBuilder(ItemTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()))
