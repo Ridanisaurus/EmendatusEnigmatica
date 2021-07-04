@@ -1,7 +1,7 @@
 [
   {
 	"name": "Ridanis",
-	"item": "emendatusenigmatica:arcane_gem"
+	"item": "emendatusenigmatica:enigmatic_fortunizer"
   },
   {
 	"name": "Dev",
@@ -17,7 +17,7 @@
   },
   {
 	"name": "gefailter",
-	"item": "emendatusenigmatica:enderium_chunk"
+	"item": "emendatusenigmatica:enderium_block"
   },
   {
 	"name": "TemperedFool",
