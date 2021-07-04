@@ -38,6 +38,7 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -55,9 +56,11 @@ public class EmendatusEnigmatica {
 
     public static EmendatusEnigmatica instance;
     public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static boolean MEKANISM_LOADED = false;
 
     public EmendatusEnigmatica() {
         instance = this;
+        MEKANISM_LOADED = ModList.get().isLoaded("mekanism");
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FluidHandler.FLUIDS.register(modEventBus);
@@ -66,7 +69,7 @@ public class EmendatusEnigmatica {
         ContainerHandler.CONTAINERS.register(modEventBus);
         OreHandler.BLOCKS.register(modEventBus);
         ItemHandler.ITEMS.register(modEventBus);
-        SlurryHandler.SLURRIES.register(modEventBus);
+        if (MEKANISM_LOADED) SlurryHandler.SLURRIES.register(modEventBus);
 
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::construct);
@@ -88,7 +91,7 @@ public class EmendatusEnigmatica {
         ItemHandler.oreItems();
         BlockHandler.blockInit();
         ItemHandler.itemInit();
-        SlurryHandler.slurryInit();
+        if (MEKANISM_LOADED) SlurryHandler.slurryInit();
     }
 
     public void setup(FMLCommonSetupEvent event) {
