@@ -1,0 +1,23 @@
+{
+  "id": "iridium",
+  "localisedName": "Iridium",
+  "color": "0099FF",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "chunk",
+    "cluster",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "oreBlockType": "metal",
+  "properties": {
+      "hardness": 3.0,
+      "resistance": 3.0,
+      "harvestLevel": 1
+  }
+}

@@ -30,20 +30,27 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
-public class MetalOreBlock extends Block {
-	private final String localisedName;
+public class MetalOreBlock extends Block implements  IColorable{
+  private final String localisedName;
 
-	public MetalOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
-		super(Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
-				.harvestLevel(harvestLevel)
-				.harvestTool(tool)
-				.setRequiresTool());
-		this.localisedName = localisedName;
-	}
+	public final int color;
+  public MetalOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
+    super(Properties.create(material)
+          .hardnessAndResistance(hardness,resistance)
+          .harvestLevel(harvestLevel)
+          .harvestTool(tool)
+          .setRequiresTool());
+    this.localisedName = localisedName;
+    this.color = color;
+  }
 
-	@Override
-	public IFormattableTextComponent getTranslatedName() {
-		return new StringTextComponent(localisedName);
-	}
+  @Override
+  public IFormattableTextComponent getTranslatedName() {
+    return new StringTextComponent(localisedName);
+  }
+
+  @Override
+  public int getColor() {
+    return color;
+  }
 }

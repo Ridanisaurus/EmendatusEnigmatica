@@ -24,32 +24,21 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.fml.loading.FMLPaths;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
-import java.util.Set;
 
-public class MemoryDataGeneratorFactory {
+public class DataGeneratorFactory {
 
-	public static Path ROOT_PATH;
+    public static Path ROOT_PATH;
 
-	public static void init() {
-		try {
-			FileSystem fs = MemoryFileSystemBuilder.newEmpty().addRoot("/").setCurrentWorkingDirectory("/emendatusenigmatica").setCaseSensitive(true).build();
-			ROOT_PATH = fs.getPath("/emendatusenigmatica");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void init() {
+        ROOT_PATH = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/default");
+    }
 
-	public static DataGenerator createMemoryDataGenerator() {
-		return new DataGenerator(ROOT_PATH, ImmutableList.of());
-	}
+    public static DataGenerator createMemoryDataGenerator() {
+        return new DataGenerator(ROOT_PATH, ImmutableList.of());
+    }
 }

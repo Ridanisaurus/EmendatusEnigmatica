@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.core.mixin;
 
-import com.ridanisaurus.emendatusenigmatica.config.Config;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;

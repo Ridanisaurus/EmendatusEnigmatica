@@ -44,8 +44,7 @@ public class LootTablesGen extends BaseLootTableProvider {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			for (String processedType : material.getProcessedType()) {
 				if (processedType.equals("storage_block")) {
-					blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(),
-							createBlockLootTable(EERegistrar.storageBlockMap.get(material.getId()).get()));
+					blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(), createBlockLootTable(EERegistrar.storageBlockMap.get(material.getId()).get()));
 				}
 			}
 		}
