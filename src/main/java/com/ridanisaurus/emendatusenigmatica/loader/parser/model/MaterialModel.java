@@ -110,15 +110,12 @@ public class MaterialModel {
     return isBurnable;
   }
 
-  public int getBurnTime() {
-    return burnTime;
+  public int getColor() {
+    return color.map(x -> Integer.parseInt(x, 16)).orElse(-1);
   }
 
-  public int getColor() {
-    return color.map(x -> Integer.parseInt(x, 16)).orElse(0xFFFFFF);
-  }
-	public int getBurnTime() {
-		return burnTime;
+  public int getBurnTime() {
+        return burnTime;
 	}
 
 	public String getOreBlockDropType() {

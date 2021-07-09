@@ -1,0 +1,14 @@
+{
+  "id": "aloy_boi",
+  "localisedName": "Alloy Boi",
+  "color": "FF6633",
+  "processedType": [
+    "storage_block",
+    "ingot",
+    "nugget",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ]
+}

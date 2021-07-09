@@ -84,6 +84,6 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 				.withConfiguration(new OreFeatureConfig(filler, state, size))
 				.withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(baseline, spread)))
 				.square()
-				.func_242731_b(count));
+				.count(count));
 	}
 }

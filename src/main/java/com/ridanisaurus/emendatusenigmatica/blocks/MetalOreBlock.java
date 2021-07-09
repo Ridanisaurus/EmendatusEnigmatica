@@ -30,7 +30,7 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
-public class BasicOreBlock extends Block {
+public class MetalOreBlock extends Block implements  IColorable{
   private final String localisedName;
 
 	public final int color;
@@ -49,4 +49,8 @@ public class BasicOreBlock extends Block {
     return new StringTextComponent(localisedName);
   }
 
+  @Override
+  public int getColor() {
+    return color;
+  }
 }

@@ -26,13 +26,12 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicOreBlock;
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
+import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
-import com.ridanisaurus.emendatusenigmatica.items.OreBlockItemColorHandler;
+import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
@@ -79,23 +78,18 @@ public class EmendatusEnigmatica {
 
     public EmendatusEnigmatica() {
         instance = this;
-        MemoryDataGeneratorFactory.init();
+        DataGeneratorFactory.init();
         EELoader.load();
         EEDeposits.load();
 
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        BlockHandler.BLOCKS.register(modEventBus);
-        OreHandler.BLOCKS.register(modEventBus);
-        ItemHandler.ITEMS.register(modEventBus);
-        BlockHandler.TILE_ENTITY.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
 
         EERegistrar.Finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
-        modEventBus.addListener(this::colorHandler);
 
         // Register World Gen Config
         //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
@@ -137,12 +131,9 @@ public class EmendatusEnigmatica {
         ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
         event.getMinecraftSupplier().get().enqueue(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
-            Minecraft.getInstance().getItemColors().register(new OreBlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
         });
-    }
-
-    private void colorHandler(ColorHandlerEvent.Block event) {
-        event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof BasicOreBlock).map(RegistryObject::get).toArray(Block[]::new));
     }
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
@@ -153,7 +144,7 @@ public class EmendatusEnigmatica {
     };
 
     private void registerDataGen() {
-        generator = MemoryDataGeneratorFactory.createMemoryDataGenerator();
+        generator = DataGeneratorFactory.createMemoryDataGenerator();
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
@@ -167,7 +158,7 @@ public class EmendatusEnigmatica {
     }
 
     public static void generate() {
-        if(!hasGenerated) {
+        if (!hasGenerated) {
             try {
                 instance.generator.run();
             } catch (IOException e) {
@@ -177,8 +168,8 @@ public class EmendatusEnigmatica {
         }
     }
 
-    public static void injectDatapackFinder (ResourcePackList resourcePacks) {
-        if (DistExecutor.unsafeRunForDist( () -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
+    public static void injectDatapackFinder(ResourcePackList resourcePacks) {
+        if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
             resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
