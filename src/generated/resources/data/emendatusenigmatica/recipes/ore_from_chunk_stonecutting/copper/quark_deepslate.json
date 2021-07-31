@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:copper_chunk"
+  },
+  "result": "emendatusenigmatica:copper_deepslate_ore",
+  "count": 1
+}

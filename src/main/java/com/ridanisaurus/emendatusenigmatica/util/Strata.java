@@ -30,6 +30,7 @@ public enum Strata {
   QUARK_JASPER("quark_jasper", "quark:block/jasper",  "jasper", new ResourceLocation("quark:jasper"), "Jasper", "quark", "overworld", false),
   QUARK_MARBLE("quark_marble", "quark:block/marble",  "marble", new ResourceLocation("quark:marble"), "Marble", "quark", "overworld", false),
   QUARK_SLATE("quark_slate", "quark:block/slate",  "slate", new ResourceLocation("quark:slate"), "Slate", "quark", "overworld", false),
+  QUARK_DEEPSLATE("quark_deepslate", "quark:block/backport/deepslate",  "deepslate", new ResourceLocation("quark:deepslate"), "Deepslate", "quark", "overworld", false),
 
   BYG_MOSSY_STONE("byg_mossy_stone", "byg:block/mossy_stone", "mossy_stone", new ResourceLocation("byg:mossy_stone"), "Mossy Stone", "byg", "overworld", false),
   BYG_BRIMSTONE("byg_brimstone", "byg:block/brimstone", "brimstone", new ResourceLocation("byg:brimstone"), "Brimstone", "byg", "nether", false),

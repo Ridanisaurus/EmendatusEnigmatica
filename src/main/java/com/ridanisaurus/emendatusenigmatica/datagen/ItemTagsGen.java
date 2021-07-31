@@ -216,6 +216,11 @@ public class ItemTagsGen extends ItemTagsProvider {
         forgeOres.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
         oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
       }
+      if (material.oreBlock != null && toCreate.contains("Ore") && material.id.equals("arcane")) {
+        Builder<Item> oreTag = getOrCreateBuilder(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/mana")));
+        ItemHandler.backingOreItemTable.column(material).values().forEach(s -> oreTag.add(s.get()));
+        oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
+      }
     }
 
     // Piglin Loved
