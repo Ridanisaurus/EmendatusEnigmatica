@@ -80,6 +80,10 @@ public class BlockTagsGen extends BlockTagsProvider {
     Builder<Block> guardedBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "guarded_by_piglins").toString()));
     OreHandler.backingOreBlockTable.column(Materials.GOLD).values().forEach(guardedBlock -> guardedBlocks.add(guardedBlock.get()));
 
+    // Mana/Arcane Ore
+    Builder<Block> manaOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/mana").toString()));
+    OreHandler.backingOreBlockTable.column(Materials.ARCANE).values().forEach(manaOre -> manaOres.add(manaOre.get()));
+
     // Potassium Nitrate Compact
     getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
             .add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.POTASSIUM_NITRATE).get());

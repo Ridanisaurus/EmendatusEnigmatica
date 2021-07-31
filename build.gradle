@@ -135,7 +135,7 @@ dependencies {
     //}
 
     compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-    //runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
     //runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
     //runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")

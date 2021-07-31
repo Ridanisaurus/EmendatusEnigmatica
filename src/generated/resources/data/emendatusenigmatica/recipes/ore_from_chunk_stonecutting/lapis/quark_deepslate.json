@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:lapis_chunk"
+  },
+  "result": "emendatusenigmatica:lapis_deepslate_ore",
+  "count": 1
+}

@@ -192,11 +192,18 @@ public class LangGen extends LanguageProvider {
         }
 
         // Crushed
-        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed")) {
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed") && !material.isAlloy()) {
           StringBuilder sb = new StringBuilder();
           sb.append("Crushed ");
           sb.append(material.localisedName);
           sb.append(" Ore");
+          add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
+        }
+
+        if (processedMaterial == ProcessedMaterials.CRUSHED && toCreate.contains("Crushed") && material.isAlloy()) {
+          StringBuilder sb = new StringBuilder();
+          sb.append("Crushed ");
+          sb.append(material.localisedName);
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
@@ -271,7 +278,7 @@ public class LangGen extends LanguageProvider {
     add("fluid.emendatusenigmatica.molten_arcane", "Molten Mana Gem");
     add(FluidHandler.fluidBucketByMaterial.get(Materials.ARCANE.id).get(), "Bucket of Molten Mana Gem");
 
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Chemical Shard");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Crystal Shard");
 
     add(ItemHandler.DUST_CHARCOAL.get(), "Charcoal Dust");
     add(ItemHandler.DUST_ENDER.get(), "Ender Dust");
