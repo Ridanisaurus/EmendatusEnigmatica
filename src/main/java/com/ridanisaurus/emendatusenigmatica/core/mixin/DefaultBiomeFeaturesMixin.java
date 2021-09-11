@@ -14,32 +14,32 @@ public class DefaultBiomeFeaturesMixin {
 
     // TODO: (maybe) add config option to overwrite vanilla ores
 
-    @Inject(method = "withOverworldOres", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addDefaultOres", at = @At("HEAD"), cancellable = true)
     private static void withOverworldOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
         ci.cancel();
     }
 
-    @Inject(method = "withExtraGoldOre", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addExtraGold", at = @At("HEAD"), cancellable = true)
     private static void withExtraGoldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
         ci.cancel();
     }
 
-    @Inject(method = "withEmeraldOre", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addExtraEmeralds", at = @At("HEAD"), cancellable = true)
     private static void withEmeraldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
         ci.cancel();
     }
 
-    @Inject(method = "withDebrisOre", at = @At("HEAD"), cancellable = true)
-    private static void withDebrisOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
-        ci.cancel();
-    }
+//    @Inject(method = "withDebrisOre", at = @At("HEAD"), cancellable = true)
+//    private static void withDebrisOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+//        ci.cancel();
+//    }
 
-    @Inject(method = "withCommonNetherBlocks", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "addNetherDefaultOres", at = @At("HEAD"), cancellable = true)
     private static void withCommonNetherBlocks(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_GRAVEL_NETHER);
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_BLACKSTONE);
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_LARGE);
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_SMALL);
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_GRAVEL_NETHER);
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_BLACKSTONE);
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_LARGE);
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_SMALL);
         ci.cancel();
     }
 }

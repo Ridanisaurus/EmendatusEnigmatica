@@ -67,5 +67,5 @@ public class BlockHandler {
   // Machines
   public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
 
-  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+  public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.of(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
 }

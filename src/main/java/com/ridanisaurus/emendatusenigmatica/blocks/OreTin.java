@@ -32,12 +32,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OreTin extends OreBlock {
-    public OreTin() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
+    public OreTin() { super(Properties.of(Material.STONE)
+            .strength(3.0f,3.0f)
             .harvestLevel(1)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 
     @Override

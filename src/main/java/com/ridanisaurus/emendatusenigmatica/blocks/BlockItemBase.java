@@ -29,12 +29,14 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.item.Item.Properties;
+
 public class BlockItemBase extends BlockItem {
 
     private final int burnTime;
 
     public BlockItemBase(Block block, int burnTime) {
-        super(block, new Properties().group(EmendatusEnigmatica.TAB));
+        super(block, new Properties().tab(EmendatusEnigmatica.TAB));
         this.burnTime = burnTime;
     }
 

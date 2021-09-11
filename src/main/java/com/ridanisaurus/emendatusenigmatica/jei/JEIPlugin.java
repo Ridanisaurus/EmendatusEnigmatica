@@ -92,7 +92,7 @@ public class JEIPlugin implements IModPlugin {
           overworldBiomes.add(oreConfig.OVERWORLD_MOD_BLACKLIST.toString().replaceAll("[\\[\\]]", "") + ":ALL");
         }
         if((oreConfig.OVERWORLD_BIOME_BLACKLIST.isEmpty() && oreConfig.OVERWORLD_MOD_BLACKLIST.isEmpty()) && oreConfig.OVERWORLD_ACTIVE) {
-          overworldBiomes.add(I18n.format("All Biomes"));
+          overworldBiomes.add(I18n.get("All Biomes"));
         }
 
         if(!oreConfig.NETHER_BIOME_BLACKLIST.isEmpty()) {
@@ -102,7 +102,7 @@ public class JEIPlugin implements IModPlugin {
           netherBiomes.add(oreConfig.NETHER_MOD_BLACKLIST.toString().replaceAll("[\\[\\]]", "") + ":ALL");
         }
         if((oreConfig.NETHER_BIOME_BLACKLIST.isEmpty() && oreConfig.NETHER_MOD_BLACKLIST.isEmpty()) && oreConfig.NETHER_ACTIVE) {
-          netherBiomes.add(I18n.format("All Biomes"));
+          netherBiomes.add(I18n.get("All Biomes"));
         }
 
         if(!oreConfig.END_BIOME_BLACKLIST.isEmpty()) {
@@ -112,7 +112,7 @@ public class JEIPlugin implements IModPlugin {
           endBiomes.add(oreConfig.END_MOD_BLACKLIST.toString().replaceAll("[\\[\\]]", "") + ":ALL");
         }
         if((oreConfig.END_BIOME_BLACKLIST.isEmpty() && oreConfig.END_MOD_BLACKLIST.isEmpty()) && oreConfig.END_ACTIVE) {
-          endBiomes.add(I18n.format("All Biomes"));
+          endBiomes.add(I18n.get("All Biomes"));
         }
 
         if (!overworldBiomes.isEmpty()) {

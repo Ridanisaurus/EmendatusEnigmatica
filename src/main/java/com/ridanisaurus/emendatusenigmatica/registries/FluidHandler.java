@@ -49,6 +49,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import net.minecraft.block.AbstractBlock;
+
 public class FluidHandler {
 
 	private String name;
@@ -63,6 +65,7 @@ public class FluidHandler {
 
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
+	public static Map<Materials, RegistryObject<ForgeFlowingFluid>> backingFluidTable = new HashMap<>();
 	public static Map<String, RegistryObject<ForgeFlowingFluid>> flowingFluidByMaterial = new HashMap<>();
 	public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockByMaterial = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> fluidBucketByMaterial = new HashMap<>();
@@ -81,7 +84,7 @@ public class FluidHandler {
 				.density(3000)
 				.viscosity(6000)
 				.temperature(1300)
-				.sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
+				.sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA)
 				.luminosity(15);
 	}
 
@@ -95,11 +98,11 @@ public class FluidHandler {
 		);
 		fluidblock = BlockHandler.BLOCKS.register("molten_" + name, () ->
 				new FlowingFluidBlock(source,
-					Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops())
+					AbstractBlock.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops())
 		);
 		bucket = ItemHandler.ITEMS.register("molten_" + name + "_bucket", () ->
 				new BucketItem(source,
-						new Item.Properties().group(EmendatusEnigmatica.TAB).maxStackSize(1))
+						new Item.Properties().tab(EmendatusEnigmatica.TAB).stacksTo(1))
 		);
 		flowingFluidByMaterial.put(name, source);
 		fluidBlockByMaterial.put(name, fluidblock);

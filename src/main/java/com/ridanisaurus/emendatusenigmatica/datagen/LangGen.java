@@ -263,20 +263,20 @@ public class LangGen extends LanguageProvider {
       }
     }
 
-    add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Mana Gems");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Mana Chunk");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Mana Cluster");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Mana Gem");
-    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.DIRTY_SLURRY, Materials.ARCANE).get(), "Dirty Mana Slurry");
-    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.CLEAN_SLURRY, Materials.ARCANE).get(), "Clean Mana Slurry");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUMP, Materials.ARCANE).get(), "Mana Clump");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CRYSTAL, Materials.ARCANE).get(), "Mana Crystal");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.DIRTY_DUST, Materials.ARCANE).get(), "Dirty Mana Dust");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.ARCANE).get(), "Mana Shard");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.FRAGMENT, Materials.ARCANE).get(), "Mana Fragment");
-    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GRAVEL, Materials.ARCANE).get(), "Mana Gravel");
-    add("fluid.emendatusenigmatica.molten_arcane", "Molten Mana Gem");
-    add(FluidHandler.fluidBucketByMaterial.get(Materials.ARCANE.id).get(), "Bucket of Molten Mana Gem");
+    add(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, Materials.ARCANE).get(), "Block of Source Gems");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Source Chunk");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Source Cluster");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Source Gem");
+    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.DIRTY_SLURRY, Materials.ARCANE).get(), "Dirty Source Slurry");
+    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.CLEAN_SLURRY, Materials.ARCANE).get(), "Clean Source Slurry");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUMP, Materials.ARCANE).get(), "Source Clump");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.CRYSTAL, Materials.ARCANE).get(), "Source Crystal");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.DIRTY_DUST, Materials.ARCANE).get(), "Dirty Source Dust");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.ARCANE).get(), "Source Shard");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.FRAGMENT, Materials.ARCANE).get(), "Source Fragment");
+    add(ItemHandler.backingItemTable.get(ProcessedMaterials.GRAVEL, Materials.ARCANE).get(), "Source Gravel");
+    add("fluid.emendatusenigmatica.molten_arcane", "Molten Source Gem");
+    add(FluidHandler.fluidBucketByMaterial.get(Materials.ARCANE.id).get(), "Bucket of Molten Source Gem");
 
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.SHARD, Materials.DIMENSIONAL).get(), "Dimensional Crystal Shard");
 

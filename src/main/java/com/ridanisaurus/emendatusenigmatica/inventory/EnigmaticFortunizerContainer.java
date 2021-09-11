@@ -40,7 +40,7 @@ public class EnigmaticFortunizerContainer extends Container {
   public EnigmaticFortunizerContainer(int id, PlayerEntity player, BlockPos pos) {
     super(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), id);
     // Container Slots comes before Player Slots
-    tileEntity = (EnigmaticFortunizerTile) player.world.getTileEntity(pos);
+    tileEntity = (EnigmaticFortunizerTile) player.level.getBlockEntity(pos);
     this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_INPUT, 26, 47));
     this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_PICKAXE, 80, 19));
     this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_OUTPUT, 134, 47));
@@ -60,13 +60,13 @@ public class EnigmaticFortunizerContainer extends Container {
 
   // TODO Close container when away
   @Override
-  public boolean canInteractWith(PlayerEntity playerIn) {
+  public boolean stillValid(PlayerEntity playerIn) {
     return true;
   }
 
   @Override
-  public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-    return TileEntityHelper.transferStackInSlot(this, this::mergeItemStack, playerIn, index, stack -> {
+  public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+    return TileEntityHelper.transferStackInSlot(this, this::moveItemStackTo, playerIn, index, stack -> {
       if(EnigmaticFortunizerTile.getDropInfo(stack) != null) {
         return Pair.of(EnigmaticFortunizerTile.SLOT_INPUT, EnigmaticFortunizerTile.SLOT_INPUT+1);
       }

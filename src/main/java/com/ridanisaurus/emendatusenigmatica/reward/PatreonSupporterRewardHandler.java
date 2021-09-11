@@ -66,15 +66,15 @@ public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientP
 	@Override
 	public void render(MatrixStack matrixStack, IRenderTypeBuffer buffer, int packedLight, AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		String name = player.getGameProfile().getName();
-		World world = player.getEntityWorld();
-		if (player.hasPlayerInfo() && !player.isInvisible()) {
-			matrixStack.push();
-			getEntityModel().bipedHead.translateRotate(matrixStack);
+		World world = player.getCommandSenderWorld();
+		if (player.isCapeLoaded() && !player.isInvisible()) {
+			matrixStack.pushPose();
+			getParentModel().head.translateAndRotate(matrixStack);
 			matrixStack.translate(0, -1.25, 0);
 			matrixStack.scale(0.40f, -0.40f, -0.40f);
-			matrixStack.rotate(Vector3f.YP.rotationDegrees((world.getGameTime() % 360)  * 3));
-			Minecraft.getInstance().getItemRenderer().renderItem(player, REWARD_MAP.getOrDefault(name, ItemStack.EMPTY), ItemCameraTransforms.TransformType.NONE, false, matrixStack, buffer, player.world, 0xF000F0, OverlayTexture.NO_OVERLAY);
-			matrixStack.pop();
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees((world.getGameTime() % 360)  * 3));
+			Minecraft.getInstance().getItemRenderer().renderStatic(player, REWARD_MAP.getOrDefault(name, ItemStack.EMPTY), ItemCameraTransforms.TransformType.NONE, false, matrixStack, buffer, player.level, 0xF000F0, OverlayTexture.NO_OVERLAY);
+			matrixStack.popPose();
 		}
 	}
 

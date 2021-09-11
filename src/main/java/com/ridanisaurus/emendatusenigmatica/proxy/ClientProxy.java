@@ -48,12 +48,12 @@ public class ClientProxy implements IProxy {
 
 	@Override
 	public void preInit(FMLCommonSetupEvent event) {
-		ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+		ScreenManager.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
-		Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getRenderManager().getSkinMap();
+		Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
 		for (PlayerRenderer render : new PlayerRenderer[]{skinMap.get("default"), skinMap.get("slim")})
 			render.addLayer(new PatreonSupporterRewardHandler(render));
 	}
@@ -61,7 +61,7 @@ public class ClientProxy implements IProxy {
 	@Override
 	public void postInit(FMLCommonSetupEvent event) {
 		for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
-			RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
+			RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
 		}
 	}
 

@@ -114,7 +114,7 @@ public class EmendatusEnigmatica {
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(BlockHandler.ENIGMATIC_FORTUNIZER.get());
         }
     };
