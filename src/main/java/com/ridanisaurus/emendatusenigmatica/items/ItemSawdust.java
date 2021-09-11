@@ -37,14 +37,16 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemSawdust extends Item {
 
   public ItemSawdust() {
-    super(new Properties().group(EmendatusEnigmatica.TAB));
+    super(new Properties().tab(EmendatusEnigmatica.TAB));
   }
 
   @Override
-  public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+  public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
     tooltip.add(new TranslationTextComponent("\u00A77Not as tasty as Wood Chips, but it is still good!\u00A7r"));
   }
 }

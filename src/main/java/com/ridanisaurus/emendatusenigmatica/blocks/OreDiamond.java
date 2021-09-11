@@ -35,20 +35,22 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OreDiamond extends OreBlock {
-    public OreDiamond() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
+    public OreDiamond() { super(Properties.of(Material.STONE)
+            .strength(3.0f,3.0f)
             .harvestLevel(2)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 
-    protected int getExperience(Random rand) {
+    protected int xpOnDrop(Random rand) {
         return MathHelper.nextInt(rand, 3, 7);
     }
 
     @Override
     public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+        return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
     }
 }

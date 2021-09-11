@@ -40,12 +40,14 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OreUranium extends OreBlock {
-    public OreUranium() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
+    public OreUranium() { super(Properties.of(Material.STONE)
+            .strength(3.0f,3.0f)
             .harvestLevel(2)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 
     @Override
@@ -59,12 +61,12 @@ public class OreUranium extends OreBlock {
 
         if(rand.nextInt(10) == 0) {
             for(Direction direction : Direction.values()) {
-                BlockPos blockpos = pos.offset(direction);
-                if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+                BlockPos blockpos = pos.relative(direction);
+                if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
                     Direction.Axis direction$axis = direction.getAxis();
-                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getXOffset() : (double)rand.nextFloat();
-                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getYOffset() : (double)rand.nextFloat();
-                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getZOffset() : (double)rand.nextFloat();
+                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
+                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
+                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
                     worldIn.addParticle(new RedstoneParticleData(0.67F,0.98F,0.01F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
                     worldIn.addParticle(new RedstoneParticleData(0.82F,0.88F,0.11F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
                 }

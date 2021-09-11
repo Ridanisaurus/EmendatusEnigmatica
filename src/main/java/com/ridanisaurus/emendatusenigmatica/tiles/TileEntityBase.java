@@ -49,42 +49,42 @@ public class TileEntityBase extends TileEntity {
   }
 
   @Override
-  public final CompoundNBT write(CompoundNBT compound) {
+  public final CompoundNBT save(CompoundNBT compound) {
     return this.write(compound, false);
   }
 
   @Override
-  public final void read(BlockState state, CompoundNBT nbt) {
+  public final void load(BlockState state, CompoundNBT nbt) {
     this.read(state, nbt, false);
   }
 
   public CompoundNBT write(CompoundNBT compound, boolean forClient) {
-    return super.write(compound);
+    return super.save(compound);
   }
 
   public void read(BlockState state, CompoundNBT nbt, boolean forClient) {
-    super.read(state, nbt);
+    super.load(state, nbt);
   }
 
   // Sent all the data to the client
   public void sendToClient() {
-    ServerWorld world = (ServerWorld) this.getWorld();
-    Stream<ServerPlayerEntity> entities = world.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(this.getPos()), false);
+    ServerWorld world = (ServerWorld) this.getLevel();
+    Stream<ServerPlayerEntity> entities = world.getChunkSource().chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false);
     SUpdateTileEntityPacket packet = getUpdatePacket();
-    entities.forEach(e -> e.connection.sendPacket(packet));
+    entities.forEach(e -> e.connection.send(packet));
   }
 
   // Sent when Entity is Loaded
   @Nullable
   @Override
   public SUpdateTileEntityPacket getUpdatePacket() {
-    return new SUpdateTileEntityPacket(this.getPos(), -1, getUpdateTag());
+    return new SUpdateTileEntityPacket(this.getBlockPos(), -1, getUpdateTag());
   }
 
   // Receiving
   @Override
   public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-    handleUpdateTag(this.getBlockState(), pkt.getNbtCompound());
+    handleUpdateTag(this.getBlockState(), pkt.getTag());
   }
 
   // Sent when Entity is Added
@@ -108,10 +108,10 @@ public class TileEntityBase extends TileEntity {
       for (int i = 0; i < handler.getSlots(); i++) {
         ItemStack stack = handler.getStackInSlot(i);
         if (!stack.isEmpty()) {
-          ItemEntity item = new ItemEntity(this.world,
-                  this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5,
+          ItemEntity item = new ItemEntity(this.level,
+                  this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5,
                   stack);
-          this.world.addEntity(item);
+          this.level.addFreshEntity(item);
         }
       }
     }

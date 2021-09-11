@@ -37,6 +37,7 @@ public class DataGenerators {
     DataGenerator generator = event.getGenerator();
     if (event.includeServer()) {
       BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, event.getExistingFileHelper());
+      generator.addProvider(new FluidTagsGen(generator, event.getExistingFileHelper()));
       generator.addProvider(new RecipesGen(generator));
       generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, event.getExistingFileHelper()));
       generator.addProvider(blockTagsGeneration);

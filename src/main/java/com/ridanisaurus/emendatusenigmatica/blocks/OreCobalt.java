@@ -31,12 +31,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OreCobalt extends OreBlock {
-    public OreCobalt() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
+    public OreCobalt() { super(Properties.of(Material.STONE)
+            .strength(3.0f,3.0f)
             .harvestLevel(2)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 
     @Override

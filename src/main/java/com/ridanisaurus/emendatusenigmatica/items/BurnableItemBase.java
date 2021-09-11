@@ -28,12 +28,14 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.item.Item.Properties;
+
 public class BurnableItemBase extends Item {
 
   private final int burnTime;
 
   public BurnableItemBase(int burnTime) {
-    super(new Properties().group(EmendatusEnigmatica.TAB));
+    super(new Properties().tab(EmendatusEnigmatica.TAB));
     this.burnTime = burnTime;
   }
 

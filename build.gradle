@@ -34,7 +34,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: mcp_version
+    mappings channel: 'official', version: mcp_version
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('src/main/resources/META-INF/at.cfg')
@@ -137,7 +137,7 @@ dependencies {
     compileOnly "mekanism:Mekanism:${mekanism_version}:api"
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
-    //runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
+    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
     //runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
     //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
     //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")

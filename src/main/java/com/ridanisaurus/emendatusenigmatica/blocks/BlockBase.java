@@ -29,12 +29,14 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockBase extends Block {
-    public BlockBase() { super(Properties.create(Material.IRON)
-            .hardnessAndResistance(5.0f,6.0f)
+    public BlockBase() { super(Properties.of(Material.METAL)
+            .strength(5.0f,6.0f)
             .sound(SoundType.METAL)
             .harvestLevel(1)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 }

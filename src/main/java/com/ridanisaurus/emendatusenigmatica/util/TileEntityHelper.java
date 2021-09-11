@@ -44,14 +44,14 @@ import java.util.stream.Stream;
 public class TileEntityHelper {
 
   public static ItemStack transferStackInSlot(Container container, IMergeItemStack merge, PlayerEntity player, int slotIndex, Function<ItemStack, Pair<Integer, Integer>> predicate) {
-    int inventoryStart = (int) container.inventorySlots.stream().filter(slot -> slot.inventory != player.inventory).count();
+    int inventoryStart = (int) container.slots.stream().filter(slot -> slot.container != player.inventory).count();
     int inventoryEnd = inventoryStart + 26;
     int hotbarStart = inventoryEnd + 1;
     int hotbarEnd = hotbarStart + 8;
 
-    Slot slot = container.inventorySlots.get(slotIndex);
-    if (slot != null && slot.getHasStack()) {
-      ItemStack newStack = slot.getStack();
+    Slot slot = container.slots.get(slotIndex);
+    if (slot != null && slot.hasItem()) {
+      ItemStack newStack = slot.getItem();
       ItemStack currentStack = newStack.copy();
 
       if (slotIndex >= inventoryStart) {
@@ -74,9 +74,9 @@ public class TileEntityHelper {
         return ItemStack.EMPTY;
       }
       if (newStack.isEmpty()) {
-        slot.putStack(ItemStack.EMPTY);
+        slot.set(ItemStack.EMPTY);
       } else {
-        slot.onSlotChanged();
+        slot.setChanged();
       }
       if (newStack.getCount() == currentStack.getCount())
         return ItemStack.EMPTY;

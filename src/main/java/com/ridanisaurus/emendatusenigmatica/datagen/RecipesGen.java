@@ -49,588 +49,588 @@ public class RecipesGen extends RecipeProvider {
   }
 
   @Override
-  protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+  protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
 
     // Machines
-    ShapedRecipeBuilder.shapedRecipe(BlockHandler.ENIGMATIC_FORTUNIZER.get())
-            .patternLine("PGP")
-            .patternLine("DNE")
-            .patternLine("RBR")
-            .key('P', ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get())
-            .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
-            .key('D', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.DIAMOND).get())
-            .key('N', Tags.Items.INGOTS_NETHERITE)
-            .key('E', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.EMERALD).get())
-            .key('R', ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.ENDERIUM).get())
-            .key('B', Tags.Items.STORAGE_BLOCKS_IRON)
-            .setGroup("emendatusenigmatica")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);
+    ShapedRecipeBuilder.shaped(BlockHandler.ENIGMATIC_FORTUNIZER.get())
+            .pattern("PGP")
+            .pattern("DNE")
+            .pattern("RBR")
+            .define('P', ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get())
+            .define('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
+            .define('D', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.DIAMOND).get())
+            .define('N', Tags.Items.INGOTS_NETHERITE)
+            .define('E', ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.EMERALD).get())
+            .define('R', ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.ENDERIUM).get())
+            .define('B', Tags.Items.STORAGE_BLOCKS_IRON)
+            .group("emendatusenigmatica")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer);
 
     // Hammer
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.ENIGMATIC_HAMMER.get())
-            .patternLine(" IN")
-            .patternLine(" SI")
-            .patternLine("S  ")
-            .key('I', Tags.Items.INGOTS_IRON)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .key('S', Tags.Items.RODS_WOODEN)
-            .setGroup("emendatusenigmatica")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer);
+    ShapedRecipeBuilder.shaped(ItemHandler.ENIGMATIC_HAMMER.get())
+            .pattern(" IN")
+            .pattern(" SI")
+            .pattern("S  ")
+            .define('I', Tags.Items.INGOTS_IRON)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .define('S', Tags.Items.RODS_WOODEN)
+            .group("emendatusenigmatica")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer);
 
     /*-- Vanilla Compat --*/
     // Chunk Smelting & Blasting
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.COAL).get()), Items.COAL, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/coal"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.COAL).get()), Items.COAL, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/coal"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/iron"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/iron"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/gold"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/gold"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/diamond"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/diamond"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.EMERALD).get()), Items.EMERALD, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/emerald"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.EMERALD).get()), Items.EMERALD, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/emerald"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/lapis"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/lapis"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/redstone"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/redstone"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.COAL).get()), Items.COAL, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/coal"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.COAL).get()), Items.COAL, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/coal"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/iron"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/iron"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/gold"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/gold"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/diamond"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/diamond"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.EMERALD).get()), Items.EMERALD, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/emerald"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.EMERALD).get()), Items.EMERALD, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/emerald"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/lapis"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/lapis"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/smelting/redstone"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_chunk/blasting/redstone"));
 
     // Ore Smelting & Blasting
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.COAL).get()), Items.COAL, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/coal"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.COAL).get()), Items.COAL, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/coal"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/iron"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/iron"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/gold"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/gold"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/diamond"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/diamond"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.EMERALD).get()), Items.EMERALD, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/emerald"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.EMERALD).get()), Items.EMERALD, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/emerald"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/lapis"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/lapis"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/redstone"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/redstone"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.COAL).get()), Items.COAL, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/coal"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.COAL).get()), Items.COAL, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/coal"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/iron"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/iron"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/gold"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/gold"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/diamond"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.DIAMOND).get()), Items.DIAMOND, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/diamond"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.EMERALD).get()), Items.EMERALD, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/emerald"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.EMERALD).get()), Items.EMERALD, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/emerald"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/lapis"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.LAPIS).get()), Items.LAPIS_LAZULI, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/lapis"));
+    CookingRecipeBuilder.smelting(Ingredient.of(baseOre(Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/smelting/redstone"));
+    CookingRecipeBuilder.blasting(Ingredient.of(baseOre(Materials.REDSTONE).get()), Items.REDSTONE, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_ore/blasting/redstone"));
 
     // Ingot from Dust
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/iron"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/iron"));
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/gold"));
-    CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/gold"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/iron"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get()), Items.IRON_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/iron"));
+    CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/gold"));
+    CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get()), Items.GOLD_INGOT, 0.7F, 100)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/gold"));
 
     // Silicon from Quartz
-    CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(Tags.Items.GEMS_QUARTZ), ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.SILICON).get(), 0.7F, 200)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "silicon_from_quartz/smelting/nether_quartz"));
+    CookingRecipeBuilder.smelting(Ingredient.of(Tags.Items.GEMS_QUARTZ), ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.SILICON).get(), 0.7F, 200)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "silicon_from_quartz/smelting/nether_quartz"));
 
     // Plate from Ingot
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get(), 1)
-            .addIngredient(Items.IRON_INGOT)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/iron"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.GOLD).get(), 1)
-            .addIngredient(Items.GOLD_INGOT)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/gold"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.IRON).get(), 1)
+            .requires(Items.IRON_INGOT)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/iron"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.GOLD).get(), 1)
+            .requires(Items.GOLD_INGOT)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/gold"));
 
     // Plate from Gem
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.DIAMOND).get(), 1)
-            .addIngredient(Items.DIAMOND)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/diamond"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.EMERALD).get(), 1)
-            .addIngredient(Items.EMERALD)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/emerald"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.LAPIS).get(), 1)
-            .addIngredient(Items.LAPIS_LAZULI)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/lapis"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.DIAMOND).get(), 1)
+            .requires(Items.DIAMOND)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/diamond"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.EMERALD).get(), 1)
+            .requires(Items.EMERALD)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/emerald"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, Materials.LAPIS).get(), 1)
+            .requires(Items.LAPIS_LAZULI)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/lapis"));
 
     // Dust from Ore
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.QUARTZ).get(), 1)
-            .addIngredient(Tags.Items.ORES_QUARTZ)
-            .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_ore/quartz"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.QUARTZ).get(), 1)
+            .requires(Tags.Items.ORES_QUARTZ)
+            .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_ore/quartz"));
 
     // Alloy Dust
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.BRONZE).get(), 4)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/bronze"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.BRASS).get(), 4)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ZINC).get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/brass"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.CONSTANTAN).get(), 2)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.NICKEL).get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/constantan"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ELECTRUM).get(), 2)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/electrum"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.INVAR).get(), 3)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.NICKEL).get())
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/invar"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LUMIUM).get(), 4)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
-            .addIngredient(Tags.Items.DUSTS_GLOWSTONE)
-            .addIngredient(Tags.Items.DUSTS_GLOWSTONE)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/lumium"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SIGNALUM).get(), 4)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
-            .addIngredient(Tags.Items.DUSTS_REDSTONE)
-            .addIngredient(Tags.Items.DUSTS_REDSTONE)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/signalum"));
-    ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ENDERIUM).get(), 2)
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
-            .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.DIAMOND).get())
-            .addIngredient(Tags.Items.ENDER_PEARLS)
-            .addIngredient(Tags.Items.ENDER_PEARLS)
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/enderium"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.BRONZE).get(), 4)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/bronze"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.BRASS).get(), 4)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ZINC).get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/brass"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.CONSTANTAN).get(), 2)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.NICKEL).get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/constantan"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ELECTRUM).get(), 2)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.GOLD).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/electrum"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.INVAR).get(), 3)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.IRON).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.NICKEL).get())
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/invar"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LUMIUM).get(), 4)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.TIN).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
+            .requires(Tags.Items.DUSTS_GLOWSTONE)
+            .requires(Tags.Items.DUSTS_GLOWSTONE)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/lumium"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SIGNALUM).get(), 4)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.COPPER).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.SILVER).get())
+            .requires(Tags.Items.DUSTS_REDSTONE)
+            .requires(Tags.Items.DUSTS_REDSTONE)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/signalum"));
+    ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.ENDERIUM).get(), 2)
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.LEAD).get())
+            .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, Materials.DIAMOND).get())
+            .requires(Tags.Items.ENDER_PEARLS)
+            .requires(Tags.Items.ENDER_PEARLS)
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "alloy_dust/enderium"));
 
     // Rods from Ingots
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.IRON).get(), 2)
-            .key('I', Tags.Items.INGOTS_IRON)
-            .patternLine(" I ")
-            .patternLine(" I ")
-            .patternLine("   ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/iron"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.GOLD).get(), 2)
-            .key('I', Tags.Items.INGOTS_GOLD)
-            .patternLine(" I ")
-            .patternLine(" I ")
-            .patternLine("   ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/gold"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.IRON).get(), 2)
+            .define('I', Tags.Items.INGOTS_IRON)
+            .pattern(" I ")
+            .pattern(" I ")
+            .pattern("   ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/iron"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.GOLD).get(), 2)
+            .define('I', Tags.Items.INGOTS_GOLD)
+            .pattern(" I ")
+            .pattern(" I ")
+            .pattern("   ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/gold"));
 
     // Rods from Gems
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.DIAMOND).get(), 2)
-            .key('G', Tags.Items.GEMS_DIAMOND)
-            .patternLine(" G ")
-            .patternLine(" G ")
-            .patternLine("   ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/diamond"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.EMERALD).get(), 2)
-            .key('G', Tags.Items.GEMS_EMERALD)
-            .patternLine(" G ")
-            .patternLine(" G ")
-            .patternLine("   ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/emerald"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.LAPIS).get(), 2)
-            .key('G', Tags.Items.GEMS_LAPIS)
-            .patternLine(" G ")
-            .patternLine(" G ")
-            .patternLine("   ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/lapis"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.DIAMOND).get(), 2)
+            .define('G', Tags.Items.GEMS_DIAMOND)
+            .pattern(" G ")
+            .pattern(" G ")
+            .pattern("   ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/diamond"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.EMERALD).get(), 2)
+            .define('G', Tags.Items.GEMS_EMERALD)
+            .pattern(" G ")
+            .pattern(" G ")
+            .pattern("   ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/emerald"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, Materials.LAPIS).get(), 2)
+            .define('G', Tags.Items.GEMS_LAPIS)
+            .pattern(" G ")
+            .pattern(" G ")
+            .pattern("   ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/lapis"));
 
     // Gears from Ingots
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.IRON).get())
-            .key('I', Tags.Items.INGOTS_IRON)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" I ")
-            .patternLine("INI")
-            .patternLine(" I ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/iron"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
-            .key('I', Tags.Items.INGOTS_GOLD)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" I ")
-            .patternLine("INI")
-            .patternLine(" I ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/gold"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.IRON).get())
+            .define('I', Tags.Items.INGOTS_IRON)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" I ")
+            .pattern("INI")
+            .pattern(" I ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/iron"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.GOLD).get())
+            .define('I', Tags.Items.INGOTS_GOLD)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" I ")
+            .pattern("INI")
+            .pattern(" I ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/gold"));
 
     // Gears from Gems
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.DIAMOND).get())
-            .key('G', Tags.Items.GEMS_DIAMOND)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" G ")
-            .patternLine("GNG")
-            .patternLine(" G ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/diamond"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.EMERALD).get())
-            .key('G', Tags.Items.GEMS_EMERALD)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" G ")
-            .patternLine("GNG")
-            .patternLine(" G ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/emerald"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.LAPIS).get())
-            .key('G', Tags.Items.GEMS_LAPIS)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" G ")
-            .patternLine("GNG")
-            .patternLine(" G ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/lapis"));
-    ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.QUARTZ).get())
-            .key('G', Tags.Items.GEMS_QUARTZ)
-            .key('N', Tags.Items.NUGGETS_IRON)
-            .patternLine(" G ")
-            .patternLine("GNG")
-            .patternLine(" G ")
-            .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-            .setGroup(Reference.MOD_ID)
-            .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/quartz"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.DIAMOND).get())
+            .define('G', Tags.Items.GEMS_DIAMOND)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" G ")
+            .pattern("GNG")
+            .pattern(" G ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/diamond"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.EMERALD).get())
+            .define('G', Tags.Items.GEMS_EMERALD)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" G ")
+            .pattern("GNG")
+            .pattern(" G ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/emerald"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.LAPIS).get())
+            .define('G', Tags.Items.GEMS_LAPIS)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" G ")
+            .pattern("GNG")
+            .pattern(" G ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/lapis"));
+    ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, Materials.QUARTZ).get())
+            .define('G', Tags.Items.GEMS_QUARTZ)
+            .define('N', Tags.Items.NUGGETS_IRON)
+            .pattern(" G ")
+            .pattern("GNG")
+            .pattern(" G ")
+            .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+            .group(Reference.MOD_ID)
+            .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/quartz"));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
 
       // Ingot from Block
       if (toCreate.contains("Ingot") && toCreate.contains("Block")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 9)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 9)
+                .requires(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_block/" + material.id));
       }
 
       // Ingot from Nugget
       if (toCreate.contains("Ingot") && toCreate.contains("Nugget")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_nugget/" + material.id));
+        ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .define('#', ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get())
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_nugget/" + material.id));
       }
 
       // Nugget from Ingot
       if (toCreate.contains("Ingot") && toCreate.contains("Nugget")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get(), 9)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "nugget_from_ingot/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.NUGGET, material).get(), 9)
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget_from_ingot/" + material.id));
       }
 
       // Ingot from Dust
       if (toCreate.contains("Ingot") && toCreate.contains("Dust")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/" + material.id));
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/" + material.id));
+        CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/smelting/" + material.id));
+        CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_dust/blasting/" + material.id));
       }
 
       // Block from Ingot
       if (toCreate.contains("Ingot") && toCreate.contains("Block")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_ingot/" + material.id));
+        ShapedRecipeBuilder.shaped(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .define('#', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_ingot/" + material.id));
       }
 
       // Block from Gem x4
       if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine("##")
-                .patternLine("##")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
+        ShapedRecipeBuilder.shaped(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .define('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .pattern("##")
+                .pattern("##")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
       }
 
       // Block from Gem x9
       if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
-        ShapedRecipeBuilder.shapedRecipe(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .key('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine("###")
-                .patternLine("###")
-                .patternLine("###")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
+        ShapedRecipeBuilder.shaped(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .define('#', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "block_from_gem/" + material.id));
       }
 
       // Gem from Block x4
       if (toCreate.contains("Gem") && toCreate.contains("Block") && toCreate.contains("4xRecipe")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 4)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 4)
+                .requires(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
       }
 
       // Gem from Block x9
       if (toCreate.contains("Gem") && toCreate.contains("Block") && !toCreate.contains("4xRecipe")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 9)
-                .addIngredient(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get(), 9)
+                .requires(BlockHandler.backingStorageBlockTable.get(ProcessedMaterials.STORAGE_BLOCK, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "gem_from_block/" + material.id));
       }
 
       // Chunk Smelting & Blasting
       if (toCreate.contains("Ingot") && toCreate.contains("Chunk")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/" + material.id));
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/" + material.id));
+        CookingRecipeBuilder.smelting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/smelting/" + material.id));
+        CookingRecipeBuilder.blasting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_chunk/blasting/" + material.id));
       }
 
       // Ore Block from Chunk
       if (toCreate.contains("Ore") && toCreate.contains("Chunk")) {
-        ShapelessRecipeBuilder.shapelessRecipe(baseOre(material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.id));
+        ShapelessRecipeBuilder.shapeless(baseOre(material).get())
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_crafting/" + material.id));
       }
 
       // Cluster from Chunk
       if (toCreate.contains("Cluster") && toCreate.contains("Chunk")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "cluster_from_chunk/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "cluster_from_chunk/" + material.id));
       }
 
       // Chunk from Cluster
       if (toCreate.contains("Chunk") && toCreate.contains("Cluster")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get(), 4)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "chunk_from_cluster/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get(), 4)
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, material).get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "chunk_from_cluster/" + material.id));
       }
 
       // Ore Smelting & Blasting
       if (toCreate.contains("Ore") && toCreate.contains("Ingot")) {
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.id));
+        CookingRecipeBuilder.smelting(Ingredient.of(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 200)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/smelting/" + material.id));
 
-        CookingRecipeBuilder.blastingRecipe(Ingredient.fromItems(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.id));
+        CookingRecipeBuilder.blasting(Ingredient.of(baseOre(material).get()), ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get(), 0.7F, 100)
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot_from_ore/blasting/" + material.id));
       }
 
       // Ore from Chunk in Stonecutter
       if (toCreate.contains("Chunk") && toCreate.contains("Ore")) {
         for (Strata stratum : Strata.values()) {
-          SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), OreHandler.backingOreBlockTable.get(stratum, material).get())
-                  .addCriterion("has_stone", hasItem(Blocks.COBBLESTONE))
-                  .build(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.id + "/" + stratum.id));
+          SingleItemRecipeBuilder.stonecutting(Ingredient.of(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get()), OreHandler.backingOreBlockTable.get(stratum, material).get())
+                  .unlocks("has_stone", has(Blocks.COBBLESTONE))
+                  .save(consumer, new ResourceLocation(Reference.MOD_ID, "ore_from_chunk_stonecutting/" + material.id + "/" + stratum.id));
         }
       }
 
       // Dust from Chunk
       if (toCreate.contains("Dust") && toCreate.contains("Chunk")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_chunk/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.DUST, material).get(), 1)
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get())
+                .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_chunk/" + material.id));
       }
 
       // Plate from Ingot
       if (toCreate.contains("Ingot") && toCreate.contains("Plate")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_ingot/" + material.id));
       }
       // Plate from Gem
       if (toCreate.contains("Gem") && toCreate.contains("Plate")) {
-        ShapelessRecipeBuilder.shapelessRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
-                .addIngredient(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .addIngredient(ItemHandler.ENIGMATIC_HAMMER.get())
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.id));
+        ShapelessRecipeBuilder.shapeless(ItemHandler.backingItemTable.get(ProcessedMaterials.PLATE, material).get(), 1)
+                .requires(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .requires(ItemHandler.ENIGMATIC_HAMMER.get())
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "plate_from_gem/" + material.id));
       }
 
       // Gears from Ingots
       if (toCreate.contains("Ingot") && toCreate.contains("Gear")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
-                .key('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .key('N', Tags.Items.NUGGETS_IRON)
-                .patternLine(" I ")
-                .patternLine("INI")
-                .patternLine(" I ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/" + material.id));
+        ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
+                .define('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .define('N', Tags.Items.NUGGETS_IRON)
+                .pattern(" I ")
+                .pattern("INI")
+                .pattern(" I ")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_ingot/" + material.id));
       }
 
       // Gears from Gems
       if (toCreate.contains("Gem") && toCreate.contains("Gear")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
-                .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .key('N', Tags.Items.NUGGETS_IRON)
-                .patternLine(" G ")
-                .patternLine("GNG")
-                .patternLine(" G ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/" + material.id));
+        ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.GEAR, material).get())
+                .define('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .define('N', Tags.Items.NUGGETS_IRON)
+                .pattern(" G ")
+                .pattern("GNG")
+                .pattern(" G ")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "gear_from_gem/" + material.id));
       }
 
       // Rods from Ingots
       if (toCreate.contains("Ingot") && toCreate.contains("Rod")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
-                .key('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
-                .patternLine(" I ")
-                .patternLine(" I ")
-                .patternLine("   ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/" + material.id));
+        ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
+                .define('I', ItemHandler.backingItemTable.get(ProcessedMaterials.INGOT, material).get())
+                .pattern(" I ")
+                .pattern(" I ")
+                .pattern("   ")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_ingot/" + material.id));
       }
 
       // Rods from Gems
       if (toCreate.contains("Gem") && toCreate.contains("Rod")) {
-        ShapedRecipeBuilder.shapedRecipe(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
-                .key('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
-                .patternLine(" G ")
-                .patternLine(" G ")
-                .patternLine("   ")
-                .addCriterion("cobblestone", InventoryChangeTrigger.Instance.forItems(Blocks.COBBLESTONE))
-                .setGroup(Reference.MOD_ID)
-                .build(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/" + material.id));
+        ShapedRecipeBuilder.shaped(ItemHandler.backingItemTable.get(ProcessedMaterials.ROD, material).get(), 2)
+                .define('G', ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, material).get())
+                .pattern(" G ")
+                .pattern(" G ")
+                .pattern("   ")
+                .unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
+                .group(Reference.MOD_ID)
+                .save(consumer, new ResourceLocation(Reference.MOD_ID, "rod_from_gem/" + material.id));
       }
 
     }

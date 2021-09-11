@@ -119,13 +119,13 @@ public class WorldGenHandler {
     for (Table.Cell<Strata, Materials, ConfiguredFeature<?, ?>> cell : oreFeatures.cellSet()) {
       BakedOreProps p = WorldGenConfig.COMMON.ORES.get(cell.getColumnKey());
       if (p.isOverworldListed(event.getName()) == p.OVERWORLD_BIOMELIST_INVERT && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.THEEND) {
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
       if (p.isNetherListed(event.getName()) == p.NETHER_BIOMELIST_INVERT && event.getCategory() == Biome.Category.NETHER) {
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
       if (p.isEndListed(event.getName()) == p.END_BIOMELIST_INVERT && event.getCategory() == Biome.Category.THEEND) {
-        builder.withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
     }
   }
@@ -136,16 +136,16 @@ public class WorldGenHandler {
 
   private static BlockState getOreBlock(Strata stratum, Materials material) {
     EmendatusEnigmatica.LOGGER.debug("Ores Recorded: {}", stratum + " " + material);
-    return OreHandler.backingOreBlockTable.get(stratum, material).get().getDefaultState();
+    return OreHandler.backingOreBlockTable.get(stratum, material).get().defaultBlockState();
   }
 
   private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
     Feature<OreFeatureConfig> oreFeature = Feature.ORE;
-    ConfiguredFeature<?, ?> configuredFeature = oreFeature.withConfiguration(new OreFeatureConfig(filler, state, size))
-            .withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(baseline, spread)))
-            .square()
+    ConfiguredFeature<?, ?> configuredFeature = oreFeature.configured(new OreFeatureConfig(filler, state, size))
+            .decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
+            .squared()
             .count(count);
-    Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getTranslationKey()), configuredFeature);
+    Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
     return configuredFeature;
   }
 }

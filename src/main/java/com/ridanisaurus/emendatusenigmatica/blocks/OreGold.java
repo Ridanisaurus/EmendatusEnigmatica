@@ -32,12 +32,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class OreGold extends OreBlock {
-    public OreGold() { super(Properties.create(Material.ROCK)
-            .hardnessAndResistance(3.0f,3.0f)
+    public OreGold() { super(Properties.of(Material.STONE)
+            .strength(3.0f,3.0f)
             .harvestLevel(2)
             .harvestTool(ToolType.PICKAXE)
-            .setRequiresTool());
+            .requiresCorrectToolForDrops());
     }
 
     @Override
