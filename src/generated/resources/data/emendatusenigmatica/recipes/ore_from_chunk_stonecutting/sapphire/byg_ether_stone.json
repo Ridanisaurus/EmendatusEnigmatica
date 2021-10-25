@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:sapphire_chunk"
+  },
+  "result": "emendatusenigmatica:sapphire_ether_stone_ore",
+  "count": 1
+}

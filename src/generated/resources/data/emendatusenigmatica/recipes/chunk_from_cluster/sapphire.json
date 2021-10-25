@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:sapphire_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:sapphire_chunk",
+    "count": 4
+  }
+}
