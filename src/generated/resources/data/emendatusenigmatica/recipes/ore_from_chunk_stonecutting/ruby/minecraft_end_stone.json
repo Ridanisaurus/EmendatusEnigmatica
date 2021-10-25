@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:ruby_chunk"
+  },
+  "result": "emendatusenigmatica:ruby_end_stone_ore",
+  "count": 1
+}

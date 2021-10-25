@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:sapphire_chunk"
+  },
+  "result": "emendatusenigmatica:sapphire_gabbro_ore",
+  "count": 1
+}
