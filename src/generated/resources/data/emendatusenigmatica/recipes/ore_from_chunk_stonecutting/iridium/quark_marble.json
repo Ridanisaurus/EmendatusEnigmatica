@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:iridium_chunk"
+  },
+  "result": "emendatusenigmatica:iridium_marble_ore",
+  "count": 1
+}

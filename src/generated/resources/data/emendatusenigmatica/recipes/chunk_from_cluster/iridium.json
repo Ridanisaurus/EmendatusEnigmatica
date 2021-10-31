@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:iridium_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:iridium_chunk",
+    "count": 4
+  }
+}

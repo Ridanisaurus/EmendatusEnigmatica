@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:iridium_block"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:iridium_ingot",
+    "count": 9
+  }
+}

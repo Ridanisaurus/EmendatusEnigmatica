@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:cast_iron_ingot"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:cast_iron_nugget",
+    "count": 9
+  }
+}

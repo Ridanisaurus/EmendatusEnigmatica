@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "emendatusenigmatica:iridium_dust"
+  },
+  "result": "emendatusenigmatica:iridium_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}
