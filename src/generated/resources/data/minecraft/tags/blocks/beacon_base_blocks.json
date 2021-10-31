@@ -11,6 +11,7 @@
     "emendatusenigmatica:tin_block",
     "emendatusenigmatica:zinc_block",
     "emendatusenigmatica:cobalt_block",
+    "emendatusenigmatica:iridium_block",
     "emendatusenigmatica:certus_quartz_block",
     "emendatusenigmatica:charged_certus_quartz_block",
     "emendatusenigmatica:fluix_block",
@@ -33,6 +34,7 @@
     "emendatusenigmatica:invar_block",
     "emendatusenigmatica:signalum_block",
     "emendatusenigmatica:lumium_block",
-    "emendatusenigmatica:enderium_block"
+    "emendatusenigmatica:enderium_block",
+    "emendatusenigmatica:cast_iron_block"
   ]
 }

@@ -11,6 +11,7 @@
     "emendatusenigmatica:tin_nugget",
     "emendatusenigmatica:zinc_nugget",
     "emendatusenigmatica:cobalt_nugget",
+    "emendatusenigmatica:iridium_nugget",
     "emendatusenigmatica:bronze_nugget",
     "emendatusenigmatica:brass_nugget",
     "emendatusenigmatica:constantan_nugget",
@@ -19,6 +20,7 @@
     "emendatusenigmatica:invar_nugget",
     "emendatusenigmatica:signalum_nugget",
     "emendatusenigmatica:lumium_nugget",
-    "emendatusenigmatica:enderium_nugget"
+    "emendatusenigmatica:enderium_nugget",
+    "emendatusenigmatica:cast_iron_nugget"
   ]
 }
