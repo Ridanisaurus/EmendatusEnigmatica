@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 1.16-Current
-  created:
+  create:
     tags:
       - release/*
 
