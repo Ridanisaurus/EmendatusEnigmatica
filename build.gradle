@@ -182,7 +182,7 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = archivesBaseName
+            artifactId = archivesBaseName.toLowerCase()
             artifact(jar) {
                 classifier null
             }
