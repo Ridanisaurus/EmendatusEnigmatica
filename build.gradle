@@ -14,17 +14,20 @@ buildscript {
 
 plugins {
     id "com.wynprice.cursemaven" version "2.1.1"
-    id "maven-publish"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.1'
-group = 'com.ridanisaurus.emendatusenigmatica' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'emendatusenigmatica'
+def ENV = System.getenv()
+
+version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}"
+group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'EmendatusEnigmatica'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -167,15 +170,59 @@ jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            artifactId = archivesBaseName
+            artifact(jar) {
+                classifier null
+            }
+            artifact(sourcesJar) {
+                builtBy sourcesJar
+            }
         }
     }
+
+
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+        if (ENV.NANITE_DEPLOY) {
+            maven {
+                url "https://maven.nanite.dev/"
+                credentials {
+                    username = "rid"
+                    password = "${ENV.NANITE_DEPLOY}"
+                }
+            }
+        }
+    }
+}
+
+if (ENV.CURSE_DEPLOY) {
+    curseforge {
+        apiKey = ENV.CURSE_DEPLOY
+        project {
+            id = project.curseforge_id
+            releaseType = "release"
+            addGameVersion "Forge"
+            addGameVersion "Java 8"
+            addGameVersion "${minecraft_version}"
+            mainArtifact(jar) {
+              relations {
+                optionalDependency "mekanism"
+              }
+            }
+            addArtifact sourcesJar
+            changelog = file("changelog.md")
+            changelogType = 'markdown'
         }
     }
 }
