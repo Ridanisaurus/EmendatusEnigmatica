@@ -25,6 +25,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 def ENV = System.getenv()
 
+// EmendatusEnigmatica-1.0-build.0+mc1.16.5
 version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}"
 group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'EmendatusEnigmatica'
@@ -170,6 +171,7 @@ jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
+// Creates a source jar (a jar with sources)
 task sourcesJar(type: Jar) {
     classifier = "sources"
     from sourceSets.main.allJava
@@ -182,17 +184,20 @@ artifacts {
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            // Lowercase the name so we're not looking funny on the maven 
             artifactId = archivesBaseName.toLowerCase()
             artifact(jar) {
                 classifier null
             }
+
+            // Include the sourcejar
             artifact(sourcesJar) {
                 builtBy sourcesJar
             }
         }
     }
 
-
+    // Push to nanite https://vers.nanite.dev/ https://maven.nanite.dev/
     repositories {
         if (ENV.NANITE_DEPLOY) {
             maven {
@@ -210,19 +215,19 @@ if (ENV.CURSE_DEPLOY) {
     curseforge {
         apiKey = ENV.CURSE_DEPLOY
         project {
-            id = project.curseforge_id
-            releaseType = "release"
-            addGameVersion "Forge"
-            addGameVersion "Java 8"
-            addGameVersion "${minecraft_version}"
+            id = project.curseforge_id // the project id of the Curse project
+            releaseType = "release" // Make it a release on curseforge
+            addGameVersion "Forge"  // Made for forge
+            addGameVersion "Java 8" // Targeting java 8
+            addGameVersion "${minecraft_version}" // Minecraft :pog:
             mainArtifact(jar) {
               relations {
-                optionalDependency "mekanism"
+                optionalDependency "mekanism" // Mek is an optional
               }
             }
-            addArtifact sourcesJar
-            changelog = file("changelog.md")
-            changelogType = 'markdown'
+            addArtifact sourcesJar // Attach the sources as it's an MIT mod anyway
+            changelog = file("changelog.md") // pull the contents of the changelog.md
+            changelogType = 'markdown' // It's a markdown file so handle it as one
         }
     }
 }
