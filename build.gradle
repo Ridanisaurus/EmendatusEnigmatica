@@ -219,7 +219,7 @@ if (ENV.CURSE_DEPLOY) {
             releaseType = "release" // Make it a release on curseforge
             addGameVersion "Forge"  // Made for forge
             addGameVersion "Java 8" // Targeting java 8
-            addGameVersion "${minecraft_version}" // Minecraft :pog:
+            addGameVersion "${mc_version}" // Minecraft :pog:
             mainArtifact(jar) {
               relations {
                 optionalDependency "mekanism" // Mek is an optional
