@@ -226,7 +226,6 @@ if (ENV.CURSE_DEPLOY) {
                 optionalDependency "mekanism" // Mek is an optional
               }
             }
-            addArtifact sourcesJar // Attach the sources as it's an MIT mod anyway
             changelog = file("changelog.md") // pull the contents of the changelog.md
             changelogType = 'markdown' // It's a markdown file so handle it as one
         }
