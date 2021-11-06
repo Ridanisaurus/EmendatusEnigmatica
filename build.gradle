@@ -221,6 +221,7 @@ if (ENV.CURSE_DEPLOY) {
             addGameVersion "Java 8" // Targeting java 8
             addGameVersion "${mc_version}" // Minecraft :pog:
             mainArtifact(jar) {
+              displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
               relations {
                 optionalDependency "mekanism" // Mek is an optional
               }
