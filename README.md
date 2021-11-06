@@ -1,4 +1,4 @@
-[![Build & Release](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/%20build-release.yml/badge.svg?branch=1.16-Current)](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/%20build-release.yml)
+[![Build & Release](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml/badge.svg?branch=1.16-Current)](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml)
 
 ![EE Logo](https://i.imgur.com/pcX09Dd.png)
 
