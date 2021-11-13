@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    " G ",
+    " G ",
+    "   "
+  ],
+  "key": {
+    "G": {
+      "item": "emendatusenigmatica:ruby_gem"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:ruby_rod",
+    "count": 2
+  }
+}

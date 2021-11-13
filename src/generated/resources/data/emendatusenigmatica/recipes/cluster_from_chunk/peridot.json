@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:peridot_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:peridot_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:peridot_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:peridot_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:peridot_cluster"
+  }
+}
