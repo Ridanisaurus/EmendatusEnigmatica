@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:peridot_chunk"
+  },
+  "result": "emendatusenigmatica:peridot_sulphuric_rock_ore",
+  "count": 1
+}

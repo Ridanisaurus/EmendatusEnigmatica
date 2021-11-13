@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:peridot_chunk"
+  },
+  "result": "emendatusenigmatica:peridot_violecite_ore",
+  "count": 1
+}
