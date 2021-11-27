@@ -121,16 +121,19 @@ public class WorldGenConfig {
       public final int OVERWORLD_SPREAD;
       public final int OVERWORLD_COUNT;
       public final int OVERWORLD_SIZE;
+      public final boolean OVERWORLD_USE_SPREAD;
       public final boolean NETHER_ACTIVE;
       public final int NETHER_BASE;
       public final int NETHER_SPREAD;
       public final int NETHER_COUNT;
       public final int NETHER_SIZE;
+      public final boolean NETHER_USE_SPREAD;
       public final boolean END_ACTIVE;
       public final int END_BASE;
       public final int END_SPREAD;
       public final int END_COUNT;
       public final int END_SIZE;
+      public final boolean END_USE_SPREAD;
       public final Set<ResourceLocation> OVERWORLD_BIOME_BLACKLIST;
       public final Set<String> OVERWORLD_MOD_BLACKLIST;
       public final boolean OVERWORLD_BIOMELIST_INVERT;
@@ -157,16 +160,19 @@ public class WorldGenConfig {
         OVERWORLD_SPREAD = properties.OVERWORLD_SPREAD.get();
         OVERWORLD_COUNT = properties.OVERWORLD_COUNT.get();
         OVERWORLD_SIZE = properties.OVERWORLD_SIZE.get();
+        OVERWORLD_USE_SPREAD = properties.OVERWORLD_USE_SPREAD.get();
         NETHER_ACTIVE = properties.NETHER_ACTIVE.get();
         NETHER_BASE = properties.NETHER_BASE.get();
         NETHER_SPREAD = properties.NETHER_SPREAD.get();
         NETHER_COUNT = properties.NETHER_COUNT.get();
         NETHER_SIZE = properties.NETHER_SIZE.get();
+        NETHER_USE_SPREAD = properties.NETHER_USE_SPREAD.get();
         END_ACTIVE = properties.END_ACTIVE.get();
         END_BASE = properties.END_BASE.get();
         END_SPREAD = properties.END_SPREAD.get();
         END_COUNT = properties.END_COUNT.get();
         END_SIZE = properties.END_SIZE.get();
+        END_USE_SPREAD = properties.END_USE_SPREAD.get();
 
         OVERWORLD_BIOME_BLACKLIST = properties.OVERWORLD_BIOME_BLACKLIST.get()
                 .stream()
@@ -212,16 +218,19 @@ public class WorldGenConfig {
       public final IntValue OVERWORLD_SPREAD;
       public final IntValue OVERWORLD_COUNT;
       public final IntValue OVERWORLD_SIZE;
+      public final BooleanValue OVERWORLD_USE_SPREAD;
       public final BooleanValue NETHER_ACTIVE;
       public final IntValue NETHER_BASE;
       public final IntValue NETHER_SPREAD;
       public final IntValue NETHER_COUNT;
       public final IntValue NETHER_SIZE;
+      public final BooleanValue NETHER_USE_SPREAD;
       public final BooleanValue END_ACTIVE;
       public final IntValue END_BASE;
       public final IntValue END_SPREAD;
       public final IntValue END_COUNT;
       public final IntValue END_SIZE;
+      public final BooleanValue END_USE_SPREAD;
       public final ForgeConfigSpec.ConfigValue<List<String>> OVERWORLD_BIOME_BLACKLIST;
       public final BooleanValue OVERWORLD_BIOMELIST_INVERT;
       public final ForgeConfigSpec.ConfigValue<List<String>> NETHER_BIOME_BLACKLIST;
@@ -252,6 +261,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.overworld_size")
                 .worldRestart()
                 .defineInRange("overworld_size", size, 0, 64);
+        OVERWORLD_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
+                .translation(localisedName + ".config.use_spread")
+                .worldRestart()
+                .define("overworld_use_spread", true);
         OVERWORLD_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
@@ -283,6 +296,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.nether_size")
                 .worldRestart()
                 .defineInRange("nether_size", netherSize, 0, 64);
+        NETHER_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
+                .translation(localisedName + ".config.use_spread")
+                .worldRestart()
+                .define("nether_use_spread", true);
         NETHER_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
@@ -314,6 +331,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.end_size")
                 .worldRestart()
                 .defineInRange("end_size", endSize, 0, 64);
+        END_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
+                .translation(localisedName + ".config.use_spread")
+                .worldRestart()
+                .define("end_use_spread", true);
         END_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
