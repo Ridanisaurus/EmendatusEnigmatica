@@ -44,6 +44,7 @@ import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
@@ -76,6 +77,7 @@ public class WorldGenHandler {
                                 p.OVERWORLD_SIZE,
                                 p.OVERWORLD_BASE,
                                 p.OVERWORLD_SPREAD,
+                                p.OVERWORLD_USE_SPREAD,
                                 getFilter(stratum),
                                 getOreBlock(stratum, material))
                 );
@@ -87,6 +89,7 @@ public class WorldGenHandler {
                                 p.NETHER_SIZE,
                                 p.NETHER_BASE,
                                 p.NETHER_SPREAD,
+                                p.NETHER_USE_SPREAD,
                                 getFilter(stratum),
                                 getOreBlock(stratum, material))
                 );
@@ -98,6 +101,7 @@ public class WorldGenHandler {
                                 p.END_SIZE,
                                 p.END_BASE,
                                 p.END_SPREAD,
+                                p.END_USE_SPREAD,
                                 getFilter(stratum),
                                 getOreBlock(stratum, material))
                 );
@@ -139,10 +143,10 @@ public class WorldGenHandler {
     return OreHandler.backingOreBlockTable.get(stratum, material).get().defaultBlockState();
   }
 
-  private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
+  private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, boolean useSpread, RuleTest filler, BlockState state) {
     Feature<OreFeatureConfig> oreFeature = Feature.ORE;
     ConfiguredFeature<?, ?> configuredFeature = oreFeature.configured(new OreFeatureConfig(filler, state, size))
-            .decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
+            .decorated(useSpread ? Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)) : Placement.RANGE.configured(new TopSolidRangeConfig(baseline - spread, 0, baseline + spread)))
             .squared()
             .count(count);
     Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
