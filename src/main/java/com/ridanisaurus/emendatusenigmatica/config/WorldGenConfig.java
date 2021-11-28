@@ -261,10 +261,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.overworld_size")
                 .worldRestart()
                 .defineInRange("overworld_size", size, 0, 64);
-        OVERWORLD_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: false]")
+        OVERWORLD_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
                 .translation(localisedName + ".config.use_spread")
                 .worldRestart()
-                .define("overworld_use_spread", false);
+                .define("overworld_use_spread", true);
         OVERWORLD_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
@@ -296,10 +296,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.nether_size")
                 .worldRestart()
                 .defineInRange("nether_size", netherSize, 0, 64);
-        NETHER_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: false]")
+        NETHER_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
                 .translation(localisedName + ".config.use_spread")
                 .worldRestart()
-                .define("nether_use_spread", false);
+                .define("nether_use_spread", true);
         NETHER_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
@@ -331,10 +331,10 @@ public class WorldGenConfig {
                 .translation(localisedName + ".config.end_size")
                 .worldRestart()
                 .defineInRange("end_size", endSize, 0, 64);
-        END_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: false]")
+        END_USE_SPREAD = builder.comment("Use spread mechanic instead of random range [Default: true]")
                 .translation(localisedName + ".config.use_spread")
                 .worldRestart()
-                .define("end_use_spread", false);
+                .define("end_use_spread", true);
         END_BIOME_BLACKLIST = builder
                 .worldRestart()
                 .comment("List of biome IDs in which the ore is not allowed to generate.\nTo blacklist all biomes from a single mod, use 'modid:*'")
