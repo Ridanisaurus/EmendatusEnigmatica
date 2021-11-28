@@ -133,18 +133,18 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //if (findProject(':workspace') == null) {
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     //}
 
     compileOnly "mekanism:Mekanism:${mekanism_version}:api"
     runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
     runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
-    //runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
-    //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
-    //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
+//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
+    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3485079")
+//    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3467948")
     //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
     //runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 }
