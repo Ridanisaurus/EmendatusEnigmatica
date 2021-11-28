@@ -8136,6 +8136,7 @@ a2fd4bafaf1b26162801f5075f90ccaf316ba92c data/forge/tags/items/plates/osmium.jso
 9f1902d4070f718bf3aa1fd47d56cdf571078af5 data/forge/tags/items/plates/uranium.json
 36acf1bcaf7d4af17eb77278b341199c34c06fbc data/forge/tags/items/plates/zinc.json
 464a9782d513c2342ffaed9556cd3389a1b88b8f data/forge/tags/items/rods.json
+464a9782d513c2342ffaed9556cd3389a1b88b8f data/forge/tags/items/rods/all_metal.json
 fc4aba79c4fbe18909ddccfeb592c2f2e33583bf data/forge/tags/items/rods/aluminum.json
 e6c765f950bdfe2ca72ca3e5a5fe4cca99a6bf19 data/forge/tags/items/rods/brass.json
 79d501193e9ea6bd703255eb506ed8bdc3c2b39e data/forge/tags/items/rods/bronze.json

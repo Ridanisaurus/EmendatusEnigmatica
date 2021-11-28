@@ -132,7 +132,9 @@ public class ItemTagsGen extends ItemTagsProvider {
     ItemHandler.backingItemTable.row(ProcessedMaterials.ROD).forEach((mat, rod) -> {
       forgeRods.add(rod.get());
       Builder<Item> rodTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/" + mat.id).toString()));
+      Builder<Item> allMetalTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/all_metal").toString()));
       rodTag.add(rod.get());
+      allMetalTag.add(rod.get());
     });
 
     // Chunks
