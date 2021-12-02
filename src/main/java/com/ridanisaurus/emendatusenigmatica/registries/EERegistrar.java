@@ -87,7 +87,7 @@ public class EERegistrar {
                     material.getProperties().getHardness(),
                     material.getProperties().getResistance(),
                     material.getProperties().getHarvestLevel(),
-                    ToolType.PICKAXE,
+                    strata.getHarvestTool(),
                     material.getLocalisedName(),
                     material.getDropMin(),
                     material.getDropMax(),
@@ -98,10 +98,9 @@ public class EERegistrar {
                     material.getProperties().getHardness(),
                     material.getProperties().getResistance(),
                     material.getProperties().getHarvestLevel(),
-                    ToolType.PICKAXE,
+                    strata.getHarvestTool(),
                     material.getLocalisedName(),
                     material.getColor()));
-
         }
 
         oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
@@ -223,7 +222,7 @@ public class EERegistrar {
         }
     }
 
-    public static void Finalize(IEventBus eventBus) {
+    public static void finalize(IEventBus eventBus) {
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         TILE_ENTITY.register(eventBus);

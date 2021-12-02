@@ -47,7 +47,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -86,7 +85,7 @@ public class EmendatusEnigmatica {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ContainerHandler.CONTAINERS.register(modEventBus);
 
-        EERegistrar.Finalize(modEventBus);
+        EERegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
@@ -129,6 +128,7 @@ public class EmendatusEnigmatica {
         }
 
         ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+
         event.getMinecraftSupplier().get().enqueue(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));

@@ -27,6 +27,9 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ToolType;
+
+import java.util.Optional;
 
 public class StrataModel {
 	public static final Codec<StrataModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -34,23 +37,26 @@ public class StrataModel {
 			Codec.STRING.fieldOf("baseTexture").forGetter(i -> i.baseTexture.toString()),
 			Codec.STRING.fieldOf("suffix").forGetter(i -> i.suffix),
 			Codec.STRING.fieldOf("fillerType").forGetter(i -> i.fillerType.toString()),
-			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName)
-	).apply(x, (s, s2, s3, s4, s5) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5)));
+			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
+			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool))
+	).apply(x, (s, s2, s3, s4, s5, s6) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5, s6.orElse(""))));
 
 	private final String id;
 	private final ResourceLocation baseTexture;
 	private final String suffix;
 	private final ResourceLocation fillerType;
 	private final String localizedName;
+	private final String harvestTool;
 
 
-	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName) {
+	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool) {
 
 		this.id = id;
 		this.baseTexture = baseTexture;
 		this.suffix = suffix;
 		this.fillerType = fillerType;
 		this.localizedName = localizedName;
+		this.harvestTool = harvestTool;
 	}
 
 	public String getId() {
@@ -71,5 +77,18 @@ public class StrataModel {
 
 	public String getLocalizedName() {
 		return localizedName;
+	}
+
+	public ToolType getHarvestTool() {
+		switch (harvestTool) {
+			case "shovel":
+				return ToolType.SHOVEL;
+			case "axe":
+				return ToolType.AXE;
+			case "hoe":
+				return ToolType.HOE;
+			default:
+				return ToolType.PICKAXE;
+		}
 	}
 }

@@ -20,6 +20,7 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -27,18 +28,23 @@ import java.util.List;
 import java.util.Random;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
-
-	private final List<CommonBlockDefinitionModel> shellBlocks;
+	private final List<CommonBlockDefinitionModel> outerShellBlocks;
+	private final List<CommonBlockDefinitionModel> innerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerBlocks;
 	private final GeodeDepositModel model;
 
 	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
 		super(codec);
 		this.model = model;
-		shellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel block : model.getConfig().getShellBlocks()) {
+		outerShellBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getOuterShellBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
-			shellBlocks.addAll(filled);
+			outerShellBlocks.addAll(filled);
+		}
+		innerShellBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getInnerShellBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			innerShellBlocks.addAll(filled);
 		}
 		innerBlocks = new ArrayList<>();
 		for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
@@ -54,7 +60,6 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			return false;
 		}
 
-
 		int intRand = rand.nextInt(100);
 		double doubleRand = rand.nextDouble();
 		if (intRand >= 1) {
@@ -68,7 +73,8 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		int yPos = rand.nextInt(yTop);
 		yPos = Math.max(yPos, yBottom);
 
-		generateHollowSphere(reader, generator, rand, pos, config, shellBlocks, model.getConfig().getRadius(), yPos);
+		generateHollowSphere(reader, generator, rand, pos, config, outerShellBlocks, model.getConfig().getRadius() + 1, yPos);
+		generateHollowSphere(reader, generator, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
 		generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
 		return true;
 	}

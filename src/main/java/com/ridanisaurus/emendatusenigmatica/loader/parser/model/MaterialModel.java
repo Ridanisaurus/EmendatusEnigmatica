@@ -35,11 +35,11 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("id").forGetter(i -> i.id),
 			Codec.STRING.fieldOf("localisedName").forGetter(i -> i.localisedName),
 			Codec.STRING.optionalFieldOf("color").forGetter(i -> i.color),
-          Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
-          Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
-          Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
-          Codec.STRING.optionalFieldOf("oreBlockType").forGetter(i -> Optional.ofNullable(i.oreBlockType)),
-          Codec.STRING.optionalFieldOf("oreBlockDropType").forGetter(i -> Optional.ofNullable(i.oreBlockDropType)),
+            Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
+            Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
+            Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
+            Codec.STRING.optionalFieldOf("oreBlockType").forGetter(i -> Optional.ofNullable(i.oreBlockType)),
+            Codec.STRING.optionalFieldOf("oreBlockDropType").forGetter(i -> Optional.ofNullable(i.oreBlockDropType)),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
 			Codec.STRING.optionalFieldOf("defaultItemDrop").forGetter(i -> Optional.ofNullable(i.defaultItemDrop)),
 			Codec.INT.optionalFieldOf("dropMin").forGetter(i -> Optional.of(i.dropMin)),
@@ -57,7 +57,7 @@ public class MaterialModel {
 	private final String defaultItemDrop;
 	private final int dropMin;
 	private final int dropMax;
-  private final Optional<String> color;
+    private final Optional<String> color;
 
 	public MaterialModel(String id, String localisedName, Optional<String> color, List<String> processedType, boolean isBurnable, int burnTime, String oreBlockType, String oreBlockDropType, MaterialPropertiesModel properties, String defaultItemDrop, int dropMin, int dropMax) {
 		this.id = id;
@@ -67,11 +67,11 @@ public class MaterialModel {
 		this.burnTime = burnTime;
 		this.oreBlockType = oreBlockType;
 		this.oreBlockDropType = oreBlockDropType;
-    this.properties = properties;
-    this.defaultItemDrop = defaultItemDrop;
-    this.dropMin = dropMin;
-    this.dropMax = dropMax;
-    this.color = color;
+	    this.properties = properties;
+	    this.defaultItemDrop = defaultItemDrop;
+	    this.dropMin = dropMin;
+	    this.dropMax = dropMax;
+	    this.color = color;
   }
 
   public String getId() {
