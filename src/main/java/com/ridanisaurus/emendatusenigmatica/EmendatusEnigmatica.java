@@ -148,13 +148,14 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(new RecipesGen(generator));
         generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
         generator.addProvider(blockTagsGeneration);
-        generator.addProvider(new LootTablesGen(generator));
+        generator.addProvider(new FluidTagsGen(generator, existingFileHelper));
         generator.addProvider(new BlockStatesAndModelsGen(generator, existingFileHelper));
-        generator.addProvider(new LangGen(generator));
         generator.addProvider(new ItemModelsGen(generator, existingFileHelper));
+        generator.addProvider(new RecipesGen(generator));
+        generator.addProvider(new LootTablesGen(generator));
+        generator.addProvider(new LangGen(generator));
     }
 
     public static void generate() {

@@ -24,16 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.jei;
 
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.client.resources.I18n;
-import mezz.jei.api.IModPlugin;
-import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-
-import java.util.ArrayList;
 /*
 
 @JeiPlugin

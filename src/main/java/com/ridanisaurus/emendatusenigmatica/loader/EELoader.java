@@ -131,6 +131,9 @@ public class EELoader {
 			if (material.getProcessedType().contains("rod")) {
 				EERegistrar.registerRods(material);
 			}
+			if (material.getProcessedType().contains("fluid")) {
+				EERegistrar.registerFluids(material);
+			}
 		}
 	}
 

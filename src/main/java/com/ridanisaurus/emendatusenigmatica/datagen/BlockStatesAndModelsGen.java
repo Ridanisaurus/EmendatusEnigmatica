@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
@@ -72,6 +73,13 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                     }
                     simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
 
+                }
+
+                // Fluid Block
+                if (processedType.equals("fluid")) {
+                    FlowingFluidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
+                    ResourceLocation loc = fluidBlock.getRegistryName();
+                    simpleBlock(fluidBlock, models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
                 }
             }
         }

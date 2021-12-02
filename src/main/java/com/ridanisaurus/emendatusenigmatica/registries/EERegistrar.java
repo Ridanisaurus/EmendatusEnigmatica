@@ -34,24 +34,37 @@ import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
+import com.ridanisaurus.emendatusenigmatica.util.ColorFromItemHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ColorHelper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class EERegistrar {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
     public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
@@ -68,6 +81,38 @@ public class EERegistrar {
     public static Map<String, RegistryObject<Item>> plateMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
+
+
+    private static RegistryObject<ForgeFlowingFluid> source;
+    private static RegistryObject<ForgeFlowingFluid> flowing;
+    private static RegistryObject<FlowingFluidBlock> fluidBlock;
+    private static RegistryObject<Item> bucket;
+
+    public static Map<String, RegistryObject<ForgeFlowingFluid>> fluidSourceMap = new HashMap<>();
+    public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
+    public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
+
+    public static final ResourceLocation FLUID_STILL_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still");
+    public static final ResourceLocation FLUID_FLOWING_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_flow");
+    public static final ResourceLocation FLUID_OVERLAY_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_overlay");
+
+    public static ForgeFlowingFluid.Properties makeProperties(FluidAttributes.Builder attributeBuilder, Supplier<ForgeFlowingFluid> still, Supplier<ForgeFlowingFluid> flowing, Supplier<Item> bucket, Supplier<FlowingFluidBlock> block)
+    {
+        return new ForgeFlowingFluid.Properties(still, flowing,attributeBuilder)
+                .bucket(bucket).block(block);
+    }
+    // TODO: Fix the fluid color tinting
+    public static FluidAttributes.Builder createAttributes(int color) {
+        return FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
+                .color(0xFF+color)
+                .overlay(FLUID_OVERLAY_RL)
+                .rarity(Rarity.COMMON)
+                .density(3000)
+                .viscosity(6000)
+                .temperature(1300)
+                .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
+                .luminosity(15);
+    }
 
     // Machine Items
     public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
@@ -222,9 +267,32 @@ public class EERegistrar {
         }
     }
 
+    public static void registerFluids(MaterialModel material) {
+        String itemName = "molten_" + material.getId();
+        source = FLUIDS.register(itemName, () -> new ForgeFlowingFluid.Source(
+                makeProperties(createAttributes(material.getColor()), source, flowing, bucket, fluidBlock))
+        );
+        flowing = FLUIDS.register(itemName + "_flowing", () -> new ForgeFlowingFluid.Flowing(
+                makeProperties(createAttributes(material.getColor()), source, flowing, bucket, fluidBlock))
+        );
+        fluidBlock = BLOCKS.register(itemName, () ->
+                new FlowingFluidBlock(source,
+                        AbstractBlock.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops())
+        );
+        bucket = ITEMS.register(itemName + "_bucket", () ->
+                new BucketItem(source,
+                        new Item.Properties().group(EmendatusEnigmatica.TAB).maxStackSize(1))
+        );
+
+        fluidSourceMap.put(material.getId(), source);
+        fluidBlockMap.put(material.getId(), fluidBlock);
+        fluidBucketMap.put(material.getId(), bucket);
+    }
+
     public static void finalize(IEventBus eventBus) {
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
+        FLUIDS.register(eventBus);
         TILE_ENTITY.register(eventBus);
     }
 
