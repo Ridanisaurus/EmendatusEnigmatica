@@ -184,7 +184,7 @@ public class ItemModelsGen extends ItemModelProvider {
                     ItemModelBuilder parent = getBuilder("molten_" + material.getId() + "_bucket");
                         parent.parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
                             .customLoader(DynamicBucketModelBuilder::begin)
-                            .fluid(EERegistrar.fluidSourceMap.get(material.getId()).get());
+                            .fluid(EERegistrar.fluidFlowingMap.get(material.getId()).get());
                 }
             }
         }

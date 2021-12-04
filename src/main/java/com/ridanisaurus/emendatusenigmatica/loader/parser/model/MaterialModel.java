@@ -26,6 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +76,7 @@ public class MaterialModel {
 		this.dropMin = dropMin;
 		this.dropMax = dropMax;
 		this.color = color;
+//		this.fluidColor = "0xFF" + fluidColor;
 		this.fluidColor = fluidColor;
 	}
 
@@ -118,7 +121,8 @@ public class MaterialModel {
 	}
 
 	public int getFluidColor() {
-		return Integer.parseInt(0xFF + fluidColor);
+		Long L = Long.decode(fluidColor);
+		return L.intValue();
 	}
 
 	public int getBurnTime() {

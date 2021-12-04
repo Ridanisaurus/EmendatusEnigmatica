@@ -169,18 +169,18 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
 				}
 
-				// Fluids
-				if (processedType.equals("fluid")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Molten ");
-					sb.append(material.getLocalisedName());
-					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
-
-					StringBuilder sb2 = new StringBuilder();
-					sb2.append("Bucket of Molten ");
-					sb2.append(material.getLocalisedName());
-					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
-				}
+//				// Fluids
+//				if (processedType.equals("fluid")) {
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("Molten ");
+//					sb.append(material.getLocalisedName());
+//					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
+//
+//					StringBuilder sb2 = new StringBuilder();
+//					sb2.append("Bucket of Molten ");
+//					sb2.append(material.getLocalisedName());
+//					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+//				}
 			}
 		}
 
