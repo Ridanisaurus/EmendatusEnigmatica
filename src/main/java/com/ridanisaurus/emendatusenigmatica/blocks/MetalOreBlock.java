@@ -30,6 +30,8 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MetalOreBlock extends Block implements  IColorable{
   private final String localisedName;
 

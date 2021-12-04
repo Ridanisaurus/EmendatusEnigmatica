@@ -32,7 +32,7 @@ public class VanillaOreFeature extends OreFeature {
 	}
 
 	@Override
-	protected boolean func_207803_a(IWorld worldIn, Random random, OreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
-		return super.func_207803_a(worldIn, random, config, p_207803_4_, p_207803_6_, p_207803_8_, p_207803_10_, p_207803_12_, p_207803_14_, p_207803_16_, p_207803_17_, p_207803_18_, p_207803_19_, p_207803_20_);
+	protected boolean doPlace(IWorld worldIn, Random random, OreFeatureConfig config, double p_207803_4_, double p_207803_6_, double p_207803_8_, double p_207803_10_, double p_207803_12_, double p_207803_14_, int p_207803_16_, int p_207803_17_, int p_207803_18_, int p_207803_19_, int p_207803_20_) {
+		return super.doPlace(worldIn, random, config, p_207803_4_, p_207803_6_, p_207803_8_, p_207803_10_, p_207803_12_, p_207803_14_, p_207803_16_, p_207803_17_, p_207803_18_, p_207803_19_, p_207803_20_);
 	}
 }

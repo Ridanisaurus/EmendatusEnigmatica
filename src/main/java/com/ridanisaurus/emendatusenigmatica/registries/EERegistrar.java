@@ -96,8 +96,7 @@ public class EERegistrar {
 
 
     public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<FlowingFluidBlock> block, Supplier<Item> bucket, int color) {
-        return new ForgeFlowingFluid
-                .Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
+        return new ForgeFlowingFluid.Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
                     .overlay(FLUID_OVERLAY_RL)
                     .color(color)
                     .density(3000)

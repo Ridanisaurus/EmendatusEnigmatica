@@ -67,6 +67,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class EnigmaticFortunizer extends Block {
 	private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 

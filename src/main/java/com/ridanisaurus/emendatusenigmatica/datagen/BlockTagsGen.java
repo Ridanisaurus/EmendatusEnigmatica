@@ -38,6 +38,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 
+import net.minecraft.data.TagsProvider.Builder;
+
 public class BlockTagsGen extends BlockTagsProvider {
 
 	public BlockTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {

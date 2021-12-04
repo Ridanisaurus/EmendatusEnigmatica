@@ -41,6 +41,8 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GemOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
 	private final int minExp;

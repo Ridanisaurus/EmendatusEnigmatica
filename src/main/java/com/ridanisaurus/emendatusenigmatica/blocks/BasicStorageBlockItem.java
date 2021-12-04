@@ -29,6 +29,8 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.item.Item.Properties;
+
 public class BasicStorageBlockItem extends BlockItem {
 	private final int burnTime;
 

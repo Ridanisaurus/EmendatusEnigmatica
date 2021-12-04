@@ -31,6 +31,8 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BasicStorageBlock extends Block implements IColorable {
 	private final String localisedName;
 	public final int color;

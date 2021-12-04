@@ -39,6 +39,8 @@ import net.minecraftforge.common.ToolType;
 import java.awt.*;
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MetalOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
 	private final String particleHex;

@@ -39,6 +39,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 
+import net.minecraft.data.TagsProvider.Builder;
+
 public class ItemTagsGen extends ItemTagsProvider {
 
 	public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
