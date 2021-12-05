@@ -20,7 +20,6 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -152,11 +151,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
 		if (commonBlockDefinitionModel.getBlock() != null) {
 			Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-			reader.setBlockState(pos, block.getDefaultState(), 2);
+			reader.setBlock(pos, block.defaultBlockState(), 2);
 		} else if (commonBlockDefinitionModel.getTag() != null) {
-			ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
+			ITag<Block> blockITag = BlockTags.getAllTags().getTag(new ResourceLocation(commonBlockDefinitionModel.getTag()));
 			Block block = blockITag.getRandomElement(rand);
-			reader.setBlockState(pos, block.getDefaultState(), 2);
+			reader.setBlock(pos, block.defaultBlockState(), 2);
 		} else if (commonBlockDefinitionModel.getMaterial() != null) {
 			BlockState currentFiller = reader.getBlockState(pos);
 			String fillerId = currentFiller.getBlock().getRegistryName().toString();
@@ -164,7 +163,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			if (strataIndex != null) {
 				StrataModel stratum = EELoader.STRATA.get(strataIndex);
 				Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-				reader.setBlockState(pos, block.getDefaultState(), 2);
+				reader.setBlock(pos, block.defaultBlockState(), 2);
 			}
 		}
 	}

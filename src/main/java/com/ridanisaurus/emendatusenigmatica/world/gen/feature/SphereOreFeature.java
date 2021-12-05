@@ -43,8 +43,8 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     }
 
     @Override
-    public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
-        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+    public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
+        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
             return false;
         }
 
@@ -129,11 +129,11 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
             if (commonBlockDefinitionModel.getBlock() != null) {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-                reader.setBlockState(pos, block.getDefaultState(), 2);
+                reader.setBlock(pos, block.defaultBlockState(), 2);
             } else if (commonBlockDefinitionModel.getTag() != null) {
-                ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
+                ITag<Block> blockITag = BlockTags.getAllTags().getTag(new ResourceLocation(commonBlockDefinitionModel.getTag()));
                 Block block = blockITag.getRandomElement(rand);
-                reader.setBlockState(pos, block.getDefaultState(), 2);
+                reader.setBlock(pos, block.defaultBlockState(), 2);
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
                 BlockState currentFiller = reader.getBlockState(pos);
                 String fillerId = currentFiller.getBlock().getRegistryName().toString();
@@ -141,7 +141,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                 if (strataIndex != null) {
                     StrataModel stratum = EELoader.STRATA.get(strataIndex);
                     Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-                    reader.setBlockState(pos, block.getDefaultState(), 2);
+                    reader.setBlock(pos, block.defaultBlockState(), 2);
                 }
             }
         } catch (Exception e) {

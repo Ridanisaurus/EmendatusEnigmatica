@@ -24,11 +24,11 @@ public class VanillaOreFeature extends OreFeature {
 
 
 	@Override
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreFeatureConfig config) {
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
 			return false;
 		}
-		return super.generate(reader, generator, rand, pos, config);
+		return super.place(reader, generator, rand, pos, config);
 	}
 
 	@Override

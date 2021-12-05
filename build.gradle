@@ -144,14 +144,14 @@ dependencies {
     //}
 
     runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
-    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3377691")
+//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3377691")
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3319255")
     runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:3477594")
-    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
-    //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
-    //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
-    //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
-    //runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+//    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
+//    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
+//    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
+//    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
+//    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 }
 
 shadowJar{
