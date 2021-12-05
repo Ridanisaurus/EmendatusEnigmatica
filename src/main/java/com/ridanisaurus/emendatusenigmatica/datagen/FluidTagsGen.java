@@ -46,17 +46,17 @@ public class FluidTagsGen extends FluidTagsProvider {
 	@Override
 	protected void addTags() {
 
-//		// Fluids
-//		for (MaterialModel material : EELoader.MATERIALS) {
-//			List<String> processedType = material.getProcessedType();
-//			if (processedType.contains("fluid")) {
-//				Builder<Fluid> moltenTag = getOrCreateBuilder(FluidTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "molten/" + material.getId()).toString()));
-//				Builder<Fluid> forgeFluids = getOrCreateBuilder(FluidTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "molten_" + material.getId()).toString()));
-//
-//				moltenTag.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
-//				forgeFluids.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
-//			}
-//		}
+		// Fluids
+		for (MaterialModel material : EELoader.MATERIALS) {
+			List<String> processedType = material.getProcessedType();
+			if (processedType.contains("fluid")) {
+				Builder<Fluid> moltenTag = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten/" + material.getId()).toString()));
+				Builder<Fluid> forgeFluids = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten_" + material.getId()).toString()));
+
+				moltenTag.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
+				forgeFluids.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
+			}
+		}
 	}
 
 	@Override

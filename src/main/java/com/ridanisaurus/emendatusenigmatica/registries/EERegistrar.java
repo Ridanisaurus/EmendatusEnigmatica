@@ -90,6 +90,7 @@ public class EERegistrar {
     public static  RegistryObject<FlowingFluidBlock> fluidBlock;
     public static  RegistryObject<Item> fluidBucket;
 
+    public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
     public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
     public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
@@ -114,15 +115,16 @@ public class EERegistrar {
         String fluidName = "molten_" + material.getId();
 
         fluidSource = FLUIDS.register(fluidName,
-                () -> new ForgeFlowingFluid.Source(makeProperties(fluidSource, fluidFlowing, fluidBlock, fluidBucket, material.getFluidColor())));
+                () -> new ForgeFlowingFluid.Source(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getFluidColor())));
         fluidFlowing = FLUIDS.register(fluidName + "_flowing",
-                () -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSource, fluidFlowing, fluidBlock, fluidBucket, material.getFluidColor())));
+                () -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getFluidColor())));
         fluidBlock = BLOCKS.register(fluidName,
-                ()-> new FlowingFluidBlock(fluidSource, AbstractBlock.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
+                ()-> new FlowingFluidBlock(fluidSourceMap.get(material.getId()), AbstractBlock.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
         fluidBucket = ITEMS.register(fluidName + "_bucket",
-                ()-> new BucketItem(fluidSource, new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
+                ()-> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
 
-        fluidFlowingMap.put(material.getId(), fluidSource);
+        fluidSourceMap.put(material.getId(), fluidSource);
+        fluidFlowingMap.put(material.getId(), fluidFlowing);
         fluidBlockMap.put(material.getId(), fluidBlock);
         fluidBucketMap.put(material.getId(), fluidBucket);
     }

@@ -138,12 +138,12 @@ public class ItemTagsGen extends ItemTagsProvider {
 				clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
 				oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
 			}
-//			// Fluid Bucket
-//			if (processedType.contains("fluid")) {
-//				forgeBuckets.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
-//				Builder<Item> bucketTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "buckets/" + material.getId()).toString()));
-//				bucketTag.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
-//			}
+			// Fluid Bucket
+			if (processedType.contains("fluid")) {
+				forgeBuckets.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
+				Builder<Item> bucketTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "buckets/" + material.getId()).toString()));
+				bucketTag.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
+			}
 			// Piglin Loved
 			if (material.getId().equals("gold")) {
 				piglinLoved.add(EERegistrar.dustMap.get(material.getId()).get());

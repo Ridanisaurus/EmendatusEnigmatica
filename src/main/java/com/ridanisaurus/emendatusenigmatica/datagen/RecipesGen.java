@@ -60,7 +60,7 @@ public class RecipesGen extends RecipeProvider {
 				.define('D', EETags.MATERIAL_GEAR.apply("diamond"))
 				.define('N', EETags.MATERIAL_INGOT.apply("netherite"))
 				.define('E', EETags.MATERIAL_GEAR.apply("emerald"))
-				.define('R', EETags.MATERIAL_ROD.apply("enderium"))
+				.define('R', EETags.MATERIAL_PLATE.apply("diamond"))
 				.define('B', EETags.MATERIAL_STORAGE_BLOCK.apply("iron"))
 				.group("emendatusenigmatica")
 				.unlockedBy("cobblestone", InventoryChangeTrigger.Instance.hasItems(Blocks.COBBLESTONE))
