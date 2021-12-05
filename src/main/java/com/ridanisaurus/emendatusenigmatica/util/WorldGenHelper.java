@@ -12,10 +12,10 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 public class WorldGenHelper {
 	public static String getDimensionAsString(IWorld world) {
 		if (world instanceof World) {
-			return ((World) world).getDimensionKey().getLocation().toString();
+			return ((World) world).dimension().location().toString();
 		}
 		if (world instanceof WorldGenRegion) {
-			return ((WorldGenRegion) world).getWorld().getDimensionKey().getLocation().toString();
+			return ((WorldGenRegion) world).getLevel().dimension().location().toString();
 		}
 		return null;
 	}

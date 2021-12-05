@@ -26,8 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
-import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 import java.util.Optional;

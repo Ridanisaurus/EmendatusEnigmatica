@@ -6,10 +6,14 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.GeodeOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.template.RuleTest;
@@ -42,6 +46,9 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).withConfiguration(new GeodeOreFeatureConfig(filler)));
+//		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
+		ConfiguredFeature<?, ?> configuredFeature = WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, model.getName()), configuredFeature);
+		return configuredFeature;
 	}
 }

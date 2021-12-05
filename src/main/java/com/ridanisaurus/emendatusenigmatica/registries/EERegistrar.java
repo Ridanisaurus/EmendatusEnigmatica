@@ -103,7 +103,7 @@ public class EERegistrar {
                     .viscosity(6000)
                     .temperature(1300)
                     .luminosity(15)
-                    .sound(SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundEvents.ITEM_BUCKET_EMPTY_LAVA)
+                    .sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA)
                     .rarity(Rarity.COMMON)
             )
                 .block(block)
@@ -118,9 +118,9 @@ public class EERegistrar {
         fluidFlowing = FLUIDS.register(fluidName + "_flowing",
                 () -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSource, fluidFlowing, fluidBlock, fluidBucket, material.getFluidColor())));
         fluidBlock = BLOCKS.register(fluidName,
-                ()-> new FlowingFluidBlock(fluidSource, AbstractBlock.Properties.create(Material.LAVA).doesNotBlockMovement().hardnessAndResistance(100).noDrops()));
+                ()-> new FlowingFluidBlock(fluidSource, AbstractBlock.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
         fluidBucket = ITEMS.register(fluidName + "_bucket",
-                ()-> new BucketItem(fluidSource, new Item.Properties().maxStackSize(1).group(EmendatusEnigmatica.TAB)));
+                ()-> new BucketItem(fluidSource, new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
 
         fluidFlowingMap.put(material.getId(), fluidSource);
         fluidBlockMap.put(material.getId(), fluidBlock);
@@ -129,7 +129,7 @@ public class EERegistrar {
 
     // Machine Items
     public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
-    public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+    public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.of(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
     public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
 
     // Hammer
@@ -140,7 +140,7 @@ public class EERegistrar {
         RegistryObject<Block> oreBlock;
         if (material.getOreBlockType().equals("gem")) {
             oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
-                    Material.ROCK,
+                    Material.STONE,
                     material.getProperties().getHardness(),
                     material.getProperties().getResistance(),
                     material.getProperties().getHarvestLevel(),
@@ -151,7 +151,7 @@ public class EERegistrar {
                     material.getColor()));
         } else {
             oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
-                    Material.ROCK,
+                    Material.STONE,
                     material.getProperties().getHardness(),
                     material.getProperties().getResistance(),
                     material.getProperties().getHarvestLevel(),
@@ -162,14 +162,14 @@ public class EERegistrar {
 
         oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
 
-        oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
+        oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
     }
 
     public static void registerStorageBlocks(MaterialModel material) {
         String storageBlockName = material.getId() + "_block";
 
         RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
-                Material.ROCK,
+                Material.STONE,
                 material.getProperties().getHardness(),
                 material.getProperties().getResistance(),
                 material.getProperties().getHarvestLevel(),

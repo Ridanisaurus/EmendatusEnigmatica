@@ -16,6 +16,8 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
@@ -60,7 +62,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
 					Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-					event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlock.getDefaultState()));
+					event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlock.defaultBlockState()));
 				}
 			}
 		} else if (model.getConfig().getMaterial() != null) {
@@ -69,8 +71,8 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 					for (StrataModel stratum : EELoader.STRATA) {
 						if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
 							Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-							BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().getDefaultState();
-							event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlockstate));
+							BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
+							event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlockstate));
 						}
 					}
 					break;
@@ -80,10 +82,18 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
-		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
-				.withConfiguration(new OreFeatureConfig(filler, state, size))
-				.withPlacement(Placement.DEPTH_AVERAGE.configure(new DepthAverageConfig(baseline, spread)))
-				.square()
+//		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
+//				.configured(new OreFeatureConfig(filler, state, size))
+//				.decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
+//				.squared()
+//				.count(count));
+
+		ConfiguredFeature<?, ?> configuredFeature = WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
+				.configured(new OreFeatureConfig(filler, state, size))
+				.decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
+				.squared()
 				.count(count));
+		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, model.getName()), configuredFeature);
+		return configuredFeature;
 	}
 }
