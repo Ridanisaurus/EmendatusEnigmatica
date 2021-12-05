@@ -28,17 +28,17 @@ public class InMemoryPack implements IResourcePack {
     }
 
     private static String getFullPath(ResourcePackType type, ResourceLocation location) {
-        return String.format("%s/%s/%s", type.getDirectoryName(), location.getNamespace(), location.getPath());
+        return String.format("%s/%s/%s", type.getDirectory(), location.getNamespace(), location.getPath());
     }
 
     @Override
-    public InputStream getRootResourceStream(String fileName) throws IOException {
+    public InputStream getRootResource(String fileName) throws IOException {
         Path resolved = path.resolve(fileName);
         return Files.newInputStream(resolved);
     }
 
     @Override
-    public InputStream getResourceStream(ResourcePackType type, ResourceLocation location) throws IOException {
+    public InputStream getResource(ResourcePackType type, ResourceLocation location) throws IOException {
         Path resolved = path.resolve(getFullPath(type, location));
         if (!Files.exists(resolved)){
             throw new IOException("Resource does not exist");
@@ -47,9 +47,9 @@ public class InMemoryPack implements IResourcePack {
     }
 
     @Override
-    public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
+    public Collection<ResourceLocation> getResources(ResourcePackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
         List<ResourceLocation> result = new ArrayList<>();
-        getChildResourceLocations(result, 0, maxDepthIn, filterIn, path.resolve(type.getDirectoryName() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
+        getChildResourceLocations(result, 0, maxDepthIn, filterIn, path.resolve(type.getDirectory() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
         return result;
     }
 
@@ -76,16 +76,16 @@ public class InMemoryPack implements IResourcePack {
 
 
     @Override
-    public boolean resourceExists(ResourcePackType type, ResourceLocation location) {
-        Path finalPath = path.resolve(type.getDirectoryName() + "/" + location.getNamespace() + "/" + location.getPath());
+    public boolean hasResource(ResourcePackType type, ResourceLocation location) {
+        Path finalPath = path.resolve(type.getDirectory() + "/" + location.getNamespace() + "/" + location.getPath());
         return Files.exists(finalPath);
     }
 
     @Override
-    public Set<String> getResourceNamespaces(ResourcePackType type) {
+    public Set<String> getNamespaces(ResourcePackType type) {
         Set<String> result = new HashSet<>();
         try {
-            Stream<Path> list = Files.list(path.resolve(type.getDirectoryName()));
+            Stream<Path> list = Files.list(path.resolve(type.getDirectory()));
             for (Path resultingPath : list.collect(Collectors.toList())) {
                 result.add(resultingPath.getFileName().toString());
             }
@@ -98,7 +98,7 @@ public class InMemoryPack implements IResourcePack {
 
     @Nullable
     @Override
-    public <T> T getMetadata(IMetadataSectionSerializer<T> deserializer) throws IOException {
+    public <T> T getMetadataSection(IMetadataSectionSerializer<T> deserializer) throws IOException {
         /*InputStream inputStream = Files.newInputStream(path.resolve("pack.mcmeta"));*/
         JsonObject jsonobject = new JsonObject();
         /*try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
@@ -111,11 +111,11 @@ public class InMemoryPack implements IResourcePack {
         packObject.addProperty("pack_format", 6);
         packObject.addProperty("description", "emendatusenigmatica");
         jsonobject.add("pack", packObject);
-        if (!jsonobject.has(deserializer.getSectionName())) {
+        if (!jsonobject.has(deserializer.getMetadataSectionName())) {
             return null;
         } else {
             try {
-                return deserializer.deserialize(JSONUtils.getJsonObject(jsonobject, deserializer.getSectionName()));
+                return deserializer.fromJson(JSONUtils.getAsJsonObject(jsonobject, deserializer.getMetadataSectionName()));
             } catch (JsonParseException jsonparseexception) {
                 return null;
             }

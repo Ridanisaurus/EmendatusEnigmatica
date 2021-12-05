@@ -44,7 +44,7 @@ public class FluidTagsGen extends FluidTagsProvider {
 	}
 
 	@Override
-	protected void registerTags() {
+	protected void addTags() {
 
 //		// Fluids
 //		for (MaterialModel material : EELoader.MATERIALS) {

@@ -99,7 +99,7 @@ public class EmendatusEnigmatica {
         registerDataGen();
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackList().addPackFinder(new EEPackFinder(PackType.RESOURCE));
+            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.RESOURCE));
         }
 
         MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
