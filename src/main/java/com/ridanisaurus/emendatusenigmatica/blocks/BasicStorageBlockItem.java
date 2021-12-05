@@ -35,7 +35,7 @@ public class BasicStorageBlockItem extends BlockItem {
 	private final int burnTime;
 
 	public BasicStorageBlockItem(Block block, int burnTime) {
-		super(block, new Properties().group(EmendatusEnigmatica.TAB));
+		super(block, new Properties().tab(EmendatusEnigmatica.TAB));
 		this.burnTime = burnTime;
 	}
 

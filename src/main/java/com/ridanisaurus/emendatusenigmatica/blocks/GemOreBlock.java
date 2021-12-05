@@ -44,11 +44,11 @@ public class GemOreBlock extends Block implements IColorable {
 	public final int color;
 
 	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp, int color) {
-		super(AbstractBlock.Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
+		super(AbstractBlock.Properties.of(material)
+				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
-				.setRequiresTool());
+				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.minExp = minExp;
 		this.maxExp = maxExp;
@@ -56,7 +56,7 @@ public class GemOreBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public IFormattableTextComponent getTranslatedName() {
+	public IFormattableTextComponent getName() {
 		return new StringTextComponent(localisedName);
 	}
 
