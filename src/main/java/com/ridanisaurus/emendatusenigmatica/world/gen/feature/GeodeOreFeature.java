@@ -54,9 +54,9 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
 
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
 			return false;
 		}
 

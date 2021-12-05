@@ -46,9 +46,6 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-//		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
-		ConfiguredFeature<?, ?> configuredFeature = WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, model.getName()), configuredFeature);
-		return configuredFeature;
+		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
 	}
 }

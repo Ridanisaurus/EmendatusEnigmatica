@@ -48,9 +48,6 @@ public class SphereDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-//		return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).configured(new SphereOreFeatureConfig(filler)));
-		ConfiguredFeature<?, ?> configuredFeature = WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).configured(new SphereOreFeatureConfig(filler)));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, model.getName()), configuredFeature);
-		return configuredFeature;
+		return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).configured(new SphereOreFeatureConfig(filler)));
 	}
 }

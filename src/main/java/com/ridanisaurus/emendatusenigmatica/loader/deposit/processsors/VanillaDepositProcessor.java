@@ -82,18 +82,10 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
-//		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
-//				.configured(new OreFeatureConfig(filler, state, size))
-//				.decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
-//				.squared()
-//				.count(count));
-
-		ConfiguredFeature<?, ?> configuredFeature = WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
+		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
 				.configured(new OreFeatureConfig(filler, state, size))
 				.decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
 				.squared()
 				.count(count));
-		Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, model.getName()), configuredFeature);
-		return configuredFeature;
 	}
 }
