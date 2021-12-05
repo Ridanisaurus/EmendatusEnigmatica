@@ -36,16 +36,16 @@ public class ItemHammer extends Item {
 
 	public ItemHammer() {
 		super(new Item.Properties()
-				.defaultMaxDamage(128)
+				.defaultDurability(128)
 				.setNoRepair()
-				.group(EmendatusEnigmatica.TAB));
+				.tab(EmendatusEnigmatica.TAB));
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack getContainerItem(@Nonnull ItemStack stack) {
 		ItemStack container = stack.copy();
-		if (container.attemptDamageItem(1, random, null))
+		if (container.hurt(1, random, null))
 			return ItemStack.EMPTY;
 		else
 			return container;

@@ -33,7 +33,7 @@ public class BasicItem extends Item {
 
   public final int color;
   public BasicItem(int color) {
-    super(new Properties().group(EmendatusEnigmatica.TAB));
+    super(new Properties().tab(EmendatusEnigmatica.TAB));
     this.color = color;
   }
 

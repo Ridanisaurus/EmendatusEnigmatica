@@ -107,7 +107,7 @@ public class EmendatusEnigmatica {
 
     // Data Pack
     public void onServerStart(final FMLServerAboutToStartEvent event) {
-        event.getServer().getResourcePacks().addPackFinder(new EEPackFinder(PackType.DATA));
+        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.DATA));
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -124,12 +124,12 @@ public class EmendatusEnigmatica {
 
     private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
-            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.getSolid() || layer == RenderType.getTranslucent());
+            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
         }
 
-        ScreenManager.registerFactory(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+        ScreenManager.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
 
-        event.getMinecraftSupplier().get().enqueue(() -> {
+        event.getMinecraftSupplier().get().tell(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
@@ -138,7 +138,7 @@ public class EmendatusEnigmatica {
 
     public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(EERegistrar.ENIGMATIC_FORTUNIZER.get());
         }
     };
@@ -170,7 +170,7 @@ public class EmendatusEnigmatica {
     }
 
     public static void injectDatapackFinder(ResourcePackList resourcePacks) {
-        if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackList(), () -> () -> true)) {
+        if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackRepository(), () -> () -> true)) {
             resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }

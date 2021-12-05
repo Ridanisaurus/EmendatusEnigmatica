@@ -101,7 +101,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 
 	@Override
 	public void tick() {
-		if (!this.world.isRemote) {
+		if (!this.level.isClientSide) {
 			ItemStack pickaxe = this.itemSH.getStackInSlot(SLOT_PICKAXE);
 
 			// Validate whether the slot has a Pickaxe
@@ -114,29 +114,29 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 					ItemStack output = new ItemStack(oreDropInfo.item.get(), (int) oreDropInfo.min);
 
 					// Check Speed and EfficiencyEnchant and adjust processing time accordingly
-					int pickaxeDestroySpeed = (int) pickaxe.getItem().getDestroySpeed(pickaxe, Blocks.STONE.getDefaultState());
-					int pickaxeEfficiencyEnchant = EnchantmentHelper.getEnchantmentLevel(Enchantments.EFFICIENCY, pickaxe);
+					int pickaxeDestroySpeed = (int) pickaxe.getItem().getDestroySpeed(pickaxe, Blocks.STONE.defaultBlockState());
+					int pickaxeEfficiencyEnchant = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY, pickaxe);
 					if (!pickaxe.isEmpty()) {
 						MAX_PROGRESS = 500 / (pickaxeDestroySpeed * (pickaxeEfficiencyEnchant + 1));
 					}
 
-					if (this.itemSH.internal.insertItem(SLOT_OUTPUT, output, true).isEmpty() && pickaxe.getDamage() != pickaxe.getMaxDamage()) {
+					if (this.itemSH.internal.insertItem(SLOT_OUTPUT, output, true).isEmpty() && pickaxe.getDamageValue() != pickaxe.getMaxDamage()) {
 						progress++;
 						if (progress >= MAX_PROGRESS) {
 							input.shrink(1);
-							pickaxe.attemptDamageItem(1, world.rand, null);
-							output.grow(MathHelper.ceil(world.rand.nextFloat() * (oreDropInfo.max - oreDropInfo.min)));
-							int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, pickaxe);
-							output.setCount(getFortuneLoot(world.rand, output.getCount(), fortune));
+							pickaxe.hurt(1, level.random, null);
+							output.grow(MathHelper.ceil(level.random.nextFloat() * (oreDropInfo.max - oreDropInfo.min)));
+							int fortune = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, pickaxe);
+							output.setCount(getFortuneLoot(level.random, output.getCount(), fortune));
 							this.itemSH.internal.insertItem(SLOT_OUTPUT, output, false);
 							progress = 0;
 						}
 						this.sendToClient();
-					} else if (pickaxe.getDamage() == pickaxe.getMaxDamage() && this.itemSH.getStackInSlot(SLOT_OUTPUT).isEmpty()) {
+					} else if (pickaxe.getDamageValue() == pickaxe.getMaxDamage() && this.itemSH.getStackInSlot(SLOT_OUTPUT).isEmpty()) {
 						ItemStack outPutPickaxe = pickaxe.copy();
 						this.itemSH.internal.insertItem(SLOT_OUTPUT, outPutPickaxe, false);
 						pickaxe.shrink(1);
-						world.playSound(null, pos, SoundEvents.ENTITY_CAT_AMBIENT, SoundCategory.AMBIENT, 1.0F, 1.0F);
+						level.playSound(null, worldPosition, SoundEvents.CAT_AMBIENT, SoundCategory.AMBIENT, 1.0F, 1.0F);
 					}
 
 				} else if (progress > 0) {
@@ -184,8 +184,8 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
+	public void setRemoved() {
+		super.setRemoved();
 		lazyItemStorage.invalidate();
 	}
 
@@ -198,7 +198,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 	@Override
 	// Calls container on the Server
 	public Container createMenu(int windowID, PlayerInventory inventory, PlayerEntity player) {
-		return new EnigmaticFortunizerContainer(windowID, player, this.pos);
+		return new EnigmaticFortunizerContainer(windowID, player, this.worldPosition);
 	}
 
 	public static OreDropHelper.OreDropInfo getDropInfo(ItemStack itemStack) {
