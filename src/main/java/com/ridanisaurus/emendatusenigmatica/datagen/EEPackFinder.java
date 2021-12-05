@@ -42,10 +42,10 @@ public class EEPackFinder implements IPackFinder {
 	}
 
 	@Override
-	public void findPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
+	public void loadPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
 		Path rootPath = DataGeneratorFactory.ROOT_PATH;
 
-		ResourcePackInfo pack = ResourcePackInfo.createResourcePack("emendatusenigmatica_" + type.getSuffix(), true,
+		ResourcePackInfo pack = ResourcePackInfo.create("emendatusenigmatica_" + type.getSuffix(), true,
 				() -> new InMemoryPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.PLAIN);
 		if (pack != null) {
 			infoConsumer.accept(pack);

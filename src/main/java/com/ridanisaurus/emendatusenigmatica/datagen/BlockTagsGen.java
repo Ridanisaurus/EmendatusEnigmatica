@@ -47,10 +47,10 @@ public class BlockTagsGen extends BlockTagsProvider {
 	}
 
 	@Override
-	protected void registerTags() {
-		Builder<Block> forgeBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
-		Builder<Block> forgeOres = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
-		Builder<Block> beaconBlocks = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
+	protected void addTags() {
+		Builder<Block> forgeBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
+		Builder<Block> forgeOres = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores").toString()));
+		Builder<Block> beaconBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
 
 		// Storage Blocks
 		for (MaterialModel material : EELoader.MATERIALS) {
@@ -58,14 +58,14 @@ public class BlockTagsGen extends BlockTagsProvider {
 			if (processedType.contains("storage_block")) {
 				forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 				beaconBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				Builder<Block> storageBlockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.getId()).toString()));
+				Builder<Block> storageBlockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.getId()).toString()));
 				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 			}
 			// Potassium Nitrate
 			if (material.getId().equals("potassium_nitrate")) {
-				getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
+				tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/niter").toString()))
 						.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/saltpeter").toString()))
+				tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/saltpeter").toString()))
 						.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 			}
 		}
@@ -77,7 +77,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 				// Ores
 				if (processedType.contains("ore")) {
 					forgeOres.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-					Builder<Block> oreTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.getId()).toString()));
+					Builder<Block> oreTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.getId()).toString()));
 					oreTag.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
 				}
 			}
@@ -87,13 +87,13 @@ public class BlockTagsGen extends BlockTagsProvider {
 			List<String> processedType = material.getProcessedType();
 			if (processedType.contains("storage_block")) {
 				forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				Builder<Block> storageBlockTag = getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.getId()).toString()));
+				Builder<Block> storageBlockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.getId()).toString()));
 				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 			}
 		}
 
 		// Misc
-		getOrCreateBuilder(BlockTags.makeWrapperTag(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_fortunizer").toString()))
+		tag(BlockTags.bind(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_fortunizer").toString()))
 				.add(EERegistrar.ENIGMATIC_FORTUNIZER.get());
 	}
 
