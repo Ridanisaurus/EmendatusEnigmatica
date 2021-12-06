@@ -12,6 +12,7 @@ public class GeodeDepositConfigModel {
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("outerShellBlocks").forGetter(i -> i.outerShellBlocks),
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerShellBlocks").forGetter(i -> i.innerShellBlocks),
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").forGetter(i -> i.innerBlocks),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").forGetter(i -> i.fillBlocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
 			Codec.DOUBLE.fieldOf("chance").forGetter(it -> it.chance),
 			Codec.INT.fieldOf("chanceChunkSkip").forGetter(it -> it.chanceChunkSkip),
@@ -23,6 +24,7 @@ public class GeodeDepositConfigModel {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerBlocks;
+	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final List<String> fillerTypes;
 	private final double chance;
 	private final int chanceChunkSkip;
@@ -30,10 +32,11 @@ public class GeodeDepositConfigModel {
 	private final int minYLevel;
 	private final int maxYLevel;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<String> fillerTypes, double chance, int chanceChunkSkip, int radius, int minYLevel, int maxYLevel) {
+	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, double chance, int chanceChunkSkip, int radius, int minYLevel, int maxYLevel) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;
+		this.fillBlocks = fillBlocks;
 		this.fillerTypes = fillerTypes;
 		this.chance = chance;
 		this.chanceChunkSkip = chanceChunkSkip;
@@ -76,5 +79,9 @@ public class GeodeDepositConfigModel {
 
 	public List<CommonBlockDefinitionModel> getInnerShellBlocks() {
 		return innerShellBlocks;
+	}
+
+	public List<CommonBlockDefinitionModel> getFillBlocks() {
+		return fillBlocks;
 	}
 }

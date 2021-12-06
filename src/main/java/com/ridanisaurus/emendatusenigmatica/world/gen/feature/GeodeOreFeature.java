@@ -9,8 +9,10 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.NonNullList;
@@ -22,6 +24,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +33,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerBlocks;
+	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final GeodeDepositModel model;
 
 	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
@@ -49,6 +53,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
 			innerBlocks.addAll(filled);
+		}
+		fillBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getFillBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			fillBlocks.addAll(filled);
 		}
 	}
 
@@ -75,6 +84,9 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		generateHollowSphere(reader, generator, rand, pos, config, outerShellBlocks, model.getConfig().getRadius() + 1, yPos);
 		generateHollowSphere(reader, generator, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
 		generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
+		for (int i = model.getConfig().getRadius() -2; i >= 0; i--) {
+			generateHollowSphere(reader, generator, rand, pos, config, fillBlocks, i, yPos);
+		}
 		return true;
 	}
 
