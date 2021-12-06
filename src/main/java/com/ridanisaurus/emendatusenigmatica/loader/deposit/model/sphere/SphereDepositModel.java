@@ -10,14 +10,16 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	public static final Codec<SphereDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("type").forGetter(it -> it.type),
 			Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
+			Codec.list(Codec.STRING).fieldOf("blacklistBiomes").forGetter(it -> it.blacklistBiomes),
+			Codec.list(Codec.STRING).fieldOf("whitelistBiomes").forGetter(it -> it.whitelistBiomes),
 			Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
 			SphereDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
 	).apply(x, SphereDepositModel::new));
 
 	private final SphereDepositConfigModel config;
 
-	public SphereDepositModel(String type, List<String> dimensions, String name, SphereDepositConfigModel config) {
-		super(type, dimensions, name);
+	public SphereDepositModel(String type, List<String> dimensions, List<String> blacklistBiomes, List<String> whitelistBiomes, String name, SphereDepositConfigModel config) {
+		super(type, dimensions, blacklistBiomes, whitelistBiomes, name);
 		this.config = config;
 	}
 
@@ -35,4 +37,13 @@ public class SphereDepositModel extends CommonDepositModelBase {
 		return super.getDimensions();
 	}
 
+	@Override
+	public List<String> getBlacklistBiomes() {
+		return super.getBlacklistBiomes();
+	}
+
+	@Override
+	public List<String> getWhitelistBiomes() {
+		return super.getWhitelistBiomes();
+	}
 }

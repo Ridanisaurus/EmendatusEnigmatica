@@ -10,14 +10,11 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.Vanilla
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
@@ -28,6 +25,7 @@ import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 public class VanillaDepositProcessor implements IDepositProcessor {
@@ -56,26 +54,28 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 		int baseline = minYLevel + maxYLevel / 2;
 		int spread = maxYLevel - baseline;
 
-		if (model.getConfig().getBlock() != null) {
-			ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
-			Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
-			for (StrataModel stratum : EELoader.STRATA) {
-				if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-					Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-					event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlock.defaultBlockState()));
-				}
-			}
-		} else if (model.getConfig().getMaterial() != null) {
-			for (MaterialModel material : EELoader.MATERIALS) {
-				if (material.getId().equals(model.getConfig().getMaterial())) {
-					for (StrataModel stratum : EELoader.STRATA) {
-						if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-							Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-							BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-							event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlockstate));
-						}
+		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
+			if (model.getConfig().getBlock() != null) {
+				ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
+				Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
+				for (StrataModel stratum : EELoader.STRATA) {
+					if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
+						Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
+						event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlock.defaultBlockState()));
 					}
-					break;
+				}
+			} else if (model.getConfig().getMaterial() != null) {
+				for (MaterialModel material : EELoader.MATERIALS) {
+					if (material.getId().equals(model.getConfig().getMaterial())) {
+						for (StrataModel stratum : EELoader.STRATA) {
+							if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
+								Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
+								BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
+								event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlockstate));
+							}
+						}
+						break;
+					}
 				}
 			}
 		}
