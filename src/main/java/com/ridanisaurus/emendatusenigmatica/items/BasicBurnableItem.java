@@ -31,8 +31,12 @@ import net.minecraft.item.ItemStack;
 public class BasicBurnableItem extends BasicItem {
 	private final int burnTime;
 
-	public BasicBurnableItem(int burnTime, int color) {
-		super(color);
+//	public BasicBurnableItem(int burnTime, int color) {
+//		super(color);
+//		this.burnTime = burnTime;
+//	}
+
+	public BasicBurnableItem(int burnTime) {
 		this.burnTime = burnTime;
 	}
 

@@ -77,11 +77,12 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("ingot")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_ingot").parent(new ModelFile.UncheckedModelFile("item/generated"));
 
-                    if (material.getColor() == -1) {
+//                    if (material.getColor() == -1) {
+//                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
+//                    } else {
+//                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot"));
+//                    }
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot"));
-                    }
                 }
 
                 // Nuggets
@@ -185,9 +186,6 @@ public class ItemModelsGen extends ItemModelProvider {
                         parent.parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
                             .customLoader(DynamicBucketModelBuilder::begin)
                             .fluid(EERegistrar.fluidSourceMap.get(material.getId()).get());
-//                    parent.parent(new ModelFile.UncheckedModelFile("item/generated"));
-//                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/bucket_fluid_drip"));
-//                    parent.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/bucket"));
                 }
             }
         }

@@ -28,6 +28,8 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.loading.FMLPaths;
 
+import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 public class DataGeneratorFactory {
@@ -37,6 +39,15 @@ public class DataGeneratorFactory {
     public static void init() {
         ROOT_PATH = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/default");
     }
+
+//    public static void init() {
+//        try {
+//            FileSystem fs = MemoryFileSystemBuilder.newEmpty().addRoot("/").setCurrentWorkingDirectory("/emendatusenigmatica").setCaseSensitive(true).build();
+//            ROOT_PATH = fs.getPath("/emendatusenigmatica");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static DataGenerator createMemoryDataGenerator() {
         return new DataGenerator(ROOT_PATH, ImmutableList.of());

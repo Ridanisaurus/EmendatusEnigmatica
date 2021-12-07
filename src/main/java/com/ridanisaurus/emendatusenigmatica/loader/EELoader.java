@@ -93,7 +93,6 @@ public class EELoader {
 
 		for (StrataModel strata : strataModels) {
 			for (MaterialModel material : materialModels) {
-				// Do I need Ore if it's under Material and not Alloy?
 				if (material.getProcessedType().contains("ore")) {
 					EERegistrar.registerOre(strata, material);
 				}
@@ -136,6 +135,4 @@ public class EELoader {
 			}
 		}
 	}
-
-
 }

@@ -46,6 +46,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.ResourcePackList;
+import net.minecraft.resources.ResourcePackType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -99,7 +100,8 @@ public class EmendatusEnigmatica {
         registerDataGen();
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.RESOURCE));
+//            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.RESOURCE));
+            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(ResourcePackType.CLIENT_RESOURCES));
         }
 
         MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
@@ -107,7 +109,8 @@ public class EmendatusEnigmatica {
 
     // Data Pack
     public void onServerStart(final FMLServerAboutToStartEvent event) {
-        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.DATA));
+//        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.DATA));
+        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(ResourcePackType.SERVER_DATA));
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -148,6 +151,7 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+        generator.addProvider(new CombinedTextureGen(generator, existingFileHelper));
         generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
         generator.addProvider(blockTagsGeneration);
         generator.addProvider(new FluidTagsGen(generator, existingFileHelper));
@@ -171,7 +175,8 @@ public class EmendatusEnigmatica {
 
     public static void injectDatapackFinder(ResourcePackList resourcePacks) {
         if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackRepository(), () -> () -> true)) {
-            resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
+//            resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
+            resourcePacks.addPackFinder(new EEPackFinder(ResourcePackType.CLIENT_RESOURCES));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
     }

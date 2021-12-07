@@ -44,4 +44,6 @@ public class DefaultBiomeFeaturesMixin {
 		builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_SMALL);
 		ci.cancel();
 	}
+
+	// TODO: Remove NetherQuartz and Gold from Basalt Deltas - BiomeMarker.java -> basaltDeltasBiome
 }

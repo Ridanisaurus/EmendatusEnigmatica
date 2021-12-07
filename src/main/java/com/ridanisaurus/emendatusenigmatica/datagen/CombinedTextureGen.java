@@ -24,34 +24,35 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.resources.IPackFinder;
-import net.minecraft.resources.IPackNameDecorator;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackType;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.data.DataGenerator;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-import java.nio.file.Path;
-import java.util.function.Consumer;
-
-public class EEPackFinder implements IPackFinder {
-
-
-//	private final PackType type;
-	private final ResourcePackType type;
-
-//	public EEPackFinder(PackType type) {
-	public EEPackFinder(ResourcePackType type) {
-
-		this.type = type;
+public class CombinedTextureGen extends CombinedTextureProvider{
+	public CombinedTextureGen(DataGenerator gen, ExistingFileHelper existingFileHelper)
+	{
+		super(gen, existingFileHelper, Reference.MOD_ID);
 	}
 
 	@Override
-	public void loadPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
-		Path rootPath = DataGeneratorFactory.ROOT_PATH;
-		// type.getSuffix()
-		ResourcePackInfo pack = ResourcePackInfo.create("emendatusenigmatica_" + type.getDirectory(), true,
-				() -> new InMemoryPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.DEFAULT);
-		if (pack != null) {
-			infoConsumer.accept(pack);
+	public void registerTextures()
+	{
+		for (MaterialModel material : EELoader.MATERIALS) {
+			for (String processedType : material.getProcessedType()) {
+
+				if (processedType.equals("ingot")) {
+					CombinedTexture combinedTexture = createTexture("items/" + material.getId() + "_ingot", "base/ingot");
+
+					for (String texturePart : material.getTextureParts())
+					{
+						combinedTexture.layerColor(texturePart, material.getColorMap().getOrDefault(texturePart, 0xFFFFFF));
+					}
+
+				}
+
+			}
 		}
 	}
 }
