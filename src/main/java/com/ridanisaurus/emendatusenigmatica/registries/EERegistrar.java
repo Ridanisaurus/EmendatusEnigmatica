@@ -35,6 +35,8 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.chemical.slurry.SlurryBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
@@ -64,13 +66,16 @@ public class EERegistrar {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
+    public static final DeferredRegister<Slurry> SLURRIES = DeferredRegister.create(Slurry.class, Reference.MOD_ID);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
+    // Blocks
     public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
     public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
     public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 
+    // Items
     public static Map<String, RegistryObject<Item>> chunkMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> clusterMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> ingotMap = new HashMap<>();
@@ -81,6 +86,16 @@ public class EERegistrar {
     public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
+    // Mekanism Compat
+    public static Map<String, RegistryObject<Slurry>> cleanSlurryMap = new HashMap<>();
+    public static Map<String, RegistryObject<Slurry>> dirtySlurryMap = new HashMap<>();
+
+    // Fluids
+    public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
+    public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
+    public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
+    public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
+
     public static final ResourceLocation FLUID_STILL_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still");
     public static final ResourceLocation FLUID_FLOWING_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_flow");
     public static final ResourceLocation FLUID_OVERLAY_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_overlay");
@@ -89,12 +104,6 @@ public class EERegistrar {
     public static  RegistryObject<FlowingFluid> fluidFlowing;
     public static  RegistryObject<FlowingFluidBlock> fluidBlock;
     public static  RegistryObject<Item> fluidBucket;
-
-    public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
-    public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
-    public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
-    public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
-
 
     public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<FlowingFluidBlock> block, Supplier<Item> bucket, int color) {
         return new ForgeFlowingFluid.Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
@@ -326,10 +335,20 @@ public class EERegistrar {
         }
     }
 
+    public static void registerSlurries(MaterialModel material) {
+        String itemNameClean = "clean_" + material.getId();
+        String itemNameDirty = "dirty_" + material.getId();
+        ResourceLocation ore = new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.getId());
+
+        cleanSlurryMap.put(material.getId(), SLURRIES.register(itemNameClean, () -> new Slurry(SlurryBuilder.clean().ore(ore).color(material.getFluidColor()))));
+        dirtySlurryMap.put(material.getId(), SLURRIES.register(itemNameDirty, () -> new Slurry(SlurryBuilder.dirty().ore(ore).color(material.getFluidColor()))));
+    }
+
     public static void finalize(IEventBus eventBus) {
         ITEMS.register(eventBus);
         BLOCKS.register(eventBus);
         FLUIDS.register(eventBus);
+        SLURRIES.register(eventBus);
         TILE_ENTITY.register(eventBus);
     }
 }

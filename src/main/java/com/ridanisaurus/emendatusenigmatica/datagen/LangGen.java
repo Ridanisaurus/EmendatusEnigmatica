@@ -29,6 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -60,15 +61,10 @@ public class LangGen extends LanguageProvider {
 			for (String processedType : material.getProcessedType()) {
 
 				// Storage Blocks
-				if (processedType.equals("storage_block") && !material.getId().equals("arcane")) {
+				if (processedType.equals("storage_block")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Block of ");
 					sb.append(material.getLocalisedName());
-					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("storage_block") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Block of Mana Gems");
 					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -81,15 +77,10 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Gems
-				if (processedType.equals("gem") && !material.getId().equals("arcane") && !material.getId().equals("coal_coke")) {
+				if (processedType.equals("gem") && !material.getId().equals("coal_coke")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Gem");
-					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("gem") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Gem");
 					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
 				}
 				if (processedType.equals("gem") && material.getId().equals("coal_coke")) {
@@ -144,28 +135,18 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Chunks
-				if (processedType.equals("chunk") && !material.getId().equals("arcane")) {
+				if (processedType.equals("chunk")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Chunk");
 					add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
 				}
-				if (processedType.equals("chunk") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Chunk");
-					add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
-				}
 
 				// Clusters
-				if (processedType.equals("cluster") && !material.getId().equals("arcane")) {
+				if (processedType.equals("cluster")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Cluster");
-					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("cluster") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Cluster");
 					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -180,6 +161,21 @@ public class LangGen extends LanguageProvider {
 					sb2.append("Bucket of Molten ");
 					sb2.append(material.getLocalisedName());
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+				}
+
+				// Slurries
+				if (processedType.equals("slurry")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("Clean ");
+					sb.append(material.getLocalisedName());
+					sb.append(" Slurry");
+					add(EERegistrar.cleanSlurryMap.get(material.getId()).get(), sb.toString());
+
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("Dirty ");
+					sb2.append(material.getLocalisedName());
+					sb2.append(" Slurry");
+					add(EERegistrar.dirtySlurryMap.get(material.getId()).get(), sb2.toString());
 				}
 			}
 		}
@@ -201,6 +197,10 @@ public class LangGen extends LanguageProvider {
 				}
 			}
 		}
+	}
+
+	private void add(Slurry slurry, String name) {
+		add(slurry.getTranslationKey(), name);
 	}
 
 	@Override

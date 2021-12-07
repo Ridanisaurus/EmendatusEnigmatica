@@ -28,8 +28,6 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.nio.file.Path;
 
 public class DataGeneratorFactory {

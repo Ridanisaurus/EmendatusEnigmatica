@@ -133,6 +133,9 @@ public class EELoader {
 			if (material.getProcessedType().contains("fluid")) {
 				EERegistrar.registerFluids(material);
 			}
+			if (material.getProcessedType().contains("slurry")) {
+				EERegistrar.registerSlurries(material);
+			}
 		}
 	}
 }

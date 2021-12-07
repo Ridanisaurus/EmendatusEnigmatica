@@ -154,6 +154,7 @@ public class EmendatusEnigmatica {
         generator.addProvider(new RecipesGen(generator));
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new LangGen(generator));
+        generator.addProvider(new MekanismRecipesGen(generator));
     }
 
     public static void generate() {
