@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:charged_certus_quartz_chunk"
-  },
-  "result": "emendatusenigmatica:charged_certus_quartz_subzero_ash_ore",
-  "count": 1
-}

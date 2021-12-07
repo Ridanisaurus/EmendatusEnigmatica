@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:ridanite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:ridanite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:ridanite_chunk"
+    },
+    {
+      "item": "emendatusenigmatica:ridanite_chunk"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:ridanite_cluster"
+  }
+}

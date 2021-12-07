@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:emerald_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:emerald_chunk",
+    "count": 4
+  }
+}

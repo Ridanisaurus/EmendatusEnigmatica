@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:silver_chunk"
-  },
-  "result": "emendatusenigmatica:silver_flavolite_ore",
-  "count": 1
-}

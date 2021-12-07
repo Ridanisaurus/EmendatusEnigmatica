@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:chunks/gold"
+  },
+  "result": "minecraft:gold_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

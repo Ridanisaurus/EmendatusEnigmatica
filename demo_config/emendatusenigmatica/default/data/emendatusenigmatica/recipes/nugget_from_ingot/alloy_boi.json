@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:alloy_boi_ingot"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:alloy_boi_nugget",
+    "count": 9
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "emendatusenigmatica:ridanite_chunk"
+  },
+  "result": "emendatusenigmatica:ridanite_gravel_ore",
+  "count": 1
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    " G ",
+    " G ",
+    "   "
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:gems/emerald"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:emerald_rod"
+  }
+}

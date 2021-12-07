@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:tin_ore"
-  },
-  "result": "emendatusenigmatica:tin_ingot",
-  "experience": 0.7,
-  "cookingtime": 100
-}

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:arcane_cluster",
+    "emendatusenigmatica:bitumen_cluster",
+    "emendatusenigmatica:coal_cluster",
+    "emendatusenigmatica:diamond_cluster",
+    "emendatusenigmatica:emerald_cluster",
+    "emendatusenigmatica:gold_cluster",
+    "emendatusenigmatica:iron_cluster",
+    "emendatusenigmatica:lapis_cluster",
+    "emendatusenigmatica:lignite_cluster",
+    "emendatusenigmatica:redstone_cluster",
+    "emendatusenigmatica:ridanite_cluster",
+    "emendatusenigmatica:uranium_cluster",
+    "emendatusenigmatica:zinc_cluster"
+  ]
+}

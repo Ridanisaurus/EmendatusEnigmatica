@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "emendatusenigmatica:steel_dust"
-  },
-  "result": "emendatusenigmatica:steel_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}

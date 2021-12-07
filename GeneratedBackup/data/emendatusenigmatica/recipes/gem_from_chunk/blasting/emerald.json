@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:emerald_chunk"
-  },
-  "result": "minecraft:emerald",
-  "experience": 0.7,
-  "cookingtime": 100
-}

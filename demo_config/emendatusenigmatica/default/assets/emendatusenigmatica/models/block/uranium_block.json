@@ -1,0 +1,53 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "base": "emendatusenigmatica:blocks/uranium_block",
+    "particle": "emendatusenigmatica:blocks/uranium_block"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "down": {
+          "texture": "#base",
+          "cullface": "down",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#base",
+          "cullface": "up",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#base",
+          "cullface": "north",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#base",
+          "cullface": "south",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#base",
+          "cullface": "west",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#base",
+          "cullface": "east",
+          "tintindex": 0
+        }
+      }
+    }
+  ]
+}

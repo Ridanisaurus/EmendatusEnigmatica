@@ -1,0 +1,24 @@
+{
+  "id": "ridanite",
+  "localisedName": "Ridanite",
+  "color": "0099ff",
+  "fluidColor": "0xFFFFFF00",
+  "processedType": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "chunk",
+    "cluster",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "oreBlockType": "metal",
+  "properties": {
+      "hardness": 3.0,
+      "resistance": 3.0,
+      "harvestLevel": 1
+  }
+}

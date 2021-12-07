@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "emendatusenigmatica:uranium_scoria_ore"
+  },
+  "result": "emendatusenigmatica:uranium_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

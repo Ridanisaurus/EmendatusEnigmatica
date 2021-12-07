@@ -1,6 +1,7 @@
 {
   "id": "zinc",
   "localisedName": "Zinc",
+  "fluidColor": "0xFFFFFF00",
   "processedType": [
     "ore",
     "storage_block",

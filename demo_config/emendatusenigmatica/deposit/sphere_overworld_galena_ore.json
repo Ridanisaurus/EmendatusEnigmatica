@@ -3,15 +3,20 @@
   "dimensions": [
     "minecraft:overworld"
   ],
+  "whitelistBiomes": [
+    "minecraft:dark_forest"
+  ],
+  "blacklistBiomes": [
+  ],
   "registryName": "sphere_overworld_galena_ore_deposit",
   "config": {
     "blocks": [
       {
-        "material": "lead",
+        "material": "uranium",
         "weight": 10
       },
       {
-        "material": "silver",
+        "material": "zinc",
         "weight": 3
       }
     ],

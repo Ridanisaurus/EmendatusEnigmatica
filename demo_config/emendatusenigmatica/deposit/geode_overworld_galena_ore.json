@@ -3,26 +3,47 @@
   "dimensions": [
     "minecraft:overworld"
   ],
+  "whitelistBiomes": [
+    "minecraft:cold_ocean"
+  ],
+  "blacklistBiomes": [
+  ],
   "registryName": "geode_overworld_galena_ore_deposit",
   "config": {
-    "shellBlocks": [
+    "outerShellBlocks": [
       {
         "block": "minecraft:obsidian",
         "weight": 10
       },
       {
-        "block": "minecraft:bedrock",
+        "block": "minecraft:blackstone",
+        "weight": 3
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "undergarden:shiverstone",
+        "weight": 10
+      },
+      {
+        "block": "undergarden:deepsoil",
         "weight": 3
       }
     ],
     "innerBlocks": [
       {
-        "block": "emendatusenigmatica:lead_ore",
+        "block": "emendatusenigmatica:uranium_ore",
         "weight": 10
       },
       {
-        "block": "emendatusenigmatica:silver_ore",
+        "block": "emendatusenigmatica:zinc_ore",
         "weight": 3
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
       }
     ],
     "fillerTypes": [

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:arcane_chunk",
+    "emendatusenigmatica:bitumen_chunk",
+    "emendatusenigmatica:coal_chunk",
+    "emendatusenigmatica:diamond_chunk",
+    "emendatusenigmatica:emerald_chunk",
+    "emendatusenigmatica:gold_chunk",
+    "emendatusenigmatica:iron_chunk",
+    "emendatusenigmatica:lapis_chunk",
+    "emendatusenigmatica:lignite_chunk",
+    "emendatusenigmatica:redstone_chunk",
+    "emendatusenigmatica:ridanite_chunk",
+    "emendatusenigmatica:uranium_chunk",
+    "emendatusenigmatica:zinc_chunk"
+  ]
+}

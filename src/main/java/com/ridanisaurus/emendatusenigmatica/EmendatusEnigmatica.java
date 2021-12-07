@@ -114,16 +114,10 @@ public class EmendatusEnigmatica {
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
-        //WorldGenHandler.addEEOres(event.getGeneration(), event);
         EEDeposits.generateBiomes(event);
     }
 
-    private void init(final FMLConstructModEvent event) {
-        /*OreHandler.oreBlocks();
-        ItemHandler.oreItems();
-        BlockHandler.blockInit();
-        ItemHandler.itemInit();*/
-    }
+    private void init(final FMLConstructModEvent event) {}
 
     private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {

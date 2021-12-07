@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:copper_chunk"
-  },
-  "result": "emendatusenigmatica:copper_granite_ore",
-  "count": 1
-}

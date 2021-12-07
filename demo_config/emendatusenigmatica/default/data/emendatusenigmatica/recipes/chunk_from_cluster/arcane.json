@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:arcane_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:arcane_chunk",
+    "count": 4
+  }
+}

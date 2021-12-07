@@ -1,6 +1,7 @@
 {
   "id": "uranium",
   "localisedName": "Uranium",
+  "fluidColor": "0xFF00FF00",
   "processedType": [
     "ore",
     "storage_block",
@@ -11,7 +12,8 @@
     "dust",
     "plate",
     "gear",
-    "rod"
+    "rod",
+    "fluid"
   ],
   "isBurnable": true,
   "burnTime": 3200,

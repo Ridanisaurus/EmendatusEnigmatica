@@ -3,12 +3,20 @@
   "dimensions": [
     "minecraft:overworld"
   ],
+  "whitelistBiomes": [
+  ],
+  "blacklistBiomes": [
+    "minecraft:savanna",
+    "minecraft:forest"
+  ],
   "registryName": "vanilla_overworld_uranium_ore_deposit",
   "config": {
     "material": "uranium",
     "fillerTypes": [
+      "minecraft_sand",
       "minecraft_stone",
-      "minecraft_andesite"
+      "minecraft_andesite",
+      "minecraft_granite"
     ],
     "chance": 10,
     "size": 16,

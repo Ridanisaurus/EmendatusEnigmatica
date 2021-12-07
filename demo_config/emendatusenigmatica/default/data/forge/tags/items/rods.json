@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:alloy_boi_rod",
+    "emendatusenigmatica:diamond_rod",
+    "emendatusenigmatica:emerald_rod",
+    "emendatusenigmatica:gold_rod",
+    "emendatusenigmatica:iron_rod",
+    "emendatusenigmatica:lapis_rod",
+    "emendatusenigmatica:ridanite_rod",
+    "emendatusenigmatica:uranium_rod",
+    "emendatusenigmatica:zinc_rod"
+  ]
+}

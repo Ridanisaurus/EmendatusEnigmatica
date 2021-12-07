@@ -1,7 +1,8 @@
 {
-  "id": "aloy_boi",
+  "id": "alloy_boi",
   "localisedName": "Alloy Boi",
   "color": "FF6633",
+  "fluidColor": "0xFF0099FF",
   "processedType": [
     "storage_block",
     "ingot",
@@ -9,6 +10,7 @@
     "dust",
     "plate",
     "gear",
-    "rod"
+    "rod",
+    "fluid"
   ]
 }

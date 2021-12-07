@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "item": "emendatusenigmatica:lignite_cluster"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:lignite_chunk",
+    "count": 4
+  }
+}
