@@ -31,15 +31,13 @@ import net.minecraft.item.Item.Properties;
 
 public class BasicItem extends Item {
 
-//  public final int color;
-//  public BasicItem(int color) {
-//    super(new Properties().tab(EmendatusEnigmatica.TAB));
-//    this.color = color;
-//  }
-
-  public BasicItem() {
+  public final int color;
+  public BasicItem(int color) {
     super(new Properties().tab(EmendatusEnigmatica.TAB));
+    this.color = color;
   }
 
-
+//  public BasicItem() {
+//    super(new Properties().tab(EmendatusEnigmatica.TAB));
+//  }
 }

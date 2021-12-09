@@ -31,6 +31,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
 import net.minecraft.util.ResourceLocation;
@@ -133,8 +134,22 @@ public class EELoader {
 			if (material.getProcessedType().contains("fluid")) {
 				EERegistrar.registerFluids(material);
 			}
-			if (material.getProcessedType().contains("slurry")) {
-				EERegistrar.registerSlurries(material);
+			if (EmendatusEnigmatica.MEKANISM_LOADED) {
+				if (material.getProcessedType().contains("slurry")) {
+					EEMekanismRegistrar.registerSlurries(material);
+				}
+				if (material.getProcessedType().contains("crystal")) {
+					EEMekanismRegistrar.registerCrystals(material);
+				}
+				if (material.getProcessedType().contains("shard")) {
+					EEMekanismRegistrar.registerShards(material);
+				}
+				if (material.getProcessedType().contains("clump")) {
+					EEMekanismRegistrar.registerClumps(material);
+				}
+				if (material.getProcessedType().contains("dirty_dust")) {
+					EEMekanismRegistrar.registerDirtyDusts(material);
+				}
 			}
 		}
 	}

@@ -27,8 +27,9 @@ package com.ridanisaurus.emendatusenigmatica.util;
 public class Reference {
 	public static final String MOD_ID = "emendatusenigmatica";
 	public static final String MOD_NAME = "Emendatus Enigmatica";
-	public static final String FORGE_TAG = "forge";
-	public static final String MINECRAFT_TAG = "minecraft";
+	public static final String FORGE = "forge";
+	public static final String MINECRAFT = "minecraft";
 
-	public static final String AE2_TAG = "appliedenergistics2";
+	public static final String AE2 = "appliedenergistics2";
+	public static final String MEKANISM = "mekanism";
 }

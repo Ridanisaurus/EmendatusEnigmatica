@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;

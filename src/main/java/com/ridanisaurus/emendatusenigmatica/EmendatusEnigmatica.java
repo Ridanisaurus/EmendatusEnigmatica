@@ -34,6 +34,7 @@ import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -42,11 +43,13 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraft.resources.ResourcePackType;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -54,9 +57,11 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -75,27 +80,31 @@ public class EmendatusEnigmatica {
     private static boolean hasGenerated = false;
 
     private static EmendatusEnigmatica instance = null;
+    public static boolean MEKANISM_LOADED = false;
 
     public EmendatusEnigmatica() {
         instance = this;
+        MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
+
+        // Register Deferred Registers and populate their tables once the mod is done constructing
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
+
         DataGeneratorFactory.init();
         EELoader.load();
         EEDeposits.load();
 
-        // Register Deferred Registers and populate their tables once the mod is done constructing
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        // TODO: Add it to EERegistrar
         ContainerHandler.CONTAINERS.register(modEventBus);
 
         EERegistrar.finalize(modEventBus);
+        if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
+        modEventBus.addListener(this::commonEvents);
 
-        // Register World Gen Config
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, WorldGenConfig.COMMON_SPEC, "emendatusenigmatica-common.toml");
-
-        // Setup biome loading event for worldgen!
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, this::biomesHigh);
+        forgeEventBus.addListener(EventPriority.LOWEST, this::biomesHigh);
 
         registerDataGen();
         // Resource Pack
@@ -104,7 +113,7 @@ public class EmendatusEnigmatica {
             Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(ResourcePackType.CLIENT_RESOURCES));
         }
 
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStart);
+        forgeEventBus.addListener(this::onServerStart);
     }
 
     // Data Pack
@@ -119,6 +128,11 @@ public class EmendatusEnigmatica {
 
     private void init(final FMLConstructModEvent event) {}
 
+    private void commonEvents(final FMLCommonSetupEvent event) {
+//        event.enqueueWork(VanillaDepositProcessor::finalize);
+//        VanillaDepositProcessor.finalize(event);
+    }
+
     private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
             RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
@@ -128,6 +142,7 @@ public class EmendatusEnigmatica {
 
         event.getMinecraftSupplier().get().tell(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
         });
@@ -145,7 +160,7 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(new CombinedTextureGen(generator, existingFileHelper));
+//        generator.addProvider(new CombinedTextureGen(generator, existingFileHelper));
         generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
         generator.addProvider(blockTagsGeneration);
         generator.addProvider(new FluidTagsGen(generator, existingFileHelper));
@@ -154,7 +169,12 @@ public class EmendatusEnigmatica {
         generator.addProvider(new RecipesGen(generator));
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new LangGen(generator));
-        generator.addProvider(new MekanismRecipesGen(generator));
+        if (MEKANISM_LOADED) {
+            generator.addProvider(new MekanismDataGen.ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(new MekanismDataGen.ItemModelsGen(generator, existingFileHelper));
+            generator.addProvider(new MekanismDataGen.RecipesGen(generator));
+            generator.addProvider(new MekanismDataGen.LangGen(generator));
+        }
     }
 
     public static void generate() {

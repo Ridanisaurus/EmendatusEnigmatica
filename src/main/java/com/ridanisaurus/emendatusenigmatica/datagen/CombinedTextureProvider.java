@@ -49,13 +49,11 @@ import java.util.Objects;
 // Credit: https://github.com/LatvianModder/CommonResources/blob/master/src/main/java/dev/latvian/mods/commonresources/CombinedTextureProvider.java
 
 public abstract class CombinedTextureProvider implements IDataProvider {
-	private static float[] rgb(int col)
-	{
+	private static float[] rgb(int col)	{
 		return new float[] {((col >> 16) & 0xFF) / 255F, ((col >> 8) & 0xFF) / 255F, ((col >> 0) & 0xFF) / 255F};
 	}
 
-	public static class Layer
-	{
+	public static class Layer {
 		public final int color;
 		public final String name;
 		public float[] multiply;
@@ -70,15 +68,13 @@ public abstract class CombinedTextureProvider implements IDataProvider {
 		}
 	}
 
-	public static class CachedImage
-	{
+	public static class CachedImage	{
 		public final int width;
 		public final int height;
 		public final int[] pixels;
 		public final Int2ObjectOpenHashMap<Layer> layerMap;
 
-		public CachedImage(int w, int h, int[] p)
-		{
+		public CachedImage(int w, int h, int[] p) {
 			width = w;
 			height = h;
 			pixels = p;

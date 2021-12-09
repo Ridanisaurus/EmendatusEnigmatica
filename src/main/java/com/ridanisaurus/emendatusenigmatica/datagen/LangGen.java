@@ -162,21 +162,6 @@ public class LangGen extends LanguageProvider {
 					sb2.append(material.getLocalisedName());
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
-
-				// Slurries
-				if (processedType.equals("slurry")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Clean ");
-					sb.append(material.getLocalisedName());
-					sb.append(" Slurry");
-					add(EERegistrar.cleanSlurryMap.get(material.getId()).get(), sb.toString());
-
-					StringBuilder sb2 = new StringBuilder();
-					sb2.append("Dirty ");
-					sb2.append(material.getLocalisedName());
-					sb2.append(" Slurry");
-					add(EERegistrar.dirtySlurryMap.get(material.getId()).get(), sb2.toString());
-				}
 			}
 		}
 

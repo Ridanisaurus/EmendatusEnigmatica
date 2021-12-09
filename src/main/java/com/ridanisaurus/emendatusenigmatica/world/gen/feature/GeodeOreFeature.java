@@ -90,7 +90,6 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		return true;
 	}
 
-	// TODO: Make the geode itself hollow by adding a sphere of minecraft:air blocks
 	private void generateHollowSphere(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
