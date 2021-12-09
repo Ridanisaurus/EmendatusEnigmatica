@@ -34,7 +34,6 @@ import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Block;
@@ -43,13 +42,11 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.resources.ResourcePackList;
 import net.minecraft.resources.ResourcePackType;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -170,10 +167,10 @@ public class EmendatusEnigmatica {
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new LangGen(generator));
         if (MEKANISM_LOADED) {
-            generator.addProvider(new MekanismDataGen.ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-            generator.addProvider(new MekanismDataGen.ItemModelsGen(generator, existingFileHelper));
-            generator.addProvider(new MekanismDataGen.RecipesGen(generator));
-            generator.addProvider(new MekanismDataGen.LangGen(generator));
+            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
+            generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
+            generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
         }
     }
 

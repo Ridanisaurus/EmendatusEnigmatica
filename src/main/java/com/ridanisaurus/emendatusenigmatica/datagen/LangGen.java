@@ -24,9 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import mekanism.api.chemical.slurry.Slurry;
@@ -161,6 +163,52 @@ public class LangGen extends LanguageProvider {
 					sb2.append("Bucket of Molten ");
 					sb2.append(material.getLocalisedName());
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+				}
+
+				if (EmendatusEnigmatica.MEKANISM_LOADED) {
+					// Slurries
+					if (processedType.contains("slurry")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Dirty ");
+						sb.append(material.getLocalisedName());
+						sb.append(" Slurry");
+						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
+
+						StringBuilder sb2 = new StringBuilder();
+						sb2.append("Clean ");
+						sb2.append(material.getLocalisedName());
+						sb2.append(" Slurry");
+						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
+					}
+					// Crystals
+					if (processedType.contains("crystal")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Crystal");
+						add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
+					}
+					// Shards
+					if (processedType.contains("shard")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Shard");
+						add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
+					}
+					// Clumps
+					if (processedType.contains("clump")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Clump");
+						add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
+					}
+					// Dirty Dusts
+					if (processedType.contains("dirty_dust")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Dirty ");
+						sb.append(material.getLocalisedName());
+						sb.append(" Dust");
+						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
+					}
 				}
 			}
 		}

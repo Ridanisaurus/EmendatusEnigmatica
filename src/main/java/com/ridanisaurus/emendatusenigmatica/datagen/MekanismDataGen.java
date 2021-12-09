@@ -30,15 +30,18 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.chemical.ChemicalTags;
 import mekanism.api.chemical.gas.Gas;
-import mekanism.api.datagen.recipe.builder.ChemicalDissolutionRecipeBuilder;
-import mekanism.api.datagen.recipe.builder.FluidSlurryToSlurryRecipeBuilder;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.datagen.recipe.builder.*;
+import mekanism.api.datagen.tag.ChemicalTagsProvider;
 import mekanism.api.recipes.inputs.FluidStackIngredient;
 import mekanism.api.recipes.inputs.ItemStackIngredient;
 import mekanism.api.recipes.inputs.chemical.GasStackIngredient;
 import mekanism.api.recipes.inputs.chemical.SlurryStackIngredient;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -46,7 +49,6 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.LanguageProvider;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -54,10 +56,12 @@ import java.util.function.Consumer;
 public class MekanismDataGen {
 
 	private static final Gas SULFURIC_ACID = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "sulfuric_acid"));
+	private static final Gas HYDROGEN_CHLORIDE = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "hydrogen_chloride"));
+	private static final Gas OXYGEN = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "oxygen"));
 
-	public static class RecipesGen extends RecipeProvider {
+	public static class MekanismRecipes extends RecipeProvider {
 
-		public RecipesGen(DataGenerator gen) {
+		public MekanismRecipes(DataGenerator gen) {
 			super(gen);
 		}
 
@@ -66,7 +70,7 @@ public class MekanismDataGen {
 			// TODO: Add more Mekanism Recipes
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				if (processedType.contains("slurry")) {
+				if (processedType.contains("slurry") && processedType.contains("ore")) {
 					// Dirty Slurry from Ore in the Dissolution Chamber
 					ChemicalDissolutionRecipeBuilder.dissolution(
 							ItemStackIngredient.from(EETags.MATERIAL_ORE.apply(material.getId())),
@@ -80,7 +84,69 @@ public class MekanismDataGen {
 							EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getStack(1)
 					).build(consumer, new ResourceLocation(Reference.MOD_ID, "clean_slurry_from_dirty_slurry/" + material.getId()));
 				}
+				if (processedType.contains("crystal") && processedType.contains("slurry")) {
+					// Crystal from Clean Slurry
+					ChemicalCrystallizerRecipeBuilder.crystallizing(
+							SlurryStackIngredient.from(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get(),200),
+							getItemStack(EEMekanismRegistrar.crystalMap.get(material.getId()).get())
+							).build(consumer, new ResourceLocation(Reference.MOD_ID, "crystal_from_clean_slurry/" + material.getId()));
+
+				}
+				if (processedType.contains("shard") && processedType.contains("crystal")) {
+					// Shard from Crystal
+					ItemStackGasToItemStackRecipeBuilder.injecting(
+							ItemStackIngredient.from(EETags.MATERIAL_CRYSTAL.apply(material.getId())),
+							GasStackIngredient.from(HYDROGEN_CHLORIDE, 1),
+							getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get())
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard_from_crystal/" + material.getId()));
+				}
+				if (processedType.contains("shard") && processedType.contains("ore")) {
+					// Shard from Ore
+					ItemStackGasToItemStackRecipeBuilder.injecting(
+							ItemStackIngredient.from(EETags.MATERIAL_ORE.apply(material.getId())),
+							GasStackIngredient.from(HYDROGEN_CHLORIDE, 1),
+							getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get(), 4)
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard_from_ore/" + material.getId()));
+				}
+				if (processedType.contains("clump") && processedType.contains("shard")) {
+					// Clump from Shard
+					ItemStackGasToItemStackRecipeBuilder.purifying(
+							ItemStackIngredient.from(EETags.MATERIAL_SHARD.apply(material.getId())),
+							GasStackIngredient.from(OXYGEN, 1),
+							getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get())
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump_from_shard/" + material.getId()));
+				}
+				if (processedType.contains("clump") && processedType.contains("ore")) {
+					// Clump from Ore
+					ItemStackGasToItemStackRecipeBuilder.purifying(
+							ItemStackIngredient.from(EETags.MATERIAL_ORE.apply(material.getId())),
+							GasStackIngredient.from(OXYGEN, 1),
+							getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), 3)
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump_from_ore/" + material.getId()));
+				}
+				if (processedType.contains("dirty_dust") && processedType.contains("clump")) {
+					// Dirty Dust from Clump
+					ItemStackToItemStackRecipeBuilder.crushing(
+							ItemStackIngredient.from(EETags.MATERIAL_CLUMP.apply(material.getId())),
+							getItemStack(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get())
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "dirty_dust_from_clump/" + material.getId()));
+				}
+				if (processedType.contains("dust") && processedType.contains("dirty_dust")) {
+					// Dust from Dirty Dust
+					ItemStackToItemStackRecipeBuilder.enriching(
+							ItemStackIngredient.from(EETags.MATERIAL_DIRTY_DUST.apply(material.getId())),
+							getItemStack(EERegistrar.dustMap.get(material.getId()).get())
+					).build(consumer, new ResourceLocation(Reference.MOD_ID, "dust_from_dirty_dust/" + material.getId()));
+				}
 			}
+		}
+
+		private ItemStack getItemStack(Item item, int size) {
+			return new ItemStack(item, size);
+		}
+
+		private ItemStack getItemStack(Item item) {
+			return getItemStack(item, 1);
 		}
 
 		@Override
@@ -89,70 +155,9 @@ public class MekanismDataGen {
 		}
 	}
 
-	public static class LangGen extends LanguageProvider {
-		public LangGen(DataGenerator gen) {
-			super(gen, Reference.MOD_ID, "en_us");
-		}
+	public static class MekanismItemModels extends ItemModelProvider {
 
-		@Override
-		protected void addTranslations() {
-			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
-				// Slurries
-				if (processedType.contains("slurry")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Dirty ");
-					sb.append(material.getLocalisedName());
-					sb.append(" Slurry");
-					add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
-
-					StringBuilder sb2 = new StringBuilder();
-					sb2.append("Clean ");
-					sb2.append(material.getLocalisedName());
-					sb2.append(" Slurry");
-					add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
-				}
-				// Crystals
-				if (processedType.contains("crystal")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
-					sb.append(" Crystal");
-					add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
-				}
-				// Shards
-				if (processedType.contains("shard")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
-					sb.append(" Shard");
-					add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
-				}
-				// Clumps
-				if (processedType.contains("clump")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
-					sb.append(" Clump");
-					add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
-				}
-				// Dirty Dusts
-				if (processedType.contains("dirty_dust")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Dirty ");
-					sb.append(material.getLocalisedName());
-					sb.append(" Dust");
-					add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
-				}
-			}
-		}
-
-		@Override
-		public String getName() {
-			return "Emendatus Enigmatica Mekanism Languages: en_us";
-		}
-	}
-
-	public static class ItemModelsGen extends ItemModelProvider {
-
-		public ItemModelsGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+		public MekanismItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
 			super(generator, Reference.MOD_ID, existingFileHelper);
 		}
 
@@ -207,15 +212,15 @@ public class MekanismDataGen {
 
 	}
 
-	public static class ItemTagsGen extends ItemTagsProvider {
+	public static class MekanismItemTags extends ItemTagsProvider {
 
-		public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+		public MekanismItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
 			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
 		@Override
 		protected void addTags() {
-			// Forge Tags
+			// Mekanism Tags
 			Builder<Item> mekanismCrystals = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals").toString()));
 			Builder<Item> mekanismShards = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards").toString()));
 			Builder<Item> mekanismClumps = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps").toString()));
@@ -254,4 +259,37 @@ public class MekanismDataGen {
 			return "Emendatus Enigmatica Mekanism Item Tags";
 		}
 	}
+
+//	public static class MekanismSlurryTags extends ChemicalTagsProvider.SlurryTagsProvider {
+//
+//		public MekanismSlurryTags(DataGenerator gen, ExistingFileHelper existingFileHelper) {
+//			super(gen, Reference.MOD_ID, existingFileHelper);
+//		}
+//
+//		@Override
+//		protected void addTags() {
+//			// TODO: Add Mekanism Slurry Tags
+//			// Forge Tags
+//			Builder<Slurry> mekanismDirtySlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "dirty")));
+//			Builder<Slurry> mekanismCleanSlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "clean")));
+//
+//			for (MaterialModel material : EELoader.MATERIALS) {
+//				List<String> processedType = material.getProcessedType();
+//				// Crystals
+//				if (processedType.contains("slurry")) {
+//					mekanismDirtySlurries.add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get());
+//					Builder<Slurry> dirtySlurryTag = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "slurries/dirty")));
+//					dirtySlurryTag.add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get());
+//					mekanismCleanSlurries.add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get());
+//					Builder<Slurry> cleanSlurryTag = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "slurries/clean")));
+//					cleanSlurryTag.add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get());
+//				}
+//			}
+//		}
+//
+//		@Override
+//		public String getName() {
+//			return "Emendatus Enigmatica Mekanism Slurry Tags";
+//		}
+//	}
 }
