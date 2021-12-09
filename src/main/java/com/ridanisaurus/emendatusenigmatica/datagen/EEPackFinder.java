@@ -49,7 +49,7 @@ public class EEPackFinder implements IPackFinder {
 		Path rootPath = DataGeneratorFactory.ROOT_PATH;
 		// type.getSuffix()
 		ResourcePackInfo pack = ResourcePackInfo.create("emendatusenigmatica_" + type.getDirectory(), true,
-				() -> new InMemoryPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.DEFAULT);
+				() -> new GeneratedPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.DEFAULT);
 		if (pack != null) {
 			infoConsumer.accept(pack);
 		}

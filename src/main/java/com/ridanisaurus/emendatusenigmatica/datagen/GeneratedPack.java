@@ -19,10 +19,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class InMemoryPack implements IResourcePack {
+public class GeneratedPack implements IResourcePack {
     private final Path path;
 
-    public InMemoryPack(Path path) {
+    public GeneratedPack(Path path) {
         EmendatusEnigmatica.generate();
         this.path = path;
     }
@@ -124,7 +124,7 @@ public class InMemoryPack implements IResourcePack {
 
     @Override
     public String getName() {
-        return "In Memory Pack";
+        return "EE Generated Pack";
     }
 
     @Override

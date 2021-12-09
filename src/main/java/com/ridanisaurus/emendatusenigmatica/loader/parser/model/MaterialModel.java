@@ -122,6 +122,7 @@ public class MaterialModel {
 		return color.map(x -> Integer.parseInt(x, 16)).orElse(-1);
 	}
 
+	// TODO: Once the ColorMap is implemented, this should be replaced the same color value provided instead of having a specific fluidColor
 	public int getFluidColor() {
 		Long L = Long.decode(fluidColor);
 		return L.intValue();
@@ -135,7 +136,7 @@ public class MaterialModel {
 		return oreBlockDropType;
 	}
 
-
+	// TODO: This is a text colorMap number. Requires refinement
 	public Map<String, Integer> getColorMap() {
 		colorMap.put("borderDark", 0xFFFFFF & getColor() - 8);
 		colorMap.put("borderLight", 0xFFFFFF & getColor() - 6);

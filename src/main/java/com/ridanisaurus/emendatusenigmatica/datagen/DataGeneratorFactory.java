@@ -47,7 +47,7 @@ public class DataGeneratorFactory {
 //        }
 //    }
 
-    public static DataGenerator createMemoryDataGenerator() {
+    public static DataGenerator createEEDataGenerator() {
         return new DataGenerator(ROOT_PATH, ImmutableList.of());
     }
 }

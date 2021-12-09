@@ -153,7 +153,7 @@ public class EmendatusEnigmatica {
     };
 
     private void registerDataGen() {
-        generator = DataGeneratorFactory.createMemoryDataGenerator();
+        generator = DataGeneratorFactory.createEEDataGenerator();
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
