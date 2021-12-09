@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:zinc_limestone_ore"
-  },
-  "result": "emendatusenigmatica:zinc_ingot",
-  "experience": 0.7,
-  "cookingtime": 100
-}

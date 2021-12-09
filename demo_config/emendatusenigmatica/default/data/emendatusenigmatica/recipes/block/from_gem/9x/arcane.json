@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:gems/arcane"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:arcane_block"
+  }
+}

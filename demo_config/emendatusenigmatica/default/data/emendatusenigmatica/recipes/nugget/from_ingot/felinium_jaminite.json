@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/felinium_jaminite"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:felinium_jaminite_nugget",
+    "count": 9
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:zinc_chunk"
-  },
-  "result": "emendatusenigmatica:zinc_gravel_ore",
-  "count": 1
-}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/arcane"
+  },
+  "result": "emendatusenigmatica:arcane_depthrock_ore",
+  "count": 1
+}

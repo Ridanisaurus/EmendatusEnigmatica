@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/arcane"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:arcane_gem",
+    "count": 9
+  }
+}

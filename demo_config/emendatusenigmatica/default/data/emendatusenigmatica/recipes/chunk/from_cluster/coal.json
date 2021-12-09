@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:clusters/coal"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:coal_chunk",
+    "count": 4
+  }
+}

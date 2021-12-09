@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:nuggets/zinc"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:zinc_ingot"
+  }
+}

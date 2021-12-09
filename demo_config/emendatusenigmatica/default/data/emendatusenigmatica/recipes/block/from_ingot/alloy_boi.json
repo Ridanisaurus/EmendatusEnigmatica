@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/alloy_boi"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:alloy_boi_block"
+  }
+}

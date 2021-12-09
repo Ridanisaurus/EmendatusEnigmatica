@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/emerald"
+  },
+  "result": "emendatusenigmatica:emerald_scoria_ore",
+  "count": 1
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mekanism:enriching",
+  "input": {
+    "ingredient": {
+      "tag": "mekanism:dirty_dusts/zinc"
+    }
+  },
+  "output": {
+    "item": "emendatusenigmatica:zinc_dust"
+  }
+}

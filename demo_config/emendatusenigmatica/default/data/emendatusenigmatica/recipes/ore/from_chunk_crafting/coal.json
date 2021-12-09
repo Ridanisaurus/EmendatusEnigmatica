@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/coal"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:coal_ore"
+  }
+}

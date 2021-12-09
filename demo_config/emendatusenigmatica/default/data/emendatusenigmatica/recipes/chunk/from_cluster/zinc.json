@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:clusters/zinc"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:zinc_chunk",
+    "count": 4
+  }
+}

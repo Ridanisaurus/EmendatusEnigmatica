@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/lignite"
+  },
+  "result": "emendatusenigmatica:lignite_jasper_ore",
+  "count": 1
+}

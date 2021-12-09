@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/redstone"
+  },
+  "result": "emendatusenigmatica:redstone_depthrock_ore",
+  "count": 1
+}

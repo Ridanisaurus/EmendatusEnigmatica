@@ -1,5 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;
@@ -8,6 +9,7 @@ import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 import java.util.Arrays;

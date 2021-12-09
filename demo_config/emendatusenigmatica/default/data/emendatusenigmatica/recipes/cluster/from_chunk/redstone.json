@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/redstone"
+    },
+    {
+      "tag": "forge:chunks/redstone"
+    },
+    {
+      "tag": "forge:chunks/redstone"
+    },
+    {
+      "tag": "forge:chunks/redstone"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:redstone_cluster"
+  }
+}

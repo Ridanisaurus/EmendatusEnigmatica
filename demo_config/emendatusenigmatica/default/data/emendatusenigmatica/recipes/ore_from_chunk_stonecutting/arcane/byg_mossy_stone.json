@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:arcane_chunk"
-  },
-  "result": "emendatusenigmatica:arcane_mossy_stone_ore",
-  "count": 1
-}

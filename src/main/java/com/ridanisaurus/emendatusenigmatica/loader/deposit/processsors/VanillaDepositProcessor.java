@@ -99,8 +99,8 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 				.count(count));
 	}
 
-	@SubscribeEvent
-	public void featureRegistry(final RegistryEvent.Register<Feature<?>> registryEvent) {
-		registryEvent.getRegistry().register(new VanillaOreFeature(OreFeatureConfig.CODEC, model).setRegistryName(new ResourceLocation(Reference.MOD_ID, model.getName())));
-	}
+//	@SubscribeEvent
+//	public void featureRegistry(final RegistryEvent.Register<Feature<?>> registryEvent) {
+//		registryEvent.getRegistry().register(new VanillaOreFeature(OreFeatureConfig.CODEC, model).setRegistryName(new ResourceLocation(Reference.MOD_ID, model.getName())));
+//	}
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/diamond"
+    },
+    {
+      "tag": "forge:chunks/diamond"
+    },
+    {
+      "tag": "forge:chunks/diamond"
+    },
+    {
+      "tag": "forge:chunks/diamond"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:diamond_cluster"
+  }
+}
