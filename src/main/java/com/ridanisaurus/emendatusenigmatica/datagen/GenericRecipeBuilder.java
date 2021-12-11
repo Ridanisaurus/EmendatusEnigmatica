@@ -77,9 +77,7 @@ public class GenericRecipeBuilder {
 
 	public GenericRecipeBuilder fieldString(String key, String value) {
 		if (this.fieldValueString.containsKey(key)) {
-			throw new IllegalArgumentException("Symbol '" + key + "' is already defined!");
-		} else if (key.equals(" ")) {
-			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
 			this.fieldValueString.put(key, value);
 			return this;
@@ -88,9 +86,7 @@ public class GenericRecipeBuilder {
 
 	public GenericRecipeBuilder fieldInt(String key, int value) {
 		if (this.fieldValueInt.containsKey(key)) {
-			throw new IllegalArgumentException("Symbol '" + key + "' is already defined!");
-		} else if (key.equals(" ")) {
-			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
 			this.fieldValueInt.put(key, value);
 			return this;
@@ -99,9 +95,7 @@ public class GenericRecipeBuilder {
 
 	public GenericRecipeBuilder fieldFloat(String key, float value) {
 		if (this.fieldValueFloat.containsKey(key)) {
-			throw new IllegalArgumentException("Symbol '" + key + "' is already defined!");
-		} else if (key.equals(" ")) {
-			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
 			this.fieldValueFloat.put(key, value);
 			return this;
@@ -110,9 +104,7 @@ public class GenericRecipeBuilder {
 
 	public GenericRecipeBuilder fieldItem(String key, IItemProvider value) {
 		if (this.fieldValueItem.containsKey(key)) {
-			throw new IllegalArgumentException("Symbol '" + key + "' is already defined!");
-		} else if (key.equals(" ")) {
-			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
+			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
 			this.fieldValueItem.put(key, value);
 			return this;
