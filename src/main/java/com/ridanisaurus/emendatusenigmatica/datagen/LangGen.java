@@ -165,6 +165,7 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
 
+				// TODO: Look into moving this to the MekanismDataGen class
 				if (EmendatusEnigmatica.MEKANISM_LOADED) {
 					// Slurries
 					if (processedType.contains("slurry")) {

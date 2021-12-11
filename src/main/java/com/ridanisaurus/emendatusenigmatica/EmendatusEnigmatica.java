@@ -78,10 +78,12 @@ public class EmendatusEnigmatica {
 
     private static EmendatusEnigmatica instance = null;
     public static boolean MEKANISM_LOADED = false;
+    public static boolean CREATE_LOADED = false;
 
     public EmendatusEnigmatica() {
         instance = this;
         MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
+        CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);
 
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -96,6 +98,7 @@ public class EmendatusEnigmatica {
 
         EERegistrar.finalize(modEventBus);
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
+        if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
@@ -168,9 +171,13 @@ public class EmendatusEnigmatica {
         generator.addProvider(new LangGen(generator));
         if (MEKANISM_LOADED) {
             generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+            // TODO: Fix Slurry Tags
 //            generator.addProvider(new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
             generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
             generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
+        }
+        if (CREATE_LOADED) {
+            generator.addProvider(new CreateDataGen.CreateRecipes(generator));
         }
     }
 

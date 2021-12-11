@@ -31,6 +31,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
@@ -149,6 +150,11 @@ public class EELoader {
 				}
 				if (material.getProcessedType().contains("dirty_dust")) {
 					EEMekanismRegistrar.registerDirtyDusts(material);
+				}
+			}
+			if (EmendatusEnigmatica.CREATE_LOADED) {
+				if (material.getProcessedType().contains("crushed_ore")) {
+					EECreateRegistrar.registerCrushedOres(material);
 				}
 			}
 		}

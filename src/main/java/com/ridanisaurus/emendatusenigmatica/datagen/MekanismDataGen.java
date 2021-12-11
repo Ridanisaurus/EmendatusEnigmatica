@@ -67,7 +67,6 @@ public class MekanismDataGen {
 
 		@Override
 		protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
-			// TODO: Add more Mekanism Recipes
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("slurry") && processedType.contains("ore")) {
@@ -268,7 +267,6 @@ public class MekanismDataGen {
 //
 //		@Override
 //		protected void addTags() {
-//			// TODO: Add Mekanism Slurry Tags
 //			// Forge Tags
 //			Builder<Slurry> mekanismDirtySlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "dirty")));
 //			Builder<Slurry> mekanismCleanSlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "clean")));
