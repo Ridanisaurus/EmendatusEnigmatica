@@ -31,20 +31,30 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
-public class BasicStorageBlock extends Block {
-	private final String localisedName;
+import net.minecraft.block.AbstractBlock.Properties;
 
-	public BasicStorageBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName) {
-		super(Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
+public class BasicStorageBlock extends Block implements IColorable {
+	private final String localisedName;
+	public final int color;
+	public BasicStorageBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
+		super(Properties.of(material)
+				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
-				.setRequiresTool());
+				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
+		this.color = color;
 	}
 
 	@Override
-	public IFormattableTextComponent getTranslatedName() {
+	public IFormattableTextComponent getName() {
 		return new StringTextComponent(localisedName);
 	}
+
+	@Override
+	public int getColor() {
+		return color;
+	}
+
+
 }

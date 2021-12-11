@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "emendatusenigmatica:constantan_dust"
-  },
-  "result": "emendatusenigmatica:constantan_ingot",
-  "experience": 0.7,
-  "cookingtime": 100
-}

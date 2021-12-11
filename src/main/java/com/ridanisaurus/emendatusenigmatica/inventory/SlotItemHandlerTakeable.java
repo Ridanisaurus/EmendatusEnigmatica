@@ -40,14 +40,14 @@ public class SlotItemHandlerTakeable extends SlotItemHandler {
 	}
 
 	@Override
-	public boolean canTakeStack(PlayerEntity playerIn) {
+	public boolean mayPickup(PlayerEntity playerIn) {
 		return true;
 	}
 
 	@Override
 	@Nonnull
-	public ItemStack decrStackSize(int amount) {
-		ItemStack stack = this.getStack();
+	public ItemStack remove(int amount) {
+		ItemStack stack = this.getItem();
 		int possible = Math.min(amount, stack.getCount());
 		ItemStack returned = ItemHandlerHelper.copyStackWithSize(stack, possible);
 		stack.shrink(possible);

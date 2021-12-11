@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/iron"
+  },
+  "result": "emendatusenigmatica:iron_end_stone_ore",
+  "count": 1
+}

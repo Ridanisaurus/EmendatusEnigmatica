@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.core.mixin;
 
-import com.ridanisaurus.emendatusenigmatica.config.Config;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
@@ -14,36 +13,37 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DefaultBiomeFeaturesMixin {
 
 	// TODO: (maybe) add config option to overwrite vanilla ores
-	@Inject(method = "withOverworldOres", at = @At("HEAD"), cancellable = true)
-	private static void withOverworldOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+	@Inject(method = "addDefaultOres", at = @At("HEAD"), cancellable = true)
+	private static void addDefaultOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		//if (Config.disableVanillaOres) {
 		ci.cancel();
 		//}
 	}
 
-	@Inject(method = "withExtraGoldOre", at = @At("HEAD"), cancellable = true)
-	private static void withExtraGoldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+	@Inject(method = "addExtraGold", at = @At("HEAD"), cancellable = true)
+	private static void addExtraGold(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		ci.cancel();
 
 	}
 
-	@Inject(method = "withEmeraldOre", at = @At("HEAD"), cancellable = true)
-	private static void withEmeraldOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+	@Inject(method = "addExtraEmeralds", at = @At("HEAD"), cancellable = true)
+	private static void addExtraEmeralds(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		ci.cancel();
 	}
 
-	@Inject(method = "withDebrisOre", at = @At("HEAD"), cancellable = true)
-	private static void withDebrisOre(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
-		ci.cancel();
+//	@Inject(method = "addAncientDebris", at = @At("HEAD"), cancellable = true)
+//	private static void addAncientDebris(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+//		ci.cancel();
+//	}
 
+	@Inject(method = "addNetherDefaultOres", at = @At("HEAD"), cancellable = true)
+	private static void addNetherDefaultOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
+		builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_GRAVEL_NETHER);
+		builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_BLACKSTONE);
+		builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_LARGE);
+		builder.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_SMALL);
+		ci.cancel();
 	}
 
-	@Inject(method = "withCommonNetherBlocks", at = @At("HEAD"), cancellable = true)
-	private static void withCommonNetherBlocks(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
-		builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_GRAVEL_NETHER);
-		builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_BLACKSTONE);
-		builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_LARGE);
-		builder.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Features.ORE_DEBRIS_SMALL);
-		ci.cancel();
-	}
+	// TODO: Remove NetherQuartz and Gold from Basalt Deltas - BiomeMarker.java -> basaltDeltasBiome
 }

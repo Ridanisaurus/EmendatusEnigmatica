@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/bitumen"
+  },
+  "result": "emendatusenigmatica:bitumen_sand_ore",
+  "count": 1
+}

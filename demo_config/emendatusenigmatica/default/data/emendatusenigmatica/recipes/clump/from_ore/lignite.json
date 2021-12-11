@@ -1,0 +1,16 @@
+{
+  "type": "mekanism:purifying",
+  "itemInput": {
+    "ingredient": {
+      "tag": "forge:ores/lignite"
+    }
+  },
+  "gasInput": {
+    "amount": 1,
+    "gas": "mekanism:oxygen"
+  },
+  "output": {
+    "item": "emendatusenigmatica:lignite_clump",
+    "count": 3
+  }
+}

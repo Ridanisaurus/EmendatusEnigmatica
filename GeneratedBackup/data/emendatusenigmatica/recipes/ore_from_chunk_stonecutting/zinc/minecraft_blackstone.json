@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:zinc_chunk"
-  },
-  "result": "emendatusenigmatica:zinc_blackstone_ore",
-  "count": 1
-}

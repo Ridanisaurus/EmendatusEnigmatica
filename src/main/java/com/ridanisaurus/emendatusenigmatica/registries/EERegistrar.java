@@ -31,36 +31,50 @@ import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.chemical.slurry.SlurryBuilder;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class EERegistrar {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
+	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
+	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 
+	// Items
 	public static Map<String, RegistryObject<Item>> chunkMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> clusterMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> ingotMap = new HashMap<>();
@@ -71,78 +85,95 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
+	// Fluids
+	public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
+	public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
+	public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
+
+	public static final ResourceLocation FLUID_STILL_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still");
+	public static final ResourceLocation FLUID_FLOWING_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_flow");
+	public static final ResourceLocation FLUID_OVERLAY_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_overlay");
+
+	public static RegistryObject<FlowingFluid> fluidSource;
+	public static RegistryObject<FlowingFluid> fluidFlowing;
+	public static RegistryObject<FlowingFluidBlock> fluidBlock;
+	public static RegistryObject<Item> fluidBucket;
+
+	public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<FlowingFluidBlock> block, Supplier<Item> bucket, int color) {
+		return new ForgeFlowingFluid.Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
+				.overlay(FLUID_OVERLAY_RL)
+				.color(color)
+				.density(3000)
+				.viscosity(6000)
+				.temperature(1300)
+				.luminosity(15)
+				.sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA)
+				.rarity(Rarity.COMMON)
+		)
+				.block(block)
+				.bucket(bucket);
+	}
+
+	public static void registerFluids(MaterialModel material) {
+		String fluidName = "molten_" + material.getId();
+
+		fluidSource = FLUIDS.register(fluidName,
+				() -> new ForgeFlowingFluid.Source(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getFluidColor())));
+		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
+				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getFluidColor())));
+		fluidBlock = BLOCKS.register(fluidName,
+				() -> new FlowingFluidBlock(fluidSourceMap.get(material.getId()), AbstractBlock.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
+		fluidBucket = ITEMS.register(fluidName + "_bucket",
+				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
+
+		fluidSourceMap.put(material.getId(), fluidSource);
+		fluidFlowingMap.put(material.getId(), fluidFlowing);
+		fluidBlockMap.put(material.getId(), fluidBlock);
+		fluidBucketMap.put(material.getId(), fluidBucket);
+	}
+
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
-		if (material.getOreBlockType().equals("metal")) {
-			if (!material.getProperties().getHasParticle()) {
-				RegistryObject<Block> metalOreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
-						Material.ROCK,
-						material.getProperties().getHardness(),
-						material.getProperties().getResistance(),
-						material.getProperties().getHarvestLevel(),
-						ToolType.PICKAXE,
-						material.getLocalisedName()));
-
-				oreBlockTable.put(strata.getId(), material.getId(), metalOreBlock);
-				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
-			} else {
-				RegistryObject<Block> metalOreBlockWithParticles = BLOCKS.register(oreName, () -> new MetalOreBlockWithParticles(
-						Material.ROCK,
-						material.getProperties().getHardness(),
-						material.getProperties().getResistance(),
-						material.getProperties().getHarvestLevel(),
-						ToolType.PICKAXE,
-						material.getLocalisedName(),
-						material.getProperties().getParticleHex()));
-
-				oreBlockTable.put(strata.getId(), material.getId(), metalOreBlockWithParticles);
-				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(metalOreBlockWithParticles.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
-			}
-		}
+		RegistryObject<Block> oreBlock;
 		if (material.getOreBlockType().equals("gem")) {
-			if (!material.getProperties().getHasParticle()) {
-				RegistryObject<Block> gemOreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
-						Material.ROCK,
-						material.getProperties().getHardness(),
-						material.getProperties().getResistance(),
-						material.getProperties().getHarvestLevel(),
-						ToolType.PICKAXE,
-						material.getLocalisedName(),
-						material.getDropMin(),
-						material.getDropMax()));
-
-				oreBlockTable.put(strata.getId(), material.getId(), gemOreBlock);
-				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(gemOreBlock.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
-			} else {
-				RegistryObject<Block> gemOreBlockWithParticles = BLOCKS.register(oreName, () -> new GemOreBlockWithParticles(
-						Material.ROCK,
-						material.getProperties().getHardness(),
-						material.getProperties().getResistance(),
-						material.getProperties().getHarvestLevel(),
-						ToolType.PICKAXE,
-						material.getLocalisedName(),
-						material.getDropMin(),
-						material.getDropMax(),
-						material.getProperties().getParticleHex()));
-
-				oreBlockTable.put(strata.getId(), material.getId(), gemOreBlockWithParticles);
-				oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(gemOreBlockWithParticles.get(), new Item.Properties().group(EmendatusEnigmatica.TAB))));
-			}
+			oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
+					Material.STONE,
+					material.getProperties().getHardness(),
+					material.getProperties().getResistance(),
+					material.getProperties().getHarvestLevel(),
+					strata.getHarvestTool(),
+					material.getLocalisedName(),
+					material.getDropMin(),
+					material.getDropMax(),
+					material.getColor()));
+		} else {
+			oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
+					Material.STONE,
+					material.getProperties().getHardness(),
+					material.getProperties().getResistance(),
+					material.getProperties().getHarvestLevel(),
+					strata.getHarvestTool(),
+					material.getLocalisedName(),
+					material.getColor()));
 		}
 
-		EELoader.materialsByName.put(new ResourceLocation(Reference.MOD_ID, oreName), material);
+		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
+
+		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
 	}
 
 	public static void registerStorageBlocks(MaterialModel material) {
 		String storageBlockName = material.getId() + "_block";
 
 		RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
-				Material.ROCK,
+				Material.STONE,
 				material.getProperties().getHardness(),
 				material.getProperties().getResistance(),
 				material.getProperties().getHarvestLevel(),
 				ToolType.PICKAXE,
-				material.getLocalisedName()));
+				material.getLocalisedName(),
+				material.getColor()));
 
 		storageBlockMap.put(material.getId(), storageBlock);
 
@@ -160,21 +191,19 @@ public class EERegistrar {
 		String itemName = material.getId() + "_chunk";
 
 		if (material.isBurnable()) {
-			chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
+			chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
 		} else {
-			chunkMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
-
-		EELoader.materialsByName.put(new ResourceLocation(Reference.MOD_ID, itemName), material);
 	}
 
 	public static void registerClusters(MaterialModel material) {
 		String itemName = material.getId() + "_cluster";
 
 		if (material.isBurnable()) {
-			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4)));
+			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getColor())));
 		} else {
-			clusterMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -182,9 +211,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_ingot";
 
 		if (material.isBurnable()) {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
 		} else {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -192,9 +221,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_nugget";
 
 		if (material.isBurnable()) {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() / 10)));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() / 10, material.getColor())));
 		} else {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -202,9 +231,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_gem";
 
 		if (material.isBurnable()) {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
 		} else {
-			gemMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -212,9 +241,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_dust";
 
 		if (material.isBurnable()) {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
 		} else {
-			dustMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -222,9 +251,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_plate";
 
 		if (material.isBurnable()) {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime())));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
 		} else {
-			plateMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -232,9 +261,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_gear";
 
 		if (material.isBurnable()) {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4)));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getColor())));
 		} else {
-			gearMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
 	}
 
@@ -242,23 +271,24 @@ public class EERegistrar {
 		String itemName = material.getId() + "_rod";
 
 		if (material.isBurnable()) {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 2)));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 2, material.getColor())));
 		} else {
-			rodMap.put(material.getId(), ITEMS.register(itemName, BasicItem::new));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
 		}
-	}
-
-	public static void Finalize(IEventBus eventBus) {
-		ITEMS.register(eventBus);
-		BLOCKS.register(eventBus);
-		TILE_ENTITY.register(eventBus);
 	}
 
 	// Machine Items
 	public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
-	public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.create(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+	public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.of(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
 	public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
 
 	// Hammer
 	public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
+
+	public static void finalize(IEventBus eventBus) {
+		ITEMS.register(eventBus);
+		BLOCKS.register(eventBus);
+		FLUIDS.register(eventBus);
+		TILE_ENTITY.register(eventBus);
+	}
 }

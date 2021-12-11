@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/lapis"
+  },
+  "result": "emendatusenigmatica:lapis_ore",
+  "count": 1
+}

@@ -1,0 +1,11 @@
+{
+  "type": "mekanism:crushing",
+  "input": {
+    "ingredient": {
+      "tag": "mekanism:clumps/zinc"
+    }
+  },
+  "output": {
+    "item": "emendatusenigmatica:zinc_dirty_dust"
+  }
+}

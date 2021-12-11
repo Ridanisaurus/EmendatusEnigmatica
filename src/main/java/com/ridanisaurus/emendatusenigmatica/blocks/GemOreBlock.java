@@ -37,24 +37,26 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.Random;
 
-public class GemOreBlock extends Block {
+public class GemOreBlock extends Block implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
+	public final int color;
 
-	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp) {
-		super(AbstractBlock.Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
+	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp, int color) {
+		super(AbstractBlock.Properties.of(material)
+				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
-				.setRequiresTool());
+				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.minExp = minExp;
 		this.maxExp = maxExp;
+		this.color = color;
 	}
 
 	@Override
-	public IFormattableTextComponent getTranslatedName() {
+	public IFormattableTextComponent getName() {
 		return new StringTextComponent(localisedName);
 	}
 
@@ -65,5 +67,10 @@ public class GemOreBlock extends Block {
 	@Override
 	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
 		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	}
+
+	@Override
+	public int getColor() {
+		return color;
 	}
 }

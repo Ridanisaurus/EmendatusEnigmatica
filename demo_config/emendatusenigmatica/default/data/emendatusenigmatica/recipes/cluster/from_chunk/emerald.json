@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/emerald"
+    },
+    {
+      "tag": "forge:chunks/emerald"
+    },
+    {
+      "tag": "forge:chunks/emerald"
+    },
+    {
+      "tag": "forge:chunks/emerald"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:emerald_cluster"
+  }
+}

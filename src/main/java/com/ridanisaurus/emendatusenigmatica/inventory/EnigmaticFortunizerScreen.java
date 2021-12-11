@@ -40,17 +40,17 @@ public class EnigmaticFortunizerScreen extends ContainerScreen<EnigmaticFortuniz
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+	protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		this.renderBackground(matrixStack);
-		this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-		this.blit(matrixStack, this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+		this.minecraft.getTextureManager().bind(BACKGROUND_TEXTURE);
+		this.blit(matrixStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
-		int progressBar = this.container.tileEntity.getProgress(62);
-		this.blit(matrixStack, this.guiLeft + 57, this.guiTop + 37, 176, 0, progressBar + 1, 28);
+		int progressBar = this.menu.tileEntity.getProgress(62);
+		this.blit(matrixStack, this.leftPos + 57, this.topPos + 37, 176, 0, progressBar + 1, 28);
 	}
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
-		this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+		this.renderTooltip(matrixStack, mouseX, mouseY);
 	}
 }

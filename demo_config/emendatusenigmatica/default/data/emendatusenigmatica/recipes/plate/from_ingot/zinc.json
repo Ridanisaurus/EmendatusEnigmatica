@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/zinc"
+    },
+    {
+      "item": "emendatusenigmatica:enigmatic_hammer"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:zinc_plate"
+  }
+}

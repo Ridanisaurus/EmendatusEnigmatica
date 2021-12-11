@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "emendatusenigmatica:molten_alloy_boi_bucket",
+    "emendatusenigmatica:molten_felinium_jaminite_bucket",
+    "emendatusenigmatica:molten_lignite_bucket",
+    "emendatusenigmatica:molten_uranium_bucket",
+    "emendatusenigmatica:molten_zinc_bucket"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "forge:chunks/uranium"
+  },
+  "result": "emendatusenigmatica:uranium_sulphuric_rock_ore",
+  "count": 1
+}

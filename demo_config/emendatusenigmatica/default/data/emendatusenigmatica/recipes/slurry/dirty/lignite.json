@@ -1,0 +1,17 @@
+{
+  "type": "mekanism:dissolution",
+  "itemInput": {
+    "ingredient": {
+      "tag": "forge:ores/lignite"
+    }
+  },
+  "gasInput": {
+    "amount": 1,
+    "gas": "mekanism:sulfuric_acid"
+  },
+  "output": {
+    "slurry": "emendatusenigmatica:dirty_lignite",
+    "amount": 1000,
+    "chemicalType": "slurry"
+  }
+}

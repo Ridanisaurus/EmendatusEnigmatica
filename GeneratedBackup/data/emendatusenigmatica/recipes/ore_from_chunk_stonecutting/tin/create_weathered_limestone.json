@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:tin_chunk"
-  },
-  "result": "emendatusenigmatica:tin_weathered_limestone_ore",
-  "count": 1
-}

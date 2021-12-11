@@ -1,6 +1,7 @@
 {
   "id": "osmium",
   "localisedName": "Osmium",
+  "fluidColor": "0xFF00FF00",
   "processedType": [
     "ore",
     "storage_block",

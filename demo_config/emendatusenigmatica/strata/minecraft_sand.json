@@ -4,5 +4,6 @@
   "suffix": "sand",
   "fillerType": "minecraft:sand",
   "localizedName": "Sand",
-  "modid": "minecraft"
+  "modid": "minecraft",
+  "harvestTool": "shovel"
 }

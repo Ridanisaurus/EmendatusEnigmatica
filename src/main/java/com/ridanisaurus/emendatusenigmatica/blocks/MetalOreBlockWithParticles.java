@@ -39,22 +39,24 @@ import net.minecraftforge.common.ToolType;
 import java.awt.*;
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class MetalOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
 	private final String particleHex;
 
 	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, String particleHex) {
-		super(Properties.create(material)
-				.hardnessAndResistance(hardness, resistance)
+		super(Properties.of(material)
+				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
-				.setRequiresTool());
+				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.particleHex = particleHex;
 	}
 
 	@Override
-	public IFormattableTextComponent getTranslatedName() {
+	public IFormattableTextComponent getName() {
 		return new StringTextComponent(localisedName);
 	}
 
@@ -68,12 +70,12 @@ public class MetalOreBlockWithParticles extends OreBlock {
 
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {
-				BlockPos blockpos = pos.offset(direction);
-				if (!worldIn.getBlockState(blockpos).isOpaqueCube(worldIn, blockpos)) {
+				BlockPos blockpos = pos.relative(direction);
+				if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
 					Direction.Axis direction$axis = direction.getAxis();
-					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getXOffset() : (double)rand.nextFloat();
-					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getYOffset() : (double)rand.nextFloat();
-					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getZOffset() : (double)rand.nextFloat();
+					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
+					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
+					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
 					worldIn.addParticle(new RedstoneParticleData(red, green, blue, 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
 				}
 			}

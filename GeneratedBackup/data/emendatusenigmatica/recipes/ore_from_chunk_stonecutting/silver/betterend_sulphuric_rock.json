@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:silver_chunk"
-  },
-  "result": "emendatusenigmatica:silver_sulphuric_rock_ore",
-  "count": 1
-}

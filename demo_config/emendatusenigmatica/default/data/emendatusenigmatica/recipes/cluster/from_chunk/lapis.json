@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/lapis"
+    },
+    {
+      "tag": "forge:chunks/lapis"
+    },
+    {
+      "tag": "forge:chunks/lapis"
+    },
+    {
+      "tag": "forge:chunks/lapis"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:lapis_cluster"
+  }
+}

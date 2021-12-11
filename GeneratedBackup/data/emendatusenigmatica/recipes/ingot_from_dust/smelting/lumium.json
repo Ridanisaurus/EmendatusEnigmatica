@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "emendatusenigmatica:lumium_dust"
-  },
-  "result": "emendatusenigmatica:lumium_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}

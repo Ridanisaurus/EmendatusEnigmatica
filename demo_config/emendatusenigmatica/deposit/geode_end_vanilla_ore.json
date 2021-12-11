@@ -3,15 +3,30 @@
   "dimensions": [
     "minecraft:the_end"
   ],
+  "whitelistBiomes": [
+  ],
+  "blacklistBiomes": [
+    "minecraft:end_highlands"
+  ],
   "registryName": "geode_end_vanilla_ore_deposit",
   "config": {
-    "shellBlocks": [
+    "outerShellBlocks": [
       {
         "block": "minecraft:obsidian",
         "weight": 10
       },
       {
-        "block": "minecraft:bedrock",
+        "block": "minecraft:blackstone",
+        "weight": 3
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:brain_coral_block",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:brown_concrete",
         "weight": 3
       }
     ],
@@ -26,6 +41,16 @@
       },
       {
         "material": "gold",
+        "weight": 3
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:red_wool",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:green_wool",
         "weight": 3
       }
     ],

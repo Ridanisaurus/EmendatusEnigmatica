@@ -3,9 +3,9 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 

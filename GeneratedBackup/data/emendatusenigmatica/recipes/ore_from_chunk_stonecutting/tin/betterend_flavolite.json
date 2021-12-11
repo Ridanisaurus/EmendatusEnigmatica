@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "emendatusenigmatica:tin_chunk"
-  },
-  "result": "emendatusenigmatica:tin_flavolite_ore",
-  "count": 1
-}

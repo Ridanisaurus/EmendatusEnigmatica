@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/felinium_jaminite"
+    },
+    {
+      "tag": "forge:chunks/felinium_jaminite"
+    },
+    {
+      "tag": "forge:chunks/felinium_jaminite"
+    },
+    {
+      "tag": "forge:chunks/felinium_jaminite"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:felinium_jaminite_cluster"
+  }
+}

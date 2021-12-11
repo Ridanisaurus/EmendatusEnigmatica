@@ -24,7 +24,7 @@ public class MockedNamedTag<T> implements ITag.INamedTag<T> {
 	}
 
 	@Override
-	public List<T> getAllElements() {
+	public List<T> getValues() {
 		return new ArrayList<>();
 	}
 }

@@ -1,6 +1,7 @@
 {
   "id": "zinc",
   "localisedName": "Zinc",
+  "fluidColor": "0xFFd1d1a5",
   "processedType": [
     "ore",
     "storage_block",
@@ -11,7 +12,13 @@
     "dust",
     "plate",
     "gear",
-    "rod"
+    "rod",
+    "fluid",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust"
   ],
   "oreBlockType": "metal",
   "properties": {

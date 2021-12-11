@@ -9,8 +9,10 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.util.NonNullList;
@@ -22,38 +24,49 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
-
-	private final List<CommonBlockDefinitionModel> shellBlocks;
+	private final List<CommonBlockDefinitionModel> outerShellBlocks;
+	private final List<CommonBlockDefinitionModel> innerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerBlocks;
+	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final GeodeDepositModel model;
 
 	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
 		super(codec);
 		this.model = model;
-		shellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel block : model.getConfig().getShellBlocks()) {
+		outerShellBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getOuterShellBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
-			shellBlocks.addAll(filled);
+			outerShellBlocks.addAll(filled);
+		}
+		innerShellBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getInnerShellBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			innerShellBlocks.addAll(filled);
 		}
 		innerBlocks = new ArrayList<>();
 		for (CommonBlockDefinitionModel block : model.getConfig().getInnerBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
 			innerBlocks.addAll(filled);
 		}
+		fillBlocks = new ArrayList<>();
+		for (CommonBlockDefinitionModel block : model.getConfig().getFillBlocks()) {
+			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+			fillBlocks.addAll(filled);
+		}
 	}
 
 	@Override
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
 
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getWorld()))) {
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
 			return false;
 		}
-
 
 		int intRand = rand.nextInt(100);
 		double doubleRand = rand.nextDouble();
@@ -68,8 +81,12 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		int yPos = rand.nextInt(yTop);
 		yPos = Math.max(yPos, yBottom);
 
-		generateHollowSphere(reader, generator, rand, pos, config, shellBlocks, model.getConfig().getRadius(), yPos);
+		generateHollowSphere(reader, generator, rand, pos, config, outerShellBlocks, model.getConfig().getRadius() + 1, yPos);
+		generateHollowSphere(reader, generator, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
 		generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
+		for (int i = model.getConfig().getRadius() -2; i >= 0; i--) {
+			generateHollowSphere(reader, generator, rand, pos, config, fillBlocks, i, yPos);
+		}
 		return true;
 	}
 
@@ -146,11 +163,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
 		if (commonBlockDefinitionModel.getBlock() != null) {
 			Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-			reader.setBlockState(pos, block.getDefaultState(), 2);
+			reader.setBlock(pos, block.defaultBlockState(), 2);
 		} else if (commonBlockDefinitionModel.getTag() != null) {
-			ITag<Block> blockITag = BlockTags.getCollection().get(new ResourceLocation(commonBlockDefinitionModel.getTag()));
+			ITag<Block> blockITag = BlockTags.getAllTags().getTag(new ResourceLocation(commonBlockDefinitionModel.getTag()));
 			Block block = blockITag.getRandomElement(rand);
-			reader.setBlockState(pos, block.getDefaultState(), 2);
+			reader.setBlock(pos, block.defaultBlockState(), 2);
 		} else if (commonBlockDefinitionModel.getMaterial() != null) {
 			BlockState currentFiller = reader.getBlockState(pos);
 			String fillerId = currentFiller.getBlock().getRegistryName().toString();
@@ -158,7 +175,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			if (strataIndex != null) {
 				StrataModel stratum = EELoader.STRATA.get(strataIndex);
 				Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-				reader.setBlockState(pos, block.getDefaultState(), 2);
+				reader.setBlock(pos, block.defaultBlockState(), 2);
 			}
 		}
 	}

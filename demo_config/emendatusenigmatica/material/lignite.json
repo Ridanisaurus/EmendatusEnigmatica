@@ -1,0 +1,29 @@
+{
+  "id": "lignite",
+  "localisedName": "Lignite Coal",
+  "color":  "6F4E37",
+  "fluidColor": "0xFF00FF00",
+  "processedType": [
+    "ore",
+    "chunk",
+    "cluster",
+    "dust",
+    "fluid",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust"
+  ],
+  "isBurnable": true,
+  "burnTime": 1600,
+  "oreBlockType": "gem",
+  "defaultItemDrop": "minecraft:coal",
+  "dropMin": 1,
+  "dropMax": 1,
+  "properties": {
+    "hardness": 3.0,
+    "resistance": 3.0,
+    "harvestLevel": 1
+  }
+}

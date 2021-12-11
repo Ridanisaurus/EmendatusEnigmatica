@@ -24,11 +24,14 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -60,15 +63,10 @@ public class LangGen extends LanguageProvider {
 			for (String processedType : material.getProcessedType()) {
 
 				// Storage Blocks
-				if (processedType.equals("storage_block") && !material.getId().equals("arcane")) {
+				if (processedType.equals("storage_block")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Block of ");
 					sb.append(material.getLocalisedName());
-					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("storage_block") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Block of Mana Gems");
 					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -81,15 +79,10 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Gems
-				if (processedType.equals("gem") && !material.getId().equals("arcane") && !material.getId().equals("coal_coke")) {
+				if (processedType.equals("gem") && !material.getId().equals("coal_coke")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Gem");
-					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("gem") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Gem");
 					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
 				}
 				if (processedType.equals("gem") && material.getId().equals("coal_coke")) {
@@ -144,29 +137,79 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Chunks
-				if (processedType.equals("chunk") && !material.getId().equals("arcane")) {
+				if (processedType.equals("chunk")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Chunk");
 					add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
 				}
-				if (processedType.equals("chunk") && material.getId().equals("arcane")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Chunk");
-					add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
-				}
 
 				// Clusters
-				if (processedType.equals("cluster") && !material.getId().equals("arcane")) {
+				if (processedType.equals("cluster")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Cluster");
 					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
 				}
-				if (processedType.equals("cluster") && material.getId().equals("arcane")) {
+
+				// Fluids
+				if (processedType.equals("fluid")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append("Mana Cluster");
-					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
+					sb.append("Molten ");
+					sb.append(material.getLocalisedName());
+					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
+
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("Bucket of Molten ");
+					sb2.append(material.getLocalisedName());
+					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+				}
+
+				// TODO: Look into moving this to the MekanismDataGen class
+				if (EmendatusEnigmatica.MEKANISM_LOADED) {
+					// Slurries
+					if (processedType.contains("slurry")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Dirty ");
+						sb.append(material.getLocalisedName());
+						sb.append(" Slurry");
+						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
+
+						StringBuilder sb2 = new StringBuilder();
+						sb2.append("Clean ");
+						sb2.append(material.getLocalisedName());
+						sb2.append(" Slurry");
+						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
+					}
+					// Crystals
+					if (processedType.contains("crystal")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Crystal");
+						add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
+					}
+					// Shards
+					if (processedType.contains("shard")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Shard");
+						add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
+					}
+					// Clumps
+					if (processedType.contains("clump")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Clump");
+						add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
+					}
+					// Dirty Dusts
+					if (processedType.contains("dirty_dust")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Dirty ");
+						sb.append(material.getLocalisedName());
+						sb.append(" Dust");
+						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
+					}
 				}
 			}
 		}
@@ -188,6 +231,10 @@ public class LangGen extends LanguageProvider {
 				}
 			}
 		}
+	}
+
+	private void add(Slurry slurry, String name) {
+		add(slurry.getTranslationKey(), name);
 	}
 
 	@Override

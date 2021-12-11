@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:chunks/lignite"
+    },
+    {
+      "tag": "forge:chunks/lignite"
+    },
+    {
+      "tag": "forge:chunks/lignite"
+    },
+    {
+      "tag": "forge:chunks/lignite"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:lignite_cluster"
+  }
+}

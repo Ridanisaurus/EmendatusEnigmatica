@@ -38,10 +38,12 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 
 	@Override
 	public void setupOres(BiomeLoadingEvent event) {
-		event.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
+		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
+			event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
+		}
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).withConfiguration(new GeodeOreFeatureConfig(filler)));
+		return WorldGenHelper.registerFeature(model.getName(), new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model).configured(new GeodeOreFeatureConfig(filler)));
 	}
 }

@@ -21,7 +21,7 @@ public class MultiStrataRuleTest extends RuleTest {
 			Codec.list(Codec.STRING).fieldOf("fillerList").forGetter(it -> it.fillerList)
 	).apply(x, MultiStrataRuleTest::new));
 
-	public static final IRuleTestType<MultiStrataRuleTest> TYPE = IRuleTestType.func_237129_a_("multi_block_test", CODEC);
+	public static final IRuleTestType<MultiStrataRuleTest> TYPE = IRuleTestType.register("multi_block_test", CODEC);
 	private final List<Block> blockFillerList = new ArrayList<>();
 	private List<String> fillerList;
 

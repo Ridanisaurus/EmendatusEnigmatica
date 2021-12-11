@@ -40,7 +40,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: mcp_version
+    mappings channel: 'official', version: mcp_version
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
     // accessTransformer = file('src/main/resources/META-INF/at.cfg')
@@ -101,6 +101,7 @@ repositories {
     maven {
         url 'https://repo.spongepowered.org/maven/'
     }
+    maven { url 'https://modmaven.dev/' }
     // IE
 //    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {
@@ -118,7 +119,6 @@ dependencies {
 
     shade 'org.spongepowered:noise:2.0.0-SNAPSHOT'
     implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
-    shade 'com.github.marschall:memoryfilesystem:2.1.0'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -139,17 +139,24 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //if (findProject(':workspace') == null) {
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
     //}
 
+    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+
     runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
-    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3189063")
-    //runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
-    //runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
-    //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
-    //runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+    runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3319255")
+    runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:3477594")
+    runtimeOnly fg.deobf("curse.maven:create-328085:3536025")
+    runtimeOnly fg.deobf("curse.maven:flywheel-486392:3535459")
+//    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
+//    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
+//    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
+//    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
+//    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 }
 
 shadowJar{

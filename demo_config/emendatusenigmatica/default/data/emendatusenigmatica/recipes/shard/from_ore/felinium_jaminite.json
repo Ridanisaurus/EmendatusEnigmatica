@@ -1,0 +1,16 @@
+{
+  "type": "mekanism:injecting",
+  "itemInput": {
+    "ingredient": {
+      "tag": "forge:ores/felinium_jaminite"
+    }
+  },
+  "gasInput": {
+    "amount": 1,
+    "gas": "mekanism:hydrogen_chloride"
+  },
+  "output": {
+    "item": "emendatusenigmatica:felinium_jaminite_shard",
+    "count": 4
+  }
+}

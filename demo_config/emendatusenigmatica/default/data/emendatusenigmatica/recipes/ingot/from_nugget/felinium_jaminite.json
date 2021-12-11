@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "emendatusenigmatica",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:nuggets/felinium_jaminite"
+    }
+  },
+  "result": {
+    "item": "emendatusenigmatica:felinium_jaminite_ingot"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "emendatusenigmatica",
+  "ingredients": [
+    {
+      "tag": "forge:ores/iron"
+    },
+    {
+      "item": "emendatusenigmatica:enigmatic_hammer"
+    }
+  ],
+  "result": {
+    "item": "emendatusenigmatica:iron_dust"
+  }
+}

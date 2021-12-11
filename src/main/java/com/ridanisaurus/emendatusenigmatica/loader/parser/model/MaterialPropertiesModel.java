@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraftforge.common.ToolType;
 
 import java.util.Optional;
 
@@ -79,6 +80,4 @@ public class MaterialPropertiesModel {
 	public String getParticleHex() {
 		return particleHex;
 	}
-
-
 }
