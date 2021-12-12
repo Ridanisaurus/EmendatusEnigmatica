@@ -69,7 +69,7 @@ public class GenericRecipeBuilder {
 
 	public GenericRecipeBuilder(String resultName, IItemProvider item, int count) {
 		this.resultName = resultName;
-		this.result = new JsonItemBuilder(false).basic(item, count);
+		this.result = new JsonItemBuilder(false).stackWithCount(item, count);
 		this.recipeDefault = item.asItem();
 	}
 
@@ -117,7 +117,7 @@ public class GenericRecipeBuilder {
 		}
 	}
 
-	public GenericRecipeBuilder fieldJson(String key, JsonItemBuilder builder){
+	public GenericRecipeBuilder fieldJson(String key, JsonItemBuilder builder) {
 		if (this.fieldValueJson.containsKey(key)) {
 			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
@@ -126,7 +126,7 @@ public class GenericRecipeBuilder {
 		}
 	}
 
-	public GenericRecipeBuilder addOutput(Consumer<JsonItemBuilder> output){
+	public GenericRecipeBuilder addOutput(Consumer<JsonItemBuilder> output) {
 		output.accept(this.result);
 		return this;
 	}
@@ -191,7 +191,7 @@ public class GenericRecipeBuilder {
 	public void save(Consumer<IFinishedGenericRecipe> consumer, ResourceLocation recipeResourceLocation) {
 		//this.ensureValid(recipeResourceLocation);
 		this.advancement.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeResourceLocation)).rewards(AdvancementRewards.Builder.recipe(recipeResourceLocation)).requirements(IRequirementsStrategy.OR);
-		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation,this.resultName,  this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement, new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()), this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueItem, this.fieldValueJson));
+		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement, new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()), this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueItem, this.fieldValueJson));
 	}
 
 	private void ensureValid(ResourceLocation resourceLocation) {
@@ -201,8 +201,8 @@ public class GenericRecipeBuilder {
 			Set<Character> set = Sets.newHashSet(this.key.keySet());
 			set.remove(' ');
 
-			for(String s : this.rows) {
-				for(int i = 0; i < s.length(); ++i) {
+			for (String s : this.rows) {
+				for (int i = 0; i < s.length(); ++i) {
 					char c0 = s.charAt(i);
 					if (!this.key.containsKey(c0) && c0 != ' ') {
 						throw new IllegalStateException("Pattern in recipe " + resourceLocation + " uses undefined symbol '" + c0 + "'");
@@ -227,23 +227,23 @@ public class GenericRecipeBuilder {
 		private List<JsonObject> outputs = new ArrayList<>();
 		private final boolean forceArray;
 
-		public JsonItemBuilder(boolean forceArray){
+		public JsonItemBuilder(boolean forceArray) {
 			this.forceArray = forceArray;
 		}
 
-		public JsonItemBuilder addOutput(Pair<String, Object>... elements){
+		public JsonItemBuilder addOutput(Pair<String, Object>... elements) {
 			JsonObject object = new JsonObject();
 			for (Pair<String, Object> element : elements) {
-				if (element.getValue() instanceof Number){
+				if (element.getValue() instanceof Number) {
 					object.addProperty(element.getKey(), (Number) element.getValue());
 				}
-				if (element.getValue() instanceof String){
+				if (element.getValue() instanceof String) {
 					object.addProperty(element.getKey(), (String) element.getValue());
 				}
-				if (element.getValue() instanceof Boolean){
+				if (element.getValue() instanceof Boolean) {
 					object.addProperty(element.getKey(), (Boolean) element.getValue());
 				}
-				if (element.getValue() instanceof Character){
+				if (element.getValue() instanceof Character) {
 					object.addProperty(element.getKey(), (Character) element.getValue());
 				}
 			}
@@ -251,24 +251,40 @@ public class GenericRecipeBuilder {
 			return this;
 		}
 
-		public JsonItemBuilder chanceCreate(IItemProvider itemProvider, int count, double chance){
+		public JsonItemBuilder stackWithChance(IItemProvider itemProvider, int count, double chance) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
-		public JsonItemBuilder basic(IItemProvider itemProvider, int count){
+		public JsonItemBuilder stackWithCount(IItemProvider itemProvider, int count) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("count", count));
 		}
 
-		public JsonItemBuilder basic(IItemProvider itemProvider){
+		public JsonItemBuilder stack(IItemProvider itemProvider) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()));
 		}
 
-		public JsonElement getOutput(){
-			if (outputs.size() > 1 || forceArray){
+		public JsonItemBuilder tagWithChance(ITag.INamedTag<Item> itemTag, int count, double chance) {
+			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()),
+					Pair.of("count", count),
+					Pair.of("chance", chance)
+			);
+		}
+
+		public JsonItemBuilder tagWithCount(ITag.INamedTag<Item> itemTag, int count) {
+			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()),
+					Pair.of("count", count));
+		}
+
+		public JsonItemBuilder tag(ITag.INamedTag<Item> itemTag) {
+			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()));
+		}
+
+		public JsonElement getOutput() {
+			if (outputs.size() > 1 || forceArray) {
 				JsonArray array = new JsonArray();
 				outputs.forEach(array::add);
 				return array;
@@ -277,7 +293,6 @@ public class GenericRecipeBuilder {
 		}
 	}
 
-	// TODO: Add Array of Result Objects
 	public class Result implements IFinishedGenericRecipe {
 		private final ResourceLocation id;
 		private final JsonItemBuilder result;
@@ -323,17 +338,17 @@ public class GenericRecipeBuilder {
 				recipeJson.addProperty("type", this.type);
 			}
 
-			if (this.pattern.size() > 0){
+			if (this.pattern.size() > 0) {
 				JsonArray jsonarray = new JsonArray();
-				for(String s : this.pattern) {
+				for (String s : this.pattern) {
 					jsonarray.add(s);
 				}
 				recipeJson.add("pattern", jsonarray);
 			}
 
-			if (this.key.size() > 0){
+			if (this.key.size() > 0) {
 				JsonObject jsonobject = new JsonObject();
-				for(Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
+				for (Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
 					jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
 				}
 				recipeJson.add("key", jsonobject);
@@ -342,31 +357,31 @@ public class GenericRecipeBuilder {
 			recipeJson.add(this.resultName, result.getOutput());
 
 			if (!this.fieldValueString.isEmpty()) {
-				for(Map.Entry<String, String> entry : this.fieldValueString.entrySet()) {
+				for (Map.Entry<String, String> entry : this.fieldValueString.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), entry.getValue());
 				}
 			}
 
 			if (!this.fieldValueInt.isEmpty()) {
-				for(Map.Entry<String, Integer> entry : this.fieldValueInt.entrySet()) {
+				for (Map.Entry<String, Integer> entry : this.fieldValueInt.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), entry.getValue());
 				}
 			}
 
 			if (!this.fieldValueFloat.isEmpty()) {
-				for(Map.Entry<String, Float> entry : this.fieldValueFloat.entrySet()) {
+				for (Map.Entry<String, Float> entry : this.fieldValueFloat.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), entry.getValue());
 				}
 			}
 
 			if (!this.fieldValueItem.isEmpty()) {
-				for(Map.Entry<String, IItemProvider> entry : this.fieldValueItem.entrySet()) {
+				for (Map.Entry<String, IItemProvider> entry : this.fieldValueItem.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), Registry.ITEM.getKey(entry.getValue().asItem()).toString());
 				}
 			}
 
 			if (!this.fieldValueJson.isEmpty()) {
-				for(Map.Entry<String, JsonItemBuilder> entry : this.fieldValueJson.entrySet()) {
+				for (Map.Entry<String, JsonItemBuilder> entry : this.fieldValueJson.entrySet()) {
 					recipeJson.add(entry.getKey(), entry.getValue().getOutput());
 				}
 			}

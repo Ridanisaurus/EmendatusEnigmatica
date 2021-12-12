@@ -26,6 +26,10 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.resources.ResourcePack;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,6 +104,10 @@ public class MaterialModel {
 
 	public String getDefaultItemDrop() {
 		return defaultItemDrop;
+	}
+
+	public IItemProvider getDefaultItemDropAsItem() {
+		return Registry.ITEM.get(new ResourceLocation(defaultItemDrop));
 	}
 
 	public MaterialPropertiesModel getProperties() {

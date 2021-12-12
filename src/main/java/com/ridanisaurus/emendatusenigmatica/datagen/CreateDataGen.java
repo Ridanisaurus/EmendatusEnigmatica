@@ -26,26 +26,20 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.gas.Gas;
-import mekanism.api.datagen.recipe.builder.*;
-import mekanism.api.recipes.inputs.FluidStackIngredient;
-import mekanism.api.recipes.inputs.ItemStackIngredient;
-import mekanism.api.recipes.inputs.chemical.GasStackIngredient;
-import mekanism.api.recipes.inputs.chemical.SlurryStackIngredient;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -66,30 +60,107 @@ public class CreateDataGen {
 		protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				if (processedType.contains("ingot")) {
-					// Crushed Ore from Ore
-					new GenericRecipeBuilder("results",EERegistrar.nuggetMap.get(material.getId()).get(), 5)
-							.unlockedBy("has_iron_block", has(Blocks.IRON_BLOCK))
+				for (StrataModel stratum : EELoader.STRATA) {
+					// TODO: Identify whether a material is MODDED or VANILLA (Vanilla unique output count)
+					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getOreBlockType().equals("metal")) {
+						// Crushed Ore from Ore
+						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
+								.type("create:crushing")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+								.fieldInt("processingTime", 300)
+								.addOutput(builder -> builder
+										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
+										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
+					}
+					if (processedType.contains("ore") && material.getOreBlockType().equals("gem")) {
+						// Crushed Ore from Ore
+						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDefaultItemDropAsItem()), 2)
+								.type("create:crushing")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+								.fieldInt("processingTime", 300)
+								.addOutput(builder -> builder
+										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDefaultItemDropAsItem()), 1, 0.25)
+										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
+					}
+				}
+				if (processedType.contains("crushed_ore") && processedType.contains("chunk")) {
+					// Crushed Ore from Chunk
+					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 							.type("create:crushing")
-							.group("testGroup")
-							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).basic(Blocks.IRON_BLOCK))
-							.addOutput(builder -> builder.chanceCreate(Items.IRON_INGOT, 7, 1).chanceCreate(Items.IRON_INGOT, 1, 0.5))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "test/" + material.getId()));
+							.group("emendatusenigmatica:compat_recipe")
+							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.chunkMap.get(material.getId()).get()))
+							.fieldInt("processingTime", 350)
+							.addOutput(builder -> builder
+									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
+									.stackWithChance(Blocks.COBBLESTONE, 1, 0.125))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_chunk/" + material.getId()));
 				}
 			}
-		}
-
-		private ItemStack getItemStack(Item item, int size) {
-			return new ItemStack(item, size);
-		}
-
-		private ItemStack getItemStack(Item item) {
-			return getItemStack(item, 1);
 		}
 
 		@Override
 		public String getName() {
 			return "Emendatus Enigmatica Create Recipes";
+		}
+	}
+
+	public static class CreateItemModels extends ItemModelProvider {
+
+		public CreateItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+			super(generator, Reference.MOD_ID, existingFileHelper);
+		}
+
+		@Override
+		protected void registerModels() {
+			for (MaterialModel material : EELoader.MATERIALS) {
+				List<String> processedType = material.getProcessedType();
+				// Crushed Ore
+				if (processedType.contains("crushed_ore")) {
+					ItemModelBuilder parent = getBuilder("crushed_" + material.getId() + "_ore").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					if (material.getColor() == -1) {
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed"));
+					} else {
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed"));
+					}
+				}
+			}
+
+		}
+
+		@Override
+		public String getName() {
+			return "Emendatus Enigmatica Create Item Models";
+		}
+	}
+
+	public static class CreateItemTags extends ItemTagsProvider {
+
+		public CreateItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
+		}
+
+		@Override
+		protected void addTags() {
+			// Mekanism Tags
+			Builder<Item> createCrushedOre = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
+
+			for (MaterialModel material : EELoader.MATERIALS) {
+				List<String> processedType = material.getProcessedType();
+				// Crystals
+				if (processedType.contains("crushed_ore")) {
+					createCrushedOre.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
+					Builder<Item> crushedOreTag = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material.getId()).toString()));
+					crushedOreTag.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
+				}
+			}
+		}
+		@Override
+		public String getName() {
+			return "Emendatus Enigmatica Create Item Tags";
 		}
 	}
 }

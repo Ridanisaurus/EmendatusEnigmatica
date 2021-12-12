@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -209,6 +210,17 @@ public class LangGen extends LanguageProvider {
 						sb.append(material.getLocalisedName());
 						sb.append(" Dust");
 						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
+					}
+				}
+				// TODO: Look into moving this to the CreateDataGen class
+				if (EmendatusEnigmatica.CREATE_LOADED) {
+					// Crystals
+					if (processedType.contains("crushed_ore")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append("Crushed ");
+						sb.append(material.getLocalisedName());
+						sb.append(" ore");
+						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 					}
 				}
 			}

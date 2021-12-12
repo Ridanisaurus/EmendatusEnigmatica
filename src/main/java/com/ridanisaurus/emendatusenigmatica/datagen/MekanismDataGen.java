@@ -206,7 +206,7 @@ public class MekanismDataGen {
 
 		@Override
 		public String getName() {
-			return "Emendatus Enigmatica Mekanism ItemModels";
+			return "Emendatus Enigmatica Mekanism Item Models";
 		}
 
 	}
