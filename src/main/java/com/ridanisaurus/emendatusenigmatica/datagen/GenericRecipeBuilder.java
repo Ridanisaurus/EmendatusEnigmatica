@@ -222,14 +222,16 @@ public class GenericRecipeBuilder {
 
 		public Result(ResourceLocation id, Item item, int count, String group, String type,List<String> pattern, Map<Character, Ingredient> keyMap, Advancement.Builder advancement, ResourceLocation advancementId, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, IItemProvider> fieldValueItem) {
 			this.id = id;
-			this.result = item;
-			this.count = count;
-			this.group = group;
-			this.type = type;
-			this.pattern = pattern;
-			this.key = keyMap;
 			this.advancement = advancement;
 			this.advancementId = advancementId;
+			this.group = group;
+			this.type = type;
+
+			this.result = item;
+			this.count = count;
+
+			this.pattern = pattern;
+			this.key = keyMap;
 
 			this.fieldValueString = fieldValueString;
 			this.fieldValueInt = fieldValueInt;
@@ -241,8 +243,9 @@ public class GenericRecipeBuilder {
 			if (!this.group.isEmpty()) {
 				recipeJson.addProperty("group", this.group);
 			}
-
-			recipeJson.addProperty("type", this.type);
+			if (!this.type.isEmpty()) {
+				recipeJson.addProperty("type", this.type);
+			}
 
 			JsonArray jsonarray = new JsonArray();
 			for(String s : this.pattern) {
