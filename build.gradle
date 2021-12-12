@@ -7,13 +7,12 @@ buildscript {
         maven { url "https://repo.spongepowered.org/maven/" }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 plugins {
-    id "com.wynprice.cursemaven" version "2.1.1"
     id "maven-publish"
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
@@ -102,6 +101,9 @@ repositories {
         url 'https://repo.spongepowered.org/maven/'
     }
     maven { url 'https://modmaven.dev/' }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
     // IE
 //    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {

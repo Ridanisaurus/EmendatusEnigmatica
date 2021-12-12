@@ -68,23 +68,12 @@ public class CreateDataGen {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("ingot")) {
 					// Crushed Ore from Ore
-					GenericRecipeBuilder.result(EERegistrar.nuggetMap.get(material.getId()).get(), 5)
-							.define('I', Blocks.IRON_BLOCK)
-							.define('i', EETags.MATERIAL_INGOT.apply(material.getId()))
-							.pattern("III")
-							.pattern(" i ")
-							.pattern("iii")
+					new GenericRecipeBuilder("results",EERegistrar.nuggetMap.get(material.getId()).get(), 5)
 							.unlockedBy("has_iron_block", has(Blocks.IRON_BLOCK))
 							.type("create:crushing")
 							.group("testGroup")
-							.fieldString("TestKey1", "TestValue1")
-							.fieldString("TestKey2", "TestValue2")
-							.fieldInt("TestKey3", 1)
-							.fieldInt("TestKey4", 2)
-							.fieldFloat("TestKey5", 0.2f)
-							.fieldFloat("TestKey6", 0.5f)
-							.fieldItem("TestKey7", Items.GOLD_INGOT)
-
+							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).basic(Blocks.IRON_BLOCK))
+							.addOutput(builder -> builder.chanceCreate(Items.IRON_INGOT, 7, 1).chanceCreate(Items.IRON_INGOT, 1, 0.5))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "test/" + material.getId()));
 				}
 			}
