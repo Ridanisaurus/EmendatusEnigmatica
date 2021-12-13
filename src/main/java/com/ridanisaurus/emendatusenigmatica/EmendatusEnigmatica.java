@@ -177,6 +177,8 @@ public class EmendatusEnigmatica {
             generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
         }
         if (CREATE_LOADED) {
+            generator.addProvider(new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(new CreateDataGen.CreateItemModels(generator, existingFileHelper));
             generator.addProvider(new CreateDataGen.CreateRecipes(generator));
         }
     }

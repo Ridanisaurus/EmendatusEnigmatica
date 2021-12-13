@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/redstone"
-  },
-  "result": "emendatusenigmatica:redstone_soul_soil_ore",
-  "count": 1
-}

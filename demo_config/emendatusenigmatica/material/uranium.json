@@ -1,5 +1,6 @@
 {
   "id": "uranium",
+  "source": "modded",
   "localisedName": "Uranium",
   "fluidColor": "0xFF00FF00",
   "processedType": [

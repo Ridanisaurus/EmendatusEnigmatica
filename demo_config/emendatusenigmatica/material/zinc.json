@@ -1,5 +1,6 @@
 {
   "id": "zinc",
+  "source": "modded",
   "localisedName": "Zinc",
   "fluidColor": "0xFFd1d1a5",
   "processedType": [

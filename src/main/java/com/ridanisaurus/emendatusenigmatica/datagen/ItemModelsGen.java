@@ -207,7 +207,7 @@ public class ItemModelsGen extends ItemModelProvider {
 
     @Override
     public String getName() {
-        return "Emendatus Enigmatica ItemModels";
+        return "Emendatus Enigmatica Item Models";
     }
 
 }

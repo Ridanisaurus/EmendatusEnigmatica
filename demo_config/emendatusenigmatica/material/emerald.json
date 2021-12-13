@@ -1,5 +1,6 @@
 {
   "id": "emerald",
+  "source": "vanilla",
   "localisedName": "Emerald",
   "processedType": [
     "ore",

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/bitumen"
-  },
-  "result": "emendatusenigmatica:bitumen_netherrack_ore",
-  "count": 1
-}

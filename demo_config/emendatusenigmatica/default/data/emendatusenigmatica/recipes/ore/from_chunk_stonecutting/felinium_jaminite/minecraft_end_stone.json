@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/felinium_jaminite"
-  },
-  "result": "emendatusenigmatica:felinium_jaminite_end_stone_ore",
-  "count": 1
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/uranium"
-  },
-  "result": "emendatusenigmatica:uranium_cryptic_stone_ore",
-  "count": 1
-}

@@ -1,5 +1,6 @@
 {
   "id": "lignite",
+  "source": "modded",
   "localisedName": "Lignite Coal",
   "color":  "6F4E37",
   "fluidColor": "0xFF00FF00",

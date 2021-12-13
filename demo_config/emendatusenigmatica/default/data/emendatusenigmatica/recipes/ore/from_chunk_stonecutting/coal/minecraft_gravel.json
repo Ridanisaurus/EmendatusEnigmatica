@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/coal"
-  },
-  "result": "emendatusenigmatica:coal_gravel_ore",
-  "count": 1
-}

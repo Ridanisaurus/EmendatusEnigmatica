@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/gold"
-  },
-  "result": "emendatusenigmatica:gold_blue_netherrack_ore",
-  "count": 1
-}

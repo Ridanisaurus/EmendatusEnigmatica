@@ -1,5 +1,6 @@
 {
   "id": "felinium_jaminite",
+  "source": "modded",
   "localisedName": "Felinium Jaminite",
   "fluidColor": "0xFFd1d1a5",
   "processedType": [
@@ -18,7 +19,8 @@
     "crystal",
     "shard",
     "clump",
-    "dirty_dust"
+    "dirty_dust",
+    "crushed_ore"
   ],
   "oreBlockType": "metal",
   "properties": {

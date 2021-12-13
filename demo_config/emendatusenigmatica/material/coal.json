@@ -1,5 +1,6 @@
 {
   "id": "coal",
+  "source": "vanilla",
   "localisedName": "Coal",
   "processedType": [
     "ore",
