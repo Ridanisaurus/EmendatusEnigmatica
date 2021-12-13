@@ -1,5 +1,6 @@
 {
   "id": "arcane",
+  "source": "modded",
   "localisedName": "Arcane",
   "processedType": [
     "ore",

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:dusts/felinium_jaminite"
-  },
-  "result": "emendatusenigmatica:felinium_jaminite_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}

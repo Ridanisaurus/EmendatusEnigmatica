@@ -1,5 +1,6 @@
 {
   "id": "lapis",
+  "source": "vanilla",
   "localisedName": "Lapis Lazuli",
   "processedType": [
     "ore",

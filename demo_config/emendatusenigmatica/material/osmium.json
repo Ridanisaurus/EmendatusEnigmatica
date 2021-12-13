@@ -1,5 +1,6 @@
 {
   "id": "osmium",
+  "source": "modded",
   "localisedName": "Osmium",
   "fluidColor": "0xFF00FF00",
   "processedType": [

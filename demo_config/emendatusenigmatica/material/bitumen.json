@@ -1,5 +1,6 @@
 {
   "id": "bitumen",
+  "source": "modded",
   "localisedName": "Bitumen",
   "processedType": [
     "ore",

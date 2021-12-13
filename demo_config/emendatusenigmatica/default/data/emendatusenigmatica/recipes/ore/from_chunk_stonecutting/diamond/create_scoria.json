@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/diamond"
-  },
-  "result": "emendatusenigmatica:diamond_scoria_ore",
-  "count": 1
-}

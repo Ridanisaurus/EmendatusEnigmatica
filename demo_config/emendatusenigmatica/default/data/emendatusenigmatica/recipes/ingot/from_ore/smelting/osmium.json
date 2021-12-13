@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:ores/osmium"
-  },
-  "result": "emendatusenigmatica:osmium_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}

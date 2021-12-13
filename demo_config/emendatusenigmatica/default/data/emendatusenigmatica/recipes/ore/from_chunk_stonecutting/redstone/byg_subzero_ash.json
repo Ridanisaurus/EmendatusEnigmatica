@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/redstone"
-  },
-  "result": "emendatusenigmatica:redstone_subzero_ash_ore",
-  "count": 1
-}

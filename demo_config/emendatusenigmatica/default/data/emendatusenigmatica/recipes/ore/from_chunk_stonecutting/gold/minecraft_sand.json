@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/gold"
-  },
-  "result": "emendatusenigmatica:gold_sand_ore",
-  "count": 1
-}

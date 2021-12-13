@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "tag": "forge:chunks/zinc"
-  },
-  "result": "emendatusenigmatica:zinc_depthrock_ore",
-  "count": 1
-}
