@@ -61,9 +61,9 @@ public class CreateDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
-					// TODO: Identify whether a material is MODDED or VANILLA (Vanilla unique output count)
-					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getOreBlockType().equals("metal")) {
-						// Crushed Ore from Ore
+					// TODO: Revisit this whole section once the chunks system is flushed out
+					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getOreBlockType().equals("metal") && material.isModded()) {
+						// Crushed Ore from Ore - Crushing
 						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
@@ -74,8 +74,8 @@ public class CreateDataGen {
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
-					if (processedType.contains("ore") && material.getOreBlockType().equals("gem")) {
-						// Crushed Ore from Ore
+					if (processedType.contains("ore") && material.getOreBlockType().equals("gem") && material.isModded()) {
+						// Gem from Ore - Crushing
 						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDefaultItemDropAsItem()), 2)
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
@@ -88,16 +88,38 @@ public class CreateDataGen {
 					}
 				}
 				if (processedType.contains("crushed_ore") && processedType.contains("chunk")) {
-					// Crushed Ore from Chunk
+					// Crushed Ore from Chunk - Crushing
 					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 							.type("create:crushing")
 							.group("emendatusenigmatica:compat_recipe")
 							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.chunkMap.get(material.getId()).get()))
-							.fieldInt("processingTime", 350)
+							.fieldInt("processingTime", 300)
 							.addOutput(builder -> builder
 									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
 									.stackWithChance(Blocks.COBBLESTONE, 1, 0.125))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_chunk/" + material.getId()));
+				}
+
+				// Crushed Ore from ore/chunk - Milling
+				if (processedType.contains("crushed_ore") && processedType.contains("ore")) {
+					// Crushed Ore from Chunk
+					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
+							.type("create:milling")
+							.group("emendatusenigmatica:compat_recipe")
+							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).tag(EETags.MATERIAL_ORE.apply(material.getId())))
+							.fieldInt("processingTime", 300)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_milling/" + material.getId()));
+				}
+				// Nuggets from Crushed Ore
+				if (processedType.contains("crushed_ore") && processedType.contains("nugget")) {
+					// Crushed Ore from Chunk
+					new GenericRecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 10)
+							.type("create:splashing")
+							.group("emendatusenigmatica:compat_recipe")
+							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
+							.addOutput(builder -> builder
+									.stackWithChance(EERegistrar.nuggetMap.get(material.getId()).get(), 5, 0.5))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_crushed_splashing/" + material.getId()));
 				}
 			}
 		}

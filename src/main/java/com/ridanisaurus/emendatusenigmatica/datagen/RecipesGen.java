@@ -260,7 +260,7 @@ public class RecipesGen extends RecipeProvider {
 						.group(Reference.MOD_ID)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
 			}
-
+			// TODO: Look into moving the block recipe identifier to its own field instead of processedType
 			// Block from Gem x4
 			if (processedType.contains("gem") && processedType.contains("storage_block") && processedType.contains("4x_block_recipe")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
