@@ -79,11 +79,13 @@ public class EmendatusEnigmatica {
     private static EmendatusEnigmatica instance = null;
     public static boolean MEKANISM_LOADED = false;
     public static boolean CREATE_LOADED = false;
+    public static boolean BLOODMAGIC_LOADED = false;
 
     public EmendatusEnigmatica() {
         instance = this;
         MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
         CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);
+        BLOODMAGIC_LOADED = ModList.get().isLoaded(Reference.BLOODMAGIC);
 
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -99,6 +101,7 @@ public class EmendatusEnigmatica {
         EERegistrar.finalize(modEventBus);
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
+        if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::init);
         modEventBus.addListener(this::clientEvents);
@@ -143,6 +146,8 @@ public class EmendatusEnigmatica {
         event.getMinecraftSupplier().get().tell(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
+            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(net.minecraft.item.Item[]::new));
             Minecraft.getInstance().getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
         });
@@ -180,6 +185,11 @@ public class EmendatusEnigmatica {
             generator.addProvider(new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
             generator.addProvider(new CreateDataGen.CreateItemModels(generator, existingFileHelper));
             generator.addProvider(new CreateDataGen.CreateRecipes(generator));
+        }
+        if (BLOODMAGIC_LOADED) {
+            generator.addProvider(new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
+            generator.addProvider(new BloodMagicDataGen.BloodMagicRecipes(generator));
         }
     }
 

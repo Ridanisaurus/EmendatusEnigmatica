@@ -168,14 +168,13 @@ public class CreateDataGen {
 
 		@Override
 		protected void addTags() {
-			// Mekanism Tags
-			Builder<Item> createCrushedOre = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
+			Builder<Item> createCrushedOres = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
 
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Crystals
 				if (processedType.contains("crushed_ore")) {
-					createCrushedOre.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
+					createCrushedOres.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
 					Builder<Item> crushedOreTag = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material.getId()).toString()));
 					crushedOreTag.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
 				}

@@ -19,7 +19,9 @@
     "crystal",
     "shard",
     "clump",
-    "dirty_dust"
+    "dirty_dust",
+    "fragment",
+    "gravel"
   ],
   "oreBlockType": "metal",
   "properties": {

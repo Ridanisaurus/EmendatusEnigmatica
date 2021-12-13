@@ -65,6 +65,7 @@ public class MekanismDataGen {
 			super(gen);
 		}
 
+		// TODO: Add material source checks
 		@Override
 		protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
@@ -219,7 +220,6 @@ public class MekanismDataGen {
 
 		@Override
 		protected void addTags() {
-			// Mekanism Tags
 			Builder<Item> mekanismCrystals = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals").toString()));
 			Builder<Item> mekanismShards = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards").toString()));
 			Builder<Item> mekanismClumps = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps").toString()));

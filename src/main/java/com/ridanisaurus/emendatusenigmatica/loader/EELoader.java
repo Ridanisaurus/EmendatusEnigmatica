@@ -31,6 +31,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -155,6 +156,14 @@ public class EELoader {
 			if (EmendatusEnigmatica.CREATE_LOADED) {
 				if (material.getProcessedType().contains("crushed_ore")) {
 					EECreateRegistrar.registerCrushedOres(material);
+				}
+			}
+			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+				if (material.getProcessedType().contains("fragment")) {
+					EEBloodMagicRegistrar.registerFragments(material);
+				}
+				if (material.getProcessedType().contains("gravel")) {
+					EEBloodMagicRegistrar.registerGravels(material);
 				}
 			}
 		}

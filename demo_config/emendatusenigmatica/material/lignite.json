@@ -14,7 +14,9 @@
     "crystal",
     "shard",
     "clump",
-    "dirty_dust"
+    "dirty_dust",
+    "fragment",
+    "gravel"
   ],
   "isBurnable": true,
   "burnTime": 1600,

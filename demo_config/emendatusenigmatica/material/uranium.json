@@ -14,7 +14,9 @@
     "plate",
     "gear",
     "rod",
-    "fluid"
+    "fluid",
+    "fragment",
+    "gravel"
   ],
   "isBurnable": true,
   "burnTime": 3200,

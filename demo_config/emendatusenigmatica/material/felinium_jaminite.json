@@ -20,7 +20,9 @@
     "shard",
     "clump",
     "dirty_dust",
-    "crushed_ore"
+    "crushed_ore",
+    "fragment",
+    "gravel"
   ],
   "oreBlockType": "metal",
   "properties": {

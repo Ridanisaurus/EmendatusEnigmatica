@@ -64,6 +64,7 @@ public class GenericRecipeBuilder {
 	private final Map<String, String> fieldValueString = Maps.newLinkedHashMap();
 	private final Map<String, Integer> fieldValueInt = Maps.newLinkedHashMap();
 	private final Map<String, Float> fieldValueFloat = Maps.newLinkedHashMap();
+	private final Map<String, Boolean> fieldValueBoolean = Maps.newLinkedHashMap();
 	private final Map<String, IItemProvider> fieldValueItem = Maps.newLinkedHashMap();
 	private final Map<String, JsonItemBuilder> fieldValueJson = Maps.newLinkedHashMap();
 
@@ -104,6 +105,15 @@ public class GenericRecipeBuilder {
 			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
 			this.fieldValueFloat.put(key, value);
+			return this;
+		}
+	}
+
+	public GenericRecipeBuilder fieldBoolean(String key, boolean value) {
+		if (this.fieldValueBoolean.containsKey(key)) {
+			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
+		} else {
+			this.fieldValueBoolean.put(key, value);
 			return this;
 		}
 	}
@@ -196,7 +206,7 @@ public class GenericRecipeBuilder {
 	public void save(Consumer<IFinishedGenericRecipe> consumer, ResourceLocation recipeResourceLocation) {
 		//this.ensureValid(recipeResourceLocation);
 		this.advancement.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeResourceLocation)).rewards(AdvancementRewards.Builder.recipe(recipeResourceLocation)).requirements(IRequirementsStrategy.OR);
-		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement, new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()), this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueItem, this.fieldValueJson));
+		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement, new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()), this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueBoolean, this.fieldValueItem, this.fieldValueJson));
 	}
 
 	private void ensureValid(ResourceLocation resourceLocation) {
@@ -251,9 +261,38 @@ public class GenericRecipeBuilder {
 				if (element.getValue() instanceof Character) {
 					object.addProperty(element.getKey(), (Character) element.getValue());
 				}
+				if (element.getValue() instanceof Pair) {
+					object.add(element.getKey(), parsePair((Pair<String, Object>) element.getValue()));
+				}
 			}
 			outputs.add(object);
 			return this;
+		}
+
+		private static JsonObject parsePair(Pair<String, Object>... elements) {
+			JsonObject object = new JsonObject();
+			for (Pair<String, Object> element : elements) {
+				if (element.getValue() instanceof Number) {
+					object.addProperty(element.getKey(), (Number) element.getValue());
+				}
+				if (element.getValue() instanceof String) {
+					object.addProperty(element.getKey(), (String) element.getValue());
+				}
+				if (element.getValue() instanceof Boolean) {
+					object.addProperty(element.getKey(), (Boolean) element.getValue());
+				}
+				if (element.getValue() instanceof Character) {
+					object.addProperty(element.getKey(), (Character) element.getValue());
+				}
+			}
+			return object;
+		}
+
+		public JsonItemBuilder objectWithChance(String key, IItemProvider itemProvider, int count, double chance) {
+			return addOutput(Pair.of(key, Pair.of("item", itemProvider.asItem().getRegistryName().toString())),
+					Pair.of("count", count),
+					Pair.of("chance", chance)
+			);
 		}
 
 		public JsonItemBuilder stackWithChance(IItemProvider itemProvider, int count, double chance) {
@@ -316,10 +355,11 @@ public class GenericRecipeBuilder {
 		private final Map<String, String> fieldValueString;
 		private final Map<String, Integer> fieldValueInt;
 		private final Map<String, Float> fieldValueFloat;
+		private final Map<String, Boolean> fieldValueBoolean;
 		private final Map<String, IItemProvider> fieldValueItem;
 		private final Map<String, JsonItemBuilder> fieldValueJson;
 
-		public Result(ResourceLocation id, String resultName, JsonItemBuilder outputBuilder, String group, String type, List<String> pattern, Map<Character, Ingredient> keyMap, Advancement.Builder advancement, ResourceLocation advancementId, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, IItemProvider> fieldValueItem, Map<String, JsonItemBuilder> fieldValueJson) {
+		public Result(ResourceLocation id, String resultName, JsonItemBuilder outputBuilder, String group, String type, List<String> pattern, Map<Character, Ingredient> keyMap, Advancement.Builder advancement, ResourceLocation advancementId, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, Boolean> fieldValueBoolean, Map<String, IItemProvider> fieldValueItem, Map<String, JsonItemBuilder> fieldValueJson) {
 			this.id = id;
 			this.resultName = resultName;
 			this.advancement = advancement;
@@ -335,6 +375,7 @@ public class GenericRecipeBuilder {
 			this.fieldValueString = fieldValueString;
 			this.fieldValueInt = fieldValueInt;
 			this.fieldValueFloat = fieldValueFloat;
+			this.fieldValueBoolean = fieldValueBoolean;
 			this.fieldValueItem = fieldValueItem;
 			this.fieldValueJson = fieldValueJson;
 		}
@@ -379,6 +420,12 @@ public class GenericRecipeBuilder {
 
 			if (!this.fieldValueFloat.isEmpty()) {
 				for (Map.Entry<String, Float> entry : this.fieldValueFloat.entrySet()) {
+					recipeJson.addProperty(entry.getKey(), entry.getValue());
+				}
+			}
+
+			if (!this.fieldValueBoolean.isEmpty()) {
+				for (Map.Entry<String, Boolean> entry : this.fieldValueBoolean.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), entry.getValue());
 				}
 			}

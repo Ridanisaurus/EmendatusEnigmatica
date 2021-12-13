@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -214,13 +215,30 @@ public class LangGen extends LanguageProvider {
 				}
 				// TODO: Look into moving this to the CreateDataGen class
 				if (EmendatusEnigmatica.CREATE_LOADED) {
-					// Crystals
+					// Crushed Ore
 					if (processedType.contains("crushed_ore")) {
 						StringBuilder sb = new StringBuilder();
 						sb.append("Crushed ");
 						sb.append(material.getLocalisedName());
 						sb.append(" ore");
 						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
+					}
+				}
+				// TODO: Look into moving this to the BloodMagicDataGen class
+				if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+					// Fragment
+					if (processedType.contains("fragment")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Fragment");
+						add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
+					}
+					// Gravel
+					if (processedType.contains("gravel")) {
+						StringBuilder sb = new StringBuilder();
+						sb.append(material.getLocalisedName());
+						sb.append(" Gravel");
+						add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
 					}
 				}
 			}

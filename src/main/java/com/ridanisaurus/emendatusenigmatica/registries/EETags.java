@@ -50,4 +50,10 @@ public class EETags {
 	public static final Function<String, MockedNamedTag<Item>> MATERIAL_SHARD = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
 	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CLUMP = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
 	public static final Function<String, MockedNamedTag<Item>> MATERIAL_DIRTY_DUST = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
+
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CRUSHED_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
+
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_FRAGMENT = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GRAVEL = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
+	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ARC = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
 }
