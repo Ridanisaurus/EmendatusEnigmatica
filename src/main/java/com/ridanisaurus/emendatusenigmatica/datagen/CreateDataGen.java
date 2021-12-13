@@ -105,6 +105,7 @@ public class CreateDataGen {
 					// Crushed Ore from Chunk
 					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 							.type("create:milling")
+							.forceOutputArray(true)
 							.group("emendatusenigmatica:compat_recipe")
 							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).tag(EETags.MATERIAL_ORE.apply(material.getId())))
 							.fieldInt("processingTime", 300)

@@ -176,6 +176,11 @@ public class GenericRecipeBuilder {
 		return this;
 	}
 
+	public GenericRecipeBuilder forceOutputArray(boolean force) {
+		this.result.setForceArray(force);
+		return this;
+	}
+
 	public void save(Consumer<IFinishedGenericRecipe> consumer) {
 		this.save(consumer, this.recipeDefault.getRegistryName());
 	}
@@ -225,7 +230,7 @@ public class GenericRecipeBuilder {
 	public static class JsonItemBuilder {
 
 		private List<JsonObject> outputs = new ArrayList<>();
-		private final boolean forceArray;
+		private boolean forceArray;
 
 		public JsonItemBuilder(boolean forceArray) {
 			this.forceArray = forceArray;
@@ -290,6 +295,10 @@ public class GenericRecipeBuilder {
 				return array;
 			}
 			return outputs.get(0);
+		}
+
+		public void setForceArray(boolean forceArray) {
+			this.forceArray = forceArray;
 		}
 	}
 
