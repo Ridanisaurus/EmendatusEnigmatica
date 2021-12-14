@@ -1,8 +1,0 @@
-{
-  "id": "minecraft_netherrack",
-  "baseTexture": "minecraft:block/netherrack",
-  "suffix": "netherrack",
-  "fillerType": "minecraft:netherrack",
-  "localizedName": "Netherrack",
-  "modid": "minecraft"
-}

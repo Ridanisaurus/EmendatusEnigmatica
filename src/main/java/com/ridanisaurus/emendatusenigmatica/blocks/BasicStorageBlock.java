@@ -26,24 +26,27 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
 public class BasicStorageBlock extends Block implements IColorable {
 	private final String localisedName;
-	public final int color;
-	public BasicStorageBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
+	public final int highlightColor;
+	public final int baseColor;
+	public final int shadeColor;
+
+	public BasicStorageBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int highlightColor, int baseColor, int shadeColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
 				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
-		this.color = color;
+		this.highlightColor = highlightColor;
+		this.baseColor = baseColor;
+		this.shadeColor = shadeColor;
 	}
 
 	@Override
@@ -52,9 +55,17 @@ public class BasicStorageBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public int getColor() {
-		return color;
+	public int getHighlightColor() {
+		return highlightColor;
 	}
 
+	@Override
+	public int getBaseColor() {
+		return baseColor;
+	}
 
+	@Override
+	public int getShadeColor() {
+		return shadeColor;
+	}
 }

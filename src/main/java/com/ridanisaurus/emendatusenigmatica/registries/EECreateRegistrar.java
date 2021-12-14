@@ -28,10 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.slurry.Slurry;
-import mekanism.api.chemical.slurry.SlurryBuilder;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -49,9 +46,9 @@ public class EECreateRegistrar {
     public static void registerCrushedOres(MaterialModel material) {
         String itemName = "crushed_" + material.getId() + "_ore";
         if (material.isBurnable()) {
-            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 

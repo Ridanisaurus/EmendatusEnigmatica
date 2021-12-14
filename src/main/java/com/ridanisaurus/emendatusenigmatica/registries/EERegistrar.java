@@ -35,8 +35,6 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.slurry.Slurry;
-import mekanism.api.chemical.slurry.SlurryBuilder;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
@@ -75,8 +73,8 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 
 	// Items
-	public static Map<String, RegistryObject<Item>> chunkMap = new HashMap<>();
-	public static Map<String, RegistryObject<Item>> clusterMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> rawMap = new HashMap<>();
+//	public static Map<String, RegistryObject<Item>> clusterMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> ingotMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> nuggetMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> gemMap = new HashMap<>();
@@ -146,7 +144,9 @@ public class EERegistrar {
 					material.getLocalisedName(),
 					material.getDropMin(),
 					material.getDropMax(),
-					material.getColor()));
+					material.getHighlightColor(),
+					material.getBaseColor(),
+					material.getShadeColor()));
 		} else {
 			oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
 					Material.STONE,
@@ -155,7 +155,9 @@ public class EERegistrar {
 					material.getProperties().getHarvestLevel(),
 					strata.getHarvestTool(),
 					material.getLocalisedName(),
-					material.getColor()));
+					material.getHighlightColor(),
+					material.getBaseColor(),
+					material.getShadeColor()));
 		}
 
 		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
@@ -173,7 +175,9 @@ public class EERegistrar {
 				material.getProperties().getHarvestLevel(),
 				ToolType.PICKAXE,
 				material.getLocalisedName(),
-				material.getColor()));
+				material.getHighlightColor(),
+				material.getBaseColor(),
+				material.getShadeColor()));
 
 		storageBlockMap.put(material.getId(), storageBlock);
 
@@ -187,33 +191,33 @@ public class EERegistrar {
 		}
 	}
 
-	public static void registerChunks(MaterialModel material) {
-		String itemName = material.getId() + "_chunk";
+	public static void registerRaws(MaterialModel material) {
+		String itemName = "raw_" + material.getId();
 
 		if (material.isBurnable()) {
-			chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			chunkMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
-	public static void registerClusters(MaterialModel material) {
-		String itemName = material.getId() + "_cluster";
-
-		if (material.isBurnable()) {
-			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getColor())));
-		} else {
-			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
-		}
-	}
+//	public static void registerClusters(MaterialModel material) {
+//		String itemName = material.getId() + "_cluster";
+//
+//		if (material.isBurnable()) {
+//			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+//		} else {
+//			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+//		}
+//	}
 
 	public static void registerIngots(MaterialModel material) {
 		String itemName = material.getId() + "_ingot";
 
 		if (material.isBurnable()) {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -221,9 +225,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_nugget";
 
 		if (material.isBurnable()) {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() / 10, material.getColor())));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() / 10, material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -231,9 +235,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_gem";
 
 		if (material.isBurnable()) {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -241,9 +245,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_dust";
 
 		if (material.isBurnable()) {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -251,9 +255,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_plate";
 
 		if (material.isBurnable()) {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -261,9 +265,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_gear";
 
 		if (material.isBurnable()) {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getColor())));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 4, material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 
@@ -271,9 +275,9 @@ public class EERegistrar {
 		String itemName = material.getId() + "_rod";
 
 		if (material.isBurnable()) {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 2, material.getColor())));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime() * 2, material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		} else {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
 		}
 	}
 

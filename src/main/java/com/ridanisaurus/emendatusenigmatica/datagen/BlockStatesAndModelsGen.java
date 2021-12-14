@@ -33,6 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder;
@@ -54,21 +55,31 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                 if (processedType.equals("storage_block")) {
                     Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
                     ResourceLocation loc = block.getRegistryName();
-                    if (material.getColor() == -1) {
+                    if (material.getHighlightColor() == -1) {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                                 .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
                                 .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
                                 .element()
                                 .cube("#base")
-                                .allFaces((d, u) -> u.tintindex(0))
+                                .allFaces((d, u) -> u.tintindex(-1))
                                 .end();
                     } else {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
-                                .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
+                                .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
+                                .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_1"))
+                                .texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_2"))
                                 .texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
                                 .element()
-                                .cube("#base")
+                                .cube("#highlight")
                                 .allFaces((d, u) -> u.tintindex(0))
+                                .end()
+                                .element()
+                                .cube("#base")
+                                .allFaces((d, u) -> u.tintindex(1))
+                                .end()
+                                .element()
+                                .cube("#shade")
+                                .allFaces((d, u) -> u.tintindex(2))
                                 .end();
                     }
                     simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
@@ -90,13 +101,13 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                 if (material.getProcessedType().contains("ore")) {
                     Block ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get();
                     ResourceLocation loc = ore.getRegistryName();
-                    if (material.getColor() == -1) {
+                    if (material.getHighlightColor() == -1) {
                         dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId());
                     } else {
                         if (material.getOreBlockType().equals("gem")) {
-                            dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_gem");
+                            dynamicTintBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_gem");
                         } else {
-                            dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_metal");
+                            dynamicTintBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_metal");
                         }
                     }
                     simpleBlock(ore, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
@@ -127,7 +138,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .from(0, 0, 0)
                         .to(16, 16, 16)
                         .cube("#base")
-                        .allFaces((dir, uv) -> uv.tintindex(0))
+                        .allFaces((dir, uv) -> uv.tintindex(-1))
                         .end()
                 )
                 .submodel(RenderType.translucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
@@ -136,7 +147,58 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .from(0, 0, 0)
                         .to(16, 16, 16)
                         .cube("#overlay")
+                        .allFaces((dir, uv) -> uv.tintindex(0))
+                        .end()
+                )
+                .end();
+    }
+
+    public void dynamicTintBlock(ResourceLocation loc, String baseTexture, String overlayTexture) {
+        models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                .texture("particle", modLoc(overlayTexture))
+                .transforms()
+                .transform(ModelBuilder.Perspective.THIRDPERSON_LEFT)
+                .rotation(75F, 45F, 0F)
+                .translation(0F, 2.5F, 0)
+                .scale(0.375F, 0.375F, 0.375F)
+                .end()
+                .transform(ModelBuilder.Perspective.THIRDPERSON_RIGHT)
+                .rotation(75F, 45F, 0F)
+                .translation(0F, 2.5F, 0)
+                .scale(0.375F, 0.375F, 0.375F)
+                .end()
+                .end()
+                .customLoader(MultiLayerModelBuilder::begin)
+                .submodel(RenderType.solid(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                        .texture("base", baseTexture)
+                        .element()
+                        .from(0, 0, 0)
+                        .to(16, 16, 16)
+                        .cube("#base")
+                        .allFaces((dir, uv) -> uv.tintindex(-1))
+                        .end()
+                )
+                .submodel(RenderType.translucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                        .texture("overlay_0", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+                        .texture("overlay_1", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+                        .texture("overlay_2", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+                        .element()
+                        .from(0, 0, 0)
+                        .to(16, 16, 16)
+                        .cube("#overlay_0")
+                        .allFaces((dir, uv) -> uv.tintindex(0))
+                        .end()
+                        .element()
+                        .from(0, 0, 0)
+                        .to(16, 16, 16)
+                        .cube("#overlay_1")
                         .allFaces((dir, uv) -> uv.tintindex(1))
+                        .end()
+                        .element()
+                        .from(0, 0, 0)
+                        .to(16, 16, 16)
+                        .cube("#overlay_2")
+                        .allFaces((dir, uv) -> uv.tintindex(2))
                         .end()
                 )
                 .end();

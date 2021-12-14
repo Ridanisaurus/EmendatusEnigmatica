@@ -56,8 +56,8 @@ public class ItemTagsGen extends ItemTagsProvider {
 		Builder<Item> forgePlates = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "plates").toString()));
 		Builder<Item> forgeGears = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "gears").toString()));
 		Builder<Item> forgeRods = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "rods").toString()));
-		Builder<Item> forgeChunks = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "chunks").toString()));
-		Builder<Item> forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters").toString()));
+		Builder<Item> forgeRaw = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "raws").toString()));
+//		Builder<Item> forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters").toString()));
 		Builder<Item> forgeOres = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores").toString()));
 		Builder<Item> forgeBuckets = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "buckets").toString()));
 
@@ -120,22 +120,22 @@ public class ItemTagsGen extends ItemTagsProvider {
 				rodTag.add(EERegistrar.rodMap.get(material.getId()).get());
 			}
 			// Chunks
-			if (processedType.contains("chunk")) {
-				forgeChunks.add(EERegistrar.chunkMap.get(material.getId()).get());
-				forgeOres.add(EERegistrar.chunkMap.get(material.getId()).get());
-				Builder<Item> chunkTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "chunks/" + material.getId()).toString()));
+			if (processedType.contains("raw")) {
+				forgeRaw.add(EERegistrar.rawMap.get(material.getId()).get());
+				forgeOres.add(EERegistrar.rawMap.get(material.getId()).get());
+				Builder<Item> rawTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "raws/" + material.getId()).toString()));
 				Builder<Item> oreTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores/" + material.getId()).toString()));
-				chunkTag.add(EERegistrar.chunkMap.get(material.getId()).get());
-				oreTag.add(EERegistrar.chunkMap.get(material.getId()).get());
+				rawTag.add(EERegistrar.rawMap.get(material.getId()).get());
+				oreTag.add(EERegistrar.rawMap.get(material.getId()).get());
 			}
-			// Clusters
-			if (processedType.contains("cluster")) {
-				forgeClusters.add(EERegistrar.clusterMap.get(material.getId()).get());
-				Builder<Item> clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters/" + material.getId()).toString()));
-				Builder<Item> oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores_cluster/" + material.getId()).toString()));
-				clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-				oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-			}
+//			// Clusters
+//			if (processedType.contains("cluster")) {
+//				forgeClusters.add(EERegistrar.clusterMap.get(material.getId()).get());
+//				Builder<Item> clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters/" + material.getId()).toString()));
+//				Builder<Item> oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores_cluster/" + material.getId()).toString()));
+//				clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
+//				oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
+//			}
 			// Fluid Bucket
 			if (processedType.contains("fluid")) {
 				forgeBuckets.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
@@ -148,46 +148,7 @@ public class ItemTagsGen extends ItemTagsProvider {
 				piglinLoved.add(EERegistrar.plateMap.get(material.getId()).get());
 				piglinLoved.add(EERegistrar.gearMap.get(material.getId()).get());
 				piglinLoved.add(EERegistrar.rodMap.get(material.getId()).get());
-				piglinLoved.add(EERegistrar.chunkMap.get(material.getId()).get());
-			}
-			// Silicon
-			if (material.getId().equals("silicon")) {
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "silicon").toString()))
-						.add(EERegistrar.gemMap.get(material.getId()).get());
-			}
-			// Coal Coke
-			if (material.getId().equals("arcane")) {
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "gems/mana").toString()))
-						.add(EERegistrar.gemMap.get(material.getId()).get());
-			}
-			// AE2 Tags
-			if (material.getId().equals("fluix")) {
-				tag(ItemTags.bind(new ResourceLocation(Reference.AE2, "crystals/fluix").toString()))
-						.add(EERegistrar.gemMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.AE2, "dusts/fluix").toString()))
-						.add(EERegistrar.dustMap.get(material.getId()).get());
-			}
-			if (material.getId().equals("nether_quartz")) {
-				tag(ItemTags.bind(new ResourceLocation(Reference.AE2, "dusts/nether_quartz_dust").toString()))
-						.add(EERegistrar.dustMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.AE2, "dusts/quartz").toString()))
-						.add(EERegistrar.dustMap.get(material.getId()).get());
-			}
-
-			// Potassium Nitrate Compact
-			if (material.getId().equals("potassium_nitrate")) {
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "dusts/niter").toString()))
-						.add(EERegistrar.dustMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "dusts/saltpeter").toString()))
-						.add(EERegistrar.dustMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "gems/niter").toString()))
-						.add(EERegistrar.gemMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "gems/saltpeter").toString()))
-						.add(EERegistrar.gemMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/niter").toString()))
-						.add(EERegistrar.storageBlockItemMap.get(material.getId()).get());
-				tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/saltpeter").toString()))
-						.add(EERegistrar.storageBlockItemMap.get(material.getId()).get());
+				piglinLoved.add(EERegistrar.rawMap.get(material.getId()).get());
 			}
 		}
 

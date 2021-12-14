@@ -41,9 +41,11 @@ public class GemOreBlock extends Block implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
-	public final int color;
+	public final int highlightColor;
+	public final int baseColor;
+	public final int shadeColor;
 
-	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp, int color) {
+	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp, int highlightColor, int baseColor, int shadeColor) {
 		super(AbstractBlock.Properties.of(material)
 				.strength(hardness, resistance)
 				.harvestLevel(harvestLevel)
@@ -52,7 +54,9 @@ public class GemOreBlock extends Block implements IColorable {
 		this.localisedName = localisedName;
 		this.minExp = minExp;
 		this.maxExp = maxExp;
-		this.color = color;
+		this.highlightColor = highlightColor;
+		this.baseColor = baseColor;
+		this.shadeColor = shadeColor;
 	}
 
 	@Override
@@ -70,7 +74,17 @@ public class GemOreBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public int getColor() {
-		return color;
+	public int getHighlightColor() {
+		return highlightColor;
+	}
+
+	@Override
+	public int getBaseColor() {
+		return baseColor;
+	}
+
+	@Override
+	public int getShadeColor() {
+		return shadeColor;
 	}
 }

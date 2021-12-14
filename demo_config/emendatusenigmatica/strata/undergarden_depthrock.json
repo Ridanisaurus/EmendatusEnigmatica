@@ -1,8 +1,0 @@
-{
-  "id": "undergarden_depthrock",
-  "baseTexture": "undergarden:block/depthrock",
-  "suffix": "depthrock",
-  "fillerType": "undergarden:depthrock",
-  "localizedName": "Depthrock",
-  "modid": "undergarden"
-}

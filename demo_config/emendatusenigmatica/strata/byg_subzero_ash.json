@@ -1,8 +1,0 @@
-{
-  "id": "byg_subzero_ash",
-  "baseTexture": "byg:block/subzero_ash",
-  "suffix": "subzero_ash",
-  "fillerType": "byg:subzero_ash_block",
-  "localizedName": "Subzero Ash",
-  "modid": "byg"
-}

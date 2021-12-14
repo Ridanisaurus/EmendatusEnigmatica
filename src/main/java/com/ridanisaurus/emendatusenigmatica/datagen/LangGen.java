@@ -81,15 +81,10 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Gems
-				if (processedType.equals("gem") && !material.getId().equals("coal_coke")) {
+				if (processedType.equals("gem")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Gem");
-					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("gem") && material.getId().equals("coal_coke")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Coal Coke");
 					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -102,15 +97,10 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Dusts
-				if (processedType.equals("dust") && !material.getId().equals("wood")) {
+				if (processedType.equals("dust")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalisedName());
 					sb.append(" Dust");
-					add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
-				}
-				if (processedType.equals("dust") && material.getId().equals("wood")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Sawdust");
 					add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -138,21 +128,21 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
 				}
 
-				// Chunks
-				if (processedType.equals("chunk")) {
+				// Raw Chunks
+				if (processedType.equals("raw")) {
 					StringBuilder sb = new StringBuilder();
+					sb.append("Raw ");
 					sb.append(material.getLocalisedName());
-					sb.append(" Chunk");
-					add(EERegistrar.chunkMap.get(material.getId()).get(), sb.toString());
+					add(EERegistrar.rawMap.get(material.getId()).get(), sb.toString());
 				}
 
-				// Clusters
-				if (processedType.equals("cluster")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
-					sb.append(" Cluster");
-					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
-				}
+//				// Clusters
+//				if (processedType.equals("cluster")) {
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(material.getLocalisedName());
+//					sb.append(" Cluster");
+//					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
+//				}
 
 				// Fluids
 				if (processedType.equals("fluid")) {

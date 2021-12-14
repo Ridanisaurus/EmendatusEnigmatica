@@ -15,16 +15,16 @@ public class BlockItemColorHandler implements IItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 if (item.getBlock() instanceof MetalOreBlock) {
-                    return ((MetalOreBlock) item.getBlock()).color;
+                    return ((MetalOreBlock) item.getBlock()).highlightColor;
                 } else if (item.getBlock() instanceof GemOreBlock) {
-                    return ((GemOreBlock) item.getBlock()).color;
+                    return ((GemOreBlock) item.getBlock()).highlightColor;
                 }
             }
         }
         if (stack.getItem() instanceof BasicStorageBlockItem) {
             BlockItem item = (BasicStorageBlockItem) stack.getItem();
             if (item.getBlock() instanceof BasicStorageBlock) {
-                return ((BasicStorageBlock) item.getBlock()).color;
+                return ((BasicStorageBlock) item.getBlock()).highlightColor;
             }
         }
         return 0xFFFFFF;

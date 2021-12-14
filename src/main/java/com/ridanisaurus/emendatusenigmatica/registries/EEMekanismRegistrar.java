@@ -65,36 +65,36 @@ public class EEMekanismRegistrar {
     public static void registerCrystals(MaterialModel material) {
         String itemName = material.getId() + "_crystal";
         if (material.isBurnable()) {
-            crystalMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            crystalMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            crystalMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            crystalMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 
     public static void registerShards(MaterialModel material) {
         String itemName = material.getId() + "_shard";
         if (material.isBurnable()) {
-            shardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            shardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            shardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            shardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 
     public static void registerClumps(MaterialModel material) {
         String itemName = material.getId() + "_clump";
         if (material.isBurnable()) {
-            clumpMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            clumpMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            clumpMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            clumpMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 
     public static void registerDirtyDusts(MaterialModel material) {
         String itemName = material.getId() + "_dirty_dust";
         if (material.isBurnable()) {
-            dirtyDustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            dirtyDustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            dirtyDustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            dirtyDustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 

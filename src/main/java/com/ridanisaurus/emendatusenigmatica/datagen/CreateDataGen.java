@@ -28,14 +28,12 @@ import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -87,17 +85,17 @@ public class CreateDataGen {
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 				}
-				if (processedType.contains("crushed_ore") && processedType.contains("chunk")) {
+				if (processedType.contains("crushed_ore") && processedType.contains("raw")) {
 					// Crushed Ore from Chunk - Crushing
 					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 							.type("create:crushing")
 							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.chunkMap.get(material.getId()).get()))
+							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawMap.get(material.getId()).get()))
 							.fieldInt("processingTime", 300)
 							.addOutput(builder -> builder
 									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
 									.stackWithChance(Blocks.COBBLESTONE, 1, 0.125))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_chunk/" + material.getId()));
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw/" + material.getId()));
 				}
 
 				// Crushed Ore from ore/chunk - Milling
@@ -144,10 +142,12 @@ public class CreateDataGen {
 				// Crushed Ore
 				if (processedType.contains("crushed_ore")) {
 					ItemModelBuilder parent = getBuilder("crushed_" + material.getId() + "_ore").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_2"));
 					}
 				}
 			}

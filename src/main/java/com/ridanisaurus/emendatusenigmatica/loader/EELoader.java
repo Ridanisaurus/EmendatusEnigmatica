@@ -106,12 +106,12 @@ public class EELoader {
 			if (material.getProcessedType().contains("storage_block")) {
 				EERegistrar.registerStorageBlocks(material);
 			}
-			if (material.getProcessedType().contains("chunk")) {
-				EERegistrar.registerChunks(material);
+			if (material.getProcessedType().contains("raw")) {
+				EERegistrar.registerRaws(material);
 			}
-			if (material.getProcessedType().contains("cluster")) {
-				EERegistrar.registerClusters(material);
-			}
+//			if (material.getProcessedType().contains("cluster")) {
+//				EERegistrar.registerClusters(material);
+//			}
 			if (material.getProcessedType().contains("ingot")) {
 				EERegistrar.registerIngots(material);
 			}

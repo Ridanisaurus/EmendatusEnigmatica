@@ -10,7 +10,19 @@ public class ItemColorHandler implements IItemColor {
         if (layer == 0) {
             Item item = stack.getItem();
             if (item instanceof BasicItem){
-                return ((BasicItem) item).color;
+                return ((BasicItem) item).highlightColor;
+            }
+        }
+        if (layer == 1) {
+            Item item = stack.getItem();
+            if (item instanceof BasicItem){
+                return ((BasicItem) item).baseColor;
+            }
+        }
+        if (layer == 2) {
+            Item item = stack.getItem();
+            if (item instanceof BasicItem){
+                return ((BasicItem) item).shadeColor;
             }
         }
         return 0xFFFFFF;

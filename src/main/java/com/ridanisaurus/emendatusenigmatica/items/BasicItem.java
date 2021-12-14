@@ -27,17 +27,16 @@ package com.ridanisaurus.emendatusenigmatica.items;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.item.Item;
 
-import net.minecraft.item.Item.Properties;
-
 public class BasicItem extends Item {
 
-  public final int color;
-  public BasicItem(int color) {
-    super(new Properties().tab(EmendatusEnigmatica.TAB));
-    this.color = color;
-  }
+  public final int highlightColor;
+  public final int baseColor;
+  public final int shadeColor;
 
-//  public BasicItem() {
-//    super(new Properties().tab(EmendatusEnigmatica.TAB));
-//  }
+  public BasicItem(int highlightColor, int baseColor, int shadeColor) {
+    super(new Properties().tab(EmendatusEnigmatica.TAB));
+    this.highlightColor = highlightColor;
+    this.baseColor = baseColor;
+    this.shadeColor = shadeColor;
+  }
 }

@@ -47,18 +47,18 @@ public class EEBloodMagicRegistrar {
     public static void registerFragments(MaterialModel material) {
         String itemName = material.getId() + "_fragment";
         if (material.isBurnable()) {
-            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 
     public static void registerGravels(MaterialModel material) {
         String itemName = material.getId() + "_gravel";
         if (material.isBurnable()) {
-            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getColor())));
+            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         } else {
-            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColor())));
+            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
         }
     }
 

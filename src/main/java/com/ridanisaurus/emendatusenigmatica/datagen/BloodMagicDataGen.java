@@ -26,18 +26,14 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -126,19 +122,23 @@ public class BloodMagicDataGen {
 				// Fragment
 				if (processedType.contains("fragment")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_fragment").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_fragment"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_2"));
 					}
 				}
 				// Gravel
 				if (processedType.contains("gravel")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_gravel").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gravel"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_2"));
 					}
 				}
 			}

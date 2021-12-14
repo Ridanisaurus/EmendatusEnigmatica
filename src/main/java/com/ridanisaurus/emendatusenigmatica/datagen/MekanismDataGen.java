@@ -30,11 +30,8 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.ChemicalTags;
 import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.slurry.Slurry;
 import mekanism.api.datagen.recipe.builder.*;
-import mekanism.api.datagen.tag.ChemicalTagsProvider;
 import mekanism.api.recipes.inputs.FluidStackIngredient;
 import mekanism.api.recipes.inputs.ItemStackIngredient;
 import mekanism.api.recipes.inputs.chemical.GasStackIngredient;
@@ -168,37 +165,45 @@ public class MekanismDataGen {
 				// Crystals
 				if (processedType.contains("crystal")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_crystal").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crystal"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_2"));
 					}
 				}
 				// Shards
 				if (processedType.contains("shard")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_shard").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shard"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_2"));
 					}
 				}
 				// Clumps
 				if (processedType.contains("clump")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_clump").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_clump"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_2"));
 					}
 				}
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_dirty_dust").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getColor() == -1) {
+					if (material.getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dirty_dust"));
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust"));
+						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_0"))
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_1"))
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_2"));
 					}
 				}
 			}

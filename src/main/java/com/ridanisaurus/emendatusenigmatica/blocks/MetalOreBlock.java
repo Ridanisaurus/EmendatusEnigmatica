@@ -30,29 +30,42 @@ import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ToolType;
 
-import net.minecraft.block.AbstractBlock.Properties;
+public class MetalOreBlock extends Block implements IColorable {
+	private final String localisedName;
 
-public class MetalOreBlock extends Block implements  IColorable{
-  private final String localisedName;
+	public final int highlightColor;
+	public final int baseColor;
+	public final int shadeColor;
 
-	public final int color;
-  public MetalOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int color) {
-    super(Properties.of(material)
-          .strength(hardness,resistance)
-          .harvestLevel(harvestLevel)
-          .harvestTool(tool)
-          .requiresCorrectToolForDrops());
-    this.localisedName = localisedName;
-    this.color = color;
-  }
+	public MetalOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int highlightColor, int baseColor, int shadeColor) {
+		super(Properties.of(material)
+				.strength(hardness, resistance)
+				.harvestLevel(harvestLevel)
+				.harvestTool(tool)
+				.requiresCorrectToolForDrops());
+		this.localisedName = localisedName;
+		this.highlightColor = highlightColor;
+		this.baseColor = baseColor;
+		this.shadeColor = shadeColor;
+	}
 
-  @Override
-  public IFormattableTextComponent getName() {
-    return new StringTextComponent(localisedName);
-  }
+	@Override
+	public IFormattableTextComponent getName() {
+		return new StringTextComponent(localisedName);
+	}
 
-  @Override
-  public int getColor() {
-    return color;
-  }
+	@Override
+	public int getHighlightColor() {
+		return highlightColor;
+	}
+
+	@Override
+	public int getBaseColor() {
+		return baseColor;
+	}
+
+	@Override
+	public int getShadeColor() {
+		return shadeColor;
+	}
 }

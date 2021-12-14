@@ -1,8 +1,0 @@
-{
-  "id": "minecraft_blackstone",
-  "baseTexture": "minecraft:block/blackstone",
-  "suffix": "blackstone",
-  "fillerType": "minecraft:blackstone",
-  "localizedName": "Blackstone",
-  "modid": "minecraft"
-}

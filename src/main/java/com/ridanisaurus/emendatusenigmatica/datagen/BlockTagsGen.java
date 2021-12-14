@@ -59,34 +59,13 @@ public class BlockTagsGen extends BlockTagsProvider {
 				Builder<Block> storageBlockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material.getId()).toString()));
 				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 			}
-			// Potassium Nitrate
-			if (material.getId().equals("potassium_nitrate")) {
-				tag(BlockTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/niter").toString()))
-						.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				tag(BlockTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/saltpeter").toString()))
-						.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-			}
-		}
-
-		// Ores
-		for (MaterialModel material : EELoader.MATERIALS) {
+			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
-				List<String> processedType = material.getProcessedType();
-				// Ores
 				if (processedType.contains("ore")) {
 					forgeOres.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
 					Builder<Block> oreTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE, "ores/" + material.getId()).toString()));
 					oreTag.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
 				}
-			}
-		}
-
-		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
-			if (processedType.contains("storage_block")) {
-				forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				Builder<Block> storageBlockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material.getId()).toString()));
-				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 			}
 		}
 

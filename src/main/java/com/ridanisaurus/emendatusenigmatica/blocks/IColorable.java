@@ -1,5 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 public interface IColorable {
-    int getColor();
+    int getHighlightColor();
+    int getBaseColor();
+    int getShadeColor();
 }
