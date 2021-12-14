@@ -200,6 +200,9 @@ public class EmendatusEnigmatica {
         if (ARSNOUVEAU_LOADED) {
             generator.addProvider(new ArsNouveauDataGen.ArsNouveauRecipes(generator));
         }
+        if (OCCULTISM_LOADED) {
+            generator.addProvider(new OccultismDataGen.OccultismRecipes(generator));
+        }
     }
 
     public static void generate() {

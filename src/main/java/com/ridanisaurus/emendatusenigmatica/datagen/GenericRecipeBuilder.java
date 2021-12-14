@@ -80,6 +80,12 @@ public class GenericRecipeBuilder {
 		this.recipeDefault = item.asItem();
 	}
 
+	public GenericRecipeBuilder(String resultName, IItemProvider item) {
+		this.resultName = resultName;
+		this.result = new JsonItemBuilder(false).stack(item);
+		this.recipeDefault = item.asItem();
+	}
+
 	public static GenericRecipeBuilder result(IItemProvider item) {
 		return result(item, 1);
 	}
