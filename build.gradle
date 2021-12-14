@@ -4,11 +4,16 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://repo.spongepowered.org/maven/" }
+//        maven { url "https://repo.spongepowered.org/maven/" }
+        maven {
+            name "Sponge"
+            url "https://repo.spongepowered.org/repository/maven-public/"
+        }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+//        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
     }
 }
 
@@ -104,6 +109,7 @@ repositories {
     maven {
         url = "https://www.cursemaven.com"
     }
+    maven { url 'https://maven.blamejared.com' }
     // IE
 //    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
 //    maven {
@@ -114,13 +120,14 @@ repositories {
 }
 
 dependencies {
+//    implementation 'org.jetbrains:annotations:20.1.0'
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
     shade 'org.spongepowered:noise:2.0.0-SNAPSHOT'
-    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+//    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -155,12 +162,25 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:create-328085:3536025")
     runtimeOnly fg.deobf("curse.maven:flywheel-486392:3535459")
     runtimeOnly fg.deobf("curse.maven:blood-magic-224791:3540807")
+//    runtimeOnly fg.deobf("curse.maven:patchouli-306770:3459118")
+    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:3556313")
+    runtimeOnly fg.deobf("curse.maven:geckolib-388172:3548338")
+    runtimeOnly fg.deobf("curse.maven:occultism-361026:3565389")
+    runtimeOnly fg.deobf("curse.maven:curios-309927:3456953")
+    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3556990")
+    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3556953")
+    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3556973")
 //    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
 //    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
 //    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
 //    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+
+    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
+    
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
 
 shadowJar{
@@ -204,6 +224,16 @@ publishing {
 
 mixin {
     add sourceSets.main, "emendatusenigmatica.refmap.json"
+}
+
+// Prevent Mixin annotation processor from getting into IDEA's annotation processor settings
+// Copied from Botania
+if (System.getProperty("idea.sync.active") == "true") {
+    afterEvaluate {
+        tasks.withType(JavaCompile).all {
+            it.options.annotationProcessorPath = files()
+        }
+    }
 }
 
 artifacts {

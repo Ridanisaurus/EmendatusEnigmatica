@@ -34,4 +34,7 @@ public class Reference {
 	public static final String MEKANISM = "mekanism";
 	public static final String CREATE = "create";
 	public static final String BLOODMAGIC = "bloodmagic";
+	public static final String ARSNOUVEAU = "ars_nouveau";
+	public static final String OCCULTISM = "occultism";
+	public static final String THERMALSERIES = "thermal";
 }

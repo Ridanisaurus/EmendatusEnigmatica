@@ -80,12 +80,18 @@ public class EmendatusEnigmatica {
     public static boolean MEKANISM_LOADED = false;
     public static boolean CREATE_LOADED = false;
     public static boolean BLOODMAGIC_LOADED = false;
+    public static boolean ARSNOUVEAU_LOADED = false;
+    public static boolean OCCULTISM_LOADED = false;
+    public static boolean THERMALSERIES_LOADED = false;
 
     public EmendatusEnigmatica() {
         instance = this;
         MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
         CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);
         BLOODMAGIC_LOADED = ModList.get().isLoaded(Reference.BLOODMAGIC);
+        ARSNOUVEAU_LOADED = ModList.get().isLoaded(Reference.ARSNOUVEAU);
+        OCCULTISM_LOADED = ModList.get().isLoaded(Reference.OCCULTISM);
+        THERMALSERIES_LOADED = ModList.get().isLoaded(Reference.THERMALSERIES);
 
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -190,6 +196,9 @@ public class EmendatusEnigmatica {
             generator.addProvider(new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
             generator.addProvider(new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
             generator.addProvider(new BloodMagicDataGen.BloodMagicRecipes(generator));
+        }
+        if (ARSNOUVEAU_LOADED) {
+            generator.addProvider(new ArsNouveauDataGen.ArsNouveauRecipes(generator));
         }
     }
 

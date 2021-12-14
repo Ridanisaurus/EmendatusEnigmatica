@@ -68,6 +68,12 @@ public class GenericRecipeBuilder {
 	private final Map<String, IItemProvider> fieldValueItem = Maps.newLinkedHashMap();
 	private final Map<String, JsonItemBuilder> fieldValueJson = Maps.newLinkedHashMap();
 
+	public GenericRecipeBuilder(String resultName, IItemProvider item, int count, float chance) {
+		this.resultName = resultName;
+		this.result = new JsonItemBuilder(false).stackWithChance(item, count, chance);
+		this.recipeDefault = item.asItem();
+	}
+
 	public GenericRecipeBuilder(String resultName, IItemProvider item, int count) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stackWithCount(item, count);
