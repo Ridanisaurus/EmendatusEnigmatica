@@ -70,7 +70,6 @@ public class ArsNouveauDataGen {
 								.fieldJson("input", new GenericRecipeBuilder.JsonItemBuilder(false)
 										.stack(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()))
 								.addOutput(builder -> builder
-										.stackWithChance(EERegistrar.dustMap.get(material.getId()).get(), 1, 0.1)
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 1))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crush_spell/" + material.getId() + "_" + stratum.getId()));
 					}

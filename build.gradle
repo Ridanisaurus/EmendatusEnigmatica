@@ -4,6 +4,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://modmaven.dev/' }
 //        maven { url "https://repo.spongepowered.org/maven/" }
         maven {
             name "Sponge"
@@ -13,7 +14,7 @@ buildscript {
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
 //        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
@@ -63,7 +64,7 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
-            properties 'mixin.env.disableRefMap': 'true'
+//            properties 'mixin.env.disableRefMap': 'true'
             source sourceSets.main
         }
 
@@ -78,7 +79,7 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
-            properties 'mixin.env.disableRefMap': 'true'
+//            properties 'mixin.env.disableRefMap': 'true'
             source sourceSets.main
         }
 
@@ -93,7 +94,7 @@ minecraft {
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'info'
-            properties 'mixin.env.disableRefMap': 'true'
+//            properties 'mixin.env.disableRefMap': 'true'
 
             args '--mod', 'emendatusenigmatica', '--all', '--output', '"' + rootProject.file('src/generated/resources/') + '"', '--existing', '"' + sourceSets.main.resources.srcDirs[0] + '"'
             source sourceSets.main
