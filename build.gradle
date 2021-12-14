@@ -54,6 +54,8 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
@@ -67,6 +69,8 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
@@ -80,6 +84,8 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             arg '-mixin.config=emendatusenigmatica.mixins.json'
 
             // Recommended logging data for a userdev environment
@@ -179,7 +185,7 @@ dependencies {
 
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
-    
+
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
 
