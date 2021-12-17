@@ -57,7 +57,7 @@ public class BloodMagicDataGen {
 		protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				if (processedType.contains("dust") && processedType.contains("ore") && material.getOreBlockType().equals("metal") && material.isModded()) {
+				if (processedType.contains("dust") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Dust from Ore - Alchemy Table
 					new GenericRecipeBuilder("output", EERegistrar.dustMap.get(material.getId()).get(), 2)
 							.forceOutputArray(false)
@@ -71,7 +71,7 @@ public class BloodMagicDataGen {
 							.fieldInt("upgradeLevel", 1)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_alchemy/" + material.getId()));
 				}
-				if (processedType.contains("fragment") && processedType.contains("ore") && material.getOreBlockType().equals("metal") && material.isModded()) {
+				if (processedType.contains("fragment") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Fragment from Ore - ARC
 					new GenericRecipeBuilder("output", EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), 3)
 							.forceOutputArray(false)
@@ -84,7 +84,7 @@ public class BloodMagicDataGen {
 							.fieldBoolean("consumeingredient", false)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "fragment/from_ore/" + material.getId()));
 				}
-				if (processedType.contains("gravel") && processedType.contains("fragment") && material.getOreBlockType().equals("metal") && material.isModded()) {
+				if (processedType.contains("gravel") && processedType.contains("fragment") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Gravel from Fragment - ARC
 					new GenericRecipeBuilder("output", EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(),1)
 							.forceOutputArray(false)
@@ -122,7 +122,7 @@ public class BloodMagicDataGen {
 				// Fragment
 				if (processedType.contains("fragment")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_fragment").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_fragment"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_0"))
@@ -133,7 +133,7 @@ public class BloodMagicDataGen {
 				// Gravel
 				if (processedType.contains("gravel")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_gravel").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gravel"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_0"))

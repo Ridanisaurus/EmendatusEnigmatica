@@ -57,7 +57,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("ingot")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_ingot").parent(new ModelFile.UncheckedModelFile("item/generated"));
 
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_0"))
@@ -70,7 +70,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("nugget")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_nugget")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_0"))
@@ -84,7 +84,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("gem")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_gem")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_0"))
@@ -97,7 +97,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("dust")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_dust")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_0"))
@@ -110,7 +110,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("plate")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_plate")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_0"))
@@ -123,7 +123,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("gear")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_gear")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_0"))
@@ -136,7 +136,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("rod")) {
                     ItemModelBuilder parent = getBuilder(material.getId() + "_rod")
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod"));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_0"))
@@ -149,7 +149,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("raw")) {
                     ItemModelBuilder parent = getBuilder("raw_" + material.getId())
                             .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/raw_" + material.getId()));
                     } else {
                         parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_0"))

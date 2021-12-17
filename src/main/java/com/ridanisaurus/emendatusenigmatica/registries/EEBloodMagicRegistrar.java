@@ -46,19 +46,19 @@ public class EEBloodMagicRegistrar {
 
     public static void registerFragments(MaterialModel material) {
         String itemName = material.getId() + "_fragment";
-        if (material.isBurnable()) {
-            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+        if (material.getProperties().isBurnable()) {
+            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         } else {
-            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+            fragmentMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         }
     }
 
     public static void registerGravels(MaterialModel material) {
         String itemName = material.getId() + "_gravel";
-        if (material.isBurnable()) {
-            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+        if (material.getProperties().isBurnable()) {
+            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         } else {
-            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+            gravelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         }
     }
 

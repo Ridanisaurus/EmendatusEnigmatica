@@ -68,14 +68,14 @@ public class LangGen extends LanguageProvider {
 				if (processedType.equals("storage_block")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Block of ");
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
 				}
 
 				// Ingots
 				if (processedType.equals("ingot")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Ingot");
 					add(EERegistrar.ingotMap.get(material.getId()).get(), sb.toString());
 				}
@@ -83,7 +83,7 @@ public class LangGen extends LanguageProvider {
 				// Gems
 				if (processedType.equals("gem")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Gem");
 					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
 				}
@@ -91,7 +91,7 @@ public class LangGen extends LanguageProvider {
 				// Nuggets
 				if (processedType.equals("nugget")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Nugget");
 					add(EERegistrar.nuggetMap.get(material.getId()).get(), sb.toString());
 				}
@@ -99,7 +99,7 @@ public class LangGen extends LanguageProvider {
 				// Dusts
 				if (processedType.equals("dust")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Dust");
 					add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
 				}
@@ -107,7 +107,7 @@ public class LangGen extends LanguageProvider {
 				// Plates
 				if (processedType.equals("plate")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Plate");
 					add(EERegistrar.plateMap.get(material.getId()).get(), sb.toString());
 				}
@@ -115,7 +115,7 @@ public class LangGen extends LanguageProvider {
 				// Gears
 				if (processedType.equals("gear")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Gear");
 					add(EERegistrar.gearMap.get(material.getId()).get(), sb.toString());
 				}
@@ -123,7 +123,7 @@ public class LangGen extends LanguageProvider {
 				// Rods
 				if (processedType.equals("rod")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Rod");
 					add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
 				}
@@ -132,7 +132,7 @@ public class LangGen extends LanguageProvider {
 				if (processedType.equals("raw")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Raw ");
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					add(EERegistrar.rawMap.get(material.getId()).get(), sb.toString());
 				}
 
@@ -148,12 +148,12 @@ public class LangGen extends LanguageProvider {
 				if (processedType.equals("fluid")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Molten ");
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
 
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append("Bucket of Molten ");
-					sb2.append(material.getLocalisedName());
+					sb2.append(material.getLocalizedName());
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
 
@@ -163,34 +163,34 @@ public class LangGen extends LanguageProvider {
 					if (processedType.contains("slurry")) {
 						StringBuilder sb = new StringBuilder();
 						sb.append("Dirty ");
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Slurry");
 						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
 
 						StringBuilder sb2 = new StringBuilder();
 						sb2.append("Clean ");
-						sb2.append(material.getLocalisedName());
+						sb2.append(material.getLocalizedName());
 						sb2.append(" Slurry");
 						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
 					}
 					// Crystals
 					if (processedType.contains("crystal")) {
 						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Crystal");
 						add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
 					}
 					// Shards
 					if (processedType.contains("shard")) {
 						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Shard");
 						add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
 					}
 					// Clumps
 					if (processedType.contains("clump")) {
 						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Clump");
 						add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
 					}
@@ -198,7 +198,7 @@ public class LangGen extends LanguageProvider {
 					if (processedType.contains("dirty_dust")) {
 						StringBuilder sb = new StringBuilder();
 						sb.append("Dirty ");
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Dust");
 						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
 					}
@@ -209,7 +209,7 @@ public class LangGen extends LanguageProvider {
 					if (processedType.contains("crushed_ore")) {
 						StringBuilder sb = new StringBuilder();
 						sb.append("Crushed ");
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" ore");
 						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 					}
@@ -219,14 +219,14 @@ public class LangGen extends LanguageProvider {
 					// Fragment
 					if (processedType.contains("fragment")) {
 						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Fragment");
 						add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
 					}
 					// Gravel
 					if (processedType.contains("gravel")) {
 						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalisedName());
+						sb.append(material.getLocalizedName());
 						sb.append(" Gravel");
 						add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
 					}
@@ -239,7 +239,7 @@ public class LangGen extends LanguageProvider {
 				if (material.getProcessedType().contains("ore")) {
 
 					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalisedName());
+					sb.append(material.getLocalizedName());
 					sb.append(" Ore");
 
 					if (!stratum.getId().equals("minecraft_stone")) {

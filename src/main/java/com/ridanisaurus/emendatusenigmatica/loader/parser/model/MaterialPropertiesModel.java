@@ -32,52 +32,58 @@ import java.util.Optional;
 
 public class MaterialPropertiesModel {
 	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
-			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
+			Codec.STRING.optionalFieldOf("oreBlockType").forGetter(i -> Optional.ofNullable(i.oreBlockType)),
 			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel)),
 			Codec.BOOL.optionalFieldOf("hasParticle").forGetter(i -> Optional.of(i.hasParticle)),
-			Codec.STRING.optionalFieldOf("particleHex").forGetter(i -> Optional.ofNullable(i.particleHex))
-	).apply(x, (f, f2, i, b, s) -> new MaterialPropertiesModel(f.orElse(3f), f2.orElse(3f), i.orElse(1), b.orElse(false), s.orElse(""))));
+			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
+			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime))
+	).apply(x, (oreBlockType, harvestLevel, hasParticle, isBurnable, burnTime) -> new MaterialPropertiesModel(
+			oreBlockType.orElse(""),
+			harvestLevel.orElse(1),
+			hasParticle.orElse(false),
+			isBurnable.orElse(false),
+			burnTime.orElse(0)
+	)));
 
-	private final float hardness;
-	private final float resistance;
+	private final String oreBlockType;
 	private final int harvestLevel;
 	private final boolean hasParticle;
-	private final String particleHex;
+	private final boolean isBurnable;
+	private final int burnTime;
 
-	public MaterialPropertiesModel(float hardness, float resistance, int harvestLevel, boolean hasParticle, String particleHex) {
-		this.hardness = hardness;
-		this.resistance = resistance;
+	public MaterialPropertiesModel(String oreBlockType, int harvestLevel, boolean hasParticle, boolean isBurnable, int burnTime) {
+		this.oreBlockType = oreBlockType;
 		this.harvestLevel = harvestLevel;
 		this.hasParticle = hasParticle;
-		this.particleHex = particleHex;
+		this.isBurnable = isBurnable;
+		this.burnTime = burnTime;
 	}
 
 	public MaterialPropertiesModel() {
-		this.hardness = 3f;
-		this.resistance = 3f;
+		this.oreBlockType = "";
 		this.harvestLevel = 1;
 		this.hasParticle = false;
-		this.particleHex = "";
+		this.isBurnable = false;
+		this.burnTime = 0;
 	}
 
-	public float getHardness() {
-		return hardness;
-	}
-
-	public float getResistance() {
-		return resistance;
+	public String getOreBlockType() {
+		return oreBlockType;
 	}
 
 	public int getHarvestLevel() {
 		return harvestLevel;
 	}
 
-	public boolean getHasParticle() {
+	public boolean hasParticle() {
 		return hasParticle;
 	}
 
-	public String getParticleHex() {
-		return particleHex;
+	public boolean isBurnable() {
+		return isBurnable;
+	}
+
+	public int getBurnTime() {
+		return burnTime;
 	}
 }

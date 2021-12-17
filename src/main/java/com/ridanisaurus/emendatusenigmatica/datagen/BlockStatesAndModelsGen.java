@@ -55,7 +55,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                 if (processedType.equals("storage_block")) {
                     Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
                     ResourceLocation loc = block.getRegistryName();
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                                 .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
                                 .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
@@ -101,10 +101,10 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                 if (material.getProcessedType().contains("ore")) {
                     Block ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get();
                     ResourceLocation loc = ore.getRegistryName();
-                    if (material.getHighlightColor() == -1) {
+                    if (material.getColors().getHighlightColor() == -1) {
                         dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId());
                     } else {
-                        if (material.getOreBlockType().equals("gem")) {
+                        if (material.getProperties().getOreBlockType().equals("gem")) {
                             dynamicTintBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_gem");
                         } else {
                             dynamicTintBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_metal");

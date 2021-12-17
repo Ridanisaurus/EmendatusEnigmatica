@@ -38,8 +38,11 @@ public class StrataModel {
 			Codec.STRING.fieldOf("suffix").forGetter(i -> i.suffix),
 			Codec.STRING.fieldOf("fillerType").forGetter(i -> i.fillerType.toString()),
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
-			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool))
-	).apply(x, (s, s2, s3, s4, s5, s6) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5, s6.orElse(""))));
+			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool)),
+			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
+			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance))
+	).apply(x, (s, s2, s3, s4, s5, s6, f, f2) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5, s6.orElse(""), f.orElse(3f),
+			f2.orElse(3f))));
 
 	private final String id;
 	private final ResourceLocation baseTexture;
@@ -47,16 +50,18 @@ public class StrataModel {
 	private final ResourceLocation fillerType;
 	private final String localizedName;
 	private final String harvestTool;
+	private final float hardness;
+	private final float resistance;
 
-
-	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool) {
-
+	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool, float hardness, float resistance) {
 		this.id = id;
 		this.baseTexture = baseTexture;
 		this.suffix = suffix;
 		this.fillerType = fillerType;
 		this.localizedName = localizedName;
 		this.harvestTool = harvestTool;
+		this.hardness = hardness;
+		this.resistance = resistance;
 	}
 
 	public String getId() {
@@ -90,5 +95,13 @@ public class StrataModel {
 			default:
 				return ToolType.PICKAXE;
 		}
+	}
+
+	public float getHardness() {
+		return hardness;
+	}
+
+	public float getResistance() {
+		return resistance;
 	}
 }

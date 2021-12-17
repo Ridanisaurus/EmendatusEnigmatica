@@ -45,10 +45,10 @@ public class EECreateRegistrar {
 
     public static void registerCrushedOres(MaterialModel material) {
         String itemName = "crushed_" + material.getId() + "_ore";
-        if (material.isBurnable()) {
-            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getBurnTime(), material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+        if (material.getProperties().isBurnable()) {
+            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         } else {
-            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getHighlightColor(), material.getBaseColor(), material.getShadeColor())));
+            crushedOreMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
         }
     }
 

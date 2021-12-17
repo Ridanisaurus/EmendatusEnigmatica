@@ -60,7 +60,7 @@ public class CreateDataGen {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
 					// TODO: Revisit this whole section once the chunks system is flushed out
-					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getOreBlockType().equals("metal") && material.isModded()) {
+					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
 						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
 								.type("create:crushing")
@@ -72,15 +72,15 @@ public class CreateDataGen {
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
-					if (processedType.contains("ore") && material.getOreBlockType().equals("gem") && material.isModded()) {
+					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
-						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDefaultItemDropAsItem()), 2)
+						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDrops().getDefaultItemDropAsItem()), 2)
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDefaultItemDropAsItem()), 1, 0.25)
+										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDrops().getDefaultItemDropAsItem()), 1, 0.25)
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
@@ -142,7 +142,7 @@ public class CreateDataGen {
 				// Crushed Ore
 				if (processedType.contains("crushed_ore")) {
 					ItemModelBuilder parent = getBuilder("crushed_" + material.getId() + "_ore").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_0"))

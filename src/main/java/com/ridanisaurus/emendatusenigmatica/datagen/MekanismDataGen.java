@@ -165,7 +165,7 @@ public class MekanismDataGen {
 				// Crystals
 				if (processedType.contains("crystal")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_crystal").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crystal"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_0"))
@@ -176,7 +176,7 @@ public class MekanismDataGen {
 				// Shards
 				if (processedType.contains("shard")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_shard").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shard"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_0"))
@@ -187,7 +187,7 @@ public class MekanismDataGen {
 				// Clumps
 				if (processedType.contains("clump")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_clump").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_clump"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_0"))
@@ -198,7 +198,7 @@ public class MekanismDataGen {
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
 					ItemModelBuilder parent = getBuilder(material.getId() + "_dirty_dust").parent(new ModelFile.UncheckedModelFile("item/generated"));
-					if (material.getHighlightColor() == -1) {
+					if (material.getColors().getHighlightColor() == -1) {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dirty_dust"));
 					} else {
 						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_0"))

@@ -206,8 +206,8 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
 			Item item = itemStack.getItem();
 
 			MaterialModel material = EELoader.materialsByName.get(item.getRegistryName());
-			return material != null && material.getOreBlockType().equals("gem") ? OreDropHelper.drop(() ->
-					ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDefaultItemDrop())), material.getDropMin(), material.getDropMax()) : null;
+			return material != null && material.getProperties().getOreBlockType().equals("gem") ? OreDropHelper.drop(() ->
+					ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDrops().getDrop())), material.getDrops().getVanillaMin(), material.getDrops().getVanillaMax()) : null;
 
 		}
 		return null;
