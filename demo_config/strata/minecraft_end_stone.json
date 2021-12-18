@@ -1,0 +1,7 @@
+{
+  "id": "minecraft_end_stone",
+  "baseTexture": "minecraft:block/end_stone",
+  "suffix": "end_stone",
+  "fillerType": "minecraft:end_stone",
+  "localizedName": "End Stone"
+}

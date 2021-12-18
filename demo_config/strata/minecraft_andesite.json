@@ -1,0 +1,7 @@
+{
+  "id": "minecraft_andesite",
+  "baseTexture": "minecraft:block/andesite",
+  "suffix": "andesite",
+  "fillerType": "minecraft:andesite",
+  "localizedName": "Andesite"
+}

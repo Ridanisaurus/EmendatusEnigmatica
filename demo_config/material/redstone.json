@@ -1,0 +1,42 @@
+{
+  "id": "redstone",
+  "source": "vanilla",
+  "localizedName": "Redstone",
+  "processedType": [
+    "ore",
+    "raw"
+  ],
+  "properties": {
+    "oreBlockType": "gem",
+    "harvestLevel": 1
+  },
+  "outputs": {
+    "drop": "minecraft:redstone",
+    "vanillaMin": 4,
+    "vanillaMax": 5,
+    "createCompat": {
+      "crushingPrimaryCount": 8,
+      "crushingPrimaryChance": 1.0,
+      "crushingSecondaryCount": 6,
+      "crushingSecondaryChance": 0.25
+    },
+    "thermalCompat": {
+      "pulverizerPrimaryCount": 6,
+      "pulverizerPrimaryChance": 0.50,
+      "pulverizerSecondaryOutput": "thermal:cinnabar",
+      "pulverizerSecondaryCount": 1,
+      "pulverizerSecondaryChance": 0.25,
+      "pulverizerTertiaryOutput": "minecraft:gravel",
+      "pulverizerTertiaryCount": 1,
+      "pulverizerTertiaryChance": 0.20,
+      "inductionPrimaryCount": 3,
+      "inductionPrimaryChance": 0.5,
+      "inductionSecondaryOutput": "thermal:cinnabar",
+      "inductionSecondaryCount": 1,
+      "inductionSecondaryChance": 0.50,
+      "inductionTertiaryOutput": "thermal:rich_slag",
+      "inductionTertiaryCount": 1,
+      "inductionTertiaryChance": 0.20
+    }
+  }
+}

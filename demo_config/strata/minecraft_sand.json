@@ -1,0 +1,10 @@
+{
+  "id": "minecraft_sand",
+  "baseTexture": "minecraft:block/sand",
+  "suffix": "sand",
+  "fillerType": "minecraft:sand",
+  "localizedName": "Sand",
+  "harvestTool": "shovel",
+  "hardness": 0.5,
+  "resistance": 0.7
+}

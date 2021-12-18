@@ -1,0 +1,35 @@
+{
+  "type": "emendatusenigmatica:sphere_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "whitelistBiomes": [
+    "minecraft:dark_forest"
+  ],
+  "blacklistBiomes": [
+  ],
+  "registryName": "sphere_overworld_galena_ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "material": "uranium",
+        "weight": 10
+      },
+      {
+        "material": "zinc",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite"
+    ],
+    "chance": 25,
+    "radius": 6,
+    "density": 50,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

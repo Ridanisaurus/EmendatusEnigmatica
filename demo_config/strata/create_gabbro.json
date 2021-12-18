@@ -1,0 +1,7 @@
+{
+  "id": "create_gabbro",
+  "baseTexture": "create:block/palettes/gabbro/plain",
+  "suffix": "gabbro",
+  "fillerType": "create:gabbro",
+  "localizedName": "Gabbro"
+}
