@@ -52,17 +52,17 @@ public class LootTablesGen extends BaseLootTableProvider {
 		// Ores
 		for (MaterialModel material : EELoader.MATERIALS) {
 			for (StrataModel stratum : EELoader.STRATA) {
-				if (material.getProcessedType().contains("ore")) {
+				if (material.getProcessedType().contains("ore") && material.getProcessedType().contains("raw")) {
 					// TODO: Revisit this for RAW drop count
-					if (material.getDrops().getDrop().isEmpty()) {
+					if (material.getOutputs().getDrop().isEmpty()) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 								createItemLootTable(EERegistrar.rawMap.get(material.getId()).get()));
 
 					} else {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 								createCountTable(EERegistrar.rawMap.get(material.getId()).get(),
-										ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getDrops().getDrop())),
-										material.getDrops().getVanillaMin(), material.getDrops().getVanillaMax()));
+										ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.getOutputs().getDrop())),
+										material.getOutputs().getVanillaMin(), material.getOutputs().getVanillaMax()));
 
 					}
 				}

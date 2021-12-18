@@ -32,51 +32,41 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 
-public class MaterialDropsModel {
-	public static final Codec<MaterialDropsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class MaterialOutputsModel {
+	public static final Codec<MaterialOutputsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("drop").forGetter(i -> Optional.ofNullable(i.drop)),
 			Codec.INT.optionalFieldOf("vanillaMin").forGetter(i -> Optional.of(i.vanillaMin)),
 			Codec.INT.optionalFieldOf("vanillaMax").forGetter(i -> Optional.of(i.vanillaMax)),
-			Codec.INT.optionalFieldOf("createMin").forGetter(i -> Optional.of(i.createMin)),
-			Codec.INT.optionalFieldOf("createMax").forGetter(i -> Optional.of(i.createMax)),
-			Codec.INT.optionalFieldOf("thermalMin").forGetter(i -> Optional.of(i.thermalMin)),
-			Codec.INT.optionalFieldOf("thermalMax").forGetter(i -> Optional.of(i.thermalMax))
-	).apply(x, (drop, vanillaMin, vanillaMax, createMin, createMax, thermalMin, thermalMax) -> new MaterialDropsModel(
+			MaterialCreateCompatModel.CODEC.optionalFieldOf("createCompat").forGetter(i -> Optional.of(i.createCompat)),
+			MaterialThermalCompatModel.CODEC.optionalFieldOf("thermalCompat").forGetter(i -> Optional.of(i.thermalCompat))
+	).apply(x, (drop, vanillaMin, vanillaMax, createCompat, thermalCompat) -> new MaterialOutputsModel(
 			drop.orElse(""),
 			vanillaMin.orElse(1),
 			vanillaMax.orElse(1),
-			createMin.orElse(1),
-			createMax.orElse(1),
-			thermalMin.orElse(1),
-			thermalMax.orElse(1)
+			createCompat.orElse(new MaterialCreateCompatModel()),
+			thermalCompat.orElse(new MaterialThermalCompatModel())
 	)));
 
 	private final String drop;
 	private final int vanillaMin;
 	private final int vanillaMax;
-	private final int createMin;
-	private final int createMax;
-	private final int thermalMin;
-	private final int thermalMax;
+	private final MaterialCreateCompatModel createCompat;
+	private final MaterialThermalCompatModel thermalCompat;
 
-	public MaterialDropsModel(String drop, int vanillaMin, int vanillaMax, int createMin, int createMax, int thermalMin, int thermalMax) {
+	public MaterialOutputsModel(String drop, int vanillaMin, int vanillaMax, MaterialCreateCompatModel createCompat, MaterialThermalCompatModel thermalCompat) {
 		this.drop = drop;
 		this.vanillaMin = vanillaMin;
 		this.vanillaMax = vanillaMax;
-		this.createMin = createMin;
-		this.createMax = createMax;
-		this.thermalMin = thermalMin;
-		this.thermalMax = thermalMax;
+		this.createCompat = createCompat;
+		this.thermalCompat = thermalCompat;
 	}
 
-	public MaterialDropsModel() {
+	public MaterialOutputsModel() {
 		this.drop = "";
 		this.vanillaMin = 1;
 		this.vanillaMax = 1;
-		this.createMin = 1;
-		this.createMax = 1;
-		this.thermalMin = 1;
-		this.thermalMax = 1;
+		this.createCompat = new MaterialCreateCompatModel();
+		this.thermalCompat = new MaterialThermalCompatModel();
 	}
 
 	public String getDrop() {
@@ -91,20 +81,13 @@ public class MaterialDropsModel {
 		return vanillaMax;
 	}
 
-	public int getCreateMin() {
-		return createMin;
+
+	public MaterialCreateCompatModel getCreateCompat() {
+		return createCompat;
 	}
 
-	public int getCreateMax() {
-		return createMax;
-	}
-
-	public int getThermalMin() {
-		return thermalMin;
-	}
-
-	public int getThermalMax() {
-		return thermalMax;
+	public MaterialThermalCompatModel getThermalCompat() {
+		return thermalCompat;
 	}
 
 	public IItemProvider getDefaultItemDropAsItem() {

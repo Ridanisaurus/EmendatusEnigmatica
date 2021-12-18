@@ -141,8 +141,8 @@ public class EERegistrar {
 					material.getProperties().getHarvestLevel(),
 					strata.getHarvestTool(),
 					material.getLocalizedName(),
-					material.getDrops().getVanillaMin(),
-					material.getDrops().getVanillaMax(),
+					material.getOutputs().getVanillaMin(),
+					material.getOutputs().getVanillaMax(),
 					material.getColors().getHighlightColor(),
 					material.getColors().getBaseColor(),
 					material.getColors().getShadeColor()));

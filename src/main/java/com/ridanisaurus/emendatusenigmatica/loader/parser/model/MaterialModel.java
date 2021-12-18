@@ -26,13 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class MaterialModel {
@@ -42,7 +37,7 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
 			Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
-			MaterialDropsModel.CODEC.optionalFieldOf("drops").forGetter(i -> Optional.of(i.drops)),
+			MaterialOutputsModel.CODEC.optionalFieldOf("outputs").forGetter(i -> Optional.of(i.outputs)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors))
 	).apply(x, (id, source, localizedName, processedType, properties, drops, colors) -> new MaterialModel(
 			id,
@@ -50,7 +45,7 @@ public class MaterialModel {
 			localizedName,
 			processedType,
 			properties.orElse(new MaterialPropertiesModel()),
-			drops.orElse(new MaterialDropsModel()),
+			drops.orElse(new MaterialOutputsModel()),
 			colors.orElse(new MaterialColorsModel())
 	)));
 
@@ -59,16 +54,16 @@ public class MaterialModel {
 	private final String localizedName;
 	private final List<String> processedType;
 	private final MaterialPropertiesModel properties;
-	private final MaterialDropsModel drops;
+	private final MaterialOutputsModel outputs;
 	private final MaterialColorsModel colors;
 
-	public MaterialModel(String id, String source, String localizedName, List<String> processedType, MaterialPropertiesModel properties, MaterialDropsModel drops, MaterialColorsModel colors) {
+	public MaterialModel(String id, String source, String localizedName, List<String> processedType, MaterialPropertiesModel properties, MaterialOutputsModel outputs, MaterialColorsModel colors) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
 		this.processedType = processedType;
 		this.properties = properties;
-		this.drops = drops;
+		this.outputs = outputs;
 		this.colors = colors;
 	}
 
@@ -100,8 +95,8 @@ public class MaterialModel {
 		return properties;
 	}
 
-	public MaterialDropsModel getDrops() {
-		return drops;
+	public MaterialOutputsModel getOutputs() {
+		return outputs;
 	}
 
 	public MaterialColorsModel getColors() {

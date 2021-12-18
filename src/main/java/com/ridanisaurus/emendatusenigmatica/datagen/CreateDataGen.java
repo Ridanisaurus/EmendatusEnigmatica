@@ -74,13 +74,13 @@ public class CreateDataGen {
 					}
 					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
-						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDrops().getDefaultItemDropAsItem()), 2)
+						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOutputs().getDefaultItemDropAsItem()), 2)
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getDrops().getDefaultItemDropAsItem()), 1, 0.25)
+										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOutputs().getDefaultItemDropAsItem()), 1, 0.25)
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
