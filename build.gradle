@@ -7,13 +7,12 @@ buildscript {
         maven { url "https://repo.spongepowered.org/maven/" }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 
 plugins {
-    id "com.wynprice.cursemaven" version "2.1.1"
     id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
@@ -30,7 +29,7 @@ version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}
 group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'EmendatusEnigmatica'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
@@ -104,6 +103,22 @@ repositories {
 //        name = "ModMaven"
 //        url = "https://modmaven.k-4u.nl"
 //    }
+
+    maven {
+        url "https://maven.architectury.dev/"
+        content {
+            includeGroup "dev.architectury"
+            includeGroup "me.shedaniel"
+            includeGroup "me.shedaniel.cloth"
+        }
+    }
+
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
@@ -133,17 +148,15 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //if (findProject(':workspace') == null) {
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
     //}
 
-    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-    runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+    // compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+    // runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
-    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3054192")
+    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3545856")
 //    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
-    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3485079")
+    // runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3485079")
 //    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3467948")
     //runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
     //runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
@@ -218,7 +231,7 @@ if (ENV.CURSE_DEPLOY) {
             id = project.curseforge_id // the project id of the Curse project
             releaseType = "release" // Make it a release on curseforge
             addGameVersion "Forge"  // Made for forge
-            addGameVersion "Java 8" // Targeting java 8
+            addGameVersion "Java 17" // Targeting java 17
             addGameVersion "${mc_version}" // Minecraft :pog:
             mainArtifact(jar) {
               displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"

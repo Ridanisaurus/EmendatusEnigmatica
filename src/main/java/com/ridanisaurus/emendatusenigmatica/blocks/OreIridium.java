@@ -24,28 +24,14 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-
-import java.util.Random;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.material.Material;
 
 public class OreIridium extends OreBlock {
     public OreIridium() { super(Properties.of(Material.STONE)
             .strength(3.0f,3.0f)
-            .harvestLevel(2)
-            .harvestTool(ToolType.PICKAXE)
+            // FIXME: .harvestLevel(2)
+            // FIXME: .harvestTool(ToolType.PICKAXE)
             .requiresCorrectToolForDrops());
-    }
-
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 0;
     }
 }

@@ -24,34 +24,16 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
-import java.util.function.ToIntFunction;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class OreRedstone extends OreBlock {
     /*public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
@@ -63,9 +45,9 @@ public class OreRedstone extends OreBlock {
     public OreRedstone() {
         super(Properties.of(Material.STONE)
                 .strength(3.0F, 3.0F)
-                .harvestLevel(2)
-                .harvestTool(ToolType.PICKAXE)
-                .requiresCorrectToolForDrops());
+                // FIXME: .harvestLevel(2)
+                // FIXME: .harvestTool(ToolType.PICKAXE)
+                .requiresCorrectToolForDrops(), UniformInt.of(0, 2));
                 /*.tickRandomly()
                 .setLightLevel(getLightLevel()));*/
 
@@ -73,17 +55,7 @@ public class OreRedstone extends OreBlock {
     }
 
     @Override
-    protected int xpOnDrop(Random rand) {
-        return MathHelper.nextInt(rand, 0, 2);
-    }
-
-    @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
-    }
-
-    @Override
-    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
         super.animateTick(stateIn, worldIn, pos, rand);
 
         if(rand.nextInt(10) == 0) {
@@ -94,7 +66,7 @@ public class OreRedstone extends OreBlock {
                     double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
                     double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
                     double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
-                    worldIn.addParticle(new RedstoneParticleData(1F,0F,0F,1F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+                    worldIn.addParticle(DustParticleOptions.REDSTONE, (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
                 }
             }
         }

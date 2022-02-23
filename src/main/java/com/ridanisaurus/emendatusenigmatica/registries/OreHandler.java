@@ -29,22 +29,22 @@ import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
-import net.minecraft.block.Block;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class OreHandler {
 
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Ore Blocks
-  public static Table<Strata, Materials, RegistryObject<Block>> backingOreBlockTable;
+  public static Table<Strata, Materials, Supplier<Block>> backingOreBlockTable;
   //public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
   public static void oreBlocks() {
-    ImmutableTable.Builder<Strata, Materials, RegistryObject<Block>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, Supplier<Block>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";

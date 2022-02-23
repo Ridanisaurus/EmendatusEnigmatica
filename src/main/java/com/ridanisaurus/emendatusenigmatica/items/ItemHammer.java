@@ -25,8 +25,8 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.Random;

@@ -33,18 +33,19 @@ import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.DepthAverageConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
@@ -106,7 +107,6 @@ public class WorldGenHandler {
                                 getOreBlock(stratum, material))
                 );
               }
-
           }
         }
       }
@@ -122,20 +122,20 @@ public class WorldGenHandler {
   public static void addEEOres(BiomeGenerationSettingsBuilder builder, BiomeLoadingEvent event) {
     for (Table.Cell<Strata, Materials, ConfiguredFeature<?, ?>> cell : oreFeatures.cellSet()) {
       BakedOreProps p = WorldGenConfig.COMMON.ORES.get(cell.getColumnKey());
-      if (p.isOverworldListed(event.getName()) == p.OVERWORLD_BIOMELIST_INVERT && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.THEEND) {
-        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      if (p.isOverworldListed(event.getName()) == p.OVERWORLD_BIOMELIST_INVERT && event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
-      if (p.isNetherListed(event.getName()) == p.NETHER_BIOMELIST_INVERT && event.getCategory() == Biome.Category.NETHER) {
-        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      if (p.isNetherListed(event.getName()) == p.NETHER_BIOMELIST_INVERT && event.getCategory() == Biome.BiomeCategory.NETHER) {
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
-      if (p.isEndListed(event.getName()) == p.END_BIOMELIST_INVERT && event.getCategory() == Biome.Category.THEEND) {
-        builder.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, cell.getValue());
+      if (p.isEndListed(event.getName()) == p.END_BIOMELIST_INVERT && event.getCategory() == Biome.BiomeCategory.THEEND) {
+        builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, cell.getValue());
       }
     }
   }
 
   private static RuleTest getFilter(Strata stratum) {
-    return new BlockMatchRuleTest(stratum.block.get());
+    return new BlockMatchTest(stratum.block.get());
   }
 
   private static BlockState getOreBlock(Strata stratum, Materials material) {
@@ -149,7 +149,7 @@ public class WorldGenHandler {
             .decorated(useSpread ? Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)) : Placement.RANGE.configured(new TopSolidRangeConfig(baseline - spread, 0, baseline + spread)))
             .squared()
             .count(count);
-    Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
+    Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
     return configuredFeature;
   }
 }

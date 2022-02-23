@@ -24,32 +24,32 @@
 
 package com.ridanisaurus.emendatusenigmatica.inventory;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 
-public class EnigmaticFortunizerScreen extends ContainerScreen<EnigmaticFortunizerContainer> {
+public class EnigmaticFortunizerScreen extends AbstractContainerScreen<EnigmaticFortunizerContainer> {
   private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(Reference.MOD_ID, "textures/gui/enigmatic_fortunizer.png");
 
-  public EnigmaticFortunizerScreen(EnigmaticFortunizerContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
+  public EnigmaticFortunizerScreen(EnigmaticFortunizerContainer screenContainer, Inventory inv, Component titleIn) {
     super(screenContainer, inv, titleIn);
   }
 
   @Override
-  protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
+  protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
     this.renderBackground(matrixStack);
-    this.minecraft.getTextureManager().bind(BACKGROUND_TEXTURE);
+    RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
     this.blit(matrixStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
     int progressBar = this.menu.tileEntity.getProgress(62);
     this.blit(matrixStack, this.leftPos + 57, this.topPos + 37, 176, 0, progressBar + 1, 28);
   }
 
-  public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+  public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
     super.render(matrixStack, mouseX, mouseY, partialTicks);
     this.renderTooltip(matrixStack, mouseX, mouseY);
   }

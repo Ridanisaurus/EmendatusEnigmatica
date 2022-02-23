@@ -2,6 +2,6 @@
 @ParametersAreNonnullByDefault
 package com.ridanisaurus.emendatusenigmatica.jei;
 
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;

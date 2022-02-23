@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 public class ItemBase extends Item {
 

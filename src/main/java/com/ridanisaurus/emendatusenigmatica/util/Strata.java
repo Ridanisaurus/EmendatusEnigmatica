@@ -1,9 +1,8 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;

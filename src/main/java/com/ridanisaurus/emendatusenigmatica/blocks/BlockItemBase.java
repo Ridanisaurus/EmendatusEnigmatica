@@ -25,11 +25,10 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.Block;
 
 public class BlockItemBase extends BlockItem {
 
@@ -41,7 +40,7 @@ public class BlockItemBase extends BlockItem {
     }
 
     @Override
-    public int getBurnTime(ItemStack itemStack) {
+    public int getBurnTime(ItemStack itemStack, RecipeType<?> recipeType) {
         return burnTime;
     }
 }

@@ -28,11 +28,16 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
 import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
-import com.ridanisaurus.emendatusenigmatica.registries.*;
+import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
+import com.ridanisaurus.emendatusenigmatica.registries.SlurryHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.WorldGenHandler;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -112,7 +117,7 @@ public class EmendatusEnigmatica {
         proxy.postInit(event);
     }
 
-    public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
+    public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(BlockHandler.ENIGMATIC_FORTUNIZER.get());

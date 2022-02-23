@@ -24,41 +24,27 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class OreDimensional extends OreBlock {
     public OreDimensional() { super(Properties.of(Material.STONE)
             .strength(3.0f,3.0f)
-            .harvestLevel(1)
-            .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops());
-    }
-
-    protected int xpOnDrop(Random rand) {
-        return MathHelper.nextInt(rand, 1, 3);
+            // FIXME: .harvestLevel(1)
+            // FIXME: .harvestTool(ToolType.PICKAXE)
+            .requiresCorrectToolForDrops(), UniformInt.of(1, 3));
     }
 
     @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
-        return silktouch == 0 ? this.xpOnDrop(RANDOM) : 0;
-    }
-
-    @Override
-    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
         super.animateTick(stateIn, worldIn, pos, rand);
 
         if(rand.nextInt(5) == 0) {

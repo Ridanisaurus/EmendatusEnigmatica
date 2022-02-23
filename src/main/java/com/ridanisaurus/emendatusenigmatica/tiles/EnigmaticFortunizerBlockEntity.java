@@ -24,47 +24,42 @@
 
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerContainer;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
-import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.Random;
 
-public class EnigmaticFortunizerTile extends TileEntityBase implements ITickableTileEntity, INamedContainerProvider {
+public class EnigmaticFortunizerBlockEntity extends BlockEntityBase implements MenuProvider {
   // Number of slots
   public final EEItemStackHandler itemSH = new EEItemStackHandler(3){
     // Checking valid Pickaxe
@@ -98,8 +93,8 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   // Capability
   private final LazyOptional<EEItemStackHandler> lazyItemStorage = LazyOptional.of(() -> itemSH);
 
-  public EnigmaticFortunizerTile() {
-    super(BlockHandler.ENIGMATIC_FORTUNIZER_TILE.get());
+  public EnigmaticFortunizerBlockEntity(BlockPos pos, BlockState state) {
+    super(BlockHandler.ENIGMATIC_FORTUNIZER_TILE.get(), pos, state);
   }
 
   @Override
@@ -128,7 +123,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
             if(progress >= MAX_PROGRESS) {
               input.shrink(1);
               pickaxe.hurt(1, level.random, null);
-              output.grow(MathHelper.ceil(level.random.nextFloat() * (oreDropInfo.max - oreDropInfo.min)));
+              output.grow(Mth.ceil(level.random.nextFloat() * (oreDropInfo.max - oreDropInfo.min)));
               int fortune = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, pickaxe);
               output.setCount(getFortuneLoot(level.random, output.getCount(), fortune));
               this.itemSH.internal.insertItem(SLOT_OUTPUT, output, false);
@@ -139,7 +134,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
             ItemStack outPutPickaxe = pickaxe.copy();
             this.itemSH.internal.insertItem(SLOT_OUTPUT, outPutPickaxe, false);
             pickaxe.shrink(1);
-            level.playSound(null, worldPosition, SoundEvents.CAT_AMBIENT, SoundCategory.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, worldPosition, SoundEvents.CAT_AMBIENT, SoundSource.AMBIENT, 1.0F, 1.0F);
           }
 
         } else if(progress > 0) {
@@ -158,7 +153,7 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   }
 
   @Override
-  public CompoundNBT write(CompoundNBT compound, boolean forClient) {
+  public CompoundTag write(CompoundTag compound, boolean forClient) {
     if(!forClient) {
       compound.put("itemSH", itemSH.serializeNBT());
     }
@@ -168,13 +163,13 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   }
 
   @Override
-  public void read(BlockState state, CompoundNBT compound, boolean forClient) {
+  public void read(CompoundTag compound, boolean forClient) {
     if(!forClient) {
       itemSH.deserializeNBT(compound.getCompound("itemSH"));
     }
     progress = compound.getInt("progress");
     MAX_PROGRESS = compound.getInt("max_progress");
-    super.read(state, compound, forClient);
+    super.read(compound, forClient);
   }
 
   @Nonnull
@@ -193,14 +188,14 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   }
 
   @Override
-  public ITextComponent getDisplayName() {
-    return new TranslationTextComponent("container.emendatusenigmatica.enigmatic_fortunizer");
+  public Component getDisplayName() {
+    return new TranslatableComponent("container.emendatusenigmatica.enigmatic_fortunizer");
   }
 
   @Nullable
   @Override
   // Calls container on the Server
-  public Container createMenu(int windowID, PlayerInventory inventory, PlayerEntity player) {
+  public AbstractContainerMenu createMenu(int windowID, Inventory inventory, Player player) {
     return new EnigmaticFortunizerContainer(windowID, player, this.worldPosition);
   }
 
@@ -237,5 +232,9 @@ public class EnigmaticFortunizerTile extends TileEntityBase implements ITickable
   @Override
   public IItemHandlerModifiable getItemHandler() {
     return this.itemSH;
+  }
+
+  public static <T extends BlockEntity> void ticker(Level level, BlockPos blockPos, BlockState state, T t) {
+    ((EnigmaticFortunizerBlockEntity)t).tick();
   }
 }

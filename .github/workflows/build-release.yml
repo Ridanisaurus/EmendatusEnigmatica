@@ -3,7 +3,7 @@ name: Build & Release
 on:
   push:
     branches:
-      - 1.16-Current
+      - 1.18-Current
 
 jobs:
   build:
@@ -12,10 +12,10 @@ jobs:
       !contains(github.event.head_commit.message, '[skip]')
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          java-version: 8
+          java-version: 17
           distribution: "temurin"
           cache: "gradle"
       - name: Build & release to curseforge

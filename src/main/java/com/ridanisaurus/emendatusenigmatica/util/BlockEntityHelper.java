@@ -24,27 +24,20 @@
 
 package com.ridanisaurus.emendatusenigmatica.util;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 // Credit: Ellpeck - https://github.com/Ellpeck/PrettyPipes/blob/main/src/main/java/de/ellpeck/prettypipes/Utility.java#L71-L112
 
-public class TileEntityHelper {
+public class BlockEntityHelper {
 
-  public static ItemStack transferStackInSlot(Container container, IMergeItemStack merge, PlayerEntity player, int slotIndex, Function<ItemStack, Pair<Integer, Integer>> predicate) {
-    int inventoryStart = (int) container.slots.stream().filter(slot -> slot.container != player.inventory).count();
+  public static ItemStack transferStackInSlot(AbstractContainerMenu container, IMergeItemStack merge, Player player, int slotIndex, Function<ItemStack, Pair<Integer, Integer>> predicate) {
+    int inventoryStart = (int) container.slots.stream().filter(slot -> slot.container != player.getInventory()).count();
     int inventoryEnd = inventoryStart + 26;
     int hotbarStart = inventoryEnd + 1;
     int hotbarEnd = hotbarStart + 8;

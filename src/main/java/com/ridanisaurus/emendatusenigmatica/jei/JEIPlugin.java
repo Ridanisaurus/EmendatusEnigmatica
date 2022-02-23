@@ -28,13 +28,15 @@ import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.client.resources.I18n;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
@@ -149,20 +151,21 @@ public class JEIPlugin implements IModPlugin {
         }
 
         registration.addIngredientInfo(stack, VanillaTypes.ITEM,
-                "Spawns in the Overworld: \u00a78" + oreConfig.OVERWORLD_ACTIVE + "\u00a7r",
-                overworldInfo + "\n",
-                "Spawns in the Nether: \u00a78" + oreConfig.NETHER_ACTIVE + "\u00a7r",
-                netherInfo + "\n",
-                "Spawns in the End: \u00a78" + oreConfig.END_ACTIVE + "\u00a7r",
-                endInfo + "\n",
-                overworldBiomeList,
-                netherBiomeList,
-                endBiomeList,
-                "tooltip.emendatusenigmatica.ores.1",
-                "\n",
-                "tooltip.emendatusenigmatica.ores.2",
-                "\n",
-                "tooltip.emendatusenigmatica.ores.3");
+                new TextComponent("Spawns in the Overworld: ").append(String.valueOf(oreConfig.OVERWORLD_ACTIVE)).withStyle(ChatFormatting.DARK_GRAY),
+                new TextComponent(overworldInfo),
+                new TextComponent("Spawns in the Nether: ").append(String.valueOf(oreConfig.NETHER_ACTIVE)).withStyle(ChatFormatting.DARK_GRAY),
+                new TextComponent(netherInfo),
+                new TextComponent("Spawns in the End: ").append(String.valueOf(oreConfig.END_ACTIVE)).withStyle(ChatFormatting.DARK_GRAY),
+                new TextComponent(endInfo),
+                new TextComponent(overworldBiomeList),
+                new TextComponent(netherBiomeList),
+                new TextComponent(endBiomeList),
+                new TextComponent("tooltip.emendatusenigmatica.ores.1"),
+                TextComponent.EMPTY,
+                new TextComponent("tooltip.emendatusenigmatica.ores.2"),
+                TextComponent.EMPTY,
+                new TextComponent("tooltip.emendatusenigmatica.ores.3")
+        );
       });
     }
   }

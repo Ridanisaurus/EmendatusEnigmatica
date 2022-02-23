@@ -24,53 +24,46 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
+import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerBlockEntity;
 import com.ridanisaurus.emendatusenigmatica.util.KeyboardHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.BrewingStandTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Stream;
 
-import net.minecraft.block.AbstractBlock.Properties;
-
-public class EnigmaticFortunizer extends Block {
-  private static final DirectionProperty FACING = HorizontalBlock.FACING;
+public class EnigmaticFortunizer extends Block implements EntityBlock {
+  private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
   private static final VoxelShape SHAPE_N = Stream.of(
           Block.box(0, 0, 0, 16, 8, 16),
@@ -79,7 +72,7 @@ public class EnigmaticFortunizer extends Block {
           Block.box(12, 8, 0, 16, 10, 8),
           Block.box(5, 8, 1, 11, 12, 7),
           Block.box(5, 12, 9, 11, 16, 15)
-  ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+  ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
   private static final VoxelShape SHAPE_E = Stream.of(
           Block.box(0, 0, 0, 16, 8, 16),
@@ -88,7 +81,7 @@ public class EnigmaticFortunizer extends Block {
           Block.box(8, 8, 12, 16, 10, 16),
           Block.box(9, 8, 5, 15, 12, 11),
           Block.box(1, 12, 5, 7, 16, 11)
-  ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+  ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
   private static final VoxelShape SHAPE_S = Stream.of(
           Block.box(0, 0, 0, 16, 8, 16),
@@ -97,7 +90,7 @@ public class EnigmaticFortunizer extends Block {
           Block.box(0, 8, 8, 4, 10, 16),
           Block.box(5, 8, 9, 11, 12, 15),
           Block.box(5, 12, 1, 11, 16, 7)
-  ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+  ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
   private static final VoxelShape SHAPE_W = Stream.of(
           Block.box(0, 0, 0, 16, 8, 16),
@@ -106,35 +99,30 @@ public class EnigmaticFortunizer extends Block {
           Block.box(0, 8, 0, 8, 10, 4),
           Block.box(1, 8, 5, 7, 12, 11),
           Block.box(9, 12, 5, 15, 16, 11)
-  ).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+  ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
   public EnigmaticFortunizer() {
     super(Properties.of(Material.METAL)
       .strength(3.5f, 4.0f)
       .sound(SoundType.METAL)
-      .harvestLevel(0)
-      .harvestTool(ToolType.PICKAXE)
+      // FIXME: .harvestLevel(0)
+      // FIXME: .harvestTool(ToolType.PICKAXE)
       .requiresCorrectToolForDrops());
   }
 
   @Override
-  public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-    switch (state.getValue(FACING)) {
-      case NORTH:
-        return SHAPE_N;
-      case EAST:
-        return SHAPE_E;
-      case SOUTH:
-        return SHAPE_S;
-      case WEST:
-        return SHAPE_W;
-      default:
-        throw new IllegalStateException("Invalid State");
-    }
+  public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+    return switch (state.getValue(FACING)) {
+      case NORTH -> SHAPE_N;
+      case EAST -> SHAPE_E;
+      case SOUTH -> SHAPE_S;
+      case WEST -> SHAPE_W;
+      default -> throw new IllegalStateException("Invalid State");
+    };
   }
 
   @Override
-  public BlockState getStateForPlacement(BlockItemUseContext context) {
+  public BlockState getStateForPlacement(BlockPlaceContext context) {
     return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
   }
 
@@ -149,53 +137,53 @@ public class EnigmaticFortunizer extends Block {
   }
 
   @Override
-  protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+  protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
     builder.add(FACING);
   }
 
   @Override
-  public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
+  public float getShadeBrightness(BlockState state, BlockGetter worldIn, BlockPos pos) {
     return 0.6f;
   }
 
   @Override
-  public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+  public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     if(KeyboardHelper.isHoldingShift()) {
-      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.1"));
+      tooltip.add(new TranslatableComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.1"));
     } else {
-      tooltip.add(new TranslationTextComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.2"));
+      tooltip.add(new TranslatableComponent("tooltip.emendatusenigmatica.enigmatic_fortunizer.2"));
     }
     super.appendHoverText(stack, worldIn, tooltip, flagIn);
   }
 
   @Nullable
   @Override
-  public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    return new EnigmaticFortunizerTile();
+  public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+    return new EnigmaticFortunizerBlockEntity(pos, state);
   }
 
   @Override
-  public boolean hasTileEntity(BlockState state) {
-    return true;
+  public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_153212_, BlockState p_153213_, BlockEntityType<T> p_153214_) {
+    return EnigmaticFortunizerBlockEntity::ticker;
   }
 
   @Override
-  public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-    TileEntity tileEntity = worldIn.getBlockEntity(pos);
+  public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+    BlockEntity tileEntity = worldIn.getBlockEntity(pos);
     // worldIn.isRemote means it's on the server
-    if (tileEntity instanceof EnigmaticFortunizerTile && !worldIn.isClientSide) {
-      NetworkHooks.openGui((ServerPlayerEntity) player, (EnigmaticFortunizerTile)tileEntity, pos);
-      return ActionResultType.SUCCESS;
+    if (tileEntity instanceof EnigmaticFortunizerBlockEntity && !worldIn.isClientSide) {
+      NetworkHooks.openGui((ServerPlayer) player, (EnigmaticFortunizerBlockEntity)tileEntity, pos);
+      return InteractionResult.SUCCESS;
     }
-      return ActionResultType.PASS;
+      return InteractionResult.PASS;
   }
 
   @Override
-  public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+  public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
     if (state.getBlock() != newState.getBlock()) {
-      TileEntity tile = worldIn.getBlockEntity(pos);
-      if (tile instanceof EnigmaticFortunizerTile)
-        ((EnigmaticFortunizerTile) tile).dropInventory();
+      BlockEntity tile = worldIn.getBlockEntity(pos);
+      if (tile instanceof EnigmaticFortunizerBlockEntity)
+        ((EnigmaticFortunizerBlockEntity) tile).dropInventory();
     }
     super.onRemove(state, worldIn, pos, newState, isMoving);
   }

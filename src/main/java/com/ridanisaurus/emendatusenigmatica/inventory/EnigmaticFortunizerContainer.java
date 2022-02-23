@@ -24,54 +24,54 @@
 
 package com.ridanisaurus.emendatusenigmatica.inventory;
 
+import com.ridanisaurus.emendatusenigmatica.items.ToolUtils;
 import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
-import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
-import com.ridanisaurus.emendatusenigmatica.util.TileEntityHelper;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.ToolType;
+import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerBlockEntity;
+import com.ridanisaurus.emendatusenigmatica.util.BlockEntityHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class EnigmaticFortunizerContainer extends Container {
-  public final EnigmaticFortunizerTile tileEntity;
-  public EnigmaticFortunizerContainer(int id, PlayerEntity player, BlockPos pos) {
+public class EnigmaticFortunizerContainer extends AbstractContainerMenu {
+  public final EnigmaticFortunizerBlockEntity tileEntity;
+  public EnigmaticFortunizerContainer(int id, Player player, BlockPos pos) {
     super(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), id);
     // Container Slots comes before Player Slots
-    tileEntity = (EnigmaticFortunizerTile) player.level.getBlockEntity(pos);
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_INPUT, 26, 47));
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_PICKAXE, 80, 19));
-    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerTile.SLOT_OUTPUT, 134, 47));
+    tileEntity = (EnigmaticFortunizerBlockEntity) player.level.getBlockEntity(pos);
+    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerBlockEntity.SLOT_INPUT, 26, 47));
+    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerBlockEntity.SLOT_PICKAXE, 80, 19));
+    this.addSlot(new SlotItemHandlerTakeable(tileEntity.itemSH, EnigmaticFortunizerBlockEntity.SLOT_OUTPUT, 134, 47));
 
     // Inv
     for(int i = 0; i < 3; ++i) {
       for(int j = 0; j < 9; ++j) {
-        this.addSlot(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+        this.addSlot(new Slot(player.getInventory(), j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
       }
     }
 
     // Hotbar
     for(int k = 0; k < 9; ++k) {
-      this.addSlot(new Slot(player.inventory, k, 8 + k * 18, 142));
+      this.addSlot(new Slot(player.getInventory(), k, 8 + k * 18, 142));
     }
   }
 
   // TODO Close container when away
   @Override
-  public boolean stillValid(PlayerEntity playerIn) {
+  public boolean stillValid(Player playerIn) {
     return true;
   }
 
   @Override
-  public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
-    return TileEntityHelper.transferStackInSlot(this, this::moveItemStackTo, playerIn, index, stack -> {
-      if(EnigmaticFortunizerTile.getDropInfo(stack) != null) {
-        return Pair.of(EnigmaticFortunizerTile.SLOT_INPUT, EnigmaticFortunizerTile.SLOT_INPUT+1);
+  public ItemStack quickMoveStack(Player playerIn, int index) {
+    return BlockEntityHelper.transferStackInSlot(this, this::moveItemStackTo, playerIn, index, stack -> {
+      if(EnigmaticFortunizerBlockEntity.getDropInfo(stack) != null) {
+        return Pair.of(EnigmaticFortunizerBlockEntity.SLOT_INPUT, EnigmaticFortunizerBlockEntity.SLOT_INPUT+1);
       }
-      if(stack.getItem().getToolTypes(stack).contains(ToolType.PICKAXE)) {
-        return Pair.of(EnigmaticFortunizerTile.SLOT_PICKAXE, EnigmaticFortunizerTile.SLOT_PICKAXE+1);
+      if(ToolUtils.isPickaxe(stack)) {
+        return Pair.of(EnigmaticFortunizerBlockEntity.SLOT_PICKAXE, EnigmaticFortunizerBlockEntity.SLOT_PICKAXE+1);
       }
       return null;
     });

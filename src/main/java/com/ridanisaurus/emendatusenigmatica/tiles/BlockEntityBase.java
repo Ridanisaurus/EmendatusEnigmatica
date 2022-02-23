@@ -24,78 +24,81 @@
 
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nullable;
-import java.util.stream.Stream;
+import java.util.List;
 
 // Credit: Ellpeck - https://github.com/Ellpeck/NaturesAura/blob/main/src/main/java/de/ellpeck/naturesaura/blocks/tiles/TileEntityImpl.java
 
-public class TileEntityBase extends TileEntity {
-  public TileEntityBase(TileEntityType<?> tileEntityTypeIn) {
-    super(tileEntityTypeIn);
+public class BlockEntityBase extends BlockEntity {
+  public BlockEntityBase(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+    super(tileEntityTypeIn, pos, state);
   }
 
   @Override
-  public final CompoundNBT save(CompoundNBT compound) {
+  public final CompoundTag save(CompoundTag compound) {
     return this.write(compound, false);
   }
 
   @Override
-  public final void load(BlockState state, CompoundNBT nbt) {
-    this.read(state, nbt, false);
+  public final void load(CompoundTag nbt) {
+    this.read(nbt, false);
   }
 
-  public CompoundNBT write(CompoundNBT compound, boolean forClient) {
+  public CompoundTag write(CompoundTag compound, boolean forClient) {
     return super.save(compound);
   }
 
-  public void read(BlockState state, CompoundNBT nbt, boolean forClient) {
-    super.load(state, nbt);
+  public void read(CompoundTag nbt, boolean forClient) {
+    super.load(nbt);
   }
 
   // Sent all the data to the client
   public void sendToClient() {
-    ServerWorld world = (ServerWorld) this.getLevel();
-    Stream<ServerPlayerEntity> entities = world.getChunkSource().chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false);
-    SUpdateTileEntityPacket packet = getUpdatePacket();
+    ServerLevel world = (ServerLevel) this.getLevel();
+    List<ServerPlayer> entities = world.getChunkSource().chunkMap.getPlayers(new ChunkPos(this.getBlockPos()), false);
+    Packet<ClientGamePacketListener> packet = getUpdatePacket();
     entities.forEach(e -> e.connection.send(packet));
   }
 
   // Sent when Entity is Loaded
   @Nullable
   @Override
-  public SUpdateTileEntityPacket getUpdatePacket() {
-    return new SUpdateTileEntityPacket(this.getBlockPos(), -1, getUpdateTag());
+  public Packet<ClientGamePacketListener> getUpdatePacket() {
+    return ClientboundBlockEntityDataPacket.create(this, BlockEntity::getUpdateTag);
   }
 
   // Receiving
   @Override
-  public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-    handleUpdateTag(this.getBlockState(), pkt.getTag());
+  public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+    handleUpdateTag(pkt.getTag());
   }
 
   // Sent when Entity is Added
   @Override
-  public CompoundNBT getUpdateTag() {
-    return this.write(new CompoundNBT(), true);
+  public CompoundTag getUpdateTag() {
+    return this.write(new CompoundTag(), true);
   }
 
   @Override
-  public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-    this.read(state, tag, true);
+  public void handleUpdateTag(CompoundTag tag) {
+    this.read( tag, true);
   }
 
   public IItemHandlerModifiable getItemHandler() {

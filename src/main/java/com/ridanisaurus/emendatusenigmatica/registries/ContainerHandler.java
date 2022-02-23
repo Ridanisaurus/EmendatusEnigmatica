@@ -26,16 +26,17 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerContainer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ContainerHandler {
-  public static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
+import java.util.function.Supplier;
 
-  public static final RegistryObject<ContainerType<EnigmaticFortunizerContainer>> ENIGMATIC_FORTUNIZER_CONTAINER = CONTAINERS.register("enigmatic_fortunizer", () ->
+public class ContainerHandler {
+  public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, Reference.MOD_ID);
+
+  public static final Supplier<MenuType<EnigmaticFortunizerContainer>> ENIGMATIC_FORTUNIZER_CONTAINER = CONTAINERS.register("enigmatic_fortunizer", () ->
           // Call container on the client
-          IForgeContainerType.create((windowID, inventory, data) -> new EnigmaticFortunizerContainer(windowID, inventory.player, data.readBlockPos())));
+          IForgeMenuType.create((windowID, inventory, data) -> new EnigmaticFortunizerContainer(windowID, inventory.player, data.readBlockPos())));
 }

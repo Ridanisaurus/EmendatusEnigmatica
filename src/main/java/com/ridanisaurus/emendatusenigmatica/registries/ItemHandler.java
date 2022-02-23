@@ -26,16 +26,16 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemBase;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.items.ItemSawdust;
-import com.ridanisaurus.emendatusenigmatica.util.*;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.RegistryObject;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
+import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.Strata;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,17 +43,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class ItemHandler {
 
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
-  public static Table<ProcessedMaterials, Materials, RegistryObject<Item>> backingItemTable;
+  public static Table<ProcessedMaterials, Materials, Supplier<Item>> backingItemTable;
   public static Map<ResourceLocation, Materials> materialsByName = new HashMap<>();
   //public static final Supplier<Table<ProcessedMaterials, Materials, RegistryObject<Item>>> itemTable = () -> Optional.ofNullable(backingItemTable).orElse(ImmutableTable.of());
 
   public static void itemInit() {
-    ImmutableTable.Builder<ProcessedMaterials, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<ProcessedMaterials, Materials, Supplier<Item>> builder = new ImmutableTable.Builder<>();
     for (ProcessedMaterials processedMaterial : ProcessedMaterials.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
@@ -167,19 +168,19 @@ public class ItemHandler {
   }
 
   // Dusts
-  public static final RegistryObject<Item> DUST_CHARCOAL = ITEMS.register("charcoal_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_OBSIDIAN = ITEMS.register("obsidian_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_ENDER = ITEMS.register("ender_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_GRAPHITE = ITEMS.register("graphite_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_LITHIUM = ITEMS.register("lithium_dust", ItemBase::new);
-  public static final RegistryObject<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemSawdust::new);
+  public static final Supplier<Item> DUST_CHARCOAL = ITEMS.register("charcoal_dust", ItemBase::new);
+  public static final Supplier<Item> DUST_OBSIDIAN = ITEMS.register("obsidian_dust", ItemBase::new);
+  public static final Supplier<Item> DUST_ENDER = ITEMS.register("ender_dust", ItemBase::new);
+  public static final Supplier<Item> DUST_GRAPHITE = ITEMS.register("graphite_dust", ItemBase::new);
+  public static final Supplier<Item> DUST_LITHIUM = ITEMS.register("lithium_dust", ItemBase::new);
+  public static final Supplier<Item> DUST_WOOD = ITEMS.register("wood_dust", ItemSawdust::new);
 
   //Ore Items
-  public static Table<Strata, Materials, RegistryObject<Item>> backingOreItemTable;
+  public static Table<Strata, Materials, Supplier<Item>> backingOreItemTable;
   //public static final Supplier<Table<Strata, Materials, RegistryObject<Item>>> oreItemTable = () -> Optional.ofNullable(backingOreItemTable).orElse(ImmutableTable.of());
 
   public static void oreItems() {
-    ImmutableTable.Builder<Strata, Materials, RegistryObject<Item>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, Supplier<Item>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
@@ -194,8 +195,8 @@ public class ItemHandler {
   }
 
   // Machine Items
-  public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BlockItemBase(BlockHandler.ENIGMATIC_FORTUNIZER.get(), 0));
+  public static final Supplier<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BlockItemBase(BlockHandler.ENIGMATIC_FORTUNIZER.get(), 0));
 
   // Hammer
-  public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
+  public static final Supplier<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 }
