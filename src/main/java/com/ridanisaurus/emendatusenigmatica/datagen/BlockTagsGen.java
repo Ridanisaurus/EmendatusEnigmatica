@@ -24,24 +24,20 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.blocks.OreCobalt;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Block;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
 import java.util.List;
-
-import net.minecraft.data.TagsProvider.Builder;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
@@ -52,38 +48,38 @@ public class BlockTagsGen extends BlockTagsProvider {
   @Override
   protected void addTags() {
     // Storage Blocks
-    Builder<Block> forgeBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
+    var forgeBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
     BlockHandler.backingStorageBlockTable.values().forEach(block -> forgeBlocks.add(block.get()));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (toCreate.contains("Block")) {
-        Builder<Block> blockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
+        var blockTag = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + material.id).toString()));
         BlockHandler.backingStorageBlockTable.column(material).values().forEach(block -> blockTag.add(block.get()));
       }
     }
 
     // Ores
-    Builder<Block> forgeOres = tag(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
+    var forgeOres = tag(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
     OreHandler.backingOreBlockTable.values().forEach(ore -> forgeOres.add(ore.get()));
 
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
-        Builder<Block> oreTag = tag(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
+        TagAppender<Block> oreTag = tag(BlockTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
         OreHandler.backingOreBlockTable.column(material).values().forEach(strataOre -> oreTag.add(strataOre.get()));
       }
     }
 
     // Minecraft Additional Tags (Beacon Base)
-    Builder<Block> beaconBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
+    var beaconBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_base_blocks").toString()));
     BlockHandler.backingStorageBlockTable.values().forEach(beaconBlock -> beaconBlocks.add(beaconBlock.get()));
     // Minecraft Additional Tags (Angers Piglin)
-    Builder<Block> guardedBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "guarded_by_piglins").toString()));
+    var guardedBlocks = tag(BlockTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "guarded_by_piglins").toString()));
     OreHandler.backingOreBlockTable.column(Materials.GOLD).values().forEach(guardedBlock -> guardedBlocks.add(guardedBlock.get()));
 
     // Mana/Arcane Ore
-    Builder<Block> manaOres = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores/mana").toString()));
+    var manaOres = tag(BlockTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores/mana").toString()));
     OreHandler.backingOreBlockTable.column(Materials.ARCANE).values().forEach(manaOre -> manaOres.add(manaOre.get()));
 
     // Potassium Nitrate Compact

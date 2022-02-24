@@ -43,7 +43,7 @@ import java.util.function.Supplier;
 public class BlockHandler {
 
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
-  public static final DeferredRegister<BlockEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MOD_ID);
+  public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MOD_ID);
 
   // Storage Blocks
   public static Table<ProcessedMaterials, Materials, Supplier<Block>> backingStorageBlockTable;
@@ -66,5 +66,5 @@ public class BlockHandler {
   // Machines
   public static final Supplier<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
 
-  public static final Supplier<BlockEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> BlockEntityType.Builder.of(EnigmaticFortunizerBlockEntity::new, ENIGMATIC_FORTUNIZER.get()).build(null));
+  public static final Supplier<BlockEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = BLOCK_ENTITIES.register("enigmatic_fortunizer", () -> BlockEntityType.Builder.of(EnigmaticFortunizerBlockEntity::new, ENIGMATIC_FORTUNIZER.get()).build(null));
 }

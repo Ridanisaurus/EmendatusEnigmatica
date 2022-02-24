@@ -27,14 +27,15 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.*;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
+import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -42,9 +43,7 @@ import net.minecraftforge.client.model.generators.loaders.MultiLayerModelBuilder
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
@@ -70,7 +69,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
 
         // Fluid Blocks
         if (processedMaterial == ProcessedMaterials.FLUID && toCreate.contains("Fluid")) {
-          FlowingFluidBlock fluidBlock = FluidHandler.fluidBlockByMaterial.get(material.id).get();
+          LiquidBlock fluidBlock = FluidHandler.fluidBlockByMaterial.get(material.id).get();
           ResourceLocation loc = fluidBlock.getRegistryName();
           simpleBlock(fluidBlock,
                   models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));

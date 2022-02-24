@@ -27,9 +27,12 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.util.*;
+import com.ridanisaurus.emendatusenigmatica.util.Materials;
+import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.DynamicBucketModelBuilder;
@@ -71,7 +74,7 @@ public class ItemModelsGen extends ItemModelProvider {
         List<String> toCreate = Arrays.asList(material.type);
         // Storage Blocks Items
         if (processedMaterial == ProcessedMaterials.STORAGE_BLOCK && toCreate.contains("Block")) {
-          withExistingParent(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).getId().getPath(), modLoc(material.id + "_block"))
+          withExistingParent(BlockHandler.backingStorageBlockTable.get(processedMaterial, material).get().getRegistryName().getPath(), modLoc(material.id + "_block"))
                   .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.id + "_block")));
         }
         // Ingots
@@ -184,7 +187,7 @@ public class ItemModelsGen extends ItemModelProvider {
       for (Materials material : Materials.values()) {
         List<String> toCreate = Arrays.asList(material.type);
         if (material.oreBlock != null && toCreate.contains("Ore")) {
-          withExistingParent(OreHandler.backingOreBlockTable.get(stratum, material).getId().getPath(), modLoc(getModelName(stratum, material)))
+          withExistingParent(OreHandler.backingOreBlockTable.get(stratum, material).get().getRegistryName().getPath(), modLoc(getModelName(stratum, material)))
                   .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material))));
         }
 

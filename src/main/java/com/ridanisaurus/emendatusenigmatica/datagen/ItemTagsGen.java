@@ -29,18 +29,15 @@ import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Item;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.Arrays;
 import java.util.List;
-
-import net.minecraft.data.TagsProvider.Builder;
 
 public class ItemTagsGen extends ItemTagsProvider {
 
@@ -51,35 +48,35 @@ public class ItemTagsGen extends ItemTagsProvider {
   @Override
   protected void addTags() {
     // Forge Tags
-    Builder<Item> forgeBlocks = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
-    Builder<Item> forgeIngots = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ingots").toString()));
-    Builder<Item> forgeGems = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()));
-    Builder<Item> forgeNuggets = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "nuggets").toString()));
-    Builder<Item> forgeDusts = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()));
-    Builder<Item> forgePlates = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
-    Builder<Item> forgeGears = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
-    Builder<Item> forgeRods = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods").toString()));
-    Builder<Item> forgeChunks = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
-    Builder<Item> forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "clusters").toString()));
-    Builder<Item> forgeOres = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
-    Builder<Item> forgeBuckets = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "buckets")));
+    var forgeBlocks = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks").toString()));
+    var forgeIngots = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ingots").toString()));
+    var forgeGems = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gems").toString()));
+    var forgeNuggets = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "nuggets").toString()));
+    var forgeDusts = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "dusts").toString()));
+    var forgePlates = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "plates").toString()));
+    var forgeGears = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gears").toString()));
+    var forgeRods = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods").toString()));
+    var forgeChunks = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "chunks").toString()));
+    var forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "clusters").toString()));
+    var forgeOres = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores")));
+    var forgeBuckets = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "buckets")));
 
-    Builder<Item> mekaClumps = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps").toString()));
-    Builder<Item> mekaCrystals = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals").toString()));
-    Builder<Item> mekaDirtyDusts = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "dirty_dusts").toString()));
-    Builder<Item> mekaShards = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards").toString()));
+    var mekaClumps = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps").toString()));
+    var mekaCrystals = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals").toString()));
+    var mekaDirtyDusts = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "dirty_dusts").toString()));
+    var mekaShards = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards").toString()));
 
-    Builder<Item> createCrushed = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
+    var createCrushed = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
 
-    Builder<Item> bloodMagicFragment = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments").toString()));
-    Builder<Item> bloodMagicGravel = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels").toString()));
+    var bloodMagicFragment = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments").toString()));
+    var bloodMagicGravel = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels").toString()));
 
-    Builder<Item> beaconIngots = tag(ItemTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
+    var beaconIngots = tag(ItemTags.bind(new ResourceLocation(Reference.MINECRAFT_TAG, "beacon_payment_items").toString()));
 
     // Storage Block Items
     ItemHandler.backingItemTable.row(ProcessedMaterials.STORAGE_BLOCK).forEach((mat, storageBlock) -> {
       forgeBlocks.add(storageBlock.get());
-      Builder<Item> blockTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + mat.id).toString()));
+      var blockTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "storage_blocks/" + mat.id).toString()));
       blockTag.add(storageBlock.get());
     });
 
@@ -87,7 +84,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     ItemHandler.backingItemTable.row(ProcessedMaterials.INGOT).forEach((mat, ingot) -> {
       forgeIngots.add(ingot.get());
       beaconIngots.add(ingot.get());
-      Builder<Item> ingotTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ingots/" + mat.id).toString()));
+      var ingotTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ingots/" + mat.id).toString()));
       ingotTag.add(ingot.get());
     });
 
@@ -95,7 +92,7 @@ public class ItemTagsGen extends ItemTagsProvider {
     ItemHandler.backingItemTable.row(ProcessedMaterials.GEM).forEach((mat, gem) -> {
       if (!mat.id.equals("arcane")) {
         forgeGems.add(gem.get());
-        Builder<Item> gemTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
+        var gemTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gems/" + mat.id).toString()));
         gemTag.add(gem.get());
       }
     });
@@ -103,36 +100,36 @@ public class ItemTagsGen extends ItemTagsProvider {
     // Nuggets
     ItemHandler.backingItemTable.row(ProcessedMaterials.NUGGET).forEach((mat, nugget) -> {
       forgeNuggets.add(nugget.get());
-      Builder<Item> nuggetTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "nuggets/" + mat.id).toString()));
+      var nuggetTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "nuggets/" + mat.id).toString()));
       nuggetTag.add(nugget.get());
     });
 
     // Dusts
     ItemHandler.backingItemTable.row(ProcessedMaterials.DUST).forEach((mat, dust) -> {
       forgeDusts.add(dust.get());
-      Builder<Item> dustTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "dusts/" + mat.id).toString()));
+      var dustTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "dusts/" + mat.id).toString()));
       dustTag.add(dust.get());
     });
 
     // Plates
     ItemHandler.backingItemTable.row(ProcessedMaterials.PLATE).forEach((mat, plate) -> {
       forgePlates.add(plate.get());
-      Builder<Item> plateTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "plates/" + mat.id).toString()));
+      var plateTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "plates/" + mat.id).toString()));
       plateTag.add(plate.get());
     });
 
     // Gears
     ItemHandler.backingItemTable.row(ProcessedMaterials.GEAR).forEach((mat, gear) -> {
       forgeGears.add(gear.get());
-      Builder<Item> gearTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gears/" + mat.id).toString()));
+      var gearTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "gears/" + mat.id).toString()));
       gearTag.add(gear.get());
     });
 
     // Rods
     ItemHandler.backingItemTable.row(ProcessedMaterials.ROD).forEach((mat, rod) -> {
       forgeRods.add(rod.get());
-      Builder<Item> rodTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/" + mat.id).toString()));
-      Builder<Item> allMetalTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/all_metal").toString()));
+      var rodTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/" + mat.id).toString()));
+      var allMetalTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "rods/all_metal").toString()));
       rodTag.add(rod.get());
       allMetalTag.add(rod.get());
     });
@@ -140,15 +137,15 @@ public class ItemTagsGen extends ItemTagsProvider {
     // Chunks
     ItemHandler.backingItemTable.row(ProcessedMaterials.CHUNK).forEach((mat, chunk) -> {
       forgeChunks.add(chunk.get());
-      Builder<Item> chunkTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "chunks/" + mat.id).toString()));
+      var chunkTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "chunks/" + mat.id).toString()));
       chunkTag.add(chunk.get());
     });
 
     // Clusters
     ItemHandler.backingItemTable.row(ProcessedMaterials.CLUSTER).forEach((mat, cluster) -> {
       forgeClusters.add(cluster.get());
-      Builder<Item> clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "clusters/" + mat.id).toString()));
-      Builder<Item> oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores_cluster/" + mat.id).toString()));
+      var clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "clusters/" + mat.id).toString()));
+      var oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "ores_cluster/" + mat.id).toString()));
       clusterTag.add(cluster.get());
       oreClusterTag.add(cluster.get());
     });
@@ -156,56 +153,56 @@ public class ItemTagsGen extends ItemTagsProvider {
     // Clumps
     ItemHandler.backingItemTable.row(ProcessedMaterials.CLUMP).forEach((mat, clump) -> {
       mekaClumps.add(clump.get());
-      Builder<Item> clumpTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps/" + mat.id).toString()));
+      var clumpTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "clumps/" + mat.id).toString()));
       clumpTag.add(clump.get());
     });
 
     // Crystals
     ItemHandler.backingItemTable.row(ProcessedMaterials.CRYSTAL).forEach((mat, crystal) -> {
       mekaCrystals.add(crystal.get());
-      Builder<Item> crystalTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals/" + mat.id).toString()));
+      var crystalTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "crystals/" + mat.id).toString()));
       crystalTag.add(crystal.get());
     });
 
     // Dirty Dusts
     ItemHandler.backingItemTable.row(ProcessedMaterials.DIRTY_DUST).forEach((mat, dirty_dust) -> {
       mekaDirtyDusts.add(dirty_dust.get());
-      Builder<Item> dirtyDustTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + mat.id).toString()));
+      var dirtyDustTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + mat.id).toString()));
       dirtyDustTag.add(dirty_dust.get());
     });
 
     // Shards
     ItemHandler.backingItemTable.row(ProcessedMaterials.SHARD).forEach((mat, shard) -> {
       mekaShards.add(shard.get());
-      Builder<Item> shardTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards/" + mat.id).toString()));
+      var shardTag = tag(ItemTags.bind(new ResourceLocation(Reference.MEKANISM, "shards/" + mat.id).toString()));
       shardTag.add(shard.get());
     });
 
     // Crushed
     ItemHandler.backingItemTable.row(ProcessedMaterials.CRUSHED).forEach((mat, crushed) -> {
       createCrushed.add(crushed.get());
-      Builder<Item> crushedTag = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores/" + mat.id).toString()));
+      var crushedTag = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores/" + mat.id).toString()));
       crushedTag.add(crushed.get());
     });
 
     // Fragment
     ItemHandler.backingItemTable.row(ProcessedMaterials.FRAGMENT).forEach((mat, fragment) -> {
       bloodMagicFragment.add(fragment.get());
-      Builder<Item> fragmentTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments/" + mat.id).toString()));
+      var fragmentTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "fragments/" + mat.id).toString()));
       fragmentTag.add(fragment.get());
     });
 
     // Gravel
     ItemHandler.backingItemTable.row(ProcessedMaterials.GRAVEL).forEach((mat, gravel) -> {
       bloodMagicGravel.add(gravel.get());
-      Builder<Item> gravelTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels/" + mat.id).toString()));
+      var gravelTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOOD_MAGIC, "gravels/" + mat.id).toString()));
       gravelTag.add(gravel.get());
     });
 
     // Fluid Buckets
     FluidHandler.fluidBucketByMaterial.forEach((mat, fluid) -> {
       forgeBuckets.add(fluid.get());
-      Builder<Item> bucketTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "buckets/" + mat).toString()));
+      var bucketTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE_TAG, "buckets/" + mat).toString()));
       bucketTag.add(fluid.get());
     });
 
@@ -215,13 +212,13 @@ public class ItemTagsGen extends ItemTagsProvider {
     for (Materials material : Materials.values()) {
       List<String> toCreate = Arrays.asList(material.type);
       if (material.oreBlock != null && toCreate.contains("Ore")) {
-        Builder<Item> oreTag = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
+        var oreTag = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/" + material.id)));
         ItemHandler.backingOreItemTable.column(material).values().forEach(s -> oreTag.add(s.get()));
         forgeOres.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
         oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
       }
       if (material.oreBlock != null && toCreate.contains("Ore") && material.id.equals("arcane")) {
-        Builder<Item> oreTag = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/mana")));
+        var oreTag = tag(ItemTags.createOptional(new ResourceLocation(Reference.FORGE_TAG, "ores/mana")));
         ItemHandler.backingOreItemTable.column(material).values().forEach(s -> oreTag.add(s.get()));
         oreTag.add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, material).get());
       }

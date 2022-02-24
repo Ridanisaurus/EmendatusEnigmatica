@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.tiles;
 
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerContainer;
+import com.ridanisaurus.emendatusenigmatica.items.ToolUtils;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
@@ -66,7 +67,7 @@ public class EnigmaticFortunizerBlockEntity extends BlockEntityBase implements M
     // Can't insert in Output
     @Override
     public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-      if(slot == SLOT_PICKAXE && !stack.getItem().getToolTypes(stack).contains(ToolType.PICKAXE)) {
+      if(slot == SLOT_PICKAXE && !ToolUtils.isPickaxe(stack)) {
         return false;
       }
       if(slot == SLOT_OUTPUT) {
@@ -97,13 +98,12 @@ public class EnigmaticFortunizerBlockEntity extends BlockEntityBase implements M
     super(BlockHandler.ENIGMATIC_FORTUNIZER_TILE.get(), pos, state);
   }
 
-  @Override
   public void tick() {
     if (!this.level.isClientSide) {
       ItemStack pickaxe = this.itemSH.getStackInSlot(SLOT_PICKAXE);
 
       // Validate whether the slot has a Pickaxe
-      if(pickaxe.getItem().getToolTypes(pickaxe).contains(ToolType.PICKAXE)) {
+      if(ToolUtils.isPickaxe(pickaxe)) {
         ItemStack input = this.itemSH.getStackInSlot(SLOT_INPUT);
         Materials.OreDropInfo oreDropInfo = getDropInfo(input);
 

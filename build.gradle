@@ -151,7 +151,7 @@ dependencies {
     compileOnly fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
     //}
 
-    // compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
     // runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
 
     runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3545856")

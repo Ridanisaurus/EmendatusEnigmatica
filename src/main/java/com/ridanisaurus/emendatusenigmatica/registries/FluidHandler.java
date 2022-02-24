@@ -28,18 +28,17 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -49,15 +48,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import net.minecraft.block.AbstractBlock;
-
 public class FluidHandler {
 
 	private String name;
-	private RegistryObject<ForgeFlowingFluid> source;
-	private RegistryObject<ForgeFlowingFluid> flowing;
-	private RegistryObject<FlowingFluidBlock> fluidblock;
-	private RegistryObject<Item> bucket;
+	private Supplier<ForgeFlowingFluid> source;
+	private Supplier<ForgeFlowingFluid> flowing;
+	private Supplier<LiquidBlock> fluidblock;
+	private Supplier<Item> bucket;
 
 	public static final ResourceLocation FLUID_STILL_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still");
 	public static final ResourceLocation FLUID_FLOWING_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_flow");
@@ -65,12 +62,12 @@ public class FluidHandler {
 
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
-	public static Map<Materials, RegistryObject<ForgeFlowingFluid>> backingFluidTable = new HashMap<>();
-	public static Map<String, RegistryObject<ForgeFlowingFluid>> flowingFluidByMaterial = new HashMap<>();
-	public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockByMaterial = new HashMap<>();
-	public static Map<String, RegistryObject<Item>> fluidBucketByMaterial = new HashMap<>();
+	public static Map<Materials, Supplier<ForgeFlowingFluid>> backingFluidTable = new HashMap<>();
+	public static Map<String, Supplier<ForgeFlowingFluid>> flowingFluidByMaterial = new HashMap<>();
+	public static Map<String, Supplier<LiquidBlock>> fluidBlockByMaterial = new HashMap<>();
+	public static Map<String, Supplier<Item>> fluidBucketByMaterial = new HashMap<>();
 
-	public static ForgeFlowingFluid.Properties makeProperties(FluidAttributes.Builder attributeBuilder, Supplier<ForgeFlowingFluid> still, Supplier<ForgeFlowingFluid> flowing, Supplier<Item> bucket, Supplier<FlowingFluidBlock> block)
+	public static ForgeFlowingFluid.Properties makeProperties(FluidAttributes.Builder attributeBuilder, Supplier<ForgeFlowingFluid> still, Supplier<ForgeFlowingFluid> flowing, Supplier<Item> bucket, Supplier<LiquidBlock> block)
 	{
 		return new ForgeFlowingFluid.Properties(still, flowing,attributeBuilder)
 				.bucket(bucket).block(block);
@@ -97,8 +94,8 @@ public class FluidHandler {
 				makeProperties(createAttributes(color), source, flowing, bucket, fluidblock))
 		);
 		fluidblock = BlockHandler.BLOCKS.register("molten_" + name, () ->
-				new FlowingFluidBlock(source,
-					AbstractBlock.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops())
+				new LiquidBlock(source,
+					BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops())
 		);
 		bucket = ItemHandler.ITEMS.register("molten_" + name + "_bucket", () ->
 				new BucketItem(source,

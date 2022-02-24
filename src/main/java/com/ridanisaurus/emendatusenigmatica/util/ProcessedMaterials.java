@@ -1,10 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockBase;
-import net.minecraft.block.Block;
-
-import java.util.function.Supplier;
-
 public enum ProcessedMaterials {
 
   INGOT("ingot", "Ingot"),

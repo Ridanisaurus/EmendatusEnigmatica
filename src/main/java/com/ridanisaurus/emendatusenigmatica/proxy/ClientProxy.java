@@ -24,50 +24,39 @@
 
 package com.ridanisaurus.emendatusenigmatica.proxy;
 
-import com.ridanisaurus.emendatusenigmatica.reward.PatreonSupporterRewardHandler;
 import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import net.minecraft.block.Block;
+import com.ridanisaurus.emendatusenigmatica.reward.PatreonSupporterRewardHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import java.util.Map;
 import java.util.function.Supplier;
 
-public class ClientProxy implements IProxy {
+public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit(FMLCommonSetupEvent event) {
-		ScreenManager.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
+		MenuScreens.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
 	}
 
 	@Override
 	public void init(FMLCommonSetupEvent event) {
-		Map<String, PlayerRenderer> skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
-		for (PlayerRenderer render : new PlayerRenderer[]{skinMap.get("default"), skinMap.get("slim")})
+		var skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
+
+		for (PlayerRenderer render : new PlayerRenderer[]{(PlayerRenderer) skinMap.get("default"), (PlayerRenderer) skinMap.get("slim")})
 			render.addLayer(new PatreonSupporterRewardHandler(render));
 	}
 
 	@Override
 	public void postInit(FMLCommonSetupEvent event) {
-		for (RegistryObject<Block> block : OreHandler.BLOCKS.getEntries()) {
-			RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
+		for (Supplier<Block> block : OreHandler.BLOCKS.getEntries()) {
+			ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
 		}
 	}
-
-	@Override
-	public <T extends Entity> void registerEntityRenderer(EntityType<T> entityClass, Supplier<IRenderFactory<T>> renderFactory) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory.get());
-	}
-
 }

@@ -27,10 +27,9 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.FluidTagsProvider;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.data.tags.FluidTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class FluidTagsGen extends FluidTagsProvider {
@@ -49,8 +48,8 @@ public class FluidTagsGen extends FluidTagsProvider {
 		FluidHandler.flowingFluidByMaterial.forEach((mat, fluid) -> {
 //			forgeFluids.add(fluid.get());
 //			Builder<Fluid> fluidTag = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "fluids/" + mat).toString()));
-			Builder<Fluid> moltenTag = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten/" + mat).toString()));
-			Builder<Fluid> forgeFluids = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten_" + mat).toString()));
+			var moltenTag = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten/" + mat).toString()));
+			var forgeFluids = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE_TAG, "molten_" + mat).toString()));
 			moltenTag.add(fluid.get());
 			forgeFluids.add(fluid.get());
 		});

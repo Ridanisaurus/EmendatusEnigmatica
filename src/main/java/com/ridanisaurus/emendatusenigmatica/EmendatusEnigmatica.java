@@ -26,8 +26,7 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.ridanisaurus.emendatusenigmatica.config.WorldGenConfig;
 import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
-import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
-import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
+import com.ridanisaurus.emendatusenigmatica.proxy.CommonProxy;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
@@ -60,7 +59,7 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static EmendatusEnigmatica instance;
-    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public static boolean MEKANISM_LOADED = false;
 
     public EmendatusEnigmatica() {
@@ -70,7 +69,7 @@ public class EmendatusEnigmatica {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FluidHandler.FLUIDS.register(modEventBus);
         BlockHandler.BLOCKS.register(modEventBus);
-        BlockHandler.TILE_ENTITY.register(modEventBus);
+        BlockHandler.BLOCK_ENTITIES.register(modEventBus);
         ContainerHandler.CONTAINERS.register(modEventBus);
         OreHandler.BLOCKS.register(modEventBus);
         ItemHandler.ITEMS.register(modEventBus);

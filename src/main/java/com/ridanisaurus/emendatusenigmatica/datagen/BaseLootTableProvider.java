@@ -31,6 +31,7 @@ import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -40,6 +41,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
@@ -95,7 +97,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     LootPool.Builder builder = LootPool.lootPool()
             .setRolls(ConstantValue.exactly(1))
             .add(LootItem.lootTableItem(block))
-            .when(SurvivesExplosion.survivesExplosion());
+            .when(ExplosionCondition.survivesExplosion());
     return LootTable.lootTable().withPool(builder);
   }
 
@@ -111,7 +113,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     LootPool.Builder builder = LootPool.lootPool()
             .setRolls(ConstantValue.exactly(1))
             .add(LootItem.lootTableItem(item)
-              .when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+              .when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
               .otherwise(LootItem.lootTableItem(itemProvider)
               .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
               .apply(ApplyExplosionDecay.explosionDecay())));
@@ -122,7 +124,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     LootPool.Builder builder = LootPool.lootPool()
             .setRolls(ConstantValue.exactly(1))
             .add(LootItem.lootTableItem(item)
-                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1)))))
+                    .when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
                     .otherwise(LootItem.lootTableItem(itemProvider)
                             .apply(SetItemCountFunction.setCount(UniformGenerator.between(minCount, maxCount)))
                             .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
@@ -136,7 +138,7 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     tables.forEach((key, lootTable) -> {
       Path path = outputFolder.resolve("data/" + key.getNamespace() + "/loot_tables/" + key.getPath() + ".json");
       try {
-        IDataProvider.save(GSON, cache, LootTableManager.serialize(lootTable), path);
+        DataProvider.save(GSON, cache, LootTables.serialize(lootTable), path);
       } catch (IOException e) {
         EmendatusEnigmatica.LOGGER.error("Couldn't write loot table {}", path, e);
       }
