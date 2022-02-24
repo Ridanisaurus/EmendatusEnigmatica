@@ -127,7 +127,8 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+    // implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
