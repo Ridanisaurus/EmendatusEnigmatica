@@ -26,6 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 public class OreIridium extends EEOreBlock {
 	public OreIridium() {
-		super(2);
+		super(3);
 	}
 }

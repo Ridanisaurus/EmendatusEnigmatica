@@ -28,6 +28,6 @@ import net.minecraft.util.valueproviders.UniformInt;
 
 public class OreCertusQuartz extends EEOreBlock {
 	public OreCertusQuartz() {
-		super(3, UniformInt.of(3, 7));
+		super(2, UniformInt.of(3, 7));
 	}
 }

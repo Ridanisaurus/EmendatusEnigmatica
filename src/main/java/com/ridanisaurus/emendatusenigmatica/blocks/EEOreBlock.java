@@ -7,14 +7,8 @@ import net.minecraft.world.level.material.Material;
 public class EEOreBlock extends OreBlock {
 	public final int harvestLevel;
 
-	public EEOreBlock(int harvestLevel, UniformInt p_153993_) {
-		super(Properties.of(Material.STONE)
-				.strength(3.0F, 3.0F)
-				// FIXME: .harvestLevel(harvestLevel)
-				// FIXME: .harvestTool(ToolType.PICKAXE)
-				// TODO: Use harvestLevel in tag datagen to assign proper tool type
-				.requiresCorrectToolForDrops(), p_153993_);
-
+	public EEOreBlock(int harvestLevel, UniformInt xp) {
+		super(Properties.of(Material.STONE).strength(3.0F, 3.0F).requiresCorrectToolForDrops(), xp);
 		this.harvestLevel = harvestLevel;
 	}
 

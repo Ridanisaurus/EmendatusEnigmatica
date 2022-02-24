@@ -28,7 +28,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.FluidHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.SlurryHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.ProcessedMaterials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -146,6 +145,7 @@ public class LangGen extends LanguageProvider {
           add(ItemHandler.backingItemTable.get(processedMaterial, material).get(), sb.toString());
         }
 
+        /* FIXME: Re-enable when Mekanism ports
         // Clean Slurry
         if (processedMaterial == ProcessedMaterials.CLEAN_SLURRY && toCreate.contains("CleanSlurry")  && !material.id.equals("arcane")) {
           StringBuilder sb = new StringBuilder();
@@ -163,6 +163,7 @@ public class LangGen extends LanguageProvider {
           sb.append(" Slurry");
           add(SlurryHandler.backingSlurryTable.get(processedMaterial, material).get(), sb.toString());
         }
+         */
 
         // Clumps
         if (processedMaterial == ProcessedMaterials.CLUMP && toCreate.contains("Clump")  && !material.id.equals("arcane")) {
@@ -273,8 +274,9 @@ public class LangGen extends LanguageProvider {
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CHUNK, Materials.ARCANE).get(), "Source Chunk");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUSTER, Materials.ARCANE).get(), "Source Cluster");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.GEM, Materials.ARCANE).get(), "Source Gem");
-    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.DIRTY_SLURRY, Materials.ARCANE).get(), "Dirty Source Slurry");
-    add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.CLEAN_SLURRY, Materials.ARCANE).get(), "Clean Source Slurry");
+    // FIXME: Re-enable when Mekanism ports
+    // add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.DIRTY_SLURRY, Materials.ARCANE).get().getTranslationKey(), "Dirty Source Slurry");
+    // add(SlurryHandler.backingSlurryTable.get(ProcessedMaterials.CLEAN_SLURRY, Materials.ARCANE).get().getTranslationKey(), "Clean Source Slurry");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CLUMP, Materials.ARCANE).get(), "Source Clump");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.CRYSTAL, Materials.ARCANE).get(), "Source Crystal");
     add(ItemHandler.backingItemTable.get(ProcessedMaterials.DIRTY_DUST, Materials.ARCANE).get(), "Dirty Source Dust");
@@ -297,7 +299,4 @@ public class LangGen extends LanguageProvider {
   private void add(Slurry slurry, String name) {
     add(slurry.getTranslationKey(), name);
   }
-//  private void add(String something, String name) {
-//    add("fluid.emendatusenigmatica.molten_" + something , name);
-//  }
 }
