@@ -35,7 +35,6 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -153,7 +152,9 @@ public class WorldGenHandler {
   private static PlacedFeature getOreFeature(int count, int size, int baseline, int spread, boolean useSpread, RuleTest filler, BlockState state) {
     var configuredFeature = Feature.ORE.configured(new OreConfiguration(filler, state, size));
     Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
-    return PlacementUtils.register(Reference.MOD_ID + ":" + state.getBlock().getDescriptionId(), OreFeatures.ORE_COAL.placed(commonOrePlacement(count, useSpread ? HeightRangePlacement.triangle(VerticalAnchor.absolute(baseline), VerticalAnchor.absolute(spread)) : HeightRangePlacement.uniform(VerticalAnchor.absolute(baseline - spread), VerticalAnchor.absolute(baseline + spread)))));
+    // FIXME: spread doesnt work yet because I havent figured out what the values should be
+    // useSpread ? HeightRangePlacement.triangle(VerticalAnchor.absolute(baseline), VerticalAnchor.absolute(spread)) : [the other one[
+    return PlacementUtils.register(Reference.MOD_ID + ":" + state.getBlock().getDescriptionId(), configuredFeature.placed(commonOrePlacement(count, HeightRangePlacement.uniform(VerticalAnchor.absolute(baseline - spread), VerticalAnchor.absolute(baseline + spread)))));
   }
 
   private static List<PlacementModifier> orePlacement(PlacementModifier modifier1, PlacementModifier modifier2) {

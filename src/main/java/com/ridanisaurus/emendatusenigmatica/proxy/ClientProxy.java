@@ -28,35 +28,38 @@ import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.registries.ContainerHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.reward.PatreonSupporterRewardHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.util.function.Supplier;
 
+@Mod.EventBusSubscriber(modid = "emendatusenigmatica", bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy {
-
-	@Override
-	public void preInit(FMLCommonSetupEvent event) {
+	@SubscribeEvent
+	public static void load(FMLClientSetupEvent event) {
 		MenuScreens.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
-	}
 
-	@Override
-	public void init(FMLCommonSetupEvent event) {
-		var skinMap = Minecraft.getInstance().getEntityRenderDispatcher().getSkinMap();
-
-		for (PlayerRenderer render : new PlayerRenderer[]{(PlayerRenderer) skinMap.get("default"), (PlayerRenderer) skinMap.get("slim")})
-			render.addLayer(new PatreonSupporterRewardHandler(render));
-	}
-
-	@Override
-	public void postInit(FMLCommonSetupEvent event) {
 		for (Supplier<Block> block : OreHandler.BLOCKS.getEntries()) {
 			ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
+		}
+	}
+
+	@SubscribeEvent
+	public static void addLayers(EntityRenderersEvent.AddLayers event) {
+		if (event.getSkin("default") instanceof PlayerRenderer playerRenderer) {
+			playerRenderer.addLayer(new PatreonSupporterRewardHandler(playerRenderer));
+		}
+
+		if (event.getSkin("slim") instanceof PlayerRenderer playerRenderer) {
+			playerRenderer.addLayer(new PatreonSupporterRewardHandler(playerRenderer));
 		}
 	}
 }

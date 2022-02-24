@@ -46,7 +46,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -59,7 +58,7 @@ public class EmendatusEnigmatica {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static EmendatusEnigmatica instance;
-    public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     public static boolean MEKANISM_LOADED = false;
 
     public EmendatusEnigmatica() {
@@ -75,7 +74,6 @@ public class EmendatusEnigmatica {
         ItemHandler.ITEMS.register(modEventBus);
         if (MEKANISM_LOADED) SlurryHandler.SLURRIES.register(modEventBus);
 
-        modEventBus.addListener(this::setup);
         modEventBus.addListener(this::construct);
 
         // Register World Gen Config
@@ -96,24 +94,6 @@ public class EmendatusEnigmatica {
         BlockHandler.blockInit();
         ItemHandler.itemInit();
         if (MEKANISM_LOADED) SlurryHandler.slurryInit();
-    }
-
-    public void setup(FMLCommonSetupEvent event) {
-        this.preInit(event);
-        this.init(event);
-        this.postInit(event);
-    }
-
-    private void preInit(FMLCommonSetupEvent event) {
-        proxy.preInit(event);
-    }
-
-    private void init(FMLCommonSetupEvent event) {
-        proxy.init(event);
-    }
-
-    private void postInit(FMLCommonSetupEvent event) {
-        proxy.postInit(event);
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
