@@ -1,6 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockBase;
+import com.ridanisaurus.emendatusenigmatica.blocks.EEOreBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.OreAluminum;
 import com.ridanisaurus.emendatusenigmatica.blocks.OreApatite;
 import com.ridanisaurus.emendatusenigmatica.blocks.OreArcane;
@@ -39,7 +40,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.OreBlock;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -107,7 +107,7 @@ public enum Materials {
   public final String id;
   public final String localisedName;
   public final Supplier<Block> block;
-  public final Supplier<OreBlock> oreBlock;
+  public final Supplier<EEOreBlock> oreBlock;
   public final Supplier<Item> item;
   private final Source source;
 
@@ -131,7 +131,7 @@ public enum Materials {
 
   public final String[] type;
 
-  Materials(String id, String localisedName, String[] type, Supplier<Block> block, @Nullable Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, @Nullable OreDropInfo nonSilkDrop, int tintColour, int baseline, int spread, int count, int size) {
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, @Nullable Supplier<EEOreBlock> oreBlock, Supplier<Item> item, Source source, @Nullable OreDropInfo nonSilkDrop, int tintColour, int baseline, int spread, int count, int size) {
     this.id = id;
     this.localisedName = localisedName;
     this.block = block;
@@ -160,7 +160,7 @@ public enum Materials {
     this.type = type;
   }
 
-  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<OreBlock> oreBlock, Supplier<Item> item, Source source, int tintColour, int baseline, int spread, int count, int size) {
+  Materials(String id, String localisedName, String[] type, Supplier<Block> block, Supplier<EEOreBlock> oreBlock, Supplier<Item> item, Source source, int tintColour, int baseline, int spread, int count, int size) {
     this.id = id;
     this.localisedName = localisedName;
     this.block = block;

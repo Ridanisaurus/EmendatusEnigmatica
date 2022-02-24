@@ -41,6 +41,7 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -401,12 +402,12 @@ public class WorldGenConfig {
   }
 
   @SubscribeEvent
-  public static void onModConfigEvent(final ModConfig.ModConfigEvent event) {
+  public static void onModConfigEvent(final ModConfigEvent event) {
 
   }
 
   @SubscribeEvent
-  public static void onLoad(final ModConfig.Loading event) {
+  public static void onLoad(final ModConfigEvent.Loading event) {
     final ModConfig config = event.getConfig();
     // Rebake the configs when they change
     if (config.getSpec() == COMMON_SPEC) {
@@ -418,7 +419,7 @@ public class WorldGenConfig {
   }
 
   @SubscribeEvent
-  public static void onReload(final ModConfig.Reloading event) {
+  public static void onReload(final ModConfigEvent.Reloading event) {
     /*final ModConfig config = event.getConfig();
     // Rebake the configs when they change
     if (config.getSpec() == COMMON_SPEC) {

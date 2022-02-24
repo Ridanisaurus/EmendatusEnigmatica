@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import com.ridanisaurus.emendatusenigmatica.blocks.EEOreBlock;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
@@ -40,11 +41,11 @@ public class OreHandler {
   public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 
   //Ore Blocks
-  public static Table<Strata, Materials, Supplier<Block>> backingOreBlockTable;
+  public static Table<Strata, Materials, Supplier<EEOreBlock>> backingOreBlockTable;
   //public static final Supplier<Table<Strata, Materials, RegistryObject<Block>>> oreBlockTable = () -> Optional.ofNullable(backingOreBlockTable).orElse(ImmutableTable.of());
 
   public static void oreBlocks() {
-    ImmutableTable.Builder<Strata, Materials, Supplier<Block>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, Supplier<EEOreBlock>> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       for (Materials material : Materials.values()) {
         String oreName = material.id + (stratum != Strata.STONE ? "_" + stratum.suffix : "") + "_ore";

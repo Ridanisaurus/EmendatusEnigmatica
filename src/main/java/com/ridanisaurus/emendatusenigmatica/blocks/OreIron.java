@@ -24,22 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-
-public class OreIron extends OreBlock {
-    public OreIron() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(1)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops());
-    }
-
-    @Override
-    public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silktouch) {
-        return 0;
-    }
+public class OreIron extends EEOreBlock {
+	public OreIron() {
+		super(1);
+	}
 }

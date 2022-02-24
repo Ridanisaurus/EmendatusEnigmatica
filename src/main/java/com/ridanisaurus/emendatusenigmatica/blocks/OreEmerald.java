@@ -25,14 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.material.Material;
 
-public class OreEmerald extends OreBlock {
-    public OreEmerald() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(2)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops(), UniformInt.of(3, 7));
-    }
+public class OreEmerald extends EEOreBlock {
+	public OreEmerald() {
+		super(2, UniformInt.of(3, 7));
+	}
 }

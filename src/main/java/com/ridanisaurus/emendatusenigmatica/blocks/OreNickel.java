@@ -24,14 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.material.Material;
-
-public class OreNickel extends OreBlock {
-    public OreNickel() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(2)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops());
-    }
+public class OreNickel extends EEOreBlock {
+	public OreNickel() {
+		super(2);
+	}
 }

@@ -24,14 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.material.Material;
-
-public class OreZinc extends OreBlock {
-    public OreZinc() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(2)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops());
-    }
+public class OreZinc extends EEOreBlock {
+	public OreZinc() {
+		super(2);
+	}
 }

@@ -25,14 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.material.Material;
 
-public class OreBitumen extends OreBlock {
-    public OreBitumen() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(0)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops(), UniformInt.of(0, 2));
-    }
+public class OreBitumen extends EEOreBlock {
+	public OreBitumen() {
+		super(0, UniformInt.of(0, 2));
+	}
 }

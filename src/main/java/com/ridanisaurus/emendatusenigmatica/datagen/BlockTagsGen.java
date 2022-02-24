@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.blocks.EEOreBlock;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
 import com.ridanisaurus.emendatusenigmatica.util.Materials;
@@ -36,8 +37,10 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BlockTagsGen extends BlockTagsProvider {
 
@@ -92,5 +95,20 @@ public class BlockTagsGen extends BlockTagsProvider {
     // Misc
     tag(BlockTags.bind(new ResourceLocation(Reference.MOD_ID, "misc/enigmatic_fortunizer").toString()))
             .add(BlockHandler.ENIGMATIC_FORTUNIZER.get());
+
+    List<TagAppender<Block>> harvestLevels = new ArrayList<>();
+    harvestLevels.add(tag(BlockTags.MINEABLE_WITH_PICKAXE));
+    harvestLevels.add(tag(BlockTags.NEEDS_STONE_TOOL));
+    harvestLevels.add(tag(BlockTags.NEEDS_IRON_TOOL));
+    harvestLevels.add(tag(BlockTags.NEEDS_DIAMOND_TOOL));
+
+    for(Supplier<EEOreBlock> supplier : OreHandler.backingOreBlockTable.values()) {
+      EEOreBlock b = supplier.get();
+      harvestLevels.get(0).add(b);
+
+      if(b.harvestLevel > 0 && b.harvestLevel < harvestLevels.size()) {
+        harvestLevels.get(b.harvestLevel).add(b);
+      }
+    }
   }
 }

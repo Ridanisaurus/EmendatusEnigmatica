@@ -35,12 +35,21 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.Strata;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.BiomeFilter;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
+import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
@@ -48,18 +57,19 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 
 public class WorldGenHandler {
 
   //Ore Blocks
-  private static Table<Strata, Materials, ConfiguredFeature<?, ?>> oreFeatures;
+  private static Table<Strata, Materials, PlacedFeature> oreFeatures;
   //public static final Supplier<Table<Strata, Materials, ConfiguredFeature<?, ?>>> oreFeatureTable = () -> Optional.ofNullable(oreFeatures).orElse(ImmutableTable.of());
 
   public static void oreFeatures() {
     Collection<Strata> activeStrata = EnumSet.noneOf(Strata.class);
     Collection<Materials> activeOres = EnumSet.noneOf(Materials.class);
 
-    ImmutableTable.Builder<Strata, Materials, ConfiguredFeature<?, ?>> builder = new ImmutableTable.Builder<>();
+    ImmutableTable.Builder<Strata, Materials, PlacedFeature> builder = new ImmutableTable.Builder<>();
     for (Strata stratum : Strata.values()) {
       if (WorldGenConfig.COMMON.STRATA.get(stratum) && stratum.block.get() != null) {
         activeStrata.add(stratum);
@@ -117,7 +127,7 @@ public class WorldGenHandler {
   }
 
   public static void addEEOres(BiomeGenerationSettingsBuilder builder, BiomeLoadingEvent event) {
-    for (Table.Cell<Strata, Materials, ConfiguredFeature<?, ?>> cell : oreFeatures.cellSet()) {
+    for (var cell : oreFeatures.cellSet()) {
       BakedOreProps p = WorldGenConfig.COMMON.ORES.get(cell.getColumnKey());
       if (p.isOverworldListed(event.getName()) == p.OVERWORLD_BIOMELIST_INVERT && event.getCategory() != Biome.BiomeCategory.NETHER && event.getCategory() != Biome.BiomeCategory.THEEND) {
         builder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, cell.getValue());
@@ -140,13 +150,17 @@ public class WorldGenHandler {
     return OreHandler.backingOreBlockTable.get(stratum, material).get().defaultBlockState();
   }
 
-  private static ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, boolean useSpread, RuleTest filler, BlockState state) {
-    Feature<OreFeatureConfig> oreFeature = Feature.ORE;
-    ConfiguredFeature<?, ?> configuredFeature = oreFeature.configured(new OreFeatureConfig(filler, state, size))
-            .decorated(useSpread ? Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)) : Placement.RANGE.configured(new TopSolidRangeConfig(baseline - spread, 0, baseline + spread)))
-            .squared()
-            .count(count);
+  private static PlacedFeature getOreFeature(int count, int size, int baseline, int spread, boolean useSpread, RuleTest filler, BlockState state) {
+    var configuredFeature = Feature.ORE.configured(new OreConfiguration(filler, state, size));
     Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, state.getBlock().getDescriptionId()), configuredFeature);
-    return configuredFeature;
+    return PlacementUtils.register(Reference.MOD_ID + ":" + state.getBlock().getDescriptionId(), OreFeatures.ORE_COAL.placed(commonOrePlacement(count, useSpread ? HeightRangePlacement.triangle(VerticalAnchor.absolute(baseline), VerticalAnchor.absolute(spread)) : HeightRangePlacement.uniform(VerticalAnchor.absolute(baseline - spread), VerticalAnchor.absolute(baseline + spread)))));
+  }
+
+  private static List<PlacementModifier> orePlacement(PlacementModifier modifier1, PlacementModifier modifier2) {
+    return List.of(modifier1, InSquarePlacement.spread(), modifier2, BiomeFilter.biome());
+  }
+
+  private static List<PlacementModifier> commonOrePlacement(int count, PlacementModifier modifier) {
+    return orePlacement(CountPlacement.of(count), modifier);
   }
 }

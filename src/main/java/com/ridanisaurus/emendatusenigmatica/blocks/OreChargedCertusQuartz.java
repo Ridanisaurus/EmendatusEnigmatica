@@ -30,37 +30,32 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
-public class OreChargedCertusQuartz extends OreBlock {
-    private static final DustParticleOptions DUST = new DustParticleOptions(new Vector3f(0.73F,0.91F,0.98F), 1F);
+public class OreChargedCertusQuartz extends EEOreBlock {
+	private static final DustParticleOptions DUST = new DustParticleOptions(new Vector3f(0.73F, 0.91F, 0.98F), 1F);
 
-    public OreChargedCertusQuartz() { super(Properties.of(Material.STONE)
-            .strength(3.0f,3.0f)
-            // FIXME: .harvestLevel(2)
-            // FIXME: .harvestTool(ToolType.PICKAXE)
-            .requiresCorrectToolForDrops(), UniformInt.of(3, 7));
-    }
+	public OreChargedCertusQuartz() {
+		super(2, UniformInt.of(3, 7));
+	}
 
-    @Override
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
-        super.animateTick(stateIn, worldIn, pos, rand);
+	@Override
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+		super.animateTick(stateIn, worldIn, pos, rand);
 
-        if(rand.nextInt(10) == 0) {
-            for(Direction direction : Direction.values()) {
-                BlockPos blockpos = pos.relative(direction);
-                if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
-                    Direction.Axis direction$axis = direction.getAxis();
-                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
-                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
-                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
-                    worldIn.addParticle(DUST, (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-    }
+		if (rand.nextInt(10) == 0) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockpos = pos.relative(direction);
+				if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
+					Direction.Axis direction$axis = direction.getAxis();
+					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double) direction.getStepX() : (double) rand.nextFloat();
+					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double) direction.getStepY() : (double) rand.nextFloat();
+					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double) direction.getStepZ() : (double) rand.nextFloat();
+					worldIn.addParticle(DUST, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+				}
+			}
+		}
+	}
 }

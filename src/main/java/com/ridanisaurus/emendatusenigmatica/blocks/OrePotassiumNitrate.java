@@ -25,15 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.block.OreBlock;
-import net.minecraft.world.level.material.Material;
 
-public class OrePotassiumNitrate extends OreBlock {
+public class OrePotassiumNitrate extends EEOreBlock {
 	public OrePotassiumNitrate() {
-		super(Properties.of(Material.STONE)
-				.strength(3.0f, 3.0f)
-				// FIXME: .harvestLevel(1)
-				// FIXME: .harvestTool(ToolType.PICKAXE)
-				.requiresCorrectToolForDrops(), UniformInt.of(0, 2));
+		super(1, UniformInt.of(0, 2));
 	}
 }

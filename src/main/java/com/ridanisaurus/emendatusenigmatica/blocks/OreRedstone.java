@@ -29,48 +29,42 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
-public class OreRedstone extends OreBlock {
+public class OreRedstone extends EEOreBlock {
     /*public static final BooleanProperty LIT = RedstoneOreBlock.LIT;
 
     private static ToIntFunction<BlockState> getLightLevel() {
         return (state) -> state.get(BlockStateProperties.LIT) ? 9 : 0;
     }*/
 
-    public OreRedstone() {
-        super(Properties.of(Material.STONE)
-                .strength(3.0F, 3.0F)
-                // FIXME: .harvestLevel(2)
-                // FIXME: .harvestTool(ToolType.PICKAXE)
-                .requiresCorrectToolForDrops(), UniformInt.of(0, 2));
+	public OreRedstone() {
+		super(2, UniformInt.of(0, 2));
                 /*.tickRandomly()
                 .setLightLevel(getLightLevel()));*/
 
-        /*this.setDefaultState(this.getDefaultState().with(LIT, Boolean.FALSE));*/
-    }
+		/*this.setDefaultState(this.getDefaultState().with(LIT, Boolean.FALSE));*/
+	}
 
-    @Override
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
-        super.animateTick(stateIn, worldIn, pos, rand);
+	@Override
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+		super.animateTick(stateIn, worldIn, pos, rand);
 
-        if(rand.nextInt(10) == 0) {
-            for(Direction direction : Direction.values()) {
-                BlockPos blockpos = pos.relative(direction);
-                if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
-                    Direction.Axis direction$axis = direction.getAxis();
-                    double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
-                    double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
-                    double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
-                    worldIn.addParticle(DustParticleOptions.REDSTONE, (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
-                }
-            }
-        }
-    }
+		if (rand.nextInt(10) == 0) {
+			for (Direction direction : Direction.values()) {
+				BlockPos blockpos = pos.relative(direction);
+				if (!worldIn.getBlockState(blockpos).isSolidRender(worldIn, blockpos)) {
+					Direction.Axis direction$axis = direction.getAxis();
+					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double) direction.getStepX() : (double) rand.nextFloat();
+					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double) direction.getStepY() : (double) rand.nextFloat();
+					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double) direction.getStepZ() : (double) rand.nextFloat();
+					worldIn.addParticle(DustParticleOptions.REDSTONE, (double) pos.getX() + d1, (double) pos.getY() + d2, (double) pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+				}
+			}
+		}
+	}
 
 /*    @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {

@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.blocks.EEOreBlock;
 import com.ridanisaurus.emendatusenigmatica.registries.BlockHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.ItemHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.OreHandler;
@@ -41,7 +42,6 @@ import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
@@ -644,7 +644,7 @@ public class RecipesGen extends RecipeProvider {
     }
   }
 
-  static Supplier<Block> baseOre(Materials material) {
+  static Supplier<EEOreBlock> baseOre(Materials material) {
     return OreHandler.backingOreBlockTable.get(Strata.STONE, material);
   }
 }
