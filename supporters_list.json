@@ -1,6 +1,6 @@
 [
   {
-	"name": "Ridanis",
+	"name": "Ridanisaurus",
 	"item": "emendatusenigmatica:enigmatic_fortunizer"
   },
   {
@@ -54,5 +54,9 @@
   {
 	"name": "Swifty_Winds",
 	"item": "emendatusenigmatica:dimensional_gem"
+  },
+  {
+	"name": "eleni__x3",
+	"item": "emendatusenigmatica:gold_gear"
   }
 ]
