@@ -80,6 +80,12 @@ public class GenericRecipeBuilder {
 		this.recipeDefault = item.asItem();
 	}
 
+	public GenericRecipeBuilder(String resultName, IItemProvider item, float chance) {
+		this.resultName = resultName;
+		this.result = new JsonItemBuilder(false).stackWithoutCount(item, chance);
+		this.recipeDefault = item.asItem();
+	}
+
 	public GenericRecipeBuilder(String resultName, IItemProvider item) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stack(item);
@@ -317,6 +323,12 @@ public class GenericRecipeBuilder {
 		public JsonItemBuilder stackWithCount(IItemProvider itemProvider, int count) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("count", count));
+		}
+
+		public JsonItemBuilder stackWithoutCount(IItemProvider itemProvider, float chance) {
+			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
+					Pair.of("chance", chance)
+			);
 		}
 
 		public JsonItemBuilder stack(IItemProvider itemProvider) {

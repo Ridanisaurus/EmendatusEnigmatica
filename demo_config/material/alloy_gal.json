@@ -1,7 +1,7 @@
 {
-  "id": "alloy_boi",
+  "id": "alloy_gal",
   "source": "alloy",
-  "localizedName": "Alloy Boi",
+  "localizedName": "Alloy Gal",
   "processedType": [
     "storage_block",
     "ingot",
@@ -16,9 +16,9 @@
   "harvestLevel": 1
 },
   "colors": {
-    "highlightColor": "0099ff",
-    "baseColor": "4499ff",
-    "shadeColor": "ff6633",
+    "highlightColor": "112233",
+    "baseColor": "445566",
+    "shadeColor": "778899",
     "fluidColor": "0099FF"
   },
   "compat": {
@@ -28,6 +28,8 @@
         "firstInputCount": 3,
         "secondInput": "minecraft:apple",
         "secondInputCount": 5,
+        "thirdInput": "minecraft:gold_nugget",
+        "thirdInputCount": 2,
         "firstOutputCount": 10
       }
     }

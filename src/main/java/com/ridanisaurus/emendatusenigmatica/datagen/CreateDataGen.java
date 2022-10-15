@@ -62,38 +62,39 @@ public class CreateDataGen {
 					// TODO: Revisit this whole section once the chunks system is flushed out
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
-						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
+						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
+										// TODO: Look into making the secondary item configurable instead of just the same primary
+										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
-						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOutputs().getDefaultItemDropAsItem()), 2)
+						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOutputs().getDefaultItemDropAsItem()), 1, 0.25)
+										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 				}
 				if (processedType.contains("crushed_ore") && processedType.contains("raw")) {
 					// Crushed Ore from Chunk - Crushing
-					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
+					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 							.type("create:crushing")
 							.group("emendatusenigmatica:compat_recipe")
 							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawMap.get(material.getId()).get()))
 							.fieldInt("processingTime", 300)
 							.addOutput(builder -> builder
-									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 2, 0.3)
+									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
 									.stackWithChance(Blocks.COBBLESTONE, 1, 0.125))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw/" + material.getId()));
 				}

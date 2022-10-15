@@ -207,6 +207,9 @@ public class EmendatusEnigmatica {
         if (OCCULTISM_LOADED) {
             generator.addProvider(new OccultismDataGen.OccultismRecipes(generator));
         }
+        if (THERMALSERIES_LOADED) {
+            generator.addProvider(new ThermalDataGen.ThermalRecipes(generator));
+        }
     }
 
     public static void generate() {

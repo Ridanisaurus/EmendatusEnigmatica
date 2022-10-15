@@ -27,30 +27,34 @@
     "shadeColor": "0b2e47",
     "fluidColor": "00FF00"
   },
-  "outputs": {
+  "oreDrop": {
     "drop": "minecraft:charcoal",
     "vanillaMin": 2,
-    "vanillaMax": 6,
-    "createCompat": {
-      "crushingPrimaryCount": 2,
-      "crushingPrimaryChance": 1.0,
-      "crushingSecondaryCount": 2,
-      "crushingSecondaryChance": 0.5
+    "vanillaMax": 6
+  },
+  "compat": {
+    "create": {
+      "crushing": {
+        "firstOutputCount": 10,
+        "secondOutputCount": 15,
+        "secondOutputChance": 0.35
+      }
     },
-    "thermalCompat": {
-      "pulverizerPrimaryCount": 2,
-      "pulverizerPrimaryChance": 0.5,
-      "pulverizerSecondaryOutput": "thermal:sulfur",
-      "pulverizerSecondaryCount": 1,
-      "pulverizerSecondaryChance": 0.15,
-      "pulverizerTertiaryOutput": "minecraft:gravel",
-      "pulverizerTertiaryCount": 1,
-      "pulverizerTertiaryChance": 0.20,
-      "inductionPrimaryCount": 1,
-      "inductionPrimaryChance": 0.5,
-      "inductionSecondaryOutput": "thermal:rich_slag",
-      "inductionSecondaryCount": 1,
-      "inductionSecondaryChance": 0.15
+    "thermal": {
+      "pulverizer": {
+        "firstOutputCount": 10,
+        "firstOutputChance": 0.6,
+        "secondOutput": "minecraft:apple",
+        "secondOutputCount": 1,
+        "secondOutputChance": 0.20
+      },
+      "induction": {
+        "firstOutputCount": 1,
+        "firstOutputChance": 0.5,
+        "secondOutput": "minecraft:gold_ingot",
+        "secondOutputCount": 1,
+        "secondOutputChance": 0.15
+      }
     }
   }
 }

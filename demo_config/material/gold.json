@@ -13,31 +13,5 @@
   "properties": {
     "oreBlockType": "metal",
     "harvestLevel": 1
-  },
-  "outputs": {
-    "createCompat": {
-      "crushingPrimaryCount": 1,
-      "crushingPrimaryChance": 1.0,
-      "crushingSecondaryCount": 2,
-      "crushingSecondaryChance": 0.30
-    },
-    "thermalCompat": {
-      "pulverizerPrimaryCount": 2,
-      "pulverizerPrimaryChance": 1.0,
-      "pulverizerSecondaryOutput": "thermal:cinnabar",
-      "pulverizerSecondaryCount": 1,
-      "pulverizerSecondaryChance": 0.05,
-      "pulverizerTertiaryOutput": "minecraft:gravel",
-      "pulverizerTertiaryCount": 1,
-      "pulverizerTertiaryChance": 0.20,
-      "inductionPrimaryCount": 1,
-      "inductionPrimaryChance": 1.0,
-      "inductionSecondaryOutput": "thermal:cinnabar",
-      "inductionSecondaryCount": 1,
-      "inductionSecondaryChance": 0.10,
-      "inductionTertiaryOutput": "thermal:rich_slag",
-      "inductionTertiaryCount": 1,
-      "inductionTertiaryChance": 0.20
-    }
   }
 }

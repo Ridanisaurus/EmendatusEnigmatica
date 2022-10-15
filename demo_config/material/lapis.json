@@ -14,33 +14,9 @@
     "oreBlockType": "gem",
     "harvestLevel": 1
   },
-  "outputs": {
+  "oreDrop": {
     "drop": "minecraft:lapis_lazuli",
     "vanillaMin": 4,
-    "vanillaMax": 9,
-    "createCompat": {
-      "crushingPrimaryCount": 12,
-      "crushingPrimaryChance": 1.0,
-      "crushingSecondaryCount": 8,
-      "crushingSecondaryChance": 0.25
-    },
-    "thermalCompat": {
-      "pulverizerPrimaryCount": 12,
-      "pulverizerPrimaryChance": 0.50,
-      "pulverizerSecondaryOutput": "thermal:sulfur",
-      "pulverizerSecondaryCount": 1,
-      "pulverizerSecondaryChance": 0.25,
-      "pulverizerTertiaryOutput": "minecraft:gravel",
-      "pulverizerTertiaryCount": 1,
-      "pulverizerTertiaryChance": 0.20,
-      "inductionPrimaryCount": 8,
-      "inductionPrimaryChance": 0.50,
-      "inductionSecondaryOutput": "thermal:sulfur",
-      "inductionSecondaryCount": 1,
-      "inductionSecondaryChance": 0.75,
-      "inductionTertiaryOutput": "thermal:rich_slag",
-      "inductionTertiaryCount": 1,
-      "inductionTertiaryChance": 0.15
-    }
+    "vanillaMax": 9
   }
 }

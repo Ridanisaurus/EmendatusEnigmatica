@@ -13,30 +13,9 @@
     "isBurnable": true,
     "burnTime": 1600
   },
-  "outputs": {
+  "oreDrop": {
     "drop": "minecraft:coal",
     "vanillaMin": 1,
-    "vanillaMax": 1,
-    "createCompat": {
-      "crushingPrimaryCount": 2,
-      "crushingPrimaryChance": 1.0,
-      "crushingSecondaryCount": 2,
-      "crushingSecondaryChance": 0.5
-    },
-    "thermalCompat": {
-      "pulverizerPrimaryCount": 2,
-      "pulverizerPrimaryChance": 0.5,
-      "pulverizerSecondaryOutput": "thermal:sulfur",
-      "pulverizerSecondaryCount": 1,
-      "pulverizerSecondaryChance": 0.15,
-      "pulverizerTertiaryOutput": "minecraft:gravel",
-      "pulverizerTertiaryCount": 1,
-      "pulverizerTertiaryChance": 0.20,
-      "inductionPrimaryCount": 1,
-      "inductionPrimaryChance": 0.5,
-      "inductionSecondaryOutput": "thermal:rich_slag",
-      "inductionSecondaryCount": 1,
-      "inductionSecondaryChance": 0.15
-    }
+    "vanillaMax": 1
   }
 }

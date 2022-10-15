@@ -14,27 +14,9 @@
     "oreBlockType": "gem",
     "harvestLevel": 1
   },
-  "outputs": {
+  "oreDrop": {
     "drop": "minecraft:emerald",
     "vanillaMin": 1,
-    "vanillaMax": 1,
-    "createCompat": {
-      "crushingPrimaryCount": 2,
-      "crushingPrimaryChance": 1.0,
-      "crushingSecondaryCount": 1,
-      "crushingSecondaryChance": 0.25
-    },
-    "thermalCompat": {
-      "pulverizerPrimaryCount": 2,
-      "pulverizerPrimaryChance": 0.5,
-      "pulverizerSecondaryOutput": "minecraft:gravel",
-      "pulverizerSecondaryCount": 1,
-      "pulverizerSecondaryChance": 0.20,
-      "inductionPrimaryCount": 1,
-      "inductionPrimaryChance": 0.5,
-      "inductionSecondaryOutput": "thermal:rich_slag",
-      "inductionSecondaryCount": 1,
-      "inductionSecondaryChance": 0.15
-    }
+    "vanillaMax": 1
   }
 }

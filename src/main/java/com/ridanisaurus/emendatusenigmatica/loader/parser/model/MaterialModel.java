@@ -37,15 +37,17 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
 			Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
-			MaterialOutputsModel.CODEC.optionalFieldOf("outputs").forGetter(i -> Optional.of(i.outputs)),
+			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
+			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors))
-	).apply(x, (id, source, localizedName, processedType, properties, drops, colors) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, processedType, properties, oreDrop, compat, colors) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
 			processedType,
 			properties.orElse(new MaterialPropertiesModel()),
-			drops.orElse(new MaterialOutputsModel()),
+			oreDrop.orElse(new MaterialOreDropModel()),
+			compat.orElse(new MaterialCompatModel()),
 			colors.orElse(new MaterialColorsModel())
 	)));
 
@@ -54,16 +56,18 @@ public class MaterialModel {
 	private final String localizedName;
 	private final List<String> processedType;
 	private final MaterialPropertiesModel properties;
-	private final MaterialOutputsModel outputs;
+	private final MaterialOreDropModel oreDrop;
+	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
 
-	public MaterialModel(String id, String source, String localizedName, List<String> processedType, MaterialPropertiesModel properties, MaterialOutputsModel outputs, MaterialColorsModel colors) {
+	public MaterialModel(String id, String source, String localizedName, List<String> processedType, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
 		this.processedType = processedType;
 		this.properties = properties;
-		this.outputs = outputs;
+		this.oreDrop = oreDrop;
+		this.compat = compat;
 		this.colors = colors;
 	}
 
@@ -76,11 +80,15 @@ public class MaterialModel {
 	}
 
 	public boolean isModded() {
-		return getSource().equals("modded");
+		return !getSource().equals("vanilla");
 	}
 
 	public boolean isVanilla() {
 		return getSource().equals("vanilla");
+	}
+
+	public boolean isAlloy() {
+		return getSource().equals("alloy");
 	}
 
 	public String getLocalizedName() {
@@ -95,8 +103,12 @@ public class MaterialModel {
 		return properties;
 	}
 
-	public MaterialOutputsModel getOutputs() {
-		return outputs;
+	public MaterialOreDropModel getOreDrop() {
+		return oreDrop;
+	}
+
+	public MaterialCompatModel getCompat() {
+		return compat;
 	}
 
 	public MaterialColorsModel getColors() {
