@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.Optional;
 
@@ -111,7 +111,7 @@ public class ThermalInductionCompat {
 		return firstOutputCount + firstOutputChance;
 	}
 
-	public IItemProvider getSecondOutput() {
+	public ItemLike getSecondOutput() {
 		return Registry.ITEM.get(new ResourceLocation(secondOutput));
 	}
 
@@ -127,7 +127,7 @@ public class ThermalInductionCompat {
 		return secondOutputCount + secondOutputChance;
 	}
 
-	public IItemProvider getFirstInput() {
+	public ItemLike getFirstInput() {
 		return Registry.ITEM.get(new ResourceLocation(firstInput));
 	}
 
@@ -135,7 +135,7 @@ public class ThermalInductionCompat {
 		return firstInputCount;
 	}
 
-	public IItemProvider getSecondInput() {
+	public ItemLike getSecondInput() {
 		return Registry.ITEM.get(new ResourceLocation(secondInput));
 	}
 
@@ -143,7 +143,7 @@ public class ThermalInductionCompat {
 		return secondInputCount;
 	}
 
-	public IItemProvider getThirdInput() {
+	public ItemLike getThirdInput() {
 		return Registry.ITEM.get(new ResourceLocation(thirdInput));
 	}
 

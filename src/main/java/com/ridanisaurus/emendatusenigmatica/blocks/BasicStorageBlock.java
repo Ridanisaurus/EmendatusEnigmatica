@@ -24,12 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraftforge.common.ToolType;
+
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Material;
 
 public class BasicStorageBlock extends Block implements IColorable {
 	private final String localisedName;
@@ -37,11 +36,12 @@ public class BasicStorageBlock extends Block implements IColorable {
 	public final int baseColor;
 	public final int shadeColor;
 
-	public BasicStorageBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int highlightColor, int baseColor, int shadeColor) {
+	// TODO: [RID] Move harvestLevel and tool to Tags
+	public BasicStorageBlock(Material material, float hardness, float resistance, String localisedName, int highlightColor, int baseColor, int shadeColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
-				.harvestLevel(harvestLevel)
-				.harvestTool(tool)
+//				.harvestLevel(harvestLevel)
+//				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.highlightColor = highlightColor;
@@ -50,8 +50,8 @@ public class BasicStorageBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public IFormattableTextComponent getName() {
-		return new StringTextComponent(localisedName);
+	public MutableComponent getName() {
+		return new TranslatableComponent(localisedName);
 	}
 
 	@Override

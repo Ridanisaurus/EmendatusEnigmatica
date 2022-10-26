@@ -33,7 +33,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.slurry.Slurry;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -52,13 +51,6 @@ public class LangGen extends LanguageProvider {
 		add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block in an Item form, and it can be smelted, doubled, tripled ..etc.");
 		add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter or in a Crafting Grid.");
 
-		// Misc
-		add(EERegistrar.ENIGMATIC_FORTUNIZER.get(), "\u00A7aEnigmatic Fortunizer\u00A7r");
-		add("container.emendatusenigmatica.enigmatic_fortunizer", "Enigmatic Fortunizer");
-		add("tooltip.emendatusenigmatica.enigmatic_fortunizer.1", "The Enigmatic Fortunizer takes Gem-Based \u00A73\u00A7nChunks/Ores\u00A7r + a \u00A73\u00A7nPickaxe\u00A7r, and will output the appropriate \u00A79\u00A7nItem\u00A7r, applying enchantment effects where applicable such as \u00A7cFortune\u00A7r, \u00A7cUnbreaking\u00A7r, \u00A7cEfficiency\u00A7r... etc.\n" +
-				"Once your \u00A73\u00A7nPickaxe\u00A7r reaches \u00A760\u00A7r Durability, the operation will stop, and your Pickaxe can be extracted for repairs.\n\n" +
-				"\u00A76Example:\u00A7r Diamond Chunks + Pickaxe = Diamonds");
-		add("tooltip.emendatusenigmatica.enigmatic_fortunizer.2", "Hold \u00A7c\u00A7l[SHIFT]\u00A7r for more information.");
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
 		for (MaterialModel material : EELoader.MATERIALS) {
@@ -157,22 +149,23 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
 
-				// TODO: Look into moving this to the MekanismDataGen class
+				// TODO: [RID] Look into moving this to the MekanismDataGen class
 				if (EmendatusEnigmatica.MEKANISM_LOADED) {
 					// Slurries
-					if (processedType.contains("slurry")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append("Dirty ");
-						sb.append(material.getLocalizedName());
-						sb.append(" Slurry");
-						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
-
-						StringBuilder sb2 = new StringBuilder();
-						sb2.append("Clean ");
-						sb2.append(material.getLocalizedName());
-						sb2.append(" Slurry");
-						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
-					}
+					// TODO: [RID] Re-add after integrating Mekanism
+//					if (processedType.contains("slurry")) {
+//						StringBuilder sb = new StringBuilder();
+//						sb.append("Dirty ");
+//						sb.append(material.getLocalizedName());
+//						sb.append(" Slurry");
+//						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
+//
+//						StringBuilder sb2 = new StringBuilder();
+//						sb2.append("Clean ");
+//						sb2.append(material.getLocalizedName());
+//						sb2.append(" Slurry");
+//						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
+//					}
 					// Crystals
 					if (processedType.contains("crystal")) {
 						StringBuilder sb = new StringBuilder();
@@ -203,7 +196,7 @@ public class LangGen extends LanguageProvider {
 						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-				// TODO: Look into moving this to the CreateDataGen class
+				// TODO: [RID] Look into moving this to the CreateDataGen class
 				if (EmendatusEnigmatica.CREATE_LOADED) {
 					// Crushed Ore
 					if (processedType.contains("crushed_ore")) {
@@ -214,7 +207,7 @@ public class LangGen extends LanguageProvider {
 						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-				// TODO: Look into moving this to the BloodMagicDataGen class
+				// TODO: [RID] Look into moving this to the BloodMagicDataGen class
 				if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
 					// Fragment
 					if (processedType.contains("fragment")) {
@@ -253,9 +246,10 @@ public class LangGen extends LanguageProvider {
 		}
 	}
 
-	private void add(Slurry slurry, String name) {
-		add(slurry.getTranslationKey(), name);
-	}
+	// TODO: [RID] Re-add after integrating Mekanism
+//	private void add(Slurry slurry, String name) {
+//		add(slurry.getTranslationKey(), name);
+//	}
 
 	@Override
 	public String getName() {

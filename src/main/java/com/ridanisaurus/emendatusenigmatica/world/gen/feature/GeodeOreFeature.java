@@ -9,26 +9,23 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITag;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+// TODO: [BUUZ] Not sure what changed here, but I already have implemented one of the place() methods, but it is still asking for the FeaturePlaceContext one
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerShellBlocks;
@@ -62,7 +59,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	}
 
 	@Override
-	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config) {
+	public boolean place(GeodeOreFeatureConfig config, WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos) {
 
 		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
 			return false;
@@ -90,7 +87,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		return true;
 	}
 
-	private void generateHollowSphere(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
+	private void generateHollowSphere(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 
@@ -153,12 +150,12 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		}
 	}
 
-	private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
+	private void placeBlock(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos
 			pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
 		if (!filler.test(reader.getBlockState(pos), rand)) {
 			return;
 		}
-
+		// TODO: [BUUZ] The .getAllTags() seems to have been completely removed since they moved away from the Tag Collection
 		int index = rand.nextInt(blocks.size());
 		CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
 		if (commonBlockDefinitionModel.getBlock() != null) {

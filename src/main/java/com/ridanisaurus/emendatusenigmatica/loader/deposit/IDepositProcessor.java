@@ -6,6 +6,4 @@ public interface IDepositProcessor {
 	void load();
 
 	void setupOres(BiomeLoadingEvent event);
-
-	// TODO extend Feature for custom and vanilla ore gen with dim list
 }

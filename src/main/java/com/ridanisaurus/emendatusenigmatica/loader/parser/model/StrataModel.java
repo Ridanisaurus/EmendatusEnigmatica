@@ -26,8 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Optional;
 
@@ -84,18 +83,19 @@ public class StrataModel {
 		return localizedName;
 	}
 
-	public ToolType getHarvestTool() {
-		switch (harvestTool) {
-			case "shovel":
-				return ToolType.SHOVEL;
-			case "axe":
-				return ToolType.AXE;
-			case "hoe":
-				return ToolType.HOE;
-			default:
-				return ToolType.PICKAXE;
-		}
-	}
+	// TODO: [RID] Switch to Tags
+//	public ToolType getHarvestTool() {
+//		switch (harvestTool) {
+//			case "shovel":
+//				return ToolType.SHOVEL;
+//			case "axe":
+//				return ToolType.AXE;
+//			case "hoe":
+//				return ToolType.HOE;
+//			default:
+//				return ToolType.PICKAXE;
+//		}
+//	}
 
 	public float getHardness() {
 		return hardness;

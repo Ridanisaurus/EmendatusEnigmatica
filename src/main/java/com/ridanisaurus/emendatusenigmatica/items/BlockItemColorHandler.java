@@ -4,11 +4,11 @@ import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
 import com.ridanisaurus.emendatusenigmatica.blocks.GemOreBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.MetalOreBlock;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 
-public class BlockItemColorHandler implements IItemColor {
+public class BlockItemColorHandler implements ItemColor {
     @Override
     public int getColor(ItemStack stack, int layer) {
         if (layer == 1) {

@@ -26,8 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.ridanisaurus.emendatusenigmatica.datagen.MockedNamedTag;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 import java.util.function.Function;
 

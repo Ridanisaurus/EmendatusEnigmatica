@@ -27,34 +27,34 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.blocks.*;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
+import com.ridanisaurus.emendatusenigmatica.blocks.GemOreBlock;
+import com.ridanisaurus.emendatusenigmatica.blocks.MetalOreBlock;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.tiles.EnigmaticFortunizerTile;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class EERegistrar {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
-	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
+//	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
 	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
@@ -85,7 +85,7 @@ public class EERegistrar {
 	// Fluids
 	public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
 	public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
-	public static Map<String, RegistryObject<FlowingFluidBlock>> fluidBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<LiquidBlock>> fluidBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> fluidBucketMap = new HashMap<>();
 
 	public static final ResourceLocation FLUID_STILL_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still");
@@ -94,10 +94,10 @@ public class EERegistrar {
 
 	public static RegistryObject<FlowingFluid> fluidSource;
 	public static RegistryObject<FlowingFluid> fluidFlowing;
-	public static RegistryObject<FlowingFluidBlock> fluidBlock;
+	public static RegistryObject<LiquidBlock> fluidBlock;
 	public static RegistryObject<Item> fluidBucket;
 
-	public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<FlowingFluidBlock> block, Supplier<Item> bucket, int color) {
+	public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<LiquidBlock> block, Supplier<Item> bucket, int color) {
 		return new ForgeFlowingFluid.Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
 				.overlay(FLUID_OVERLAY_RL)
 				.color(color)
@@ -120,7 +120,7 @@ public class EERegistrar {
 		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
 				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getColors().getFluidColor())));
 		fluidBlock = BLOCKS.register(fluidName,
-				() -> new FlowingFluidBlock(fluidSourceMap.get(material.getId()), AbstractBlock.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
+				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
 		fluidBucket = ITEMS.register(fluidName + "_bucket",
 				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
 
@@ -130,6 +130,7 @@ public class EERegistrar {
 		fluidBucketMap.put(material.getId(), fluidBucket);
 	}
 
+	// TODO: [RID] Switch Harvest level and Tool to Tags
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
 		RegistryObject<Block> oreBlock;
@@ -138,8 +139,8 @@ public class EERegistrar {
 					Material.STONE,
 					strata.getHardness(),
 					strata.getResistance(),
-					material.getProperties().getHarvestLevel(),
-					strata.getHarvestTool(),
+//					material.getProperties().getHarvestLevel(),
+//					strata.getHarvestTool(),
 					material.getLocalizedName(),
 					material.getOreDrop().getVanillaMin(),
 					material.getOreDrop().getVanillaMax(),
@@ -151,8 +152,8 @@ public class EERegistrar {
 					Material.STONE,
 					strata.getHardness(),
 					strata.getResistance(),
-					material.getProperties().getHarvestLevel(),
-					strata.getHarvestTool(),
+//					material.getProperties().getHarvestLevel(),
+//					strata.getHarvestTool(),
 					material.getLocalizedName(),
 					material.getColors().getHighlightColor(),
 					material.getColors().getBaseColor(),
@@ -171,8 +172,8 @@ public class EERegistrar {
 				Material.STONE,
 				3f,
 				3f,
-				material.getProperties().getHarvestLevel(),
-				ToolType.PICKAXE,
+//				material.getProperties().getHarvestLevel(),
+//				ToolType.PICKAXE,
 				material.getLocalizedName(),
 				material.getColors().getHighlightColor(),
 				material.getColors().getBaseColor(),
@@ -280,11 +281,6 @@ public class EERegistrar {
 		}
 	}
 
-	// Machine Items
-	public static final RegistryObject<Block> ENIGMATIC_FORTUNIZER = BLOCKS.register("enigmatic_fortunizer", EnigmaticFortunizer::new);
-	public static final RegistryObject<TileEntityType<?>> ENIGMATIC_FORTUNIZER_TILE = TILE_ENTITY.register("enigmatic_fortunizer", () -> TileEntityType.Builder.of(EnigmaticFortunizerTile::new, ENIGMATIC_FORTUNIZER.get()).build(null));
-	public static final RegistryObject<Item> ENIGMATIC_FORTUNIZER_ITEM = ITEMS.register("enigmatic_fortunizer", () -> new BasicBlockItem(ENIGMATIC_FORTUNIZER.get()));
-
 	// Hammer
 	public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 
@@ -292,6 +288,6 @@ public class EERegistrar {
 		ITEMS.register(eventBus);
 		BLOCKS.register(eventBus);
 		FLUIDS.register(eventBus);
-		TILE_ENTITY.register(eventBus);
+//		TILE_ENTITY.register(eventBus);
 	}
 }

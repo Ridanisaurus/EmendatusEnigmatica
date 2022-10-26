@@ -26,9 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 

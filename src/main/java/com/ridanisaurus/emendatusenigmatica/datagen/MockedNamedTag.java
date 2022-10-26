@@ -1,12 +1,12 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.tags.ITag;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 
 import java.util.ArrayList;
 import java.util.List;
-
-public class MockedNamedTag<T> implements ITag.INamedTag<T> {
+// TODO: [Buuz] Previously, this class implemented the interface of ITag.INamedTag<T>
+public class MockedNamedTag<T> implements TagKey<T> {
 	private final ResourceLocation name;
 
 	public MockedNamedTag(ResourceLocation name) {

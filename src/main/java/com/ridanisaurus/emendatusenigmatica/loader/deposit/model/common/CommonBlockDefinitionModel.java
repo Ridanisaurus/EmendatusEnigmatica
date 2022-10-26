@@ -2,8 +2,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 
 import java.util.Optional;
 

@@ -31,13 +31,15 @@ import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Blocks;
+import net.minecraft.core.Registry;
 import net.minecraft.data.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -59,7 +61,7 @@ public class CreateDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
-					// TODO: Revisit this whole section once the chunks system is flushed out
+					// TODO: [RID] Revisit this whole section once the chunks system is flushed out
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
 						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
@@ -68,7 +70,7 @@ public class CreateDataGen {
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										// TODO: Look into making the secondary item configurable instead of just the same primary
+										// TODO: [RID] Look into making the secondary item configurable instead of just the same primary
 										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
@@ -169,14 +171,14 @@ public class CreateDataGen {
 
 		@Override
 		protected void addTags() {
-			Builder<Item> createCrushedOres = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores").toString()));
+			TagAppender<Item> createCrushedOres = tag(ItemTags.create(new ResourceLocation(Reference.CREATE, "crushed_ores")));
 
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Crystals
 				if (processedType.contains("crushed_ore")) {
 					createCrushedOres.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
-					Builder<Item> crushedOreTag = tag(ItemTags.bind(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material.getId()).toString()));
+					TagAppender<Item> crushedOreTag = tag(ItemTags.create(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material.getId())));
 					crushedOreTag.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
 				}
 			}

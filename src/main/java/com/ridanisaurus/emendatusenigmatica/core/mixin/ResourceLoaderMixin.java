@@ -25,11 +25,12 @@
 package com.ridanisaurus.emendatusenigmatica.core.mixin;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackList;
-import net.minecraftforge.fml.loading.moddiscovery.ModFile;
-import net.minecraftforge.fml.packs.ModFileResourcePack;
-import net.minecraftforge.fml.packs.ResourcePackLoader;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.repository.RepositorySource;
+import net.minecraftforge.forgespi.locating.IModFile;
+import net.minecraftforge.resource.PathResourcePack;
+import net.minecraftforge.resource.ResourcePackLoader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,9 +42,9 @@ import java.util.function.BiFunction;
 
 @Mixin(ResourcePackLoader.class)
 public class ResourceLoaderMixin {
-	@Inject(method = "loadResourcePacks(Lnet/minecraft/resources/ResourcePackList;Ljava/util/function/BiFunction;)V", at = @At("RETURN"), remap = false)
-	private static <T extends ResourcePackInfo> void injectPacks(ResourcePackList resourcePacks, BiFunction<Map<ModFile, ? extends ModFileResourcePack>,
-			BiConsumer<? super ModFileResourcePack, T>, ResourcePackLoader.IPackInfoFinder> packFinder, CallbackInfo callback) {
+	@Inject(method = "loadResourcePacks(Lnet/minecraft/server/packs/repository/PackRepository;Ljava/util/function/BiFunction;)V", at = @At("RETURN"), remap = false)
+	private static <T extends Pack> void injectPacks(PackRepository resourcePacks, BiFunction<Map<IModFile, ? extends PathResourcePack>,
+			BiConsumer<? super PathResourcePack, Pack>, ? extends RepositorySource> packFinder, CallbackInfo callback) {
 
 		EmendatusEnigmatica.injectDatapackFinder(resourcePacks);
 	}

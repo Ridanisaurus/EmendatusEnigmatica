@@ -13,21 +13,20 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Random;
-
+// TODO: [BUUZ] Not sure what changed here, but I already have implemented one of the place() methods, but it is still asking for the FeaturePlaceContext one
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private SphereDepositModel model;
     private ArrayList<CommonBlockDefinitionModel> blocks;
@@ -43,7 +42,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     }
 
     @Override
-    public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, SphereOreFeatureConfig config) {
+    public boolean place(SphereOreFeatureConfig config, WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos) {
         if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
             return false;
         }
@@ -115,7 +114,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         return true;
     }
 
-    private void placeBlock(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos
+    private void placeBlock(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos
             pos, SphereOreFeatureConfig config) {
         if (!config.target.test(reader.getBlockState(pos), rand)) {
             return;
@@ -123,7 +122,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         if (rand.nextInt(100) > model.getConfig().getDensity()) {
             return;
         }
-
+        // TODO: [BUUZ] The .getAllTags() seems to have been completely removed since they moved away from the Tag Collection
         int index = rand.nextInt(blocks.size());
         try {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
@@ -150,7 +149,5 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             e.printStackTrace();
         }
     }
-
-
 }
 

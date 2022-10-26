@@ -32,15 +32,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.ICriterionInstance;
-import net.minecraft.advancements.IRequirementsStrategy;
-import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -65,38 +65,38 @@ public class GenericRecipeBuilder {
 	private final Map<String, Integer> fieldValueInt = Maps.newLinkedHashMap();
 	private final Map<String, Float> fieldValueFloat = Maps.newLinkedHashMap();
 	private final Map<String, Boolean> fieldValueBoolean = Maps.newLinkedHashMap();
-	private final Map<String, IItemProvider> fieldValueItem = Maps.newLinkedHashMap();
+	private final Map<String, ItemLike> fieldValueItem = Maps.newLinkedHashMap();
 	private final Map<String, JsonItemBuilder> fieldValueJson = Maps.newLinkedHashMap();
 
-	public GenericRecipeBuilder(String resultName, IItemProvider item, int count, float chance) {
+	public GenericRecipeBuilder(String resultName, ItemLike item, int count, float chance) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stackWithChance(item, count, chance);
 		this.recipeDefault = item.asItem();
 	}
 
-	public GenericRecipeBuilder(String resultName, IItemProvider item, int count) {
+	public GenericRecipeBuilder(String resultName, ItemLike item, int count) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stackWithCount(item, count);
 		this.recipeDefault = item.asItem();
 	}
 
-	public GenericRecipeBuilder(String resultName, IItemProvider item, float chance) {
+	public GenericRecipeBuilder(String resultName, ItemLike item, float chance) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stackWithoutCount(item, chance);
 		this.recipeDefault = item.asItem();
 	}
 
-	public GenericRecipeBuilder(String resultName, IItemProvider item) {
+	public GenericRecipeBuilder(String resultName, ItemLike item) {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false).stack(item);
 		this.recipeDefault = item.asItem();
 	}
 
-	public static GenericRecipeBuilder result(IItemProvider item) {
+	public static GenericRecipeBuilder result(ItemLike item) {
 		return result(item, 1);
 	}
 
-	public static GenericRecipeBuilder result(IItemProvider item, int count) {
+	public static GenericRecipeBuilder result(ItemLike item, int count) {
 		return new GenericRecipeBuilder("result", item, count);
 	}
 
@@ -136,7 +136,7 @@ public class GenericRecipeBuilder {
 		}
 	}
 
-	public GenericRecipeBuilder fieldItem(String key, IItemProvider value) {
+	public GenericRecipeBuilder fieldItem(String key, ItemLike value) {
 		if (this.fieldValueItem.containsKey(key)) {
 			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
 		} else {
@@ -160,11 +160,11 @@ public class GenericRecipeBuilder {
 	}
 
 	// DO I NEED KEY?
-	public GenericRecipeBuilder define(Character key, ITag<Item> itemTag) {
+	public GenericRecipeBuilder define(Character key, TagKey<Item> itemTag) {
 		return this.define(key, Ingredient.of(itemTag));
 	}
 
-	public GenericRecipeBuilder define(Character key, IItemProvider item) {
+	public GenericRecipeBuilder define(Character key, ItemLike item) {
 		return this.define(key, Ingredient.of(item));
 	}
 
@@ -189,7 +189,7 @@ public class GenericRecipeBuilder {
 		}
 	}
 
-	public GenericRecipeBuilder unlockedBy(String advancementName, ICriterionInstance advancement) {
+	public GenericRecipeBuilder unlockedBy(String advancementName, CriterionTriggerInstance advancement) {
 		this.advancement.addCriterion(advancementName, advancement);
 		return this;
 	}
@@ -223,8 +223,11 @@ public class GenericRecipeBuilder {
 
 	public void save(Consumer<IFinishedGenericRecipe> consumer, ResourceLocation recipeResourceLocation) {
 		//this.ensureValid(recipeResourceLocation);
-		this.advancement.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeResourceLocation)).rewards(AdvancementRewards.Builder.recipe(recipeResourceLocation)).requirements(IRequirementsStrategy.OR);
-		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement, new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()), this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueBoolean, this.fieldValueItem, this.fieldValueJson));
+		this.advancement.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeResourceLocation))
+				.rewards(AdvancementRewards.Builder.recipe(recipeResourceLocation)).requirements(RequirementsStrategy.OR);
+		consumer.accept(new GenericRecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type, this.rows, this.key, this.advancement,
+				new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath()),
+				this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueBoolean, this.fieldValueItem, this.fieldValueJson));
 	}
 
 	private void ensureValid(ResourceLocation resourceLocation) {
@@ -306,49 +309,49 @@ public class GenericRecipeBuilder {
 			return object;
 		}
 
-		public JsonItemBuilder objectWithChance(String key, IItemProvider itemProvider, int count, double chance) {
+		public JsonItemBuilder objectWithChance(String key, ItemLike itemProvider, int count, double chance) {
 			return addOutput(Pair.of(key, Pair.of("item", itemProvider.asItem().getRegistryName().toString())),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
-		public JsonItemBuilder stackWithChance(IItemProvider itemProvider, int count, double chance) {
+		public JsonItemBuilder stackWithChance(ItemLike itemProvider, int count, double chance) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
-		public JsonItemBuilder stackWithCount(IItemProvider itemProvider, int count) {
+		public JsonItemBuilder stackWithCount(ItemLike itemProvider, int count) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("count", count));
 		}
 
-		public JsonItemBuilder stackWithoutCount(IItemProvider itemProvider, float chance) {
+		public JsonItemBuilder stackWithoutCount(ItemLike itemProvider, float chance) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
 					Pair.of("chance", chance)
 			);
 		}
 
-		public JsonItemBuilder stack(IItemProvider itemProvider) {
+		public JsonItemBuilder stack(ItemLike itemProvider) {
 			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()));
 		}
 
-		public JsonItemBuilder tagWithChance(ITag.INamedTag<Item> itemTag, int count, double chance) {
-			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()),
+		public JsonItemBuilder tagWithChance(TagKey<Item> itemTag, int count, double chance) {
+			return addOutput(Pair.of("tag", itemTag.location().getNamespace() + ":" + itemTag.location().getPath()),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
-		public JsonItemBuilder tagWithCount(ITag.INamedTag<Item> itemTag, int count) {
-			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()),
+		public JsonItemBuilder tagWithCount(TagKey<Item> itemTag, int count) {
+			return addOutput(Pair.of("tag", itemTag.location().getNamespace() + ":" + itemTag.location().getPath()),
 					Pair.of("count", count));
 		}
 
-		public JsonItemBuilder tag(ITag.INamedTag<Item> itemTag) {
-			return addOutput(Pair.of("tag", itemTag.getName().getNamespace() + ":" + itemTag.getName().getPath()));
+		public JsonItemBuilder tag(TagKey<Item> itemTag) {
+			return addOutput(Pair.of("tag", itemTag.location().getNamespace() + ":" + itemTag.location().getPath()));
 		}
 
 		public JsonElement getOutput() {
@@ -380,10 +383,10 @@ public class GenericRecipeBuilder {
 		private final Map<String, Integer> fieldValueInt;
 		private final Map<String, Float> fieldValueFloat;
 		private final Map<String, Boolean> fieldValueBoolean;
-		private final Map<String, IItemProvider> fieldValueItem;
+		private final Map<String, ItemLike> fieldValueItem;
 		private final Map<String, JsonItemBuilder> fieldValueJson;
 
-		public Result(ResourceLocation id, String resultName, JsonItemBuilder outputBuilder, String group, String type, List<String> pattern, Map<Character, Ingredient> keyMap, Advancement.Builder advancement, ResourceLocation advancementId, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, Boolean> fieldValueBoolean, Map<String, IItemProvider> fieldValueItem, Map<String, JsonItemBuilder> fieldValueJson) {
+		public Result(ResourceLocation id, String resultName, JsonItemBuilder outputBuilder, String group, String type, List<String> pattern, Map<Character, Ingredient> keyMap, Advancement.Builder advancement, ResourceLocation advancementId, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, Boolean> fieldValueBoolean, Map<String, ItemLike> fieldValueItem, Map<String, JsonItemBuilder> fieldValueJson) {
 			this.id = id;
 			this.resultName = resultName;
 			this.advancement = advancement;
@@ -455,7 +458,7 @@ public class GenericRecipeBuilder {
 			}
 
 			if (!this.fieldValueItem.isEmpty()) {
-				for (Map.Entry<String, IItemProvider> entry : this.fieldValueItem.entrySet()) {
+				for (Map.Entry<String, ItemLike> entry : this.fieldValueItem.entrySet()) {
 					recipeJson.addProperty(entry.getKey(), Registry.ITEM.getKey(entry.getValue().asItem()).toString());
 				}
 			}

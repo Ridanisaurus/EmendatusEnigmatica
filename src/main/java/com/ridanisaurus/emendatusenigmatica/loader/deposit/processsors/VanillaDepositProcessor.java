@@ -13,20 +13,15 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraft.world.gen.placement.DepthAverageConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
@@ -61,7 +56,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 		int minYLevel = model.getConfig().getMinYLevel();
 		int baseline = minYLevel + maxYLevel / 2;
 		int spread = maxYLevel - baseline;
-
+		// TODO: [BUUZ] The whole ConfiguredFeature generation system seems to have changed, and I can't seem to figure out how to shift the below code to use the new Holder system
 		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
 			if (model.getConfig().getBlock() != null) {
 				ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
@@ -69,7 +64,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 				for (StrataModel stratum : EELoader.STRATA) {
 					if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
 						Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-						event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlock.defaultBlockState()));
+						event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
 //						VANILLA_DEPOSIT_FEATURES.register(new ResourceLocation(Reference.MOD_ID, model.getName()).toString(), () -> new VanillaOreFeature(OreFeatureConfig.CODEC, model));
 					}
 				}
@@ -80,7 +75,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 							if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
 								Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
 								BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-								event.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchRuleTest(stratumBlock), oreBlockstate));
+								event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, getOreFeature(model.getConfig().getChance(), model.getConfig().getSize(), baseline, spread, new BlockMatchTest(stratumBlock), oreBlockstate));
 //								VANILLA_DEPOSIT_FEATURES.register(new ResourceLocation(Reference.MOD_ID, model.getName()).toString(), () -> new VanillaOreFeature(OreFeatureConfig.CODEC, model));
 							}
 						}
@@ -92,7 +87,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 	}
 
 	private ConfiguredFeature<?, ?> getOreFeature(int count, int size, int baseline, int spread, RuleTest filler, BlockState state) {
-		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreFeatureConfig.CODEC, model)
+		return WorldGenHelper.registerFeature(model.getName(), new VanillaOreFeature(OreConfiguration.CODEC, model)
 				.configured(new OreFeatureConfig(filler, state, size))
 				.decorated(Placement.DEPTH_AVERAGE.configured(new DepthAverageConfig(baseline, spread)))
 				.squared()

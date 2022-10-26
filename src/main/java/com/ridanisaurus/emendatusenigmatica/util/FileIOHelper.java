@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileIOHelper {
 	public static ArrayList<JsonObject> loadFilesAsJsonObjects(File dir) {

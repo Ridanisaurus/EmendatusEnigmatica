@@ -24,11 +24,12 @@
 
 package com.ridanisaurus.emendatusenigmatica;
 
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.server.packs.PackType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
-import com.ridanisaurus.emendatusenigmatica.inventory.EnigmaticFortunizerScreen;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
@@ -36,34 +37,29 @@ import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.*;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.resources.ResourcePackList;
-import net.minecraft.resources.ResourcePackType;
+import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,9 +98,6 @@ public class EmendatusEnigmatica {
         EELoader.load();
         EEDeposits.load();
 
-        // TODO: Add it to EERegistrar
-        ContainerHandler.CONTAINERS.register(modEventBus);
-
         EERegistrar.finalize(modEventBus);
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
@@ -120,16 +113,16 @@ public class EmendatusEnigmatica {
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
 //            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.RESOURCE));
-            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(ResourcePackType.CLIENT_RESOURCES));
+            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
         }
 
         forgeEventBus.addListener(this::onServerStart);
     }
 
     // Data Pack
-    public void onServerStart(final FMLServerAboutToStartEvent event) {
+    public void onServerStart(final ServerAboutToStartEvent event) {
 //        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.DATA));
-        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(ResourcePackType.SERVER_DATA));
+        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
     }
 
     public void biomesHigh(final BiomeLoadingEvent event) {
@@ -145,14 +138,12 @@ public class EmendatusEnigmatica {
 
     private void clientEvents(final FMLClientSetupEvent event) {
         for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
-            RenderTypeLookup.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
         }
         for (RegistryObject<Block> block : EERegistrar.storageBlockMap.values()) {
-            RenderTypeLookup.setRenderLayer(block.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent());
         }
-
-        ScreenManager.register(ContainerHandler.ENIGMATIC_FORTUNIZER_CONTAINER.get(), EnigmaticFortunizerScreen::new);
-
+        // TODO: [BUUZ] the Supplier<Minecraft> getMinecraftSupplier seems to have been removed from the ClientSetupEvent, so not sure where it is now
         event.getMinecraftSupplier().get().tell(() -> {
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
             Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
@@ -163,16 +154,17 @@ public class EmendatusEnigmatica {
         });
     }
 
-    public static final ItemGroup TAB = new ItemGroup("emendatusenigmatica") {
+    public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
+
         public ItemStack makeIcon() {
-            return new ItemStack(EERegistrar.ENIGMATIC_FORTUNIZER.get());
+            return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
         }
     };
 
     private void registerDataGen() {
         generator = DataGeneratorFactory.createEEDataGenerator();
-        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false);
+        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
 //        generator.addProvider(new CombinedTextureGen(generator, existingFileHelper));
@@ -185,11 +177,12 @@ public class EmendatusEnigmatica {
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new LangGen(generator));
         if (MEKANISM_LOADED) {
-            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
-            // TODO: Fix Slurry Tags
+            // TODO: [RID] Re-add after integrating Mekanism
+//            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+            // TODO: [RID] Fix Slurry Tags
 //            generator.addProvider(new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
-            generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
-            generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
+//            generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
+//            generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
         }
         if (CREATE_LOADED) {
             generator.addProvider(new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
@@ -223,10 +216,9 @@ public class EmendatusEnigmatica {
         }
     }
 
-    public static void injectDatapackFinder(ResourcePackList resourcePacks) {
+    public static void injectDatapackFinder(PackRepository resourcePacks) {
         if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackRepository(), () -> () -> true)) {
-//            resourcePacks.addPackFinder(new EEPackFinder(PackType.RESOURCE));
-            resourcePacks.addPackFinder(new EEPackFinder(ResourcePackType.CLIENT_RESOURCES));
+            resourcePacks.addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
             EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
         }
     }

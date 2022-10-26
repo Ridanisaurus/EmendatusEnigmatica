@@ -29,10 +29,10 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.FluidTagsProvider;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.data.tags.FluidTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
@@ -50,8 +50,8 @@ public class FluidTagsGen extends FluidTagsProvider {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
 			if (processedType.contains("fluid")) {
-				Builder<Fluid> moltenTag = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE, "molten/" + material.getId()).toString()));
-				Builder<Fluid> forgeFluids = tag(FluidTags.bind(new ResourceLocation(Reference.FORGE, "molten_" + material.getId()).toString()));
+				TagAppender<Fluid> moltenTag = tag(FluidTags.create(new ResourceLocation(Reference.FORGE, "molten/" + material.getId())));
+				TagAppender<Fluid> forgeFluids = tag(FluidTags.create(new ResourceLocation(Reference.FORGE, "molten_" + material.getId())));
 
 				moltenTag.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
 				forgeFluids.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());

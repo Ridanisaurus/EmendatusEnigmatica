@@ -31,15 +31,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.criterion.*;
-import net.minecraft.block.Block;
+import net.minecraft.advancements.critereon.*;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.item.Item;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -49,7 +49,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GenericRecipeProvider implements IDataProvider {
+public class GenericRecipeProvider implements DataProvider {
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 	protected final DataGenerator generator;
 
@@ -57,7 +57,7 @@ public class GenericRecipeProvider implements IDataProvider {
 		this.generator = gen;
 	}
 
-	public void run(DirectoryCache directoryCache) throws IOException {
+	public void run(HashCache directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
 		buildGenericRecipes((consumer) -> {
@@ -73,10 +73,10 @@ public class GenericRecipeProvider implements IDataProvider {
 			}
 		});
 		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
-			saveAdvancement(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.Instance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
+			saveAdvancement(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
 	}
 
-	private static void saveRecipe(DirectoryCache directoryCache, JsonObject recipeJson, Path recipePath) {
+	private static void saveRecipe(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
 		try {
 			String s = GSON.toJson((JsonElement)recipeJson);
 			String s1 = SHA1.hashUnencodedChars(s).toString();
@@ -95,7 +95,7 @@ public class GenericRecipeProvider implements IDataProvider {
 
 	}
 
-	protected void saveAdvancement(DirectoryCache directoryCache, JsonObject recipeJson, Path recipePath) {
+	protected void saveAdvancement(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
 		try {
 			String s = GSON.toJson((JsonElement)recipeJson);
 			String s1 = SHA1.hashUnencodedChars(s).toString();
@@ -114,20 +114,20 @@ public class GenericRecipeProvider implements IDataProvider {
 
 	}
 
-	protected static EnterBlockTrigger.Instance insideOf(Block block) {
-		return new EnterBlockTrigger.Instance(EntityPredicate.AndPredicate.ANY, block, StatePropertiesPredicate.ANY);
+	protected static EnterBlockTrigger.TriggerInstance insideOf(Block block) {
+		return new EnterBlockTrigger.TriggerInstance(EntityPredicate.Composite.ANY, block, StatePropertiesPredicate.ANY);
 	}
 
-	protected static InventoryChangeTrigger.Instance has(IItemProvider item) {
+	protected static InventoryChangeTrigger.TriggerInstance has(ItemLike item) {
 		return inventoryTrigger(ItemPredicate.Builder.item().of(item).build());
 	}
 
-	protected static InventoryChangeTrigger.Instance has(ITag<Item> tag) {
+	protected static InventoryChangeTrigger.TriggerInstance has(TagKey<Item> tag) {
 		return inventoryTrigger(ItemPredicate.Builder.item().of(tag).build());
 	}
 
-	protected static InventoryChangeTrigger.Instance inventoryTrigger(ItemPredicate... itemPredicates) {
-		return new InventoryChangeTrigger.Instance(EntityPredicate.AndPredicate.ANY, MinMaxBounds.IntBound.ANY, MinMaxBounds.IntBound.ANY, MinMaxBounds.IntBound.ANY, itemPredicates);
+	protected static InventoryChangeTrigger.TriggerInstance inventoryTrigger(ItemPredicate... itemPredicates) {
+		return new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, itemPredicates);
 	}
 
 	protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {

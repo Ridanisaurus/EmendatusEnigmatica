@@ -24,34 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EETags;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.gas.Gas;
-import mekanism.api.datagen.recipe.builder.*;
-import mekanism.api.recipes.inputs.FluidStackIngredient;
-import mekanism.api.recipes.inputs.ItemStackIngredient;
-import mekanism.api.recipes.inputs.chemical.GasStackIngredient;
-import mekanism.api.recipes.inputs.chemical.SlurryStackIngredient;
-import net.minecraft.data.*;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-
-import java.util.List;
-import java.util.function.Consumer;
-
 public class MekanismDataGen {
 
+	// TODO: [RID] Re-add after integrating Mekanism
+	/*
 	private static final Gas SULFURIC_ACID = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "sulfuric_acid"));
 	private static final Gas HYDROGEN_CHLORIDE = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "hydrogen_chloride"));
 	private static final Gas OXYGEN = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "oxygen"));
@@ -62,9 +38,9 @@ public class MekanismDataGen {
 			super(gen);
 		}
 
-		// TODO: Add material source checks
+		// TODO: [RID] Add material source checks
 		@Override
-		protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+		protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("slurry") && processedType.contains("ore")) {
@@ -295,4 +271,6 @@ public class MekanismDataGen {
 //			return "Emendatus Enigmatica Mekanism Slurry Tags";
 //		}
 //	}
+
+	 */
 }

@@ -4,12 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.feature.template.IRuleTestType;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class MultiStrataRuleTest extends RuleTest {
 			Codec.list(Codec.STRING).fieldOf("fillerList").forGetter(it -> it.fillerList)
 	).apply(x, MultiStrataRuleTest::new));
 
-	public static final IRuleTestType<MultiStrataRuleTest> TYPE = IRuleTestType.register("multi_block_test", CODEC);
+	public static final RuleTestType<MultiStrataRuleTest> TYPE = RuleTestType.register("multi_block_test", CODEC);
 	private final List<Block> blockFillerList = new ArrayList<>();
 	private List<String> fillerList;
 
@@ -50,7 +48,7 @@ public class MultiStrataRuleTest extends RuleTest {
 	}
 
 	@Override
-	protected IRuleTestType<?> getType() {
+	protected RuleTestType<?> getType() {
 		return TYPE;
 	}
 }

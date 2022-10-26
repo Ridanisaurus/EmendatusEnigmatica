@@ -28,9 +28,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.MaterialCreateModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.MaterialThermalModel;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Optional;
 

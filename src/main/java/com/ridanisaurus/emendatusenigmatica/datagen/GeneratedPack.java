@@ -3,11 +3,11 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.resources.IResourcePack;
-import net.minecraft.resources.ResourcePackType;
-import net.minecraft.resources.data.IMetadataSectionSerializer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.metadata.MetadataSectionSerializer;
+import net.minecraft.util.GsonHelper;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class GeneratedPack implements IResourcePack {
+public class GeneratedPack implements PackResources {
     private final Path path;
 
     public GeneratedPack(Path path) {
@@ -27,7 +27,7 @@ public class GeneratedPack implements IResourcePack {
         this.path = path;
     }
 
-    private static String getFullPath(ResourcePackType type, ResourceLocation location) {
+    private static String getFullPath(PackType type, ResourceLocation location) {
         return String.format("%s/%s/%s", type.getDirectory(), location.getNamespace(), location.getPath());
     }
 
@@ -38,7 +38,7 @@ public class GeneratedPack implements IResourcePack {
     }
 
     @Override
-    public InputStream getResource(ResourcePackType type, ResourceLocation location) throws IOException {
+    public InputStream getResource(PackType type, ResourceLocation location) throws IOException {
         Path resolved = path.resolve(getFullPath(type, location));
         if (!Files.exists(resolved)){
             throw new IOException("Resource does not exist");
@@ -47,7 +47,7 @@ public class GeneratedPack implements IResourcePack {
     }
 
     @Override
-    public Collection<ResourceLocation> getResources(ResourcePackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
+    public Collection<ResourceLocation> getResources(PackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
         List<ResourceLocation> result = new ArrayList<>();
         getChildResourceLocations(result, 0, maxDepthIn, filterIn, path.resolve(type.getDirectory() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
         return result;
@@ -76,13 +76,13 @@ public class GeneratedPack implements IResourcePack {
 
 
     @Override
-    public boolean hasResource(ResourcePackType type, ResourceLocation location) {
+    public boolean hasResource(PackType type, ResourceLocation location) {
         Path finalPath = path.resolve(type.getDirectory() + "/" + location.getNamespace() + "/" + location.getPath());
         return Files.exists(finalPath);
     }
 
     @Override
-    public Set<String> getNamespaces(ResourcePackType type) {
+    public Set<String> getNamespaces(PackType type) {
         Set<String> result = new HashSet<>();
         try {
             Stream<Path> list = Files.list(path.resolve(type.getDirectory()));
@@ -98,7 +98,7 @@ public class GeneratedPack implements IResourcePack {
 
     @Nullable
     @Override
-    public <T> T getMetadataSection(IMetadataSectionSerializer<T> deserializer) throws IOException {
+    public <T> T getMetadataSection(MetadataSectionSerializer<T> deserializer) throws IOException {
         /*InputStream inputStream = Files.newInputStream(path.resolve("pack.mcmeta"));*/
         JsonObject jsonobject = new JsonObject();
         /*try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
@@ -115,7 +115,7 @@ public class GeneratedPack implements IResourcePack {
             return null;
         } else {
             try {
-                return deserializer.fromJson(JSONUtils.getAsJsonObject(jsonobject, deserializer.getMetadataSectionName()));
+                return deserializer.fromJson(GsonHelper.getAsJsonObject(jsonobject, deserializer.getMetadataSectionName()));
             } catch (JsonParseException jsonparseexception) {
                 return null;
             }

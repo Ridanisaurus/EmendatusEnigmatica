@@ -24,9 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.items;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import org.jetbrains.annotations.Nullable;
 
 public class BasicBurnableItem extends BasicItem {
 	private final int burnTime;
@@ -37,7 +37,7 @@ public class BasicBurnableItem extends BasicItem {
 	}
 
 	@Override
-	public int getBurnTime(ItemStack itemStack) {
+	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
 		return burnTime;
 	}
 }

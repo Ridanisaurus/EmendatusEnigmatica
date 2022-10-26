@@ -24,32 +24,28 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import net.minecraft.resources.IPackFinder;
-import net.minecraft.resources.IPackNameDecorator;
-import net.minecraft.resources.ResourcePackInfo;
-import net.minecraft.resources.ResourcePackType;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
 
 import java.nio.file.Path;
 import java.util.function.Consumer;
 
-public class EEPackFinder implements IPackFinder {
+public class EEPackFinder implements RepositorySource {
 
+	private final PackType type;
 
-//	private final PackType type;
-	private final ResourcePackType type;
-
-//	public EEPackFinder(PackType type) {
-	public EEPackFinder(ResourcePackType type) {
-
+	public EEPackFinder(PackType type) {
 		this.type = type;
 	}
 
 	@Override
-	public void loadPacks(Consumer<ResourcePackInfo> infoConsumer, ResourcePackInfo.IFactory infoFactory) {
+	public void loadPacks(Consumer<Pack> infoConsumer, Pack.PackConstructor infoFactory) {
 		Path rootPath = DataGeneratorFactory.ROOT_PATH;
-		// type.getSuffix()
-		ResourcePackInfo pack = ResourcePackInfo.create("emendatusenigmatica_" + type.getDirectory(), true,
-				() -> new GeneratedPack(rootPath), infoFactory, ResourcePackInfo.Priority.BOTTOM, IPackNameDecorator.DEFAULT);
+
+		Pack pack = Pack.create("emendatusenigmatica_" + type.getDirectory(), true,
+				() -> new GeneratedPack(rootPath), infoFactory, Pack.Position.BOTTOM, PackSource.DEFAULT);
 		if (pack != null) {
 			infoConsumer.accept(pack);
 		}

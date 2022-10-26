@@ -25,11 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
 
-import net.minecraft.item.Item.Properties;
 
 public class BasicBlockItem extends BlockItem {
 	public BasicBlockItem(Block block) {

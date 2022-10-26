@@ -29,7 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class LootTablesGen extends BaseLootTableProvider {
@@ -53,7 +53,7 @@ public class LootTablesGen extends BaseLootTableProvider {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (material.getProcessedType().contains("ore") && material.getProcessedType().contains("raw")) {
-					// TODO: Revisit this for RAW drop count
+					// TODO: [RID] Revisit this for RAW drop count
 					if (material.getOreDrop().getDrop().isEmpty()) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 								createItemLootTable(EERegistrar.rawMap.get(material.getId()).get()));

@@ -24,16 +24,15 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
@@ -45,11 +44,12 @@ public class GemOreBlock extends Block implements IColorable {
 	public final int baseColor;
 	public final int shadeColor;
 
-	public GemOreBlock(Material material, float hardness, float resistance, int harvestLevel, ToolType tool, String localisedName, int minExp, int maxExp, int highlightColor, int baseColor, int shadeColor) {
-		super(AbstractBlock.Properties.of(material)
+	// TODO: [RID] Move harvestLevel and tool to Tags
+	public GemOreBlock(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int highlightColor, int baseColor, int shadeColor) {
+		super(BlockBehaviour.Properties.of(material)
 				.strength(hardness, resistance)
-				.harvestLevel(harvestLevel)
-				.harvestTool(tool)
+//				.harvestLevel(harvestLevel)
+//				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.minExp = minExp;
@@ -60,16 +60,16 @@ public class GemOreBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public IFormattableTextComponent getName() {
-		return new StringTextComponent(localisedName);
+	public MutableComponent getName() {
+		return new TranslatableComponent(localisedName);
 	}
 
 	protected int getExperience(Random rand) {
-		return MathHelper.nextInt(rand, minExp, maxExp);
+		return Mth.nextInt(rand, minExp, maxExp);
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silktouch) {
+	public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silktouch) {
 		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
 	}
 

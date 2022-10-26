@@ -3,7 +3,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 
 import java.util.List;
 

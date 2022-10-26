@@ -30,13 +30,13 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.ItemTagsProvider;
-import net.minecraft.item.Item;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -159,21 +159,21 @@ public class BloodMagicDataGen {
 
 		@Override
 		protected void addTags() {
-			Builder<Item> bloodMagicFragment = tag(ItemTags.bind(new ResourceLocation(Reference.BLOODMAGIC, "fragments").toString()));
-			Builder<Item> bloodMagicGravel = tag(ItemTags.bind(new ResourceLocation(Reference.BLOODMAGIC, "gravels").toString()));
+			TagAppender<Item> bloodMagicFragment = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "fragments")));
+			TagAppender<Item> bloodMagicGravel = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "gravels")));
 
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Fragments
 				if (processedType.contains("fragment")) {
 					bloodMagicFragment.add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get());
-					Builder<Item> fragmentTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material.getId()).toString()));
+					TagAppender<Item> fragmentTag = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material.getId())));
 					fragmentTag.add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get());
 				}
 				// Gravels
 				if (processedType.contains("gravel")) {
 					bloodMagicGravel.add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get());
-					Builder<Item> gravelTag = tag(ItemTags.bind(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material.getId()).toString()));
+					TagAppender<Item> gravelTag = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material.getId())));
 					gravelTag.add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get());
 				}
 			}

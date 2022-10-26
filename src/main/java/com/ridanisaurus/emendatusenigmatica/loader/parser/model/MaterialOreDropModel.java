@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.Optional;
 
@@ -71,7 +71,7 @@ public class MaterialOreDropModel {
 		return vanillaMax;
 	}
 
-	public IItemProvider getDefaultItemDropAsItem() {
+	public ItemLike getDefaultItemDropAsItem() {
 		return Registry.ITEM.get(new ResourceLocation(drop));
 	}
 }

@@ -1,10 +1,10 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public class ItemColorHandler implements IItemColor {
+public class ItemColorHandler implements ItemColor {
     @Override
     public int getColor(ItemStack stack, int layer) {
         if (layer == 0) {

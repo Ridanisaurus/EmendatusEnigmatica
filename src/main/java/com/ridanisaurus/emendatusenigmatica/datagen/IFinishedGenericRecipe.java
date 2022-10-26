@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.gson.JsonObject;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
 

@@ -1,24 +1,22 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraftforge.common.extensions.IForgeLevel;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class WorldGenHelper {
-	public static String getDimensionAsString(IWorld world) {
-		if (world instanceof World) {
-			return ((World) world).dimension().location().toString();
+	public static String getDimensionAsString(IForgeLevel world) {
+		if (world instanceof Level) {
+			return ((Level) world).dimension().location().toString();
 		}
 		if (world instanceof WorldGenRegion) {
 			return ((WorldGenRegion) world).getLevel().dimension().location().toString();
@@ -34,7 +32,7 @@ public class WorldGenHelper {
 		return whitelistBiomesArray.length == 0 ? Arrays.stream(blacklistBiomesArray).noneMatch(String -> String.equals(event.getName().toString())) : Arrays.stream(whitelistBiomesArray).anyMatch(String -> String.equals(event.getName().toString()));
 	}
 
-	public static <FC extends IFeatureConfig, F extends Feature<FC>> ConfiguredFeature<FC, F> registerFeature(final String name, final ConfiguredFeature<FC, F> feature) {
-		return Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, Reference.MOD_ID + ":" + name, feature);
+	public static <FC extends FeatureConfiguration, F extends Feature<FC>> ConfiguredFeature<FC, F> registerFeature(final String name, final ConfiguredFeature<FC, F> feature) {
+		return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, Reference.MOD_ID + ":" + name, feature);
 	}
 }

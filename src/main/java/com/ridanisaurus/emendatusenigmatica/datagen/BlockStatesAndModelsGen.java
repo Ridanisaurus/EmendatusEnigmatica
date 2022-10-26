@@ -29,12 +29,11 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -88,7 +87,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
 
                 // Fluid Block
                 if (processedType.equals("fluid")) {
-                    FlowingFluidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
+                    LiquidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
                     ResourceLocation loc = fluidBlock.getRegistryName();
                     simpleBlock(fluidBlock, models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
                 }
