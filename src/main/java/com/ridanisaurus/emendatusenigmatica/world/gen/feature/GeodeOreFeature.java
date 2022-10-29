@@ -6,6 +6,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBl
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
@@ -13,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -162,9 +164,10 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
 			reader.setBlock(pos, block.defaultBlockState(), 2);
 		} else if (commonBlockDefinitionModel.getTag() != null) {
-			ITag<Block> blockITag = BlockTags.getAllTags().getTag(new ResourceLocation(commonBlockDefinitionModel.getTag()));
-			Block block = blockITag.getRandomElement(rand);
-			reader.setBlock(pos, block.defaultBlockState(), 2);
+			ITag<Block> blockITag = ForgeRegistries.BLOCKS.tags().getTag(EETags.getBlockTag(new ResourceLocation(commonBlockDefinitionModel.getTag())));
+			blockITag.getRandomElement(rand).ifPresent(block -> {
+				reader.setBlock(pos, block.defaultBlockState(), 2);
+			});
 		} else if (commonBlockDefinitionModel.getMaterial() != null) {
 			BlockState currentFiller = reader.getBlockState(pos);
 			String fillerId = currentFiller.getBlock().getRegistryName().toString();
