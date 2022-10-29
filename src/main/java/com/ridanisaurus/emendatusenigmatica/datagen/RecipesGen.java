@@ -33,9 +33,12 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -276,7 +279,7 @@ public class RecipesGen extends RecipeProvider {
 			if (processedType.contains("ingot") && processedType.contains("gear")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
 						.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
-						.define('N', EETags.getItemTag(new ResourceLocation("forge", "nuggets/iron")))
+						.define('N', Tags.Items.NUGGETS_IRON)
 						.pattern(" I ")
 						.pattern("INI")
 						.pattern(" I ")
@@ -289,7 +292,7 @@ public class RecipesGen extends RecipeProvider {
 			if (processedType.contains("gem") && processedType.contains("gear")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
 						.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
-						.define('N', EETags.getItemTag(new ResourceLocation("forge", "nuggets/iron")))
+						.define('N', Tags.Items.NUGGETS_IRON)
 						.pattern(" G ")
 						.pattern("GNG")
 						.pattern(" G ")

@@ -10,8 +10,9 @@ import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.SphereOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 
@@ -43,7 +44,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 		}
 	}
 
-	private ConfiguredFeature<?, ?> getOreFeature(RuleTest filler) {
-		return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model).configured(new SphereOreFeatureConfig(filler)));
+	private Holder<PlacedFeature> getOreFeature(RuleTest filler) {
+		return WorldGenHelper.registerFeature(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model) .configured(new SphereOreFeatureConfig(filler)));
 	}
 }

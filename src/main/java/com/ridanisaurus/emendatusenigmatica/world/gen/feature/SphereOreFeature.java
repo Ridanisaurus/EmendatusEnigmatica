@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
@@ -39,6 +40,11 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
             blocks.addAll(filled);
         }
+    }
+
+    @Override
+    public boolean place(FeaturePlaceContext<SphereOreFeatureConfig> p_159749_) {
+        return false;
     }
 
     @Override
