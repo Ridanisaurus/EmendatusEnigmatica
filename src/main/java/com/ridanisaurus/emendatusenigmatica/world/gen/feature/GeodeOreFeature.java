@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
@@ -61,7 +63,10 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	}
 
 	@Override
-	public boolean place(GeodeOreFeatureConfig config, WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos) {
+	public boolean place(FeaturePlaceContext<GeodeOreFeatureConfig> config) {
+		Random rand = config.random();
+		BlockPos pos = config.origin();
+		WorldGenLevel reader = config.level();
 
 		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
 			return false;
@@ -80,16 +85,16 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		int yPos = rand.nextInt(yTop);
 		yPos = Math.max(yPos, yBottom);
 
-		generateHollowSphere(reader, generator, rand, pos, config, outerShellBlocks, model.getConfig().getRadius() + 1, yPos);
-		generateHollowSphere(reader, generator, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
-		generateHollowSphere(reader, generator, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
+		generateHollowSphere(reader, rand, pos, config, outerShellBlocks, model.getConfig().getRadius() + 1, yPos);
+		generateHollowSphere(reader, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
+		generateHollowSphere(reader, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
 		for (int i = model.getConfig().getRadius() -2; i >= 0; i--) {
-			generateHollowSphere(reader, generator, rand, pos, config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, pos, config, fillBlocks, i, yPos);
 		}
 		return true;
 	}
 
-	private void generateHollowSphere(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos pos, GeodeOreFeatureConfig config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
+	private void generateHollowSphere(WorldGenLevel reader, Random rand, BlockPos pos, FeaturePlaceContext<GeodeOreFeatureConfig> config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 
@@ -139,20 +144,20 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 						continue;
 					}
 
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + -z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + -z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + -z), config.target, blocks);
-					placeBlock(reader, generator, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + -z), config.target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + x, yPos + y, pos.getZ() + -z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + x, yPos + -y, pos.getZ() + -z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + -x, yPos + y, pos.getZ() + -z), config.config().target, blocks);
+					placeBlock(reader, rand, new BlockPos(pos.getX() + -x, yPos + -y, pos.getZ() + -z), config.config().target, blocks);
 				}
 			}
 		}
 	}
 
-	private void placeBlock(WorldGenLevel reader, ChunkGenerator generator, Random rand, BlockPos
+	private void placeBlock(WorldGenLevel reader, Random rand, BlockPos
 			pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
 		if (!filler.test(reader.getBlockState(pos), rand)) {
 			return;
