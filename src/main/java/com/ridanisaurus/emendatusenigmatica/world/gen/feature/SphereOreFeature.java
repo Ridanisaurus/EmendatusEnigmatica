@@ -29,7 +29,7 @@ import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
 import java.util.Random;
-// TODO: [BUUZ] Not sure what changed here, but I already have implemented one of the place() methods, but it is still asking for the FeaturePlaceContext one
+
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private SphereDepositModel model;
     private ArrayList<CommonBlockDefinitionModel> blocks;
@@ -128,7 +128,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         if (rand.nextInt(100) > model.getConfig().getDensity()) {
             return;
         }
-        // TODO: [BUUZ] The .getAllTags() seems to have been completely removed since they moved away from the Tag Collection
+
         int index = rand.nextInt(blocks.size());
         try {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);

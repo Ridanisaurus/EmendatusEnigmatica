@@ -156,15 +156,6 @@ public class EmendatusEnigmatica {
         for (RegistryObject<Block> block : EERegistrar.storageBlockMap.values()) {
             ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent());
         }
-        // TODO: [BUUZ] the Supplier<Minecraft> getMinecraftSupplier seems to have been removed from the ClientSetupEvent, so not sure where it is now
-//        event.getMinecraftSupplier().get().tell(() -> {
-//            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-//            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-//            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-//            Minecraft.getInstance().getItemColors().register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-//            Minecraft.getInstance().getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
-//            Minecraft.getInstance().getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
-//        });
     }
 
     private void itemColorEvent(ColorHandlerEvent.Item event) {

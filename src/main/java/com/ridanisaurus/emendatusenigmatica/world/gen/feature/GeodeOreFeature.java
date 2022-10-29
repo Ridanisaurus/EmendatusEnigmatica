@@ -29,7 +29,7 @@ import net.minecraftforge.registries.tags.ITag;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-// TODO: [BUUZ] Not sure what changed here, but I already have implemented one of the place() methods, but it is still asking for the FeaturePlaceContext one
+
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerShellBlocks;
@@ -162,7 +162,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		if (!filler.test(reader.getBlockState(pos), rand)) {
 			return;
 		}
-		// TODO: [BUUZ] The .getAllTags() seems to have been completely removed since they moved away from the Tag Collection
+
 		int index = rand.nextInt(blocks.size());
 		CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
 		if (commonBlockDefinitionModel.getBlock() != null) {
