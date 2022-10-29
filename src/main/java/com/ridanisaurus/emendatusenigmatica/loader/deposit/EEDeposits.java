@@ -6,7 +6,11 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepo
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
@@ -17,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EEDeposits {
 	public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
 	public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
@@ -64,9 +69,22 @@ public class EEDeposits {
 		}
 	}
 
+	public static void setup() {
+		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
+			activeProcessor.setup();
+		}
+	}
+
 	public static void generateBiomes(BiomeLoadingEvent event) {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			activeProcessor.setupOres(event);
+		}
+	}
+
+	@SubscribeEvent
+	public static void register(final RegistryEvent.Register<Feature<?>> event) {
+		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
+			event.getRegistry().register(activeProcessor.getFeature());
 		}
 	}
 }

@@ -40,6 +40,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -144,6 +145,8 @@ public class EmendatusEnigmatica {
     private void commonEvents(final FMLCommonSetupEvent event) {
 //        event.enqueueWork(VanillaDepositProcessor::finalize);
 //        VanillaDepositProcessor.finalize(event);
+        MultiStrataRuleTest.register();
+        EEDeposits.setup();
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {

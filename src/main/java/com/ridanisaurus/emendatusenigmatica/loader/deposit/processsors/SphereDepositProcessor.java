@@ -17,6 +17,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -28,9 +29,10 @@ public class SphereDepositProcessor implements IDepositProcessor {
 
 	private JsonObject object;
 	private SphereDepositModel model;
+	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> configured;
+	private SphereOreFeature feature;
 
 	public SphereDepositProcessor(JsonObject object) {
-
 		this.object = object;
 	}
 
@@ -41,19 +43,30 @@ public class SphereDepositProcessor implements IDepositProcessor {
 			return;
 		}
 		model = result.get().getFirst();
+		feature = new SphereOreFeature(SphereOreFeatureConfig.CODEC, model);
 	}
 	// TODO: [BUUZ] The whole ConfiguredFeature generation system seems to have changed, and I can't seem to figure out how to shift the below code to use the new Holder system
 	@Override
 	public void setupOres(BiomeLoadingEvent event) {
 		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
-			Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> oreFeature = getOreFeature(new MultiStrataRuleTest(model.getConfig().getFillerTypes()));
+			Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> oreFeature = getOreFeature();
 			HeightRangePlacement placement = HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
 			var placed = PlacementUtils.register(model.getName(), oreFeature, placement);
 			event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, placed);
 		}
 	}
 
-	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> getOreFeature(RuleTest filler) {
-		return FeatureUtils.register(model.getName(), new SphereOreFeature(SphereOreFeatureConfig.CODEC, model), new SphereOreFeatureConfig(filler));
+	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> getOreFeature() {
+		return configured;
+	}
+
+	@Override
+	public Feature<?> getFeature() {
+		return feature.setRegistryName(model.getName());
+	}
+
+	@Override
+	public void setup() {
+		configured = FeatureUtils.register(model.getName(), feature, new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
 	}
 }
