@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
@@ -62,5 +63,9 @@ public class EETags {
 
 	public static TagKey<Item> getItemTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.ITEMS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.ITEMS.tags().createTagKey(resourceLocation));
+	}
+
+	public static TagKey<Block> getBlockTag(ResourceLocation resourceLocation) {
+		return ForgeRegistries.BLOCKS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.BLOCKS.tags().createTagKey(resourceLocation));
 	}
 }
