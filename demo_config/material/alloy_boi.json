@@ -3,7 +3,6 @@
   "source": "alloy",
   "localizedName": "Alloy Boi",
   "processedType": [
-    "storage_block",
     "ingot",
     "nugget",
     "dust",
@@ -16,9 +15,6 @@
   "harvestLevel": 1
 },
   "colors": {
-    "highlightColor": "0099ff",
-    "baseColor": "4499ff",
-    "shadeColor": "ff6633",
     "fluidColor": "0099FF"
   },
   "compat": {
