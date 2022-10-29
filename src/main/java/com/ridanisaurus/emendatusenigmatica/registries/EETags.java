@@ -24,37 +24,43 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries;
 
-import com.ridanisaurus.emendatusenigmatica.datagen.MockedNamedTag;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.tags.ITag;
 
 import java.util.function.Function;
 
 public class EETags {
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_INGOT = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "ingots/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_NUGGET = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "nuggets/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_STORAGE_BLOCK = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEM = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "gems/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_DUST = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "dusts/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GEAR = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "gears/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_PLATE = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "plates/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ROD = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "rods/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "ores/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_RAW = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "raws/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_FLUID = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, "molten/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_INGOT = material -> getItemTag(new ResourceLocation(Reference.FORGE, "ingots/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_NUGGET = material -> getItemTag(new ResourceLocation(Reference.FORGE, "nuggets/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_STORAGE_BLOCK = material -> getItemTag(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_GEM = material -> getItemTag(new ResourceLocation(Reference.FORGE, "gems/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_DUST = material -> getItemTag(new ResourceLocation(Reference.FORGE, "dusts/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_GEAR = material -> getItemTag(new ResourceLocation(Reference.FORGE, "gears/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_PLATE = material -> getItemTag(new ResourceLocation(Reference.FORGE, "plates/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_ROD = material -> getItemTag(new ResourceLocation(Reference.FORGE, "rods/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_ORE = material -> getItemTag(new ResourceLocation(Reference.FORGE, "ores/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_RAW = material -> getItemTag(new ResourceLocation(Reference.FORGE, "raws/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_FLUID = material -> getItemTag(new ResourceLocation(Reference.FORGE, "molten/" + material));
 
 
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CRYSTAL = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "crystals/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_SHARD = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CLUMP = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_DIRTY_DUST = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_CRYSTAL = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "crystals/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_SHARD = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_CLUMP = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_DIRTY_DUST = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
 
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_CRUSHED_ORE = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_CRUSHED_ORE = material -> getItemTag(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
 
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_FRAGMENT = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_GRAVEL = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_ARC = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_FRAGMENT = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_GRAVEL = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_ARC = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
 
-	public static final Function<String, MockedNamedTag<Item>> MATERIAL_NONE = material -> new MockedNamedTag<Item>(new ResourceLocation(Reference.FORGE, material));
+	public static final Function<String, TagKey<Item>> MATERIAL_NONE = material -> getItemTag(new ResourceLocation(Reference.FORGE, material));
+
+	public static TagKey<Item> getItemTag(ResourceLocation resourceLocation) {
+		return ForgeRegistries.ITEMS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.ITEMS.tags().createTagKey(resourceLocation));
+	}
 }

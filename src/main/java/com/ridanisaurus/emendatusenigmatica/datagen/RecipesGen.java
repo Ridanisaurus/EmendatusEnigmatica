@@ -276,7 +276,7 @@ public class RecipesGen extends RecipeProvider {
 			if (processedType.contains("ingot") && processedType.contains("gear")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
 						.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
-						.define('N', new MockedNamedTag<>(new ResourceLocation("forge", "nuggets/iron")))
+						.define('N', EETags.getItemTag(new ResourceLocation("forge", "nuggets/iron")))
 						.pattern(" I ")
 						.pattern("INI")
 						.pattern(" I ")
@@ -289,7 +289,7 @@ public class RecipesGen extends RecipeProvider {
 			if (processedType.contains("gem") && processedType.contains("gear")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
 						.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
-						.define('N', new MockedNamedTag<>(new ResourceLocation("forge", "nuggets/iron")))
+						.define('N', EETags.getItemTag(new ResourceLocation("forge", "nuggets/iron")))
 						.pattern(" G ")
 						.pattern("GNG")
 						.pattern(" G ")
