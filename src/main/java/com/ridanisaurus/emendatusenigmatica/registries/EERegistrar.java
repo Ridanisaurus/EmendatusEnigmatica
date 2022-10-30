@@ -26,11 +26,13 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.mojang.math.Vector3f;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
 import com.ridanisaurus.emendatusenigmatica.blocks.GemOreBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.MetalOreBlock;
+import com.ridanisaurus.emendatusenigmatica.fluids.BasicFluidType;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
@@ -39,18 +41,20 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.util.FastColor;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.SoundAction;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -63,8 +67,8 @@ import java.util.function.Supplier;
 public class EERegistrar {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
+	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
-//	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 
 	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
@@ -83,6 +87,7 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
 
 	// Fluids
+	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
 	public static Map<String, RegistryObject<FlowingFluid>> fluidSourceMap = new HashMap<>();
 	public static Map<String, RegistryObject<FlowingFluid>> fluidFlowingMap = new HashMap<>();
 	public static Map<String, RegistryObject<LiquidBlock>> fluidBlockMap = new HashMap<>();
@@ -92,42 +97,55 @@ public class EERegistrar {
 	public static final ResourceLocation FLUID_FLOWING_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_flow");
 	public static final ResourceLocation FLUID_OVERLAY_RL = new ResourceLocation(Reference.MOD_ID, "fluids/fluid_overlay");
 
+	public static RegistryObject<FluidType> fluidType;
 	public static RegistryObject<FlowingFluid> fluidSource;
 	public static RegistryObject<FlowingFluid> fluidFlowing;
 	public static RegistryObject<LiquidBlock> fluidBlock;
 	public static RegistryObject<Item> fluidBucket;
 
-	public static ForgeFlowingFluid.Properties makeProperties(Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<LiquidBlock> block, Supplier<Item> bucket, int color) {
-		return new ForgeFlowingFluid.Properties(source, flowing, FluidAttributes.builder(FLUID_STILL_RL, FLUID_FLOWING_RL)
-				.overlay(FLUID_OVERLAY_RL)
-				.color(color)
-				.density(3000)
-				.viscosity(6000)
-				.temperature(1300)
-				.luminosity(15)
-				.sound(SoundEvents.BUCKET_FILL_LAVA, SoundEvents.BUCKET_EMPTY_LAVA)
-				.rarity(Rarity.COMMON)
-		)
-				.block(block)
-				.bucket(bucket);
-	}
-
 	public static void registerFluids(MaterialModel material) {
 		String fluidName = "molten_" + material.getId();
 
+		fluidType = FLUID_TYPES.register(fluidName,
+				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL, material.getColors().getFluidColor(), fluidTypeProperties(material)));
 		fluidSource = FLUIDS.register(fluidName,
-				() -> new ForgeFlowingFluid.Source(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getColors().getFluidColor())));
+				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
 		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
-				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()), material.getColors().getFluidColor())));
+				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
 		fluidBlock = BLOCKS.register(fluidName,
-				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.of(Material.LAVA).noCollission().strength(100).noDrops()));
+				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.copy(Blocks.LAVA)));
 		fluidBucket = ITEMS.register(fluidName + "_bucket",
-				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).tab(EmendatusEnigmatica.TAB)));
+				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).tab(EmendatusEnigmatica.TAB)));
 
+		fluidTypeMap.put(material.getId(), fluidType);
 		fluidSourceMap.put(material.getId(), fluidSource);
 		fluidFlowingMap.put(material.getId(), fluidFlowing);
 		fluidBlockMap.put(material.getId(), fluidBlock);
 		fluidBucketMap.put(material.getId(), fluidBucket);
+	}
+
+	private static FluidType.Properties fluidTypeProperties(MaterialModel material) {
+		return FluidType.Properties.create()
+				.descriptionId("fluid.emendatusenigmatica.molten_" + material.getId())
+				.lightLevel(15)
+				.density(3000)
+				.viscosity(6000)
+				.temperature(1300)
+				.rarity(Rarity.COMMON)
+				.canDrown(false)
+				.canSwim(false)
+				.pathType(BlockPathTypes.LAVA)
+				.adjacentPathType(null)
+				.sound(SoundAction.get("bucket_fill"), SoundEvents.BUCKET_FILL_LAVA)
+				.sound(SoundAction.get("bucket_empty"), SoundEvents.BUCKET_EMPTY_LAVA);
+	}
+
+	public static ForgeFlowingFluid.Properties makeProperties(Supplier<FluidType> type, Supplier<FlowingFluid> source, Supplier<FlowingFluid> flowing, Supplier<LiquidBlock> block, Supplier<Item> bucket) {
+		return new ForgeFlowingFluid.Properties(type, source, flowing)
+				.slopeFindDistance(2)
+				.levelDecreasePerBlock(2)
+				.block(block)
+				.bucket(bucket);
 	}
 
 	// TODO: [RID] Switch Harvest level and Tool to Tags
@@ -200,16 +218,6 @@ public class EERegistrar {
 			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
 		}
 	}
-
-//	public static void registerClusters(MaterialModel material) {
-//		String itemName = material.getId() + "_cluster";
-//
-//		if (material.getProperties().isBurnable()) {
-//			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime() * 4, material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-//		} else {
-//			clusterMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-//		}
-//	}
 
 	public static void registerIngots(MaterialModel material) {
 		String itemName = material.getId() + "_ingot";
@@ -287,7 +295,7 @@ public class EERegistrar {
 	public static void finalize(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 		BLOCKS.register(eventBus);
+		FLUID_TYPES.register(eventBus);
 		FLUIDS.register(eventBus);
-//		TILE_ENTITY.register(eventBus);
 	}
 }

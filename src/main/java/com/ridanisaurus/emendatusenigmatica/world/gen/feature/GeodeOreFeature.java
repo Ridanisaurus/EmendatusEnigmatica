@@ -15,6 +15,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -64,7 +65,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 
 	@Override
 	public boolean place(FeaturePlaceContext<GeodeOreFeatureConfig> config) {
-		Random rand = config.random();
+		RandomSource rand = config.random();
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
@@ -94,7 +95,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		return true;
 	}
 
-	private void generateHollowSphere(WorldGenLevel reader, Random rand, BlockPos pos, FeaturePlaceContext<GeodeOreFeatureConfig> config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
+	private void generateHollowSphere(WorldGenLevel reader, RandomSource rand, BlockPos pos, FeaturePlaceContext<GeodeOreFeatureConfig> config, List<CommonBlockDefinitionModel> blocks, int radius, int yPos) {
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 
@@ -157,7 +158,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		}
 	}
 
-	private void placeBlock(WorldGenLevel reader, Random rand, BlockPos
+	private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos
 			pos, RuleTest filler, List<CommonBlockDefinitionModel> blocks) {
 		if (!filler.test(reader.getBlockState(pos), rand)) {
 			return;
@@ -175,7 +176,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			});
 		} else if (commonBlockDefinitionModel.getMaterial() != null) {
 			BlockState currentFiller = reader.getBlockState(pos);
-			String fillerId = currentFiller.getBlock().getRegistryName().toString();
+			String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
 			Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
 			if (strataIndex != null) {
 				StrataModel stratum = EELoader.STRATA.get(strataIndex);

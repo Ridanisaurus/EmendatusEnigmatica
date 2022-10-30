@@ -128,15 +128,8 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.rawMap.get(material.getId()).get(), sb.toString());
 				}
 
-//				// Clusters
-//				if (processedType.equals("cluster")) {
-//					StringBuilder sb = new StringBuilder();
-//					sb.append(material.getLocalisedName());
-//					sb.append(" Cluster");
-//					add(EERegistrar.clusterMap.get(material.getId()).get(), sb.toString());
-//				}
-
 				// Fluids
+				// TODO [RID] Revisit the add function for Fluids
 				if (processedType.equals("fluid")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Molten ");

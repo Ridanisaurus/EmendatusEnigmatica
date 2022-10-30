@@ -24,12 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class MetalOreBlock extends Block implements IColorable {
 	private final String localisedName;
@@ -53,7 +51,7 @@ public class MetalOreBlock extends Block implements IColorable {
 
 	@Override
 	public MutableComponent getName() {
-		return new TranslatableComponent(localisedName);
+		return Component.translatable(localisedName);
 	}
 
 	@Override

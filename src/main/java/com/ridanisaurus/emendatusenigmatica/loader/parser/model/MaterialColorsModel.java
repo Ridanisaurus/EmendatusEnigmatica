@@ -34,27 +34,27 @@ public class MaterialColorsModel {
 			Codec.STRING.optionalFieldOf("highlightColor").forGetter(i -> i.highlightColor),
 			Codec.STRING.optionalFieldOf("baseColor").forGetter(i -> i.baseColor),
 			Codec.STRING.optionalFieldOf("shadeColor").forGetter(i -> i.shadeColor),
-			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.ofNullable(i.fluidColor)),
+			Codec.INT.optionalFieldOf("fluidColor").forGetter(i -> Optional.ofNullable(i.fluidColor)),
 			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> i.particlesColor)
 	).apply(x, (highlightColor, baseColor, shadeColor, fluidColor, particlesColor) -> new MaterialColorsModel(
 			highlightColor,
 			baseColor,
 			shadeColor,
-			fluidColor.orElse(""),
+			fluidColor.orElse(null),
 			particlesColor
 	)));
 
 	private final Optional<String> highlightColor;
 	private final Optional<String> baseColor;
 	private final Optional<String> shadeColor;
-	private final String fluidColor;
+	private final int fluidColor;
 	private final Optional<String> particlesColor;
 
-	public MaterialColorsModel(Optional<String> highlightColor, Optional<String> baseColor, Optional<String> shadeColor, String fluidColor, Optional<String> particlesColor) {
+	public MaterialColorsModel(Optional<String> highlightColor, Optional<String> baseColor, Optional<String> shadeColor, int fluidColor, Optional<String> particlesColor) {
 		this.highlightColor = highlightColor;
 		this.baseColor = baseColor;
 		this.shadeColor = shadeColor;
-		this.fluidColor = "0xFF" + fluidColor;
+		this.fluidColor = 0xFF + fluidColor;
 		this.particlesColor = particlesColor;
 	}
 
@@ -62,7 +62,7 @@ public class MaterialColorsModel {
 		this.highlightColor = Optional.empty();
 		this.baseColor = Optional.empty();
 		this.shadeColor = Optional.empty();
-		this.fluidColor = "";
+		this.fluidColor = 000000;
 		this.particlesColor = Optional.empty();
 	}
 
@@ -79,8 +79,9 @@ public class MaterialColorsModel {
 	}
 
 	public int getFluidColor() {
-		Long L = Long.decode(fluidColor);
-		return L.intValue();
+//		Long L = Long.decode(fluidColor);
+//		return L.intValue();
+		return fluidColor;
 	}
 
 	public int getParticlesColor() {

@@ -41,6 +41,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -210,11 +211,11 @@ public class GenericRecipeBuilder {
 	}
 
 	public void save(Consumer<IFinishedGenericRecipe> consumer) {
-		this.save(consumer, this.recipeDefault.getRegistryName());
+		this.save(consumer, ForgeRegistries.ITEMS.getKey(this.recipeDefault));
 	}
 
 	public void save(Consumer<IFinishedGenericRecipe> consumer, String recipeName) {
-		if ((new ResourceLocation(recipeName)).equals(this.recipeDefault.getRegistryName())) {
+		if ((new ResourceLocation(recipeName)).equals(ForgeRegistries.ITEMS.getKey(this.recipeDefault))) {
 			throw new IllegalStateException("Shaped Recipe " + recipeName + " should remove its 'save' argument");
 		} else {
 			this.save(consumer, new ResourceLocation(recipeName));
@@ -310,32 +311,32 @@ public class GenericRecipeBuilder {
 		}
 
 		public JsonItemBuilder objectWithChance(String key, ItemLike itemProvider, int count, double chance) {
-			return addOutput(Pair.of(key, Pair.of("item", itemProvider.asItem().getRegistryName().toString())),
+			return addOutput(Pair.of(key, Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString())),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
 		public JsonItemBuilder stackWithChance(ItemLike itemProvider, int count, double chance) {
-			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
+			return addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString()),
 					Pair.of("count", count),
 					Pair.of("chance", chance)
 			);
 		}
 
 		public JsonItemBuilder stackWithCount(ItemLike itemProvider, int count) {
-			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
+			return addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString()),
 					Pair.of("count", count));
 		}
 
 		public JsonItemBuilder stackWithoutCount(ItemLike itemProvider, float chance) {
-			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()),
+			return addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString()),
 					Pair.of("chance", chance)
 			);
 		}
 
 		public JsonItemBuilder stack(ItemLike itemProvider) {
-			return addOutput(Pair.of("item", itemProvider.asItem().getRegistryName().toString()));
+			return addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString()));
 		}
 
 		public JsonItemBuilder tagWithChance(TagKey<Item> itemTag, int count, double chance) {

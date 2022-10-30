@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -40,9 +41,9 @@ public class MultiStrataRuleTest extends RuleTest {
 	}
 
 	@Override
-	public boolean test(BlockState state, Random rand) {
+	public boolean test(BlockState state, RandomSource rand) {
 		for (Block block : blockFillerList) {
-			if (state.getBlock().getRegistryName().toString().equals(block.getRegistryName().toString())) {
+			if (ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString().equals(ForgeRegistries.BLOCKS.getKey(block).toString())) {
 				return true;
 			}
 		}

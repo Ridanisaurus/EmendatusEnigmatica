@@ -25,25 +25,22 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.mojang.math.Vector3f;
-import com.ridanisaurus.emendatusenigmatica.util.ParticleColorHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
-public class GemOreBlockWithParticles extends OreBlock {
+public class GemOreBlockWithParticles extends DropExperienceBlock {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
@@ -64,19 +61,20 @@ public class GemOreBlockWithParticles extends OreBlock {
 
 	@Override
 	public MutableComponent getName() {
-		return new TranslatableComponent(localisedName);
+		return Component.translatable(localisedName);
 	}
 
-	protected int getExperience(Random rand) {
+	protected int getExperience(RandomSource rand) {
 		return Mth.nextInt(rand, minExp, maxExp);
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silktouch) {
-		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	public int getExpDrop(BlockState state, LevelReader reader, RandomSource random, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? this.getExperience(random) : 0;
 	}
+
 	@Override
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 //		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;

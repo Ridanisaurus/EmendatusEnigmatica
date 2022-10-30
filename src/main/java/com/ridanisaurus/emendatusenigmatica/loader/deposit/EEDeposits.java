@@ -75,6 +75,7 @@ public class EEDeposits {
 		}
 	}
 
+	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	public static void generateBiomes(BiomeLoadingEvent event) {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			activeProcessor.setupOres(event);

@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -32,7 +33,8 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ItemHammer extends Item {
-	Random random = new Random();
+	// TODO: [RID] do I need to initialize random?
+	RandomSource random;
 
 	public ItemHammer() {
 		super(new Item.Properties()

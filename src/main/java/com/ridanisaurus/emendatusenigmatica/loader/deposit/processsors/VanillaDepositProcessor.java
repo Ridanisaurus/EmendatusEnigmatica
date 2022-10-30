@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// TODO [TicTic] How comes there is an ObjectHolder and EventBus here?
 @ObjectHolder(Reference.MOD_ID)
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class VanillaDepositProcessor implements IDepositProcessor {
@@ -60,6 +61,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
         feature = new VanillaOreFeature(OreConfiguration.CODEC, model);
     }
 
+    // TODO [TicTic] BiomeLoadingEvent is gone it seems
     @Override
     public void setupOres(BiomeLoadingEvent event) {
         if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
@@ -70,6 +72,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
         }
     }
 
+    // TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
     @Override
     public Feature<?> getFeature() {
         return feature.setRegistryName(model.getName());

@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.critereon.*;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
@@ -56,7 +57,7 @@ public class GenericRecipeProvider implements DataProvider {
 	public GenericRecipeProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
-
+	// TODO [Buuz/TicTic]
 	public void run(HashCache directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
@@ -132,6 +133,11 @@ public class GenericRecipeProvider implements DataProvider {
 
 	protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 		// It's called generic for a reason!
+	}
+
+	@Override
+	public void run(CachedOutput p_236071_) throws IOException {
+
 	}
 
 	public String getName() {

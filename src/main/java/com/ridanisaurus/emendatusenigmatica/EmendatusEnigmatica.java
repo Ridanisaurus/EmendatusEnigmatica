@@ -136,6 +136,7 @@ public class EmendatusEnigmatica {
         event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
     }
 
+    // TODO [TicTic] Oh no, BiomeLoadingEvent iz ded!
     public void biomesHigh(final BiomeLoadingEvent event) {
         EEDeposits.generateBiomes(event);
     }
@@ -182,6 +183,7 @@ public class EmendatusEnigmatica {
         generator = DataGeneratorFactory.createEEDataGenerator();
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
+        // TODO [Buuz/TicTic] What is the new Boolean?
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
 //        generator.addProvider(new CombinedTextureGen(generator, existingFileHelper));
         generator.addProvider(new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));

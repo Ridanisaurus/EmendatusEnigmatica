@@ -18,6 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,7 +47,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
 
     @Override
     public boolean place(FeaturePlaceContext<SphereOreFeatureConfig> config) {
-        Random rand = config.random();
+        RandomSource rand = config.random();
         BlockPos pos = config.origin();
         WorldGenLevel reader = config.level();
         if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
@@ -120,7 +121,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         return true;
     }
 
-    private void placeBlock(WorldGenLevel reader, Random rand, BlockPos
+    private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos
             pos, FeaturePlaceContext<SphereOreFeatureConfig> config) {
         if (!config.config().target.test(reader.getBlockState(pos), rand)) {
             return;
@@ -142,7 +143,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                 });
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
                 BlockState currentFiller = reader.getBlockState(pos);
-                String fillerId = currentFiller.getBlock().getRegistryName().toString();
+                String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
                 Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
                 if (strataIndex != null) {
                     StrataModel stratum = EELoader.STRATA.get(strataIndex);

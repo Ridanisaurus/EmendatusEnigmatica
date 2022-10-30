@@ -29,16 +29,16 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.MultiLayerModelBuilder;
+import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
@@ -53,7 +53,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
             for (String processedType : material.getProcessedType()) {
                 if (processedType.equals("storage_block")) {
                     Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
-                    ResourceLocation loc = block.getRegistryName();
+                    ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(block);
                     if (material.getColors().getHighlightColor() == -1) {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                                 .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
@@ -88,7 +88,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                 // Fluid Block
                 if (processedType.equals("fluid")) {
                     LiquidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
-                    ResourceLocation loc = fluidBlock.getRegistryName();
+                    ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(fluidBlock);
                     simpleBlock(fluidBlock, models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
                 }
             }
@@ -99,7 +99,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
             for (StrataModel stratum : EELoader.STRATA) {
                 if (material.getProcessedType().contains("ore")) {
                     Block ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get();
-                    ResourceLocation loc = ore.getRegistryName();
+                    ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(ore);
                     if (material.getColors().getHighlightColor() == -1) {
                         dynamicBlock(loc, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId());
                     } else {
@@ -119,19 +119,19 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
         models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                 .texture("particle", modLoc(overlayTexture))
                 .transforms()
-                .transform(ModelBuilder.Perspective.THIRDPERSON_LEFT)
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND)
                 .rotation(75F, 45F, 0F)
                 .translation(0F, 2.5F, 0)
                 .scale(0.375F, 0.375F, 0.375F)
                 .end()
-                .transform(ModelBuilder.Perspective.THIRDPERSON_RIGHT)
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND)
                 .rotation(75F, 45F, 0F)
                 .translation(0F, 2.5F, 0)
                 .scale(0.375F, 0.375F, 0.375F)
                 .end()
                 .end()
-                .customLoader(MultiLayerModelBuilder::begin)
-                .submodel(RenderType.solid(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                .customLoader(CompositeModelBuilder::begin)
+                .child("solid", this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                         .texture("base", baseTexture)
                         .element()
                         .from(0, 0, 0)
@@ -139,8 +139,9 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .cube("#base")
                         .allFaces((dir, uv) -> uv.tintindex(-1))
                         .end()
-                )
-                .submodel(RenderType.translucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                        .renderType("solid"))
+
+                .child("translucent", this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                         .texture("overlay", new ResourceLocation(Reference.MOD_ID, overlayTexture))
                         .element()
                         .from(0, 0, 0)
@@ -148,7 +149,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .cube("#overlay")
                         .allFaces((dir, uv) -> uv.tintindex(0))
                         .end()
-                )
+                        .renderType("translucent"))
                 .end();
     }
 
@@ -156,19 +157,20 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
         models().getBuilder(loc.getPath()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                 .texture("particle", modLoc(overlayTexture))
                 .transforms()
-                .transform(ModelBuilder.Perspective.THIRDPERSON_LEFT)
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND)
                 .rotation(75F, 45F, 0F)
                 .translation(0F, 2.5F, 0)
                 .scale(0.375F, 0.375F, 0.375F)
                 .end()
-                .transform(ModelBuilder.Perspective.THIRDPERSON_RIGHT)
+                .transform(ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND)
                 .rotation(75F, 45F, 0F)
                 .translation(0F, 2.5F, 0)
                 .scale(0.375F, 0.375F, 0.375F)
                 .end()
                 .end()
-                .customLoader(MultiLayerModelBuilder::begin)
-                .submodel(RenderType.solid(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+
+                .customLoader(CompositeModelBuilder::begin)
+                .child("solid", this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                         .texture("base", baseTexture)
                         .element()
                         .from(0, 0, 0)
@@ -176,8 +178,9 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .cube("#base")
                         .allFaces((dir, uv) -> uv.tintindex(-1))
                         .end()
+                        .renderType("solid")
                 )
-                .submodel(RenderType.translucent(), this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                .child("translucent", this.models().nested().parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                         .texture("overlay_0", new ResourceLocation(Reference.MOD_ID, overlayTexture))
                         .texture("overlay_1", new ResourceLocation(Reference.MOD_ID, overlayTexture))
                         .texture("overlay_2", new ResourceLocation(Reference.MOD_ID, overlayTexture))
@@ -199,6 +202,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                         .cube("#overlay_2")
                         .allFaces((dir, uv) -> uv.tintindex(2))
                         .end()
+                        .renderType("translucent")
                 )
                 .end();
     }

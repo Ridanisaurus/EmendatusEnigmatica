@@ -24,6 +24,7 @@ public class WorldGenHelper {
 		return null;
 	}
 
+	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	public static boolean biomeCheck(BiomeLoadingEvent event, List<String> whitelistBiomes, List<String> blacklistBiomes) {
 		// Credit: https://github.com/InnovativeOnlineIndustries/Industrial-Foregoing/blob/259b70ac60714786d1f793124bd66284ac08f1e3/src/main/java/com/buuz135/industrial/recipe/LaserDrillOreRecipe.java#L210
 		String[] whitelistBiomesArray = whitelistBiomes.stream().toArray(String[]::new);

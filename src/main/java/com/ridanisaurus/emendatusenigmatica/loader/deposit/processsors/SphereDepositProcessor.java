@@ -43,6 +43,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 		feature = new SphereOreFeature(SphereOreFeatureConfig.CODEC, model);
 	}
 
+	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	@Override
 	public void setupOres(BiomeLoadingEvent event) {
 		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
@@ -57,6 +58,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 		return configured;
 	}
 
+	// TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
 	@Override
 	public Feature<?> getFeature() {
 		return feature.setRegistryName(model.getName());

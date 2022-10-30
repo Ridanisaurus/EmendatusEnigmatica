@@ -29,15 +29,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 
 import java.util.Random;
 
-public class GemOreBlock extends Block implements IColorable {
+public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
@@ -65,13 +67,13 @@ public class GemOreBlock extends Block implements IColorable {
 		return Component.translatable(localisedName);
 	}
 
-	protected int getExperience(Random rand) {
+	protected int getExperience(RandomSource rand) {
 		return Mth.nextInt(rand, minExp, maxExp);
 	}
 
 	@Override
-	public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silktouch) {
-		return silktouch == 0 ? this.getExperience(RANDOM) : 0;
+	public int getExpDrop(BlockState state, LevelReader reader, RandomSource random, BlockPos pos, int fortune, int silktouch) {
+		return silktouch == 0 ? this.getExperience(random) : 0;
 	}
 
 	@Override

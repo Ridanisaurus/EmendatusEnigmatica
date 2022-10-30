@@ -25,24 +25,19 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.mojang.math.Vector3f;
-import com.ridanisaurus.emendatusenigmatica.util.ParticleColorHelper;
-
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
-public class MetalOreBlockWithParticles extends OreBlock {
+public class MetalOreBlockWithParticles extends Block {
 	private final String localisedName;
 	private final String particleHex;
 
@@ -58,11 +53,11 @@ public class MetalOreBlockWithParticles extends OreBlock {
 
 	@Override
 	public MutableComponent getName() {
-		return new TranslatableComponent(localisedName);
+		return Component.translatable(localisedName);
 	}
 
 	@Override
-	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
 //		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;
