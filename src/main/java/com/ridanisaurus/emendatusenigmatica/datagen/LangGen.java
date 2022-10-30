@@ -142,10 +142,10 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
 
-				// TODO: [RID] Look into moving this to the MekanismDataGen class
+				// TODO [RID] Look into moving this to the MekanismDataGen class
 				if (EmendatusEnigmatica.MEKANISM_LOADED) {
 					// Slurries
-					// TODO: [RID] Re-add after integrating Mekanism
+					// TODO [RID] Re-add after integrating Mekanism
 //					if (processedType.contains("slurry")) {
 //						StringBuilder sb = new StringBuilder();
 //						sb.append("Dirty ");
@@ -189,7 +189,7 @@ public class LangGen extends LanguageProvider {
 						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-				// TODO: [RID] Look into moving this to the CreateDataGen class
+				// TODO [RID] Look into moving this to the CreateDataGen class
 				if (EmendatusEnigmatica.CREATE_LOADED) {
 					// Crushed Ore
 					if (processedType.contains("crushed_ore")) {
@@ -200,7 +200,7 @@ public class LangGen extends LanguageProvider {
 						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-				// TODO: [RID] Look into moving this to the BloodMagicDataGen class
+				// TODO [RID] Look into moving this to the BloodMagicDataGen class
 				if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
 					// Fragment
 					if (processedType.contains("fragment")) {
@@ -239,7 +239,7 @@ public class LangGen extends LanguageProvider {
 		}
 	}
 
-	// TODO: [RID] Re-add after integrating Mekanism
+	// TODO [RID] Re-add after integrating Mekanism
 //	private void add(Slurry slurry, String name) {
 //		add(slurry.getTranslationKey(), name);
 //	}

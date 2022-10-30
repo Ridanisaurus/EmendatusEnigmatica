@@ -33,7 +33,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class ItemHammer extends Item {
-	// TODO: [RID] do I need to initialize random?
+	// TODO [RID] do I need to initialize random?
 	RandomSource random;
 
 	public ItemHammer() {

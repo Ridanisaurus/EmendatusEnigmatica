@@ -195,9 +195,9 @@ public class EmendatusEnigmatica {
         generator.addProvider(new LootTablesGen(generator));
         generator.addProvider(new LangGen(generator));
         if (MEKANISM_LOADED) {
-            // TODO: [RID] Re-add after integrating Mekanism
+            // TODO [RID] Re-add after integrating Mekanism
 //            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
-            // TODO: [RID] Fix Slurry Tags
+            // TODO [RID] Fix Slurry Tags
 //            generator.addProvider(new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
 //            generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
 //            generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));

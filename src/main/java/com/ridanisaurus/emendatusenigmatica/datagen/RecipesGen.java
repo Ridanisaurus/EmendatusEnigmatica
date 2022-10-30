@@ -184,7 +184,7 @@ public class RecipesGen extends RecipeProvider {
 						.group(Reference.MOD_ID)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
 			}
-			// TODO: [RID] Look into moving the block recipe identifier to its own field instead of processedType
+			// TODO [RID] Look into moving the block recipe identifier to its own field instead of processedType
 			// Block from Gem x4
 			if (processedType.contains("gem") && processedType.contains("storage_block") && processedType.contains("4x_block_recipe")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
@@ -224,7 +224,7 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
 			}
 
-			// TODO: [RID] Re-add these 2 recipes when Raw Block is added
+			// TODO [RID] Re-add these 2 recipes when Raw Block is added
 //			// Cluster from Chunk
 //			if (processedType.contains("chunk") && processedType.contains("cluster")) {
 //				ShapelessRecipeBuilder.shapeless(EERegistrar.clusterMap.get(material.getId()).get(), 1)

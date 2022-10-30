@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BiomeDefaultFeatures.class)
 public class DefaultBiomeFeaturesMixin {
 
-	// TODO: [RID] (maybe) add config option to overwrite vanilla ores
+	// TODO [RID] (maybe) add config option to overwrite vanilla ores
 	@Inject(method = "addDefaultOres", at = @At("HEAD"), cancellable = true)
 	private static void addDefaultOres(BiomeGenerationSettings.Builder builder, CallbackInfo ci) {
 		//if (Config.disableVanillaOres) {
@@ -43,5 +43,5 @@ public class DefaultBiomeFeaturesMixin {
 		ci.cancel();
 	}
 
-	// TODO: [RID] Remove NetherQuartz and Gold from Basalt Deltas - BiomeMarker.java -> basaltDeltasBiome
+	// TODO [RID] Remove NetherQuartz and Gold from Basalt Deltas - BiomeMarker.java -> basaltDeltasBiome
 }

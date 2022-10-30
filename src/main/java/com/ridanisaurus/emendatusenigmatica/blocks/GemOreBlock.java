@@ -47,7 +47,7 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	public final int baseColor;
 	public final int shadeColor;
 
-	// TODO: [RID] Move harvestLevel and tool to Tags
+	// TODO [RID] Move harvestLevel and tool to Tags
 	public GemOreBlock(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int highlightColor, int baseColor, int shadeColor) {
 		super(BlockBehaviour.Properties.of(material)
 				.strength(hardness, resistance)

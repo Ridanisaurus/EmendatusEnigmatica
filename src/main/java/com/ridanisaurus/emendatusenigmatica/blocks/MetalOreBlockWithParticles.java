@@ -64,7 +64,7 @@ public class MetalOreBlockWithParticles extends Block {
 //		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
 //		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
 
-		// TODO: [RID] Fix the particle color to read from Hex instead of 16711680
+		// TODO [RID] Fix the particle color to read from Hex instead of 16711680
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {
 				BlockPos blockpos = pos.relative(direction);

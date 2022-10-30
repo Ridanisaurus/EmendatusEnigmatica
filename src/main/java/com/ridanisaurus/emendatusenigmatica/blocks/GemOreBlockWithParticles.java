@@ -46,7 +46,7 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 	private final int maxExp;
 	private final String particleHex;
 
-	// TODO: [RID] Move harvestLevel and tool to Tags
+	// TODO [RID] Move harvestLevel and tool to Tags
 	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, String particleHex) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
@@ -81,7 +81,7 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 //		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
 //		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
 
-		// TODO: [RID] Fix the particle color to read from Hex instead of 16711680
+		// TODO [RID] Fix the particle color to read from Hex instead of 16711680
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {
 				BlockPos blockpos = pos.relative(direction);

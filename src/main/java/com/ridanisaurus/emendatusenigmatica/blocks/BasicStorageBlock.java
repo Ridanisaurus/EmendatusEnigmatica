@@ -36,7 +36,7 @@ public class BasicStorageBlock extends Block implements IColorable {
 	public final int baseColor;
 	public final int shadeColor;
 
-	// TODO: [RID] Move harvestLevel and tool to Tags
+	// TODO [RID] Move harvestLevel and tool to Tags
 	public BasicStorageBlock(Material material, float hardness, float resistance, String localisedName, int highlightColor, int baseColor, int shadeColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)

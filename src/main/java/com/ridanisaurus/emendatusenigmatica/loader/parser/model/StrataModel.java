@@ -83,7 +83,7 @@ public class StrataModel {
 		return localizedName;
 	}
 
-	// TODO: [RID] Switch to Tags
+	// TODO [RID] Switch to Tags
 //	public ToolType getHarvestTool() {
 //		switch (harvestTool) {
 //			case "shovel":

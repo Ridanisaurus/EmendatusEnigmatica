@@ -148,7 +148,7 @@ public class EERegistrar {
 				.bucket(bucket);
 	}
 
-	// TODO: [RID] Switch Harvest level and Tool to Tags
+	// TODO [RID] Switch Harvest level and Tool to Tags
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
 		RegistryObject<Block> oreBlock;

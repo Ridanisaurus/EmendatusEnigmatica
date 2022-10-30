@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 public class MekanismDataGen {
 
-	// TODO: [RID] Re-add after integrating Mekanism
+	// TODO [RID] Re-add after integrating Mekanism
 	/*
 	private static final Gas SULFURIC_ACID = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "sulfuric_acid"));
 	private static final Gas HYDROGEN_CHLORIDE = Gas.getFromRegistry(new ResourceLocation(Reference.MEKANISM, "hydrogen_chloride"));
@@ -38,7 +38,7 @@ public class MekanismDataGen {
 			super(gen);
 		}
 
-		// TODO: [RID] Add material source checks
+		// TODO [RID] Add material source checks
 		@Override
 		protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {

@@ -63,7 +63,7 @@ public class CreateDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
-					// TODO: [RID] Revisit this whole section once the chunks system is flushed out
+					// TODO [RID] Revisit this whole section once the chunks system is flushed out
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
 						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
@@ -72,7 +72,7 @@ public class CreateDataGen {
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 300)
 								.addOutput(builder -> builder
-										// TODO: [RID] Look into making the secondary item configurable instead of just the same primary
+										// TODO [RID] Look into making the secondary item configurable instead of just the same primary
 										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
 										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
