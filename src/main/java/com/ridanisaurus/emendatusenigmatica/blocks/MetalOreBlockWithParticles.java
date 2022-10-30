@@ -40,6 +40,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class MetalOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
 	private final String particleHex;

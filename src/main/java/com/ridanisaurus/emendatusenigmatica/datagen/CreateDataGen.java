@@ -48,6 +48,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.data.tags.TagsProvider.TagAppender;
+
 public class CreateDataGen {
 
 	public static class CreateRecipes extends GenericRecipeProvider {

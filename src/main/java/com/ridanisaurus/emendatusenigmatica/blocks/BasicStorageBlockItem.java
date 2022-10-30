@@ -31,6 +31,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class BasicStorageBlockItem extends BlockItem {
 	private final int burnTime;
 

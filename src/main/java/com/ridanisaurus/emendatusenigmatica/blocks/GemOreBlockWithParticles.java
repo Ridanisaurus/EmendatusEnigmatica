@@ -41,6 +41,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
 public class GemOreBlockWithParticles extends OreBlock {
 	private final String localisedName;
 	private final int minExp;

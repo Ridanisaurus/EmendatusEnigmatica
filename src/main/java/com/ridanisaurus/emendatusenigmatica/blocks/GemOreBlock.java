@@ -25,8 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -61,7 +62,7 @@ public class GemOreBlock extends Block implements IColorable {
 
 	@Override
 	public MutableComponent getName() {
-		return new TranslatableComponent(localisedName);
+		return Component.translatable(localisedName);
 	}
 
 	protected int getExperience(Random rand) {

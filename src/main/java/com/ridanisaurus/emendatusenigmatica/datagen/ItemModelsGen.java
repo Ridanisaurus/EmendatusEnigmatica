@@ -34,7 +34,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.DynamicBucketModelBuilder;
+import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 public class ItemModelsGen extends ItemModelProvider {
@@ -161,7 +161,7 @@ public class ItemModelsGen extends ItemModelProvider {
                 if (processedType.equals("fluid")) {
                     ItemModelBuilder parent = getBuilder("molten_" + material.getId() + "_bucket");
                         parent.parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
-                            .customLoader(DynamicBucketModelBuilder::begin)
+                            .customLoader(DynamicFluidContainerModelBuilder::begin)
                             .fluid(EERegistrar.fluidSourceMap.get(material.getId()).get());
                 }
             }

@@ -37,6 +37,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 
+import net.minecraft.data.tags.TagsProvider.TagAppender;
+
 public class FluidTagsGen extends FluidTagsProvider {
 
 	public FluidTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {

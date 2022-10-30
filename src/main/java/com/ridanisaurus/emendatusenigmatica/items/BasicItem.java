@@ -27,6 +27,8 @@ package com.ridanisaurus.emendatusenigmatica.items;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.world.item.Item;
 
+import net.minecraft.world.item.Item.Properties;
+
 public class BasicItem extends Item {
 
   public final int highlightColor;
