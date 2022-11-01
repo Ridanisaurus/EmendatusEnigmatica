@@ -3,12 +3,14 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.SphereOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
@@ -25,6 +27,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 	private JsonObject object;
 	private SphereDepositModel model;
 	public RegistryObject<PlacedFeature> orePlacedFeature;
+//	public RegistryObject<Codec<OreBiomeModifier>> oreBiomeModifier;
 //	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> configured;
 //	private SphereOreFeature feature;
 
@@ -44,14 +47,15 @@ public class SphereDepositProcessor implements IDepositProcessor {
 
 	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	@Override
-	public void setupOres() {
-		RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-				model.getName(), () -> new ConfiguredFeature<>(new SphereOreFeature(SphereOreFeatureConfig.CODEC, model), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+	public void setup() {
+		RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(model.getName(),
+				() -> new ConfiguredFeature<>(new SphereOreFeature(SphereOreFeatureConfig.CODEC, model), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
 		);
 		HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-		orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-				model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
+		orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(model.getName(),
+				() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
 		);
+//		oreBiomeModifier = WorldGenHelper.getBiomeSerializer().register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
 //		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
 //			Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> oreFeature = getOreFeature();
 //			HeightRangePlacement placement = HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
@@ -64,6 +68,11 @@ public class SphereDepositProcessor implements IDepositProcessor {
 	public RegistryObject<PlacedFeature> getPlacedFeature() {
 		return orePlacedFeature;
 	}
+
+//	@Override
+//	public RegistryObject<Codec<OreBiomeModifier>> getOreBiomeModifier() {
+//		return oreBiomeModifier;
+//	}
 
 //	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> getOreFeature() {
 //		return configured;

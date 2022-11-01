@@ -79,7 +79,8 @@ public class EERegistrar {
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 	public static final DeferredRegister<ConfiguredFeature<?,?>> ORE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MOD_ID);
 	public static final DeferredRegister<PlacedFeature> PLACED_ORE_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, Reference.MOD_ID);
-	private static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Reference.MOD_ID);
+	public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Reference.MOD_ID);
+
 	public static final RegistryObject<Codec<OreBiomeModifier>> ORE_BIOME_MODIFIER = BIOME_SERIALIZERS.register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
 
 	// Blocks

@@ -129,7 +129,6 @@ public class EmendatusEnigmatica {
         registerDataGen();
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
-//            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.RESOURCE));
             Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
         }
 
@@ -147,11 +146,11 @@ public class EmendatusEnigmatica {
 //        EEDeposits.generateBiomes();
 //    }
 
-    private void init(final FMLConstructModEvent event) {}
+    private void init(final FMLConstructModEvent event) {
+
+    }
 
     private void commonEvents(final FMLCommonSetupEvent event) {
-//        event.enqueueWork(VanillaDepositProcessor::finalize);
-//        VanillaDepositProcessor.finalize(event);
         MultiStrataRuleTest.register();
     }
 

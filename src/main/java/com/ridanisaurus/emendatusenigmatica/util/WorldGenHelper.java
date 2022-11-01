@@ -1,6 +1,8 @@
 package com.ridanisaurus.emendatusenigmatica.util;
 
+import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.server.level.WorldGenRegion;
@@ -10,7 +12,10 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraftforge.common.extensions.IForgeLevel;
+import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 
@@ -42,20 +47,15 @@ public class WorldGenHelper {
 		return EERegistrar.PLACED_ORE_FEATURES;
 	}
 
+//	public static DeferredRegister<Codec<? extends BiomeModifier>> getBiomeSerializer() {
+//		return EERegistrar.BIOME_SERIALIZERS;
+//	}
+
 	public static List<PlacementModifier> orePlacement(PlacementModifier p_195347_, PlacementModifier p_195348_) {
 		return List.of(p_195347_, InSquarePlacement.spread(), p_195348_, BiomeFilter.biome());
 	}
 
 	public static List<PlacementModifier> commonOrePlacement(int p_195344_, PlacementModifier p_195345_) {
 		return orePlacement(CountPlacement.of(p_195344_), p_195345_);
-	}
-
-	public static List<PlacementModifier> rareOrePlacement(int p_195350_, PlacementModifier p_195351_) {
-		return orePlacement(RarityFilter.onAverageOnceEvery(p_195350_), p_195351_);
-	}
-
-	// Do I still need this?
-	public static <FC extends FeatureConfiguration, F extends Feature<FC>> ConfiguredFeature<FC, F> registerFeature(final String name, final ConfiguredFeature<FC, F> feature) {
-		return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, Reference.MOD_ID + ":" + name, feature);
 	}
 }

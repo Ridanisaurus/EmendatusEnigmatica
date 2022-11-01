@@ -3,12 +3,14 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.GeodeOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
@@ -25,6 +27,7 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	private final JsonObject object;
 	private GeodeDepositModel model;
 	public RegistryObject<PlacedFeature> orePlacedFeature;
+//	public RegistryObject<Codec<OreBiomeModifier>> oreBiomeModifier;
 //	private GeodeOreFeature feature;
 //	private Holder<ConfiguredFeature<GeodeOreFeatureConfig, ?>> configured;
 
@@ -45,7 +48,7 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 
 	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	@Override
-	public void setupOres() {
+	public void setup() {
 		RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
 				model.getName(), () -> new ConfiguredFeature<>(new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model), new GeodeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
 		);
@@ -53,6 +56,7 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 		orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
 				model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
 		);
+//		oreBiomeModifier = WorldGenHelper.getBiomeSerializer().register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
 //		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
 //			Holder<ConfiguredFeature<GeodeOreFeatureConfig, ?>> oreFeature = getOreFeature();
 //			HeightRangePlacement placement = HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
@@ -65,6 +69,12 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	public RegistryObject<PlacedFeature> getPlacedFeature() {
 		return orePlacedFeature;
 	}
+
+//	@Override
+//	public RegistryObject<Codec<OreBiomeModifier>> getOreBiomeModifier() {
+//		return oreBiomeModifier;
+//	}
+
 //	private Holder<ConfiguredFeature<GeodeOreFeatureConfig, ?>> getOreFeature() {
 //		return configured;
 //	}

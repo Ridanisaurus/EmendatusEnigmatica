@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
@@ -11,6 +12,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +36,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     private JsonObject object;
     private VanillaDepositModel model;
     public RegistryObject<PlacedFeature> orePlacedFeature;
+//    public RegistryObject<Codec<OreBiomeModifier>> oreBiomeModifier;
 //    private OreFeature feature;
 //    private Holder<ConfiguredFeature<OreConfiguration, ?>> configureded;
 
@@ -52,7 +55,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     }
 
     @Override
-    public void setupOres() {
+    public void setup() {
         if (model.getConfig().getBlock() != null) {
             ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
             Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
@@ -84,6 +87,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
         orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
                 model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
         );
+//        oreBiomeModifier = WorldGenHelper.getBiomeSerializer().register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
 
 //        Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
 //        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
@@ -101,6 +105,11 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     public RegistryObject<PlacedFeature> getPlacedFeature() {
         return orePlacedFeature;
     }
+
+//    @Override
+//    public RegistryObject<Codec<OreBiomeModifier>> getOreBiomeModifier() {
+//        return oreBiomeModifier;
+//    }
 
     // TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
 //    @Override
