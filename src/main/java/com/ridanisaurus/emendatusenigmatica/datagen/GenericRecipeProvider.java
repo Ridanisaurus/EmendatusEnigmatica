@@ -58,62 +58,70 @@ public class GenericRecipeProvider implements DataProvider {
 		this.generator = gen;
 	}
 	// TODO [Buuz/TicTic]
-	public void run(HashCache directoryCache) throws IOException {
+	public void run(CachedOutput directoryCache) {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
 		buildGenericRecipes((consumer) -> {
 			if (!set.add(consumer.getId())) {
 				throw new IllegalStateException("Duplicate recipe " + consumer.getId());
 			} else {
-				saveRecipe(directoryCache, consumer.serializeRecipe(), path.resolve("data/" + consumer.getId().getNamespace() + "/recipes/" + consumer.getId().getPath() + ".json"));
+				try {
+					DataProvider.saveStable(directoryCache, consumer.serializeRecipe(), path.resolve("data/" + consumer.getId().getNamespace() + "/recipes/" + consumer.getId().getPath() + ".json"));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				JsonObject jsonobject = consumer.serializeAdvancement();
 				if (jsonobject != null) {
-					saveAdvancement(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
+					try {
+						DataProvider.saveStable(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 			}
 		});
-		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
-			saveAdvancement(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
+//		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
+//			DataProvider.saveStable(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
 	}
 
-	private static void saveRecipe(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
-		try {
-			String s = GSON.toJson((JsonElement)recipeJson);
-			String s1 = SHA1.hashUnencodedChars(s).toString();
-			if (!Objects.equals(directoryCache.getHash(recipePath), s1) || !Files.exists(recipePath)) {
-				Files.createDirectories(recipePath.getParent());
+//	private static void saveRecipe(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
+//		try {
+//			String s = GSON.toJson((JsonElement)recipeJson);
+//			String s1 = SHA1.hashUnencodedChars(s).toString();
+//			if (!Objects.equals(directoryCache.get(recipePath), s1) || !Files.exists(recipePath)) {
+//				Files.createDirectories(recipePath.getParent());
+//
+//				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
+//					bufferedwriter.write(s);
+//				}
+//			}
+//
+//			directoryCache.putNew(recipePath, s1);
+//		} catch (IOException ioexception) {
+//			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe {}", recipePath, ioexception);
+//		}
+//
+//	}
 
-				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
-					bufferedwriter.write(s);
-				}
-			}
-
-			directoryCache.putNew(recipePath, s1);
-		} catch (IOException ioexception) {
-			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe {}", recipePath, ioexception);
-		}
-
-	}
-
-	protected void saveAdvancement(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
-		try {
-			String s = GSON.toJson((JsonElement)recipeJson);
-			String s1 = SHA1.hashUnencodedChars(s).toString();
-			if (!Objects.equals(directoryCache.getHash(recipePath), s1) || !Files.exists(recipePath)) {
-				Files.createDirectories(recipePath.getParent());
-
-				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
-					bufferedwriter.write(s);
-				}
-			}
-
-			directoryCache.putNew(recipePath, s1);
-		} catch (IOException ioexception) {
-			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe advancement {}", recipePath, ioexception);
-		}
-
-	}
+//	protected void saveAdvancement(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
+//		try {
+//			String s = GSON.toJson((JsonElement)recipeJson);
+//			String s1 = SHA1.hashUnencodedChars(s).toString();
+//			if (!Objects.equals(directoryCache.getHash(recipePath), s1) || !Files.exists(recipePath)) {
+//				Files.createDirectories(recipePath.getParent());
+//
+//				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
+//					bufferedwriter.write(s);
+//				}
+//			}
+//
+//			directoryCache.putNew(recipePath, s1);
+//		} catch (IOException ioexception) {
+//			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe advancement {}", recipePath, ioexception);
+//		}
+//
+//	}
 
 	protected static EnterBlockTrigger.TriggerInstance insideOf(Block block) {
 		return new EnterBlockTrigger.TriggerInstance(EntityPredicate.Composite.ANY, block, StatePropertiesPredicate.ANY);
@@ -133,11 +141,6 @@ public class GenericRecipeProvider implements DataProvider {
 
 	protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 		// It's called generic for a reason!
-	}
-
-	@Override
-	public void run(CachedOutput p_236071_) throws IOException {
-
 	}
 
 	public String getName() {

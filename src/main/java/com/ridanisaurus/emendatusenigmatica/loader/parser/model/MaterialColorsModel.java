@@ -40,7 +40,7 @@ public class MaterialColorsModel {
 			highlightColor,
 			baseColor,
 			shadeColor,
-			fluidColor.orElse(null),
+			fluidColor.orElse(000000),
 			particlesColor
 	)));
 

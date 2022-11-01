@@ -10,42 +10,32 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.Vanilla
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
-import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO [TicTic] How comes there is an ObjectHolder and EventBus here?
-@ObjectHolder(Reference.MOD_ID)
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class VanillaDepositProcessor implements IDepositProcessor {
 
-    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
+//    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
     private JsonObject object;
     private VanillaDepositModel model;
-    private OreFeature feature;
-    private Holder<ConfiguredFeature<OreConfiguration, ?>> configureded;
+    public RegistryObject<PlacedFeature> orePlacedFeature;
+//    private OreFeature feature;
+//    private Holder<ConfiguredFeature<OreConfiguration, ?>> configureded;
 
     public VanillaDepositProcessor(JsonObject object) {
         this.object = object;
@@ -58,39 +48,25 @@ public class VanillaDepositProcessor implements IDepositProcessor {
             return;
         }
         model = result.get().getFirst();
-        feature = new VanillaOreFeature(OreConfiguration.CODEC, model);
-    }
-
-    // TODO [TicTic] BiomeLoadingEvent is gone it seems
-    @Override
-    public void setupOres(BiomeLoadingEvent event) {
-        if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
-            Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = getOreFeatureZ();
-            HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-            var placed = PlacementUtils.register(model.getName(), oreFeature, placement);
-            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, placed);
-        }
-    }
-
-    // TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
-    @Override
-    public Feature<?> getFeature() {
-        return feature.setRegistryName(model.getName());
-    }
-
-    private Holder<ConfiguredFeature<OreConfiguration, ?>> getOreFeatureZ() {
-        return configureded;
+//        feature = new VanillaOreFeature(OreConfiguration.CODEC, model);
     }
 
     @Override
-    public void setup() {
+    public void setupOres() {
         if (model.getConfig().getBlock() != null) {
             ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
             Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
             for (StrataModel stratum : EELoader.STRATA) {
                 if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
                     Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
+//                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
+                    RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
+                            model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState(), model.getConfig().getSize()))
+                    );
+                    HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+                    orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
+                            model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+                    );
                 }
             }
         } else if (model.getConfig().getMaterial() != null) {
@@ -100,14 +76,80 @@ public class VanillaDepositProcessor implements IDepositProcessor {
                         if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
                             Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
                             BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
+//                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
+                            RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
+                                    model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(new BlockMatchTest(stratumBlock), oreBlockstate, model.getConfig().getSize()))
+                            );
+                            HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+                            orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
+                                    model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+                            );
                         }
                     }
                     break;
                 }
             }
         }
-        // TODO: [RID] Fix Chance to be a Float instead of an INT and then add it to the OreConfiguration
-        configureded = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
+//        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
+//                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
+//        );
+//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
+//                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+//        );
+
+//        Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
+//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//        Holder<PlacedFeature> placedOre = PlacementUtils.register(model.getName(), oreFeature, placement);
+
+//        if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
+//            Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = getOreFeatureZ();
+//            HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//            var placed = PlacementUtils.register(model.getName(), oreFeature, placement);
+//            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, placed);
+//        }
     }
+
+    @Override
+    public RegistryObject<PlacedFeature> getPlacedFeature() {
+        return orePlacedFeature;
+    }
+
+    // TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
+//    @Override
+//    public Feature<?> getFeature() {
+//        return feature.setRegistryName(model.getName());
+//    }
+
+//    private Holder<ConfiguredFeature<OreConfiguration, ?>> getOreFeatureZ() {
+//        return configureded;
+//    }
+
+//    @Override
+//    public void setup() {
+//        if (model.getConfig().getBlock() != null) {
+//            ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
+//            Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
+//            for (StrataModel stratum : EELoader.STRATA) {
+//                if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
+//                    Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
+//                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
+//                }
+//            }
+//        } else if (model.getConfig().getMaterial() != null) {
+//            for (MaterialModel material : EELoader.MATERIALS) {
+//                if (material.getId().equals(model.getConfig().getMaterial())) {
+//                    for (StrataModel stratum : EELoader.STRATA) {
+//                        if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
+//                            Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
+//                            BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
+//                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+//        configureded = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
+//    }
 }

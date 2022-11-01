@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.SharedConstants;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -49,6 +50,6 @@ public class DataGeneratorFactory {
 
     // TODO [TicTic] How to fix this, and is there a way to stop default from overwritting so it can be used as a resourcelocation for assets
     public static DataGenerator createEEDataGenerator() {
-        return new DataGenerator(ROOT_PATH, ImmutableList.of());
+        return new DataGenerator(ROOT_PATH, ImmutableList.of(), SharedConstants.getCurrentVersion(), true);
     }
 }

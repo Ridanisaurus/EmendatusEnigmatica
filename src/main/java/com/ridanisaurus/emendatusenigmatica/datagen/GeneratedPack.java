@@ -48,16 +48,13 @@ public class GeneratedPack implements PackResources {
 
     // TODO [TicTic] maxDepthIn has been removed from getResources
     @Override
-    public Collection<ResourceLocation> getResources(PackType type, String namespaceIn, String pathIn, int maxDepthIn, Predicate<String> filterIn) {
+    public Collection<ResourceLocation> getResources(PackType type, String namespaceIn, String pathIn, Predicate<ResourceLocation> filterIn) {
         List<ResourceLocation> result = new ArrayList<>();
-        getChildResourceLocations(result, 0, maxDepthIn, filterIn, path.resolve(type.getDirectory() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
+        getChildResourceLocations(result, 0, filterIn, path.resolve(type.getDirectory() + "/" + namespaceIn + "/" + pathIn), namespaceIn, pathIn);
         return result;
     }
 
-    private void getChildResourceLocations(List<ResourceLocation> result, int depth, int maxDepth, Predicate<String> filter, Path current, String currentRLNS, String currentRLPath) {
-        if (depth >= maxDepth) {
-            return;
-        }
+    private void getChildResourceLocations(List<ResourceLocation> result, int depth, Predicate<ResourceLocation> filter, Path current, String currentRLNS, String currentRLPath) {
         try {
             if (!Files.exists(current) || !Files.isDirectory(current)){
                 return;
@@ -68,7 +65,7 @@ public class GeneratedPack implements PackResources {
                     result.add(new ResourceLocation(currentRLNS, currentRLPath + "/" + child.getFileName()));
                     continue;
                 }
-                getChildResourceLocations(result, depth + 1, maxDepth, filter, child, currentRLNS, currentRLPath + "/" + child.getFileName());
+                getChildResourceLocations(result, depth + 1, filter, child, currentRLNS, currentRLPath + "/" + child.getFileName());
             }
         } catch (IOException ignored) {
             ignored.printStackTrace();
