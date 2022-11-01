@@ -50,6 +50,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
+// TODO [RID] This is utterly borked it seems
 public class GenericRecipeProvider implements DataProvider {
 	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 	protected final DataGenerator generator;

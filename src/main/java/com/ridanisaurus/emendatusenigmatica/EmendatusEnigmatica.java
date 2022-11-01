@@ -108,11 +108,11 @@ public class EmendatusEnigmatica {
 
         DataGeneratorFactory.init();
 
-        EERegistrar.finalize(modEventBus);
-
         EELoader.load();
         EEDeposits.load();
         EEDeposits.setup();
+
+        EERegistrar.finalize(modEventBus);
 
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);

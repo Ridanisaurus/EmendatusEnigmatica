@@ -30,7 +30,7 @@ import java.util.Optional;
 
 public class VanillaDepositProcessor implements IDepositProcessor {
 
-//    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
+    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
     private JsonObject object;
     private VanillaDepositModel model;
     public RegistryObject<PlacedFeature> orePlacedFeature;
@@ -59,14 +59,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
             for (StrataModel stratum : EELoader.STRATA) {
                 if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
                     Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-//                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
-                    RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-                            model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState(), model.getConfig().getSize()))
-                    );
-                    HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-                    orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-                            model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-                    );
+                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
                 }
             }
         } else if (model.getConfig().getMaterial() != null) {
@@ -76,27 +69,21 @@ public class VanillaDepositProcessor implements IDepositProcessor {
                         if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
                             Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
                             BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-//                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
-                            RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-                                    model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(new BlockMatchTest(stratumBlock), oreBlockstate, model.getConfig().getSize()))
-                            );
-                            HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-                            orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-                                    model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-                            );
+                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
                         }
                     }
                     break;
                 }
             }
         }
-//        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-//                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
-//        );
-//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-//                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-//        );
+
+        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
+                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
+        );
+        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
+                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+        );
 
 //        Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
 //        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
