@@ -6,6 +6,8 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -30,13 +32,9 @@ import java.util.Optional;
 
 public class VanillaDepositProcessor implements IDepositProcessor {
 
-    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
+//    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
     private JsonObject object;
     private VanillaDepositModel model;
-    public RegistryObject<PlacedFeature> orePlacedFeature;
-//    public RegistryObject<Codec<OreBiomeModifier>> oreBiomeModifier;
-//    private OreFeature feature;
-//    private Holder<ConfiguredFeature<OreConfiguration, ?>> configureded;
 
     public VanillaDepositProcessor(JsonObject object) {
         this.object = object;
@@ -49,78 +47,10 @@ public class VanillaDepositProcessor implements IDepositProcessor {
             return;
         }
         model = result.get().getFirst();
-//        feature = new VanillaOreFeature(OreConfiguration.CODEC, model);
     }
 
     @Override
     public void setup() {
-        if (model.getConfig().getBlock() != null) {
-            ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
-            Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
-            for (StrataModel stratum : EELoader.STRATA) {
-                if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-                    Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
-                }
-            }
-        } else if (model.getConfig().getMaterial() != null) {
-            for (MaterialModel material : EELoader.MATERIALS) {
-                if (material.getId().equals(model.getConfig().getMaterial())) {
-                    for (StrataModel stratum : EELoader.STRATA) {
-                        if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-                            Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-                            BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
-        );
-        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-        );
-//        oreBiomeModifier = WorldGenHelper.getBiomeSerializer().register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
-
-//        Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
-//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//        Holder<PlacedFeature> placedOre = PlacementUtils.register(model.getName(), oreFeature, placement);
-
-//        if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
-//            Holder<ConfiguredFeature<OreConfiguration, ?>> oreFeature = getOreFeatureZ();
-//            HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//            var placed = PlacementUtils.register(model.getName(), oreFeature, placement);
-//            event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, placed);
-//        }
-    }
-
-    @Override
-    public RegistryObject<PlacedFeature> getPlacedFeature() {
-        return orePlacedFeature;
-    }
-
-//    @Override
-//    public RegistryObject<Codec<OreBiomeModifier>> getOreBiomeModifier() {
-//        return oreBiomeModifier;
-//    }
-
-    // TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
-//    @Override
-//    public Feature<?> getFeature() {
-//        return feature.setRegistryName(model.getName());
-//    }
-
-//    private Holder<ConfiguredFeature<OreConfiguration, ?>> getOreFeatureZ() {
-//        return configureded;
-//    }
-
-//    @Override
-//    public void setup() {
 //        if (model.getConfig().getBlock() != null) {
 //            ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
 //            Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
@@ -144,6 +74,28 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 //                }
 //            }
 //        }
-//        configureded = FeatureUtils.register(model.getName(), feature, new OreConfiguration(ORE_LIST, model.getConfig().getSize()));
-//    }
+//
+//        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
+//                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
+//        );
+//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
+//                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+//        );
+    }
+
+    @Override
+    public VanillaDepositModel getVanillaModel() {
+        return model;
+    }
+
+    @Override
+    public GeodeDepositModel getGeodeModel() {
+        return null;
+    }
+
+    @Override
+    public SphereDepositModel getSphereModel() {
+        return null;
+    }
 }

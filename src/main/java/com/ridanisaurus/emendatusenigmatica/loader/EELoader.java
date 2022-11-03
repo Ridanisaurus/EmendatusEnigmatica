@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
@@ -47,7 +48,6 @@ public class EELoader {
 	public static final List<MaterialModel> MATERIALS = new ArrayList<>();
 	public static final List<StrataModel> STRATA = new ArrayList<>();
 	public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
-	public static Map<ResourceLocation, MaterialModel> materialsByName = new HashMap<>();
 
 	public static void load() {
 		// Set the path to the defined folder
@@ -109,9 +109,6 @@ public class EELoader {
 			if (material.getProcessedType().contains("raw")) {
 				EERegistrar.registerRaws(material);
 			}
-//			if (material.getProcessedType().contains("cluster")) {
-//				EERegistrar.registerClusters(material);
-//			}
 			if (material.getProcessedType().contains("ingot")) {
 				EERegistrar.registerIngots(material);
 			}

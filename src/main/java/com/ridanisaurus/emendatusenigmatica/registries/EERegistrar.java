@@ -72,9 +72,6 @@ public class EERegistrar {
 	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
-	public static final DeferredRegister<ConfiguredFeature<?,?>> ORE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MOD_ID);
-	public static final DeferredRegister<PlacedFeature> PLACED_ORE_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, Reference.MOD_ID);
-
 	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
@@ -302,7 +299,5 @@ public class EERegistrar {
 		BLOCKS.register(eventBus);
 		FLUID_TYPES.register(eventBus);
 		FLUIDS.register(eventBus);
-		ORE_FEATURES.register(eventBus);
-		PLACED_ORE_FEATURES.register(eventBus);
 	}
 }

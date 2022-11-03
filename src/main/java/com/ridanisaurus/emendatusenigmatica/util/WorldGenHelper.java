@@ -30,13 +30,13 @@ public class WorldGenHelper {
 //		return whitelistBiomesArray.length == 0 ? Arrays.stream(blacklistBiomesArray).noneMatch(String -> String.equals(event.getName().toString())) : Arrays.stream(whitelistBiomesArray).anyMatch(String -> String.equals(event.getName().toString()));
 //	}
 
-	public static DeferredRegister<ConfiguredFeature<?,?>> getOreFeature() {
-		return EERegistrar.ORE_FEATURES;
-	}
-
-	public static DeferredRegister<PlacedFeature> getPlacedOreFeature() {
-		return EERegistrar.PLACED_ORE_FEATURES;
-	}
+//	public static DeferredRegister<ConfiguredFeature<?,?>> getOreFeature() {
+//		return EERegistrar.ORE_FEATURES;
+//	}
+//
+//	public static DeferredRegister<PlacedFeature> getPlacedOreFeature() {
+//		return EERegistrar.PLACED_ORE_FEATURES;
+//	}
 
 //	public static DeferredRegister<Codec<? extends BiomeModifier>> getBiomeSerializer() {
 //		return EERegistrar.BIOME_SERIALIZERS;

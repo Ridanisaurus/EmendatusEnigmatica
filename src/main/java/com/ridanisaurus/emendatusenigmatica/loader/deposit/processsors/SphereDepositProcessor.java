@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.SphereOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
@@ -22,10 +24,6 @@ public class SphereDepositProcessor implements IDepositProcessor {
 
 	private JsonObject object;
 	private SphereDepositModel model;
-	public RegistryObject<PlacedFeature> orePlacedFeature;
-//	public RegistryObject<Codec<OreBiomeModifier>> oreBiomeModifier;
-//	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> configured;
-//	private SphereOreFeature feature;
 
 	public SphereDepositProcessor(JsonObject object) {
 		this.object = object;
@@ -38,50 +36,32 @@ public class SphereDepositProcessor implements IDepositProcessor {
 			return;
 		}
 		model = result.get().getFirst();
-//		feature = new SphereOreFeature(SphereOreFeatureConfig.CODEC, model);
 	}
 
-	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 	@Override
 	public void setup() {
-		RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(model.getName(),
-				() -> new ConfiguredFeature<>(new SphereOreFeature(SphereOreFeatureConfig.CODEC, model), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
-		);
-		HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-		orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(model.getName(),
-				() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
-		);
-//		oreBiomeModifier = WorldGenHelper.getBiomeSerializer().register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
-//		if (WorldGenHelper.biomeCheck(event, model.getWhitelistBiomes(), model.getBlacklistBiomes())) {
-//			Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> oreFeature = getOreFeature();
-//			HeightRangePlacement placement = HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//			var placed = PlacementUtils.register(model.getName(), oreFeature, placement);
-//			event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, placed);
-//		}
+//		RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(model.getName(),
+//				() -> new ConfiguredFeature<>(new SphereOreFeature(SphereOreFeatureConfig.CODEC, model), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+//		);
+//		HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//		orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(model.getName(),
+//				() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
+//		);
 	}
 
 	@Override
-	public RegistryObject<PlacedFeature> getPlacedFeature() {
-		return orePlacedFeature;
+	public VanillaDepositModel getVanillaModel() {
+		return null;
 	}
 
-//	@Override
-//	public RegistryObject<Codec<OreBiomeModifier>> getOreBiomeModifier() {
-//		return oreBiomeModifier;
-//	}
+	@Override
+	public GeodeDepositModel getGeodeModel() {
+		return null;
+	}
 
-//	private Holder<ConfiguredFeature<SphereOreFeatureConfig, ?>> getOreFeature() {
-//		return configured;
-//	}
+	@Override
+	public SphereDepositModel getSphereModel() {
+		return model;
+	}
 
-	// TODO [TicTic] Why is it a getting that is setting? Also, isn't the registry name already set during registration of the feature itself?
-//	@Override
-//	public Feature<?> getFeature() {
-//		return feature.setRegistryName(model.getName());
-//	}
-
-//	@Override
-//	public void setup() {
-////		configured = FeatureUtils.register(model.getName(), feature, new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())));
-//	}
 }
