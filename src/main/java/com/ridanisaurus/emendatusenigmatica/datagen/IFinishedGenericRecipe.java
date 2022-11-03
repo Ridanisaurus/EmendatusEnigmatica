@@ -35,7 +35,6 @@ public interface IFinishedGenericRecipe {
 	default JsonObject serializeRecipe() {
 		JsonObject jsonobject = new JsonObject();
 
-//		jsonobject.addProperty("type", getType());
 		this.serializeRecipeData(jsonobject);
 		return jsonobject;
 	}

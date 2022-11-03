@@ -25,41 +25,40 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.Sets;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.JsonObject;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.google.gson.stream.JsonWriter;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 
-import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
-// TODO [RID] This is utterly borked it seems
 public class GenericRecipeProvider implements DataProvider {
-	private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 	protected final DataGenerator generator;
 
 	public GenericRecipeProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
-	// TODO [Buuz/TicTic]
-	public void run(CachedOutput directoryCache) {
+
+	@Override
+	public void run(CachedOutput directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
 		buildGenericRecipes((consumer) -> {
@@ -67,14 +66,14 @@ public class GenericRecipeProvider implements DataProvider {
 				throw new IllegalStateException("Duplicate recipe " + consumer.getId());
 			} else {
 				try {
-					DataProvider.saveStable(directoryCache, consumer.serializeRecipe(), path.resolve("data/" + consumer.getId().getNamespace() + "/recipes/" + consumer.getId().getPath() + ".json"));
+					saveRecipe(directoryCache, consumer.serializeRecipe(), path.resolve("data/" + consumer.getId().getNamespace() + "/recipes/" + consumer.getId().getPath() + ".json"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				JsonObject jsonobject = consumer.serializeAdvancement();
 				if (jsonobject != null) {
 					try {
-						DataProvider.saveStable(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
+						saveAdvancement(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -82,47 +81,33 @@ public class GenericRecipeProvider implements DataProvider {
 
 			}
 		});
-//		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
-//			DataProvider.saveStable(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
+		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
+			saveAdvancement(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
 	}
 
-//	private static void saveRecipe(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
-//		try {
-//			String s = GSON.toJson((JsonElement)recipeJson);
-//			String s1 = SHA1.hashUnencodedChars(s).toString();
-//			if (!Objects.equals(directoryCache.get(recipePath), s1) || !Files.exists(recipePath)) {
-//				Files.createDirectories(recipePath.getParent());
-//
-//				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
-//					bufferedwriter.write(s);
-//				}
-//			}
-//
-//			directoryCache.putNew(recipePath, s1);
-//		} catch (IOException ioexception) {
-//			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe {}", recipePath, ioexception);
-//		}
-//
-//	}
+	private static void saveRecipe(CachedOutput directoryCache, JsonObject recipeJson, Path recipePath) throws IOException {
+		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+		HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
+		Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
+		JsonWriter jsonwriter = new JsonWriter(writer);
+		jsonwriter.setSerializeNulls(false);
+		jsonwriter.setIndent("  ");
+		GsonHelper.writeValue(jsonwriter, recipeJson, KEY_COMPARATOR);
+		jsonwriter.close();
+		directoryCache.writeIfNeeded(recipePath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+	}
 
-//	protected void saveAdvancement(HashCache directoryCache, JsonObject recipeJson, Path recipePath) {
-//		try {
-//			String s = GSON.toJson((JsonElement)recipeJson);
-//			String s1 = SHA1.hashUnencodedChars(s).toString();
-//			if (!Objects.equals(directoryCache.getHash(recipePath), s1) || !Files.exists(recipePath)) {
-//				Files.createDirectories(recipePath.getParent());
-//
-//				try (BufferedWriter bufferedwriter = Files.newBufferedWriter(recipePath)) {
-//					bufferedwriter.write(s);
-//				}
-//			}
-//
-//			directoryCache.putNew(recipePath, s1);
-//		} catch (IOException ioexception) {
-//			EmendatusEnigmatica.LOGGER.error("Couldn't save recipe advancement {}", recipePath, ioexception);
-//		}
-//
-//	}
+	protected void saveAdvancement(CachedOutput directoryCache, JsonObject recipeJson, Path recipePath) throws IOException {
+		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+		HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
+		Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
+		JsonWriter jsonwriter = new JsonWriter(writer);
+		jsonwriter.setSerializeNulls(false);
+		jsonwriter.setIndent("  ");
+		GsonHelper.writeValue(jsonwriter, recipeJson, KEY_COMPARATOR);
+		jsonwriter.close();
+		directoryCache.writeIfNeeded(recipePath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+	}
 
 	protected static EnterBlockTrigger.TriggerInstance insideOf(Block block) {
 		return new EnterBlockTrigger.TriggerInstance(EntityPredicate.Composite.ANY, block, StatePropertiesPredicate.ANY);
@@ -145,6 +130,6 @@ public class GenericRecipeProvider implements DataProvider {
 	}
 
 	public String getName() {
-		return "Generic Recipes";
+		return "Emendatus Enigmatica Generic Recipes";
 	}
 }

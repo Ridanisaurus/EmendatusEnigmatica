@@ -24,24 +24,22 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.world.gen.EEBiomeTags;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BiomeTagsProvider;
-import net.minecraft.tags.BiomeTags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 
-public class BiomeTagGen extends BiomeTagsProvider {
+import javax.annotation.Nullable;
 
-	public BiomeTagGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, Reference.MOD_ID, existingFileHelper);
+public interface IFinishedGenericJSON {
+	void serializeJSONData(JsonObject genericJSON);
+
+	default JsonObject serializeJSON() {
+		JsonObject jsonobject = new JsonObject();
+
+		this.serializeJSONData(jsonobject);
+		return jsonobject;
 	}
 
-	@Override
-	protected void addTags() {
-		tag(EEBiomeTags.ORE_SPAWN_BLACKLIST).addTags(
-				BiomeTags.IS_END,
-				BiomeTags.IS_NETHER
-		);
-	}
+	ResourceLocation getId();
+
+	String getType();
 }
