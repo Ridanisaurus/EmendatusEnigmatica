@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,7 @@ public class VanillaDepositConfigModel {
 		return chance;
 	}
 
+	@Nullable
 	public String getBlock() {
 		return block;
 	}

@@ -1,6 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepositProcessor;
@@ -18,24 +19,28 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
+import net.minecraftforge.common.world.ModifiableBiomeInfo;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
@@ -56,13 +61,6 @@ public class EEDeposits {
 	public static final DeferredRegister<PlacedFeature> PLACED_ORE_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, Reference.MOD_ID);
 
 	private static final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
-
-//	RegistryAccess registryAccess = RegistryAccess.builtinCopy();
-//	BiomeModifier modifier = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
-//			registryAccess.registryOrThrow(Registry.BIOME_REGISTRY).getOrCreateTag(BiomeTags.IS_OVERWORLD),
-//			HolderSet.direct(registryAccess.registryOrThrow(Registry.PLACED_FEATURE_REGISTRY).getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation(Reference.MOD_ID, "underground_ee_deposits")))),
-//			GenerationStep.Decoration.UNDERGROUND_STRUCTURES
-//	);
 
 	public static void initProcessors() {
 		DEPOSIT_PROCESSORS.put("emendatusenigmatica:vanilla_deposit", VanillaDepositProcessor::new);
@@ -116,7 +114,7 @@ public class EEDeposits {
 						() -> new ConfiguredFeature<>(sphereOreFeature.get(), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
 				);
 				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-				RegistryObject<PlacedFeature> orePlacedFeature = PLACED_ORE_FEATURES.register(model.getName(),
+				PLACED_ORE_FEATURES.register(model.getName(),
 						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
 				);
 			}
@@ -127,12 +125,12 @@ public class EEDeposits {
 						() -> new ConfiguredFeature<>(geodeOreFeature.get(), new GeodeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
 				);
 				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-				RegistryObject<PlacedFeature> orePlacedFeature = PLACED_ORE_FEATURES.register(model.getName(),
+				PLACED_ORE_FEATURES.register(model.getName(),
 						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
 				);
 			}
-//			if(activeProcessor.getVanillaModel() != null) {
-//				var model = activeProcessor.getVanillaModel();
+			if(activeProcessor.getVanillaModel() != null) {
+				var model = activeProcessor.getVanillaModel();
 //				if (model.getConfig().getBlock() != null) {
 //		            ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
 //		            Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
@@ -156,15 +154,17 @@ public class EEDeposits {
 //		                }
 //		            }
 //		        }
-//
-//		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(
-//		                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
-//		        );
-//		        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//		        RegistryObject<PlacedFeature> orePlacedFeature = PLACED_ORE_FEATURES.register(
-//		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-//		        );
-//			}
+
+				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model));
+		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(
+		                model.getName(), () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
+		        );
+
+		        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+		        PLACED_ORE_FEATURES.register(
+		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+		        );
+			}
 		}
 	}
 

@@ -57,6 +57,8 @@ public class OreFeatureDataGen extends GenericJSONProvider{
 	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
 		new GenericJSONBuilder("type", "forge:add_features")
 				.fieldString("biomes", "#minecraft:is_overworld")
+				.feature("emendatusenigmatica:vanilla_overworld_uranium_ore_deposit")
+				.feature("emendatusenigmatica:vanilla_overworld_zinc_ore_deposit")
 				.feature("emendatusenigmatica:sphere_overworld_galena_ore_deposit")
 				.feature("emendatusenigmatica:geode_overworld_galena_ore_deposit")
 				.fieldString("step", "underground_ores")
@@ -64,12 +66,14 @@ public class OreFeatureDataGen extends GenericJSONProvider{
 
 		new GenericJSONBuilder("type", "forge:add_features")
 				.fieldString("biomes", "#minecraft:is_nether")
+				.feature("emendatusenigmatica:vanilla_nether_lignite_ore_deposit")
 				.feature("emendatusenigmatica:sphere_nether_uranium_ore_deposit")
 				.fieldString("step", "underground_ores")
 				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_nether_ore_features"));
 
 		new GenericJSONBuilder("type", "forge:add_features")
 				.fieldString("biomes", "#minecraft:is_end")
+				.feature("emendatusenigmatica:vanilla_end_arcane_ore_deposit")
 				.feature("emendatusenigmatica:geode_end_vanilla_ore_deposit")
 				.fieldString("step", "underground_ores")
 				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_end_ore_features"));

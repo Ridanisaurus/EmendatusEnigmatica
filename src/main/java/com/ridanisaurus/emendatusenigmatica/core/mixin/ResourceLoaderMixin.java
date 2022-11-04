@@ -39,13 +39,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 @Mixin(ResourcePackLoader.class)
 public class ResourceLoaderMixin {
-	@Inject(method = "loadResourcePacks(Lnet/minecraft/server/packs/repository/PackRepository;Ljava/util/function/BiFunction;)V", at = @At("RETURN"), remap = false)
-	private static <T extends Pack> void injectPacks(PackRepository resourcePacks, BiFunction<Map<IModFile, ? extends PathPackResources>,
-			BiConsumer<? super PathPackResources, Pack>, ? extends RepositorySource> packFinder, CallbackInfo callback) {
-
+	@Inject(method = "Lnet/minecraftforge/resource/ResourcePackLoader;loadResourcePacks(Lnet/minecraft/server/packs/repository/PackRepository;Ljava/util/function/Function;)V", at = @At("RETURN"), remap = false)
+	private static <T extends Pack> void injectPacks(PackRepository resourcePacks, Function<Map<IModFile, ? extends PathPackResources>, ? extends RepositorySource> packFinder, CallbackInfo ci) {
 		EmendatusEnigmatica.injectDatapackFinder(resourcePacks);
 	}
 }

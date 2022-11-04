@@ -55,9 +55,14 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -65,13 +70,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.model.obj.ObjLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.JsonCodecProvider;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ForgeBiomeModifiers;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -81,6 +90,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.DataPackRegistriesHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
@@ -139,17 +149,7 @@ public class EmendatusEnigmatica {
 
         registerDataGen();
 
-        // Resource Pack
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
-        }
-
-        forgeEventBus.addListener(this::onServerStart);
-    }
-
-    // Data Pack
-    public void onServerStart(final ServerAboutToStartEvent event) {
-        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
 
     private void init(final FMLConstructModEvent event) {
@@ -246,9 +246,16 @@ public class EmendatusEnigmatica {
     }
 
     public static void injectDatapackFinder(PackRepository resourcePacks) {
-        if (DistExecutor.unsafeRunForDist(() -> () -> resourcePacks != Minecraft.getInstance().getResourcePackRepository(), () -> () -> true)) {
-            resourcePacks.addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
-            EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
-        }
+       DistExecutor.<Boolean>unsafeRunForDist(() -> () -> {
+            if (resourcePacks != Minecraft.getInstance().getResourcePackRepository()) {
+                resourcePacks.addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
+                EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
+            }
+            return false;
+        }, () -> () -> {
+            resourcePacks.addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
+            EmendatusEnigmatica.LOGGER.info("Injecting server data pack finder.");
+            return false;
+        });
     }
 }
