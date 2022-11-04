@@ -56,6 +56,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                     ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(block);
                     if (material.getColors().getHighlightColor() == -1) {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                                .renderType("solid")
                                 .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
                                 .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
                                 .element()
@@ -64,6 +65,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                                 .end();
                     } else {
                         models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                                .renderType("translucent")
                                 .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
                                 .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_1"))
                                 .texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_2"))

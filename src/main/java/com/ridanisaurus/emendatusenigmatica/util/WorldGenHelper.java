@@ -11,6 +11,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import java.util.List;
 
 public class WorldGenHelper {
+	// TODO: Review the Dim code to see if it still works, and re-enable it in the custom features
 	public static String getDimensionAsString(IForgeLevel world) {
 		if (world instanceof Level) {
 			return ((Level) world).dimension().location().toString();
@@ -21,7 +22,6 @@ public class WorldGenHelper {
 		return null;
 	}
 
-//	// TODO [TicTic] BiomeLoadingEvent is gone it seems
 //	public static boolean biomeCheck(BiomeLoadingEvent event, List<String> whitelistBiomes, List<String> blacklistBiomes) {
 //		// Credit: https://github.com/InnovativeOnlineIndustries/Industrial-Foregoing/blob/259b70ac60714786d1f793124bd66284ac08f1e3/src/main/java/com/buuz135/industrial/recipe/LaserDrillOreRecipe.java#L210
 //		String[] whitelistBiomesArray = whitelistBiomes.stream().toArray(String[]::new);

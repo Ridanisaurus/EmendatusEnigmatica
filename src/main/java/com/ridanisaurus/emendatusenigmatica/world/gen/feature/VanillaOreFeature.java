@@ -10,21 +10,19 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.OreFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 
-import java.util.Random;
-
 public class VanillaOreFeature extends OreFeature {
 	private VanillaDepositModel model;
 
-	public VanillaOreFeature(Codec<OreConfiguration> p_i231976_1_, VanillaDepositModel model) {
-		super(p_i231976_1_);
+	public VanillaOreFeature(Codec<OreConfiguration> codec, VanillaDepositModel model) {
+		super(codec);
 		this.model = model;
 	}
 
 	@Override
 	public boolean place(OreConfiguration config, WorldGenLevel reader, ChunkGenerator generator, RandomSource rand, BlockPos pos) {
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-			return false;
-		}
+//		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
+//			return false;
+//		}
 		return super.place(config, reader, generator, rand, pos);
 	}
 

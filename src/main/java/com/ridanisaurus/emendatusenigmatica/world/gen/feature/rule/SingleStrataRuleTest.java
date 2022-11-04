@@ -25,81 +25,35 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import net.minecraft.core.Registry;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SingleStrataRuleTest extends RuleTest {
+	public static final Codec<SingleStrataRuleTest> CODEC = Registry.BLOCK.byNameCodec().fieldOf("block")
+			.xmap(SingleStrataRuleTest::new, (block) -> {
+		return block.block;
+	}).codec();
 
-	public static final Codec<SingleStrataRuleTest> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(Codec.STRING).fieldOf("fillerList").forGetter(it -> it.fillerList)
-	).apply(x, SingleStrataRuleTest::new));
+	private final Block block;
+	public static RuleTestType<SingleStrataRuleTest> TYPE;
 
 	public static void register() {
 		TYPE = RuleTestType.register("single_block_test", CODEC);
 	}
-	public static RuleTestType<SingleStrataRuleTest> TYPE;
-	private final List<Block> blockFillerList = new ArrayList<>();
-	private List<String> fillerList;
 
-	public SingleStrataRuleTest(List<String> fillerList) {
-		this.fillerList = fillerList;
-		setup();
+	public SingleStrataRuleTest(Block block) {
+		this.block = block;
 	}
 
-	private void setup() {
-		for (StrataModel stratum : EELoader.STRATA) {
-			if (this.fillerList.contains(stratum.getId())) {
-				this.blockFillerList.add(ForgeRegistries.BLOCKS.getValue(stratum.getFillerType()));
-			}
-		}
-	}
-
-	@Override
 	public boolean test(BlockState state, RandomSource rand) {
-		for (Block block : blockFillerList) {
-			if (ForgeRegistries.BLOCKS.getKey(state.getBlock()).toString().equals(ForgeRegistries.BLOCKS.getKey(block).toString())) {
-				return true;
-			}
-		}
-		return false;
+		return state.is(this.block);
 	}
 
-	@Override
 	protected RuleTestType<?> getType() {
 		return TYPE;
 	}
-
-//	private final Block block;
-//
-//	public BlockMatchTest(Block p_74067_) {
-//		this.block = p_74067_;
-//	}
-//
-//	public boolean test(BlockState p_230277_, RandomSource p_230278_) {
-//		return p_230277_.is(this.block);
-//	}
-//
-//	protected RuleTestType<?> getType() {
-//		return RuleTestType.BLOCK_TEST;
-//	}
-//
-//	@Override
-//	public boolean test(BlockState p_230322_, RandomSource p_230323_) {
-//		return false;
-//	}
-//
-//	@Override
-//	protected RuleTestType<?> getType() {
-//		return null;
-//	}
 }

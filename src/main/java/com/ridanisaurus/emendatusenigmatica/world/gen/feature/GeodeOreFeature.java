@@ -13,23 +13,18 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFea
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
@@ -69,9 +64,9 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-			return false;
-		}
+//		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
+//			return false;
+//		}
 
 		int intRand = rand.nextInt(100);
 		double doubleRand = rand.nextDouble();

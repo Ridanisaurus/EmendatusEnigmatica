@@ -24,10 +24,23 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraftforge.common.data.JsonCodecProvider;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.common.world.ForgeBiomeModifiers;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class OreFeatureDataGen extends GenericJSONProvider{
@@ -59,7 +72,7 @@ public class OreFeatureDataGen extends GenericJSONProvider{
 				.fieldString("biomes", "#minecraft:is_end")
 				.feature("emendatusenigmatica:geode_end_vanilla_ore_deposit")
 				.fieldString("step", "underground_ores")
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_overworld_ore_features"));
+				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_end_ore_features"));
 	}
 
 	@Override

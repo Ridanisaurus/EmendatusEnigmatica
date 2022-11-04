@@ -26,6 +26,8 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
@@ -41,21 +43,34 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.SingleStrataRuleTest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.JsonCodecProvider;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -66,11 +81,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -105,11 +122,8 @@ public class EmendatusEnigmatica {
 
         EELoader.load();
         EEDeposits.load();
-
-        EERegistrar.finalize(modEventBus);
-
         EEDeposits.setup();
-
+        EERegistrar.finalize(modEventBus);
         EEDeposits.finalize(modEventBus);
 
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
@@ -123,6 +137,7 @@ public class EmendatusEnigmatica {
         modEventBus.addListener(this::blockColorEvent);
 
         registerDataGen();
+
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
             Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
@@ -142,15 +157,21 @@ public class EmendatusEnigmatica {
 
     private void commonEvents(final FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
+        SingleStrataRuleTest.register();
+
+        ResourceLocation id = new ResourceLocation(Reference.MOD_ID, "sphere_overworld_galena_ore_deposit");
+        LOGGER.info("CF:" + BuiltinRegistries.CONFIGURED_FEATURE.get(id));
+        LOGGER.info("PF:" + BuiltinRegistries.PLACED_FEATURE.get(id));
     }
 
+    // TODO: This can probably be removed as ore model jsons already has the render layer
     private void clientEvents(final FMLClientSetupEvent event) {
-        for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
-            ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
-        }
-        for (RegistryObject<Block> block : EERegistrar.storageBlockMap.values()) {
-            ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent());
-        }
+//        for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
+//            ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
+//        }
+//        for (RegistryObject<Block> block : EERegistrar.storageBlockMap.values()) {
+//            ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent());
+//        }
     }
 
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
@@ -167,7 +188,6 @@ public class EmendatusEnigmatica {
 
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
-
         public ItemStack makeIcon() {
             return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
         }
@@ -203,7 +223,6 @@ public class EmendatusEnigmatica {
         if (OCCULTISM_LOADED) generator.addProvider(true, new OccultismDataGen.OccultismRecipes(generator));
         if (THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator));
 
-//        generator.addProvider(true, new OreFeatureDataGen(generator));
         if (MEKANISM_LOADED) {
             // TODO [RID] Re-add after integrating Mekanism
 //            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
