@@ -28,13 +28,10 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -53,8 +50,8 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 			List<String> biomes = new ArrayList<>();
 			List<String> features = new ArrayList<>();
 			if(model.getDimensions().contains("minecraft:overworld")) {
-				if(!model.getWhitelistBiomes().isEmpty()) {
-					biomes.addAll(model.getWhitelistBiomes());
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
 				} else {
 					biomes.add("#minecraft:is_overworld");
 				}
@@ -65,8 +62,8 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
 			if(model.getDimensions().contains("minecraft:the_nether")) {
-				if(!model.getWhitelistBiomes().isEmpty()) {
-					biomes.addAll(model.getWhitelistBiomes());
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
 				} else {
 					biomes.add("#minecraft:is_nether");
 				}
@@ -77,8 +74,8 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
 			if(model.getDimensions().contains("minecraft:the_end")) {
-				if(!model.getWhitelistBiomes().isEmpty()) {
-					biomes.addAll(model.getWhitelistBiomes());
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
 				} else {
 					biomes.add("#minecraft:is_end");
 				}
@@ -90,8 +87,8 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 			}
 			// TODO: Add mod to Model (i.e. "mod":"undergarden") or obtain its ModID somehow
 			if(!model.getDimensions().contains("minecraft:overworld") && !model.getDimensions().contains("minecraft:the_nether") && !model.getDimensions().contains("minecraft:the_end")) {
-				if(!model.getWhitelistBiomes().isEmpty()) {
-					biomes.addAll(model.getWhitelistBiomes());
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
 				} else {
 					biomes.add("#undergarden:is_undergarden");
 				}
@@ -106,6 +103,6 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Ore Features";
+		return "Emendatus Enigmatica Features";
 	}
 }

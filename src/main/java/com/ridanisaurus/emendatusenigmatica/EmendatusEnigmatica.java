@@ -26,8 +26,6 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
@@ -45,42 +43,20 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.SingleStrataRuleTest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
-import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.model.obj.ObjLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.JsonCodecProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
@@ -89,15 +65,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.registries.DataPackRegistriesHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Map;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -152,9 +124,7 @@ public class EmendatusEnigmatica {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
 
-    private void init(final FMLConstructModEvent event) {
-
-    }
+    private void init(final FMLConstructModEvent event) {}
 
     private void commonEvents(final FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
@@ -165,15 +135,7 @@ public class EmendatusEnigmatica {
         LOGGER.info("PF:" + BuiltinRegistries.PLACED_FEATURE.get(id));
     }
 
-    // TODO: This can probably be removed as ore model jsons already has the render layer
-    private void clientEvents(final FMLClientSetupEvent event) {
-//        for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
-//            ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
-//        }
-//        for (RegistryObject<Block> block : EERegistrar.storageBlockMap.values()) {
-//            ItemBlockRenderTypes.setRenderLayer(block.get(), RenderType.translucent());
-//        }
-    }
+    private void clientEvents(final FMLClientSetupEvent event) {}
 
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
         event.getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));

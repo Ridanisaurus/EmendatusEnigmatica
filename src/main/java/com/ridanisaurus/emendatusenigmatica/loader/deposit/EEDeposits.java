@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -77,7 +76,6 @@ public class EEDeposits {
 			if (processor == null) {
 				continue;
 			}
-
 			ACTIVE_PROCESSORS.add(processor.apply(depositJsonDefinition));
 		}
 
@@ -96,7 +94,7 @@ public class EEDeposits {
 				);
 				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
 				PLACED_ORE_FEATURES.register(model.getName(),
-						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
+						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
 				);
 			}
 			if(activeProcessor.getGeodeModel() != null) {
@@ -107,16 +105,15 @@ public class EEDeposits {
 				);
 				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
 				PLACED_ORE_FEATURES.register(model.getName(),
-						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement((int) model.getConfig().getChance(), placement))
+						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
 				);
 			}
 			if(activeProcessor.getVanillaModel() != null) {
 				var model = activeProcessor.getVanillaModel();
 				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model));
-		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(
-		                model.getName(), () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
+		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
+				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
 		        );
-
 		        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
 		        PLACED_ORE_FEATURES.register(
 		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))

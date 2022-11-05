@@ -86,6 +86,6 @@ public class GenericFeatureProvider implements DataProvider {
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Generic JSONs";
+		return "Emendatus Enigmatica Features";
 	}
 }

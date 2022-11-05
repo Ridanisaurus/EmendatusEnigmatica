@@ -37,7 +37,6 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 	private final VanillaDepositModel model;
 	private final Lazy<List<OreConfiguration.TargetBlockState>> lazyList;
 
-	// TODO: Fix VanillaOreGen in Dims
 	public VanillaOreFeature(VanillaDepositModel model) {
 		super(NoneFeatureConfiguration.CODEC);
 		this.model = model;
@@ -100,10 +99,6 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		RandomSource rand = config.random();
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
-
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-			return false;
-		}
 
 		var oreConfig = this.model.getConfig();
 
@@ -247,8 +242,20 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 	public static boolean canPlaceOre(BlockState stateAtLocation, Function<BlockPos, BlockState> getState, RandomSource random, OreConfiguration.TargetBlockState stateToPlace, BlockPos.MutableBlockPos pos) {
 		if (!stateToPlace.target.test(stateAtLocation, random)) {
 			return false;
+		} else if (shouldSkipAirCheck(random, 0.5F)) {
+			return true;
 		} else {
 			return !isAdjacentToAir(getState, pos);
+		}
+	}
+
+	protected static boolean shouldSkipAirCheck(RandomSource random, float chance) {
+		if (chance <= 0.0F) {
+			return true;
+		} else if (chance >= 1.0F) {
+			return false;
+		} else {
+			return random.nextFloat() >= chance;
 		}
 	}
 }

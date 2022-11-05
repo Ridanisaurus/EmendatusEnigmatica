@@ -44,7 +44,6 @@ public class GenericFeatureBuilder {
 	private final List<String> biomes = Lists.newArrayList();
 	private final List<String> features = Lists.newArrayList();
 	private String step;
-	private final Map<String, String> fieldValueString = Maps.newLinkedHashMap();;
 
 	public GenericFeatureBuilder(String type, String step) {
 		this.type = type;
@@ -71,17 +70,8 @@ public class GenericFeatureBuilder {
 		return this;
 	}
 
-	public GenericFeatureBuilder fieldString(String key, String value) {
-		if (this.fieldValueString.containsKey(key)) {
-			throw new IllegalArgumentException("Field Key '" + key + "' is already defined!");
-		} else {
-			this.fieldValueString.put(key, value);
-			return this;
-		}
-	}
-
 	public void save(Consumer<IFinishedGenericJSON> consumer, ResourceLocation jsonResourceLocation) {
-		consumer.accept(new GenericFeatureBuilder.Result(jsonResourceLocation, this.type, this.biomes, this.features, this.step, this.fieldValueString));
+		consumer.accept(new GenericFeatureBuilder.Result(jsonResourceLocation, this.type, this.biomes, this.features, this.step));
 	}
 
 	public class Result implements IFinishedGenericJSON {
@@ -91,15 +81,12 @@ public class GenericFeatureBuilder {
 		private final List<String> features;
 		private final String step;
 
-		private final Map<String, String> fieldValueString;
-
-		public Result(ResourceLocation id, String type, List<String> biomes, List<String> features, String step, Map<String, String> fieldValueString) {
+		public Result(ResourceLocation id, String type, List<String> biomes, List<String> features, String step) {
 			this.id = id;
 			this.type = type;
 			this.biomes = biomes;
 			this.features = features;
 			this.step = step;
-			this.fieldValueString = fieldValueString;
 		}
 
 		public void serializeJSONData(JsonObject recipeJson) {
@@ -133,12 +120,6 @@ public class GenericFeatureBuilder {
 
 			if (!this.step.isEmpty()) {
 				recipeJson.addProperty("step", this.step);
-			}
-
-			if (!this.fieldValueString.isEmpty()) {
-				for (Map.Entry<String, String> entry : this.fieldValueString.entrySet()) {
-					recipeJson.addProperty(entry.getKey(), entry.getValue());
-				}
 			}
 		}
 

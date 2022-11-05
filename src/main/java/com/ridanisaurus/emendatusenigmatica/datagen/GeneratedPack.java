@@ -46,7 +46,6 @@ public class GeneratedPack implements PackResources {
         return Files.newInputStream(resolved);
     }
 
-    // TODO [TicTic] maxDepthIn has been removed from getResources
     @Override
     public Collection<ResourceLocation> getResources(PackType type, String namespaceIn, String pathIn, Predicate<ResourceLocation> filterIn) {
         List<ResourceLocation> result = new ArrayList<>();

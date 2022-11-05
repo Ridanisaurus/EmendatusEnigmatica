@@ -51,14 +51,6 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         BlockPos pos = config.origin();
         WorldGenLevel reader = config.level();
 
-        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-            return false;
-        }
-
-        if (rand.nextInt(100) > model.getConfig().getChance()) {
-            return false;
-        }
-
         int yTop = model.getConfig().getMaxYLevel();
         int yBottom = model.getConfig().getMinYLevel();
 
@@ -122,12 +114,8 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         return true;
     }
 
-    private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos
-            pos, FeaturePlaceContext<SphereOreFeatureConfig> config) {
+    private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos pos, FeaturePlaceContext<SphereOreFeatureConfig> config) {
         if (!config.config().target.test(reader.getBlockState(pos), rand)) {
-            return;
-        }
-        if (rand.nextInt(100) > model.getConfig().getDensity()) {
             return;
         }
 

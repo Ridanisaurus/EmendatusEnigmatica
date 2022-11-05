@@ -39,16 +39,6 @@ public class DataGeneratorFactory {
         ROOT_PATH = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/default");
     }
 
-//    public static void init() {
-//        try {
-//            FileSystem fs = MemoryFileSystemBuilder.newEmpty().addRoot("/").setCurrentWorkingDirectory("/emendatusenigmatica").setCaseSensitive(true).build();
-//            ROOT_PATH = fs.getPath("/emendatusenigmatica");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    // TODO [TicTic] How to fix this, and is there a way to stop default from overwritting so it can be used as a resourcelocation for assets
     public static DataGenerator createEEDataGenerator() {
         return new DataGenerator(ROOT_PATH, ImmutableList.of(), SharedConstants.getCurrentVersion(), true);
     }

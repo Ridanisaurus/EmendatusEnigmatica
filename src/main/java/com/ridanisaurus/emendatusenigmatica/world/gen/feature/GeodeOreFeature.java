@@ -64,18 +64,12 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-			return false;
-		}
-
 		int intRand = rand.nextInt(100);
 		double doubleRand = rand.nextDouble();
 		if (intRand >= 1) {
 			doubleRand += intRand - 1;
 		}
-		if (doubleRand > model.getConfig().getChance() / model.getConfig().getChanceChunkSkip()) {
-			return false;
-		}
+
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 		int yPos = rand.nextInt(yTop);

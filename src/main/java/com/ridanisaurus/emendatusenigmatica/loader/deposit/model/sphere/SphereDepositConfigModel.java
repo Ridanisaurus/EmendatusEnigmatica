@@ -10,38 +10,31 @@ public class SphereDepositConfigModel {
 	public static final Codec<SphereDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.DOUBLE.fieldOf("chance").forGetter(it -> it.chance),
+			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
 			Codec.INT.fieldOf("radius").forGetter(it -> it.radius),
-			Codec.INT.fieldOf("density").forGetter(it -> it.density),
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel)
 	).apply(x, SphereDepositConfigModel::new));
 
 	private final List<CommonBlockDefinitionModel> blocks;
 	private List<String> fillerTypes;
-	private final double chance;
+	private final int chance;
 	private final int radius;
-	private final int density;
 	private final int minYLevel;
 	private final int maxYLevel;
 
-	public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, double chance, int radius, int density, int minYLevel, int maxYLevel) {
+	public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel) {
 
 		this.blocks = blocks;
 		this.chance = chance;
 		this.radius = radius;
-		this.density = density;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
 		this.fillerTypes = fillerTypes;
 	}
 
-	public double getChance() {
+	public int getChance() {
 		return chance;
-	}
-
-	public int getDensity() {
-		return density;
 	}
 
 	public int getMaxYLevel() {
