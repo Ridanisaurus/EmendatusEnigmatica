@@ -51,9 +51,9 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         BlockPos pos = config.origin();
         WorldGenLevel reader = config.level();
 
-//        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-//            return false;
-//        }
+        if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
+            return false;
+        }
 
         if (rand.nextInt(100) > model.getConfig().getChance()) {
             return false;

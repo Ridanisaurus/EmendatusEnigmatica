@@ -4,35 +4,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.VanillaOreFeature;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class VanillaDepositProcessor implements IDepositProcessor {
 
-//    private final List<OreConfiguration.TargetBlockState> ORE_LIST = new ArrayList<>();
     private JsonObject object;
     private VanillaDepositModel model;
 
@@ -50,41 +31,6 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     }
 
     @Override
-    public void setup() {
-//        if (model.getConfig().getBlock() != null) {
-//            ResourceLocation blockResourceLocation = new ResourceLocation(model.getConfig().getBlock());
-//            Block oreBlock = ForgeRegistries.BLOCKS.getValue(blockResourceLocation);
-//            for (StrataModel stratum : EELoader.STRATA) {
-//                if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-//                    Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-//                    ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlock.defaultBlockState()));
-//                }
-//            }
-//        } else if (model.getConfig().getMaterial() != null) {
-//            for (MaterialModel material : EELoader.MATERIALS) {
-//                if (material.getId().equals(model.getConfig().getMaterial())) {
-//                    for (StrataModel stratum : EELoader.STRATA) {
-//                        if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
-//                            Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
-//                            BlockState oreBlockstate = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get().defaultBlockState();
-//                            ORE_LIST.add(OreConfiguration.target(new BlockMatchTest(stratumBlock), oreBlockstate));
-//                        }
-//                    }
-//                    break;
-//                }
-//            }
-//        }
-//
-//        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = WorldGenHelper.getOreFeature().register(
-//                model.getName(), () -> new ConfiguredFeature<>(new VanillaOreFeature(OreConfiguration.CODEC, model), new OreConfiguration(ORE_LIST, model.getConfig().getSize()))
-//        );
-//        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-//        orePlacedFeature = WorldGenHelper.getPlacedOreFeature().register(
-//                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
-//        );
-    }
-
-    @Override
     public VanillaDepositModel getVanillaModel() {
         return model;
     }
@@ -97,5 +43,10 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     @Override
     public SphereDepositModel getSphereModel() {
         return null;
+    }
+
+    @Override
+    public CommonDepositModelBase getModel() {
+        return model;
     }
 }

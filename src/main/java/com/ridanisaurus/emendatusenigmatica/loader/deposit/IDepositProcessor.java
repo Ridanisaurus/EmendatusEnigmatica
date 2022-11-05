@@ -10,9 +10,9 @@ import net.minecraftforge.registries.RegistryObject;
 public interface IDepositProcessor {
 	void load();
 
-	void setup();
-
+	// TODO: This needs clean up!!
 	VanillaDepositModel getVanillaModel();
 	GeodeDepositModel getGeodeModel();
 	SphereDepositModel getSphereModel();
+	CommonDepositModelBase getModel();
 }

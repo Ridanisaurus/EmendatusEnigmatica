@@ -24,59 +24,84 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraftforge.common.data.JsonCodecProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
+import net.minecraft.world.level.Level;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
-public class OreFeatureDataGen extends GenericJSONProvider{
+public class OreFeatureDataGen extends GenericFeatureProvider {
 
 	public OreFeatureDataGen(DataGenerator gen) {
 		super(gen);
 	}
 
-	// TODO: Loop through the registered placed features, and populate the .feature() with them
-	// TODO: Implement the Blacklist system
 	// TODO: Once ore generation is done, look into implementing the Dimensions
 
 	@Override
 	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
-		new GenericJSONBuilder("type", "forge:add_features")
-				.fieldString("biomes", "#minecraft:is_overworld")
-				.feature("emendatusenigmatica:vanilla_overworld_uranium_ore_deposit")
-				.feature("emendatusenigmatica:vanilla_overworld_zinc_ore_deposit")
-				.feature("emendatusenigmatica:sphere_overworld_galena_ore_deposit")
-				.feature("emendatusenigmatica:geode_overworld_galena_ore_deposit")
-				.fieldString("step", "underground_ores")
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_overworld_ore_features"));
-
-		new GenericJSONBuilder("type", "forge:add_features")
-				.fieldString("biomes", "#minecraft:is_nether")
-				.feature("emendatusenigmatica:vanilla_nether_lignite_ore_deposit")
-				.feature("emendatusenigmatica:sphere_nether_uranium_ore_deposit")
-				.fieldString("step", "underground_ores")
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_nether_ore_features"));
-
-		new GenericJSONBuilder("type", "forge:add_features")
-				.fieldString("biomes", "#minecraft:is_end")
-				.feature("emendatusenigmatica:vanilla_end_arcane_ore_deposit")
-				.feature("emendatusenigmatica:geode_end_vanilla_ore_deposit")
-				.fieldString("step", "underground_ores")
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "add_end_ore_features"));
+		for (IDepositProcessor processor : EEDeposits.ACTIVE_PROCESSORS) {
+			CommonDepositModelBase model = processor.getModel();
+			List<String> biomes = new ArrayList<>();
+			List<String> features = new ArrayList<>();
+			if(model.getDimensions().contains("minecraft:overworld")) {
+				if(!model.getWhitelistBiomes().isEmpty()) {
+					biomes.addAll(model.getWhitelistBiomes());
+				} else {
+					biomes.add("#minecraft:is_overworld");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			if(model.getDimensions().contains("minecraft:the_nether")) {
+				if(!model.getWhitelistBiomes().isEmpty()) {
+					biomes.addAll(model.getWhitelistBiomes());
+				} else {
+					biomes.add("#minecraft:is_nether");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			if(model.getDimensions().contains("minecraft:the_end")) {
+				if(!model.getWhitelistBiomes().isEmpty()) {
+					biomes.addAll(model.getWhitelistBiomes());
+				} else {
+					biomes.add("#minecraft:is_end");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			// TODO: Add mod to Model (i.e. "mod":"undergarden") or obtain its ModID somehow
+			if(!model.getDimensions().contains("minecraft:overworld") && !model.getDimensions().contains("minecraft:the_nether") && !model.getDimensions().contains("minecraft:the_end")) {
+				if(!model.getWhitelistBiomes().isEmpty()) {
+					biomes.addAll(model.getWhitelistBiomes());
+				} else {
+					biomes.add("#undergarden:is_undergarden");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+		}
 	}
 
 	@Override

@@ -64,9 +64,9 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-//		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-//			return false;
-//		}
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
+			return false;
+		}
 
 		int intRand = rand.nextInt(100);
 		double doubleRand = rand.nextDouble();

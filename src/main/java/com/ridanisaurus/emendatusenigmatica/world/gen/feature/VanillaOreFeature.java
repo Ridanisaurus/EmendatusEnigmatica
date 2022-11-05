@@ -7,6 +7,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.Vanilla
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
@@ -36,6 +37,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 	private final VanillaDepositModel model;
 	private final Lazy<List<OreConfiguration.TargetBlockState>> lazyList;
 
+	// TODO: Fix VanillaOreGen in Dims
 	public VanillaOreFeature(VanillaDepositModel model) {
 		super(NoneFeatureConfiguration.CODEC);
 		this.model = model;
@@ -94,33 +96,37 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		return states;
 	}
 
-	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_160177_) {
-		RandomSource randomsource = p_160177_.random();
-		BlockPos blockpos = p_160177_.origin();
-		WorldGenLevel worldgenlevel = p_160177_.level();
+	public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> config) {
+		RandomSource rand = config.random();
+		BlockPos pos = config.origin();
+		WorldGenLevel reader = config.level();
 
-		var oreconfiguration = this.model.getConfig();
+		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
+			return false;
+		}
 
-		float f = randomsource.nextFloat() * (float)Math.PI;
-		float f1 = (float)oreconfiguration.getSize() / 8.0F;
-		int i = Mth.ceil(((float)oreconfiguration.getSize() / 16.0F * 2.0F + 1.0F) / 2.0F);
-		double d0 = (double)blockpos.getX() + Math.sin((double)f) * (double)f1;
-		double d1 = (double)blockpos.getX() - Math.sin((double)f) * (double)f1;
-		double d2 = (double)blockpos.getZ() + Math.cos((double)f) * (double)f1;
-		double d3 = (double)blockpos.getZ() - Math.cos((double)f) * (double)f1;
+		var oreConfig = this.model.getConfig();
+
+		float f = rand.nextFloat() * (float)Math.PI;
+		float f1 = (float)oreConfig.getSize() / 8.0F;
+		int i = Mth.ceil(((float)oreConfig.getSize() / 16.0F * 2.0F + 1.0F) / 2.0F);
+		double d0 = (double)pos.getX() + Math.sin((double)f) * (double)f1;
+		double d1 = (double)pos.getX() - Math.sin((double)f) * (double)f1;
+		double d2 = (double)pos.getZ() + Math.cos((double)f) * (double)f1;
+		double d3 = (double)pos.getZ() - Math.cos((double)f) * (double)f1;
 		int j = 2;
-		double d4 = (double)(blockpos.getY() + randomsource.nextInt(3) - 2);
-		double d5 = (double)(blockpos.getY() + randomsource.nextInt(3) - 2);
-		int k = blockpos.getX() - Mth.ceil(f1) - i;
-		int l = blockpos.getY() - 2 - i;
-		int i1 = blockpos.getZ() - Mth.ceil(f1) - i;
+		double d4 = (double)(pos.getY() + rand.nextInt(3) - 2);
+		double d5 = (double)(pos.getY() + rand.nextInt(3) - 2);
+		int k = pos.getX() - Mth.ceil(f1) - i;
+		int l = pos.getY() - 2 - i;
+		int i1 = pos.getZ() - Mth.ceil(f1) - i;
 		int j1 = 2 * (Mth.ceil(f1) + i);
 		int k1 = 2 * (2 + i);
 
 		for(int l1 = k; l1 <= k + j1; ++l1) {
 			for(int i2 = i1; i2 <= i1 + j1; ++i2) {
-				if (l <= worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
-					return this.doPlace(worldgenlevel, randomsource, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
+				if (l <= reader.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
+					return this.doPlace(reader, rand, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
 				}
 			}
 		}
@@ -128,7 +134,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		return false;
 	}
 
-	protected boolean doPlace(WorldGenLevel p_225172_, RandomSource p_225173_, double p_225175_, double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_, int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
+	protected boolean doPlace(WorldGenLevel reader, RandomSource rand, double p_225175_, double p_225176_, double p_225177_, double p_225178_, double p_225179_, double p_225180_, int p_225181_, int p_225182_, int p_225183_, int p_225184_, int p_225185_) {
 		int i = 0;
 		BitSet bitset = new BitSet(p_225184_ * p_225185_ * p_225184_);
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -140,7 +146,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 			double d0 = Mth.lerp((double)f, p_225175_, p_225176_);
 			double d1 = Mth.lerp((double)f, p_225179_, p_225180_);
 			double d2 = Mth.lerp((double)f, p_225177_, p_225178_);
-			double d3 = p_225173_.nextDouble() * (double)j / 16.0D;
+			double d3 = rand.nextDouble() * (double)j / 16.0D;
 			double d4 = ((double)(Mth.sin((float)Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
 			adouble[k * 4 + 0] = d0;
 			adouble[k * 4 + 1] = d1;
@@ -168,7 +174,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 			}
 		}
 
-		BulkSectionAccess bulksectionaccess = new BulkSectionAccess(p_225172_);
+		BulkSectionAccess bulksectionaccess = new BulkSectionAccess(reader);
 
 		List<OreConfiguration.TargetBlockState> targetBlockStates = lazyList.get();
 		try {
@@ -193,12 +199,12 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 								if (d5 * d5 + d6 * d6 < 1.0D) {
 									for(int k2 = i1; k2 <= l1; ++k2) {
 										double d7 = ((double)k2 + 0.5D - d15) / d9;
-										if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !p_225172_.isOutsideBuildHeight(j2)) {
+										if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !reader.isOutsideBuildHeight(j2)) {
 											int l2 = i2 - p_225181_ + (j2 - p_225182_) * p_225184_ + (k2 - p_225183_) * p_225184_ * p_225185_;
 											if (!bitset.get(l2)) {
 												bitset.set(l2);
 												blockpos$mutableblockpos.set(i2, j2, k2);
-												if (p_225172_.ensureCanWrite(blockpos$mutableblockpos)) {
+												if (reader.ensureCanWrite(blockpos$mutableblockpos)) {
 													LevelChunkSection levelchunksection = bulksectionaccess.getSection(blockpos$mutableblockpos);
 													if (levelchunksection != null) {
 														int i3 = SectionPos.sectionRelative(i2);
@@ -207,7 +213,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 														BlockState blockstate = levelchunksection.getBlockState(i3, j3, k3);
 
 														for(OreConfiguration.TargetBlockState oreconfiguration$targetblockstate : targetBlockStates) {
-															if (canPlaceOre(blockstate, bulksectionaccess::getBlockState, p_225173_, oreconfiguration$targetblockstate, blockpos$mutableblockpos)) {
+															if (canPlaceOre(blockstate, bulksectionaccess::getBlockState, rand, oreconfiguration$targetblockstate, blockpos$mutableblockpos)) {
 																levelchunksection.setBlockState(i3, j3, k3, oreconfiguration$targetblockstate.state, false);
 																++i;
 																break;

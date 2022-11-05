@@ -44,10 +44,10 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GenericJSONProvider implements DataProvider {
+public class GenericFeatureProvider implements DataProvider {
 	protected final DataGenerator generator;
 
-	public GenericJSONProvider(DataGenerator gen) {
+	public GenericFeatureProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
 
