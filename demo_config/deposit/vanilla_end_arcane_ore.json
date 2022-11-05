@@ -1,0 +1,20 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimensions": [
+    "minecraft:the_end"
+  ],
+  "biomes": [
+    "minecraft:end_barrens"
+  ],
+  "registryName": "vanilla_end_arcane_ore_deposit",
+  "config": {
+    "material": "arcane",
+    "fillerTypes": [
+      "minecraft_end_stone"
+    ],
+    "chance": 10,
+    "size": 16,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

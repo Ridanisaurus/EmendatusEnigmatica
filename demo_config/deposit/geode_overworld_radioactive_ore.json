@@ -1,0 +1,58 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimensions": [
+    "minecraft:overworld"
+  ],
+  "biomes": [
+    "minecraft:savanna"
+  ],
+  "registryName": "geode_overworld_radioactive_ore_deposit",
+  "config": {
+    "outerShellBlocks": [
+      {
+        "block": "minecraft:obsidian",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:blackstone",
+        "weight": 3
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:dirt",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:gravel",
+        "weight": 3
+      }
+    ],
+    "innerBlocks": [
+      {
+        "block": "emendatusenigmatica:uranium_block",
+        "weight": 10
+      },
+      {
+        "block": "emendatusenigmatica:osmium_block",
+        "weight": 3
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite"
+    ],
+    "chance": 10,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimensions": [
+    "undergarden:undergarden"
+  ],
+  "biomes": [
+    "undergarden:forgotten_field"
+  ],
+  "registryName": "vanilla_undergarden_arcane_ore_deposit",
+  "config": {
+    "material": "arcane",
+    "fillerTypes": [
+      "undergarden_depthrock"
+    ],
+    "chance": 10,
+    "size": 16,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

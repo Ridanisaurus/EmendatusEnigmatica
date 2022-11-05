@@ -1,0 +1,58 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimensions": [
+    "undergarden:undergarden"
+  ],
+  "biomes": [
+  ],
+  "registryName": "geode_undergarden_vanilla_ore_deposit",
+  "config": {
+    "outerShellBlocks": [
+      {
+        "block": "minecraft:basalt",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:blackstone",
+        "weight": 3
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:obsidian",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:brown_concrete",
+        "weight": 3
+      }
+    ],
+    "innerBlocks": [
+      {
+        "material": "iron",
+        "weight": 10
+      },
+      {
+        "material": "coal",
+        "weight": 3
+      },
+      {
+        "material": "gold",
+        "weight": 3
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
+      }
+    ],
+    "fillerTypes": [
+      "undergarden_depthrock"
+    ],
+    "chance": 10,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}
