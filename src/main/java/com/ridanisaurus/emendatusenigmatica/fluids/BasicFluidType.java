@@ -43,30 +43,15 @@ public class BasicFluidType extends FluidType {
 	private final ResourceLocation flowingTexture;
 	private final ResourceLocation overlayTexture;
 	private final int tintColor;
+	private final Vector3f fogColor;
 
-	public BasicFluidType(final ResourceLocation stillTexture, final ResourceLocation flowingTexture, final ResourceLocation overlayTexture,
-	                      final int tintColor, final Properties properties) {
+	public BasicFluidType(final ResourceLocation stillTexture, final ResourceLocation flowingTexture, final ResourceLocation overlayTexture, final int tintColor, final Vector3f fogColor, final Properties properties) {
 		super(properties);
 		this.stillTexture = stillTexture;
 		this.flowingTexture = flowingTexture;
 		this.overlayTexture = overlayTexture;
 		this.tintColor = tintColor;
-	}
-
-	public ResourceLocation getStillTexture() {
-		return stillTexture;
-	}
-
-	public ResourceLocation getFlowingTexture() {
-		return flowingTexture;
-	}
-
-	public int getTintColor() {
-		return tintColor;
-	}
-
-	public ResourceLocation getOverlayTexture() {
-		return overlayTexture;
+		this.fogColor = fogColor;
 	}
 
 	@Override
@@ -91,6 +76,11 @@ public class BasicFluidType extends FluidType {
 			@Override
 			public int getTintColor() {
 				return tintColor;
+			}
+
+			@Override
+			public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
+				return fogColor;
 			}
 
 			@Override

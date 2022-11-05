@@ -24,23 +24,17 @@
 
 package com.ridanisaurus.emendatusenigmatica.util;
 
-public class ParticleColorHelper {
-//	public static Color HexToColor(String hex)
-//	{
-//		hex = hex.replace("#", "");
-//		switch (hex.length()) {
-//			case 6:
-//				return new Color(
-//						Integer.valueOf(hex.substring(0, 2), 16),
-//						Integer.valueOf(hex.substring(2, 4), 16),
-//						Integer.valueOf(hex.substring(4, 6), 16));
-//			case 8:
-//				return new Color(
-//						Integer.valueOf(hex.substring(0, 2), 16),
-//						Integer.valueOf(hex.substring(2, 4), 16),
-//						Integer.valueOf(hex.substring(4, 6), 16),
-//						Integer.valueOf(hex.substring(6, 8), 16));
-//		}
-//		return null;
-//	}
+public class ColorHelper {
+	public static float getRed(int rgb) {
+		return (float) ((rgb >> 16) & 0xFF) / 255f;
+	}
+	public static float getGreen(int rgb) {
+		return (float) ((rgb >> 8) & 0xFF) / 255f;
+	}
+	public static float getBlue(int rgb) {
+		return (float) ((rgb >> 0) & 0xFF) / 255f;
+	}
+	public static float getAlpha(int rgb) {
+		return (float) ((rgb >> 24) & 0xff) / 255f;
+	}
 }

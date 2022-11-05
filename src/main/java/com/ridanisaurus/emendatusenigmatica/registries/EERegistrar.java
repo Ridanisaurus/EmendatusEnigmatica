@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
@@ -38,6 +39,7 @@ import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -251,13 +253,24 @@ public class EERegistrar {
 		String fluidName = "molten_" + material.getId();
 
 		fluidType = FLUID_TYPES.register(fluidName,
-				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL, material.getColors().getFluidColor(), fluidTypeProperties(material)));
+				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL,
+						material.getColors().getFluidColor(),
+						new Vector3f(ColorHelper.getRed(material.getColors().getFluidColor()), ColorHelper.getGreen(material.getColors().getFluidColor()), ColorHelper.getBlue(material.getColors().getFluidColor())),
+						fluidTypeProperties(material)));
 		fluidSource = FLUIDS.register(fluidName,
-				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
+				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()),
+						fluidSourceMap.get(material.getId()),
+						fluidFlowingMap.get(material.getId()),
+						fluidBlockMap.get(material.getId()),
+						fluidBucketMap.get(material.getId()))));
 		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
-				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
-		fluidBlock = BLOCKS.register(fluidName,
-				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.copy(Blocks.LAVA)));
+				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()),
+						fluidSourceMap.get(material.getId()),
+						fluidFlowingMap.get(material.getId()),
+						fluidBlockMap.get(material.getId()),
+						fluidBucketMap.get(material.getId()))));
+		fluidBlock = BLOCKS.register(fluidName + "_block",
+				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.of(Material.LAVA).noCollission().strength(100.0F).noLootTable()));
 		fluidBucket = ITEMS.register(fluidName + "_bucket",
 				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).tab(EmendatusEnigmatica.TAB)));
 
@@ -266,6 +279,13 @@ public class EERegistrar {
 		fluidFlowingMap.put(material.getId(), fluidFlowing);
 		fluidBlockMap.put(material.getId(), fluidBlock);
 		fluidBucketMap.put(material.getId(), fluidBucket);
+
+		System.out.println(material.getColors().getFluidColor());
+		System.out.println(
+				"R: " + ColorHelper.getRed(material.getColors().getFluidColor()) +
+				"G: " + ColorHelper.getGreen(material.getColors().getFluidColor()) +
+				"B: " + ColorHelper.getBlue(material.getColors().getFluidColor())
+		);
 	}
 
 	private static FluidType.Properties fluidTypeProperties(MaterialModel material) {
