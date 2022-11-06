@@ -41,11 +41,8 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.SingleStrataRuleTest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.world.item.*;
@@ -111,8 +108,6 @@ public class EmendatusEnigmatica {
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
         if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
-        modEventBus.addListener(this::init);
-        modEventBus.addListener(this::clientEvents);
         modEventBus.addListener(this::commonEvents);
         modEventBus.addListener(this::itemColorEvent);
         modEventBus.addListener(this::blockColorEvent);
@@ -126,11 +121,6 @@ public class EmendatusEnigmatica {
 
     private void commonEvents(final FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
-        SingleStrataRuleTest.register();
-
-        ResourceLocation id = new ResourceLocation(Reference.MOD_ID, "sphere_overworld_galena_ore_deposit");
-        LOGGER.info("CF:" + BuiltinRegistries.CONFIGURED_FEATURE.get(id));
-        LOGGER.info("PF:" + BuiltinRegistries.PLACED_FEATURE.get(id));
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {}
