@@ -176,12 +176,11 @@ public class EmendatusEnigmatica {
         if (THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator));
 
         if (MEKANISM_LOADED) {
-            // TODO [RID] Re-add after integrating Mekanism
-//            generator.addProvider(new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
-            // TODO [RID] Fix Slurry Tags
-//            generator.addProvider(new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
-//            generator.addProvider(new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
-//            generator.addProvider(new MekanismDataGen.MekanismRecipes(generator));
+            generator.addProvider(true, new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
+            generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
+            generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator));
+            generator.addProvider(true, new MekanismDataGen.MekanismLang(generator));
         }
     }
 

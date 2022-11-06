@@ -46,11 +46,6 @@ public class LangGen extends LanguageProvider {
 		// Item Group
 		add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
-		// JEI Compat
-		add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk. The Vanilla Minecraft logic will apply when using non-Enchanted, or Fortune Enchanted tools.");
-		add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block in an Item form, and it can be smelted, doubled, tripled ..etc.");
-		add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter or in a Crafting Grid.");
-
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 
 		for (MaterialModel material : EELoader.MATERIALS) {
@@ -142,53 +137,6 @@ public class LangGen extends LanguageProvider {
 					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 				}
 
-				// TODO [RID] Look into moving this to the MekanismDataGen class
-				if (EmendatusEnigmatica.MEKANISM_LOADED) {
-					// Slurries
-					// TODO [RID] Re-add after integrating Mekanism
-//					if (processedType.contains("slurry")) {
-//						StringBuilder sb = new StringBuilder();
-//						sb.append("Dirty ");
-//						sb.append(material.getLocalizedName());
-//						sb.append(" Slurry");
-//						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
-//
-//						StringBuilder sb2 = new StringBuilder();
-//						sb2.append("Clean ");
-//						sb2.append(material.getLocalizedName());
-//						sb2.append(" Slurry");
-//						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
-//					}
-					// Crystals
-					if (processedType.contains("crystal")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Crystal");
-						add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
-					}
-					// Shards
-					if (processedType.contains("shard")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Shard");
-						add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
-					}
-					// Clumps
-					if (processedType.contains("clump")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Clump");
-						add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
-					}
-					// Dirty Dusts
-					if (processedType.contains("dirty_dust")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append("Dirty ");
-						sb.append(material.getLocalizedName());
-						sb.append(" Dust");
-						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
-					}
-				}
 				// TODO [RID] Look into moving this to the CreateDataGen class
 				if (EmendatusEnigmatica.CREATE_LOADED) {
 					// Crushed Ore
@@ -238,11 +186,6 @@ public class LangGen extends LanguageProvider {
 			}
 		}
 	}
-
-	// TODO [RID] Re-add after integrating Mekanism
-//	private void add(Slurry slurry, String name) {
-//		add(slurry.getTranslationKey(), name);
-//	}
 
 	@Override
 	public String getName() {

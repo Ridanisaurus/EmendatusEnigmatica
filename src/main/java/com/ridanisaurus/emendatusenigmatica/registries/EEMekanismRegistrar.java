@@ -28,6 +28,10 @@ import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import mekanism.api.MekanismAPI;
+import mekanism.api.chemical.slurry.Slurry;
+import mekanism.api.chemical.slurry.SlurryBuilder;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,12 +43,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EEMekanismRegistrar {
-//    public static final DeferredRegister<Slurry> SLURRIES = DeferredRegister.create(Slurry.class, Reference.MOD_ID);
+    public static final DeferredRegister<Slurry> SLURRIES = DeferredRegister.create(MekanismAPI.slurryRegistryName(), Reference.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 
     // Mekanism Compat
-//    public static Map<String, RegistryObject<Slurry>> dirtySlurryMap = new HashMap<>();
-//    public static Map<String, RegistryObject<Slurry>> cleanSlurryMap = new HashMap<>();
+    public static Map<String, RegistryObject<Slurry>> dirtySlurryMap = new HashMap<>();
+    public static Map<String, RegistryObject<Slurry>> cleanSlurryMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> crystalMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> shardMap = new HashMap<>();
     public static Map<String, RegistryObject<Item>> clumpMap = new HashMap<>();
@@ -56,8 +60,8 @@ public class EEMekanismRegistrar {
 
         ResourceLocation ore = new ResourceLocation(Reference.FORGE, "ores/" + material.getId());
 
-//        dirtySlurryMap.put(material.getId(), SLURRIES.register(itemNameDirty, () -> new Slurry(SlurryBuilder.dirty().ore(ore).color(material.getColors().getFluidColor()))));
-//        cleanSlurryMap.put(material.getId(), SLURRIES.register(itemNameClean, () -> new Slurry(SlurryBuilder.clean().ore(ore).color(material.getColors().getFluidColor()))));
+        dirtySlurryMap.put(material.getId(), SLURRIES.register(itemNameDirty, () -> new Slurry(SlurryBuilder.dirty().ore(ore).color(material.getColors().getFluidColor()))));
+        cleanSlurryMap.put(material.getId(), SLURRIES.register(itemNameClean, () -> new Slurry(SlurryBuilder.clean().ore(ore).color(material.getColors().getFluidColor()))));
     }
 
     public static void registerCrystals(MaterialModel material) {
@@ -97,7 +101,7 @@ public class EEMekanismRegistrar {
     }
 
     public static void finalize(IEventBus eventBus) {
-//        SLURRIES.register(eventBus);
+        SLURRIES.register(eventBus);
         ITEMS.register(eventBus);
     }
 }
