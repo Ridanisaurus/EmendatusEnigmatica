@@ -7,8 +7,6 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositModel;
 
 import java.util.Optional;
 
@@ -31,23 +29,17 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 		model = result.get().getFirst();
 	}
 
-	@Override
-	public VanillaDepositModel getVanillaModel() {
-		return null;
-	}
-
-	@Override
 	public GeodeDepositModel getGeodeModel() {
 		return model;
 	}
 
 	@Override
-	public SphereDepositModel getSphereModel() {
-		return null;
+	public String getType() {
+		return model.getType();
 	}
 
 	@Override
-	public CommonDepositModelBase getModel() {
+	public CommonDepositModelBase getCommonModel() {
 		return model;
 	}
 }

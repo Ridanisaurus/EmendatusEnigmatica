@@ -25,4 +25,7 @@ public class VanillaDepositModel extends CommonDepositModelBase {
 	public VanillaDepositConfigModel getConfig() {
 		return config;
 	}
+	public String getType() {
+		return super.getType();
+	}
 }

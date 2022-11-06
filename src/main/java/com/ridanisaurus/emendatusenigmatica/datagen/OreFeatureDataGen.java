@@ -41,12 +41,93 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 		super(gen);
 	}
 
-	// TODO: Once ore generation is done, look into implementing the Dimensions
+	private final List<String> OVERWORLD_COAL_ORE = List.of("minecraft:ore_coal_upper", "minecraft:ore_coal_lower");
+	private final List<String> OVERWORLD_COPPER_ORE = List.of("minecraft:ore_copper", "minecraft:ore_copper_large");
+	private final List<String> OVERWORLD_IRON_ORE = List.of("minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small");
+	private final List<String> OVERWORLD_GOLD_ORE = List.of("minecraft:ore_gold_extra", "minecraft:ore_gold", "minecraft:ore_gold_lower");
+	private final List<String> OVERWORLD_REDSTONE_ORE = List.of("minecraft:ore_redstone", "minecraft:ore_redstone_lower");
+	private final List<String> OVERWORLD_LAPIS_ORE = List.of("minecraft:ore_lapis", "minecraft:ore_lapis_buried");
+	private final List<String> OVERWORLD_DIAMOND_ORE = List.of("minecraft:ore_diamond", "minecraft:ore_diamond_large", "minecraft:ore_diamond_buried");
+	private final List<String> OVERWORLD_EMERALD_ORE = List.of("minecraft:ore_emerald");
+
+	private final List<String> NETHER_GOLD_ORE = List.of("minecraft:ore_gold_nether", "minecraft:ore_gold_deltas");
+	private final List<String> NETHER_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
+
+	private final List<String> OVERWORLD_GEODE = List.of("minecraft:amethyst_geode");
 
 	@Override
 	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
+
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_COAL_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_coal_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_COPPER_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_copper_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_IRON_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_iron_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_GOLD_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_gold_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_REDSTONE_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_redstone_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_LAPIS_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_lapis_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_DIAMOND_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_diamond_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_EMERALD_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_emerald_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_nether")
+					.features(NETHER_GOLD_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_nether_gold_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_nether")
+					.features(NETHER_QUARTZ_ORE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_nether_quartz_ore"));
+		}
+		if (true) {
+			new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+					.biome("#minecraft:is_overworld")
+					.features(OVERWORLD_GEODE)
+					.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_overworld_geode"));
+		}
+
+
 		for (IDepositProcessor processor : EEDeposits.ACTIVE_PROCESSORS) {
-			CommonDepositModelBase model = processor.getModel();
+			CommonDepositModelBase model = processor.getCommonModel();
 			List<String> biomes = new ArrayList<>();
 			List<String> features = new ArrayList<>();
 			if(model.getDimensions().contains("minecraft:overworld")) {

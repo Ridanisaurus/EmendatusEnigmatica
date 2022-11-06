@@ -39,16 +39,16 @@ import net.minecraft.world.phys.Vec3;
 
 public class MetalOreBlockWithParticles extends Block {
 	private final String localisedName;
-	private final String particleHex;
+	private final int particleColor;
 
-	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, String particleHex) {
+	public MetalOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int particleColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
 //				.harvestLevel(harvestLevel)
 //				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
-		this.particleHex = particleHex;
+		this.particleColor = particleColor;
 	}
 
 	@Override
@@ -60,11 +60,6 @@ public class MetalOreBlockWithParticles extends Block {
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
-//		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;
-//		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
-//		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
-
-		// TODO [RID] Fix the particle color to read from Hex instead of 16711680
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {
 				BlockPos blockpos = pos.relative(direction);
@@ -73,7 +68,7 @@ public class MetalOreBlockWithParticles extends Block {
 					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
 					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
 					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
-					worldIn.addParticle(new DustParticleOptions(new Vector3f(Vec3.fromRGB24(16711680)), 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+					worldIn.addParticle(new DustParticleOptions(new Vector3f(Vec3.fromRGB24(particleColor)), 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
 				}
 			}
 		}

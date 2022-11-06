@@ -15,7 +15,6 @@ public class CommonDepositModelBase {
 		this.name = name;
 	}
 
-	// TODO: Use getType instead of have 3 model methods in the IDepositProcessor
 	public String getType() {
 		return type;
 	}

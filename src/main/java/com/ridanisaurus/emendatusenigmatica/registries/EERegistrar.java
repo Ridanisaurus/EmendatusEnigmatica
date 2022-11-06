@@ -55,6 +55,7 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.SoundAction;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -255,7 +256,7 @@ public class EERegistrar {
 		fluidType = FLUID_TYPES.register(fluidName,
 				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL,
 						material.getColors().getFluidColor(),
-						new Vector3f(ColorHelper.getRed(material.getColors().getFluidColor()), ColorHelper.getGreen(material.getColors().getFluidColor()), ColorHelper.getBlue(material.getColors().getFluidColor())),
+						new Vector3f(Vec3.fromRGB24(material.getColors().getFluidColor())),
 						fluidTypeProperties(material)));
 		fluidSource = FLUIDS.register(fluidName,
 				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()),
@@ -279,13 +280,6 @@ public class EERegistrar {
 		fluidFlowingMap.put(material.getId(), fluidFlowing);
 		fluidBlockMap.put(material.getId(), fluidBlock);
 		fluidBucketMap.put(material.getId(), fluidBucket);
-
-		System.out.println(material.getColors().getFluidColor());
-		System.out.println(
-				"R: " + ColorHelper.getRed(material.getColors().getFluidColor()) +
-				"G: " + ColorHelper.getGreen(material.getColors().getFluidColor()) +
-				"B: " + ColorHelper.getBlue(material.getColors().getFluidColor())
-		);
 	}
 
 	private static FluidType.Properties fluidTypeProperties(MaterialModel material) {

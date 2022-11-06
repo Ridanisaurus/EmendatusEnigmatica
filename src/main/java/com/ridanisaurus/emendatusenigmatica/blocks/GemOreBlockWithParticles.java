@@ -34,7 +34,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
@@ -44,10 +43,10 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
-	private final String particleHex;
+	private final int particleColor;
 
 	// TODO [RID] Move harvestLevel and tool to Tags
-	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, String particleHex) {
+	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int particleColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
 //				.harvestLevel(harvestLevel)
@@ -56,7 +55,7 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 		this.localisedName = localisedName;
 		this.minExp = minExp;
 		this.maxExp = maxExp;
-		this.particleHex = particleHex;
+		this.particleColor = particleColor;
 	}
 
 	@Override
@@ -77,11 +76,6 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 
-//		float red = (float) ParticleColorHelper.HexToColor(particleHex).getRed() / 255;
-//		float green = (float) ParticleColorHelper.HexToColor(particleHex).getGreen() / 255;
-//		float blue = (float) ParticleColorHelper.HexToColor(particleHex).getBlue() / 255;
-
-		// TODO [RID] Fix the particle color to read from Hex instead of 16711680
 		if(rand.nextInt(10) == 0) {
 			for(Direction direction : Direction.values()) {
 				BlockPos blockpos = pos.relative(direction);
@@ -90,7 +84,7 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 					double d1 = direction$axis == Direction.Axis.X ? 0.5D + 0.5625D * (double)direction.getStepX() : (double)rand.nextFloat();
 					double d2 = direction$axis == Direction.Axis.Y ? 0.5D + 0.5625D * (double)direction.getStepY() : (double)rand.nextFloat();
 					double d3 = direction$axis == Direction.Axis.Z ? 0.5D + 0.5625D * (double)direction.getStepZ() : (double)rand.nextFloat();
-					worldIn.addParticle(new DustParticleOptions(new Vector3f(Vec3.fromRGB24(16711680)), 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
+					worldIn.addParticle(new DustParticleOptions(new Vector3f(Vec3.fromRGB24(particleColor)), 1.0F), (double)pos.getX() + d1, (double)pos.getY() + d2, (double)pos.getZ() + d3, 0.0D, 0.0D, 0.0D);
 				}
 			}
 		}

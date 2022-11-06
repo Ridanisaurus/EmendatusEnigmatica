@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 
 import java.util.List;
 
@@ -24,5 +25,8 @@ public class SphereDepositModel extends CommonDepositModelBase {
 
 	public SphereDepositConfigModel getConfig() {
 		return config;
+	}
+	public String getType() {
+		return super.getType();
 	}
 }

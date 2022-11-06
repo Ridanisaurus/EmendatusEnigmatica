@@ -43,9 +43,9 @@ public class EEDeposits {
 	public static final DeferredRegister<PlacedFeature> PLACED_ORE_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, Reference.MOD_ID);
 
 	public static void initProcessors() {
-		DEPOSIT_PROCESSORS.put("emendatusenigmatica:vanilla_deposit", VanillaDepositProcessor::new);
-		DEPOSIT_PROCESSORS.put("emendatusenigmatica:sphere_deposit", SphereDepositProcessor::new);
-		DEPOSIT_PROCESSORS.put("emendatusenigmatica:geode_deposit", GeodeDepositProcessor::new);
+		DEPOSIT_PROCESSORS.put(DepositType.VANILLA.getType(), VanillaDepositProcessor::new);
+		DEPOSIT_PROCESSORS.put(DepositType.SPHERE.getType(), SphereDepositProcessor::new);
+		DEPOSIT_PROCESSORS.put(DepositType.GEODE.getType(), GeodeDepositProcessor::new);
 	}
 
 	public static void load() {
@@ -86,8 +86,8 @@ public class EEDeposits {
 
 	public static void setup() {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
-			if(activeProcessor.getSphereModel() != null) {
-				var model = activeProcessor.getSphereModel();
+			if(activeProcessor.getType().equals(DepositType.SPHERE.getType())) {
+				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
 				RegistryObject<SphereOreFeature> sphereOreFeature = FEATURES.register(model.getName(), () -> new SphereOreFeature(SphereOreFeatureConfig.CODEC, model));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(sphereOreFeature.get(), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -97,8 +97,8 @@ public class EEDeposits {
 						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
 				);
 			}
-			if(activeProcessor.getGeodeModel() != null) {
-				var model = activeProcessor.getGeodeModel();
+			if(activeProcessor.getType().equals(DepositType.GEODE.getType())) {
+				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				RegistryObject<GeodeOreFeature> geodeOreFeature = FEATURES.register(model.getName(), () -> new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(geodeOreFeature.get(), new GeodeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -108,8 +108,8 @@ public class EEDeposits {
 						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
 				);
 			}
-			if(activeProcessor.getVanillaModel() != null) {
-				var model = activeProcessor.getVanillaModel();
+			if(activeProcessor.getType().equals(DepositType.VANILLA.getType())) {
+				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
 				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model));
 		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
@@ -119,6 +119,22 @@ public class EEDeposits {
 		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
 		        );
 			}
+		}
+	}
+
+	private enum DepositType {
+		VANILLA("emendatusenigmatica:vanilla_deposit"),
+		SPHERE("emendatusenigmatica:sphere_deposit"),
+		GEODE("emendatusenigmatica:geode_deposit");
+
+		private final String type;
+
+		DepositType(String type) {
+			this.type = type;
+		}
+
+		public String getType() {
+			return this.type;
 		}
 	}
 
