@@ -96,14 +96,7 @@ public class GeneratedPack implements PackResources {
     @Nullable
     @Override
     public <T> T getMetadataSection(MetadataSectionSerializer<T> deserializer) throws IOException {
-        /*InputStream inputStream = Files.newInputStream(path.resolve("pack.mcmeta"));*/
         JsonObject jsonobject = new JsonObject();
-        /*try (BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-            jsonobject = JSONUtils.fromJson(bufferedreader);
-        } catch (JsonParseException | IOException ioexception) {
-            return null;
-        }*/
-
         JsonObject packObject = new JsonObject();
         packObject.addProperty("pack_format", 6);
         packObject.addProperty("description", "emendatusenigmatica");

@@ -2,6 +2,7 @@
   "id": "redstone",
   "source": "vanilla",
   "localizedName": "Redstone",
+  "removeDefaultOre": true,
   "processedType": [
     "ore",
     "raw"

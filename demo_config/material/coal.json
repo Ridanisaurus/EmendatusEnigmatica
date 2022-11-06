@@ -2,6 +2,7 @@
   "id": "coal",
   "source": "vanilla",
   "localizedName": "Coal",
+  "removeDefaultOre": true,
   "processedType": [
     "ore",
     "raw",

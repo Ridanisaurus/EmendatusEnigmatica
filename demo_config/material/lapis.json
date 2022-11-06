@@ -2,6 +2,7 @@
   "id": "lapis",
   "source": "vanilla",
   "localizedName": "Lapis Lazuli",
+  "removeDefaultOre": true,
   "processedType": [
     "ore",
     "raw",

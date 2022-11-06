@@ -71,7 +71,7 @@ import java.io.IOException;
 public class EmendatusEnigmatica {
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
-    private DataGenerator generator;
+    private static DataGenerator generator;
     private static boolean hasGenerated = false;
 
     private static EmendatusEnigmatica instance = null;
@@ -109,11 +109,11 @@ public class EmendatusEnigmatica {
         if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
+        modEventBus.addListener(this::clientEvents);
         modEventBus.addListener(this::itemColorEvent);
         modEventBus.addListener(this::blockColorEvent);
 
-        registerDataGen();
-
+//        registerDataGen();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
 
@@ -123,7 +123,9 @@ public class EmendatusEnigmatica {
         MultiStrataRuleTest.register();
     }
 
-    private void clientEvents(final FMLClientSetupEvent event) {}
+    private void clientEvents(final FMLClientSetupEvent event) {
+
+    }
 
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
         event.getItemColors().register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
@@ -145,7 +147,7 @@ public class EmendatusEnigmatica {
         }
     };
 
-    private void registerDataGen() {
+    private static void registerDataGen() {
         generator = DataGeneratorFactory.createEEDataGenerator();
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
@@ -180,14 +182,15 @@ public class EmendatusEnigmatica {
             generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
             generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
             generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator));
-            generator.addProvider(true, new MekanismDataGen.MekanismLang(generator));
         }
     }
 
     public static void generate() {
         if (!hasGenerated) {
             try {
-                instance.generator.run();
+                if(generator == null)
+                    registerDataGen();
+                    generator.run();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -2,6 +2,7 @@
   "id": "emerald",
   "source": "vanilla",
   "localizedName": "Emerald",
+  "removeDefaultOre": true,
   "processedType": [
     "ore",
     "raw",
