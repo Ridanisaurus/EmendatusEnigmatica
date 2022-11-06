@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:sphere_deposit",
-  "dimensions": [
-    "minecraft:overworld"
-  ],
+  "dimension": "minecraft:overworld",
   "biomes": [
     "minecraft:dark_forest"
   ],

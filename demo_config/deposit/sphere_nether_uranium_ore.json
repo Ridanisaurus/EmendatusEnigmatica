@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:sphere_deposit",
-  "dimensions": [
-    "minecraft:the_nether"
-  ],
+  "dimension": "minecraft:the_nether",
   "biomes": [
     "minecraft:crimson_forest"
   ],

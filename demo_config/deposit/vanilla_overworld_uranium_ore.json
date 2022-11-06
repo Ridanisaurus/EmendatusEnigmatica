@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:vanilla_deposit",
-  "dimensions": [
-    "minecraft:overworld"
-  ],
+  "dimension": "minecraft:overworld",
   "biomes": [
   ],
   "registryName": "vanilla_overworld_uranium_ore_deposit",

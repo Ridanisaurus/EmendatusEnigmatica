@@ -9,7 +9,7 @@ import java.util.List;
 public class VanillaDepositModel extends CommonDepositModelBase {
 	public static final Codec<VanillaDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("type").forGetter(it -> it.type),
-			Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
+			Codec.STRING.fieldOf("dimension").forGetter(it -> it.dimension),
 			Codec.list(Codec.STRING).fieldOf("biomes").forGetter(it -> it.biomes),
 			Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
 			VanillaDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
@@ -17,8 +17,8 @@ public class VanillaDepositModel extends CommonDepositModelBase {
 
 	private VanillaDepositConfigModel config;
 
-	public VanillaDepositModel(String type, List<String> dimensions, List<String> biomes, String name, VanillaDepositConfigModel config) {
-		super(type, dimensions, biomes, name);
+	public VanillaDepositModel(String type, String dimension, List<String> biomes, String name, VanillaDepositConfigModel config) {
+		super(type, dimension, biomes, name);
 		this.config = config;
 	}
 

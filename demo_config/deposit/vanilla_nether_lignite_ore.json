@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:vanilla_deposit",
-  "dimensions": [
-    "minecraft:the_nether"
-  ],
+  "dimension": "minecraft:the_nether",
   "biomes": [
   ],
   "registryName": "vanilla_nether_lignite_ore_deposit",

@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:vanilla_deposit",
-  "dimensions": [
-    "minecraft:overworld"
-  ],
+  "dimension": "minecraft:overworld",
   "biomes": [
     "minecraft:desert",
     "minecraft:plains"

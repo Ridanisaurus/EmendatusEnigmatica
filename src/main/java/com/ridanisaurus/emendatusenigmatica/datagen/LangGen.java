@@ -124,12 +124,11 @@ public class LangGen extends LanguageProvider {
 				}
 
 				// Fluids
-				// TODO [RID] Revisit the add function for Fluids
 				if (processedType.equals("fluid")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Molten ");
 					sb.append(material.getLocalizedName());
-					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
+					add(EERegistrar.fluidTypeMap.get(material.getId()).get().getDescriptionId(), sb.toString());
 
 					StringBuilder sb2 = new StringBuilder();
 					sb2.append("Bucket of Molten ");
@@ -181,8 +180,6 @@ public class LangGen extends LanguageProvider {
 						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-
-				// TODO [RID] Look into moving this to the CreateDataGen class
 				if (EmendatusEnigmatica.CREATE_LOADED) {
 					// Crushed Ore
 					if (processedType.contains("crushed_ore")) {
@@ -193,7 +190,6 @@ public class LangGen extends LanguageProvider {
 						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 					}
 				}
-				// TODO [RID] Look into moving this to the BloodMagicDataGen class
 				if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
 					// Fragment
 					if (processedType.contains("fragment")) {

@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:geode_deposit",
-  "dimensions": [
-    "minecraft:the_end"
-  ],
+  "dimension": "minecraft:the_end",
   "biomes": [
     "minecraft:end_highlands"
   ],

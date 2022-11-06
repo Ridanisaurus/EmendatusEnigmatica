@@ -1,8 +1,6 @@
 {
   "type": "emendatusenigmatica:sphere_deposit",
-  "dimensions": [
-    "undergarden:undergarden"
-  ],
+  "dimension": "undergarden:undergarden",
   "biomes": [
     "undergarden:dense_forest"
   ],

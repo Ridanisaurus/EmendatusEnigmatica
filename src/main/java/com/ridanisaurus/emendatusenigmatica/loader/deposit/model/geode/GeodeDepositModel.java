@@ -9,7 +9,7 @@ import java.util.List;
 public class GeodeDepositModel extends CommonDepositModelBase {
 	public static final Codec<GeodeDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("type").forGetter(it -> it.type),
-			Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
+			Codec.STRING.fieldOf("dimension").forGetter(it -> it.dimension),
 			Codec.list(Codec.STRING).fieldOf("biomes").forGetter(it -> it.biomes),
 			Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
 			GeodeDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
@@ -17,8 +17,8 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 
 	private final GeodeDepositConfigModel config;
 
-	public GeodeDepositModel(String type, List<String> dimensions, List<String> biomes, String name, GeodeDepositConfigModel config) {
-		super(type, dimensions, biomes, name);
+	public GeodeDepositModel(String type, String dimension, List<String> biomes, String name, GeodeDepositConfigModel config) {
+		super(type, dimension, biomes, name);
 		this.config = config;
 	}
 

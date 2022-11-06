@@ -32,10 +32,12 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class OreFeatureDataGen extends GenericFeatureProvider {
 
@@ -121,7 +123,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 			CommonDepositModelBase model = processor.getCommonModel();
 			List<String> biomes = new ArrayList<>();
 			List<String> features = new ArrayList<>();
-			if(model.getDimensions().contains("minecraft:overworld")) {
+			if(model.getDimension().equals("minecraft:overworld")) {
 				if(!model.getBiomes().isEmpty()) {
 					biomes.addAll(model.getBiomes());
 				} else {
@@ -133,7 +135,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
-			if(model.getDimensions().contains("minecraft:the_nether")) {
+			if(model.getDimension().equals("minecraft:the_nether")) {
 				if(!model.getBiomes().isEmpty()) {
 					biomes.addAll(model.getBiomes());
 				} else {
@@ -145,7 +147,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
-			if(model.getDimensions().contains("minecraft:the_end")) {
+			if(model.getDimension().equals("minecraft:the_end")) {
 				if(!model.getBiomes().isEmpty()) {
 					biomes.addAll(model.getBiomes());
 				} else {
@@ -157,12 +159,11 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
-			// TODO: Add mod to Model (i.e. "mod":"undergarden") or obtain its ModID somehow
-			if(!model.getDimensions().contains("minecraft:overworld") && !model.getDimensions().contains("minecraft:the_nether") && !model.getDimensions().contains("minecraft:the_end")) {
+			if(Stream.of("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end").noneMatch(s -> model.getDimension().equals(s))) {
 				if(!model.getBiomes().isEmpty()) {
 					biomes.addAll(model.getBiomes());
 				} else {
-					biomes.add("#undergarden:is_undergarden");
+					biomes.add("#" + getModdedDim(model.getDimension()) + ":is_" + getModdedDim(model.getDimension()));
 				}
 				features.add(Reference.MOD_ID + ":" + model.getName());
 				new GenericFeatureBuilder("forge:add_features", "underground_ores")
@@ -176,5 +177,9 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 	@Override
 	public String getName() {
 		return "Emendatus Enigmatica Features";
+	}
+
+	private String getModdedDim(String dim) {
+		return StringUtils.substringBefore(dim, ":");
 	}
 }
