@@ -329,6 +329,10 @@ public class EERegistrar {
 	// Hammer
 	public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 
+	// Felinium Jaminite
+	// TODO Review this
+	public static final RegistryObject<Item> FELINIUM_JAMINITE = ITEMS.register("felinium_jaminite", FeliniumJaminiteIngot::new);
+
 	public static void finalize(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 		BLOCKS.register(eventBus);

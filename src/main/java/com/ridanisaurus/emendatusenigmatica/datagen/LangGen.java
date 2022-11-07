@@ -47,6 +47,7 @@ public class LangGen extends LanguageProvider {
 		add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
+		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
