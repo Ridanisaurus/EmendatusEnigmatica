@@ -35,13 +35,15 @@ public class MaterialPropertiesModel {
 			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel)),
 			Codec.BOOL.optionalFieldOf("hasParticle").forGetter(i -> Optional.of(i.hasParticle)),
 			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
-			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime))
-	).apply(x, (oreBlockType, harvestLevel, hasParticle, isBurnable, burnTime) -> new MaterialPropertiesModel(
+			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
+			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType))
+	).apply(x, (oreBlockType, harvestLevel, hasParticle, isBurnable, burnTime, blockRecipeType) -> new MaterialPropertiesModel(
 			oreBlockType.orElse(""),
 			harvestLevel.orElse(0),
 			hasParticle.orElse(false),
 			isBurnable.orElse(false),
-			burnTime.orElse(0)
+			burnTime.orElse(0),
+			blockRecipeType.orElse(9)
 	)));
 
 	private final String oreBlockType;
@@ -49,13 +51,15 @@ public class MaterialPropertiesModel {
 	private final boolean hasParticle;
 	private final boolean isBurnable;
 	private final int burnTime;
+	private final int blockRecipeType;
 
-	public MaterialPropertiesModel(String oreBlockType, int harvestLevel, boolean hasParticle, boolean isBurnable, int burnTime) {
+	public MaterialPropertiesModel(String oreBlockType, int harvestLevel, boolean hasParticle, boolean isBurnable, int burnTime, int blockRecipeType) {
 		this.oreBlockType = oreBlockType;
 		this.harvestLevel = harvestLevel;
 		this.hasParticle = hasParticle;
 		this.isBurnable = isBurnable;
 		this.burnTime = burnTime;
+		this.blockRecipeType = blockRecipeType;
 	}
 
 	public MaterialPropertiesModel() {
@@ -64,6 +68,7 @@ public class MaterialPropertiesModel {
 		this.hasParticle = false;
 		this.isBurnable = false;
 		this.burnTime = 0;
+		this.blockRecipeType = 9;
 	}
 
 	public String getOreBlockType() {
@@ -84,5 +89,9 @@ public class MaterialPropertiesModel {
 
 	public int getBurnTime() {
 		return burnTime;
+	}
+
+	public int getBlockRecipeType() {
+		return blockRecipeType;
 	}
 }

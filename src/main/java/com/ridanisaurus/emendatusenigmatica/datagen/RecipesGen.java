@@ -184,9 +184,9 @@ public class RecipesGen extends RecipeProvider {
 						.group(Reference.MOD_ID)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
 			}
-			// TODO [RID] Look into moving the block recipe identifier to its own field instead of processedType
+
 			// Block from Gem x4
-			if (processedType.contains("gem") && processedType.contains("storage_block") && processedType.contains("4x_block_recipe")) {
+			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 4) {
 				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
 						.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
 						.pattern("##")
@@ -196,7 +196,7 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/4x/" + material.getId()));
 			}
 			// Block from Gem x9
-			if (processedType.contains("gem") && processedType.contains("storage_block") && !processedType.contains("4x_block_recipe")) {
+			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 9) {
 				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
 						.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
 						.pattern("###")
@@ -207,7 +207,7 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/9x/" + material.getId()));
 			}
 			// Gem from Block x4
-			if (processedType.contains("gem") && processedType.contains("storage_block") && processedType.contains("4x_block_recipe")) {
+			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 4) {
 				ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 4)
 						.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
 						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
@@ -215,7 +215,7 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/4x/" + material.getId()));
 			}
 			// Gem from Block x9
-			if (processedType.contains("gem") && processedType.contains("storage_block") && !processedType.contains("4x_block_recipe")) {
+			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 9) {
 				ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 9)
 						.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
 						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
