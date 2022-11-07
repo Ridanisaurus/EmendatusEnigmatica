@@ -44,7 +44,8 @@ public class EETags {
 	public static final Function<String, TagKey<Item>> MATERIAL_PLATE = material -> getItemTag(new ResourceLocation(Reference.FORGE, "plates/" + material));
 	public static final Function<String, TagKey<Item>> MATERIAL_ROD = material -> getItemTag(new ResourceLocation(Reference.FORGE, "rods/" + material));
 	public static final Function<String, TagKey<Item>> MATERIAL_ORE = material -> getItemTag(new ResourceLocation(Reference.FORGE, "ores/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_RAW = material -> getItemTag(new ResourceLocation(Reference.FORGE, "raws/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_RAW = material -> getItemTag(new ResourceLocation(Reference.FORGE, "raw_materials/" + material));
+	public static final Function<String, TagKey<Item>> MATERIAL_RAW_STORAGE_BLOCK = material -> getItemTag(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material));
 	public static final Function<String, TagKey<Item>> MATERIAL_FLUID = material -> getItemTag(new ResourceLocation(Reference.FORGE, "molten/" + material));
 
 

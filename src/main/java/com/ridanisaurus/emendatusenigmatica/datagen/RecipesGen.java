@@ -206,7 +206,6 @@ public class RecipesGen extends RecipeProvider {
 						.group(Reference.MOD_ID)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/9x/" + material.getId()));
 			}
-
 			// Gem from Block x4
 			if (processedType.contains("gem") && processedType.contains("storage_block") && processedType.contains("4x_block_recipe")) {
 				ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 4)
@@ -224,26 +223,26 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
 			}
 
-			// TODO [RID] Re-add these 2 recipes when Raw Block is added
-//			// Cluster from Chunk
-//			if (processedType.contains("chunk") && processedType.contains("cluster")) {
-//				ShapelessRecipeBuilder.shapeless(EERegistrar.clusterMap.get(material.getId()).get(), 1)
-//						.requires(EETags.MATERIAL_CHUNK.apply(material.getId()))
-//						.requires(EETags.MATERIAL_CHUNK.apply(material.getId()))
-//						.requires(EETags.MATERIAL_CHUNK.apply(material.getId()))
-//						.requires(EETags.MATERIAL_CHUNK.apply(material.getId()))
-//						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-//						.group(Reference.MOD_ID)
-//						.save(consumer, new ResourceLocation(Reference.MOD_ID, "cluster/from_chunk/" + material.getId()));
-//			}
-//			// Chunk from Cluster
-//			if (processedType.contains("cluster") && processedType.contains("chunk")) {
-//				ShapelessRecipeBuilder.shapeless(EERegistrar.rawMap.get(material.getId()).get(), 4)
-//						.requires(EETags.MATERIAL_CLUSTER.apply(material.getId()))
-//						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-//						.group(Reference.MOD_ID)
-//						.save(consumer, new ResourceLocation(Reference.MOD_ID, "chunk/from_cluster/" + material.getId()));
-//			}
+			// TODO Requires review
+			// RawBlock from Raw 
+			if (processedType.contains("raw")) {
+				ShapedRecipeBuilder.shaped(EERegistrar.rawBlockItemMap.get(material.getId()).get())
+						.define('#', EETags.MATERIAL_RAW.apply(material.getId()))
+						.pattern("###")
+						.pattern("###")
+						.pattern("###")
+						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+						.group(Reference.MOD_ID)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_raw_material/" + material.getId()));
+			}
+			// Raw from RawBlock
+			if (processedType.contains("raw")) {
+				ShapelessRecipeBuilder.shapeless(EERegistrar.rawMap.get(material.getId()).get(), 9)
+						.requires(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(material.getId()))
+						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+						.group(Reference.MOD_ID)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_material/from_raw_storage_block/" + material.getId()));
+			}
 
 			// Dust from Ore
 			if (processedType.contains("ore") && processedType.contains("dust")) {

@@ -40,20 +40,20 @@ public class LootTablesGen extends BaseLootTableProvider {
 
 	@Override
 	protected void addTables() {
-		// Storage Blocks
 		for (MaterialModel material : EELoader.MATERIALS) {
-			for (String processedType : material.getProcessedType()) {
-				if (processedType.equals("storage_block")) {
-					blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(), createBlockLootTable(EERegistrar.storageBlockMap.get(material.getId()).get()));
-				}
+			List<String> processedType = material.getProcessedType();
+			// Storage Blocks
+			if (processedType.contains("storage_block")) {
+				blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(), createBlockLootTable(EERegistrar.storageBlockMap.get(material.getId()).get()));
 			}
-		}
-
-		// Ores
-		for (MaterialModel material : EELoader.MATERIALS) {
+			// Raw Storage Blocks
+			if (processedType.contains("raw")) {
+				blockLootTable.put(EERegistrar.rawBlockMap.get(material.getId()).get(), createBlockLootTable(EERegistrar.rawBlockMap.get(material.getId()).get()));
+			}
+			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
-				if (material.getProcessedType().contains("ore") && material.getProcessedType().contains("raw")) {
-					// TODO [RID] Revisit this for RAW drop count
+				if (processedType.contains("ore") && processedType.contains("raw")) {
+					// TODO Revisit this for RAW drop count
 					if (material.getOreDrop().getDrop().isEmpty()) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 								createItemLootTable(EERegistrar.rawMap.get(material.getId()).get()));

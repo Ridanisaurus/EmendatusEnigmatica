@@ -70,6 +70,19 @@ public class BlockHarvestTagsGen {
 						default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
 					}
 				}
+				if(processedType.contains("raw")) {
+					switch (material.getProperties().getHarvestLevel()) {
+						case 0 -> {
+							woodTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+							goldTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+						}
+						case 1 -> stoneTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+						case 2 -> ironTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+						case 3 -> diamondTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+						case 4 -> netheriteTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+						default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
+					}
+				}
 				for (StrataModel stratum : EELoader.STRATA) {
 					if(processedType.contains("ore")) {
 						switch (material.getProperties().getHarvestLevel()) {

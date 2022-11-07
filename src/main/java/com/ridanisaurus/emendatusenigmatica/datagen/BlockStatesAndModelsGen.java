@@ -50,56 +50,88 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
     protected void registerStatesAndModels() {
         // Storage Blocks
         for (MaterialModel material : EELoader.MATERIALS) {
-            for (String processedType : material.getProcessedType()) {
-                if (processedType.equals("storage_block")) {
-                    Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
-                    ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(block);
-                    if (material.getColors().getHighlightColor() == -1) {
-                        models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
-                                .renderType("solid")
-                                .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
-                                .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
-                                .element()
-                                .cube("#base")
-                                .allFaces((d, u) -> u.tintindex(-1))
-                                .end();
-                    } else {
-                        models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
-                                .renderType("translucent")
-                                .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
-                                .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_1"))
-                                .texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_2"))
-                                .texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
-                                .element()
-                                .cube("#highlight")
-                                .allFaces((d, u) -> u.tintindex(0))
-                                .end()
-                                .element()
-                                .cube("#base")
-                                .allFaces((d, u) -> u.tintindex(1))
-                                .end()
-                                .element()
-                                .cube("#shade")
-                                .allFaces((d, u) -> u.tintindex(2))
-                                .end();
-                    }
-                    simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
-
+            List<String> processedType = material.getProcessedType();
+            // Storage Blocks
+            if (processedType.contains("storage_block")) {
+                Block block = EERegistrar.storageBlockMap.get(material.getId()).get();
+                ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(block);
+                if (material.getColors().getHighlightColor() == -1) {
+                    models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                            .renderType("solid")
+                            .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
+                            .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
+                            .element()
+                            .cube("#base")
+                            .allFaces((d, u) -> u.tintindex(-1))
+                            .end();
+                } else {
+                    models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                            .renderType("translucent")
+                            .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
+                            .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_1"))
+                            .texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_2"))
+                            .texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
+                            .element()
+                            .cube("#highlight")
+                            .allFaces((d, u) -> u.tintindex(0))
+                            .end()
+                            .element()
+                            .cube("#base")
+                            .allFaces((d, u) -> u.tintindex(1))
+                            .end()
+                            .element()
+                            .cube("#shade")
+                            .allFaces((d, u) -> u.tintindex(2))
+                            .end();
                 }
-
-                // Fluid Block
-                if (processedType.equals("fluid")) {
-                    LiquidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
-                    ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(fluidBlock);
-                    simpleBlock(fluidBlock, models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
-                }
+                simpleBlock(block, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
             }
-        }
+            // Raw Storage Blocks
+            if (processedType.contains("raw")) {
+                Block rawblock = EERegistrar.rawBlockMap.get(material.getId()).get();
+                ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(rawblock);
+                if (material.getColors().getHighlightColor() == -1) {
+                    models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                            .renderType("solid")
+                            .texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/raw_" + material.getId() + "_block"))
+                            .texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/raw_" + material.getId() + "_block"))
+                            .element()
+                            .cube("#base")
+                            .allFaces((d, u) -> u.tintindex(-1))
+                            .end();
+                } else {
+                    models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
+                            .renderType("translucent")
+                            .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_0"))
+                            .texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_1"))
+                            .texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_2"))
+                            .texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
+                            .element()
+                            .cube("#highlight")
+                            .allFaces((d, u) -> u.tintindex(0))
+                            .end()
+                            .element()
+                            .cube("#base")
+                            .allFaces((d, u) -> u.tintindex(1))
+                            .end()
+                            .element()
+                            .cube("#shade")
+                            .allFaces((d, u) -> u.tintindex(2))
+                            .end();
+                }
+                simpleBlock(rawblock, new ModelFile.UncheckedModelFile(modLoc("block/raw_" + loc.getPath())));
+            }
 
-        // Ores
-        for (MaterialModel material : EELoader.MATERIALS) {
+            // Fluid Block
+            if (processedType.contains("fluid")) {
+                LiquidBlock fluidBlock = EERegistrar.fluidBlockMap.get(material.getId()).get();
+                ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(fluidBlock);
+                simpleBlock(fluidBlock, models().getBuilder(loc.getPath()).texture("particle", new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still")));
+            }
+
+            // Ores
             for (StrataModel stratum : EELoader.STRATA) {
-                if (material.getProcessedType().contains("ore")) {
+                if (processedType.contains("ore")) {
                     Block ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get();
                     ResourceLocation loc = ForgeRegistries.BLOCKS.getKey(ore);
                     if (material.getColors().getHighlightColor() == -1) {

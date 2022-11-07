@@ -46,132 +46,130 @@ public class ItemModelsGen extends ItemModelProvider {
     @Override
     protected void registerModels() {
         for (MaterialModel material : EELoader.MATERIALS) {
-            for (String processedType : material.getProcessedType()) {
-                // Storage Blocks
-                if (processedType.equals("storage_block")) {
-                    withExistingParent(EERegistrar.storageBlockMap.get(material.getId()).getId().getPath(), modLoc(material.getId() + "_block"))
-                            .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block")));
-                }
+            List<String> processedType = material.getProcessedType();
+            // Storage Blocks
+            if (processedType.contains("storage_block")) {
+                withExistingParent(EERegistrar.storageBlockMap.get(material.getId()).getId().getPath(), modLoc(material.getId() + "_block"))
+                        .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block")));
+            }
 
-                // Ingots
-                if (processedType.equals("ingot")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_ingot").parent(new ModelFile.UncheckedModelFile("item/generated"));
+            // Ingots
+            if (processedType.contains("ingot")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_ingot").parent(new ModelFile.UncheckedModelFile("item/generated"));
 
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_2"));
-                    }
-                }
-
-                // Nuggets
-                if (processedType.equals("nugget")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_nugget")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_2"));
-                    }
-
-                }
-
-                // Gems
-                if (processedType.equals("gem")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_gem")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_2"));
-                    }
-                }
-
-                // Dusts
-                if (processedType.equals("dust")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_dust")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_2"));
-                    }
-                }
-
-                // Plates
-                if (processedType.equals("plate")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_plate")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_2"));
-                    }
-                }
-
-                // Gears
-                if (processedType.equals("gear")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_gear")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_2"));
-                    }
-                }
-
-                // Rods
-                if (processedType.equals("rod")) {
-                    ItemModelBuilder parent = getBuilder(material.getId() + "_rod")
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod"));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_2"));
-                    }
-                }
-
-                // Raw Chunk
-                if (processedType.equals("raw")) {
-                    ItemModelBuilder parent = getBuilder("raw_" + material.getId())
-                            .parent(new ModelFile.UncheckedModelFile("item/generated"));
-                    if (material.getColors().getHighlightColor() == -1) {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/raw_" + material.getId()));
-                    } else {
-                        parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_0"))
-                                .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_1"))
-                                .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_2"));
-                    }
-                }
-                // Fluid Buckets
-                if (processedType.equals("fluid")) {
-                    ItemModelBuilder parent = getBuilder("molten_" + material.getId() + "_bucket");
-                        parent.parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
-                            .customLoader(DynamicFluidContainerModelBuilder::begin)
-                            .applyTint(true)
-                            .fluid(EERegistrar.fluidSourceMap.get(material.getId()).get());
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_2"));
                 }
             }
-        }
 
-        // Ores
-        for (MaterialModel material : EELoader.MATERIALS) {
+            // Nuggets
+            if (processedType.contains("nugget")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_nugget")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_2"));
+                }
+
+            }
+
+            // Gems
+            if (processedType.contains("gem")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_gem")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_2"));
+                }
+            }
+
+            // Dusts
+            if (processedType.contains("dust")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_dust")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_2"));
+                }
+            }
+
+            // Plates
+            if (processedType.contains("plate")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_plate")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_2"));
+                }
+            }
+
+            // Gears
+            if (processedType.contains("gear")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_gear")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_2"));
+                }
+            }
+
+            // Rods
+            if (processedType.contains("rod")) {
+                ItemModelBuilder parent = getBuilder(material.getId() + "_rod")
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod"));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_2"));
+                }
+            }
+            // TODO: Review this
+            // Raw Materials
+            if (processedType.contains("raw")) {
+                ItemModelBuilder parent = getBuilder("raw_" + material.getId())
+                        .parent(new ModelFile.UncheckedModelFile("item/generated"));
+                if (material.getColors().getHighlightColor() == -1) {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/raw_" + material.getId()));
+                } else {
+                    parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_0"))
+                            .texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_1"))
+                            .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_2"));
+                }
+                withExistingParent(EERegistrar.rawBlockMap.get(material.getId()).getId().getPath(), modLoc("raw_" + material.getId() + "_block"))
+                        .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block")));
+            }
+            // Fluid Buckets
+            if (processedType.contains("fluid")) {
+                ItemModelBuilder parent = getBuilder("molten_" + material.getId() + "_bucket");
+                    parent.parent(new ModelFile.UncheckedModelFile("forge:item/bucket_drip"))
+                        .customLoader(DynamicFluidContainerModelBuilder::begin)
+                        .applyTint(true)
+                        .fluid(EERegistrar.fluidSourceMap.get(material.getId()).get());
+            }
+            // Ores
             for (StrataModel stratum : EELoader.STRATA) {
-                if (material.getProcessedType().contains("ore")) {
+                if (processedType.contains("ore")) {
                     withExistingParent(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId().getPath(), modLoc(getModelName(stratum, material)))
                             .parent(new ModelFile.UncheckedModelFile(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material))));
                 }

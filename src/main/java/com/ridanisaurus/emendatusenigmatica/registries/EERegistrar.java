@@ -80,6 +80,8 @@ public class EERegistrar {
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> rawBlockItemMap = new HashMap<>();
 
 	// Items
 	public static Map<String, RegistryObject<Item>> rawMap = new HashMap<>();
@@ -169,6 +171,31 @@ public class EERegistrar {
 			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
 		} else {
 			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
+		}
+	}
+
+// TODO: To be reviewed
+	public static void registerRawBlocks(MaterialModel material) {
+		String rawBlockName = "raw_" + material.getId() + "_block";
+
+		RegistryObject<Block> rawBlock = BLOCKS.register(rawBlockName, () -> new BasicStorageBlock(
+				Material.STONE,
+				3f,
+				3f,
+				material.getLocalizedName(),
+				material.getColors().getHighlightColor(),
+				material.getColors().getBaseColor(),
+				material.getColors().getShadeColor()));
+
+		rawBlockMap.put(material.getId(), rawBlock);
+
+		if (material.getProperties().isBurnable()) {
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
+					rawBlock.get(),
+					material.getProperties().getBurnTime() * 10)));
+		} else {
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
+					rawBlock.get(), 0)));
 		}
 	}
 

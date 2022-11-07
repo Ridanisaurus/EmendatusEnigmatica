@@ -108,6 +108,7 @@ public class EELoader {
 			}
 			if (material.getProcessedType().contains("raw")) {
 				EERegistrar.registerRaws(material);
+				EERegistrar.registerRawBlocks(material);
 			}
 			if (material.getProcessedType().contains("ingot")) {
 				EERegistrar.registerIngots(material);

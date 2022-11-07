@@ -51,15 +51,21 @@ public class BlockTagsGen extends BlockTagsProvider {
 		TagAppender<Block> forgeBlocks = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks")));
 		TagAppender<Block> forgeOres = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "ores")));
 		TagAppender<Block> beaconBlocks = tag(BlockTags.create(new ResourceLocation(Reference.MINECRAFT, "beacon_base_blocks")));
-
-		// Storage Blocks
+		// TODO: Review this
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
+			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 				beaconBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
 				TagAppender<Block> storageBlockTag = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material.getId())));
 				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
+			}
+			// Raw Storage Blocks
+			if (processedType.contains("raw")) {
+				forgeBlocks.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+				TagAppender<Block> rawBlockTag = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material.getId())));
+				rawBlockTag.add(EERegistrar.rawBlockMap.get(material.getId()).get());
 			}
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {

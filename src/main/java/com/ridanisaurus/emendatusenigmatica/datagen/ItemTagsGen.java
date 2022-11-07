@@ -59,7 +59,6 @@ public class ItemTagsGen extends ItemTagsProvider {
 		TagAppender<Item> forgeGears = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "gears")));
 		TagAppender<Item> forgeRods = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "rods")));
 		TagAppender<Item> forgeRaw = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "raws")));
-//		Builder<Item> forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters").toString()));
 		TagAppender<Item> forgeOres = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores")));
 		TagAppender<Item> forgeBuckets = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "buckets")));
 
@@ -121,23 +120,19 @@ public class ItemTagsGen extends ItemTagsProvider {
 				TagAppender<Item> rodTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "rods/" + material.getId())));
 				rodTag.add(EERegistrar.rodMap.get(material.getId()).get());
 			}
-			// Chunks
+			// Raw Materials
+			// TODO: Review this
 			if (processedType.contains("raw")) {
 				forgeRaw.add(EERegistrar.rawMap.get(material.getId()).get());
 				forgeOres.add(EERegistrar.rawMap.get(material.getId()).get());
+				forgeBlocks.add(EERegistrar.rawBlockItemMap.get(material.getId()).get());
 				TagAppender<Item> rawTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "raws/" + material.getId())));
 				TagAppender<Item> oreTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores/" + material.getId())));
+				TagAppender<Item> rawBlockTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material.getId())));
 				rawTag.add(EERegistrar.rawMap.get(material.getId()).get());
 				oreTag.add(EERegistrar.rawMap.get(material.getId()).get());
+				rawBlockTag.add(EERegistrar.rawBlockItemMap.get(material.getId()).get());
 			}
-//			// Clusters
-//			if (processedType.contains("cluster")) {
-//				forgeClusters.add(EERegistrar.clusterMap.get(material.getId()).get());
-//				Builder<Item> clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters/" + material.getId()).toString()));
-//				Builder<Item> oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores_cluster/" + material.getId()).toString()));
-//				clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-//				oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-//			}
 			// Fluid Bucket
 			if (processedType.contains("fluid")) {
 				forgeBuckets.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
