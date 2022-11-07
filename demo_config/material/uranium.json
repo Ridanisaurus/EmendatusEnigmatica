@@ -14,11 +14,12 @@
     "rod",
     "fluid",
     "fragment",
-    "gravel"
+    "gravel",
+    "slurry"
   ],
   "properties": {
     "oreBlockType": "metal",
-    "harvestLevel": 1,
+    "harvestLevel": 4,
     "isBurnable": true,
     "burnTime": 3200
   },

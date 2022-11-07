@@ -38,7 +38,7 @@ public class MaterialPropertiesModel {
 			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime))
 	).apply(x, (oreBlockType, harvestLevel, hasParticle, isBurnable, burnTime) -> new MaterialPropertiesModel(
 			oreBlockType.orElse(""),
-			harvestLevel.orElse(1),
+			harvestLevel.orElse(0),
 			hasParticle.orElse(false),
 			isBurnable.orElse(false),
 			burnTime.orElse(0)
@@ -60,7 +60,7 @@ public class MaterialPropertiesModel {
 
 	public MaterialPropertiesModel() {
 		this.oreBlockType = "";
-		this.harvestLevel = 1;
+		this.harvestLevel = 0;
 		this.hasParticle = false;
 		this.isBurnable = false;
 		this.burnTime = 0;

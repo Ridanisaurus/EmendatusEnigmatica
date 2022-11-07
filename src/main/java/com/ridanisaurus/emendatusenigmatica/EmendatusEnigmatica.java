@@ -160,6 +160,8 @@ public class EmendatusEnigmatica {
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
         generator.addProvider(true, new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
         generator.addProvider(true, blockTagsGeneration);
+        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
+        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
         generator.addProvider(true, new FluidTagsGen(generator, existingFileHelper));
         generator.addProvider(true, new RecipesGen(generator));
         generator.addProvider(true, new LootTablesGen(generator));

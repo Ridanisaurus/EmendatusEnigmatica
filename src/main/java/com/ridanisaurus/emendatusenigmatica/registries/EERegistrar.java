@@ -108,7 +108,6 @@ public class EERegistrar {
 	public static RegistryObject<LiquidBlock> fluidBlock;
 	public static RegistryObject<Item> fluidBucket;
 
-	// TODO [RID] Switch Harvest level and Tool to Tags
 	public static void registerOre(StrataModel strata, MaterialModel material) {
 		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
 		RegistryObject<Block> oreBlock;
@@ -117,8 +116,6 @@ public class EERegistrar {
 					Material.STONE,
 					strata.getHardness(),
 					strata.getResistance(),
-//					material.getProperties().getHarvestLevel(),
-//					strata.getHarvestTool(),
 					material.getLocalizedName(),
 					material.getOreDrop().getVanillaMin(),
 					material.getOreDrop().getVanillaMax(),
@@ -130,8 +127,6 @@ public class EERegistrar {
 					Material.STONE,
 					strata.getHardness(),
 					strata.getResistance(),
-//					material.getProperties().getHarvestLevel(),
-//					strata.getHarvestTool(),
 					material.getLocalizedName(),
 					material.getColors().getHighlightColor(),
 					material.getColors().getBaseColor(),
@@ -150,8 +145,6 @@ public class EERegistrar {
 				Material.STONE,
 				3f,
 				3f,
-//				material.getProperties().getHarvestLevel(),
-//				ToolType.PICKAXE,
 				material.getLocalizedName(),
 				material.getColors().getHighlightColor(),
 				material.getColors().getBaseColor(),

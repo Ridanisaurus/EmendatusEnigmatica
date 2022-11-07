@@ -13,11 +13,13 @@
     "clump",
     "dirty_dust",
     "fragment",
-    "gravel"
+    "gravel",
+    "storage_block",
+    "4x_block_recipe"
   ],
   "properties": {
     "oreBlockType": "gem",
-    "harvestLevel": 1,
+    "harvestLevel": 0,
     "isBurnable": true,
     "burnTime": 1600
   },

@@ -23,7 +23,7 @@
   ],
   "properties": {
     "oreBlockType": "metal",
-    "harvestLevel": 1
+    "harvestLevel": 3
   },
   "colors": {
     "fluidColor": "d1d1a5"

@@ -45,12 +45,9 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 	private final int maxExp;
 	private final int particleColor;
 
-	// TODO [RID] Move harvestLevel and tool to Tags
 	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int particleColor) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
-//				.harvestLevel(harvestLevel)
-//				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.minExp = minExp;

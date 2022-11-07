@@ -9,7 +9,8 @@
     "plate",
     "gear",
     "rod",
-    "fluid"
+    "fluid",
+    "slurry"
   ],
   "properties": {
   "harvestLevel": 1
