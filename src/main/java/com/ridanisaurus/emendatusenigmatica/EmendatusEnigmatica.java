@@ -35,13 +35,22 @@ import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
+import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
+import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
+import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.reward.PatreonRewardLayer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -65,6 +74,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.function.Consumer;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -74,7 +85,6 @@ public class EmendatusEnigmatica {
     private static DataGenerator generator;
     private static boolean hasGenerated = false;
 
-    private static EmendatusEnigmatica instance = null;
     public static boolean MEKANISM_LOADED = false;
     public static boolean CREATE_LOADED = false;
     public static boolean BLOODMAGIC_LOADED = false;
@@ -82,8 +92,13 @@ public class EmendatusEnigmatica {
     public static boolean OCCULTISM_LOADED = false;
     public static boolean THERMALSERIES_LOADED = false;
 
+    public static EmendatusEnigmatica instance;
+    @SuppressWarnings("Convert2MethodRef")
+    public static IProxy proxy = DistExecutor.unsafeRunForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+
     public EmendatusEnigmatica() {
-        instance = this;
+        EmendatusEnigmatica.instance = this;
+
         MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
         CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);
         BLOODMAGIC_LOADED = ModList.get().isLoaded(Reference.BLOODMAGIC);
@@ -109,7 +124,6 @@ public class EmendatusEnigmatica {
         if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
-        modEventBus.addListener(this::clientEvents);
         modEventBus.addListener(this::itemColorEvent);
         modEventBus.addListener(this::blockColorEvent);
 
@@ -117,14 +131,9 @@ public class EmendatusEnigmatica {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
 
-    private void init(final FMLConstructModEvent event) {}
-
-    private void commonEvents(final FMLCommonSetupEvent event) {
+    private void commonEvents(FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
-    }
-
-    private void clientEvents(final FMLClientSetupEvent event) {
-
+        EmendatusEnigmatica.proxy.init(event);
     }
 
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {

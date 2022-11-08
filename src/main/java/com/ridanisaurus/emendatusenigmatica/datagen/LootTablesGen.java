@@ -32,6 +32,8 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
+
 public class LootTablesGen extends BaseLootTableProvider {
 
 	public LootTablesGen(DataGenerator gen) {

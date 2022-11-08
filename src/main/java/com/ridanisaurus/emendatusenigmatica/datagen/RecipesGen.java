@@ -223,7 +223,6 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
 			}
 
-			// TODO Requires review
 			// RawBlock from Raw 
 			if (processedType.contains("raw")) {
 				ShapedRecipeBuilder.shaped(EERegistrar.rawBlockItemMap.get(material.getId()).get())

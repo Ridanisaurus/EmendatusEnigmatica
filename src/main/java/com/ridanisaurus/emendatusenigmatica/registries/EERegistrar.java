@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.mojang.math.Vector3f;
-import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
@@ -36,28 +35,23 @@ import com.ridanisaurus.emendatusenigmatica.blocks.MetalOreBlock;
 import com.ridanisaurus.emendatusenigmatica.fluids.BasicFluidType;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
+import com.ridanisaurus.emendatusenigmatica.items.FeliniumJaminiteIngot;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.SoundAction;
-import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -174,7 +168,6 @@ public class EERegistrar {
 		}
 	}
 
-// TODO: To be reviewed
 	public static void registerRawBlocks(MaterialModel material) {
 		String rawBlockName = "raw_" + material.getId() + "_block";
 
@@ -330,8 +323,7 @@ public class EERegistrar {
 	public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
 
 	// Felinium Jaminite
-	// TODO Review this
-	public static final RegistryObject<Item> FELINIUM_JAMINITE = ITEMS.register("felinium_jaminite", FeliniumJaminiteIngot::new);
+	public static final RegistryObject<Item> FELINIUM_JAMINITE = ITEMS.register("felinium_jaminite_ingot", FeliniumJaminiteIngot::new);
 
 	public static void finalize(IEventBus eventBus) {
 		ITEMS.register(eventBus);

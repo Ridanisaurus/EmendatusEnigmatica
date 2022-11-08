@@ -37,6 +37,8 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.util.List;
+
 public class ItemModelsGen extends ItemModelProvider {
 
     public ItemModelsGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
@@ -144,7 +146,7 @@ public class ItemModelsGen extends ItemModelProvider {
                             .texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_2"));
                 }
             }
-            // TODO: Review this
+
             // Raw Materials
             if (processedType.contains("raw")) {
                 ItemModelBuilder parent = getBuilder("raw_" + material.getId())

@@ -36,6 +36,8 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
+import java.util.List;
+
 public class LangGen extends LanguageProvider {
 	public LangGen(DataGenerator gen) {
 		super(gen, Reference.MOD_ID, "en_us");

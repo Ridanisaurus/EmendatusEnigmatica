@@ -51,7 +51,7 @@ public class BlockTagsGen extends BlockTagsProvider {
 		TagAppender<Block> forgeBlocks = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks")));
 		TagAppender<Block> forgeOres = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "ores")));
 		TagAppender<Block> beaconBlocks = tag(BlockTags.create(new ResourceLocation(Reference.MINECRAFT, "beacon_base_blocks")));
-		// TODO: Review this
+
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
 			// Storage Blocks

@@ -122,6 +122,12 @@ public class BlockHarvestTagsGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
+					if(processedType.contains("storage_block")) {
+						pickaxe.add(EERegistrar.storageBlockMap.get(material.getId()).get());
+					}
+					if(processedType.contains("raw")) {
+						pickaxe.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+					}
 					if(processedType.contains("ore")) {
 						switch (stratum.getHarvestTool()) {
 							case "shovel" -> shovel.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());

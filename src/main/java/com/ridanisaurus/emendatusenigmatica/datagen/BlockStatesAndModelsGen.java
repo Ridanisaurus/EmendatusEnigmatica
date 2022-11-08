@@ -40,6 +40,8 @@ import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
+
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
     public BlockStatesAndModelsGen(DataGenerator gen, ExistingFileHelper exFileHelper) {
@@ -64,7 +66,8 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                             .cube("#base")
                             .allFaces((d, u) -> u.tintindex(-1))
                             .end();
-                } else {
+                }
+                else {
                     models().getBuilder(loc.toString()).parent(new ModelFile.UncheckedModelFile(mcLoc("block/block")))
                             .renderType("translucent")
                             .texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
@@ -119,7 +122,7 @@ public class BlockStatesAndModelsGen extends BlockStateProvider {
                             .allFaces((d, u) -> u.tintindex(2))
                             .end();
                 }
-                simpleBlock(rawblock, new ModelFile.UncheckedModelFile(modLoc("block/raw_" + loc.getPath())));
+                simpleBlock(rawblock, new ModelFile.UncheckedModelFile(modLoc("block/" + loc.getPath())));
             }
 
             // Fluid Block
