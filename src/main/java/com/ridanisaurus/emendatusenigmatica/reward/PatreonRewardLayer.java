@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.reward;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -41,9 +42,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.InputStreamReader;
@@ -71,14 +72,13 @@ public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, Player
 		if (player.isCreative()) {
 			matrixStack.pushPose();
 			getParentModel().head.translateAndRotate(matrixStack);
-			matrixStack.translate(0, -1.25, 0);
-			matrixStack.scale(0.40f, -0.40f, -0.40f);
-			matrixStack.mulPose(Vector3f.YP.rotationDegrees((world.getGameTime() % 360) * 3));
+			matrixStack.translate(0, -1, 0);
+			matrixStack.scale(0.30f, -0.30f, -0.30f);
+			matrixStack.mulPose(Vector3f.YP.rotationDegrees((world.getGameTime() % 360)));
+
 			Minecraft.getInstance().getItemRenderer().renderStatic(player, REWARD_MAP.getOrDefault(name, ItemStack.EMPTY), ItemTransforms.TransformType.NONE, false, matrixStack, buffer, player.level, 0xF000F0, OverlayTexture.NO_OVERLAY, player.getId());
 			matrixStack.popPose();
-			EmendatusEnigmatica.LOGGER.warn("TEST: Reward rendered");
 		}
-		EmendatusEnigmatica.LOGGER.warn("TEST: Reward didn't rendered");
 	}
 
 	private static class FetchThread extends Thread {
@@ -91,16 +91,18 @@ public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, Player
 
 		@Override
 		public void run() {
+			Gson jsonParser = new Gson();
 			try {
 				var url = new URL("https://raw.githubusercontent.com/Ridanisaurus/EmendatusEnigmatica/EEV1-1.16/supporters_list.json");
 				var reader = new JsonReader(new InputStreamReader(url.openStream()));
 
 				var main = JsonParser.parseReader(reader).getAsJsonObject();
 				for (var entry : main.entrySet()) {
-					var object = entry.getValue().getAsJsonObject();
-					var name = object.get("name").getAsString();
-					var item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(object.get("item").getAsString())));
+//					var object = entry.getValue().getAsJsonObject();
+					var name = entry.getKey();
+					var item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.MOD_ID, "felinium_jaminite_ingot")));
 					REWARD_MAP.put(name, item);
+					EmendatusEnigmatica.LOGGER.info("Fetching supporter information was successful!");
 				}
 
 				reader.close();

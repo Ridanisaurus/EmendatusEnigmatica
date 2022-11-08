@@ -35,22 +35,13 @@ import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
-import com.ridanisaurus.emendatusenigmatica.proxy.ClientProxy;
-import com.ridanisaurus.emendatusenigmatica.proxy.IProxy;
-import com.ridanisaurus.emendatusenigmatica.proxy.ServerProxy;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.reward.PatreonRewardLayer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -65,17 +56,13 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.function.Consumer;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -93,8 +80,6 @@ public class EmendatusEnigmatica {
     public static boolean THERMALSERIES_LOADED = false;
 
     public static EmendatusEnigmatica instance;
-    @SuppressWarnings("Convert2MethodRef")
-    public static IProxy proxy = DistExecutor.unsafeRunForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
     public EmendatusEnigmatica() {
         EmendatusEnigmatica.instance = this;
@@ -133,7 +118,6 @@ public class EmendatusEnigmatica {
 
     private void commonEvents(FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
-        EmendatusEnigmatica.proxy.init(event);
     }
 
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
