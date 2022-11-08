@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraft.data.tags.TagsProvider.TagAppender;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class BloodMagicDataGen {
 
@@ -97,8 +98,8 @@ public class BloodMagicDataGen {
 							.fieldJson("tool", new GenericRecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ARC.apply("resonator")))
 							.fieldJson("addedoutput", new GenericRecipeBuilder.JsonItemBuilder(true)
-									.objectWithChance("type", Registry.ITEM.get(new ResourceLocation("bloodmagic", "corrupted_tinydust")), 1, 0.05)
-									.objectWithChance("type", Registry.ITEM.get(new ResourceLocation("bloodmagic", "corrupted_tinydust")), 1, 0.01))
+									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.05)
+									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.01))
 							.fieldBoolean("consumeingredient", false)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gravel/from_fragment/" + material.getId()));
 				}

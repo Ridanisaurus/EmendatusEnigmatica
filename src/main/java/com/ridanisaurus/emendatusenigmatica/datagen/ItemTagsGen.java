@@ -123,13 +123,10 @@ public class ItemTagsGen extends ItemTagsProvider {
 			// Raw Materials
 			if (processedType.contains("raw")) {
 				forgeRaw.add(EERegistrar.rawMap.get(material.getId()).get());
-				forgeOres.add(EERegistrar.rawMap.get(material.getId()).get());
 				forgeBlocks.add(EERegistrar.rawBlockItemMap.get(material.getId()).get());
 				TagAppender<Item> rawTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "raw_materials/" + material.getId())));
-				TagAppender<Item> oreTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores/" + material.getId())));
 				TagAppender<Item> rawBlockTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material.getId())));
 				rawTag.add(EERegistrar.rawMap.get(material.getId()).get());
-				oreTag.add(EERegistrar.rawMap.get(material.getId()).get());
 				rawBlockTag.add(EERegistrar.rawBlockItemMap.get(material.getId()).get());
 			}
 			// Fluid Bucket

@@ -29,6 +29,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 
@@ -72,6 +73,6 @@ public class MaterialOreDropModel {
 	}
 
 	public ItemLike getDefaultItemDropAsItem() {
-		return Registry.ITEM.get(new ResourceLocation(drop));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(drop));
 	}
 }

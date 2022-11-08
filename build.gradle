@@ -168,12 +168,12 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
     runtimeOnly fg.deobf("curse.maven:create-328085:4011414")
 //    runtimeOnly fg.deobf("curse.maven:blood-magic-224791:3540807")
-//    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4031402")
-//    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:4060866")
-//    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4064451")
-//    runtimeOnly fg.deobf("curse.maven:occultism-361026:4061171")
-//    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4066224")
-//    runtimeOnly fg.deobf("curse.maven:curios-309927:3924518")
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4031402")
+    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:4060866")
+    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4064451")
+    runtimeOnly fg.deobf("curse.maven:occultism-361026:4061171")
+    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4066224")
+    runtimeOnly fg.deobf("curse.maven:curios-309927:3924518")
 //    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3556990")
 //    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3556953")
 //    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3556973")
@@ -184,9 +184,6 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
-
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }

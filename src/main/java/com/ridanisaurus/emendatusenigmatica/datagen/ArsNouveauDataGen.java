@@ -33,6 +33,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -59,7 +60,7 @@ public class ArsNouveauDataGen {
 								.fieldJson("input", new GenericRecipeBuilder.JsonItemBuilder(false)
 										.stack(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()))
 								.addOutput(builder -> builder
-										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 1))
+										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 1))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crush_spell/" + material.getId() + "_" + stratum.getId()));
 					}
 				}

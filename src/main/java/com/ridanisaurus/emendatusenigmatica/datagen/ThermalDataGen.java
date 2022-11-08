@@ -33,6 +33,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -115,7 +116,7 @@ public class ThermalDataGen {
 									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
 							.addOutput(builder -> builder
 									.stackWithoutCount(material.getCompat().getThermalCompat().getInductionCompat().getSecondOutput(), material.getCompat().getThermalCompat().getInductionCompat().getSecondOutputCombinedChance())
-									.stackWithoutCount(Registry.ITEM.get(new ResourceLocation("thermal:rich_slag")), 0.2f))
+									.stackWithoutCount(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:rich_slag")), 0.2f))
 							.fieldFloat("experience", 0.2f)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore_induction/" + material.getId()));
 				}
@@ -128,7 +129,7 @@ public class ThermalDataGen {
 									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
 							.addOutput(builder -> builder
 									.stackWithoutCount(material.getCompat().getThermalCompat().getInductionCompat().getSecondOutput(), material.getCompat().getThermalCompat().getInductionCompat().getSecondOutputCombinedChance())
-									.stackWithoutCount(Registry.ITEM.get(new ResourceLocation("thermal:rich_slag")), 0.15f))
+									.stackWithoutCount(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:rich_slag")), 0.15f))
 							.fieldFloat("experience", 0.5f)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_induction/" + material.getId()));
 				}

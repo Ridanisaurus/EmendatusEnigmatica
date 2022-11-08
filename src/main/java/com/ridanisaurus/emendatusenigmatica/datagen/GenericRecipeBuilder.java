@@ -460,7 +460,7 @@ public class GenericRecipeBuilder {
 
 			if (!this.fieldValueItem.isEmpty()) {
 				for (Map.Entry<String, ItemLike> entry : this.fieldValueItem.entrySet()) {
-					recipeJson.addProperty(entry.getKey(), Registry.ITEM.getKey(entry.getValue().asItem()).toString());
+					recipeJson.addProperty(entry.getKey(), ForgeRegistries.ITEMS.getKey(entry.getValue().asItem()).toString());
 				}
 			}
 
