@@ -33,53 +33,31 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 
-public class ThermalPulverizerCompat {
-	public static final Codec<ThermalPulverizerCompat> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.INT.optionalFieldOf("firstOutputCount").forGetter(i -> Optional.of(i.firstOutputCount)),
-			Codec.FLOAT.optionalFieldOf("firstOutputChance").forGetter(i -> Optional.of(i.firstOutputChance)),
-			Codec.STRING.optionalFieldOf("secondOutput").forGetter(i -> Optional.ofNullable(i.secondOutput)),
+public class CreateSplashingCompat {
+	public static final Codec<CreateSplashingCompat> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.STRING.optionalFieldOf("secondOutput").forGetter(i -> Optional.of(i.secondOutput)),
 			Codec.INT.optionalFieldOf("secondOutputCount").forGetter(i -> Optional.of(i.secondOutputCount)),
 			Codec.FLOAT.optionalFieldOf("secondOutputChance").forGetter(i -> Optional.of(i.secondOutputChance))
-	).apply(x, (firstOutputCount, firstOutputChance, secondOutput, secondOutputCount, secondOutputChance) -> new ThermalPulverizerCompat(
-			firstOutputCount.orElse(2),
-			firstOutputChance.orElse(0.5f),
+	).apply(x, (secondOutput, secondOutputCount, secondaryChance) -> new CreateSplashingCompat(
 			secondOutput.orElse(""),
 			secondOutputCount.orElse(0),
-			secondOutputChance.orElse(0f)
+			secondaryChance.orElse(0f)
 	)));
 
-	private final int firstOutputCount;
-	private final float firstOutputChance;
 	private final String secondOutput;
 	private final int secondOutputCount;
 	private final float secondOutputChance;
 
-	public ThermalPulverizerCompat(int firstOutputCount, float firstOutputChance, String secondOutput, int secondOutputCount, float secondOutputChance) {
-		this.firstOutputCount = firstOutputCount;
-		this.firstOutputChance = firstOutputChance;
+	public CreateSplashingCompat(String secondOutput, int secondOutputCount, float secondOutputChance) {
 		this.secondOutput = secondOutput;
 		this.secondOutputCount = secondOutputCount;
 		this.secondOutputChance = secondOutputChance;
 	}
 
-	public ThermalPulverizerCompat() {
-		this.firstOutputCount = 1;
-		this.firstOutputChance = 2.5f;
+	public CreateSplashingCompat() {
 		this.secondOutput = "";
-		this.secondOutputCount = 0;
-		this.secondOutputChance = 0f;
-	}
-
-	public int getFirstOutputCount() {
-		return firstOutputCount;
-	}
-
-	public float getFirstOutputChance() {
-		return firstOutputChance;
-	}
-
-	public float getFirstOutputCombinedChance() {
-		return firstOutputCount + firstOutputChance;
+		this.secondOutputCount = 1;
+		this.secondOutputChance = 1f;
 	}
 
 	public ItemLike getSecondOutput() {
@@ -92,9 +70,5 @@ public class ThermalPulverizerCompat {
 
 	public float getSecondOutputChance() {
 		return secondOutputChance;
-	}
-
-	public float getSecondOutputCombinedChance() {
-		return secondOutputCount + secondOutputChance;
 	}
 }

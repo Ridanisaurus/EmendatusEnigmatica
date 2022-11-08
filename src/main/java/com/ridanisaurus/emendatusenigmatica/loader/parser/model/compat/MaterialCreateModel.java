@@ -31,22 +31,30 @@ import java.util.Optional;
 
 public class MaterialCreateModel {
 	public static final Codec<MaterialCreateModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			CreateCrushingCompat.CODEC.optionalFieldOf("crushing").forGetter(i -> Optional.of(i.crushing))
-	).apply(x, (crushing) -> new MaterialCreateModel(
-			crushing.orElse(new CreateCrushingCompat())
+			CreateCrushingCompat.CODEC.optionalFieldOf("crushing").forGetter(i -> Optional.of(i.crushing)),
+			CreateSplashingCompat.CODEC.optionalFieldOf("splashing").forGetter(i -> Optional.of(i.splashing))
+	).apply(x, (crushing, splashing) -> new MaterialCreateModel(
+			crushing.orElse(new CreateCrushingCompat()),
+			splashing.orElse(new CreateSplashingCompat())
 	)));
 
 	private final CreateCrushingCompat crushing;
+	private final CreateSplashingCompat splashing;
 
-	public MaterialCreateModel(CreateCrushingCompat crushing) {
+	public MaterialCreateModel(CreateCrushingCompat crushing, CreateSplashingCompat splashing) {
 		this.crushing = crushing;
+		this.splashing = splashing;
 	}
 
 	public MaterialCreateModel() {
 		this.crushing = new CreateCrushingCompat();
+		this.splashing = new CreateSplashingCompat();
 	}
 
 	public CreateCrushingCompat getCrushingCompat() {
 		return crushing;
+	}
+	public CreateSplashingCompat getSplashingCompat() {
+		return splashing;
 	}
 }

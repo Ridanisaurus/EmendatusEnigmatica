@@ -29,6 +29,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Optional;
 
@@ -112,7 +113,7 @@ public class ThermalInductionCompat {
 	}
 
 	public ItemLike getSecondOutput() {
-		return Registry.ITEM.get(new ResourceLocation(secondOutput));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(secondOutput));
 	}
 
 	public int getSecondOutputCount() {
@@ -128,7 +129,7 @@ public class ThermalInductionCompat {
 	}
 
 	public ItemLike getFirstInput() {
-		return Registry.ITEM.get(new ResourceLocation(firstInput));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(firstInput));
 	}
 
 	public int getFirstInputCount() {
@@ -136,7 +137,7 @@ public class ThermalInductionCompat {
 	}
 
 	public ItemLike getSecondInput() {
-		return Registry.ITEM.get(new ResourceLocation(secondInput));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(secondInput));
 	}
 
 	public int getSecondInputCount() {
@@ -144,7 +145,7 @@ public class ThermalInductionCompat {
 	}
 
 	public ItemLike getThirdInput() {
-		return Registry.ITEM.get(new ResourceLocation(thirdInput));
+		return ForgeRegistries.ITEMS.getValue(new ResourceLocation(thirdInput));
 	}
 
 	public int getThirdInputCount() {

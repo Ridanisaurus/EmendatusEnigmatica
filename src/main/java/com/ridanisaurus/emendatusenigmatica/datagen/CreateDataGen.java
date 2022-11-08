@@ -46,9 +46,11 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import net.minecraft.data.tags.TagsProvider.TagAppender;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class CreateDataGen {
 
@@ -63,18 +65,17 @@ public class CreateDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {
-					// TODO [RID] Revisit this whole section once the chunks system is flushed out
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
 						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
-								.fieldInt("processingTime", 300)
+								.fieldInt("processingTime", 250)
 								.addOutput(builder -> builder
-										// TODO [RID] Look into making the secondary item configurable instead of just the same primary
 										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
-										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
+										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
+										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
@@ -83,46 +84,24 @@ public class CreateDataGen {
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
 								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
-								.fieldInt("processingTime", 300)
+								.fieldInt("processingTime", 350)
 								.addOutput(builder -> builder
 										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
-										.stackWithChance((Registry.ITEM.get(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : Registry.ITEM.get(stratum.getFillerType())), 1, 0.125))
+										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
+										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 				}
-				if (processedType.contains("crushed_ore") && processedType.contains("raw")) {
-					// Crushed Ore from Chunk - Crushing
-					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
-							.type("create:crushing")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawMap.get(material.getId()).get()))
-							.fieldInt("processingTime", 300)
-							.addOutput(builder -> builder
-									.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
-									.stackWithChance(Blocks.COBBLESTONE, 1, 0.125))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw/" + material.getId()));
-				}
 
-				// Crushed Ore from ore/chunk - Milling
-				if (processedType.contains("crushed_ore") && processedType.contains("ore")) {
-					// Crushed Ore from Chunk
-					new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
-							.type("create:milling")
-							.forceOutputArray(true)
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).tag(EETags.MATERIAL_ORE.apply(material.getId())))
-							.fieldInt("processingTime", 300)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_milling/" + material.getId()));
-				}
 				// Nuggets from Crushed Ore
-				if (processedType.contains("crushed_ore") && processedType.contains("nugget")) {
-					// Crushed Ore from Chunk
-					new GenericRecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 10)
+				if (processedType.contains("crushed_ore") && processedType.contains("nugget") && material.isModded()) {
+					// Crushed Ore from Raw
+					new GenericRecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 9)
 							.type("create:splashing")
 							.group("emendatusenigmatica:compat_recipe")
 							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
 							.addOutput(builder -> builder
-									.stackWithChance(EERegistrar.nuggetMap.get(material.getId()).get(), 5, 0.5))
+									.stackWithChance(material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutput(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputChance()))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_crushed_splashing/" + material.getId()));
 				}
 			}
