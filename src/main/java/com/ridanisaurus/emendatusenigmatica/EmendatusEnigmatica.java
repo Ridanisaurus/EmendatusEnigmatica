@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableSet;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
 import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
@@ -83,6 +84,7 @@ public class EmendatusEnigmatica {
 
     public EmendatusEnigmatica() {
         EmendatusEnigmatica.instance = this;
+        EEConfig.registerClient();
 
         MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
         CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);

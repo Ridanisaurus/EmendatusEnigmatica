@@ -44,13 +44,12 @@ public class FeliniumJaminiteIngot extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         if(Screen.hasShiftDown()) {
-            components.add(Component.literal("Thank you for supporting my Patreon!").withStyle(ChatFormatting.AQUA));
-            components.add(Component.literal("This item is cosmetic, and rewarded as a render on your player's model if you are one of my Patreons.").withStyle(ChatFormatting.AQUA));
-            components.add(Component.literal("You can show/hide this reward by using the /COMMAND command.").withStyle(ChatFormatting.AQUA));
+            components.add(Component.literal("This item is cosmetic, and rewarded as a render on your player's model if you are one of my Patreons.").withStyle(ChatFormatting.DARK_AQUA));
+            components.add(Component.literal("You can show/hide this reward from the config file without needing to restart the game.").withStyle(ChatFormatting.DARK_AQUA));
         } else {
-            components.add(Component.literal("Press [SHIFT] for more info").withStyle(ChatFormatting.YELLOW));
+            components.add(Component.literal("This is a token of appreciation, and is not craftable.").withStyle(ChatFormatting.GOLD));
+            components.add(Component.literal("Press [SHIFT] for more info").withStyle(ChatFormatting.DARK_GRAY));
         }
-
         super.appendHoverText(stack, level, components, flag);
     }
 }

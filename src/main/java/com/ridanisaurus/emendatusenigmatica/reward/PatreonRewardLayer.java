@@ -30,6 +30,7 @@ import com.google.gson.stream.JsonReader;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
@@ -69,7 +70,7 @@ public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, Player
 		String name = player.getGameProfile().getName();
 		Level world = player.getCommandSenderWorld();
 
-		if (player.isCreative()) {
+		if (EEConfig.client.showPatreonReward.get()) {
 			matrixStack.pushPose();
 			getParentModel().head.translateAndRotate(matrixStack);
 			matrixStack.translate(0, -1, 0);
