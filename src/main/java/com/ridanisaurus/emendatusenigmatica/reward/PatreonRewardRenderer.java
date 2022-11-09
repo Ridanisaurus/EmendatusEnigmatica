@@ -31,13 +31,13 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+//@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class PatreonRewardRenderer {
-	@SubscribeEvent
-	public static void addLayers(EntityRenderersEvent.AddLayers event) {
-		for (String skin : event.getSkins()) {
-			PlayerRenderer renderer = event.getSkin(skin);
-			renderer.addLayer(new PatreonRewardLayer(renderer));
-		}
-	}
+//	@SubscribeEvent
+//	public static void addLayers(EntityRenderersEvent.AddLayers event) {
+//		for (String skin : event.getSkins()) {
+//			PlayerRenderer renderer = event.getSkin(skin);
+//			renderer.addLayer(new PatreonRewardLayer(renderer));
+//		}
+//	}
 }

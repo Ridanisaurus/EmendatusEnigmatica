@@ -26,22 +26,35 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
+import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
+import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
+import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
+import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
+import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.reward.PatreonRewardLayer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.model.DynamicFluidContainerModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -50,6 +63,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -100,6 +114,9 @@ public class EmendatusEnigmatica {
         EEDeposits.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
+        modEventBus.addListener(this::blockColorEvent);
+        modEventBus.addListener(this::itemColorEvent);
+        modEventBus.addListener(this::patreonRewardEvent);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
@@ -115,44 +132,128 @@ public class EmendatusEnigmatica {
         }
     };
 
+    @OnlyIn(Dist.CLIENT)
+    private void blockColorEvent(RegisterColorHandlersEvent.Block event) {
+        event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
+        event.getItemColors().register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.getItemColors().register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.getItemColors().register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void patreonRewardEvent(EntityRenderersEvent.AddLayers event) {
+        for (String skin : event.getSkins()) {
+            PlayerRenderer renderer = event.getSkin(skin);
+            renderer.addLayer(new PatreonRewardLayer(renderer));
+        }
+    }
+
+//    @OnlyIn(Dist.CLIENT)
+//    private static void registerClientDataGen() {
+//        generator = DataGeneratorFactory.createEEDataGenerator();
+//        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
+//
+//        generator.addProvider(isClient(), new BlockStatesAndModelsGen(generator, existingFileHelper));
+//        generator.addProvider(isClient(), new ItemModelsGen(generator, existingFileHelper));
+//        generator.addProvider(isClient(), new LangGen(generator));
+//        if (CREATE_LOADED) generator.addProvider(isClient(), new CreateDataGen.CreateItemModels(generator, existingFileHelper));
+//        if (BLOODMAGIC_LOADED) generator.addProvider(isClient(), new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
+//        if (MEKANISM_LOADED) generator.addProvider(isClient(), new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
+//    }
+//
+//    private static void registerServerDataGen() {
+//        generator = DataGeneratorFactory.createEEDataGenerator();
+//        ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
+//
+//        BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
+//        generator.addProvider(isServer(), new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+//        generator.addProvider(isServer(), blockTagsGeneration);
+//        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
+//        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
+//        generator.addProvider(isServer(), new FluidTagsGen(generator, existingFileHelper));
+//        generator.addProvider(isServer(), new RecipesGen(generator));
+//        generator.addProvider(isServer(), new LootTablesGen(generator));
+//        generator.addProvider(isServer(), new OreFeatureDataGen(generator));
+//
+//        if (CREATE_LOADED) {
+//            generator.addProvider(isServer(), new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new CreateDataGen.CreateRecipes(generator));
+//        }
+//        if (BLOODMAGIC_LOADED) {
+//            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicRecipes(generator));
+//        }
+//        if (ARSNOUVEAU_LOADED) generator.addProvider(isServer(), new ArsNouveauDataGen.ArsNouveauRecipes(generator));
+//        if (OCCULTISM_LOADED) generator.addProvider(isServer(), new OccultismDataGen.OccultismRecipes(generator));
+//        if (THERMALSERIES_LOADED) generator.addProvider(isServer(), new ThermalDataGen.ThermalRecipes(generator));
+//        if (MEKANISM_LOADED) {
+//            generator.addProvider(isServer(), new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
+//            generator.addProvider(isServer(), new MekanismDataGen.MekanismRecipes(generator));
+//        }
+//    }
+
     private static void registerDataGen() {
+//        if (isClient()) {
+//            registerClientDataGen();
+//        } else {
+//            registerServerDataGen();
+//        }
+
         generator = DataGeneratorFactory.createEEDataGenerator();
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
-        generator.addProvider(true, new BlockStatesAndModelsGen(generator, existingFileHelper));
-        generator.addProvider(true, new ItemModelsGen(generator, existingFileHelper));
-        generator.addProvider(true, new LangGen(generator));
-        if (CREATE_LOADED) generator.addProvider(true, new CreateDataGen.CreateItemModels(generator, existingFileHelper));
-        if (BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
+        generator.addProvider(isClient(), new BlockStatesAndModelsGen(generator, existingFileHelper));
+        generator.addProvider(isClient(), new ItemModelsGen(generator, existingFileHelper));
+        generator.addProvider(isClient(), new LangGen(generator));
+        if (CREATE_LOADED) generator.addProvider(isClient(), new CreateDataGen.CreateItemModels(generator, existingFileHelper));
+        if (BLOODMAGIC_LOADED) generator.addProvider(isClient(), new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
 
         BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(true, new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-        generator.addProvider(true, blockTagsGeneration);
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
-        generator.addProvider(true, new FluidTagsGen(generator, existingFileHelper));
-        generator.addProvider(true, new RecipesGen(generator));
-        generator.addProvider(true, new LootTablesGen(generator));
-        generator.addProvider(true, new OreFeatureDataGen(generator));
+        generator.addProvider(isServer(), new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+        generator.addProvider(isServer(), blockTagsGeneration);
+        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
+        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
+        generator.addProvider(isServer(), new FluidTagsGen(generator, existingFileHelper));
+        generator.addProvider(isServer(), new RecipesGen(generator));
+        generator.addProvider(isServer(), new LootTablesGen(generator));
+        generator.addProvider(isServer(), new OreFeatureDataGen(generator));
 
         if (CREATE_LOADED) {
-            generator.addProvider(true, new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
-            generator.addProvider(true, new CreateDataGen.CreateRecipes(generator));
+            generator.addProvider(isServer(), new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(isServer(), new CreateDataGen.CreateRecipes(generator));
         }
         if (BLOODMAGIC_LOADED) {
-            generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
-            generator.addProvider(true, new BloodMagicDataGen.BloodMagicRecipes(generator));
+            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicRecipes(generator));
         }
-        if (ARSNOUVEAU_LOADED) generator.addProvider(true, new ArsNouveauDataGen.ArsNouveauRecipes(generator));
-        if (OCCULTISM_LOADED) generator.addProvider(true, new OccultismDataGen.OccultismRecipes(generator));
-        if (THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator));
+        if (ARSNOUVEAU_LOADED) generator.addProvider(isServer(), new ArsNouveauDataGen.ArsNouveauRecipes(generator));
+        if (OCCULTISM_LOADED) generator.addProvider(isServer(), new OccultismDataGen.OccultismRecipes(generator));
+        if (THERMALSERIES_LOADED) generator.addProvider(isServer(), new ThermalDataGen.ThermalRecipes(generator));
 
         if (MEKANISM_LOADED) {
-            generator.addProvider(true, new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
-            generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
-            generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
-            generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator));
+            generator.addProvider(isServer(), new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+            generator.addProvider(isServer(), new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
+            generator.addProvider(isClient(), new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
+            generator.addProvider(isServer(), new MekanismDataGen.MekanismRecipes(generator));
         }
+    }
+
+    private static boolean isServer() {
+//        return FMLEnvironment.dist == Dist.DEDICATED_SERVER;
+        return true;
+    }
+
+    private static boolean isClient() {
+//        return FMLEnvironment.dist == Dist.CLIENT;
+        return true;
     }
 
     public static void generate() {
@@ -160,6 +261,7 @@ public class EmendatusEnigmatica {
             try {
                 if(generator == null)
                     registerDataGen();
+//                    if(DataGenEvent.eventGenerated)
                     generator.run();
             } catch (IOException e) {
                 e.printStackTrace();

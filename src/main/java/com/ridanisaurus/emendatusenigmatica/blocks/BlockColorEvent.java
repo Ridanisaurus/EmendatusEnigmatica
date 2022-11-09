@@ -24,29 +24,20 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
-import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
-import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.RegistryObject;
 
-@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+//@Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BlockColorEvent {
-	@SubscribeEvent
-	private void blockColorEvent(RegisterColorHandlersEvent.Block event) {
-		event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
-	}
+
+//	@SubscribeEvent
+//	public void blockColorEvent(RegisterColorHandlersEvent.Block event) {
+//		event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
+//	}
 }
