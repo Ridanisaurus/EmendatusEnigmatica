@@ -24,8 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.advancements.critereon.EnchantmentPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -33,57 +31,41 @@ import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
-import net.minecraft.data.HashCache;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.IntRange;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTable.Builder;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
-import net.minecraft.world.level.storage.loot.functions.LimitCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseLootTableProvider extends LootTableProvider {
-
-	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-
-	// Filled by subclasses
-	protected final Map<Block, LootTable.Builder> blockLootTable = new HashMap<>();
-	protected final Map<Item, LootTable.Builder> itemLootTable = new HashMap<>();
-
+public abstract class BaseLootProvider extends LootTableProvider {
+	protected final Map<Block, Builder> blockLootTable = new HashMap<>();
 	private final DataGenerator generator;
+	private static final LootItemCondition.Builder HAS_SILK_TOUCH = MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1))));
 
-	public BaseLootTableProvider(DataGenerator dataGeneratorIn) {
+	public BaseLootProvider(DataGenerator dataGeneratorIn) {
 		super(dataGeneratorIn);
 		this.generator = dataGeneratorIn;
-	}
-
-	@Override
-	// Entry point
-	public void run(CachedOutput cache) {
-		this.addTables();
-		Map<ResourceLocation, LootTable> tables = new HashMap<>();
-		for (Map.Entry<Block, LootTable.Builder> entry : this.blockLootTable.entrySet()) {
-			tables.put(entry.getKey().getLootTable(),
-					entry.getValue().setParamSet(LootContextParamSets.BLOCK).build());
-		}
-
-		this.writeTables(cache, tables);
 	}
 
 	@Override
@@ -91,49 +73,48 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
 		return "Emendatus Enigmatica LootTables";
 	}
 
-	// Subclasses can override this to fill the 'lootTables' map.
+	@Override
+	public void run(CachedOutput cache) {
+		this.addTables();
+		Map<ResourceLocation, LootTable> tables = new HashMap<>();
+		for (Map.Entry<Block, LootTable.Builder> entry : this.blockLootTable.entrySet()) {
+			tables.put(entry.getKey().getLootTable(),
+					entry.getValue().setParamSet(LootContextParamSets.BLOCK).build());
+		}
+		this.writeTables(cache, tables);
+	}
+
 	protected abstract void addTables();
 
-	protected LootTable.Builder createBlockLootTable(Block block) {
-		LootPool.Builder builder = LootPool.lootPool()
+	protected static LootTable.Builder createBlockDrop(Block block) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block))
-				.when(ExplosionCondition.survivesExplosion());
-		return LootTable.lootTable().withPool(builder);
+				.when(ExplosionCondition.survivesExplosion())
+		);
 	}
 
-	protected LootTable.Builder createItemLootTable(Item item) {
-		LootPool.Builder builder = LootPool.lootPool()
+	protected static LootTable.Builder createOreDrop(Block block, Item item) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(item))
-				.when(ExplosionCondition.survivesExplosion());
-		return LootTable.lootTable().withPool(builder);
+				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
+						.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+						.apply(ApplyExplosionDecay.explosionDecay())
+				))
+		);
 	}
 
-	protected LootTable.Builder createSpecialTable(Item item, ItemLike itemProvider) {
-		LootPool.Builder builder = LootPool.lootPool()
+	protected static LootTable.Builder createGemDrop(Block block, ItemLike item, UniformGenerator range) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(item)
-						.when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
-						.otherwise(LootItem.lootTableItem(itemProvider)
-								.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
-								.apply(ApplyExplosionDecay.explosionDecay())));
-		return LootTable.lootTable().withPool(builder);
+				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
+						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
+						.apply(SetItemCountFunction.setCount(range))
+						.apply(ApplyExplosionDecay.explosionDecay())
+				))
+		);
 	}
 
-	protected LootTable.Builder createCountTable(Item item, ItemLike itemProvider, int minCount, int maxCount) {
-		LootPool.Builder builder = LootPool.lootPool()
-				.setRolls(ConstantValue.exactly(1))
-				.add(LootItem.lootTableItem(item)
-						.when(MatchTool.toolMatches(ItemPredicate.Builder.item().hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))))
-						.otherwise(LootItem.lootTableItem(itemProvider)
-								.apply(LimitCount.limitCount(IntRange.range(minCount, maxCount)))
-								.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
-								.apply(ApplyExplosionDecay.explosionDecay())));
-		return LootTable.lootTable().withPool(builder);
-	}
-
-	// Actually write out the tables in the output folder
 	private void writeTables(CachedOutput cache, Map<ResourceLocation, LootTable> tables) {
 		Path outputFolder = this.generator.getOutputFolder();
 		tables.forEach((key, lootTable) -> {

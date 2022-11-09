@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -36,40 +35,40 @@ import java.util.Optional;
 public class MaterialOreDropModel {
 	public static final Codec<MaterialOreDropModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("drop").forGetter(i -> Optional.ofNullable(i.drop)),
-			Codec.INT.optionalFieldOf("vanillaMin").forGetter(i -> Optional.of(i.vanillaMin)),
-			Codec.INT.optionalFieldOf("vanillaMax").forGetter(i -> Optional.of(i.vanillaMax))
-	).apply(x, (drop, vanillaMin, vanillaMax) -> new MaterialOreDropModel(
+			Codec.INT.optionalFieldOf("min").forGetter(i -> Optional.of(i.min)),
+			Codec.INT.optionalFieldOf("max").forGetter(i -> Optional.of(i.max))
+	).apply(x, (drop, min, max) -> new MaterialOreDropModel(
 			drop.orElse(""),
-			vanillaMin.orElse(1),
-			vanillaMax.orElse(1)
+			min.orElse(1),
+			max.orElse(1)
 	)));
 
 	private final String drop;
-	private final int vanillaMin;
-	private final int vanillaMax;
+	private final int min;
+	private final int max;
 
-	public MaterialOreDropModel(String drop, int vanillaMin, int vanillaMax) {
+	public MaterialOreDropModel(String drop, int min, int max) {
 		this.drop = drop;
-		this.vanillaMin = vanillaMin;
-		this.vanillaMax = vanillaMax;
+		this.min = min;
+		this.max = max;
 	}
 
 	public MaterialOreDropModel() {
 		this.drop = "";
-		this.vanillaMin = 1;
-		this.vanillaMax = 1;
+		this.min = 1;
+		this.max = 1;
 	}
 
 	public String getDrop() {
 		return drop;
 	}
 
-	public int getVanillaMin() {
-		return vanillaMin;
+	public int getMin() {
+		return min;
 	}
 
-	public int getVanillaMax() {
-		return vanillaMax;
+	public int getMax() {
+		return max;
 	}
 
 	public ItemLike getDefaultItemDropAsItem() {

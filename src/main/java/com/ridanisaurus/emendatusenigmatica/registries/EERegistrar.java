@@ -113,8 +113,8 @@ public class EERegistrar {
 					strata.getHardness(),
 					strata.getResistance(),
 					material.getLocalizedName(),
-					material.getOreDrop().getVanillaMin(),
-					material.getOreDrop().getVanillaMax(),
+					material.getOreDrop().getMin(),
+					material.getOreDrop().getMax(),
 					material.getColors().getHighlightColor(),
 					material.getColors().getBaseColor(),
 					material.getColors().getShadeColor()));
