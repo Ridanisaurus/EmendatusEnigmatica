@@ -163,7 +163,7 @@ dependencies {
     compileOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}:api"
     runtimeOnly fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")// core
 
-    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3921630")
+    runtimeOnly fg.deobf("curse.maven:tool-kit-324888:3933949")
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
     runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
     runtimeOnly fg.deobf("curse.maven:create-328085:4011414")

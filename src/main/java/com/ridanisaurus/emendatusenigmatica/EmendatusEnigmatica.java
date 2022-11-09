@@ -26,14 +26,8 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
-import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
-import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
-import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
@@ -47,10 +41,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -59,7 +50,6 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -101,38 +91,21 @@ public class EmendatusEnigmatica {
 
         EELoader.load();
         EERegistrar.finalize(modEventBus);
+        if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
+        if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
+        if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
         EEDeposits.load();
         EEDeposits.setup();
         EEDeposits.finalize(modEventBus);
 
-        if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
-        if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
-        if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
-
         modEventBus.addListener(this::commonEvents);
-        modEventBus.addListener(this::itemColorEvent);
-        modEventBus.addListener(this::blockColorEvent);
 
-//        registerDataGen();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
 
     private void commonEvents(FMLCommonSetupEvent event) {
         MultiStrataRuleTest.register();
-    }
-
-    private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
-        event.getItemColors().register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
-    }
-
-    private void blockColorEvent(RegisterColorHandlersEvent.Block event) {
-        event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
