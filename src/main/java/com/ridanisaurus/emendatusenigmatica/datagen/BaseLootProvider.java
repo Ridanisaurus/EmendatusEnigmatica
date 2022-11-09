@@ -104,7 +104,7 @@ public abstract class BaseLootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder createGemDrop(Block block, ItemLike item, UniformGenerator range) {
+	protected static LootTable.Builder createSpecialOreDrop(Block block, ItemLike item, UniformGenerator range) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())

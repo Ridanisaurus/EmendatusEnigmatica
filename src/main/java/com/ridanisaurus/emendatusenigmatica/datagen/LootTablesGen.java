@@ -46,27 +46,37 @@ public class LootTablesGen extends BaseLootProvider {
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(),
-						createBlockDrop(EERegistrar.storageBlockMap.get(material.getId()).get()));
+						createBlockDrop(EERegistrar.storageBlockMap.get(material.getId()).get())
+				);
 			}
 			// Raw Storage Blocks
 			if (processedType.contains("raw")) {
 				blockLootTable.put(EERegistrar.rawBlockMap.get(material.getId()).get(),
-						createBlockDrop(EERegistrar.rawBlockMap.get(material.getId()).get()));
+						createBlockDrop(EERegistrar.rawBlockMap.get(material.getId()).get())
+				);
 			}
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getOreBlockType().equals("metal")) {
 					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 							createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-									EERegistrar.rawMap.get(material.getId()).get()));
+									EERegistrar.rawMap.get(material.getId()).get())
+					);
 				}
 				if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem")) {
-					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-							createGemDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-									(processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
-									UniformGenerator.between((float) material.getOreDrop().getMin(), (float) material.getOreDrop().getMax())));
+					if (material.getOreDrop().getMax() == 1) {
+						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
+						);
+					} else {
+						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								createSpecialOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+						);
+					}
 				}
-				// TODO check if min/max values are set, else do loot oredrops bonuses and refine the gem/default item
 			}
 		}
 	}
