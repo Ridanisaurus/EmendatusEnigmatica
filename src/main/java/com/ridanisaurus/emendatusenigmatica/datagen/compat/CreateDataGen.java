@@ -1,37 +1,38 @@
 /*
- * MIT License
+ *  MIT License
  *
- * Copyright (c) 2020 Ridanisaurus
+ *  Copyright (c) 2020 Ridanisaurus
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.Registry;
 import net.minecraft.data.*;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -39,22 +40,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
-import net.minecraft.data.tags.TagsProvider.TagAppender;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 
 public class CreateDataGen {
 
-	public static class CreateRecipes extends GenericRecipeProvider {
+	public static class CreateRecipes extends EERecipeProvider {
 
 		public CreateRecipes(DataGenerator gen) {
 			super(gen);
@@ -67,10 +67,10 @@ public class CreateDataGen {
 				for (StrataModel stratum : EELoader.STRATA) {
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
-						new GenericRecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
+						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 250)
 								.addOutput(builder -> builder
 										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
@@ -80,10 +80,10 @@ public class CreateDataGen {
 					}
 					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
-						new GenericRecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
+						new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
 								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
 								.fieldInt("processingTime", 350)
 								.addOutput(builder -> builder
 										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
@@ -96,10 +96,10 @@ public class CreateDataGen {
 				// Nuggets from Crushed Ore
 				if (processedType.contains("crushed_ore") && processedType.contains("nugget") && material.isModded()) {
 					// Crushed Ore from Raw
-					new GenericRecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 9)
+					new RecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 9)
 							.type("create:splashing")
 							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new GenericRecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
+							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
 							.addOutput(builder -> builder
 									.stackWithChance(material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutput(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputChance()))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_crushed_splashing/" + material.getId()));
@@ -115,7 +115,7 @@ public class CreateDataGen {
 
 	public static class CreateItemModels extends ItemModelProvider {
 
-		public CreateItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+		public CreateItemModels(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
 			super(generator, Reference.MOD_ID, existingFileHelper);
 		}
 
@@ -146,7 +146,7 @@ public class CreateDataGen {
 
 	public static class CreateItemTags extends ItemTagsProvider {
 
-		public CreateItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+		public CreateItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
 			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
 		}
 

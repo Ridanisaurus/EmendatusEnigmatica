@@ -37,11 +37,12 @@ import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemModelsGen extends ItemModelProvider {
 
-    public ItemModelsGen(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+    public ItemModelsGen(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
         super(generator, Reference.MOD_ID, existingFileHelper);
     }
 

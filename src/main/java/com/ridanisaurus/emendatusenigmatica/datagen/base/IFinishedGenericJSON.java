@@ -22,30 +22,20 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 
-import javax.annotation.Nullable;
+public interface IFinishedGenericJSON {
+	void serializeJSONData(JsonObject genericJSON);
 
-public interface IFinishedGenericRecipe {
-	void serializeRecipeData(JsonObject recipeJSON);
-
-	default JsonObject serializeRecipe() {
+	default JsonObject serializeJSON() {
 		JsonObject jsonobject = new JsonObject();
 
-		this.serializeRecipeData(jsonobject);
+		this.serializeJSONData(jsonobject);
 		return jsonobject;
 	}
 
 	ResourceLocation getId();
-
-	String getType();
-
-	@Nullable
-	JsonObject serializeAdvancement();
-
-	@Nullable
-	ResourceLocation getAdvancementId();
 }

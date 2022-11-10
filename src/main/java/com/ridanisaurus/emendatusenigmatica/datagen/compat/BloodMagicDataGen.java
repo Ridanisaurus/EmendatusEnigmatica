@@ -1,36 +1,38 @@
 /*
- * MIT License
+ *  MIT License
  *
- * Copyright (c) 2020 Ridanisaurus
+ *  Copyright (c) 2020 Ridanisaurus
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -45,12 +47,13 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraft.data.tags.TagsProvider.TagAppender;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import javax.annotation.Nullable;
 
 public class BloodMagicDataGen {
 
-	public static class BloodMagicRecipes extends GenericRecipeProvider {
+	public static class BloodMagicRecipes extends EERecipeProvider {
 
 		public BloodMagicRecipes(DataGenerator gen) {
 			super(gen);
@@ -62,11 +65,11 @@ public class BloodMagicDataGen {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("dust") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Dust from Ore - Alchemy Table
-					new GenericRecipeBuilder("output", EERegistrar.dustMap.get(material.getId()).get(), 2)
+					new RecipeBuilder("output", EERegistrar.dustMap.get(material.getId()).get(), 2)
 							.forceOutputArray(false)
 							.type("bloodmagic:alchemytable")
 							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("input", new GenericRecipeBuilder.JsonItemBuilder(true)
+							.fieldJson("input", new RecipeBuilder.JsonItemBuilder(true)
 									.tag(EETags.MATERIAL_ORE.apply(material.getId()))
 									.tag(EETags.MATERIAL_ARC.apply("cuttingfluid")))
 							.fieldInt("syphon", 400)
@@ -76,28 +79,28 @@ public class BloodMagicDataGen {
 				}
 				if (processedType.contains("fragment") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Fragment from Ore - ARC
-					new GenericRecipeBuilder("output", EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), 3)
+					new RecipeBuilder("output", EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), 3)
 							.forceOutputArray(false)
 							.type("bloodmagic:arc")
 							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("input", new GenericRecipeBuilder.JsonItemBuilder(false)
+							.fieldJson("input", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
-							.fieldJson("tool", new GenericRecipeBuilder.JsonItemBuilder(false)
+							.fieldJson("tool", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ARC.apply("explosive")))
 							.fieldBoolean("consumeingredient", false)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "fragment/from_ore/" + material.getId()));
 				}
 				if (processedType.contains("gravel") && processedType.contains("fragment") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
 					// Gravel from Fragment - ARC
-					new GenericRecipeBuilder("output", EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(),1)
+					new RecipeBuilder("output", EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(),1)
 							.forceOutputArray(false)
 							.type("bloodmagic:arc")
 							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("input", new GenericRecipeBuilder.JsonItemBuilder(false)
+							.fieldJson("input", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_FRAGMENT.apply(material.getId())))
-							.fieldJson("tool", new GenericRecipeBuilder.JsonItemBuilder(false)
+							.fieldJson("tool", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ARC.apply("resonator")))
-							.fieldJson("addedoutput", new GenericRecipeBuilder.JsonItemBuilder(true)
+							.fieldJson("addedoutput", new RecipeBuilder.JsonItemBuilder(true)
 									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.05)
 									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.01))
 							.fieldBoolean("consumeingredient", false)
@@ -114,7 +117,7 @@ public class BloodMagicDataGen {
 
 	public static class BloodMagicItemModels extends ItemModelProvider {
 
-		public BloodMagicItemModels(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+		public BloodMagicItemModels(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
 			super(generator, Reference.MOD_ID, existingFileHelper);
 		}
 
@@ -156,7 +159,7 @@ public class BloodMagicDataGen {
 
 	public static class BloodMagicItemTags extends ItemTagsProvider {
 
-		public BloodMagicItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+		public BloodMagicItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
 			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
 		}
 

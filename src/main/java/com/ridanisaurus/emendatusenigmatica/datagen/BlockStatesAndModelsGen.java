@@ -40,11 +40,12 @@ import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockStatesAndModelsGen extends BlockStateProvider {
 
-    public BlockStatesAndModelsGen(DataGenerator gen, ExistingFileHelper exFileHelper) {
+    public BlockStatesAndModelsGen(DataGenerator gen, @Nullable ExistingFileHelper exFileHelper) {
         super(gen, Reference.MOD_ID, exFileHelper);
     }
 

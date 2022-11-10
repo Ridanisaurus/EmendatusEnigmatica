@@ -24,6 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EEFeatureProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.FeatureBuilder;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
@@ -39,7 +42,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class OreFeatureDataGen extends GenericFeatureProvider {
+public class OreFeatureDataGen extends EEFeatureProvider {
 
 	public OreFeatureDataGen(DataGenerator gen) {
 		super(gen);
@@ -60,59 +63,59 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			if (material.isVanilla() && material.getId().contains("coal") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COAL_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_coal_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("copper") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COPPER_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_copper_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("iron") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_IRON_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_iron_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("gold") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_GOLD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_gold_ore"));
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_NETHER_GOLD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_nether_gold_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("redstone") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_REDSTONE_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_redstone_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("lapis") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_LAPIS_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_lapis_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("diamond") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_DIAMOND_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_diamond_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("emerald") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_EMERALD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_emerald_ore"));
 			}
 			if (material.isVanilla() && material.getId().contains("nether_quartz") && material.getRemoveDefaultOre()) {
-				new GenericFeatureBuilder("forge:remove_features", "underground_ores")
+				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_QUARTZ_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_nether_quartz_ore"));
@@ -130,7 +133,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 					biomes.add("#minecraft:is_overworld");
 				}
 				features.add(Reference.MOD_ID + ":" + model.getName());
-				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+				new FeatureBuilder("forge:add_features", "underground_ores")
 						.biomes(biomes)
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
@@ -142,7 +145,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 					biomes.add("#minecraft:is_nether");
 				}
 				features.add(Reference.MOD_ID + ":" + model.getName());
-				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+				new FeatureBuilder("forge:add_features", "underground_ores")
 						.biomes(biomes)
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
@@ -154,7 +157,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 					biomes.add("#minecraft:is_end");
 				}
 				features.add(Reference.MOD_ID + ":" + model.getName());
-				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+				new FeatureBuilder("forge:add_features", "underground_ores")
 						.biomes(biomes)
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
@@ -166,7 +169,7 @@ public class OreFeatureDataGen extends GenericFeatureProvider {
 					biomes.add("#" + getModdedDim(model.getDimension()) + ":is_" + getModdedDim(model.getDimension()));
 				}
 				features.add(Reference.MOD_ID + ":" + model.getName());
-				new GenericFeatureBuilder("forge:add_features", "underground_ores")
+				new FeatureBuilder("forge:add_features", "underground_ores")
 						.biomes(biomes)
 						.features(features)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));

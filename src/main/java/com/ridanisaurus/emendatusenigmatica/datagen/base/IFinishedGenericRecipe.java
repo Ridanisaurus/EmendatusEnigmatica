@@ -22,32 +22,30 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.PackSource;
-import net.minecraft.server.packs.repository.RepositorySource;
+import com.google.gson.JsonObject;
+import net.minecraft.resources.ResourceLocation;
 
-import java.nio.file.Path;
-import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
-public class EEPackFinder implements RepositorySource {
+public interface IFinishedGenericRecipe {
+	void serializeRecipeData(JsonObject recipeJSON);
 
-	private final PackType type;
+	default JsonObject serializeRecipe() {
+		JsonObject jsonobject = new JsonObject();
 
-	public EEPackFinder(PackType type) {
-		this.type = type;
+		this.serializeRecipeData(jsonobject);
+		return jsonobject;
 	}
 
-	@Override
-	public void loadPacks(Consumer<Pack> infoConsumer, Pack.PackConstructor infoFactory) {
-		Path rootPath = DataGeneratorFactory.ROOT_PATH;
+	ResourceLocation getId();
 
-		Pack pack = Pack.create("emendatusenigmatica_" + type.getDirectory(), true,
-				() -> new GeneratedPack(rootPath), infoFactory, Pack.Position.BOTTOM, PackSource.DEFAULT);
-		if (pack != null) {
-			infoConsumer.accept(pack);
-		}
-	}
+	String getType();
+
+	@Nullable
+	JsonObject serializeAdvancement();
+
+	@Nullable
+	ResourceLocation getAdvancementId();
 }

@@ -38,6 +38,6 @@ public class BlockColorEvent {
 
 //	@SubscribeEvent
 //	public void blockColorEvent(RegisterColorHandlersEvent.Block event) {
-//		event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
+//		event.register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
 //	}
 }

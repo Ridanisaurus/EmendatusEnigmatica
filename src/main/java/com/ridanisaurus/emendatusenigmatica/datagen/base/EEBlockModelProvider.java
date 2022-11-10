@@ -22,7 +22,7 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
@@ -44,10 +44,11 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GenericFeatureProvider implements DataProvider {
+public class EEBlockModelProvider implements DataProvider {
+
 	protected final DataGenerator generator;
 
-	public GenericFeatureProvider(DataGenerator gen) {
+	public EEBlockModelProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
 
@@ -55,12 +56,12 @@ public class GenericFeatureProvider implements DataProvider {
 	public void run(CachedOutput directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
-		buildGenericJSON((consumer) -> {
+		buildBlockModel((consumer) -> {
 			if (!set.add(consumer.getId())) {
 				throw new IllegalStateException("Duplicate JSON " + consumer.getId());
 			} else {
 				try {
-					saveJSON(directoryCache, consumer.serializeJSON(), path.resolve("data/" + consumer.getId().getNamespace() + "/forge/biome_modifier/" + consumer.getId().getPath() + ".json"));
+					saveJSON(directoryCache, consumer.serializeJSON(), path.resolve("assets/" + consumer.getId().getNamespace() + "/models/block/" + consumer.getId().getPath() + ".json"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -68,24 +69,25 @@ public class GenericFeatureProvider implements DataProvider {
 		});
 	}
 
-	private static void saveJSON(CachedOutput directoryCache, JsonObject recipeJson, Path recipePath) throws IOException {
+	private static void saveJSON(CachedOutput directoryCache, JsonObject blockModel, Path path) throws IOException {
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 		HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
 		Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
 		JsonWriter jsonwriter = new JsonWriter(writer);
 		jsonwriter.setSerializeNulls(false);
 		jsonwriter.setIndent("  ");
-		GsonHelper.writeValue(jsonwriter, recipeJson, KEY_COMPARATOR);
+		GsonHelper.writeValue(jsonwriter, blockModel, KEY_COMPARATOR);
 		jsonwriter.close();
-		directoryCache.writeIfNeeded(recipePath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+		directoryCache.writeIfNeeded(path, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
 	}
 
-	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
 		// It's called generic for a reason!
 	}
 
+
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Features";
+		return null;
 	}
 }

@@ -22,56 +22,50 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
-import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
-public class GenericFeatureBuilder {
+public class FeatureBuilder {
 
 	private String type;
 	private final List<String> biomes = Lists.newArrayList();
 	private final List<String> features = Lists.newArrayList();
 	private String step;
 
-	public GenericFeatureBuilder(String type, String step) {
+	public FeatureBuilder(String type, String step) {
 		this.type = type;
 		this.step = step;
 	}
 
-	public GenericFeatureBuilder feature(String singleFeature) {
+	public FeatureBuilder feature(String singleFeature) {
 		this.features.add(singleFeature);
 		return this;
 	}
 
-	public GenericFeatureBuilder features(List<String> multipleFeatures) {
+	public FeatureBuilder features(List<String> multipleFeatures) {
 		this.features.addAll(multipleFeatures);
 		return this;
 	}
 
-	public GenericFeatureBuilder biome(String singleBiome) {
+	public FeatureBuilder biome(String singleBiome) {
 		this.biomes.add(singleBiome);
 		return this;
 	}
 
-	public GenericFeatureBuilder biomes(List<String> multipleBiomes) {
+	public FeatureBuilder biomes(List<String> multipleBiomes) {
 		this.biomes.addAll(multipleBiomes);
 		return this;
 	}
 
 	public void save(Consumer<IFinishedGenericJSON> consumer, ResourceLocation jsonResourceLocation) {
-		consumer.accept(new GenericFeatureBuilder.Result(jsonResourceLocation, this.type, this.biomes, this.features, this.step));
+		consumer.accept(new FeatureBuilder.Result(jsonResourceLocation, this.type, this.biomes, this.features, this.step));
 	}
 
 	public class Result implements IFinishedGenericJSON {

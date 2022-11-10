@@ -39,9 +39,11 @@ import java.util.List;
 
 import net.minecraft.data.tags.TagsProvider.TagAppender;
 
+import javax.annotation.Nullable;
+
 public class FluidTagsGen extends FluidTagsProvider {
 
-	public FluidTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {
+	public FluidTagsGen(DataGenerator gen, @Nullable ExistingFileHelper existingFileHelper) {
 		super(gen, Reference.MOD_ID, existingFileHelper);
 	}
 

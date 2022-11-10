@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EELootProvider;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -33,7 +34,7 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.List;
 
-public class LootTablesGen extends BaseLootProvider {
+public class LootTablesGen extends EELootProvider {
 	public LootTablesGen(DataGenerator dataGeneratorIn) {
 		super(dataGeneratorIn);
 	}

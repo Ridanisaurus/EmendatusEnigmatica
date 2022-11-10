@@ -22,7 +22,7 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.SharedConstants;

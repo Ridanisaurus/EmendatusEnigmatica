@@ -41,9 +41,11 @@ import java.util.List;
 
 import net.minecraft.data.tags.TagsProvider.TagAppender;
 
+import javax.annotation.Nullable;
+
 public class ItemTagsGen extends ItemTagsProvider {
 
-	public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
+	public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
 		super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
 	}
 

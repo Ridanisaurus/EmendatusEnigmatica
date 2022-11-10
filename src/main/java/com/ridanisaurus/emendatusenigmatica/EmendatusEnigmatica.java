@@ -31,6 +31,9 @@ import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.compat.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.DataGeneratorFactory;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EEPackFinder;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
 import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
 import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
@@ -61,6 +64,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegistryObject;
@@ -114,9 +118,7 @@ public class EmendatusEnigmatica {
         EEDeposits.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
-        modEventBus.addListener(this::blockColorEvent);
-        modEventBus.addListener(this::itemColorEvent);
-        modEventBus.addListener(this::patreonRewardEvent);
+        modEventBus.addListener(this::clientEvents);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
@@ -125,26 +127,31 @@ public class EmendatusEnigmatica {
         MultiStrataRuleTest.register();
     }
 
+    private void clientEvents(FMLClientSetupEvent event) {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::blockColorEvent);
+        modEventBus.addListener(this::itemColorEvent);
+        modEventBus.addListener(this::patreonRewardEvent);
+    }
+
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
         }
     };
-
     @OnlyIn(Dist.CLIENT)
     private void blockColorEvent(RegisterColorHandlersEvent.Block event) {
-        event.getBlockColors().register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
+        event.register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
     }
-
     @OnlyIn(Dist.CLIENT)
     private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
-        event.getItemColors().register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.getItemColors().register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
+        event.register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -211,14 +218,16 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
         generator.addProvider(isClient(), new BlockStatesAndModelsGen(generator, existingFileHelper));
+        generator.addProvider(isClient(), new BlockStatesGen(generator));
         generator.addProvider(isClient(), new ItemModelsGen(generator, existingFileHelper));
         generator.addProvider(isClient(), new LangGen(generator));
         if (CREATE_LOADED) generator.addProvider(isClient(), new CreateDataGen.CreateItemModels(generator, existingFileHelper));
         if (BLOODMAGIC_LOADED) generator.addProvider(isClient(), new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
 
-        BlockTagsGen blockTagsGeneration = new BlockTagsGen(generator, existingFileHelper);
-        generator.addProvider(isServer(), new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-        generator.addProvider(isServer(), blockTagsGeneration);
+//        BlockTagsGenTODELETED blockTagsGeneration = new BlockTagsGenTODELETED(generator, existingFileHelper);
+        generator.addProvider(isServer(), new BlockTagsGen(generator));
+//        generator.addProvider(isServer(), new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
+//        generator.addProvider(isServer(), blockTagsGeneration);
         generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
         generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
         generator.addProvider(isServer(), new FluidTagsGen(generator, existingFileHelper));
@@ -227,11 +236,11 @@ public class EmendatusEnigmatica {
         generator.addProvider(isServer(), new OreFeatureDataGen(generator));
 
         if (CREATE_LOADED) {
-            generator.addProvider(isServer(), new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new CreateDataGen.CreateItemTags(generator, blockTagsGeneration, existingFileHelper));
             generator.addProvider(isServer(), new CreateDataGen.CreateRecipes(generator));
         }
         if (BLOODMAGIC_LOADED) {
-            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicItemTags(generator, blockTagsGeneration, existingFileHelper));
             generator.addProvider(isServer(), new BloodMagicDataGen.BloodMagicRecipes(generator));
         }
         if (ARSNOUVEAU_LOADED) generator.addProvider(isServer(), new ArsNouveauDataGen.ArsNouveauRecipes(generator));
@@ -239,7 +248,7 @@ public class EmendatusEnigmatica {
         if (THERMALSERIES_LOADED) generator.addProvider(isServer(), new ThermalDataGen.ThermalRecipes(generator));
 
         if (MEKANISM_LOADED) {
-            generator.addProvider(isServer(), new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
+//            generator.addProvider(isServer(), new MekanismDataGen.MekanismItemTags(generator, blockTagsGeneration, existingFileHelper));
             generator.addProvider(isServer(), new MekanismDataGen.MekanismSlurryTags(generator, existingFileHelper));
             generator.addProvider(isClient(), new MekanismDataGen.MekanismItemModels(generator, existingFileHelper));
             generator.addProvider(isServer(), new MekanismDataGen.MekanismRecipes(generator));

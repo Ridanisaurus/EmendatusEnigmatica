@@ -22,24 +22,32 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
-import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
+import net.minecraft.server.packs.repository.RepositorySource;
 
-import javax.annotation.Nullable;
+import java.nio.file.Path;
+import java.util.function.Consumer;
 
-public interface IFinishedGenericJSON {
-	void serializeJSONData(JsonObject genericJSON);
+public class EEPackFinder implements RepositorySource {
 
-	default JsonObject serializeJSON() {
-		JsonObject jsonobject = new JsonObject();
+	private final PackType type;
 
-		this.serializeJSONData(jsonobject);
-		return jsonobject;
+	public EEPackFinder(PackType type) {
+		this.type = type;
 	}
 
-	ResourceLocation getId();
+	@Override
+	public void loadPacks(Consumer<Pack> infoConsumer, Pack.PackConstructor infoFactory) {
+		Path rootPath = DataGeneratorFactory.ROOT_PATH;
 
-	String getType();
+		Pack pack = Pack.create("emendatusenigmatica_" + type.getDirectory(), true,
+				() -> new GeneratedPack(rootPath), infoFactory, Pack.Position.BOTTOM, PackSource.DEFAULT);
+		if (pack != null) {
+			infoConsumer.accept(pack);
+		}
+	}
 }

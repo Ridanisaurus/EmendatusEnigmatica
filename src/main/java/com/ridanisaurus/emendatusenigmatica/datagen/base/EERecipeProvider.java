@@ -22,7 +22,7 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.datagen;
+package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
@@ -50,10 +50,10 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class GenericRecipeProvider implements DataProvider {
+public class EERecipeProvider implements DataProvider {
 	protected final DataGenerator generator;
 
-	public GenericRecipeProvider(DataGenerator gen) {
+	public EERecipeProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
 
@@ -81,7 +81,7 @@ public class GenericRecipeProvider implements DataProvider {
 
 			}
 		});
-		if (this.getClass() == GenericRecipeProvider.class) //Forge: Subclasses don't need this.
+		if (this.getClass() == EERecipeProvider.class) //Forge: Subclasses don't need this.
 			saveAdvancement(directoryCache, Advancement.Builder.advancement().addCriterion("impossible", new ImpossibleTrigger.TriggerInstance()).serializeToJson(), path.resolve("data/minecraft/advancements/recipes/root.json"));
 	}
 
