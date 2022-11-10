@@ -55,7 +55,7 @@ public class EEFeatureProvider implements DataProvider {
 	public void run(CachedOutput directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
-		buildGenericJSON((consumer) -> {
+		buildFeatures((consumer) -> {
 			if (!set.add(consumer.getId())) {
 				throw new IllegalStateException("Duplicate JSON " + consumer.getId());
 			} else {
@@ -68,24 +68,24 @@ public class EEFeatureProvider implements DataProvider {
 		});
 	}
 
-	private static void saveJSON(CachedOutput directoryCache, JsonObject recipeJson, Path recipePath) throws IOException {
+	private static void saveJSON(CachedOutput directoryCache, JsonObject feature, Path path) throws IOException {
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 		HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
 		Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
 		JsonWriter jsonwriter = new JsonWriter(writer);
 		jsonwriter.setSerializeNulls(false);
 		jsonwriter.setIndent("  ");
-		GsonHelper.writeValue(jsonwriter, recipeJson, KEY_COMPARATOR);
+		GsonHelper.writeValue(jsonwriter, feature, KEY_COMPARATOR);
 		jsonwriter.close();
-		directoryCache.writeIfNeeded(recipePath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
+		directoryCache.writeIfNeeded(path, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
 	}
 
-	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
 		// It's called generic for a reason!
 	}
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Features";
+		return null;
 	}
 }

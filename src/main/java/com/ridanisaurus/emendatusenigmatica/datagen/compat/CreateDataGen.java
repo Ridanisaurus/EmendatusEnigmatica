@@ -61,7 +61,7 @@ public class CreateDataGen {
 		}
 
 		@Override
-		protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
+		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				for (StrataModel stratum : EELoader.STRATA) {

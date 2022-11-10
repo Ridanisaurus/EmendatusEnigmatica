@@ -133,13 +133,12 @@ public class LangGen extends LanguageProvider {
 			// Fluids
 			if (processedType.contains("fluid")) {
 				StringBuilder sb = new StringBuilder();
-				sb.append("Molten ");
 				sb.append(material.getLocalizedName());
 				add(EERegistrar.fluidTypeMap.get(material.getId()).get().getDescriptionId(), sb.toString());
 
 				StringBuilder sb2 = new StringBuilder();
-				sb2.append("Bucket of Molten ");
 				sb2.append(material.getLocalizedName());
+				sb2.append(" Bucket");
 				add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 			}
 

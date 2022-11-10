@@ -52,6 +52,11 @@ public class TagBuilder {
 		return this;
 	}
 
+	public TagBuilder tags(List<String> tags) {
+		this.tags.addAll(tags);
+		return this;
+	}
+
 	public void save(Consumer<IFinishedGenericJSON> consumer, ResourceLocation jsonResourceLocation) {
 		consumer.accept(new TagBuilder.Result(jsonResourceLocation, this.tags));
 	}

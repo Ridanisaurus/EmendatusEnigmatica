@@ -60,7 +60,7 @@ public class BloodMagicDataGen {
 		}
 
 		@Override
-		protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
+		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("dust") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {

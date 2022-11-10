@@ -61,7 +61,7 @@ public class EERecipeProvider implements DataProvider {
 	public void run(CachedOutput directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
-		buildGenericRecipes((consumer) -> {
+		buildRecipes((consumer) -> {
 			if (!set.add(consumer.getId())) {
 				throw new IllegalStateException("Duplicate recipe " + consumer.getId());
 			} else {
@@ -125,11 +125,11 @@ public class EERecipeProvider implements DataProvider {
 		return new InventoryChangeTrigger.TriggerInstance(EntityPredicate.Composite.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, MinMaxBounds.Ints.ANY, itemPredicates);
 	}
 
-	protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
+	protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 		// It's called generic for a reason!
 	}
 
 	public String getName() {
-		return "Emendatus Enigmatica Generic Recipes";
+		return null;
 	}
 }

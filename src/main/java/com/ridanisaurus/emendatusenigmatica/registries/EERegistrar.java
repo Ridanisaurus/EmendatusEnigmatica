@@ -264,28 +264,26 @@ public class EERegistrar {
 
 	// Fluids
 	public static void registerFluids(MaterialModel material) {
-		String fluidName = "molten_" + material.getId();
-
-		fluidType = FLUID_TYPES.register(fluidName,
+		fluidType = FLUID_TYPES.register(material.getId(),
 				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL,
 						material.getColors().getFluidColor(),
 						new Vector3f(Vec3.fromRGB24(material.getColors().getFluidColor())),
 						fluidTypeProperties(material)));
-		fluidSource = FLUIDS.register(fluidName,
+		fluidSource = FLUIDS.register(material.getId(),
 				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()),
 						fluidSourceMap.get(material.getId()),
 						fluidFlowingMap.get(material.getId()),
 						fluidBlockMap.get(material.getId()),
 						fluidBucketMap.get(material.getId()))));
-		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
+		fluidFlowing = FLUIDS.register("flowing_" + material.getId(),
 				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()),
 						fluidSourceMap.get(material.getId()),
 						fluidFlowingMap.get(material.getId()),
 						fluidBlockMap.get(material.getId()),
 						fluidBucketMap.get(material.getId()))));
-		fluidBlock = BLOCKS.register(fluidName + "_block",
+		fluidBlock = BLOCKS.register(material.getId(),
 				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.of(Material.LAVA).noCollission().strength(100.0F).noLootTable()));
-		fluidBucket = ITEMS.register(fluidName + "_bucket",
+		fluidBucket = ITEMS.register(material.getId() + "_bucket",
 				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).tab(EmendatusEnigmatica.TAB)));
 
 		fluidTypeMap.put(material.getId(), fluidType);
@@ -297,7 +295,7 @@ public class EERegistrar {
 
 	private static FluidType.Properties fluidTypeProperties(MaterialModel material) {
 		return FluidType.Properties.create()
-				.descriptionId("fluid.emendatusenigmatica.molten_" + material.getId())
+				.descriptionId("fluid.emendatusenigmatica." + material.getId())
 				.lightLevel(15)
 				.density(3000)
 				.viscosity(6000)

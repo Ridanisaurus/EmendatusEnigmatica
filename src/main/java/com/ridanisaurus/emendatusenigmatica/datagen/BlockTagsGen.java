@@ -24,63 +24,64 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public class BlockTagsGen extends EETagProvider<Block> {
-
+public class BlockTagsGen extends EETagProvider {
 	public BlockTagsGen(DataGenerator gen) {
-		super(gen, Registry.BLOCK);
+		super(gen);
 	}
 
-	TagAppender<Block> forgeBlocks = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks")));
-	TagAppender<Block> forgeOres = tag(BlockTags.create(new ResourceLocation(Reference.FORGE, "ores")));
-	TagAppender<Block> beaconBlocks = tag(BlockTags.create(new ResourceLocation(Reference.MINECRAFT, "beacon_base_blocks")));
+	private final List<String> forgeBlocks = Lists.newArrayList();
+	private final List<String> forgeOres = Lists.newArrayList();
+	private final List<String> beaconBlocks = Lists.newArrayList();
 
 	@Override
-	protected void addTags() {
+	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
-			// Storage Blocks
 			if (processedType.contains("storage_block")) {
-				forgeBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				beaconBlocks.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-				TagAppender<Block> storageBlockTag = tag(net.minecraft.tags.BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material.getId())));
-				storageBlockTag.add(EERegistrar.storageBlockMap.get(material.getId()).get());
+				ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
+				forgeBlocks.add(block.toString());
+				beaconBlocks.add(block.toString());
+				new TagBuilder().tag(block.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks/" + material.getId()));
 			}
-			// Raw Storage Blocks
 			if (processedType.contains("raw")) {
-				forgeBlocks.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-				TagAppender<Block> rawBlockTag = tag(net.minecraft.tags.BlockTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material.getId())));
-				rawBlockTag.add(EERegistrar.rawBlockMap.get(material.getId()).get());
+				ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
+				forgeBlocks.add(raw.toString());
+				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks/raw_" + material.getId()));
 			}
-			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (processedType.contains("ore")) {
-					forgeOres.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-					TagAppender<Block> oreTag = tag(net.minecraft.tags.BlockTags.create(new ResourceLocation(Reference.FORGE, "ores/" + material.getId())));
-					oreTag.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
+					ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
+					forgeOres.add(ore.toString());
+					new TagBuilder().tag(ore.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/ores/" + getModelName(stratum, material)));
 				}
 			}
 		}
+		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks"));
+		new TagBuilder().tags(beaconBlocks).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/beacon_base_blocks"));
+		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/ores"));
+	}
+
+	public static String getModelName(StrataModel stratum, MaterialModel material) {
+		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
 	}
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Test Block Tags";
+		return "Emendatus Enigmatica Block Tags";
 	}
 }

@@ -218,19 +218,18 @@ public class EmendatusEnigmatica {
         ExistingFileHelper existingFileHelper = new ExistingFileHelper(ImmutableList.of(), ImmutableSet.of(), false, null, null);
 
         generator.addProvider(isClient(), new BlockStatesAndModelsGen(generator, existingFileHelper));
+
         generator.addProvider(isClient(), new BlockStatesGen(generator));
         generator.addProvider(isClient(), new ItemModelsGen(generator, existingFileHelper));
         generator.addProvider(isClient(), new LangGen(generator));
         if (CREATE_LOADED) generator.addProvider(isClient(), new CreateDataGen.CreateItemModels(generator, existingFileHelper));
         if (BLOODMAGIC_LOADED) generator.addProvider(isClient(), new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
 
-//        BlockTagsGenTODELETED blockTagsGeneration = new BlockTagsGenTODELETED(generator, existingFileHelper);
         generator.addProvider(isServer(), new BlockTagsGen(generator));
-//        generator.addProvider(isServer(), new ItemTagsGen(generator, blockTagsGeneration, existingFileHelper));
-//        generator.addProvider(isServer(), blockTagsGeneration);
+        generator.addProvider(isServer(), new ItemTagsGen(generator));
+        generator.addProvider(isServer(), new FluidTagsGen(generator));
         generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
         generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
-        generator.addProvider(isServer(), new FluidTagsGen(generator, existingFileHelper));
         generator.addProvider(isServer(), new RecipesGen(generator));
         generator.addProvider(isServer(), new LootTablesGen(generator));
         generator.addProvider(isServer(), new OreFeatureDataGen(generator));

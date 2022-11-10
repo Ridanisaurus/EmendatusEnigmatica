@@ -47,7 +47,7 @@ public class OccultismDataGen {
 		}
 
 		@Override
-		protected void buildGenericRecipes(Consumer<IFinishedGenericRecipe> consumer) {
+		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				if (processedType.contains("dust") && processedType.contains("ore")) {

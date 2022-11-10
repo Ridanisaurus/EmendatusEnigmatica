@@ -60,7 +60,7 @@ public class OreFeatureDataGen extends EEFeatureProvider {
 	private final List<String> DEFAULT_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
 
 	@Override
-	protected void buildGenericJSON(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			if (material.isVanilla() && material.getId().contains("coal") && material.getRemoveDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
