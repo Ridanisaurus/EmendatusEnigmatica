@@ -34,10 +34,10 @@ import java.util.function.Consumer;
 
 public class FeatureBuilder {
 
-	private String type;
+	private final String type;
 	private final List<String> biomes = Lists.newArrayList();
 	private final List<String> features = Lists.newArrayList();
-	private String step;
+	private final String step;
 
 	public FeatureBuilder(String type, String step) {
 		this.type = type;

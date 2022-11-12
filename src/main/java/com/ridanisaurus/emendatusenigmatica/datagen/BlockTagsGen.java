@@ -56,24 +56,24 @@ public class BlockTagsGen extends EETagProvider {
 				ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
 				forgeBlocks.add(block.toString());
 				beaconBlocks.add(block.toString());
-				new TagBuilder().tag(block.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks/" + material.getId()));
+				new TagBuilder().tag(block.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/" + material.getId()));
 			}
 			if (processedType.contains("raw")) {
 				ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 				forgeBlocks.add(raw.toString());
-				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks/raw_" + material.getId()));
+				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/raw_" + material.getId()));
 			}
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (processedType.contains("ore")) {
 					ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 					forgeOres.add(ore.toString());
-					new TagBuilder().tag(ore.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/ores/" + getModelName(stratum, material)));
+					new TagBuilder().tag(ore.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + getModelName(stratum, material)));
 				}
 			}
 		}
-		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/storage_blocks"));
-		new TagBuilder().tags(beaconBlocks).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/beacon_base_blocks"));
-		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.MOD_ID, "/blocks/ores"));
+		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks"));
+		new TagBuilder().tags(beaconBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/beacon_base_blocks"));
+		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores"));
 	}
 
 	public static String getModelName(StrataModel stratum, MaterialModel material) {

@@ -24,80 +24,73 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class BlockHarvestTagsGen {
 
-	public static class BlockHarvestLevelTagsGen extends BlockTagsProvider {
-		public BlockHarvestLevelTagsGen(DataGenerator gen, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, Reference.MOD_ID, existingFileHelper);
+	public static class BlockHarvestLevelTagsGen extends EETagProvider {
+		public BlockHarvestLevelTagsGen(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			TagAppender<Block> woodTool = tag(Tags.Blocks.NEEDS_WOOD_TOOL);
-			TagAppender<Block> stoneTool = tag(BlockTags.NEEDS_STONE_TOOL);
-			TagAppender<Block> ironTool = tag(BlockTags.NEEDS_IRON_TOOL);
-			TagAppender<Block> diamondTool = tag(BlockTags.NEEDS_DIAMOND_TOOL);
-			TagAppender<Block> goldTool = tag(Tags.Blocks.NEEDS_GOLD_TOOL);
-			TagAppender<Block> netheriteTool = tag(Tags.Blocks.NEEDS_NETHERITE_TOOL);
+		private final List<String> woodTool = Lists.newArrayList();
+		private final List<String> stoneTool = Lists.newArrayList();
+		private final List<String> ironTool = Lists.newArrayList();
+		private final List<String> diamondTool = Lists.newArrayList();
+		private final List<String> goldTool = Lists.newArrayList();
+		private final List<String> netheriteTool = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				if(processedType.contains("storage_block")) {
-					switch (material.getProperties().getHarvestLevel()) {
-						case 0 -> {
-							woodTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-							goldTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-						}
-						case 1 -> stoneTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-						case 2 -> ironTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-						case 3 -> diamondTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-						case 4 -> netheriteTool.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-						default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
-					}
+				if (processedType.contains("storage_block")) {
+					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, block);
 				}
-				if(processedType.contains("raw")) {
-					switch (material.getProperties().getHarvestLevel()) {
-						case 0 -> {
-							woodTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-							goldTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-						}
-						case 1 -> stoneTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-						case 2 -> ironTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-						case 3 -> diamondTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-						case 4 -> netheriteTool.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-						default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
-					}
+				if (processedType.contains("raw")) {
+					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, raw);
 				}
 				for (StrataModel stratum : EELoader.STRATA) {
-					if(processedType.contains("ore")) {
-						switch (material.getProperties().getHarvestLevel()) {
-							case 0 -> {
-								woodTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-								goldTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							}
-							case 1 -> stoneTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case 2 -> ironTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case 3 -> diamondTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case 4 -> netheriteTool.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
-						}
+					if (processedType.contains("ore")) {
+						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
+						harvestLevelSwitch(material, ore);
 					}
 				}
+			}
+			new TagBuilder().tags(woodTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_wood_tool"));
+			new TagBuilder().tags(stoneTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_stone_tool"));
+			new TagBuilder().tags(ironTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_iron_tool"));
+			new TagBuilder().tags(diamondTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_diamond_tool"));
+			new TagBuilder().tags(goldTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_gold_tool"));
+			new TagBuilder().tags(netheriteTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_netherite_tool"));
+		}
+
+		private void harvestLevelSwitch(MaterialModel material, ResourceLocation loc) {
+			switch (material.getProperties().getHarvestLevel()) {
+				case 0 -> {
+					woodTool.add(loc.toString());
+					goldTool.add(loc.toString());
+				}
+				case 1 -> stoneTool.add(loc.toString());
+				case 2 -> ironTool.add(loc.toString());
+				case 3 -> diamondTool.add(loc.toString());
+				case 4 -> netheriteTool.add(loc.toString());
+				default -> throw new IllegalStateException("Harvest level " + material.getProperties().getHarvestLevel() + " for " + material.getId() + " is out of Vanilla tier system bounds, and the tag should be added manually");
 			}
 		}
 
@@ -107,38 +100,45 @@ public class BlockHarvestTagsGen {
 		}
 	}
 
-	public static class BlockHarvestToolTagsGen extends BlockTagsProvider {
-		public BlockHarvestToolTagsGen(DataGenerator gen, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, Reference.MOD_ID, existingFileHelper);
+	public static class BlockHarvestToolTagsGen extends EETagProvider {
+		public BlockHarvestToolTagsGen(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			TagAppender<Block> shovel = tag(BlockTags.MINEABLE_WITH_SHOVEL);
-			TagAppender<Block> hoe = tag(BlockTags.MINEABLE_WITH_HOE);
-			TagAppender<Block> axe = tag(BlockTags.MINEABLE_WITH_AXE);
-			TagAppender<Block> pickaxe = tag(BlockTags.MINEABLE_WITH_PICKAXE);
+		private final List<String> shovel = Lists.newArrayList();
+		private final List<String> hoe = Lists.newArrayList();
+		private final List<String> axe = Lists.newArrayList();
+		private final List<String> pickaxe = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
+				if(processedType.contains("storage_block")) {
+					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
+					pickaxe.add(block.toString());
+				}
+				if(processedType.contains("raw")) {
+					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
+					pickaxe.add(raw.toString());
+				}
 				for (StrataModel stratum : EELoader.STRATA) {
-					if(processedType.contains("storage_block")) {
-						pickaxe.add(EERegistrar.storageBlockMap.get(material.getId()).get());
-					}
-					if(processedType.contains("raw")) {
-						pickaxe.add(EERegistrar.rawBlockMap.get(material.getId()).get());
-					}
 					if(processedType.contains("ore")) {
+						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						switch (stratum.getHarvestTool()) {
-							case "shovel" -> shovel.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case "hoe" -> hoe.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case "axe" -> axe.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
-							case "pickaxe" -> pickaxe.add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get());
+							case "shovel" -> shovel.add(ore.toString());
+							case "hoe" -> hoe.add(ore.toString());
+							case "axe" -> axe.add(ore.toString());
+							case "pickaxe" -> pickaxe.add(ore.toString());
 							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
 						}
 					}
 				}
 			}
+			new TagBuilder().tags(shovel).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/shovel"));
+			new TagBuilder().tags(hoe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/hoe"));
+			new TagBuilder().tags(axe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/axe"));
+			new TagBuilder().tags(pickaxe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/pickaxe"));
 		}
 
 		@Override
@@ -146,5 +146,4 @@ public class BlockHarvestTagsGen {
 			return "Emendatus Enigmatica Block Harvest Tool Tags";
 		}
 	}
-
 }

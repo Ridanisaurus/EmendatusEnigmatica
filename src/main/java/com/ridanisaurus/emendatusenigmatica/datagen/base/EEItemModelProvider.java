@@ -44,10 +44,10 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class EETagProvider implements DataProvider {
+public class EEItemModelProvider implements DataProvider {
 	protected final DataGenerator generator;
 
-	public EETagProvider(DataGenerator gen) {
+	public EEItemModelProvider(DataGenerator gen) {
 		this.generator = gen;
 	}
 
@@ -55,12 +55,12 @@ public class EETagProvider implements DataProvider {
 	public void run(CachedOutput directoryCache) throws IOException {
 		Path path = this.generator.getOutputFolder();
 		Set<ResourceLocation> set = Sets.newHashSet();
-		buildTags((consumer) -> {
+		buildItemModels((consumer) -> {
 			if (!set.add(consumer.getId())) {
 				throw new IllegalStateException("Duplicate JSON " + consumer.getId());
 			} else {
 				try {
-					saveJSON(directoryCache, consumer.serializeJSON(), path.resolve("data/" + consumer.getId().getNamespace() + "/tags/" + consumer.getId().getPath() + ".json"));
+					saveJSON(directoryCache, consumer.serializeJSON(), path.resolve("assets/" + consumer.getId().getNamespace() + "/models/item/" + consumer.getId().getPath() + ".json"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -80,7 +80,7 @@ public class EETagProvider implements DataProvider {
 		directoryCache.writeIfNeeded(recipePath, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
 	}
 
-	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 		// It's called generic for a reason!
 	}
 

@@ -50,7 +50,7 @@ public class FluidTagsGen extends EETagProvider {
 			if (processedType.contains("fluid")) {
 				ResourceLocation fluidSource = EERegistrar.fluidSourceMap.get(material.getId()).getId();
 				ResourceLocation fluidFlowing = EERegistrar.fluidFlowingMap.get(material.getId()).getId();
-				new TagBuilder().tag(fluidSource.toString()).tag(fluidFlowing.toString()).save(consumer, new ResourceLocation(Reference.MOD_ID, "/fluids/" + material.getId()));
+				new TagBuilder().tag(fluidSource.toString()).tag(fluidFlowing.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/fluids/" + material.getId()));
 			}
 		}
 	}

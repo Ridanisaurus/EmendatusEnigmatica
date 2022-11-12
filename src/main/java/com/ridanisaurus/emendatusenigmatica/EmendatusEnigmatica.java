@@ -31,6 +31,7 @@ import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
 import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.ItemModelsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.compat.*;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEPackFinder;
@@ -220,7 +221,7 @@ public class EmendatusEnigmatica {
         generator.addProvider(isClient(), new BlockStatesAndModelsGen(generator, existingFileHelper));
 
         generator.addProvider(isClient(), new BlockStatesGen(generator));
-        generator.addProvider(isClient(), new ItemModelsGen(generator, existingFileHelper));
+        generator.addProvider(isClient(), new ItemModelsGen(generator));
         generator.addProvider(isClient(), new LangGen(generator));
         if (CREATE_LOADED) generator.addProvider(isClient(), new CreateDataGen.CreateItemModels(generator, existingFileHelper));
         if (BLOODMAGIC_LOADED) generator.addProvider(isClient(), new BloodMagicDataGen.BloodMagicItemModels(generator, existingFileHelper));
@@ -228,8 +229,8 @@ public class EmendatusEnigmatica {
         generator.addProvider(isServer(), new BlockTagsGen(generator));
         generator.addProvider(isServer(), new ItemTagsGen(generator));
         generator.addProvider(isServer(), new FluidTagsGen(generator));
-        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, existingFileHelper));
-        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, existingFileHelper));
+        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator));
+        generator.addProvider(isServer(), new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator));
         generator.addProvider(isServer(), new RecipesGen(generator));
         generator.addProvider(isServer(), new LootTablesGen(generator));
         generator.addProvider(isServer(), new OreFeatureDataGen(generator));
