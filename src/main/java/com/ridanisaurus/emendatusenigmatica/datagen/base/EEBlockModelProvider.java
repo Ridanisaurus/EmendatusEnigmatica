@@ -45,7 +45,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class EEBlockModelProvider implements DataProvider {
-
 	protected final DataGenerator generator;
 
 	public EEBlockModelProvider(DataGenerator gen) {
@@ -69,14 +68,14 @@ public class EEBlockModelProvider implements DataProvider {
 		});
 	}
 
-	private static void saveJSON(CachedOutput directoryCache, JsonObject blockModel, Path path) throws IOException {
+	private static void saveJSON(CachedOutput directoryCache, JsonObject blockJson, Path path) throws IOException {
 		ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 		HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
 		Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
 		JsonWriter jsonwriter = new JsonWriter(writer);
 		jsonwriter.setSerializeNulls(false);
 		jsonwriter.setIndent("  ");
-		GsonHelper.writeValue(jsonwriter, blockModel, KEY_COMPARATOR);
+		GsonHelper.writeValue(jsonwriter, blockJson, KEY_COMPARATOR);
 		jsonwriter.close();
 		directoryCache.writeIfNeeded(path, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
 	}
@@ -84,7 +83,6 @@ public class EEBlockModelProvider implements DataProvider {
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
 		// It's called generic for a reason!
 	}
-
 
 	@Override
 	public String getName() {

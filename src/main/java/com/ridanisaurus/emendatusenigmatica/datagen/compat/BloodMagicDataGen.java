@@ -24,9 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
-import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
@@ -39,8 +38,6 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -115,37 +112,39 @@ public class BloodMagicDataGen {
 		}
 	}
 
-	public static class BloodMagicItemModels extends ItemModelProvider {
+	public static class BloodMagicItemModels extends EEItemModelProvider {
 
-		public BloodMagicItemModels(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-			super(generator, Reference.MOD_ID, existingFileHelper);
+		public BloodMagicItemModels(DataGenerator generator) {
+			super(generator);
 		}
 
 		@Override
-		protected void registerModels() {
+		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Fragment
 				if (processedType.contains("fragment")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_fragment").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder fragmentBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_fragment"));
+						fragmentBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_fragment").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_2"));
+						fragmentBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/fragment_2").toString());
 					}
+					fragmentBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_fragment"));
 				}
 				// Gravel
 				if (processedType.contains("gravel")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_gravel").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder gravelBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gravel"));
+						gravelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gravel").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_2"));
+						gravelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gravel_2").toString());
 					}
+					gravelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_gravel"));
 				}
 			}
 
@@ -157,32 +156,34 @@ public class BloodMagicDataGen {
 		}
 	}
 
-	public static class BloodMagicItemTags extends ItemTagsProvider {
+	public static class BloodMagicItemTags extends EETagProvider {
 
-		public BloodMagicItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
+		public BloodMagicItemTags(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			TagAppender<Item> bloodMagicFragment = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "fragments")));
-			TagAppender<Item> bloodMagicGravel = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "gravels")));
+		private final List<String> bloodMagicFragments = Lists.newArrayList();
+		private final List<String> bloodMagicGravels = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Fragments
 				if (processedType.contains("fragment")) {
-					bloodMagicFragment.add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get());
-					TagAppender<Item> fragmentTag = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material.getId())));
-					fragmentTag.add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get());
+					ResourceLocation fragment = EEBloodMagicRegistrar.fragmentMap.get(material.getId()).getId();
+					bloodMagicFragments.add(fragment.toString());
+					new TagBuilder().tag(fragment.toString()).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/fragments/" + material.getId()));
 				}
 				// Gravels
 				if (processedType.contains("gravel")) {
-					bloodMagicGravel.add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get());
-					TagAppender<Item> gravelTag = tag(ItemTags.create(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material.getId())));
-					gravelTag.add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get());
+					ResourceLocation gravel = EEBloodMagicRegistrar.gravelMap.get(material.getId()).getId();
+					bloodMagicGravels.add(gravel.toString());
+					new TagBuilder().tag(gravel.toString()).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/gravels/" + material.getId()));
 				}
 			}
+			new TagBuilder().tags(bloodMagicFragments).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/fragments"));
+			new TagBuilder().tags(bloodMagicGravels).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/gravels"));
 		}
 
 		@Override

@@ -24,9 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
-import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -40,8 +39,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
+
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -113,26 +111,27 @@ public class CreateDataGen {
 		}
 	}
 
-	public static class CreateItemModels extends ItemModelProvider {
+	public static class CreateItemModels extends EEItemModelProvider {
 
-		public CreateItemModels(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-			super(generator, Reference.MOD_ID, existingFileHelper);
+		public CreateItemModels(DataGenerator generator) {
+			super(generator);
 		}
 
 		@Override
-		protected void registerModels() {
+		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Crushed Ore
 				if (processedType.contains("crushed_ore")) {
-					ItemModelBuilder parent = getBuilder("crushed_" + material.getId() + "_ore").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder crushedBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed"));
+						crushedBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_2"));
+						crushedBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_2").toString());
 					}
+					crushedBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_crushed"));
 				}
 			}
 
@@ -144,25 +143,26 @@ public class CreateDataGen {
 		}
 	}
 
-	public static class CreateItemTags extends ItemTagsProvider {
+	public static class CreateItemTags extends EETagProvider {
 
-		public CreateItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
+		public CreateItemTags(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			TagAppender<Item> createCrushedOres = tag(ItemTags.create(new ResourceLocation(Reference.CREATE, "crushed_ores")));
+		private final List<String> createCrushedOres = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				// Crystals
+				// Crushed Ores
 				if (processedType.contains("crushed_ore")) {
-					createCrushedOres.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
-					TagAppender<Item> crushedOreTag = tag(ItemTags.create(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material.getId())));
-					crushedOreTag.add(EECreateRegistrar.crushedOreMap.get(material.getId()).get());
+					ResourceLocation crushedOre = EECreateRegistrar.crushedOreMap.get(material.getId()).getId();
+					createCrushedOres.add(crushedOre.toString());
+					new TagBuilder().tag(crushedOre.toString()).save(consumer, new ResourceLocation(Reference.CREATE, "/items/crushed_ores/" + material.getId()));
 				}
 			}
+			new TagBuilder().tags(createCrushedOres).save(consumer, new ResourceLocation(Reference.CREATE, "/items/crushed_ores"));
 		}
 		@Override
 		public String getName() {

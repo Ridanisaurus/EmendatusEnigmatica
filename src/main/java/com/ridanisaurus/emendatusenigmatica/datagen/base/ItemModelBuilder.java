@@ -93,11 +93,11 @@ public class ItemModelBuilder {
 				json.addProperty("parent", this.parent);
 			}
 			if (!this.textures.isEmpty()) {
-				JsonObject textures = new JsonObject();
+				JsonObject texturesObject = new JsonObject();
 				for (Map.Entry<String, String> e : this.textures.entrySet()) {
-					textures.addProperty(e.getKey(), e.getValue());
+					texturesObject.addProperty(e.getKey(), e.getValue());
 				}
-				json.add("textures", textures);
+				json.add("textures", texturesObject);
 			}
 			if (this.applyTint) {
 				json.addProperty("apply_tint", true);

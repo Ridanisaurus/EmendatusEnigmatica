@@ -42,7 +42,6 @@ public class BlockStatesGen extends EEBlockStateProvider {
 		super(gen);
 	}
 
-	// TODO: Remove Tests
 	@Override
 	protected void buildBlockState(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
@@ -52,14 +51,14 @@ public class BlockStatesGen extends EEBlockStateProvider {
 				new BlockStateBuilder()
 						.variant(new BlockStateBuilder.objectBuilder(false)
 								.model(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString()))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "test_" + material.getId() + "_block"));
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
 			}
 			// Raw Blocks
 			if (processedType.contains("raw")) {
 				new BlockStateBuilder()
 						.variant(new BlockStateBuilder.objectBuilder(false)
 								.model(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "test_raw_" + material.getId() + "_block"));
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
@@ -67,7 +66,7 @@ public class BlockStatesGen extends EEBlockStateProvider {
 					new BlockStateBuilder()
 							.variant(new BlockStateBuilder.objectBuilder(false)
 									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material)).toString()))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "test_" + getModelName(stratum, material)));
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, getModelName(stratum, material)));
 				}
 			}
 		}
@@ -79,6 +78,6 @@ public class BlockStatesGen extends EEBlockStateProvider {
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Test Blockstates";
+		return "Emendatus Enigmatica Blockstates";
 	}
 }

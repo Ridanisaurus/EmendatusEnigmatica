@@ -24,6 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
@@ -41,13 +43,12 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
@@ -156,59 +157,63 @@ public class MekanismDataGen {
 		}
 	}
 
-	public static class MekanismItemModels extends ItemModelProvider {
+	public static class MekanismItemModels extends EEItemModelProvider {
 
-		public MekanismItemModels(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-			super(generator, Reference.MOD_ID, existingFileHelper);
+		public MekanismItemModels(DataGenerator generator) {
+			super(generator);
 		}
 
 		@Override
-		protected void registerModels() {
+		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Crystals
 				if (processedType.contains("crystal")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_crystal").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder crystalBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crystal"));
+						crystalBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crystal").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_2"));
+						crystalBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_2").toString());
 					}
+					crystalBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_crystal"));
 				}
 				// Shards
 				if (processedType.contains("shard")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_shard").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder shardBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shard"));
+						shardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shard").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_2"));
+						shardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_2").toString());
 					}
+					shardBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shard"));
 				}
 				// Clumps
 				if (processedType.contains("clump")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_clump").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder clumpBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_clump"));
+						clumpBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_clump").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_2"));
+						clumpBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_2").toString());
 					}
+					clumpBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_clump"));
 				}
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
-					ItemModelBuilder parent = getBuilder(material.getId() + "_dirty_dust").parent(new ModelFile.UncheckedModelFile("item/generated"));
+					ItemModelBuilder dirtyDustBuilder = new ItemModelBuilder("minecraft:item/generated");
 					if (material.getColors().getHighlightColor() == -1) {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dirty_dust"));
+						dirtyDustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dirty_dust").toString());
 					} else {
-						parent.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_0"))
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_1"))
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_2"));
+						dirtyDustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_0").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_1").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_2").toString());
 					}
+					dirtyDustBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_dirty_dust"));
 				}
 			}
 
@@ -221,46 +226,50 @@ public class MekanismDataGen {
 
 	}
 
-	public static class MekanismItemTags extends ItemTagsProvider {
+	public static class MekanismItemTags extends EETagProvider {
 
-		public MekanismItemTags(DataGenerator gen, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
+		public MekanismItemTags(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			TagAppender<Item> mekanismCrystals = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "crystals")));
-			TagAppender<Item> mekanismShards = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "shards")));
-			TagAppender<Item> mekanismClumps = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "clumps")));
-			TagAppender<Item> mekanismDirtyDusts = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "dirty_dusts")));
+		private final List<String> mekanismCrystals = Lists.newArrayList();
+		private final List<String> mekanismShards = Lists.newArrayList();
+		private final List<String> mekanismClumps = Lists.newArrayList();
+		private final List<String> mekanismDirtyDusts = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
 				// Crystals
 				if (processedType.contains("crystal")) {
-					mekanismCrystals.add(EEMekanismRegistrar.crystalMap.get(material.getId()).get());
-					TagAppender<Item> crystalTag = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "crystals/" + material.getId())));
-					crystalTag.add(EEMekanismRegistrar.crystalMap.get(material.getId()).get());
+					ResourceLocation crystal = EEMekanismRegistrar.crystalMap.get(material.getId()).getId();
+					mekanismCrystals.add(crystal.toString());
+					new TagBuilder().tag(crystal.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/crystals/" + material.getId()));
 				}
 				// Shards
 				if (processedType.contains("shard")) {
-					mekanismShards.add(EEMekanismRegistrar.shardMap.get(material.getId()).get());
-					TagAppender<Item> shardTag = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "shards/" + material.getId())));
-					shardTag.add(EEMekanismRegistrar.shardMap.get(material.getId()).get());
+					ResourceLocation shard = EEMekanismRegistrar.shardMap.get(material.getId()).getId();
+					mekanismShards.add(shard.toString());
+					new TagBuilder().tag(shard.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/shards/" + material.getId()));
 				}
 				// Clumps
 				if (processedType.contains("clump")) {
-					mekanismClumps.add(EEMekanismRegistrar.clumpMap.get(material.getId()).get());
-					TagAppender<Item> clumpTag = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "clumps/" + material.getId())));
-					clumpTag.add(EEMekanismRegistrar.clumpMap.get(material.getId()).get());
+					ResourceLocation clump = EEMekanismRegistrar.clumpMap.get(material.getId()).getId();
+					mekanismClumps.add(clump.toString());
+					new TagBuilder().tag(clump.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/clumps/" + material.getId()));
 				}
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
-					mekanismDirtyDusts.add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get());
-					TagAppender<Item> dirtyDustTag = tag(ItemTags.create(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material.getId())));
-					dirtyDustTag.add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get());
+					ResourceLocation dirtyDust = EEMekanismRegistrar.dirtyDustMap.get(material.getId()).getId();
+					mekanismDirtyDusts.add(dirtyDust.toString());
+					new TagBuilder().tag(dirtyDust.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/dirty_dusts/" + material.getId()));
 				}
 			}
+			new TagBuilder().tags(mekanismCrystals).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/crystals"));
+			new TagBuilder().tags(mekanismShards).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/shards"));
+			new TagBuilder().tags(mekanismClumps).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/clumps"));
+			new TagBuilder().tags(mekanismDirtyDusts).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/dirty_dusts"));
 		}
 		@Override
 		public String getName() {
@@ -268,30 +277,29 @@ public class MekanismDataGen {
 		}
 	}
 
-	public static class MekanismSlurryTags extends ChemicalTagsProvider.SlurryTagsProvider {
+	public static class MekanismSlurryTags extends EETagProvider {
 
-		public MekanismSlurryTags(DataGenerator gen, @Nullable ExistingFileHelper existingFileHelper) {
-			super(gen, Reference.MOD_ID, existingFileHelper);
+		public MekanismSlurryTags(DataGenerator gen) {
+			super(gen);
 		}
 
-		@Override
-		protected void addTags() {
-			// Forge Tags
-			TagAppender<Slurry> mekanismDirtySlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "dirty")));
-			TagAppender<Slurry> mekanismCleanSlurries = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "clean")));
+		private final List<String> mekanismCleanSlurry = Lists.newArrayList();
+		private final List<String> mekanismDirtySlurry = Lists.newArrayList();
 
+		@Override
+		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedType();
-				// Crystals
+				// Slurries
 				if (processedType.contains("slurry")) {
-					mekanismDirtySlurries.add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get());
-					TagAppender<Slurry> dirtySlurryTag = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "slurries/dirty")));
-					dirtySlurryTag.add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get());
-					mekanismCleanSlurries.add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get());
-					TagAppender<Slurry> cleanSlurryTag = tag(ChemicalTags.SLURRY.tag(new ResourceLocation(Reference.MEKANISM, "slurries/clean")));
-					cleanSlurryTag.add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get());
+					ResourceLocation cleanSlurry = EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).getId();
+					mekanismCleanSlurry.add(cleanSlurry.toString());
+					ResourceLocation dirtySlurry = EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).getId();
+					mekanismDirtySlurry.add(dirtySlurry.toString());
 				}
 			}
+			new TagBuilder().tags(mekanismCleanSlurry).save(consumer, new ResourceLocation(Reference.MEKANISM, "/mekanism/clean"));
+			new TagBuilder().tags(mekanismDirtySlurry).save(consumer, new ResourceLocation(Reference.MEKANISM, "/mekanism/dirty"));
 		}
 
 		@Override
