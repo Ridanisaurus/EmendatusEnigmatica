@@ -12,9 +12,8 @@
     "harvestLevel": 1
   },
   "oreDrop": {
-    "drop": "emendatus_enigmatica:arcane_gem",
-    "vanillaMin": 1,
-    "vanillaMax": 1
+    "min": 2,
+    "max": 6
   },
   "compat": {
     "create": {

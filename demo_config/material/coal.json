@@ -16,7 +16,7 @@
   },
   "oreDrop": {
     "drop": "minecraft:coal",
-    "vanillaMin": 1,
-    "vanillaMax": 1
+    "min": 1,
+    "max": 2
   }
 }

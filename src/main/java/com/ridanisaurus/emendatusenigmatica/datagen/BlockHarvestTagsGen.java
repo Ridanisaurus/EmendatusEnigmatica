@@ -53,6 +53,7 @@ public class BlockHarvestTagsGen {
 		private final List<String> goldTool = Lists.newArrayList();
 		private final List<String> netheriteTool = Lists.newArrayList();
 
+		// TODO: Check if there is a value, then register it - Couldn't read tag list minecraft:mineable/hoe from minecraft:tags/blocks/mineable/hoe.json in data pack EE Generated Pack | No key values in MapLike[{}]
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
@@ -72,12 +73,12 @@ public class BlockHarvestTagsGen {
 					}
 				}
 			}
-			new TagBuilder().tags(woodTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_wood_tool"));
-			new TagBuilder().tags(stoneTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_stone_tool"));
-			new TagBuilder().tags(ironTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_iron_tool"));
-			new TagBuilder().tags(diamondTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_diamond_tool"));
-			new TagBuilder().tags(goldTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_gold_tool"));
-			new TagBuilder().tags(netheriteTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_netherite_tool"));
+			if (!woodTool.isEmpty()) new TagBuilder().tags(woodTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_wood_tool"));
+			if (!stoneTool.isEmpty()) new TagBuilder().tags(stoneTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_stone_tool"));
+			if (!ironTool.isEmpty()) new TagBuilder().tags(ironTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_iron_tool"));
+			if (!diamondTool.isEmpty()) new TagBuilder().tags(diamondTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_diamond_tool"));
+			if (!goldTool.isEmpty()) new TagBuilder().tags(goldTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_gold_tool"));
+			if (!netheriteTool.isEmpty()) new TagBuilder().tags(netheriteTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_netherite_tool"));
 		}
 
 		private void harvestLevelSwitch(MaterialModel material, ResourceLocation loc) {
@@ -135,10 +136,10 @@ public class BlockHarvestTagsGen {
 					}
 				}
 			}
-			new TagBuilder().tags(shovel).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/shovel"));
-			new TagBuilder().tags(hoe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/hoe"));
-			new TagBuilder().tags(axe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/axe"));
-			new TagBuilder().tags(pickaxe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/pickaxe"));
+			if (!shovel.isEmpty()) new TagBuilder().tags(shovel).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/shovel"));
+			if (!hoe.isEmpty()) new TagBuilder().tags(hoe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/hoe"));
+			if (!axe.isEmpty()) new TagBuilder().tags(axe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/axe"));
+			if (!pickaxe.isEmpty()) new TagBuilder().tags(pickaxe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/pickaxe"));
 		}
 
 		@Override

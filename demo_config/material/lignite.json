@@ -4,7 +4,6 @@
   "localizedName": "Lignite Coal",
   "processedType": [
     "ore",
-    "raw",
     "dust",
     "fluid",
     "slurry",
@@ -14,14 +13,14 @@
     "dirty_dust",
     "fragment",
     "gravel",
-    "storage_block",
-    "4x_block_recipe"
+    "storage_block"
   ],
   "properties": {
     "oreBlockType": "gem",
     "harvestLevel": 0,
     "isBurnable": true,
-    "burnTime": 1600
+    "burnTime": 1600,
+    "blockRecipeType": 4
   },
   "colors": {
     "highlightColor": "3fbab2",
@@ -30,9 +29,9 @@
     "fluidColor": "ff6633"
   },
   "oreDrop": {
-    "drop": "minecraft:charcoal",
-    "vanillaMin": 2,
-    "vanillaMax": 6
+    "drop": "minecraft:apple",
+    "min": 2,
+    "max": 6
   },
   "compat": {
     "create": {

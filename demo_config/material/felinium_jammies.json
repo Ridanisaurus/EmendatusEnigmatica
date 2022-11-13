@@ -1,7 +1,7 @@
 {
-  "id": "felinium_jaminite",
+  "id": "felinium_jammies",
   "source": "modded",
-  "localizedName": "Felinium Jaminite",
+  "localizedName": "Felinium Jammies",
   "processedType": [
     "ore",
     "storage_block",
@@ -40,6 +40,11 @@
     "create": {
       "crushing": {
         "firstOutputCount": 10,
+        "secondOutputCount": 15,
+        "secondOutputChance": 0.35
+      },
+      "splashing": {
+        "secondOutput": "minecraft:apple",
         "secondOutputCount": 15,
         "secondOutputChance": 0.35
       }

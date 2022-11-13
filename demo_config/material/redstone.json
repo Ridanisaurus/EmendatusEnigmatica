@@ -13,7 +13,7 @@
   },
   "oreDrop": {
     "drop": "minecraft:redstone",
-    "vanillaMin": 4,
-    "vanillaMax": 5
+    "min": 4,
+    "max": 5
   }
 }

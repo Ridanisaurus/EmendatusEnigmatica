@@ -29,10 +29,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.math.Vector3f;
-import net.minecraft.client.renderer.block.model.BlockElement;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
-import net.minecraft.client.renderer.block.model.BlockFaceUV;
-import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -185,7 +181,7 @@ public class BlockModelBuilder{
 		public class FaceBuilder {
 			private Direction cullface;
 			private int tintindex = -1;
-			private String texture = MissingTextureAtlasSprite.getLocation().toString();
+			private String texture;
 			private float[] uvs;
 			private FaceRotation rotation = FaceRotation.ZERO;
 			private int emissivity = 0;
@@ -245,6 +241,102 @@ public class BlockModelBuilder{
 
 			public ElementBuilder end() { return ElementBuilder.this; }
 		}
+
+		public class BlockElementFace {
+			public static final int NO_TINT = -1;
+			public final Direction cullForDirection;
+			public final int tintIndex;
+			public final String texture;
+			public final BlockFaceUV uv;
+			public final int emissivity;
+			public final boolean hasAmbientOcclusion;
+
+			public BlockElementFace(@Nullable Direction direction, int tint, String texture, BlockFaceUV uv, int emissivity, boolean hasAmbientOcclusion) {
+				this.cullForDirection = direction;
+				this.tintIndex = tint;
+				this.texture = texture;
+				this.uv = uv;
+				this.emissivity = emissivity;
+				this.hasAmbientOcclusion = hasAmbientOcclusion;
+			}
+		}
+
+		public class BlockElement {
+			private static final boolean DEFAULT_RESCALE = false;
+			private static final float MIN_EXTENT = -16.0F;
+			private static final float MAX_EXTENT = 32.0F;
+			public final Vector3f from;
+			public final Vector3f to;
+			public final Map<Direction, BlockElementFace> faces;
+			public final BlockElementRotation rotation;
+			public final boolean shade;
+
+			public BlockElement(Vector3f from, Vector3f to, Map<Direction, BlockElementFace> faces, @Nullable BlockElementRotation rotation, boolean shade) {
+				this.from = from;
+				this.to = to;
+				this.faces = faces;
+				this.rotation = rotation;
+				this.shade = shade;
+				this.fillUvs();
+			}
+
+			private void fillUvs() {
+				for(Map.Entry<Direction, BlockElementFace> entry : this.faces.entrySet()) {
+					float[] afloat = this.uvsByFace(entry.getKey());
+					(entry.getValue()).uv.setMissingUv(afloat);
+				}
+
+			}
+
+			public float[] uvsByFace(Direction direction) {
+				switch (direction) {
+					case DOWN:
+						return new float[]{this.from.x(), 16.0F - this.to.z(), this.to.x(), 16.0F - this.from.z()};
+					case UP:
+						return new float[]{this.from.x(), this.from.z(), this.to.x(), this.to.z()};
+					case NORTH:
+					default:
+						return new float[]{16.0F - this.to.x(), 16.0F - this.to.y(), 16.0F - this.from.x(), 16.0F - this.from.y()};
+					case SOUTH:
+						return new float[]{this.from.x(), 16.0F - this.to.y(), this.to.x(), 16.0F - this.from.y()};
+					case WEST:
+						return new float[]{this.from.z(), 16.0F - this.to.y(), this.to.z(), 16.0F - this.from.y()};
+					case EAST:
+						return new float[]{16.0F - this.to.z(), 16.0F - this.to.y(), 16.0F - this.from.z(), 16.0F - this.from.y()};
+				}
+			}
+		}
+
+		public class BlockElementRotation {
+			public final Vector3f origin;
+			public final Direction.Axis axis;
+			public final float angle;
+			public final boolean rescale;
+
+			public BlockElementRotation(Vector3f vector3f, Direction.Axis axis, float angle, boolean rescale) {
+				this.origin = vector3f;
+				this.axis = axis;
+				this.angle = angle;
+				this.rescale = rescale;
+			}
+		}
+
+		public class BlockFaceUV {
+			public float[] uvs;
+			public final int rotation;
+
+			public BlockFaceUV(@Nullable float[] uvs, int rotation) {
+				this.uvs = uvs;
+				this.rotation = rotation;
+			}
+
+			public void setMissingUv(float[] uvs) {
+				if (this.uvs == null) {
+					this.uvs = uvs;
+				}
+
+			}
+		}
 	}
 
 	public enum FaceRotation {
@@ -300,7 +392,7 @@ public class BlockModelBuilder{
 
 				JsonObject faces = new JsonObject();
 				for (Direction dir : Direction.values()) {
-					BlockElementFace face = part.faces.get(dir);
+					ElementBuilder.BlockElementFace face = part.faces.get(dir);
 					if (face == null) continue;
 
 					JsonObject faceObj = new JsonObject();

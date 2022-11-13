@@ -140,13 +140,16 @@ public class ItemModelsGen extends EEItemModelProvider {
 			if (processedType.contains("raw")) {
 				ItemModelBuilder rawBuilder = new ItemModelBuilder("minecraft:item/generated");
 				if (material.getColors().getHighlightColor() == -1) {
-					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_raw").toString());
+					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/raw_" + material.getId()).toString());
 				} else {
 					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_0").toString())
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_1").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_2").toString());
 				}
-				rawBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_raw"));
+				rawBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId()));
+
+				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString())
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
 			// Fluid Buckets
 			if (processedType.contains("fluid")) {

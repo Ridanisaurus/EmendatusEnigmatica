@@ -17,8 +17,7 @@
     "burnTime": 1600
   },
   "oreDrop": {
-    "drop": "emendatus_enigmatica:bitumen_gem",
-    "vanillaMin": 2,
-    "vanillaMax": 6
+    "min": 2,
+    "max": 6
   }
 }
