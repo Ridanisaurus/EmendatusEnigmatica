@@ -244,25 +244,25 @@ public class MekanismDataGen {
 				// Crystals
 				if (processedType.contains("crystal")) {
 					ResourceLocation crystal = EEMekanismRegistrar.crystalMap.get(material.getId()).getId();
-					mekanismCrystals.add(crystal.toString());
+					if (!mekanismCrystals.contains("#mekanism:crystals/" + material.getId())) mekanismCrystals.add("#mekanism:crystals/" + material.getId());
 					new TagBuilder().tag(crystal.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/crystals/" + material.getId()));
 				}
 				// Shards
 				if (processedType.contains("shard")) {
 					ResourceLocation shard = EEMekanismRegistrar.shardMap.get(material.getId()).getId();
-					mekanismShards.add(shard.toString());
+					if (!mekanismShards.contains("#mekanism:shards/" + material.getId())) mekanismShards.add("#mekanism:shards/" + material.getId());
 					new TagBuilder().tag(shard.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/shards/" + material.getId()));
 				}
 				// Clumps
 				if (processedType.contains("clump")) {
 					ResourceLocation clump = EEMekanismRegistrar.clumpMap.get(material.getId()).getId();
-					mekanismClumps.add(clump.toString());
+					if (!mekanismClumps.contains("#mekanism:clumps/" + material.getId())) mekanismClumps.add("#mekanism:clumps/" + material.getId());
 					new TagBuilder().tag(clump.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/clumps/" + material.getId()));
 				}
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
 					ResourceLocation dirtyDust = EEMekanismRegistrar.dirtyDustMap.get(material.getId()).getId();
-					mekanismDirtyDusts.add(dirtyDust.toString());
+					if (!mekanismDirtyDusts.contains("#mekanism:dirty_dusts/" + material.getId())) mekanismDirtyDusts.add("#mekanism:dirty_dusts/" + material.getId());
 					new TagBuilder().tag(dirtyDust.toString()).save(consumer, new ResourceLocation(Reference.MEKANISM, "/items/dirty_dusts/" + material.getId()));
 				}
 			}

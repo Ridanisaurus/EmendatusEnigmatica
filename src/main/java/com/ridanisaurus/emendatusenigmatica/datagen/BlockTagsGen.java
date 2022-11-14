@@ -36,7 +36,7 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class BlockTagsGen extends EETagProvider {
@@ -46,38 +46,40 @@ public class BlockTagsGen extends EETagProvider {
 
 	private final List<String> forgeBlocks = Lists.newArrayList();
 	private final List<String> forgeOres = Lists.newArrayList();
-	private final List<String> beaconBlocks = Lists.newArrayList();
+	private final Map<String, List<String>> oresPerMaterial = new HashMap<>();
+	private final Map<String, List<String>> oresInGround = new HashMap<>();
 
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
+			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
-				forgeBlocks.add(block.toString());
-				beaconBlocks.add(block.toString());
+				if (!forgeBlocks.contains("#forge:storage_blocks/" + material.getId())) forgeBlocks.add("#forge:storage_blocks/" + material.getId());
 				new TagBuilder().tag(block.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/" + material.getId()));
 			}
+			// Raw Materials
 			if (processedType.contains("raw")) {
 				ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
-				forgeBlocks.add(raw.toString());
+				if (!forgeBlocks.contains("#forge:storage_blocks/raw_" + material.getId())) forgeBlocks.add("#forge:storage_blocks/raw_" + material.getId());
 				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/raw_" + material.getId()));
 			}
-			for (StrataModel stratum : EELoader.STRATA) {
-				if (processedType.contains("ore")) {
+			// Ores
+			if (processedType.contains("ore")) {
+				for (StrataModel stratum : EELoader.STRATA) {
 					ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
-					forgeOres.add(ore.toString());
-					new TagBuilder().tag(ore.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + getModelName(stratum, material)));
+					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
+					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
 				}
 			}
 		}
-		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks"));
-		new TagBuilder().tags(beaconBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/beacon_base_blocks"));
-		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores"));
-	}
+		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + material)));
+		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores_in_ground/" + strataPrefix)));
 
-	public static String getModelName(StrataModel stratum, MaterialModel material) {
-		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
+		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks"));
+		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores"));
 	}
 
 	@Override

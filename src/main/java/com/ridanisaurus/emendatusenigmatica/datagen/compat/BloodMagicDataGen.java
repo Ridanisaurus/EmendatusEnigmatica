@@ -172,13 +172,13 @@ public class BloodMagicDataGen {
 				// Fragments
 				if (processedType.contains("fragment")) {
 					ResourceLocation fragment = EEBloodMagicRegistrar.fragmentMap.get(material.getId()).getId();
-					bloodMagicFragments.add(fragment.toString());
+					if (!bloodMagicFragments.contains("#bloodmagic:fragments/" + material.getId())) bloodMagicFragments.add("#bloodmagic:fragments/" + material.getId());
 					new TagBuilder().tag(fragment.toString()).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/fragments/" + material.getId()));
 				}
 				// Gravels
 				if (processedType.contains("gravel")) {
 					ResourceLocation gravel = EEBloodMagicRegistrar.gravelMap.get(material.getId()).getId();
-					bloodMagicGravels.add(gravel.toString());
+					if (!bloodMagicGravels.contains("#bloodmagic:gravels/" + material.getId())) bloodMagicGravels.add("#bloodmagic:gravels/" + material.getId());
 					new TagBuilder().tag(gravel.toString()).save(consumer, new ResourceLocation(Reference.BLOODMAGIC, "/items/gravels/" + material.getId()));
 				}
 			}

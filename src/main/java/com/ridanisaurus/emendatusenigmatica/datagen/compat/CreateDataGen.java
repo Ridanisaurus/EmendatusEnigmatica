@@ -158,7 +158,7 @@ public class CreateDataGen {
 				// Crushed Ores
 				if (processedType.contains("crushed_ore")) {
 					ResourceLocation crushedOre = EECreateRegistrar.crushedOreMap.get(material.getId()).getId();
-					createCrushedOres.add(crushedOre.toString());
+					if (!createCrushedOres.contains("#create:crushed_ores/" + material.getId())) createCrushedOres.add("#create:crushed_ores/" + material.getId());
 					new TagBuilder().tag(crushedOre.toString()).save(consumer, new ResourceLocation(Reference.CREATE, "/items/crushed_ores/" + material.getId()));
 				}
 			}

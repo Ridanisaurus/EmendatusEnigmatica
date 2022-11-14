@@ -36,7 +36,7 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BlockColorEvent {
 	@SubscribeEvent
-	public void blockColorEvent(RegisterColorHandlersEvent.Block event) {
+	public static void blockColorEvent(RegisterColorHandlersEvent.Block event) {
 		event.register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
 	}
 }

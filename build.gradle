@@ -181,7 +181,7 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:4027228")
 //    runtimeOnly fg.deobf("curse.maven:terrablender-563928:4013816")
 //    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
-//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
+    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 

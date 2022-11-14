@@ -43,7 +43,7 @@ import net.minecraftforge.registries.RegistryObject;
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ItemColorEvent {
 	@SubscribeEvent
-	public void itemColorEvent(RegisterColorHandlersEvent.Item event) {
+	public static void itemColorEvent(RegisterColorHandlersEvent.Item event) {
 		event.register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
 		event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
 		event.register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
