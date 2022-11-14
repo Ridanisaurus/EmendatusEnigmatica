@@ -24,9 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.datagen.base.EEBlockStateProvider;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.BlockStateBuilder;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -37,54 +35,25 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class BlockStatesGen extends EEBlockStateProvider {
-	public BlockStatesGen(DataGenerator gen) {
+public class FluidModelsGen extends EEBlockModelProvider {
+	public FluidModelsGen(DataGenerator gen) {
 		super(gen);
 	}
 
 	@Override
-	protected void buildBlockState(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedType();
-			// Storage Blocks
-			if (processedType.contains("storage_block")) {
-				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString()))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
-			}
-			// Raw Blocks
-			if (processedType.contains("raw")) {
-				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
-			}
 			// Fluids
 			if (processedType.contains("fluid")) {
-				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId()).toString()))
+				new FluidModelBuilder().textures(new FluidModelBuilder.objectBuilder(false).particle(new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still").toString()))
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId()));
-			}
-			// Ores
-			for (StrataModel stratum : EELoader.STRATA) {
-				if (processedType.contains("ore")) {
-					new BlockStateBuilder()
-							.variant(new BlockStateBuilder.objectBuilder(false)
-									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material)).toString()))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, getModelName(stratum, material)));
-				}
 			}
 		}
 	}
 
-	public static String getModelName(StrataModel stratum, MaterialModel material) {
-		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
-	}
-
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Blockstates";
+		return "Emendatus Enigmatica Fluid Models";
 	}
 }

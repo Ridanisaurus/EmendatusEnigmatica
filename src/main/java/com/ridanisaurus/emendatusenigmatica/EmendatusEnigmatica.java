@@ -24,51 +24,33 @@
 
 package com.ridanisaurus.emendatusenigmatica;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
-import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
-import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
-import com.ridanisaurus.emendatusenigmatica.datagen.ItemModelsGen;
-import com.ridanisaurus.emendatusenigmatica.datagen.compat.*;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEPackFinder;
-import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.items.BlockItemColorHandler;
-import com.ridanisaurus.emendatusenigmatica.items.ItemColorHandler;
+import com.ridanisaurus.emendatusenigmatica.datagen.compat.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.reward.PatreonRewardLayer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
-import net.minecraft.world.item.*;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -119,7 +101,6 @@ public class EmendatusEnigmatica {
         EEDeposits.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
-        modEventBus.addListener(this::clientEvents);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
     }
@@ -128,40 +109,12 @@ public class EmendatusEnigmatica {
         MultiStrataRuleTest.register();
     }
 
-    private void clientEvents(FMLClientSetupEvent event) {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modEventBus.addListener(this::blockColorEvent);
-        modEventBus.addListener(this::itemColorEvent);
-        modEventBus.addListener(this::patreonRewardEvent);
-    }
-
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
         }
     };
-    @OnlyIn(Dist.CLIENT)
-    private void blockColorEvent(RegisterColorHandlersEvent.Block event) {
-        event.register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
-    }
-    @OnlyIn(Dist.CLIENT)
-    private void itemColorEvent(RegisterColorHandlersEvent.Item event) {
-        event.register(new DynamicFluidContainerModel.Colors(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BucketItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.register(new ItemColorHandler(), EEMekanismRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.register(new ItemColorHandler(), EECreateRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
-        event.register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private void patreonRewardEvent(EntityRenderersEvent.AddLayers event) {
-        for (String skin : event.getSkins()) {
-            PlayerRenderer renderer = event.getSkin(skin);
-            renderer.addLayer(new PatreonRewardLayer(renderer));
-        }
-    }
 
     private static void registerDataGen() {
         generator = DataGeneratorFactory.createEEDataGenerator();
@@ -169,6 +122,7 @@ public class EmendatusEnigmatica {
         generator.addProvider(true, new BlockStatesGen(generator));
         generator.addProvider(true, new BlockModelsGen(generator));
         generator.addProvider(true, new ItemModelsGen(generator));
+        generator.addProvider(true, new FluidModelsGen(generator));
         generator.addProvider(true, new LangGen(generator));
         if (CREATE_LOADED) generator.addProvider(true, new CreateDataGen.CreateItemModels(generator));
         if (BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator));
