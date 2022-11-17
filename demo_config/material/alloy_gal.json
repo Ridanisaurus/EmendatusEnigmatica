@@ -2,7 +2,7 @@
   "id": "alloy_gal",
   "source": "alloy",
   "localizedName": "Alloy Gal",
-  "processedType": [
+  "processedTypes": [
     "storage_block",
     "ingot",
     "nugget",
@@ -17,10 +17,8 @@
   "harvestLevel": 1
 },
   "colors": {
-    "highlightColor": "112233",
-    "baseColor": "445566",
-    "shadeColor": "778899",
-    "fluidColor": "000080"
+    "fluidColor": "000080",
+    "materialColor": "4eb74b"
   },
   "compat": {
     "thermal": {

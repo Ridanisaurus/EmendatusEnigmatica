@@ -27,36 +27,36 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 
-import java.util.Random;
-
 public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
-	public final int highlightColor;
-	public final int baseColor;
-	public final int shadeColor;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
+	public final int shadow2;
 
-	public GemOreBlock(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int highlightColor, int baseColor, int shadeColor) {
+	public GemOreBlock(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
 		super(BlockBehaviour.Properties.of(material)
 				.strength(hardness, resistance)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
 		this.minExp = minExp;
 		this.maxExp = maxExp;
-		this.highlightColor = highlightColor;
-		this.baseColor = baseColor;
-		this.shadeColor = shadeColor;
+		this.highlight2 = highlight2;
+		this.highlight1 = highlight1;
+		this.base = base;
+		this.shadow1 = shadow1;
+		this.shadow2 = shadow2;
 	}
 
 	@Override
@@ -74,17 +74,27 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	}
 
 	@Override
-	public int getHighlightColor() {
-		return highlightColor;
+	public int getHighlight2() {
+		return highlight2;
 	}
 
 	@Override
-	public int getBaseColor() {
-		return baseColor;
+	public int getHighlight1() {
+		return highlight1;
 	}
 
 	@Override
-	public int getShadeColor() {
-		return shadeColor;
+	public int getBase() {
+		return base;
+	}
+
+	@Override
+	public int getShadow1() {
+		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return shadow2;
 	}
 }

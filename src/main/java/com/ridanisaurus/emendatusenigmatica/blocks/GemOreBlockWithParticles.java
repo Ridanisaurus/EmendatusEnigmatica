@@ -39,13 +39,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-public class GemOreBlockWithParticles extends DropExperienceBlock {
+public class GemOreBlockWithParticles extends DropExperienceBlock implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
 	private final int particleColor;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
+	public final int shadow2;
 
-	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int particleColor) {
+	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int particleColor, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
 				.requiresCorrectToolForDrops());
@@ -53,6 +58,11 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 		this.minExp = minExp;
 		this.maxExp = maxExp;
 		this.particleColor = particleColor;
+		this.highlight2 = highlight2;
+		this.highlight1 = highlight1;
+		this.base = base;
+		this.shadow1 = shadow1;
+		this.shadow2 = shadow2;
 	}
 
 	@Override
@@ -85,5 +95,30 @@ public class GemOreBlockWithParticles extends DropExperienceBlock {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int getHighlight2() {
+		return highlight2;
+	}
+
+	@Override
+	public int getHighlight1() {
+		return highlight1;
+	}
+
+	@Override
+	public int getBase() {
+		return base;
+	}
+
+	@Override
+	public int getShadow1() {
+		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return shadow2;
 	}
 }

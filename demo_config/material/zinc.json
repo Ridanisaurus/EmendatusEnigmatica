@@ -2,7 +2,7 @@
   "id": "zinc",
   "source": "modded",
   "localizedName": "Zinc",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "ingot",
@@ -22,7 +22,7 @@
     "gravel"
   ],
   "properties": {
-    "oreBlockType": "metal",
+    "materialType": "metal",
     "harvestLevel": 3
   },
   "colors": {

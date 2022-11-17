@@ -3,16 +3,15 @@
   "source": "vanilla",
   "localizedName": "Gold",
   "removeDefaultOre": true,
-  "processedType": [
+  "processedTypes": [
     "ore",
-    "raw",
     "dust",
     "plate",
     "gear",
     "rod"
   ],
   "properties": {
-    "oreBlockType": "metal",
+    "materialType": "metal",
     "harvestLevel": 1
   }
 }

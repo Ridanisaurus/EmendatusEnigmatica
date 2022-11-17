@@ -33,22 +33,13 @@ import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.*;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraftforge.registries.ForgeRegistries;
-
-import javax.annotation.Nullable;
 
 public class CreateDataGen {
 
@@ -61,9 +52,9 @@ public class CreateDataGen {
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				for (StrataModel stratum : EELoader.STRATA) {
-					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
+					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
 						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
@@ -76,7 +67,7 @@ public class CreateDataGen {
 										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
-					if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
+					if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
 						new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
 								.type("create:crushing")
@@ -120,18 +111,20 @@ public class CreateDataGen {
 		@Override
 		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Crushed Ore
 				if (processedType.contains("crushed_ore")) {
 					ItemModelBuilder crushedBuilder = new ItemModelBuilder("minecraft:item/generated");
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						crushedBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crushed").toString());
 					} else {
-						crushedBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_0").toString())
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_1").toString())
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_2").toString());
+						crushedBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_ore/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_ore/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_ore/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_ore/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/crushed_ore/04").toString());
 					}
-					crushedBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_crushed"));
+					crushedBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed_" + material.getId() + "_ore"));
 				}
 			}
 
@@ -154,7 +147,7 @@ public class CreateDataGen {
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Crushed Ores
 				if (processedType.contains("crushed_ore")) {
 					ResourceLocation crushedOre = EECreateRegistrar.crushedOreMap.get(material.getId()).getId();

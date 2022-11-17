@@ -45,12 +45,11 @@ public class BlockModelsGen extends EEBlockModelProvider {
 	@Override
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					new BlockModelBuilder("minecraft:block/block")
-							.renderType("solid")
 							.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
 							.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
 							.element()
@@ -59,32 +58,73 @@ public class BlockModelsGen extends EEBlockModelProvider {
 							.end()
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
 				} else {
-					new BlockModelBuilder("minecraft:block/block")
-							.renderType("translucent")
-							.texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_0"))
-							.texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_1"))
-							.texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block_2"))
-							.texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
-							.element()
-							.cube("#highlight")
-							.allFaces((d, u) -> u.tintindex(0))
-							.end()
-							.element()
-							.cube("#base")
-							.allFaces((d, u) -> u.tintindex(1))
-							.end()
-							.element()
-							.cube("#shade")
-							.allFaces((d, u) -> u.tintindex(2))
-							.end()
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
+					if (material.getProperties().getMaterialType().equals("gem")) {
+						new BlockModelBuilder("minecraft:block/block")
+								.renderType("cutout")
+								.texture("highlight2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/00"))
+								.texture("highlight1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/01"))
+								.texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/02"))
+								.texture("shadow1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/03"))
+								.texture("shadow2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/04"))
+								.texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/gem/00"))
+								.element()
+								.cube("#highlight2")
+								.allFaces((d, u) -> u.tintindex(0))
+								.end()
+								.element()
+								.cube("#highlight1")
+								.allFaces((d, u) -> u.tintindex(1))
+								.end()
+								.element()
+								.cube("#base")
+								.allFaces((d, u) -> u.tintindex(2))
+								.end()
+								.element()
+								.cube("#shadow1")
+								.allFaces((d, u) -> u.tintindex(3))
+								.end()
+								.element()
+								.cube("#shadow2")
+								.allFaces((d, u) -> u.tintindex(4))
+								.end()
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
+					} else {
+						new BlockModelBuilder("minecraft:block/block")
+								.renderType("cutout")
+								.texture("highlight2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/00"))
+								.texture("highlight1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/01"))
+								.texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/02"))
+								.texture("shadow1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/03"))
+								.texture("shadow2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/04"))
+								.texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block/metal/00"))
+								.element()
+								.cube("#highlight2")
+								.allFaces((d, u) -> u.tintindex(0))
+								.end()
+								.element()
+								.cube("#highlight1")
+								.allFaces((d, u) -> u.tintindex(1))
+								.end()
+								.element()
+								.cube("#base")
+								.allFaces((d, u) -> u.tintindex(2))
+								.end()
+								.element()
+								.cube("#shadow1")
+								.allFaces((d, u) -> u.tintindex(3))
+								.end()
+								.element()
+								.cube("#shadow2")
+								.allFaces((d, u) -> u.tintindex(4))
+								.end()
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
+					}
 				}
 			}
 			// Raw Storage Blocks
 			if (processedType.contains("raw")) {
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					new BlockModelBuilder("minecraft:block/block")
-							.renderType("solid")
 							.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/raw_" + material.getId() + "_block"))
 							.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/raw_" + material.getId() + "_block"))
 							.element()
@@ -94,22 +134,32 @@ public class BlockModelsGen extends EEBlockModelProvider {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 				} else {
 					new BlockModelBuilder("minecraft:block/block")
-							.renderType("translucent")
-							.texture("highlight", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_0"))
-							.texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_1"))
-							.texture("shade", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block_2"))
-							.texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/block"))
+							.renderType("cutout")
+							.texture("highlight2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/00"))
+							.texture("highlight1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/01"))
+							.texture("base", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/02"))
+							.texture("shadow1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/03"))
+							.texture("shadow2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/04"))
+							.texture("particle", new ResourceLocation(Reference.MOD_ID, "blocks/templates/raw_block/00"))
 							.element()
-							.cube("#highlight")
+							.cube("#highlight2")
 							.allFaces((d, u) -> u.tintindex(0))
 							.end()
 							.element()
-							.cube("#base")
+							.cube("#highlight1")
 							.allFaces((d, u) -> u.tintindex(1))
 							.end()
 							.element()
-							.cube("#shade")
+							.cube("#base")
 							.allFaces((d, u) -> u.tintindex(2))
+							.end()
+							.element()
+							.cube("#shadow1")
+							.allFaces((d, u) -> u.tintindex(3))
+							.end()
+							.element()
+							.cube("#shadow2")
+							.allFaces((d, u) -> u.tintindex(4))
 							.end()
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 				}
@@ -117,13 +167,27 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
 				if (processedType.contains("ore")) {
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getModelName(stratum, material));
 					} else {
-						if (material.getProperties().getOreBlockType().equals("gem")) {
-							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_gem", getModelName(stratum, material));
+						if (material.getProperties().getMaterialType().equals("gem")) {
+							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+									"blocks/templates/ore/gem/00",
+									"blocks/templates/ore/gem/01",
+									"blocks/templates/ore/gem/02",
+									"blocks/templates/ore/gem/03",
+									"blocks/templates/ore/gem/04",
+									"blocks/templates/ore/gem/shadow_drop",
+									getModelName(stratum, material));
 						} else {
-							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/templates/ore_metal", getModelName(stratum, material));
+							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+									"blocks/templates/ore/metal/00",
+									"blocks/templates/ore/metal/01",
+									"blocks/templates/ore/metal/02",
+									"blocks/templates/ore/metal/03",
+									"blocks/templates/ore/metal/04",
+									"blocks/templates/ore/metal/shadow_drop",
+									getModelName(stratum, material));
 						}
 					}
 				}
@@ -155,47 +219,71 @@ public class BlockModelsGen extends EEBlockModelProvider {
 						.from(0, 0, 0)
 						.to(16, 16, 16)
 						.cube("#overlay")
-						.allFaces((dir, uv) -> uv.tintindex(0))
+						.allFaces((dir, uv) -> uv.tintindex(-1))
 						.end()
 						.renderType("translucent")
 				).save(consumer, new ResourceLocation(Reference.MOD_ID, path));
 	}
 
-	public void dynamicTintBlock(Consumer<IFinishedGenericJSON> consumer, String baseTexture, String overlayTexture, String path) {
+	public void dynamicTintBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String highlight2, String highlight1, String base, String shadow1, String shadow2, String drop, String path) {
 		new BlockModelBuilder("minecraft:block/block")
-				.texture("particle", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+				.texture("particle", new ResourceLocation(Reference.MOD_ID, base))
 				.setLoader("forge:composite")
 				.child("solid", new BlockModelBuilder("minecraft:block/block")
-						.texture("base", baseTexture)
+						.texture("strata", strata)
 						.element()
 						.from(0, 0, 0)
 						.to(16, 16, 16)
-						.cube("#base")
+						.cube("#strata")
 						.allFaces((dir, uv) -> uv.tintindex(-1))
 						.end()
 						.renderType("solid")
 				)
-				.child("translucent", new BlockModelBuilder("minecraft:block/block")
-						.texture("overlay_0", new ResourceLocation(Reference.MOD_ID, overlayTexture))
-						.texture("overlay_1", new ResourceLocation(Reference.MOD_ID, overlayTexture))
-						.texture("overlay_2", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+				.child("cutout", new BlockModelBuilder("minecraft:block/block")
+						.texture("highlight2", new ResourceLocation(Reference.MOD_ID, highlight2))
+						.texture("highlight1", new ResourceLocation(Reference.MOD_ID, highlight1))
+						.texture("base", new ResourceLocation(Reference.MOD_ID, base))
+						.texture("shadow1", new ResourceLocation(Reference.MOD_ID, shadow1))
+						.texture("shadow2", new ResourceLocation(Reference.MOD_ID, shadow2))
 						.element()
 						.from(0, 0, 0)
 						.to(16, 16, 16)
-						.cube("#overlay_0")
+						.cube("#highlight2")
 						.allFaces((dir, uv) -> uv.tintindex(0))
 						.end()
 						.element()
 						.from(0, 0, 0)
 						.to(16, 16, 16)
-						.cube("#overlay_1")
+						.cube("#highlight1")
 						.allFaces((dir, uv) -> uv.tintindex(1))
 						.end()
 						.element()
 						.from(0, 0, 0)
 						.to(16, 16, 16)
-						.cube("#overlay_2")
+						.cube("#base")
 						.allFaces((dir, uv) -> uv.tintindex(2))
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#shadow1")
+						.allFaces((dir, uv) -> uv.tintindex(3))
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#shadow2")
+						.allFaces((dir, uv) -> uv.tintindex(4))
+						.end()
+						.renderType("cutout")
+				)
+				.child("translucent", new BlockModelBuilder("minecraft:block/block")
+						.texture("drop", new ResourceLocation(Reference.MOD_ID, drop))
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#drop")
+						.allFaces((dir, uv) -> uv.tintindex(-1))
 						.end()
 						.renderType("translucent")
 				)

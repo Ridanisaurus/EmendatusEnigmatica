@@ -2,7 +2,7 @@
   "id": "coal_coke",
   "source": "modded",
   "localizedName": "Coal Coke",
-  "processedType": [
+  "processedTypes": [
 	"storage_block",
 	"gem",
 	"dust"

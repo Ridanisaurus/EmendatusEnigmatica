@@ -51,7 +51,7 @@ public class ArsNouveauDataGen {
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				for (StrataModel stratum : EELoader.STRATA) {
 					if (processedType.contains("dust") && processedType.contains("ore")) {
 						// Dust from Ore - Crush Spell

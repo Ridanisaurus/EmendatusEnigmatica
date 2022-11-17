@@ -2,7 +2,7 @@
   "id": "felinium_jammies",
   "source": "modded",
   "localizedName": "Felinium Jammies",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "ingot",
@@ -23,18 +23,16 @@
     "crushed_ore"
   ],
   "properties": {
-    "oreBlockType": "metal",
+    "materialType": "metal",
     "harvestLevel": 1,
-    "hasParticle": true,
+    "hasParticles": true,
     "isBurnable": true,
     "burnTime": 3600
   },
   "colors": {
-    "fluidColor": "d1d1a5",
-    "highlightColor": "ffb600",
-    "baseColor": "e63300",
-    "shadeColor": "690000",
-    "particlesColor": "0099ff"
+    "fluidColor": "0099ff",
+    "particlesColor": "0099ff",
+    "materialColor": "0099ff"
   },
   "compat": {
     "create": {

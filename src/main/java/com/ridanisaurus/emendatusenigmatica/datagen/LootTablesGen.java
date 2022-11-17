@@ -42,7 +42,7 @@ public class LootTablesGen extends EELootProvider {
 	@Override
 	protected void addTables() {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -58,13 +58,13 @@ public class LootTablesGen extends EELootProvider {
 			}
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
-				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getOreBlockType().equals("metal")) {
+				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getMaterialType().equals("metal")) {
 					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 							createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 									EERegistrar.rawMap.get(material.getId()).get())
 					);
 				}
-				if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem")) {
+				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem")) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 								createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),

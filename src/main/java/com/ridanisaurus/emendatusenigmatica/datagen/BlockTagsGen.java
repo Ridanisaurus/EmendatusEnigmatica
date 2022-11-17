@@ -52,7 +52,7 @@ public class BlockTagsGen extends EETagProvider {
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();

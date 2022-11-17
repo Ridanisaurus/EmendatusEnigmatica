@@ -51,7 +51,7 @@ public class ThermalDataGen {
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Pulverizer
 				// Ingot to Dust
 				if (processedType.contains("ingot") && processedType.contains("dust") && material.isModded()) {
@@ -73,7 +73,7 @@ public class ThermalDataGen {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_gem_pulverizer/" + material.getId()));
 				}
 				// Ore to Dust
-				if (processedType.contains("ore") && processedType.contains("dust") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
+				if (processedType.contains("ore") && processedType.contains("dust") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 					new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
 							.type("thermal:pulverizer")
 							.group("emendatusenigmatica:compat_recipe")
@@ -86,7 +86,7 @@ public class ThermalDataGen {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
 				}
 				// Ore to Gem
-				if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
+				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem") && material.isModded()) {
 					new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getThermalCompat().getPulverizerCompat().getFirstOutputCombinedChance())
 							.type("thermal:pulverizer")
 							.group("emendatusenigmatica:compat_recipe")
@@ -110,7 +110,7 @@ public class ThermalDataGen {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust_induction/" + material.getId()));
 				}
 				// Ore to Ingot
-				if (processedType.contains("ore") && processedType.contains("ingot") && material.getProperties().getOreBlockType().equals("metal") && material.isModded()) {
+				if (processedType.contains("ore") && processedType.contains("ingot") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 					new RecipeBuilder("results", EERegistrar.ingotMap.get(material.getId()).get(), 1.0f)
 							.type("thermal:smelter")
 							.group("emendatusenigmatica:compat_recipe")
@@ -123,7 +123,7 @@ public class ThermalDataGen {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore_induction/" + material.getId()));
 				}
 				// Ore to Gem
-				if (processedType.contains("ore") && material.getProperties().getOreBlockType().equals("gem") && material.isModded()) {
+				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem") && material.isModded()) {
 					new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getThermalCompat().getInductionCompat().getFirstOutputCombinedChance())
 							.type("thermal:smelter")
 							.group("emendatusenigmatica:compat_recipe")

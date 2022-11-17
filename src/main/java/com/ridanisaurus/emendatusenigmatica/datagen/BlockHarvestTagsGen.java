@@ -57,7 +57,7 @@ public class BlockHarvestTagsGen {
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, block);
@@ -114,7 +114,7 @@ public class BlockHarvestTagsGen {
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				if(processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
 					pickaxe.add(block.toString());

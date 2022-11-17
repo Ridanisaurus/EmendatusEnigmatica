@@ -2,13 +2,13 @@
   "id": "arcane",
   "source": "modded",
   "localizedName": "Arcane",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "gem"
   ],
   "properties": {
-    "oreBlockType": "gem",
+    "materialType": "gem",
     "harvestLevel": 1
   },
   "oreDrop": {

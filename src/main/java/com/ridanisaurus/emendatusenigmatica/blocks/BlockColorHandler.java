@@ -4,6 +4,7 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,23 +16,45 @@ public class BlockColorHandler implements BlockColor {
     @Override
     public int getColor(BlockState state, @Nullable BlockAndTintGetter reader, @Nullable BlockPos pos, int layer) {
         Block block = state.getBlock();
-        if ((block instanceof GemOreBlock || block instanceof MetalOreBlock) && layer == 0) {
-            return ((IColorable) state.getBlock()).getHighlightColor();
+        if (layer == 0) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                return ((IColorable) block).getHighlight2();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getHighlight2();
+            }
         }
-        if ((block instanceof GemOreBlock || block instanceof MetalOreBlock) && layer == 1) {
-            return ((IColorable) state.getBlock()).getBaseColor();
+        if (layer == 1) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                return ((IColorable) block).getHighlight1();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getHighlight1();
+            }
         }
-        if ((block instanceof GemOreBlock || block instanceof MetalOreBlock) && layer == 2) {
-            return ((IColorable) state.getBlock()).getShadeColor();
+        if (layer == 2) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                return ((IColorable) block).getBase();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getBase();
+            }
         }
-        if (state.getBlock() instanceof BasicStorageBlock && layer == 0) {
-            return ((BasicStorageBlock) block).highlightColor;
+        if (layer == 3) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                return ((IColorable) block).getShadow1();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getShadow1();
+            }
         }
-        if (state.getBlock() instanceof BasicStorageBlock && layer == 1) {
-            return ((BasicStorageBlock) block).baseColor;
-        }
-        if (state.getBlock() instanceof BasicStorageBlock && layer == 2) {
-            return ((BasicStorageBlock) block).shadeColor;
+        if (layer == 4) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                return ((IColorable) block).getShadow2();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getShadow2();
+            }
         }
         return 0xFFFFFF;
     }

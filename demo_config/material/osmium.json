@@ -2,7 +2,7 @@
   "id": "osmium",
   "source": "modded",
   "localizedName": "Osmium",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "ingot",
@@ -14,7 +14,7 @@
     "rod"
   ],
   "properties": {
-    "oreBlockType": "metal",
+    "materialType": "metal",
     "harvestLevel": 2,
     "blockRecipeType": 4
   },

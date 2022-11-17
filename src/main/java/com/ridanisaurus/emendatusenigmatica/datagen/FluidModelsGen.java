@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +42,7 @@ public class FluidModelsGen extends EEBlockModelProvider {
 	@Override
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Fluids
 			if (processedType.contains("fluid")) {
 				new FluidModelBuilder().textures(new FluidModelBuilder.objectBuilder(false).particle(new ResourceLocation(Reference.MOD_ID, "fluids/fluid_still").toString()))

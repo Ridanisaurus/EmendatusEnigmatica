@@ -46,7 +46,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 	@Override
 	protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
@@ -55,96 +55,112 @@ public class ItemModelsGen extends EEItemModelProvider {
 			// Ingots
 			if (processedType.contains("ingot")) {
 				ItemModelBuilder ingotBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					ingotBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_ingot").toString());
 				} else {
-					ingotBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot_2").toString());
+					ingotBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/ingot/04").toString());
 				}
 				ingotBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_ingot"));
 			}
 			// Nuggets
 			if (processedType.contains("nugget")) {
 				ItemModelBuilder nuggetBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					nuggetBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_nugget").toString());
 				} else {
-					nuggetBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget_2").toString());
+					nuggetBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/nugget/04").toString());
 				}
 				nuggetBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_nugget"));
 			}
 			// Gems
 			if (processedType.contains("gem")) {
 				ItemModelBuilder gemBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem").toString());
 				} else {
-					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem_2").toString());
+					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/04").toString());
 				}
 				gemBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_gem"));
 			}
 			// Dusts
 			if (processedType.contains("dust")) {
 				ItemModelBuilder dustBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					dustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dust").toString());
 				} else {
-					dustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dust_2").toString());
+					dustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dust/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dust/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dust/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/dust/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/dust/04").toString());
 				}
 				dustBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_dust"));
 			}
 			// Plates
 			if (processedType.contains("plate")) {
 				ItemModelBuilder plateBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					plateBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_plate").toString());
 				} else {
-					plateBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/plate_2").toString());
+					plateBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/plate/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/plate/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/plate/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/plate/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/plate/04").toString());
 				}
 				plateBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_plate"));
 			}
 			// Gears
 			if (processedType.contains("gear")) {
 				ItemModelBuilder gearBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					gearBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gear").toString());
 				} else {
-					gearBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gear_2").toString());
+					gearBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gear/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gear/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gear/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/gear/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/gear/04").toString());
 				}
 				gearBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_gear"));
 			}
 			// Rods
 			if (processedType.contains("rod")) {
 				ItemModelBuilder rodBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					rodBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_rod").toString());
 				} else {
-					rodBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/rod_2").toString());
+					rodBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/rod/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/rod/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/rod/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/rod/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/rod/04").toString());
 				}
 				rodBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_rod"));
 			}
 			// Raw Materials
 			if (processedType.contains("raw")) {
 				ItemModelBuilder rawBuilder = new ItemModelBuilder("minecraft:item/generated");
-				if (material.getColors().getHighlightColor() == -1) {
+				if (material.getColors().getMaterialColor() == -1) {
 					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/raw_" + material.getId()).toString());
 				} else {
-					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_0").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_1").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/raw_2").toString());
+					rawBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/raw/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/raw/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/raw/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/raw/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/raw/04").toString());
 				}
 				rawBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId()));
 

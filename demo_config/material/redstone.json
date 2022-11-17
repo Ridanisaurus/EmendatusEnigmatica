@@ -3,12 +3,11 @@
   "source": "vanilla",
   "localizedName": "Redstone",
   "removeDefaultOre": true,
-  "processedType": [
-    "ore",
-    "raw"
+  "processedTypes": [
+    "ore"
   ],
   "properties": {
-    "oreBlockType": "gem",
+    "materialType": "gem",
     "harvestLevel": 1
   },
   "oreDrop": {

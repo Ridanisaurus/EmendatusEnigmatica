@@ -2,7 +2,7 @@
   "id": "alloy_boi",
   "source": "alloy",
   "localizedName": "Alloy Boi",
-  "processedType": [
+  "processedTypes": [
     "ingot",
     "nugget",
     "dust",
@@ -16,7 +16,8 @@
   "harvestLevel": 1
 },
   "colors": {
-    "fluidColor": "0099FF"
+    "fluidColor": "ff6633",
+    "materialColor": "ff6633"
   },
   "compat": {
     "thermal": {

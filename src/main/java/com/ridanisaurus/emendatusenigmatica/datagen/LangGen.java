@@ -52,7 +52,7 @@ public class LangGen extends LanguageProvider {
 		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				StringBuilder sb = new StringBuilder();
@@ -192,7 +192,7 @@ public class LangGen extends LanguageProvider {
 					StringBuilder sb = new StringBuilder();
 					sb.append("Crushed ");
 					sb.append(material.getLocalizedName());
-					sb.append(" ore");
+					sb.append(" Ore");
 					add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
 				}
 			}

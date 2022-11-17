@@ -32,27 +32,17 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import mekanism.api.chemical.ChemicalTags;
 import mekanism.api.chemical.gas.Gas;
-import mekanism.api.chemical.slurry.Slurry;
 import mekanism.api.datagen.recipe.builder.*;
-import mekanism.api.datagen.tag.ChemicalTagsProvider;
 import mekanism.api.recipes.ingredients.creator.IngredientCreatorAccess;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -71,7 +61,7 @@ public class MekanismDataGen {
 		@Override
 		protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("slurry") && processedType.contains("ore")) {
 					// Dirty Slurry from Ore in the Dissolution Chamber
 					ChemicalDissolutionRecipeBuilder.dissolution(
@@ -166,52 +156,60 @@ public class MekanismDataGen {
 		@Override
 		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Crystals
 				if (processedType.contains("crystal")) {
 					ItemModelBuilder crystalBuilder = new ItemModelBuilder("minecraft:item/generated");
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						crystalBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_crystal").toString());
 					} else {
-						crystalBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_0").toString())
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_1").toString())
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal_2").toString());
+						crystalBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/crystal/04").toString());
 					}
 					crystalBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_crystal"));
 				}
 				// Shards
 				if (processedType.contains("shard")) {
 					ItemModelBuilder shardBuilder = new ItemModelBuilder("minecraft:item/generated");
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						shardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shard").toString());
 					} else {
-						shardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_0").toString())
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_1").toString())
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shard_2").toString());
+						shardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shard/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shard/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shard/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/shard/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/shard/04").toString());
 					}
 					shardBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shard"));
 				}
 				// Clumps
 				if (processedType.contains("clump")) {
 					ItemModelBuilder clumpBuilder = new ItemModelBuilder("minecraft:item/generated");
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						clumpBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_clump").toString());
 					} else {
-						clumpBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_0").toString())
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_1").toString())
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/clump_2").toString());
+						clumpBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/clump/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/clump/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/clump/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/clump/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/clump/04").toString());
 					}
 					clumpBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_clump"));
 				}
 				// Dirty Dusts
 				if (processedType.contains("dirty_dust")) {
 					ItemModelBuilder dirtyDustBuilder = new ItemModelBuilder("minecraft:item/generated");
-					if (material.getColors().getHighlightColor() == -1) {
+					if (material.getColors().getMaterialColor() == -1) {
 						dirtyDustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_dirty_dust").toString());
 					} else {
-						dirtyDustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_0").toString())
-								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_1").toString())
-								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust_2").toString());
+						dirtyDustBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust/00").toString())
+								.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust/01").toString())
+								.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust/02").toString())
+								.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust/03").toString())
+								.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/dirty_dust/04").toString());
 					}
 					dirtyDustBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_dirty_dust"));
 				}
@@ -240,7 +238,7 @@ public class MekanismDataGen {
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Crystals
 				if (processedType.contains("crystal")) {
 					ResourceLocation crystal = EEMekanismRegistrar.crystalMap.get(material.getId()).getId();
@@ -289,7 +287,7 @@ public class MekanismDataGen {
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				// Slurries
 				if (processedType.contains("slurry")) {
 					ResourceLocation cleanSlurry = EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).getId();

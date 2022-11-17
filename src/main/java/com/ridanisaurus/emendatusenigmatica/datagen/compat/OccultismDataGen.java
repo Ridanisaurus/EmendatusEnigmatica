@@ -49,7 +49,7 @@ public class OccultismDataGen {
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedType();
+				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("dust") && processedType.contains("ore")) {
 					// Dust from Ore - Crusher Spirit
 					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get(), 2)

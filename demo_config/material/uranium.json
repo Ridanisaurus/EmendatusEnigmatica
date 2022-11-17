@@ -2,7 +2,7 @@
   "id": "uranium",
   "source": "modded",
   "localizedName": "Uranium",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "ingot",
@@ -18,7 +18,7 @@
     "slurry"
   ],
   "properties": {
-    "oreBlockType": "metal",
+    "materialType": "metal",
     "harvestLevel": 4,
     "isBurnable": true,
     "burnTime": 3200

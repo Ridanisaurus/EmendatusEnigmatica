@@ -46,7 +46,7 @@ public class FluidTagsGen extends EETagProvider {
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			if (processedType.contains("fluid")) {
 				ResourceLocation fluidSource = EERegistrar.fluidSourceMap.get(material.getId()).getId();
 				ResourceLocation fluidFlowing = EERegistrar.fluidFlowingMap.get(material.getId()).getId();

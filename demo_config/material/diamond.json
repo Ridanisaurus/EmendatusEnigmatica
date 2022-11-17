@@ -3,16 +3,15 @@
   "source": "vanilla",
   "localizedName": "Diamond",
   "removeDefaultOre": true,
-  "processedType": [
+  "processedTypes": [
     "ore",
-    "raw",
     "dust",
     "plate",
     "gear",
     "rod"
   ],
   "properties": {
-    "oreBlockType": "gem",
+    "materialType": "gem",
     "harvestLevel": 1
   },
   "oreDrop": {

@@ -33,12 +33,10 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -129,7 +127,7 @@ public class RecipesGen extends RecipeProvider {
 				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/redstone"));
 
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 
 			// Ingot from Block
 			if (processedType.contains("storage_block") && processedType.contains("ingot")) {

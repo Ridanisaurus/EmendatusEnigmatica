@@ -45,7 +45,7 @@ public class BlockStatesGen extends EEBlockStateProvider {
 	@Override
 	protected void buildBlockState(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				new BlockStateBuilder()

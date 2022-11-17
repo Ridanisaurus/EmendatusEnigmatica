@@ -14,7 +14,7 @@
     ],
     "chance": 10,
     "size": 16,
-    "minYLevel": 0,
+    "minYLevel": 60,
     "maxYLevel": 128
   }
 }

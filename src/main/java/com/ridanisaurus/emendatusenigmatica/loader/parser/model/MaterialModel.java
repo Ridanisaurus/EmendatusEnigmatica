@@ -36,17 +36,17 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("source").forGetter(i -> i.source),
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
 			Codec.BOOL.optionalFieldOf("removeDefaultOre").forGetter(i -> Optional.of(i.removeDefaultOre)),
-			Codec.list(Codec.STRING).fieldOf("processedType").forGetter(i -> i.processedType),
+			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors))
-	).apply(x, (id, source, localizedName, removeDefaultOre, processedType, properties, oreDrop, compat, colors) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, removeDefaultOre, processedTypes, properties, oreDrop, compat, colors) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
 			removeDefaultOre.orElse(false),
-			processedType,
+			processedTypes,
 			properties.orElse(new MaterialPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
@@ -57,18 +57,18 @@ public class MaterialModel {
 	private final String source;
 	private final String localizedName;
 	private final boolean removeDefaultOre;
-	private final List<String> processedType;
+	private final List<String> processedTypes;
 	private final MaterialPropertiesModel properties;
 	private final MaterialOreDropModel oreDrop;
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
 
-	public MaterialModel(String id, String source, String localizedName, boolean removeDefaultOre, List<String> processedType, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors) {
+	public MaterialModel(String id, String source, String localizedName, boolean removeDefaultOre, List<String> processedTypes, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
 		this.removeDefaultOre = removeDefaultOre;
-		this.processedType = processedType;
+		this.processedTypes = processedTypes;
 		this.properties = properties;
 		this.oreDrop = oreDrop;
 		this.compat = compat;
@@ -103,8 +103,8 @@ public class MaterialModel {
 		return removeDefaultOre;
 	}
 
-	public List<String> getProcessedType() {
-		return processedType;
+	public List<String> getProcessedTypes() {
+		return processedTypes;
 	}
 
 	public MaterialPropertiesModel getProperties() {

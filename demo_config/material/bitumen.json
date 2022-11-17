@@ -2,16 +2,15 @@
   "id": "bitumen",
   "source": "modded",
   "localizedName": "Bitumen",
-  "processedType": [
+  "processedTypes": [
     "ore",
     "storage_block",
     "gem",
-    "raw",
     "fragment",
     "gravel"
   ],
   "properties": {
-    "oreBlockType": "gem",
+    "materialType": "gem",
     "harvestLevel": 1,
     "isBurnable": true,
     "burnTime": 1600

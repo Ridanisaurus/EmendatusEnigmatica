@@ -3,13 +3,12 @@
   "source": "vanilla",
   "localizedName": "Coal",
   "removeDefaultOre": true,
-  "processedType": [
+  "processedTypes": [
     "ore",
-    "raw",
     "dust"
   ],
   "properties": {
-    "oreBlockType": "gem",
+    "materialType": "gem",
     "harvestLevel": 1,
     "isBurnable": true,
     "burnTime": 1600
