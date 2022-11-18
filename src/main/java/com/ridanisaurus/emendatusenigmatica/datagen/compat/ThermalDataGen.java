@@ -138,7 +138,7 @@ public class ThermalDataGen {
 
 				// Alloy Induction
 				// Two Input
-				if (processedType.contains("ingot") && material.isAlloy() && !material.getCompat().getThermalCompat().getInductionCompat().isThirdInputSet()) {
+				if (processedType.contains("ingot") && material.getProperties().getMaterialType().equals("alloy") && !material.getCompat().getThermalCompat().getInductionCompat().isThirdInputSet()) {
 					new RecipeBuilder("results", EERegistrar.ingotMap.get(material.getId()).get(), material.getCompat().getThermalCompat().getInductionCompat().getFirstOutputCount())
 							.type("thermal:smelter")
 							.group("emendatusenigmatica:compat_recipe")
@@ -150,7 +150,7 @@ public class ThermalDataGen {
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_alloy_induction/" + material.getId()));
 				}
 				// Three Input
-				if (processedType.contains("ingot") && material.isAlloy() && material.getCompat().getThermalCompat().getInductionCompat().isThirdInputSet()) {
+				if (processedType.contains("ingot") && material.getProperties().getMaterialType().equals("alloy") && material.getCompat().getThermalCompat().getInductionCompat().isThirdInputSet()) {
 					new RecipeBuilder("results", EERegistrar.ingotMap.get(material.getId()).get(), material.getCompat().getThermalCompat().getInductionCompat().getFirstOutputCount())
 							.type("thermal:smelter")
 							.group("emendatusenigmatica:compat_recipe")

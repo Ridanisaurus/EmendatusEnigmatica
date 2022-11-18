@@ -62,25 +62,25 @@ public class OreFeatureDataGen extends EEFeatureProvider {
 	@Override
 	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			if (material.isVanilla() && material.getId().contains("coal") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("coal") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COAL_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_coal_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("copper") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("copper") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COPPER_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_copper_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("iron") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("iron") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_IRON_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_iron_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("gold") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("gold") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_GOLD_ORE)
@@ -90,31 +90,31 @@ public class OreFeatureDataGen extends EEFeatureProvider {
 						.features(DEFAULT_NETHER_GOLD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_nether_gold_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("redstone") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("redstone") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_REDSTONE_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_redstone_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("lapis") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("lapis") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_LAPIS_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_lapis_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("diamond") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("diamond") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_DIAMOND_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_diamond_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("emerald") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("emerald") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_EMERALD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_emerald_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("nether_quartz") && material.getRemoveDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("nether_quartz") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_QUARTZ_ORE)
