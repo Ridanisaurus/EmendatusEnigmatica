@@ -122,7 +122,7 @@ public class GeneratedPack implements PackResources {
     public <T> T getMetadataSection(MetadataSectionSerializer<T> deserializer) throws IOException {
         JsonObject jsonobject = new JsonObject();
         JsonObject packObject = new JsonObject();
-        packObject.addProperty("pack_format", 9);
+        packObject.addProperty("pack_format", 6);
         packObject.addProperty("description", "emendatusenigmatica");
         jsonobject.add("pack", packObject);
         if (!jsonobject.has(deserializer.getMetadataSectionName())) {
