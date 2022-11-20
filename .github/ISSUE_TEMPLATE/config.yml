@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Enigmatica Discord
+    url: https://discord.gg/enigmatica
+    about: The best place to receive quick answers to any questions you may have
+  - name: Feature Request
+    url: https://github.com/Ridanisaurus/EmendatusEnigmatica/issues/new?template=feature_request.yml
+    about: Redirects you to creating an issue on the Mekanism Feature Request issue tracker.
