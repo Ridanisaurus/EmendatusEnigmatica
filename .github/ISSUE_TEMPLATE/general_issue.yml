@@ -1,5 +1,7 @@
 name: General Issue
 description: Report a bug or problem with Emendatus Enigmatica
+assignees: Ridanisaurus
+labels: bug, to-be-reviewed
 body:
   - type: markdown
     attributes:
