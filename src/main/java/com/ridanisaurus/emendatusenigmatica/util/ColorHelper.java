@@ -240,7 +240,7 @@ public class ColorHelper {
 			v2 = v - (10 * factor);
 		}
 
-		if (h2 < 0 || h2 > 360) h2 = ((h2 + 360) % 360) + 5;
+		if (h2 < 0 || h2 > 360) h2 = ((h2 + 360) % 360);
 
 		if (s2 < 0) s2 = 10;
 		if (s2 > 100) s2 = 100;
