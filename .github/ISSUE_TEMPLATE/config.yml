@@ -5,7 +5,7 @@ contact_links:
     about: The best place to receive quick answers to any questions you may have
   - name: Bug Report
     url: https://github.com/Ridanisaurus/EmendatusEnigmatica/issues/new?template=general_issue.yml
-    about: Redirects you to creating an issue on the main Mekanism issue tracker.
+    about: Redirects you to creating an issue on the main Emendatus Enigmatica issue tracker.
   - name: Feature Request
     url: https://github.com/Ridanisaurus/EmendatusEnigmatica/issues/new?template=feature_request.yml
     about: Redirects you to creating an issue on the Emendatus Enigmatica Feature Request issue tracker.
