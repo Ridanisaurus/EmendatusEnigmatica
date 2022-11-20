@@ -5,7 +5,6 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url 'https://modmaven.dev/' }
-//        maven { url "https://repo.spongepowered.org/maven/" }
         maven {
             name "Sponge"
             url "https://repo.spongepowered.org/repository/maven-public/"
@@ -19,14 +18,16 @@ buildscript {
 
 plugins {
     id "maven-publish"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
-
 apply plugin: 'org.spongepowered.mixin'
 
-version = "${mod_version}-${mc_version}"
+def ENV = System.getenv()
+
+version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}"
 group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'EmendatusEnigmatica'
 
@@ -194,15 +195,62 @@ jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
+// Creates a source jar (a jar with sources)
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            // Lowercase the name so we're not looking funny on the maven
+            artifactId = archivesBaseName.toLowerCase()
+            artifact(jar) {
+                classifier null
+            }
+
+            // Include the sourcejar
+            artifact(sourcesJar) {
+                builtBy sourcesJar
+            }
         }
     }
+// Push to nanite https://vers.nanite.dev/ https://maven.nanite.dev/
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+        if (ENV.NANITE_DEPLOY) {
+            maven {
+                url "https://maven.nanite.dev/"
+                credentials {
+                    username = "rid"
+                    password = "${ENV.NANITE_DEPLOY}"
+                }
+            }
+        }
+    }
+}
+
+if (ENV.CURSE_DEPLOY) {
+    curseforge {
+        apiKey = ENV.CURSE_DEPLOY
+        project {
+            id = project.curseforge_id // the project id of the Curse project
+            releaseType = "alpha" // Make it an alpha on curseforge
+            addGameVersion "Forge"  // Made for forge
+            addGameVersion "Java 17" // Targeting java 17
+            addGameVersion "${mc_version}" // Minecraft :pog:
+            mainArtifact(jar) {
+                displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
+                relations {
+                    optionalDependency "mekanism" // Mek is an optional
+                }
+            }
+            changelog = file("changelog.md") // pull the contents of the changelog.md
+            changelogType = 'markdown' // It's a markdown file so handle it as one
         }
     }
 }
@@ -219,14 +267,4 @@ if (System.getProperty("idea.sync.active") == "true") {
             it.options.annotationProcessorPath = files()
         }
     }
-}
-
-// Creates a source jar (a jar with sources)
-task sourcesJar(type: Jar) {
-    classifier = "sources"
-    from sourceSets.main.allJava
-}
-
-artifacts {
-    archives sourcesJar
 }
