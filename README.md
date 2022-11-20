@@ -30,7 +30,7 @@ Add the following to your `gradle.properties` file:
 
 **NOTE:** Please refer to the maven page for the latest `ee_version`
 ```properties
-ee_version=2.0.0-build.1
+ee_version=2.0.0-build.11
 mc_version=1.19.2
 ```
 
