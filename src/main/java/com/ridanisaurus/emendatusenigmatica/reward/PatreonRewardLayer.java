@@ -94,7 +94,7 @@ public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, Player
 		public void run() {
 			Gson jsonParser = new Gson();
 			try {
-				var url = new URL("https://github.com/Ridanisaurus/EmendatusEnigmatica/blob/EEV2-1.19.-Dev/patreon_supporters_list.json");
+				var url = new URL("https://raw.githubusercontent.com/Ridanisaurus/EmendatusEnigmatica/EEV2-1.19/patreon_supporters_list.json");
 				var reader = new JsonReader(new InputStreamReader(url.openStream()));
 
 				var main = JsonParser.parseReader(reader).getAsJsonObject();
