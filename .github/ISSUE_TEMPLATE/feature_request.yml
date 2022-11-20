@@ -1,9 +1,8 @@
-// Credit: Mekanism templates
 name: Feature Request
 description: Suggest an idea or enhancement for Emendatus Enigmatica
 assignees: Ridanisaurus
 labels: enhancement
-title: [Feature Request] 
+title: "[Feature Request] "
 body:
   - type: markdown
     attributes:
