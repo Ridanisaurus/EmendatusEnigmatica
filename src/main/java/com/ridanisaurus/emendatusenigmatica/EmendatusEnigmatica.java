@@ -110,7 +110,7 @@ public class EmendatusEnigmatica {
 
         EELoader.load();
         EEDeposits.load();
-        EEDeposits.setup();
+
 
         EERegistrar.finalize(modEventBus);
 
@@ -126,10 +126,10 @@ public class EmendatusEnigmatica {
 
 //        forgeEventBus.addListener(EventPriority.LOWEST, this::biomesHigh);
 
-        registerDataGen();
+
         // Resource Pack
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
+            //Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
         }
 
         forgeEventBus.addListener(this::onServerStart);
@@ -138,6 +138,8 @@ public class EmendatusEnigmatica {
     // Data Pack
     public void onServerStart(final ServerAboutToStartEvent event) {
 //        event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.DATA));
+        EEDeposits.setup();
+        registerDataGen();
         event.getServer().getPackRepository().addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
     }
 
@@ -155,6 +157,8 @@ public class EmendatusEnigmatica {
     }
 
     private void clientEvents(final FMLClientSetupEvent event) {
+        registerDataGen();
+        Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
         for (RegistryObject<Block> block : EERegistrar.oreBlockTable.values()) {
             ItemBlockRenderTypes.setRenderLayer(block.get(), layer -> layer == RenderType.solid() || layer == RenderType.translucent());
         }
