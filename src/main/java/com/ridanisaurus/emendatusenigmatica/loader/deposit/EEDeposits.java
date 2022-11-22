@@ -5,7 +5,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
+import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.GeodeOreFeature;
@@ -65,7 +65,7 @@ public class EEDeposits {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/deposit/");
 		}
 
-		ArrayList<JsonObject> depositJsonDefinitions = FileIOHelper.loadFilesAsJsonObjects(depositDir);
+		ArrayList<JsonObject> depositJsonDefinitions = FileHelper.loadFilesAsJsonObjects(depositDir);
 
 		for (JsonObject depositJsonDefinition : depositJsonDefinitions) {
 			if (!depositJsonDefinition.has("type")) {

@@ -35,7 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
+import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
@@ -66,8 +66,8 @@ public class EELoader {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
 		}
 
-		ArrayList<JsonObject> strataDefinition = FileIOHelper.loadFilesAsJsonObjects(strataDir);
-		ArrayList<JsonObject> materialDefinition = FileIOHelper.loadFilesAsJsonObjects(materialDir);
+		ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
+		ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
 
 		ArrayList<StrataModel> strataModels = new ArrayList<>();
 		for (JsonObject jsonObject : strataDefinition) {
