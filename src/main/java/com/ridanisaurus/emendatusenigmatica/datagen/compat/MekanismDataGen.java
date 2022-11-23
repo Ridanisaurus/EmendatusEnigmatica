@@ -62,13 +62,29 @@ public class MekanismDataGen {
 		protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedTypes();
-				if (processedType.contains("slurry") && processedType.contains("ore")) {
-					// Dirty Slurry from Ore in the Dissolution Chamber
-					ChemicalDissolutionRecipeBuilder.dissolution(
-							IngredientCreatorAccess.item().from(EETags.MATERIAL_DUST.apply(material.getId())),
-							IngredientCreatorAccess.gas().from(SULFURIC_ACID, 1),
-							EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getStack(1_000)
-					).build(consumer, new ResourceLocation(Reference.MOD_ID, "slurry/dirty/" + material.getId()));
+				if (processedType.contains("slurry")) {
+					if(processedType.contains("ore")) {
+						// Dirty Slurry from Ore in the Dissolution Chamber
+						ChemicalDissolutionRecipeBuilder.dissolution(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_ORE.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(SULFURIC_ACID, 1),
+								EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getStack(1_000)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "slurry/dirty/from_ore/" + material.getId()));
+					}
+					if(processedType.contains("raw")) {
+						// Dirty Slurry from Raw Material in the Dissolution Chamber
+						ChemicalDissolutionRecipeBuilder.dissolution(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW.apply(material.getId()), 3),
+								IngredientCreatorAccess.gas().from(SULFURIC_ACID, 1),
+								EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getStack(2_000)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "slurry/dirty/from_raw/" + material.getId()));
+						// Dirty Slurry from Raw Storage Block in the Dissolution Chamber
+						ChemicalDissolutionRecipeBuilder.dissolution(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(SULFURIC_ACID, 2),
+								EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getStack(6_000)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "slurry/dirty/from_raw_block/" + material.getId()));
+					}
 					// Clean Slurry from Dirty Slurry in the Chemical Washer
 					FluidSlurryToSlurryRecipeBuilder.washing(
 							IngredientCreatorAccess.fluid().from(FluidTags.WATER, 5),
@@ -84,38 +100,72 @@ public class MekanismDataGen {
 							).build(consumer, new ResourceLocation(Reference.MOD_ID, "crystal/from_slurry/" + material.getId()));
 
 				}
-				if (processedType.contains("shard") && processedType.contains("crystal")) {
-					// Shard from Crystal
-					ItemStackChemicalToItemStackRecipeBuilder.injecting(
-							IngredientCreatorAccess.item().from(EETags.MATERIAL_CRYSTAL.apply(material.getId())),
-							IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 1),
-							getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get())
-					).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_crystal/" + material.getId()));
+				if (processedType.contains("shard")) {
+					if(processedType.contains("crystal")) {
+						// Shard from Crystal
+						ItemStackChemicalToItemStackRecipeBuilder.injecting(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_CRYSTAL.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 1),
+								getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get())
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_crystal/" + material.getId()));
+					}
+					if (processedType.contains("ore")) {
+						// Shard from Ore
+						ItemStackChemicalToItemStackRecipeBuilder.injecting(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_ORE.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 1),
+								getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get(), 4)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_ore/" + material.getId()));
+					}
+					if(processedType.contains("raw")) {
+						// Shard from Raw Material
+						ItemStackChemicalToItemStackRecipeBuilder.injecting(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW.apply(material.getId()), 3),
+								IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 1),
+								getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get(), 8)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_raw/" + material.getId()));
+						// Shard from Raw Block
+						ItemStackChemicalToItemStackRecipeBuilder.injecting(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 2),
+								getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get(), 24)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_raw_block/" + material.getId()));
+					}
 				}
-				if (processedType.contains("shard") && processedType.contains("ore")) {
-					// Shard from Ore
-					ItemStackChemicalToItemStackRecipeBuilder.injecting(
-							IngredientCreatorAccess.item().from(EETags.MATERIAL_ORE.apply(material.getId())),
-							IngredientCreatorAccess.gas().from(HYDROGEN_CHLORIDE, 1),
-							getItemStack(EEMekanismRegistrar.shardMap.get(material.getId()).get(), 4)
-					).build(consumer, new ResourceLocation(Reference.MOD_ID, "shard/from_ore/" + material.getId()));
+
+				if (processedType.contains("clump")) {
+					if (processedType.contains("shard")) {
+						// Clump from Shard
+						ItemStackChemicalToItemStackRecipeBuilder.purifying(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_SHARD.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(OXYGEN, 1),
+								getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get())
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_shard/" + material.getId()));
+					}
+					if (processedType.contains("ore")) {
+						// Clump from Ore
+						ItemStackChemicalToItemStackRecipeBuilder.purifying(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_ORE.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(OXYGEN, 1),
+								getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), 3)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_ore/" + material.getId()));
+					}
+					if (processedType.contains("raw")) {
+						// Clump from Raw Material
+						ItemStackChemicalToItemStackRecipeBuilder.purifying(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(OXYGEN, 1),
+								getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), 2)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_raw/" + material.getId()));
+						// Clump from Raw Block
+						ItemStackChemicalToItemStackRecipeBuilder.purifying(
+								IngredientCreatorAccess.item().from(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(material.getId())),
+								IngredientCreatorAccess.gas().from(OXYGEN, 2),
+								getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), 18)
+						).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_raw_block/" + material.getId()));
+					}
 				}
-				if (processedType.contains("clump") && processedType.contains("shard")) {
-					// Clump from Shard
-					ItemStackChemicalToItemStackRecipeBuilder.purifying(
-							IngredientCreatorAccess.item().from(EETags.MATERIAL_SHARD.apply(material.getId())),
-							IngredientCreatorAccess.gas().from(OXYGEN, 1),
-							getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get())
-					).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_shard/" + material.getId()));
-				}
-				if (processedType.contains("clump") && processedType.contains("ore")) {
-					// Clump from Ore
-					ItemStackChemicalToItemStackRecipeBuilder.purifying(
-							IngredientCreatorAccess.item().from(EETags.MATERIAL_ORE.apply(material.getId())),
-							IngredientCreatorAccess.gas().from(OXYGEN, 1),
-							getItemStack(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), 3)
-					).build(consumer, new ResourceLocation(Reference.MOD_ID, "clump/from_ore/" + material.getId()));
-				}
+
 				if (processedType.contains("dirty_dust") && processedType.contains("clump")) {
 					// Dirty Dust from Clump
 					ItemStackToItemStackRecipeBuilder.crushing(

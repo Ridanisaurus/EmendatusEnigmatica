@@ -61,168 +61,210 @@ public class RecipesGen extends RecipeProvider {
 				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 				.save(consumer);
 
-		// Ingot from Dust
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply("iron")), Items.GOLD_INGOT, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/iron"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply("iron")), Items.GOLD_INGOT, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/iron"));
 
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply("gold")), Items.GOLD_INGOT, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/gold"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply("gold")), Items.GOLD_INGOT, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/gold"));
 
 		// Ore Smelting & Blasting
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/coal"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/coal"));
+//		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.7F, 200)
+//				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+//				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/coal"));
+//		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.7F, 100)
+//				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+//				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/coal"));
 
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("iron")), Items.IRON_INGOT, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/iron"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("iron")), Items.IRON_INGOT, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/iron"));
-
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("gold")), Items.GOLD_INGOT, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/gold"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("gold")), Items.GOLD_INGOT, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/gold"));
-
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("diamond")), Items.DIAMOND, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/diamond"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("diamond")), Items.DIAMOND, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/diamond"));
-
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("emerald")), Items.EMERALD, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/emerald"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("emerald")), Items.EMERALD, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/emerald"));
-
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("lapis")), Items.LAPIS_LAZULI, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/lapis"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("lapis")), Items.LAPIS_LAZULI, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/lapis"));
-
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("redstone")), Items.REDSTONE, 0.7F, 200)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/smelting/redstone"));
-		SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("redstone")), Items.REDSTONE, 0.7F, 100)
-				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-				.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore/blasting/redstone"));
 
 		for (MaterialModel material : EELoader.MATERIALS) {
 			List<String> processedType = material.getProcessedTypes();
 
-			// Ingot from Block
-			if (processedType.contains("storage_block") && processedType.contains("ingot")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.ingotMap.get(material.getId()).get(), 9)
-						.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_block/" + material.getId()));
+			if (processedType.contains("ingot") && material.isModded()) {
+				if (processedType.contains("storage_block")) {
+					// Ingot from Block
+					ShapelessRecipeBuilder.shapeless(EERegistrar.ingotMap.get(material.getId()).get(), 9)
+							.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_block/" + material.getId()));
+					// Block from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+							.define('#', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern("###")
+							.pattern("###")
+							.pattern("###")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("nugget")) {
+					// Ingot from Nugget
+					ShapedRecipeBuilder.shaped(EERegistrar.ingotMap.get(material.getId()).get())
+							.define('#', EETags.MATERIAL_NUGGET.apply(material.getId()))
+							.pattern("###")
+							.pattern("###")
+							.pattern("###")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_nugget/" + material.getId()));
+
+					// Nugget from Ingot
+					ShapelessRecipeBuilder.shapeless(EERegistrar.nuggetMap.get(material.getId()).get(), 9)
+							.requires(EETags.MATERIAL_INGOT.apply(material.getId()))
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("dust")) {
+					// Ingot from Dust
+					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 0.5F, 200)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/" + material.getId()));
+					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 0.5F, 100)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/" + material.getId()));
+				}
+				if (processedType.contains("plate")) {
+					// Plate from Ingot
+					ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+							.requires(EETags.MATERIAL_INGOT.apply(material.getId()))
+							.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("gear")) {
+					// Gear from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('N', Tags.Items.NUGGETS_IRON)
+							.pattern(" I ")
+							.pattern("INI")
+							.pattern(" I ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("rod")) {
+					// Rod from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get(), 2)
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern(" I ")
+							.pattern(" I ")
+							.pattern("   ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("ore")) {
+					// Ingot from Smelting Ore
+					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 1.0F, 200)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/" + material.getId()));
+					// Ingot from Blasting Ore
+					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 1.0F, 100)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/" + material.getId()));
+				}
+				if (processedType.contains("raw")) {
+					// Ingot from Smelting Raw Material
+					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_RAW.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 1.0F, 200)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_raw/smelting/" + material.getId()));
+					// Ingot from Blasting Raw Material
+					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_RAW.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 1.0F, 100)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_raw/blasting/" + material.getId()));
+				}
+				if (processedType.contains("crushed_ore")) {
+					// Ingot from Smelting Crushed Ore
+					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 200)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/smelting/" + material.getId()));
+					// Ingot from Blasting Crushed Ore
+					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
+									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 100)
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/blasting/" + material.getId()));
+				}
 			}
 
-			// Ingot from Nugget
-			if (processedType.contains("nugget") && processedType.contains("ingot")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.ingotMap.get(material.getId()).get())
-						.define('#', EETags.MATERIAL_NUGGET.apply(material.getId()))
-						.pattern("###")
-						.pattern("###")
-						.pattern("###")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_nugget/" + material.getId()));
+			if (processedType.contains("gem") && material.isModded()) {
+				if (processedType.contains("storage_block")) {
+					if (material.getProperties().getBlockRecipeType() == 4) {
+						// Block from Gem x4
+						ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
+								.pattern("##")
+								.pattern("##")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/4x/" + material.getId()));
+						// Gem from Block x4
+						ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 4)
+								.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/4x/" + material.getId()));
+					}
+					if (material.getProperties().getBlockRecipeType() == 9) {
+						// Block from Gem x9
+						ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
+								.pattern("###")
+								.pattern("###")
+								.pattern("###")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/9x/" + material.getId()));
+						// Gem from Block x9
+						ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 9)
+								.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
+					}
+				}
+				// Plate from Gem
+				if (processedType.contains("plate")) {
+					ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+							.requires(EETags.MATERIAL_GEM.apply(material.getId()))
+							.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/" + material.getId()));
+				}
+				// Gear from Gem
+				if (processedType.contains("gear")) {
+					ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('N', Tags.Items.NUGGETS_IRON)
+							.pattern(" G ")
+							.pattern("GNG")
+							.pattern(" G ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/" + material.getId()));
+				}
+
+				// Rod from Gem
+				if (processedType.contains("rod")) {
+					ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get(), 2)
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.pattern(" G ")
+							.pattern(" G ")
+							.pattern("   ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/" + material.getId()));
+				}
 			}
 
-			// Nugget from Ingot
-			if (processedType.contains("ingot") && processedType.contains("nugget")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.nuggetMap.get(material.getId()).get(), 9)
-						.requires(EETags.MATERIAL_INGOT.apply(material.getId()))
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_ingot/" + material.getId()));
-			}
-
-			// Ingot from Dust
-			if (processedType.contains("dust") && processedType.contains("ingot")) {
-				SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply(material.getId())),
-								EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/" + material.getId()));
-				SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply(material.getId())),
-								EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/" + material.getId()));
-			}
-
-			// Block from Ingot
-			if (processedType.contains("ingot") && processedType.contains("storage_block")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
-						.define('#', EETags.MATERIAL_INGOT.apply(material.getId()))
-						.pattern("###")
-						.pattern("###")
-						.pattern("###")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
-			}
-
-			// Block from Gem x4
-			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 4) {
-				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
-						.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
-						.pattern("##")
-						.pattern("##")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/4x/" + material.getId()));
-			}
-			// Block from Gem x9
-			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 9) {
-				ShapedRecipeBuilder.shaped(EERegistrar.storageBlockItemMap.get(material.getId()).get())
-						.define('#', EETags.MATERIAL_GEM.apply(material.getId()))
-						.pattern("###")
-						.pattern("###")
-						.pattern("###")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_gem/9x/" + material.getId()));
-			}
-			// Gem from Block x4
-			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 4) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 4)
-						.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/4x/" + material.getId()));
-			}
-			// Gem from Block x9
-			if (processedType.contains("gem") && processedType.contains("storage_block") && material.getProperties().getBlockRecipeType() == 9) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.gemMap.get(material.getId()).get(), 9)
-						.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(material.getId()))
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
-			}
-
-			// RawBlock from Raw 
-			if (processedType.contains("raw")) {
+			if (processedType.contains("raw") && material.isModded()) {
+				// Raw Block from Raw Material
 				ShapedRecipeBuilder.shaped(EERegistrar.rawBlockItemMap.get(material.getId()).get())
 						.define('#', EETags.MATERIAL_RAW.apply(material.getId()))
 						.pattern("###")
@@ -231,9 +273,7 @@ public class RecipesGen extends RecipeProvider {
 						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 						.group(Reference.MOD_ID)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_raw_material/" + material.getId()));
-			}
-			// Raw from RawBlock
-			if (processedType.contains("raw")) {
+				// Raw Material from Raw Block
 				ShapelessRecipeBuilder.shapeless(EERegistrar.rawMap.get(material.getId()).get(), 9)
 						.requires(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(material.getId()))
 						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
@@ -241,257 +281,551 @@ public class RecipesGen extends RecipeProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_material/from_raw_storage_block/" + material.getId()));
 			}
 
-			// Dust from Ore
-			if (processedType.contains("ore") && processedType.contains("dust")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_ORE.apply(material.getId()))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/" + material.getId()));
+			if (processedType.contains("dust") && material.isModded()) {
+				if (processedType.contains("ore")) {
+					// Dust from Ore
+					ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+							.requires(EETags.MATERIAL_ORE.apply(material.getId()))
+							.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/" + material.getId()));
+				}
+				if (processedType.contains("raw")) {
+					// Dust from Raw
+					ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+							.requires(EETags.MATERIAL_RAW.apply(material.getId()))
+							.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw/" + material.getId()));
+				}
 			}
 
-			// Plate from Ingot
-			if (processedType.contains("ingot") && processedType.contains("plate")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_INGOT.apply(material.getId()))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/" + material.getId()));
-			}
+			// Vanilla Compat
 
-			// Plate from Gem
-			if (processedType.contains("gem") && processedType.contains("plate")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_GEM.apply(material.getId()))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/" + material.getId()));
-			}
+			if (material.isVanilla()) {
+				if (material.getId().equals("coal")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("coal"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/coal"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("coal"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/coal"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("coal"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/coal"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.1F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/coal"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("coal")), Items.COAL, 0.1F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/coal"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("coal"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/coal"));
+					}
+				}
 
-			// Gear from Ingot
-			if (processedType.contains("ingot") && processedType.contains("gear")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
-						.define('N', Tags.Items.NUGGETS_IRON)
-						.pattern(" I ")
-						.pattern("INI")
-						.pattern(" I ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/" + material.getId()));
-			}
+				if (material.getId().equals("copper")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_INGOT.apply("copper"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/copper"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("copper"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/copper"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("copper"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/copper"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply("copper")), Items.COPPER_INGOT, 0.7F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/copper"));
+						// Dust Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply("copper")), Items.COPPER_INGOT, 0.7F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/copper"));
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("copper"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/copper"));
+						// Dust from Raw
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_RAW.apply("copper"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw/copper"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("copper")), Items.COPPER_INGOT, 0.7F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/copper"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("copper")), Items.COPPER_INGOT, 0.7F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/copper"));
+					}
+				}
 
-			// Gear from Gem
-			if (processedType.contains("gem") && processedType.contains("gear")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
-						.define('N', Tags.Items.NUGGETS_IRON)
-						.pattern(" G ")
-						.pattern("GNG")
-						.pattern(" G ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/" + material.getId()));
-			}
+				if (material.getId().equals("iron")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_INGOT.apply("iron"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/iron"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("iron"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/iron"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("iron"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/iron"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply("iron")), Items.IRON_INGOT, 0.7F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/iron"));
+						// Dust Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply("iron")), Items.IRON_INGOT, 0.7F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/iron"));
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("iron"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/iron"));
+						// Dust from Raw
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_RAW.apply("iron"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw/iron"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("iron")), Items.IRON_INGOT, 0.7F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/iron"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("iron")), Items.IRON_INGOT, 0.7F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/iron"));
+					}
+				}
 
-			// Rod from Ingot
-			if (processedType.contains("ingot") && processedType.contains("rod")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get(), 2)
-						.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
-						.pattern(" I ")
-						.pattern(" I ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/" + material.getId()));
-			}
-			// Rod from Gem
-			if (processedType.contains("gem") && processedType.contains("rod")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get(), 2)
-						.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
-						.pattern(" G ")
-						.pattern(" G ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/" + material.getId()));
-			}
+				if (material.getId().equals("gold")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_INGOT.apply("gold"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/gold"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("gold"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/gold"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_INGOT.apply("gold"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/gold"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_DUST.apply("gold")), Items.GOLD_INGOT, 1.0F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/smelting/gold"));
+						// Dust Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_DUST.apply("gold")), Items.GOLD_INGOT, 1.0F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_dust/blasting/gold"));
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("gold"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/gold"));
+						// Dust from Raw
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_RAW.apply("gold"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw/gold"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("gold")), Items.GOLD_INGOT, 1.0F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/gold"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("gold")), Items.GOLD_INGOT, 1.0F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/gold"));
+					}
+				}
 
+				if (material.getId().equals("diamond")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("diamond"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/diamond"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("diamond"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/diamond"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("diamond"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/diamond"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("diamond"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/diamond"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("diamond")), Items.DIAMOND, 1.0F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/diamond"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("diamond")), Items.DIAMOND, 1.0F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/diamond"));
+					}
+				}
 
-			// Gears, Rods and Plates
-			if (material.getId().equals("iron")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('I', EETags.MATERIAL_INGOT.apply("iron"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
-						.pattern(" I ")
-						.pattern("INI")
-						.pattern(" I ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/iron"));
+				if (material.getId().equals("emerald")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("emerald"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/emerald"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("emerald"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/emerald"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("emerald"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/emerald"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("emerald"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/emerald"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("emerald")), Items.EMERALD, 1.0F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/emerald"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("emerald")), Items.EMERALD, 1.0F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/emerald"));
+					}
+				}
 
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
-						.define('I', EETags.MATERIAL_INGOT.apply("iron"))
-						.pattern(" I ")
-						.pattern(" I ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/iron"));
+				if (material.getId().equals("lapis")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("lapis"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/lapis"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("lapis"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/lapis"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("lapis"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/lapis"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("lapis"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/lapis"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("lapis")), Items.LAPIS_LAZULI, 0.2F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/lapis"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("lapis")), Items.LAPIS_LAZULI, 0.2F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/lapis"));
+					}
+				}
 
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_INGOT.apply("iron"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/iron"));
-			}
-			if (material.getId().equals("gold")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('I', EETags.MATERIAL_INGOT.apply("iron"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("gold"))
-						.pattern(" I ")
-						.pattern("INI")
-						.pattern(" I ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_ingot/gold"));
+				if (material.getId().equals("redstone")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("redstone"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/redstone"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("redstone"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/redstone"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("redstone"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/redstone"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("redstone")), Items.REDSTONE, 0.7F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/redstone"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("redstone")), Items.REDSTONE, 0.7F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/redstone"));
+					}
+				}
 
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
-						.define('I', EETags.MATERIAL_INGOT.apply("gold"))
-						.pattern(" I ")
-						.pattern(" I ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_ingot/gold"));
-
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_INGOT.apply("gold"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot/gold"));
-			}
-			if (material.getId().equals("diamond")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("diamond"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
-						.pattern(" G ")
-						.pattern("GNG")
-						.pattern(" G ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/diamond"));
-
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("diamond"))
-						.pattern(" G ")
-						.pattern(" G ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/diamond"));
-
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_GEM.apply("diamond"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/diamond"));
-			}
-			if (material.getId().equals("emerald")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("emerald"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
-						.pattern(" G ")
-						.pattern("GNG")
-						.pattern(" G ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/emerald"));
-
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("emerald"))
-						.pattern(" G ")
-						.pattern(" G ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/emerald"));
-
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_GEM.apply("emerald"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/emerald"));
-			}
-			if (material.getId().equals("lapis")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("lapis"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
-						.pattern(" G ")
-						.pattern("GNG")
-						.pattern(" G ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/lapis"));
-
-				ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("lapis"))
-						.pattern(" G ")
-						.pattern(" G ")
-						.pattern("   ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/lapis"));
-
-				ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_GEM.apply("lapis"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/lapis"));
-			}
-			if (material.getId().equals("nether_quartz")) {
-				ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
-						.define('G', EETags.MATERIAL_GEM.apply("quartz"))
-						.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
-						.pattern(" G ")
-						.pattern("GNG")
-						.pattern(" G ")
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/nether_quartz"));
-			}
-
-			// Dust from Ore
-			if (material.getId().equals("nether_quartz")) {
-				ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
-						.requires(EETags.MATERIAL_ORE.apply("quartz"))
-						.requires(EERegistrar.ENIGMATIC_HAMMER.get())
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-						.group(Reference.MOD_ID)
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/nether_quartz"));
-			}
-
-			// Ore Smelting & Blasting
-			if (processedType.contains("ingot") && processedType.contains("ore")) {
-				SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply(material.getId())),
-								EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 200)
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-//                  .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/" + material.getId() + "_" + stratum.getId()));
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/" + material.getId()));
-
-				SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply(material.getId())),
-								EERegistrar.ingotMap.get(material.getId()).get(), 0.7F, 100)
-						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-//                  .save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/" + material.getId() + "_" + stratum.getId()));
-						.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/" + material.getId()));
+				if (material.getId().equals("nether_quartz")) {
+					if (processedType.contains("plate")) {
+						// Plate
+						ShapelessRecipeBuilder.shapeless(EERegistrar.plateMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_GEM.apply("quartz"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem/nether_quartz"));
+					}
+					if (processedType.contains("gear")) {
+						// Gear
+						ShapedRecipeBuilder.shaped(EERegistrar.gearMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("quartz"))
+								.define('N', EETags.MATERIAL_NUGGET.apply("iron"))
+								.pattern(" I ")
+								.pattern("INI")
+								.pattern(" I ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/nether_quartz"));
+					}
+					if (processedType.contains("rod")) {
+						// Rod
+						ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get())
+								.define('I', EETags.MATERIAL_GEM.apply("quartz"))
+								.pattern(" I ")
+								.pattern(" I ")
+								.pattern("   ")
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/nether_quartz"));
+					}
+					if (processedType.contains("dust")) {
+						// Dust from Ore
+						ShapelessRecipeBuilder.shapeless(EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.requires(EETags.MATERIAL_ORE.apply("quartz"))
+								.requires(EERegistrar.ENIGMATIC_HAMMER.get())
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore/nether_quartz"));
+					}
+					if (processedType.contains("ore")) {
+						// Ore Smelting
+						SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_ORE.apply("quartz")), Items.REDSTONE, 0.2F, 200)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/smelting/nether_quartz"));
+						// Ore Blasting
+						SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_ORE.apply("quartz")), Items.REDSTONE, 0.2F, 100)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_ore/blasting/nether_quartz"));
+					}
+				}
 			}
 		}
 	}
