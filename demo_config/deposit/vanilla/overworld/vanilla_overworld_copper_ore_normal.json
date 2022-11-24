@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_copper_ore_normal_deposit",
+  "config": {
+    "material": "copper",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 16,
+    "size": 10,
+    "minYLevel": -16,
+    "maxYLevel": 122,
+    "placement": "triangle",
+    "rarity": "common"
+  }
+}

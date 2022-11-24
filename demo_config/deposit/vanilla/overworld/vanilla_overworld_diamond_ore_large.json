@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_diamond_ore_large_deposit",
+  "config": {
+    "material": "diamond",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 9,
+    "size": 12,
+    "minYLevel": -80,
+    "maxYLevel": 80,
+    "placement": "triangle",
+    "rarity": "rare"
+  }
+}

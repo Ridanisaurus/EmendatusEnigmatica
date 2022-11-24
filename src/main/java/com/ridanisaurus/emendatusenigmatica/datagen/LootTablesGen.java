@@ -58,11 +58,25 @@ public class LootTablesGen extends EELootProvider {
 			}
 			// Ores
 			for (StrataModel stratum : EELoader.STRATA) {
-				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getMaterialType().equals("metal")) {
-					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-							createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-									EERegistrar.rawMap.get(material.getId()).get())
-					);
+//				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getMaterialType().equals("metal")) {
+//					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+//							createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+//									EERegistrar.rawMap.get(material.getId()).get())
+//					);
+//				}
+				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
+					if (material.getOreDrop().getMax() == 1) {
+						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
+						);
+					} else {
+						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								createSpecialOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+						);
+					}
 				}
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem")) {
 					if (material.getOreDrop().getMax() == 1) {

@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_lapis_ore_normal_deposit",
+  "config": {
+    "material": "lapis",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 2,
+    "size": 7,
+    "minYLevel": -32,
+    "maxYLevel": 32,
+    "placement": "triangle",
+    "rarity": "common"
+  }
+}

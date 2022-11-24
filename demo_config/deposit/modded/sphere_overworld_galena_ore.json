@@ -8,11 +8,11 @@
   "config": {
     "blocks": [
       {
-        "material": "iron",
+        "block": "minecraft:gold_block",
         "weight": 10
       },
       {
-        "material": "gold",
+        "tag": "forge:ores/uranium",
         "weight": 3
       }
     ],

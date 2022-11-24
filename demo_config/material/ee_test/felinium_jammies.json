@@ -30,9 +30,9 @@
     "burnTime": 3600
   },
   "colors": {
-    "fluidColor": "0099ff",
-    "particlesColor": "0099ff",
-    "materialColor": "0099ff"
+    "fluidColor": "c87456",
+    "particlesColor": "c87456",
+    "materialColor": "c87456"
   },
   "compat": {
     "create": {

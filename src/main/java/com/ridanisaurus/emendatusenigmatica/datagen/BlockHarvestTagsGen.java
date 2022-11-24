@@ -50,7 +50,7 @@ public class BlockHarvestTagsGen {
 		private final List<String> stoneTool = Lists.newArrayList();
 		private final List<String> ironTool = Lists.newArrayList();
 		private final List<String> diamondTool = Lists.newArrayList();
-		private final List<String> goldTool = Lists.newArrayList();
+//		private final List<String> goldTool = Lists.newArrayList();
 		private final List<String> netheriteTool = Lists.newArrayList();
 
 		// TODO: Check if there is a value, then register it - Couldn't read tag list minecraft:mineable/hoe from minecraft:tags/blocks/mineable/hoe.json in data pack EE Generated Pack | No key values in MapLike[{}]
@@ -77,16 +77,13 @@ public class BlockHarvestTagsGen {
 			if (!stoneTool.isEmpty()) new TagBuilder().tags(stoneTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_stone_tool"));
 			if (!ironTool.isEmpty()) new TagBuilder().tags(ironTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_iron_tool"));
 			if (!diamondTool.isEmpty()) new TagBuilder().tags(diamondTool).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/needs_diamond_tool"));
-			if (!goldTool.isEmpty()) new TagBuilder().tags(goldTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_gold_tool"));
+//			if (!goldTool.isEmpty()) new TagBuilder().tags(goldTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_gold_tool"));
 			if (!netheriteTool.isEmpty()) new TagBuilder().tags(netheriteTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_netherite_tool"));
 		}
 
 		private void harvestLevelSwitch(MaterialModel material, ResourceLocation loc) {
 			switch (material.getProperties().getHarvestLevel()) {
-				case 0 -> {
-					woodTool.add(loc.toString());
-					goldTool.add(loc.toString());
-				}
+				case 0 -> woodTool.add(loc.toString());
 				case 1 -> stoneTool.add(loc.toString());
 				case 2 -> ironTool.add(loc.toString());
 				case 3 -> diamondTool.add(loc.toString());

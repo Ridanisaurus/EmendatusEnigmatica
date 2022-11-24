@@ -1,8 +1,8 @@
 {
-  "id": "emerald",
+  "id": "iron",
   "source": "vanilla",
-  "localizedName": "Emerald",
-  "removeDefaultOre": true,
+  "localizedName": "Iron",
+  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust",
@@ -11,11 +11,11 @@
     "rod"
   ],
   "properties": {
-    "materialType": "gem",
+    "materialType": "metal",
     "harvestLevel": 1
   },
   "oreDrop": {
-    "drop": "minecraft:emerald",
+    "drop": "minecraft:raw_iron",
     "min": 1,
     "max": 1
   }

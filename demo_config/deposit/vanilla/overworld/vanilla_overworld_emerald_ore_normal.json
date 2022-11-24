@@ -1,0 +1,29 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [
+    "minecraft:windswept_hills",
+    "minecraft:windswept_gravelly_hills",
+    "minecraft:windswept_forest",
+    "minecraft:meadow",
+    "minecraft:frozen_peaks",
+    "minecraft:jagged_peaks",
+    "minecraft:stony_peaks",
+    "minecraft:snowy_slopes",
+    "minecraft:grove"
+  ],
+  "registryName": "vanilla_overworld_emerald_ore_normal_deposit",
+  "config": {
+    "material": "emerald",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 100,
+    "size": 3,
+    "minYLevel": -16,
+    "maxYLevel": 480,
+    "placement": "triangle",
+    "rarity": "common"
+  }
+}
