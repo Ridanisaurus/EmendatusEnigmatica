@@ -238,7 +238,7 @@ if (ENV.CURSE_DEPLOY) {
         apiKey = ENV.CURSE_DEPLOY
         project {
             id = project.curseforge_id // the project id of the Curse project
-            releaseType = "alpha" // Make it an alpha on curseforge
+            releaseType = "release" // Make it an alpha on curseforge
             addGameVersion "Forge"  // Made for forge
             addGameVersion "Java 17" // Targeting java 17
             addGameVersion "${mc_version}" // Minecraft :pog:
@@ -246,6 +246,9 @@ if (ENV.CURSE_DEPLOY) {
                 displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
                 relations {
                     optionalDependency "mekanism" // Mek is an optional
+                    optionalDependency "create" // Create is an optional
+                    optionalDependency "occultism" // Occultism is an optional
+                    optionalDependency "ars-nouveau" // Ars Nouveau is an optional
                 }
             }
             changelog = file("changelog.md") // pull the contents of the changelog.md

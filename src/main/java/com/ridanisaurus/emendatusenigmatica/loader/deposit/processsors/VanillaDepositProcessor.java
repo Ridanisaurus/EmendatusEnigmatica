@@ -31,6 +31,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     public VanillaDepositModel getVanillaModel() {
         return model;
     }
+
     @Override
     public String getType() {
         return model.getType();

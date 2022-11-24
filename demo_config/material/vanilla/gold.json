@@ -2,7 +2,7 @@
   "id": "gold",
   "source": "vanilla",
   "localizedName": "Gold",
-  "removeDefaultOre": true,
+  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust",
@@ -12,6 +12,11 @@
   ],
   "properties": {
     "materialType": "metal",
-    "harvestLevel": 1
+    "harvestLevel": 2
+  },
+  "oreDrop": {
+    "drop": "minecraft:raw_gold",
+    "min": 1,
+    "max": 1
   }
 }

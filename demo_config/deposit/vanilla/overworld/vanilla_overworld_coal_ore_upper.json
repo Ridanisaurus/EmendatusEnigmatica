@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_coal_ore_upper_deposit",
+  "config": {
+    "material": "coal",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 30,
+    "size": 17,
+    "minYLevel": 136,
+    "maxYLevel": 320,
+    "placement": "uniform",
+    "rarity": "common"
+  }
+}

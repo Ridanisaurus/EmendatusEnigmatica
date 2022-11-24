@@ -2,6 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositConfigModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.GeodeDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.SphereDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.VanillaDepositProcessor;
@@ -15,10 +16,12 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFea
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.Registry;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -114,9 +117,17 @@ public class EEDeposits {
 		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
 		        );
-		        HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+
+				HeightRangePlacement placement = model.getConfig().getPlacement().equals("uniform") ?
+						HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel())) :
+						HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+
 		        PLACED_ORE_FEATURES.register(
-		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement))
+		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(),
+						        model.getConfig().getRarity().equals("common") ?
+								         WorldGenHelper.commonOrePlacement(model.getConfig().getChance(), placement) :
+								         WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement)
+				        )
 		        );
 			}
 		}

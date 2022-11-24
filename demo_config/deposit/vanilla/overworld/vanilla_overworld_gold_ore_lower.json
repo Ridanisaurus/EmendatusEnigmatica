@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_gold_ore_lower_deposit",
+  "config": {
+    "material": "gold",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 1,
+    "size": 9,
+    "minYLevel": -64,
+    "maxYLevel": -48,
+    "placement": "uniform",
+    "rarity": "common"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "copper",
+  "source": "vanilla",
+  "localizedName": "Copper",
+  "disableDefaultOre": true,
+  "processedTypes": [
+	"ore",
+	"dust",
+	"plate",
+	"gear",
+	"rod"
+  ],
+  "properties": {
+	"materialType": "metal",
+	"harvestLevel": 1
+  },
+  "oreDrop": {
+	"drop": "minecraft:raw_copper",
+	"min": 2,
+	"max": 5
+  }
+}
