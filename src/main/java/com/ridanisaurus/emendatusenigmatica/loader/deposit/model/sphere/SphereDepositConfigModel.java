@@ -34,7 +34,7 @@ public class SphereDepositConfigModel {
 	}
 
 	public int getChance() {
-		return chance;
+		return (100 - chance) + 1;
 	}
 
 	public int getMaxYLevel() {

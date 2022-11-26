@@ -16,6 +16,7 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFea
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.Registry;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -24,6 +25,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.placement.RarityFilter;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
@@ -91,6 +93,7 @@ public class EEDeposits {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			if(activeProcessor.getType().equals(DepositType.SPHERE.getType())) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
+				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<SphereOreFeature> sphereOreFeature = FEATURES.register(model.getName(), () -> new SphereOreFeature(SphereOreFeatureConfig.CODEC, model));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(sphereOreFeature.get(), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -102,6 +105,7 @@ public class EEDeposits {
 			}
 			if(activeProcessor.getType().equals(DepositType.GEODE.getType())) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
+				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<GeodeOreFeature> geodeOreFeature = FEATURES.register(model.getName(), () -> new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(geodeOreFeature.get(), new GeodeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -113,6 +117,7 @@ public class EEDeposits {
 			}
 			if(activeProcessor.getType().equals(DepositType.VANILLA.getType())) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
+				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model));
 		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())

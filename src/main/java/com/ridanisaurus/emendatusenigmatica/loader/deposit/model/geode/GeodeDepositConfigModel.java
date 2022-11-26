@@ -58,7 +58,7 @@ public class GeodeDepositConfigModel {
 	}
 
 	public int getChance() {
-		return chance;
+		return (100 - chance) + 1;
 	}
 
 	public List<CommonBlockDefinitionModel> getInnerBlocks() {
