@@ -60,7 +60,8 @@ public class VanillaDepositConfigModel {
 	}
 
 	public int getChance() {
-		return chance;
+		return rarity.equals("rare") ? (100 - chance) + 1 : chance;
+//		return chance;
 	}
 
 	@Nullable
