@@ -1,0 +1,20 @@
+{
+  "id": "felinium_jammies",
+  "recipes" : [
+	{
+	  "mod": "thermal",
+	  "machine": "pulverizer",
+	  "values": [
+		{
+		  "input": [
+			{"type": "ore"}
+		  ],
+		  "output": [
+			{ "type": "dust", "item": "emendatusenigmatica:coal_dust", "count": 1, "chance": 2.0 },
+			{ "type": "dust", "item": "minecraft:apple", "count": 3, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	}
+  ]
+}
