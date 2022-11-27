@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatProcessor;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -55,32 +56,50 @@ public class ThermalDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedTypes();
 				for (CompatModel compat : EELoader.COMPAT) {
+
 					if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
-						if (compat.getId().equals(material.getId())) {
-							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
-								if (recipe.getMod().equals("thermal") && recipe.getMachine().equals("pulverizer")) {
-									for (CompatModel.CompatValuesModel value : recipe.getValues()) {
-										for (CompatModel.CompatIOModel input : value.getInput()) {
-											if (input.getType().equals("ore")) {
-												for (CompatModel.CompatIOModel output : value.getOutput()) {
-													if (output.getType().equals("dust")) {
-														new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
-														.type("thermal:pulverizer")
-														.group("emendatusenigmatica:compat_recipe")
-														.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-																.tag(EETags.MATERIAL_ORE.apply(material.getId())))
-														.addOutput(builder -> builder
-																.stackWithoutCount(output.getItem(), output.getChance())
-																.stackWithoutCount(Items.GRAVEL, 0.2f))
-														.fieldFloat("experience", 0.2f)
-														.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
-													}
-												}
-											}
-										}
-									}
-								}
-							}
+
+						if (compat.getId().equals(material.getId()) && CompatProcessor.recipesTable.contains("thermal", "pulverizer")) {
+
+							System.out.println(CompatProcessor.outputMap.get("dust"));
+
+							new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
+									.type("thermal:pulverizer")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldFloat("experience", 0.2f)
+									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+											.tag(EETags.MATERIAL_ORE.apply(material.getId()))
+									)
+									.addOutput(builder -> builder
+											.stacks(CompatProcessor.outputMap.get("dust"))
+//											.stackWithoutCount(Items.GRAVEL, 0.2f)
+									)
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "test/" + material.getId()));
+
+//							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
+//								if (recipe.getMod().equals("thermal") && recipe.getMachine().equals("pulverizer")) {
+//									for (CompatModel.CompatValuesModel value : recipe.getValues()) {
+//										for (CompatModel.CompatIOModel input : value.getInput()) {
+//											if (input.getType().equals("ore")) {
+//												for (CompatModel.CompatIOModel output : value.getOutput()) {
+//													if (output.getType().equals("dust")) {
+//														new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
+//														.type("thermal:pulverizer")
+//														.group("emendatusenigmatica:compat_recipe")
+//														.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+//																.tag(EETags.MATERIAL_ORE.apply(material.getId())))
+//														.addOutput(builder -> builder
+//																.stackWithoutCount(output.getItem(), output.getChance())
+//																.stackWithoutCount(Items.GRAVEL, 0.2f))
+//														.fieldFloat("experience", 0.2f)
+//														.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+//													}
+//												}
+//											}
+//										}
+//									}
+//								}
+//							}
 						}
 
 					}

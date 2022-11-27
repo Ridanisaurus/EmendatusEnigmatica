@@ -27,6 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.base;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -331,6 +332,23 @@ public class RecipeBuilder {
 			return addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemProvider.asItem()).toString()),
 					Pair.of("chance", chance)
 			);
+		}
+
+		public JsonItemBuilder stacks(Table<String, Integer, Float> compatTable) {
+			for (Table.Cell<String, Integer, Float> compatTableCells : compatTable.cellSet()) {
+				String item = compatTableCells.getRowKey();
+				Integer count = compatTableCells.getColumnKey();
+				Float chance = compatTableCells.getValue();
+
+				ItemLike itemLike = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+
+//				System.out.println("Item: " + item);
+//				System.out.println("Count: " + count);
+//				System.out.println("Chance: " + chance);
+
+				addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemLike.asItem()).toString()), Pair.of("count", count), Pair.of("chance", chance));
+			}
+			return this;
 		}
 
 		public JsonItemBuilder stack(ItemLike itemProvider) {

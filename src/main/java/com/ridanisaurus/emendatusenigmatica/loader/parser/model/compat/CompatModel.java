@@ -120,43 +120,35 @@ public class CompatModel {
 
 	public static class CompatIOModel {
 		public static final Codec<CompatIOModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-				Codec.STRING.optionalFieldOf("item").forGetter(i -> Optional.ofNullable(i.item)),
-				Codec.STRING.optionalFieldOf("material").forGetter(i -> Optional.ofNullable(i.material)),
 				Codec.STRING.optionalFieldOf("type").forGetter(i -> Optional.ofNullable(i.type)),
+				Codec.STRING.optionalFieldOf("item").forGetter(i -> Optional.ofNullable(i.item)),
 				Codec.INT.optionalFieldOf("count").forGetter(i -> Optional.of(i.count)),
 				Codec.FLOAT.optionalFieldOf("chance").forGetter(i -> Optional.of(i.chance))
-		).apply(x, (item, material, type, count, chance) -> new CompatIOModel(
-				item.orElse(""),
-				material.orElse(""),
+		).apply(x, (type, item, count, chance) -> new CompatIOModel(
 				type.orElse(""),
+				item.orElse(""),
 				count.orElse(1),
 				chance.orElse(1.0f)
 		)));
 
 		private final String item;
-		private final String material;
 		private final String type;
 		private final int count;
 		private final float chance;
 
-		public CompatIOModel(String item, String material, String type, int count, float chance) {
-			this.item = item;
-			this.material = material;
+		public CompatIOModel(String type, String item, int count, float chance) {
 			this.type = type;
+			this.item = item;
 			this.count = count;
 			this.chance = chance;
 		}
 
-		public String getItem() {
-			return item;
-		}
-
-		public String getMaterial() {
-			return material;
-		}
-
 		public String getType() {
 			return type;
+		}
+
+		public String getItem() {
+			return item;
 		}
 
 		public int getCount() {
