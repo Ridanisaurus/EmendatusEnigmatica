@@ -31,6 +31,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
@@ -45,6 +46,7 @@ import java.util.*;
 public class EELoader {
 	public static final List<MaterialModel> MATERIALS = new ArrayList<>();
 	public static final List<StrataModel> STRATA = new ArrayList<>();
+	public static final List<CompatModel> COMPAT = new ArrayList<>();
 	public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
 
 	public static void load() {
@@ -66,8 +68,14 @@ public class EELoader {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
 		}
 
+		File compatDir = configDir.resolve("compat/").toFile();
+		if (!compatDir.exists() && compatDir.mkdirs()) {
+			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/compat/");
+		}
+
 		ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
 		ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
+		ArrayList<JsonObject> compatDefinition = FileHelper.loadFilesAsJsonObjects(compatDir);
 
 		ArrayList<StrataModel> strataModels = new ArrayList<>();
 		for (JsonObject jsonObject : strataDefinition) {
@@ -90,6 +98,17 @@ public class EELoader {
 			MaterialModel materialModel = result.get().getFirst();
 			materialModels.add(materialModel);
 			MATERIALS.add(materialModel);
+		}
+
+		ArrayList<CompatModel> compatModels = new ArrayList<>();
+		for (JsonObject jsonObject : compatDefinition) {
+			Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
+			if (!result.isPresent()) {
+				continue;
+			}
+			CompatModel compatModel = result.get().getFirst();
+			compatModels.add(compatModel);
+			COMPAT.add(compatModel);
 		}
 
 		for (StrataModel strata : strataModels) {

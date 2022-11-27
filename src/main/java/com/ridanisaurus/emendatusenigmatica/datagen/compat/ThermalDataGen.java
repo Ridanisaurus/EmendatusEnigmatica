@@ -29,12 +29,14 @@ import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
@@ -52,39 +54,189 @@ public class ThermalDataGen {
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedTypes();
+				for (CompatModel compat : EELoader.COMPAT) {
+					if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
+						if (compat.getId().equals(material.getId())) {
+							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
+								if (recipe.getMod().equals("thermal") && recipe.getMachine().equals("pulverizer")) {
+									for (CompatModel.CompatValuesModel value : recipe.getValues()) {
+										for (CompatModel.CompatIOModel input : value.getInput()) {
+											if (input.getType().equals("ore")) {
+												for (CompatModel.CompatIOModel output : value.getOutput()) {
+													if (output.getType().equals("dust")) {
+														new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
+														.type("thermal:pulverizer")
+														.group("emendatusenigmatica:compat_recipe")
+														.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+																.tag(EETags.MATERIAL_ORE.apply(material.getId())))
+														.addOutput(builder -> builder
+																.stackWithoutCount(output.getItem(), output.getChance())
+																.stackWithoutCount(Items.GRAVEL, 0.2f))
+														.fieldFloat("experience", 0.2f)
+														.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+			for (MaterialModel material : EELoader.MATERIALS) {
+				List<String> processedType = material.getProcessedTypes();
+				// Press
+				if (processedType.contains("raw") && material.isModded()) {
+					// Raw Block to Raw Material
+					new RecipeBuilder("results", EERegistrar.rawMap.get(material.getId()).get(), 9)
+							.type("thermal:press")
+							.group("emendatusenigmatica:compat_recipe")
+							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+									.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_unpacking_die")))
+									.stack(EERegistrar.rawBlockItemMap.get(material.getId()).get())
+							)
+							.fieldInt("energy", 400)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw/from_raw_block_press/" + material.getId()));
+					// Raw Material to Raw Block
+					new RecipeBuilder("results", EERegistrar.rawBlockItemMap.get(material.getId()).get())
+							.type("thermal:press")
+							.group("emendatusenigmatica:compat_recipe")
+							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+									.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_packing_3x3_die")))
+									.stackWithCount(EERegistrar.rawMap.get(material.getId()).get(), 9)
+							)
+							.fieldInt("energy", 400)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_block/from_raw_press/" + material.getId()));
+				}
+				if (processedType.contains("storage_block") && material.isModded()) {
+					// Ingot
+					if (processedType.contains("ingot")) {
+						// Storage Block to Ingot
+						new RecipeBuilder("results", EERegistrar.ingotMap.get(material.getId()).get(), 9)
+								.type("thermal:press")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+										.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_unpacking_die")))
+										.stack(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								)
+								.fieldInt("energy", 400)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_storage_block_press/" + material.getId()));
+						// Ingot to Storage Block
+						new RecipeBuilder("results", EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								.type("thermal:press")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+										.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_packing_3x3_die")))
+										.stackWithCount(EERegistrar.ingotMap.get(material.getId()).get(), 9)
+								)
+								.fieldInt("energy", 400)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "storage_block/from_ingot_press/" + material.getId()));
+					}
+					// Gem
+					if (processedType.contains("gem")) {
+						if (material.getProperties().getBlockRecipeType() == 9) {
+							// Storage Block to Gem - x9
+							new RecipeBuilder("results", EERegistrar.gemMap.get(material.getId()).get(), 9)
+									.type("thermal:press")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+											.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_unpacking_die")))
+											.stack(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+									)
+									.fieldInt("energy", 400)
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_storage_block_press/9x/" + material.getId()));
+							// Gem to Storage Block - x9
+							new RecipeBuilder("results", EERegistrar.storageBlockItemMap.get(material.getId()).get())
+									.type("thermal:press")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+											.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_packing_3x3_die")))
+											.stackWithCount(EERegistrar.gemMap.get(material.getId()).get(), 9)
+									)
+									.fieldInt("energy", 400)
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "storage_block/from_gem_press/9x/" + material.getId()));
+						}
+						if (material.getProperties().getBlockRecipeType() == 4) {
+							// Storage Block to Gem - x4
+							new RecipeBuilder("results", EERegistrar.gemMap.get(material.getId()).get(), 4)
+									.type("thermal:press")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+											.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_unpacking_die")))
+											.stack(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+									)
+									.fieldInt("energy", 400)
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_storage_block_press/4x/" + material.getId()));
+							// Gem to Storage Block - x4
+							new RecipeBuilder("results", EERegistrar.storageBlockItemMap.get(material.getId()).get())
+									.type("thermal:press")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true)
+											.stack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("thermal:press_packing_2x2_die")))
+											.stackWithCount(EERegistrar.gemMap.get(material.getId()).get(), 4)
+									)
+									.fieldInt("energy", 400)
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "storage_block/from_gem_press/4x/" + material.getId()));
+						}
+					}
+				}
+
 				// Pulverizer
-				// Ingot to Dust
-				if (processedType.contains("ingot") && processedType.contains("dust") && material.isModded()) {
-					new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 1)
-							.type("thermal:pulverizer")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_INGOT.apply(material.getId())))
-							.fieldFloat("energy_mod", 0.5f)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ingot_pulverizer/" + material.getId()));
+				ItemLike secondOutput = material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutput();
+				float secondOutputChance = material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutputCombinedChance();
+
+				if (processedType.contains("dust") && material.isModded()) {
+					// Ingot to Dust
+					if (processedType.contains("ingot")) {
+						new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.type("thermal:pulverizer")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+										.tag(EETags.MATERIAL_INGOT.apply(material.getId())))
+								.fieldFloat("energy_mod", 0.5f)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ingot_pulverizer/" + material.getId()));
+					}
+					// Gem to Dust
+					if (processedType.contains("gem")) {
+						new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 1)
+								.type("thermal:pulverizer")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+										.tag(EETags.MATERIAL_GEM.apply(material.getId())))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_gem_pulverizer/" + material.getId()));
+					}
+					// Ore to Dust
+//					if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
+//						new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
+//								.type("thermal:pulverizer")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+//										.tag(EETags.MATERIAL_ORE.apply(material.getId())))
+//								.addOutput(builder -> builder
+//										.stackWithoutCount(secondOutput, secondOutputChance)
+//										.stackWithoutCount(Items.GRAVEL, 0.2f))
+//								.fieldFloat("experience", 0.2f)
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+//					}
+					// Raw Material to Dust
+					if (processedType.contains("raw")) {
+						new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 1.25f)
+								.type("thermal:pulverizer")
+								.group("emendatusenigmatica:compat_recipe")
+								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+										.tag(EETags.MATERIAL_RAW.apply(material.getId())))
+								.addOutput(builder -> builder
+										.stackWithoutCount(secondOutput, secondOutputChance)
+										.stackWithoutCount(Items.GRAVEL, 0.2f))
+								.fieldFloat("experience", 0.2f)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+					}
 				}
-				// Gem to Dust
-				if (processedType.contains("gem") && processedType.contains("dust") && material.isModded()) {
-					new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 1)
-							.type("thermal:pulverizer")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_GEM.apply(material.getId())))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_gem_pulverizer/" + material.getId()));
-				}
-				// Ore to Dust
-				if (processedType.contains("ore") && processedType.contains("dust") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
-					new RecipeBuilder("results", EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
-							.type("thermal:pulverizer")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
-							.addOutput(builder -> builder
-									.stackWithoutCount(material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutput(), material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutputCombinedChance())
-									.stackWithoutCount(Items.GRAVEL, 0.2f))
-							.fieldFloat("experience", 0.2f)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
-				}
+
 				// Ore to Gem
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem") && material.isModded()) {
 					new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getThermalCompat().getPulverizerCompat().getFirstOutputCombinedChance())
@@ -93,11 +245,12 @@ public class ThermalDataGen {
 							.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
 							.addOutput(builder -> builder
-									.stackWithoutCount(material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutput(), material.getCompat().getThermalCompat().getPulverizerCompat().getSecondOutputCombinedChance())
+									.stackWithoutCount(secondOutput, secondOutputChance)
 									.stackWithoutCount(Items.GRAVEL, 0.2f))
 							.fieldFloat("experience", 0.2f)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_pulverizer/" + material.getId()));
 				}
+
 				// Induction Smelter
 				// Dust to Ingot
 				if (processedType.contains("ingot") && processedType.contains("dust") && material.isModded()) {
