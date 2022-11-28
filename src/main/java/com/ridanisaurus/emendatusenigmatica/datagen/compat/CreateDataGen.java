@@ -61,62 +61,67 @@ public class CreateDataGen {
 				for (StrataModel stratum : EELoader.STRATA) {
 					if (processedType.contains("crushed_ore") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 						// Crushed Ore from Ore - Crushing
-						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
-								.type("create:crushing")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
-								.fieldInt("processingTime", 250)
-								.addOutput(builder -> builder
-										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
-										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
-										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
+						// TODO Fix this
+//						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
+//								.type("create:crushing")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+//								.fieldInt("processingTime", 250)
+//								.addOutput(builder -> builder
+//										.stackWithChance(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
+//										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
+//										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 					if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem") && material.isModded()) {
 						// Gem from Ore - Crushing
-						new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
-								.type("create:crushing")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
-								.fieldInt("processingTime", 350)
-								.addOutput(builder -> builder
-										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
-										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
-										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
+						// TODO Fix this
+//						new RecipeBuilder("results", (processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getFirstOutputCount())
+//								.type("create:crushing")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get()))
+//								.fieldInt("processingTime", 350)
+//								.addOutput(builder -> builder
+//										.stackWithChance((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getCrushingCompat().getSecondOutputChance())
+//										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75)
+//										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 0.125))
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_crushing/" + material.getId() + "_" + stratum.getId()));
 					}
 				}
 
 				if (processedType.contains("crushed_ore") && material.isModded()) {
 					if (processedType.contains("raw")) {
 						// Crushed Ore from Raw Material Crushing
-						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
-								.type("create:crushing")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawMap.get(material.getId()).get()))
-								.fieldInt("processingTime", 400)
-								.addOutput(builder -> builder
-										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw_crushing/" + material.getId()));
+						// TODO Fix this
+//						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 1)
+//								.type("create:crushing")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawMap.get(material.getId()).get()))
+//								.fieldInt("processingTime", 400)
+//								.addOutput(builder -> builder
+//										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 1, 0.75))
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw_crushing/" + material.getId()));
 						// Crushed Ore from Raw Block Crushing
-						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 9)
-								.type("create:crushing")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawBlockItemMap.get(material.getId()).get()))
-								.fieldInt("processingTime", 400)
-								.addOutput(builder -> builder
-										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 9, 0.75))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw_block_crushing/" + material.getId()));
+						// TODO Fix this
+//						new RecipeBuilder("results", EECreateRegistrar.crushedOreMap.get(material.getId()).get(), 9)
+//								.type("create:crushing")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EERegistrar.rawBlockItemMap.get(material.getId()).get()))
+//								.fieldInt("processingTime", 400)
+//								.addOutput(builder -> builder
+//										.stackWithChance(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.CREATE, "experience_nugget")), 9, 0.75))
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "crushed/from_raw_block_crushing/" + material.getId()));
 					}
 					// Nuggets from Crushed Ore
+					// TODO Fix this
 					if (processedType.contains("nugget")) {
-						new RecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 9)
-								.type("create:splashing")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
-								.addOutput(builder -> builder
-										.stackWithChance(material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutput(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputChance()))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_crushed_splashing/" + material.getId()));
+//						new RecipeBuilder("results", EERegistrar.nuggetMap.get(material.getId()).get(), 9)
+//								.type("create:splashing")
+//								.group("emendatusenigmatica:compat_recipe")
+//								.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(true).stack(EECreateRegistrar.crushedOreMap.get(material.getId()).get()))
+//								.addOutput(builder -> builder
+//										.stackWithChance(material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutput(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputCount(), material.getCompat().getCreateCompat().getSplashingCompat().getSecondOutputChance()))
+//								.save(consumer, new ResourceLocation(Reference.MOD_ID, "nugget/from_crushed_splashing/" + material.getId()));
 					}
 				}
 			}

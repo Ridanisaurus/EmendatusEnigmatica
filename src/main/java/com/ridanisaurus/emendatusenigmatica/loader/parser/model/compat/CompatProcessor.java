@@ -26,10 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +34,7 @@ import java.util.Map;
 public class CompatProcessor {
 	public static Map<String, List<CompatModel.CompatRecipesModel>> compatMap = new HashMap<>();
 	public static Table<String, String, List<CompatModel.CompatValuesModel>> recipesTable = HashBasedTable.create();
-	public static Map<List<CompatModel.CompatIOModel>, List<CompatModel.CompatIOModel>> valuesMap = new HashMap<>();
+	public static Table<String, List<CompatModel.CompatIOModel>, List<CompatModel.CompatIOModel>> valuesTable = HashBasedTable.create();
 	public static Map<String, Table<String, Integer, Float>> inputMap = new HashMap<>();
 	public static Map<String, Table<String, Integer, Float>> outputMap = new HashMap<>();
 
@@ -54,41 +50,31 @@ public class CompatProcessor {
 			recipesTable.put(mod, machine, values);
 
 			for (CompatModel.CompatValuesModel value : values) {
+				String type = value.getType();
 				List<CompatModel.CompatIOModel> input = value.getInput();
 				List<CompatModel.CompatIOModel> output = value.getOutput();
-				valuesMap.put(input, output);
+				valuesTable.put(type, input, output);
 
-				ioMapPopulation(input, inputMap);
-				ioMapPopulation(output, outputMap);
+				ioTablePopulation(type, input, inputMap);
+				ioTablePopulation(type, output, outputMap);
 			}
 		}
+		System.out.println(compatMap);
+		System.out.println(recipesTable);
+		System.out.println(valuesTable);
+		System.out.println(inputMap);
+		System.out.println(outputMap);
 	}
 
-	private static void ioMapPopulation(List<CompatModel.CompatIOModel> io, Map<String, Table<String, Integer, Float>> ioMap) {
-		for (CompatModel.CompatIOModel ioObject : io) {
-			String type = ioObject.getType();
-			String item = ioObject.getItem();
-			int count = ioObject.getCount();
-			float chance = ioObject.getChance();
+	private static void ioTablePopulation(String type, List<CompatModel.CompatIOModel> io, Map<String, Table<String, Integer, Float>> ioMap) {
+		Table<String, Integer, Float> ioTable = HashBasedTable.create();
+		for (CompatModel.CompatIOModel ioModel : io) {
+			String item = ioModel.getItem();
+			int count = ioModel.getCount();
+			float chance = ioModel.getChance();
 
-			ItemLike itemLike = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
-
-			Table<String, Integer, Float> ioTable = HashBasedTable.create();
 			ioTable.put(item, count, chance);
-			ioMap.put(type, ioTable);
-			for (Map.Entry<String, Table<String, Integer, Float>> compatTableCells : ioMap.entrySet()) {
-				String typeo = compatTableCells.getKey();
-				System.out.println("type: " + typeo);
-				for (Table.Cell<String, Integer, Float> itemLikeIntegerFloatCell : compatTableCells.getValue().cellSet()) {
-					String itemo = itemLikeIntegerFloatCell.getRowKey();
-					Integer counto = itemLikeIntegerFloatCell.getColumnKey();
-					Float chanceo = itemLikeIntegerFloatCell.getValue();
-
-					System.out.println("Item: " + itemo);
-					System.out.println("Count: " + counto);
-					System.out.println("Chance: " + chanceo);
-				}
-			}
 		}
+		ioMap.put(type, ioTable);
 	}
 }

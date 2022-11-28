@@ -52,37 +52,40 @@ public class OccultismDataGen {
 				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("dust") && processedType.contains("ore")) {
 					// Dust from Ore - Crusher Spirit
-					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get(), 2)
-							.forceOutputArray(false)
-							.type("occultism:crushing")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
-							.fieldInt("crushing_time", 200)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crusher_spirit/" + material.getId()));
+					// TODO Fix this
+//					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get(), 2)
+//							.forceOutputArray(false)
+//							.type("occultism:crushing")
+//							.group("emendatusenigmatica:compat_recipe")
+//							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
+//									.tag(EETags.MATERIAL_ORE.apply(material.getId())))
+//							.fieldInt("crushing_time", 200)
+//							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crusher_spirit/" + material.getId()));
 				}
 				if (processedType.contains("dust") && processedType.contains("ingot")) {
 					// Dust from Ingot - Crusher Spirit
-					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get())
-							.forceOutputArray(false)
-							.type("occultism:crushing")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_INGOT.apply(material.getId())))
-							.fieldInt("crushing_time", 200)
-							.fieldBoolean("ignore_crushing_multiplier", true)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ingot_crusher_spirit/" + material.getId()));
+					// TODO Fix this
+//					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get())
+//							.forceOutputArray(false)
+//							.type("occultism:crushing")
+//							.group("emendatusenigmatica:compat_recipe")
+//							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
+//									.tag(EETags.MATERIAL_INGOT.apply(material.getId())))
+//							.fieldInt("crushing_time", 200)
+//							.fieldBoolean("ignore_crushing_multiplier", true)
+//							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ingot_crusher_spirit/" + material.getId()));
 				}
 				if (processedType.contains("dust") && processedType.contains("raw")) {
 					// Dust from Raw Material - Crusher Spirit
-					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get(), 2)
-							.forceOutputArray(false)
-							.type("occultism:crushing")
-							.group("emendatusenigmatica:compat_recipe")
-							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
-									.tag(EETags.MATERIAL_RAW.apply(material.getId())))
-							.fieldInt("crushing_time", 200)
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw_crusher_spirit/" + material.getId()));
+					// TODO Fix this
+//					new RecipeBuilder("result", EERegistrar.dustMap.get(material.getId()).get(), 2)
+//							.forceOutputArray(false)
+//							.type("occultism:crushing")
+//							.group("emendatusenigmatica:compat_recipe")
+//							.fieldJson("ingredient", new RecipeBuilder.JsonItemBuilder(false)
+//									.tag(EETags.MATERIAL_RAW.apply(material.getId())))
+//							.fieldInt("crushing_time", 200)
+//							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw_crusher_spirit/" + material.getId()));
 				}
 			}
 		}

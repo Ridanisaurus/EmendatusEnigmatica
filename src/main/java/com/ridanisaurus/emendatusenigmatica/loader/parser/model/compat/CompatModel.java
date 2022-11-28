@@ -97,16 +97,23 @@ public class CompatModel {
 
 	public static class CompatValuesModel {
 		public static final Codec<CompatValuesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-				Codec.list(CompatIOModel.CODEC).fieldOf("input").forGetter(i -> i.input),
-				Codec.list(CompatIOModel.CODEC).fieldOf("output").forGetter(i -> i.output)
+				Codec.STRING.fieldOf("type").forGetter(i -> i.type),
+				Codec.list(CompatIOModel.CODEC).fieldOf("input").orElse(List.of()).forGetter(i -> i.input),
+				Codec.list(CompatIOModel.CODEC).fieldOf("output").orElse(List.of()).forGetter(i -> i.output)
 		).apply(x, CompatValuesModel::new));
 
+		private final String type;
 		private final List<CompatIOModel> input;
 		private final List<CompatIOModel> output;
 
-		CompatValuesModel(List<CompatIOModel> input, List<CompatIOModel> output) {
+		CompatValuesModel(String type, List<CompatIOModel> input, List<CompatIOModel> output) {
+			this.type = type;
 			this.input = input;
 			this.output = output;
+		}
+
+		public String getType() {
+			return type;
 		}
 
 		public List<CompatIOModel> getInput() {
@@ -120,31 +127,23 @@ public class CompatModel {
 
 	public static class CompatIOModel {
 		public static final Codec<CompatIOModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-				Codec.STRING.optionalFieldOf("type").forGetter(i -> Optional.ofNullable(i.type)),
 				Codec.STRING.optionalFieldOf("item").forGetter(i -> Optional.ofNullable(i.item)),
 				Codec.INT.optionalFieldOf("count").forGetter(i -> Optional.of(i.count)),
 				Codec.FLOAT.optionalFieldOf("chance").forGetter(i -> Optional.of(i.chance))
-		).apply(x, (type, item, count, chance) -> new CompatIOModel(
-				type.orElse(""),
+		).apply(x, (item, count, chance) -> new CompatIOModel(
 				item.orElse(""),
 				count.orElse(1),
 				chance.orElse(1.0f)
 		)));
 
 		private final String item;
-		private final String type;
 		private final int count;
 		private final float chance;
 
-		public CompatIOModel(String type, String item, int count, float chance) {
-			this.type = type;
+		public CompatIOModel(String item, int count, float chance) {
 			this.item = item;
 			this.count = count;
 			this.chance = chance;
-		}
-
-		public String getType() {
-			return type;
 		}
 
 		public String getItem() {

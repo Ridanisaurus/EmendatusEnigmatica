@@ -6,12 +6,16 @@
 	  "machine": "pulverizer",
 	  "values": [
 		{
-		  "input": [
-			{"type": "ore"}
-		  ],
+		  "type": "ore",
 		  "output": [
-			{ "type": "dust", "item": "emendatusenigmatica:coal_dust", "count": 1, "chance": 2.0 },
-			{ "type": "dust", "item": "minecraft:apple", "count": 3, "chance": 0.25 }
+			{ "item": "emendatusenigmatica:coal_dust", "count": 1, "chance": 0.25 },
+			{ "item": "minecraft:gravel", "count": 1, "chance": 0.35 }
+		  ]
+		},
+		{
+		  "type": "raw",
+		  "output": [
+			{ "item": "emendatusenigmatica:diamond_dust", "count": 1, "chance": 0.35 }
 		  ]
 		}
 	  ]
