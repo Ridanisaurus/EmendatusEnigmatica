@@ -32,7 +32,6 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatProcessor;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
@@ -111,10 +110,6 @@ public class EELoader {
 			compatModels.add(compatModel);
 			COMPAT.add(compatModel);
 		}
-
-//		for (CompatModel compat : compatModels) {
-//			new CompatProcessor(compat);
-//		}
 
 		for (StrataModel strata : strataModels) {
 			for (MaterialModel material : materialModels) {

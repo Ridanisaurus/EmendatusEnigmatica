@@ -24,41 +24,28 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class RecipeBuilder {
 
 	private JsonItemBuilder result;
-//	private Item recipeDefault;
 	private final String resultName;
-//	private final List<String> rows = Lists.newArrayList();
-//	private final Map<Character, Ingredient> key = Maps.newLinkedHashMap();
-//	private final Advancement.Builder advancement = Advancement.Builder.advancement();
 	private String group;
 	private String type;
 
@@ -73,38 +60,6 @@ public class RecipeBuilder {
 		this.resultName = resultName;
 		this.result = new JsonItemBuilder(false);
 	}
-
-	public RecipeBuilder(String resultName, ItemLike item, int count, float chance) {
-		this.resultName = resultName;
-		this.result = new JsonItemBuilder(false).stackWithChance(item, count, chance);
-//		this.recipeDefault = item.asItem();
-	}
-
-	public RecipeBuilder(String resultName, ItemLike item, int count) {
-		this.resultName = resultName;
-		this.result = new JsonItemBuilder(false).stackWithCount(item, count);
-//		this.recipeDefault = item.asItem();
-	}
-
-	public RecipeBuilder(String resultName, ItemLike item, float chance) {
-		this.resultName = resultName;
-		this.result = new JsonItemBuilder(false).stackWithoutCount(item, chance);
-//		this.recipeDefault = item.asItem();
-	}
-
-	public RecipeBuilder(String resultName, ItemLike item) {
-		this.resultName = resultName;
-		this.result = new JsonItemBuilder(false).stack(item);
-//		this.recipeDefault = item.asItem();
-	}
-
-//	public static RecipeBuilder result(ItemLike item) {
-//		return result(item, 1);
-//	}
-//
-//	public static RecipeBuilder result(ItemLike item, int count) {
-//		return new RecipeBuilder("result", item, count);
-//	}
 
 	public RecipeBuilder fieldString(String key, String value) {
 		if (this.fieldValueString.containsKey(key)) {
@@ -165,50 +120,10 @@ public class RecipeBuilder {
 		return this;
 	}
 
-//	// DO I NEED KEY?
-//	public RecipeBuilder define(Character key, TagKey<Item> itemTag) {
-//		return this.define(key, Ingredient.of(itemTag));
-//	}
-//
-//	public RecipeBuilder define(Character key, ItemLike item) {
-//		return this.define(key, Ingredient.of(item));
-//	}
-//
-//	public RecipeBuilder define(Character key, Ingredient ingredient) {
-//		if (this.key.containsKey(key)) {
-//			throw new IllegalArgumentException("Symbol '" + key + "' is already defined!");
-//		} else if (key == ' ') {
-//			throw new IllegalArgumentException("Symbol ' ' (whitespace) is reserved and cannot be defined");
-//		} else {
-//			this.key.put(key, ingredient);
-//			return this;
-//		}
-//	}
-
-//	// DO I NEED PATTERN?
-//	public RecipeBuilder pattern(String pattern) {
-//		if (!this.rows.isEmpty() && pattern.length() != this.rows.get(0).length()) {
-//			throw new IllegalArgumentException("Pattern must be the same width on every line!");
-//		} else {
-//			this.rows.add(pattern);
-//			return this;
-//		}
-//	}
-//
-//	public RecipeBuilder unlockedBy(String advancementName, CriterionTriggerInstance advancement) {
-//		this.advancement.addCriterion(advancementName, advancement);
-//		return this;
-//	}
-
 	public RecipeBuilder setResult(JsonItemBuilder result) {
 		this.result = result;
 		return this;
 	}
-
-//	public RecipeBuilder setRecipeDefault(Item recipeDefault) {
-//		this.recipeDefault = recipeDefault;
-//		return this;
-//	}
 
 	public RecipeBuilder group(String group) {
 		this.group = group;
@@ -225,53 +140,10 @@ public class RecipeBuilder {
 		return this;
 	}
 
-//	public void save(Consumer<IFinishedGenericRecipe> consumer) {
-//		this.save(consumer, ForgeRegistries.ITEMS.getKey(this.recipeDefault));
-//	}
-
-//	public void save(Consumer<IFinishedGenericRecipe> consumer, String recipeName) {
-//		if ((new ResourceLocation(recipeName)).equals(ForgeRegistries.ITEMS.getKey(this.recipeDefault))) {
-//			throw new IllegalStateException("Shaped Recipe " + recipeName + " should remove its 'save' argument");
-//		} else {
-//			this.save(consumer, new ResourceLocation(recipeName));
-//		}
-//	}
-
-	// new ResourceLocation(recipeResourceLocation.getNamespace(), "recipes/" + this.recipeDefault.getItemCategory().getRecipeFolderName() + "/" + recipeResourceLocation.getPath())
 	public void save(Consumer<IFinishedGenericRecipe> consumer, ResourceLocation recipeResourceLocation) {
-//		this.advancement.parent(new ResourceLocation("recipes/root")).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(recipeResourceLocation))
-//				.rewards(AdvancementRewards.Builder.recipe(recipeResourceLocation)).requirements(RequirementsStrategy.OR);
 		consumer.accept(new RecipeBuilder.Result(recipeResourceLocation, this.resultName, this.result, this.group == null ? "" : this.group, this.type,
 				this.fieldValueString, this.fieldValueInt, this.fieldValueFloat, this.fieldValueBoolean, this.fieldValueItem, this.fieldValueJson));
 	}
-
-//	private void ensureValid(ResourceLocation resourceLocation) {
-//		if (this.rows.isEmpty()) {
-//			throw new IllegalStateException("No pattern is defined for shaped recipe " + resourceLocation + "!");
-//		} else {
-//			Set<Character> set = Sets.newHashSet(this.key.keySet());
-//			set.remove(' ');
-//
-//			for (String s : this.rows) {
-//				for (int i = 0; i < s.length(); ++i) {
-//					char c0 = s.charAt(i);
-//					if (!this.key.containsKey(c0) && c0 != ' ') {
-//						throw new IllegalStateException("Pattern in recipe " + resourceLocation + " uses undefined symbol '" + c0 + "'");
-//					}
-//
-//					set.remove(c0);
-//				}
-//			}
-//
-//			if (!set.isEmpty()) {
-//				throw new IllegalStateException("Ingredients are defined but not used in pattern for recipe " + resourceLocation);
-//			} else if (this.rows.size() == 1 && this.rows.get(0).length() == 1) {
-//				throw new IllegalStateException("Shaped recipe " + resourceLocation + " only takes in a single item - should it be a shapeless recipe instead?");
-//			} else if (this.advancement.getCriteria().isEmpty()) {
-//				throw new IllegalStateException("No way of obtaining recipe " + resourceLocation);
-//			}
-//		}
-//	}
 
 	public static class JsonItemBuilder {
 
@@ -349,26 +221,37 @@ public class RecipeBuilder {
 			);
 		}
 
-		public JsonItemBuilder stacks(Table<String, Integer, Float> compatTable) {
-			for (Table.Cell<String, Integer, Float> compatTableCells : compatTable.cellSet()) {
-				String item = compatTableCells.getRowKey();
-				Integer count = compatTableCells.getColumnKey();
-				Float chance = compatTableCells.getValue();
-
+		public JsonItemBuilder stacks(List<CompatModel.CompatIOModel> ioList) {
+			for (CompatModel.CompatIOModel io : ioList) {
+				String item = io.getItem();
+				int count = io.getCount();
+				float chance = io.getChance();
 				ItemLike itemLike = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+
 				addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemLike.asItem()).toString()), Pair.of("count", count), Pair.of("chance", chance));
 			}
 			return this;
 		}
 
-		public JsonItemBuilder stacksWithCombinedChance(Table<String, Integer, Float> compatTable) {
-			for (Table.Cell<String, Integer, Float> compatTableCells : compatTable.cellSet()) {
-				String item = compatTableCells.getRowKey();
-				Integer count = compatTableCells.getColumnKey();
-				Float chance = compatTableCells.getValue();
-
+		public JsonItemBuilder stacksWithCombinedChance(List<CompatModel.CompatIOModel> ioList) {
+			for (CompatModel.CompatIOModel io : ioList) {
+				String item = io.getItem();
+				int count = io.getCount();
+				float chance = io.getChance();
 				ItemLike itemLike = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+
 				addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemLike.asItem()).toString()), Pair.of("chance", count + chance));
+			}
+			return this;
+		}
+
+		public JsonItemBuilder stacksWithCount(List<CompatModel.CompatIOModel> ioList) {
+			for (CompatModel.CompatIOModel io : ioList) {
+				String item = io.getItem();
+				int count = io.getCount();
+				ItemLike itemLike = ForgeRegistries.ITEMS.getValue(new ResourceLocation(item));
+
+				addOutput(Pair.of("item", ForgeRegistries.ITEMS.getKey(itemLike.asItem()).toString()), Pair.of("count", count));
 			}
 			return this;
 		}
@@ -413,10 +296,6 @@ public class RecipeBuilder {
 		private final String resultName;
 		private final String group;
 		private final String type;
-//		private final List<String> pattern;
-//		private final Map<Character, Ingredient> key;
-//		private final Advancement.Builder advancement;
-//		private final ResourceLocation advancementId;
 
 		private final Map<String, String> fieldValueString;
 		private final Map<String, Integer> fieldValueInt;
@@ -428,15 +307,9 @@ public class RecipeBuilder {
 		public Result(ResourceLocation id, String resultName, JsonItemBuilder outputBuilder, String group, String type, Map<String, String> fieldValueString, Map<String, Integer> fieldValueInt, Map<String, Float> fieldValueFloat, Map<String, Boolean> fieldValueBoolean, Map<String, ItemLike> fieldValueItem, Map<String, JsonItemBuilder> fieldValueJson) {
 			this.id = id;
 			this.resultName = resultName;
-//			this.advancement = advancement;
-//			this.advancementId = advancementId;
 			this.group = group;
 			this.type = type;
-
 			this.result = outputBuilder;
-
-//			this.pattern = pattern;
-//			this.key = keyMap;
 
 			this.fieldValueString = fieldValueString;
 			this.fieldValueInt = fieldValueInt;
@@ -453,22 +326,6 @@ public class RecipeBuilder {
 			if (!this.type.isEmpty()) {
 				recipeJson.addProperty("type", this.type);
 			}
-
-//			if (this.pattern.size() > 0) {
-//				JsonArray jsonarray = new JsonArray();
-//				for (String s : this.pattern) {
-//					jsonarray.add(s);
-//				}
-//				recipeJson.add("pattern", jsonarray);
-//			}
-//
-//			if (this.key.size() > 0) {
-//				JsonObject jsonobject = new JsonObject();
-//				for (Map.Entry<Character, Ingredient> entry : this.key.entrySet()) {
-//					jsonobject.add(String.valueOf(entry.getKey()), entry.getValue().toJson());
-//				}
-//				recipeJson.add("key", jsonobject);
-//			}
 
 			recipeJson.add(this.resultName, result.getOutput());
 
@@ -516,15 +373,5 @@ public class RecipeBuilder {
 		public ResourceLocation getId() {
 			return this.id;
 		}
-
-//		@Nullable
-//		public JsonObject serializeAdvancement() {
-//			return this.advancement.serializeToJson();
-//		}
-//
-//		@Nullable
-//		public ResourceLocation getAdvancementId() {
-//			return this.advancementId;
-//		}
 	}
 }
