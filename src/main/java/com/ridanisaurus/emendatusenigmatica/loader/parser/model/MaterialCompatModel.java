@@ -26,38 +26,72 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.MaterialCreateModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.MaterialThermalModel;
 
 import java.util.Optional;
 
 public class MaterialCompatModel {
 	public static final Codec<MaterialCompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			MaterialCreateModel.CODEC.optionalFieldOf("create").forGetter(i -> Optional.of(i.create)),
-			MaterialThermalModel.CODEC.optionalFieldOf("thermal").forGetter(i -> Optional.of(i.thermal))
-	).apply(x, (create, thermal) -> new MaterialCompatModel(
-			create.orElse(new MaterialCreateModel()),
-			thermal.orElse(new MaterialThermalModel())
+			Codec.BOOL.optionalFieldOf("create").forGetter(i -> Optional.of(i.create)),
+			Codec.BOOL.optionalFieldOf("thermal").forGetter(i -> Optional.of(i.thermal)),
+			Codec.BOOL.optionalFieldOf("mekanism").forGetter(i -> Optional.of(i.mekanism)),
+			Codec.BOOL.optionalFieldOf("ars_nouveau").forGetter(i -> Optional.of(i.ars_nouveau)),
+			Codec.BOOL.optionalFieldOf("blood_magic").forGetter(i -> Optional.of(i.blood_magic)),
+			Codec.BOOL.optionalFieldOf("occultism").forGetter(i -> Optional.of(i.occultism))
+	).apply(x, (create, thermal, mekanism, ars_nouveau, blood_magic, occultism) -> new MaterialCompatModel(
+			create.orElse(true),
+			thermal.orElse(true),
+			mekanism.orElse(true),
+			ars_nouveau.orElse(true),
+			blood_magic.orElse(true),
+			occultism.orElse(true)
 	)));
 
-	private final MaterialCreateModel create;
-	private final MaterialThermalModel thermal;
+	private final boolean create;
+	private final boolean thermal;
+	private final boolean mekanism;
+	private final boolean ars_nouveau;
+	private final boolean blood_magic;
+	private final boolean occultism;
 
-	public MaterialCompatModel(MaterialCreateModel create, MaterialThermalModel thermal) {
+	public MaterialCompatModel(boolean create, boolean thermal, boolean mekanism, boolean ars_nouveau, boolean blood_magic, boolean occultism) {
 		this.create = create;
 		this.thermal = thermal;
+		this.mekanism = mekanism;
+		this.ars_nouveau = ars_nouveau;
+		this.blood_magic = blood_magic;
+		this.occultism = occultism;
 	}
 
 	public MaterialCompatModel() {
-		this.create = new MaterialCreateModel();
-		this.thermal = new MaterialThermalModel();
+		this.create = true;
+		this.thermal = true;
+		this.mekanism = true;
+		this.ars_nouveau = true;
+		this.blood_magic = true;
+		this.occultism = true;
 	}
 
-	public MaterialCreateModel getCreateCompat() {
+	public boolean getCreateCompat() {
 		return create;
 	}
 
-	public MaterialThermalModel getThermalCompat() {
+	public boolean getThermalCompat() {
 		return thermal;
+	}
+
+	public boolean getMeknaismCompat() {
+		return mekanism;
+	}
+
+	public boolean getANCompat() {
+		return ars_nouveau;
+	}
+
+	public boolean getBMCompat() {
+		return blood_magic;
+	}
+
+	public boolean getOccultismCompat() {
+		return occultism;
 	}
 }

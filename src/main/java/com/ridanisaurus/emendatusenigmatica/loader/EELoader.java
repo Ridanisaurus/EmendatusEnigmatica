@@ -31,7 +31,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;

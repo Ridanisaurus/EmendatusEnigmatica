@@ -25,11 +25,10 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Table;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat.CompatModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;

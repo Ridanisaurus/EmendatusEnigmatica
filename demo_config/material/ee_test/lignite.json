@@ -35,28 +35,8 @@
     "max": 6
   },
   "compat": {
-    "create": {
-      "crushing": {
-        "firstOutputCount": 10,
-        "secondOutputCount": 15,
-        "secondOutputChance": 0.35
-      }
-    },
-    "thermal": {
-      "pulverizer": {
-        "firstOutputCount": 10,
-        "firstOutputChance": 0.6,
-        "secondOutput": "minecraft:apple",
-        "secondOutputCount": 1,
-        "secondOutputChance": 0.20
-      },
-      "induction": {
-        "firstOutputCount": 1,
-        "firstOutputChance": 0.5,
-        "secondOutput": "minecraft:gold_ingot",
-        "secondOutputCount": 1,
-        "secondOutputChance": 0.15
-      }
-    }
+    "thermal": true,
+    "create": false,
+    "occultism": false
   }
 }

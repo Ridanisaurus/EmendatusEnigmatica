@@ -20,18 +20,5 @@
   "colors": {
     "fluidColor": "000080",
     "materialColor": "4eb74b"
-  },
-  "compat": {
-    "thermal": {
-      "induction": {
-        "firstInput": "minecraft:iron_ingot",
-        "firstInputCount": 3,
-        "secondInput": "minecraft:apple",
-        "secondInputCount": 5,
-        "thirdInput": "minecraft:gold_nugget",
-        "thirdInputCount": 2,
-        "firstOutputCount": 10
-      }
-    }
   }
 }
