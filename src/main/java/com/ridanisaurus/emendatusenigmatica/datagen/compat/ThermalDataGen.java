@@ -56,38 +56,42 @@ public class ThermalDataGen {
 			for (MaterialModel material : EELoader.MATERIALS) {
 				List<String> processedType = material.getProcessedTypes();
 				for (CompatModel compat : EELoader.COMPAT) {
+					CompatProcessor compatProcessor = new CompatProcessor(compat);
+					if (compatProcessor.getId().equals(material.getId()) && compatProcessor.getMod().equals("thermal") && compatProcessor.getMachine().equals("pulverizer") && material.isModded()) {
 
-					if (compat.getId().equals(material.getId()) && CompatProcessor.recipesTable.contains("thermal", "pulverizer") && material.isModded()) {
-						// Metal Ore to Dust
-						if (CompatProcessor.outputMap.containsKey("ore") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
-							new RecipeBuilder("results")
-									.type("thermal:pulverizer")
-									.group("emendatusenigmatica:compat_recipe")
-									.fieldFloat("experience", 0.2f)
-									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-											.tag(EETags.MATERIAL_ORE.apply(material.getId()))
-									)
-									.addOutput(builder -> builder
-											.stackWithoutCount(EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
-											.stacksWithCombinedChance(CompatProcessor.outputMap.get("ore"))
-									)
-									.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+						if (compatProcessor.getType().equals("ore") && processedType.contains("ore")) {
+							// Metal Ore to Dust
+							if (material.getProperties().getMaterialType().equals("metal")) {
+								new RecipeBuilder("results")
+										.type("thermal:pulverizer")
+										.group("emendatusenigmatica:compat_recipe")
+										.fieldFloat("experience", 0.2f)
+										.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+												.tag(EETags.MATERIAL_ORE.apply(material.getId()))
+										)
+										.addOutput(builder -> builder
+												.stackWithoutCount(EERegistrar.dustMap.get(material.getId()).get(), 2.0f)
+												.stacksWithCombinedChance(compatProcessor.getOutputTable())
+										)
+										.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_pulverizer/" + material.getId()));
+							}
+							// Gem Ore to Gem
+							if (material.getProperties().getMaterialType().equals("gem")) {
+								new RecipeBuilder("results")
+										.type("thermal:pulverizer")
+										.group("emendatusenigmatica:compat_recipe")
+										.fieldFloat("experience", 0.2f)
+										.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
+												.tag(EETags.MATERIAL_ORE.apply(material.getId())))
+										.addOutput(builder -> builder
+												.stackWithoutCount((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), 1.0f)
+												.stacksWithCombinedChance(compatProcessor.getOutputTable())
+										)
+										.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_pulverizer/" + material.getId()));
+							}
 						}
-						// Gem Ore to Gem
-						if (CompatProcessor.outputMap.containsKey("ore") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem")) {
-							new RecipeBuilder("results")
-									.type("thermal:pulverizer")
-									.group("emendatusenigmatica:compat_recipe")
-									.fieldFloat("experience", 0.2f)
-									.fieldJson("ingredients", new RecipeBuilder.JsonItemBuilder(false)
-											.tag(EETags.MATERIAL_ORE.apply(material.getId())))
-									.addOutput(builder -> builder
-											.stackWithoutCount((processedType.contains("gem") ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()), 1.0f)
-											.stacksWithCombinedChance(CompatProcessor.outputMap.get("ore"))
-									)
-									.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_ore_pulverizer/" + material.getId()));
-						}
-						if (CompatProcessor.outputMap.containsKey("raw")) {
+
+						if (compatProcessor.getType().equals("raw") && processedType.contains("raw")) {
 							new RecipeBuilder("results")
 									.type("thermal:pulverizer")
 									.group("emendatusenigmatica:compat_recipe")
@@ -97,7 +101,7 @@ public class ThermalDataGen {
 									)
 									.addOutput(builder -> builder
 											.stackWithoutCount(EERegistrar.dustMap.get(material.getId()).get(), 1.0f)
-											.stacksWithCombinedChance(CompatProcessor.outputMap.get("raw"))
+											.stacksWithCombinedChance(compatProcessor.getOutputTable())
 									)
 									.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_raw_pulverizer/" + material.getId()));
 						}

@@ -27,54 +27,88 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model.compat;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CompatProcessor {
-	public static Map<String, List<CompatModel.CompatRecipesModel>> compatMap = new HashMap<>();
-	public static Table<String, String, List<CompatModel.CompatValuesModel>> recipesTable = HashBasedTable.create();
-	public static Table<String, List<CompatModel.CompatIOModel>, List<CompatModel.CompatIOModel>> valuesTable = HashBasedTable.create();
-	public static Map<String, Table<String, Integer, Float>> inputMap = new HashMap<>();
-	public static Map<String, Table<String, Integer, Float>> outputMap = new HashMap<>();
+	public final String id;
+	public String mod;
+	public String machine;
+	public String type;
+	public List<CompatModel.CompatIOModel> inputs = new ArrayList<>();
+	public Table<String, Integer, Float> inputTable = HashBasedTable.create();
+	public List<CompatModel.CompatIOModel> outputs = new ArrayList<>();
+	public Table<String, Integer, Float> outputTable = HashBasedTable.create();
 
-	public static void populate(CompatModel compat) {
-		String id = compat.getId();
+	public CompatProcessor(CompatModel compat) {
+		this.id = compat.getId();
 		List<CompatModel.CompatRecipesModel> recipes = compat.getRecipes();
-		compatMap.put(id, recipes);
-
-		for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
-			String mod = recipe.getMod();
-			String machine = recipe.getMachine();
+		recipes.forEach(recipe -> {
+			this.mod = recipe.getMod();
+			this.machine = recipe.getMachine();
 			List<CompatModel.CompatValuesModel> values = recipe.getValues();
-			recipesTable.put(mod, machine, values);
 
-			for (CompatModel.CompatValuesModel value : values) {
-				String type = value.getType();
-				List<CompatModel.CompatIOModel> input = value.getInput();
-				List<CompatModel.CompatIOModel> output = value.getOutput();
-				valuesTable.put(type, input, output);
+			values.forEach(value -> {
+				this.type = value.getType();
+				this.inputs = value.getInput();
+				this.outputs = value.getOutput();
 
-				ioTablePopulation(type, input, inputMap);
-				ioTablePopulation(type, output, outputMap);
-			}
-		}
-		System.out.println(compatMap);
-		System.out.println(recipesTable);
-		System.out.println(valuesTable);
-		System.out.println(inputMap);
-		System.out.println(outputMap);
+				this.inputs.forEach(input -> {
+					String item = input.getItem();
+					int count = input.getCount();
+					float chance = input.getChance();
+					this.inputTable.put(item, count, chance);
+				});
+
+				this.outputs.forEach(output -> {
+					String item = output.getItem();
+					int count = output.getCount();
+					float chance = output.getChance();
+					this.outputTable.put(item, count, chance);
+				});
+			});
+		});
+		System.out.println("Recipe ID: " + this.id);
+		System.out.println("Mod: " + this.mod + " - " + this.machine);
+		System.out.println("Type: " + this.type);
+		System.out.println("Inputs: " + this.inputs);
+		System.out.println("Input Table: " + this.inputTable);
+		System.out.println("Outputs: " + this.outputs);
+		System.out.println("Output Table: " + this.outputTable);
+		System.out.println();
 	}
 
-	private static void ioTablePopulation(String type, List<CompatModel.CompatIOModel> io, Map<String, Table<String, Integer, Float>> ioMap) {
-		Table<String, Integer, Float> ioTable = HashBasedTable.create();
-		for (CompatModel.CompatIOModel ioModel : io) {
-			String item = ioModel.getItem();
-			int count = ioModel.getCount();
-			float chance = ioModel.getChance();
+	public String getId() {
+		return id;
+	}
 
-			ioTable.put(item, count, chance);
-		}
-		ioMap.put(type, ioTable);
+	public String getMod() {
+		return mod;
+	}
+
+	public String getMachine() {
+		return machine;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public List<CompatModel.CompatIOModel> getInput() {
+		return inputs;
+	}
+
+	public Table<String, Integer, Float> getInputTable() {
+		return inputTable;
+	}
+
+	public List<CompatModel.CompatIOModel> getOutput() {
+		return outputs;
+	}
+
+	public Table<String, Integer, Float> getOutputTable() {
+		return outputTable;
 	}
 }

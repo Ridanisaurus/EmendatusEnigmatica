@@ -112,9 +112,9 @@ public class EELoader {
 			COMPAT.add(compatModel);
 		}
 
-		for (CompatModel compat : compatModels) {
-			CompatProcessor.populate(compat);
-		}
+//		for (CompatModel compat : compatModels) {
+//			new CompatProcessor(compat);
+//		}
 
 		for (StrataModel strata : strataModels) {
 			for (MaterialModel material : materialModels) {
