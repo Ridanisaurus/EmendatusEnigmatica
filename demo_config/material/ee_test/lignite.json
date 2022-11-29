@@ -6,6 +6,7 @@
     "ore",
     "dust",
     "fluid",
+    "gem",
     "slurry",
     "crystal",
     "shard",
@@ -13,7 +14,8 @@
     "dirty_dust",
     "fragment",
     "gravel",
-    "storage_block"
+    "storage_block",
+    "raw"
   ],
   "properties": {
     "materialType": "gem",
@@ -29,7 +31,6 @@
     "particlesColor": "1c5961"
   },
   "oreDrop": {
-    "drop": "minecraft:apple",
     "min": 2,
     "max": 6
   },

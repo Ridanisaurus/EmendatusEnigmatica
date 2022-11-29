@@ -1,0 +1,18 @@
+{
+  "id": "alloy_gal",
+  "recipes" : [
+	{
+	  "mod": "thermal",
+	  "machine": "induction_smelter",
+	  "values": [
+		{
+		  "type": "alloy",
+		  "input": [
+			{ "item": "emendatusenigmatica:coal_plate", "count": 1},
+			{ "item": "minecraft:apple", "count": 4}
+		  ]
+		}
+	  ]
+	}
+  ]
+}

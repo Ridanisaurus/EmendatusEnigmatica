@@ -13,6 +13,30 @@
 		  ]
 		}
 	  ]
+	},
+	{
+	  "mod": "thermal",
+	  "machine": "induction_smelter",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:lignite_gem", "count": 5, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "crushing",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:emerald_gear", "count": 2, "chance": 0.15 }
+		  ]
+		}
+	  ]
 	}
   ]
 }

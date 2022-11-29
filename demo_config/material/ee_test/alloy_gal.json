@@ -1,6 +1,6 @@
 {
   "id": "alloy_gal",
-  "source": "alloy",
+  "source": "modded",
   "localizedName": "Alloy Gal",
   "processedTypes": [
     "storage_block",
@@ -14,7 +14,8 @@
     "slurry"
   ],
   "properties": {
-  "harvestLevel": 1
+    "harvestLevel": 1,
+    "materialType": "alloy"
 },
   "colors": {
     "fluidColor": "000080",

@@ -19,6 +19,42 @@
 		  ]
 		}
 	  ]
+	},
+	{
+	  "mod": "thermal",
+	  "machine": "induction_smelter",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:coal_plate", "count": 1, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "crushing",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:crushed_felinium_jammies_ore", "count": 6, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "splashing",
+	  "values": [
+		{
+		  "type": "crushed_ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:felinium_jammies_nugget", "count": 3, "chance": 0.65 }
+		  ]
+		}
+	  ]
 	}
   ]
 }
