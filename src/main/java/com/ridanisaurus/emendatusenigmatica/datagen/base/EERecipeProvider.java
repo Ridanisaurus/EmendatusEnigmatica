@@ -70,14 +70,14 @@ public class EERecipeProvider implements DataProvider {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				JsonObject jsonobject = consumer.serializeAdvancement();
-				if (jsonobject != null) {
-					try {
-						saveAdvancement(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
+//				JsonObject jsonobject = consumer.serializeAdvancement();
+//				if (jsonobject != null) {
+//					try {
+//						saveAdvancement(directoryCache, jsonobject, path.resolve("data/" + consumer.getId().getNamespace() + "/advancements/" + consumer.getAdvancementId().getPath() + ".json"));
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				}
 
 			}
 		});

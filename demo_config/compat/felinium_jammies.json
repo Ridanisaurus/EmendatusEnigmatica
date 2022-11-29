@@ -1,0 +1,24 @@
+{
+  "id": "felinium_jammies",
+  "recipes" : [
+	{
+	  "mod": "thermal",
+	  "machine": "pulverizer",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:coal_dust", "count": 1, "chance": 0.25 },
+			{ "item": "minecraft:gravel", "count": 1, "chance": 0.35 }
+		  ]
+		},
+		{
+		  "type": "raw",
+		  "output": [
+			{ "item": "emendatusenigmatica:diamond_dust", "count": 1, "chance": 0.35 }
+		  ]
+		}
+	  ]
+	}
+  ]
+}

@@ -10,7 +10,7 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	public static final Codec<SphereDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("type").forGetter(it -> it.type),
 			Codec.STRING.fieldOf("dimension").forGetter(it -> it.dimension),
-			Codec.list(Codec.STRING).fieldOf("biomes").forGetter(it -> it.biomes),
+			Codec.list(Codec.STRING).fieldOf("biomes").orElse(List.of()).forGetter(it -> it.biomes),
 			Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
 			SphereDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
 	).apply(x, SphereDepositModel::new));

@@ -61,16 +61,16 @@ public class GeodeDepositConfigModel {
 		return (100 - chance) + 1;
 	}
 
-	public List<CommonBlockDefinitionModel> getInnerBlocks() {
-		return innerBlocks;
-	}
-
 	public List<CommonBlockDefinitionModel> getOuterShellBlocks() {
 		return outerShellBlocks;
 	}
 
 	public List<CommonBlockDefinitionModel> getInnerShellBlocks() {
 		return innerShellBlocks;
+	}
+
+	public List<CommonBlockDefinitionModel> getInnerBlocks() {
+		return innerBlocks;
 	}
 
 	public List<CommonBlockDefinitionModel> getFillBlocks() {

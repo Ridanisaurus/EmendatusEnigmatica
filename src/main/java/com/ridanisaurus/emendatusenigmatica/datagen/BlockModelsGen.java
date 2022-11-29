@@ -199,16 +199,16 @@ public class BlockModelsGen extends EEBlockModelProvider {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
 	}
 
-	public void dynamicBlock(Consumer<IFinishedGenericJSON> consumer, String baseTexture, String overlayTexture, String path) {
+	public void dynamicBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String overlayTexture, String path) {
 		new BlockModelBuilder("minecraft:block/block")
-				.texture("particle", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+				.texture("particle", strata)
 				.setLoader("forge:composite")
 				.child("solid", new BlockModelBuilder("minecraft:block/block")
-						.texture("base", baseTexture)
+						.texture("strata", strata)
 						.element()
 						.from(0, 0, 0)
 						.to(16, 16, 16)
-						.cube("#base")
+						.cube("#strata")
 						.allFaces((dir, uv) -> uv.tintindex(-1))
 						.end()
 						.renderType("solid")
@@ -227,7 +227,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 
 	public void dynamicTintBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String highlight2, String highlight1, String base, String shadow1, String shadow2, String drop, String path) {
 		new BlockModelBuilder("minecraft:block/block")
-				.texture("particle", new ResourceLocation(Reference.MOD_ID, base))
+				.texture("particle", strata)
 				.setLoader("forge:composite")
 				.child("solid", new BlockModelBuilder("minecraft:block/block")
 						.texture("strata", strata)

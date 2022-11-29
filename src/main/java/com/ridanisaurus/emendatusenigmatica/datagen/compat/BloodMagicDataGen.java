@@ -54,7 +54,7 @@ public class BloodMagicDataGen {
 				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("dust") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 					// Dust from Ore - Alchemy Table
-					new RecipeBuilder("output", EERegistrar.dustMap.get(material.getId()).get(), 2)
+					new RecipeBuilder("output")
 							.forceOutputArray(false)
 							.type("bloodmagic:alchemytable")
 							.group("emendatusenigmatica:compat_recipe")
@@ -64,11 +64,14 @@ public class BloodMagicDataGen {
 							.fieldInt("syphon", 400)
 							.fieldInt("ticks", 200)
 							.fieldInt("upgradeLevel", 1)
+							.addOutput(builder -> builder
+									.stackWithCount(EERegistrar.dustMap.get(material.getId()).get(), 2)
+							)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_alchemy/" + material.getId()));
 				}
 				if (processedType.contains("fragment") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 					// Fragment from Ore - ARC
-					new RecipeBuilder("output", EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), 3)
+					new RecipeBuilder("output")
 							.forceOutputArray(false)
 							.type("bloodmagic:arc")
 							.group("emendatusenigmatica:compat_recipe")
@@ -77,11 +80,14 @@ public class BloodMagicDataGen {
 							.fieldJson("tool", new RecipeBuilder.JsonItemBuilder(false)
 									.tag(EETags.MATERIAL_ARC.apply("explosive")))
 							.fieldBoolean("consumeingredient", false)
+							.addOutput(builder -> builder
+									.stackWithCount(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), 3)
+							)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "fragment/from_ore/" + material.getId()));
 				}
 				if (processedType.contains("gravel") && processedType.contains("fragment") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
 					// Gravel from Fragment - ARC
-					new RecipeBuilder("output", EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(),1)
+					new RecipeBuilder("output")
 							.forceOutputArray(false)
 							.type("bloodmagic:arc")
 							.group("emendatusenigmatica:compat_recipe")
@@ -93,6 +99,9 @@ public class BloodMagicDataGen {
 									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.05)
 									.objectWithChance("type", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.BLOODMAGIC, "corrupted_tinydust")), 1, 0.01))
 							.fieldBoolean("consumeingredient", false)
+							.addOutput(builder -> builder
+									.stackWithCount(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(),1)
+							)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gravel/from_fragment/" + material.getId()));
 				}
 			}
