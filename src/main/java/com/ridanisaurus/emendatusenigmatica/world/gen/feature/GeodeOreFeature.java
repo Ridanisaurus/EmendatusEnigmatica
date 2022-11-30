@@ -25,6 +25,7 @@ import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
@@ -64,12 +65,6 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-		int intRand = rand.nextInt(100);
-		double doubleRand = rand.nextDouble();
-		if (intRand >= 1) {
-			doubleRand += intRand - 1;
-		}
-
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 		int yPos = rand.nextInt(yTop);
@@ -79,7 +74,15 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		generateHollowSphere(reader, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
 		generateHollowSphere(reader, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
 		for (int i = model.getConfig().getRadius() -2; i >= 0; i--) {
-			generateHollowSphere(reader, rand, pos, config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1), config, fillBlocks, i, yPos);
 		}
 		return true;
 	}

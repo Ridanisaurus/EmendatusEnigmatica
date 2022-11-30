@@ -1,6 +1,6 @@
 {
   "id": "alloy_gal",
-  "source": "alloy",
+  "source": "modded",
   "localizedName": "Alloy Gal",
   "processedTypes": [
     "storage_block",
@@ -14,23 +14,11 @@
     "slurry"
   ],
   "properties": {
-  "harvestLevel": 1
+    "harvestLevel": 1,
+    "materialType": "alloy"
 },
   "colors": {
     "fluidColor": "000080",
     "materialColor": "4eb74b"
-  },
-  "compat": {
-    "thermal": {
-      "induction": {
-        "firstInput": "minecraft:iron_ingot",
-        "firstInputCount": 3,
-        "secondInput": "minecraft:apple",
-        "secondInputCount": 5,
-        "thirdInput": "minecraft:gold_nugget",
-        "thirdInputCount": 2,
-        "firstOutputCount": 10
-      }
-    }
   }
 }

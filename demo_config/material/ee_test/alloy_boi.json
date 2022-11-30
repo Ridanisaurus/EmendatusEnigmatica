@@ -1,6 +1,6 @@
 {
   "id": "alloy_boi",
-  "source": "alloy",
+  "source": "modded",
   "localizedName": "Alloy Boi",
   "processedTypes": [
     "ingot",
@@ -13,21 +13,11 @@
     "slurry"
   ],
   "properties": {
-  "harvestLevel": 1
-},
+    "harvestLevel": 1,
+    "materialType": "alloy"
+  },
   "colors": {
     "fluidColor": "ff6633",
     "materialColor": "ff6633"
-  },
-  "compat": {
-    "thermal": {
-      "induction": {
-        "firstInput": "minecraft:iron_ingot",
-        "firstInputCount": 3,
-        "secondInput": "minecraft:apple",
-        "secondInputCount": 5,
-        "firstOutputCount": 10
-      }
-    }
   }
 }

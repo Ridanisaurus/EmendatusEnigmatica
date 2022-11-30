@@ -51,19 +51,22 @@ public class ArsNouveauDataGen {
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
 			for (MaterialModel material : EELoader.MATERIALS) {
-				List<String> processedType = material.getProcessedTypes();
-				for (StrataModel stratum : EELoader.STRATA) {
-					if (processedType.contains("dust") && processedType.contains("ore")) {
-						// Dust from Ore - Crush Spell
-						new RecipeBuilder("output", EERegistrar.dustMap.get(material.getId()).get(), 2, 1)
-								.forceOutputArray(true)
-								.type("ars_nouveau:crush")
-								.group("emendatusenigmatica:compat_recipe")
-								.fieldJson("input", new RecipeBuilder.JsonItemBuilder(false)
-										.stack(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()))
-								.addOutput(builder -> builder
-										.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 1))
-								.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crush_spell/" + material.getId() + "_" + stratum.getId()));
+				if (material.getCompat().getANCompat()) {
+					List<String> processedType = material.getProcessedTypes();
+					for (StrataModel stratum : EELoader.STRATA) {
+						if (processedType.contains("dust") && processedType.contains("ore")) {
+							// Dust from Ore - Crush Spell
+							new RecipeBuilder("output")
+									.forceOutputArray(true)
+									.type("ars_nouveau:crush")
+									.group("emendatusenigmatica:compat_recipe")
+									.fieldJson("input", new RecipeBuilder.JsonItemBuilder(false)
+											.stack(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get()))
+									.addOutput(builder -> builder
+											.stackWithChance(EERegistrar.dustMap.get(material.getId()).get(), 2, 1)
+											.stackWithChance((ForgeRegistries.ITEMS.getValue(stratum.getFillerType()) == Items.AIR ? Items.COBBLESTONE : ForgeRegistries.ITEMS.getValue(stratum.getFillerType())), 1, 1))
+									.save(consumer, new ResourceLocation(Reference.MOD_ID, "dust/from_ore_crush_spell/" + material.getId() + "_" + stratum.getId()));
+						}
 					}
 				}
 			}

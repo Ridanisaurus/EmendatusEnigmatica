@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 
 import java.util.List;
+import java.util.Optional;
 
 public class SphereDepositConfigModel {
 	public static final Codec<SphereDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -17,7 +18,7 @@ public class SphereDepositConfigModel {
 	).apply(x, SphereDepositConfigModel::new));
 
 	private final List<CommonBlockDefinitionModel> blocks;
-	private List<String> fillerTypes;
+	private final List<String> fillerTypes;
 	private final int chance;
 	private final int radius;
 	private final int minYLevel;

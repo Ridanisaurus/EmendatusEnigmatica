@@ -43,9 +43,9 @@ public interface IFinishedGenericRecipe {
 
 	String getType();
 
-	@Nullable
-	JsonObject serializeAdvancement();
-
-	@Nullable
-	ResourceLocation getAdvancementId();
+//	@Nullable
+//	JsonObject serializeAdvancement();
+//
+//	@Nullable
+//	ResourceLocation getAdvancementId();
 }
