@@ -58,7 +58,7 @@ public class CreateDataGen {
 					for (CompatModel compat : EELoader.COMPAT) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
-								if (recipe.getMod().equals("create") && recipe.getMachine().equals("crushing")) {
+								if (recipe.getMod().equals("create") && recipe.getMachine().equals("crushing_wheels")) {
 									for (CompatModel.CompatValuesModel value : recipe.getValues()) {
 										if (value.getType().equals("ore") && processedType.contains("ore")) {
 											// Metal Ore to Crushing Ore
@@ -128,7 +128,7 @@ public class CreateDataGen {
 					for (CompatModel compat : EELoader.COMPAT) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
-								if (recipe.getMod().equals("create") && recipe.getMachine().equals("splashing")) {
+								if (recipe.getMod().equals("create") && recipe.getMachine().equals("fan_washing")) {
 									for (CompatModel.CompatValuesModel value : recipe.getValues()) {
 										// Crushed Ore to Nugget
 										if (value.getType().equals("crushed_ore") && processedType.contains("crushed_ore") && processedType.contains("nugget")) {

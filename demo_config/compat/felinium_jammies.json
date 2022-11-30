@@ -34,7 +34,7 @@
 	},
 	{
 	  "mod": "create",
-	  "machine": "crushing",
+	  "machine": "crushing_wheels",
 	  "values": [
 		{
 		  "type": "ore",
@@ -46,7 +46,7 @@
 	},
 	{
 	  "mod": "create",
-	  "machine": "splashing",
+	  "machine": "fan_washing",
 	  "values": [
 		{
 		  "type": "crushed_ore",

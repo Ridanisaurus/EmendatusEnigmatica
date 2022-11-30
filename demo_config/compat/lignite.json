@@ -28,7 +28,7 @@
 	},
 	{
 	  "mod": "create",
-	  "machine": "crushing",
+	  "machine": "crushing_wheels",
 	  "values": [
 		{
 		  "type": "ore",
