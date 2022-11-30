@@ -396,7 +396,7 @@ public class ThermalDataGen {
 											.tag(EETags.MATERIAL_INGOT.apply(material.getId()))
 									)
 									.addOutput(builder -> builder
-											.stack(EERegistrar.gearMap.get(material.getId()).get())
+											.stack(EERegistrar.plateMap.get(material.getId()).get())
 									)
 									.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_ingot_press/" + material.getId()));
 						}
@@ -409,7 +409,7 @@ public class ThermalDataGen {
 											.tag(EETags.MATERIAL_GEM.apply(material.getId()))
 									)
 									.addOutput(builder -> builder
-											.stack(EERegistrar.gearMap.get(material.getId()).get())
+											.stack(EERegistrar.plateMap.get(material.getId()).get())
 									)
 									.save(consumer, new ResourceLocation(Reference.MOD_ID, "plate/from_gem_press/" + material.getId()));
 						}
