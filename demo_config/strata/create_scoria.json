@@ -1,7 +1,0 @@
-{
-  "id": "create_scoria",
-  "baseTexture": "create:block/palettes/natural_scoria",
-  "suffix": "scoria",
-  "fillerType": "create:natural_scoria",
-  "localizedName": "Scoria"
-}

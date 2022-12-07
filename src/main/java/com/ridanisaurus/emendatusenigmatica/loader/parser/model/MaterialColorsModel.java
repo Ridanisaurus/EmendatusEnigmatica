@@ -26,65 +26,55 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.Optional;
 
 public class MaterialColorsModel {
 	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("highlightColor").forGetter(i -> i.highlightColor),
-			Codec.STRING.optionalFieldOf("baseColor").forGetter(i -> i.baseColor),
-			Codec.STRING.optionalFieldOf("shadeColor").forGetter(i -> i.shadeColor),
-			Codec.INT.optionalFieldOf("fluidColor").forGetter(i -> Optional.ofNullable(i.fluidColor)),
-			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> i.particlesColor)
-	).apply(x, (highlightColor, baseColor, shadeColor, fluidColor, particlesColor) -> new MaterialColorsModel(
-			highlightColor,
-			baseColor,
-			shadeColor,
-			fluidColor.orElse(000000),
-			particlesColor
+			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
+			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> Optional.of(i.particlesColor)),
+			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor))
+	).apply(x, (fluidColor, particlesColor, materialColor) -> new MaterialColorsModel(
+			fluidColor.orElse(null),
+			particlesColor.orElse(null),
+			materialColor.orElse(null)
 	)));
 
-	private final Optional<String> highlightColor;
-	private final Optional<String> baseColor;
-	private final Optional<String> shadeColor;
-	private final int fluidColor;
-	private final Optional<String> particlesColor;
+	private final String fluidColor;
+	private final String particlesColor;
+	private final String materialColor;
 
-	public MaterialColorsModel(Optional<String> highlightColor, Optional<String> baseColor, Optional<String> shadeColor, int fluidColor, Optional<String> particlesColor) {
-		this.highlightColor = highlightColor;
-		this.baseColor = baseColor;
-		this.shadeColor = shadeColor;
-		this.fluidColor = 0xFF + fluidColor;
+	public MaterialColorsModel(String fluidColor, String particlesColor, String materialColor) {
+		this.fluidColor = fluidColor;
 		this.particlesColor = particlesColor;
+		this.materialColor = materialColor;
 	}
 
 	public MaterialColorsModel() {
-		this.highlightColor = Optional.empty();
-		this.baseColor = Optional.empty();
-		this.shadeColor = Optional.empty();
-		this.fluidColor = 000000;
-		this.particlesColor = Optional.empty();
+		this.fluidColor = null;
+		this.particlesColor = null;
+		this.materialColor = null;
 	}
 
-	public int getHighlightColor() {
-		return highlightColor.map(x -> Integer.parseInt(x, 16)).orElse(-1);
+	public int getMaterialColor() {
+		return materialColor != null ? ColorHelper.HEXtoDEC(materialColor) : -1;
 	}
 
-	public int getBaseColor() {
-		return baseColor.map(x -> Integer.parseInt(x, 16)).orElse(-1);
+	public int getHighlightColor(int factor) {
+		return materialColor != null ? ColorHelper.HEXtoDEC(ColorHelper.hueShift(materialColor, factor, true)) : -1;
 	}
 
-	public int getShadeColor() {
-		return shadeColor.map(x -> Integer.parseInt(x, 16)).orElse(-1);
+	public int getShadowColor(int factor) {
+		return materialColor != null ? ColorHelper.HEXtoDEC(ColorHelper.hueShift(materialColor, factor, false)) : -1;
 	}
 
 	public int getFluidColor() {
-//		Long L = Long.decode(fluidColor);
-//		return L.intValue();
-		return fluidColor;
+		return fluidColor != null ? ColorHelper.HEXtoDEC(fluidColor) : -1;
 	}
 
 	public int getParticlesColor() {
-		return particlesColor.map(x -> Integer.parseInt(x, 16)).orElse(-1);
+		return particlesColor != null ? ColorHelper.HEXtoDEC(particlesColor) : -1;
 	}
 }

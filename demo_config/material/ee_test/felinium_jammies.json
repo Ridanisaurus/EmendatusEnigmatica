@@ -1,0 +1,42 @@
+{
+  "id": "felinium_jammies",
+  "source": "modded",
+  "localizedName": "Felinium Jammies",
+  "processedTypes": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "raw",
+    "dust",
+    "plate",
+    "gear",
+    "rod",
+    "fluid",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust",
+    "fragment",
+    "gravel",
+    "crushed_ore"
+  ],
+  "properties": {
+    "materialType": "metal",
+    "harvestLevel": 1,
+    "hasParticles": true,
+    "isBurnable": true,
+    "burnTime": 3600
+  },
+  "colors": {
+    "fluidColor": "c87456",
+    "particlesColor": "c87456",
+    "materialColor": "c87456"
+  },
+  "compat": {
+    "thermal": false,
+    "create": true,
+    "ars_nouveau": false
+  }
+}

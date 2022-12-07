@@ -1,0 +1,32 @@
+{
+  "type": "emendatusenigmatica:sphere_deposit",
+  "dimension": "minecraft:the_nether",
+  "biomes": [
+    "minecraft:crimson_forest"
+  ],
+  "registryName": "sphere_nether_uranium_ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "material": "redstone",
+        "weight": 10
+      },
+      {
+        "material": "diamond",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_basalt",
+      "minecraft_blackstone",
+      "minecraft_stone",
+      "minecraft_diorite",
+      "minecraft_granite"
+    ],
+    "chance": 10,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

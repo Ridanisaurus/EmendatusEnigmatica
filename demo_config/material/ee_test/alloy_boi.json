@@ -1,0 +1,23 @@
+{
+  "id": "alloy_boi",
+  "source": "modded",
+  "localizedName": "Alloy Boi",
+  "processedTypes": [
+    "ingot",
+    "nugget",
+    "dust",
+    "plate",
+    "gear",
+    "rod",
+    "fluid",
+    "slurry"
+  ],
+  "properties": {
+    "harvestLevel": 1,
+    "materialType": "alloy"
+  },
+  "colors": {
+    "fluidColor": "ff6633",
+    "materialColor": "ff6633"
+  }
+}

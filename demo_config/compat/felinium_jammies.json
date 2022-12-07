@@ -1,0 +1,60 @@
+{
+  "id": "felinium_jammies",
+  "recipes" : [
+	{
+	  "mod": "thermal",
+	  "machine": "pulverizer",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:coal_dust", "count": 1, "chance": 0.25 },
+			{ "item": "minecraft:gravel", "count": 1, "chance": 0.35 }
+		  ]
+		},
+		{
+		  "type": "raw",
+		  "output": [
+			{ "item": "emendatusenigmatica:diamond_dust", "count": 1, "chance": 0.35 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "thermal",
+	  "machine": "induction_smelter",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:coal_plate", "count": 1, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "crushing_wheels",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:crushed_felinium_jammies_ore", "count": 6, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "fan_washing",
+	  "values": [
+		{
+		  "type": "crushed_ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:felinium_jammies_nugget", "count": 3, "chance": 0.65 }
+		  ]
+		}
+	  ]
+	}
+  ]
+}

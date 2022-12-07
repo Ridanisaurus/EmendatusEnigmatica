@@ -1,0 +1,24 @@
+{
+  "id": "osmium",
+  "source": "modded",
+  "localizedName": "Osmium",
+  "processedTypes": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "raw",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "properties": {
+    "materialType": "metal",
+    "harvestLevel": 2,
+    "blockRecipeType": 4
+  },
+  "colors": {
+    "fluidColor": "ff0000"
+  }
+}

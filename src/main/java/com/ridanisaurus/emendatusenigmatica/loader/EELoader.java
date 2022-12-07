@@ -31,12 +31,12 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.FileIOHelper;
-import net.minecraft.resources.ResourceLocation;
+import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
@@ -46,8 +46,8 @@ import java.util.*;
 public class EELoader {
 	public static final List<MaterialModel> MATERIALS = new ArrayList<>();
 	public static final List<StrataModel> STRATA = new ArrayList<>();
+	public static final List<CompatModel> COMPAT = new ArrayList<>();
 	public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
-	public static Map<ResourceLocation, MaterialModel> materialsByName = new HashMap<>();
 
 	public static void load() {
 		// Set the path to the defined folder
@@ -68,8 +68,14 @@ public class EELoader {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
 		}
 
-		ArrayList<JsonObject> strataDefinition = FileIOHelper.loadFilesAsJsonObjects(strataDir);
-		ArrayList<JsonObject> materialDefinition = FileIOHelper.loadFilesAsJsonObjects(materialDir);
+		File compatDir = configDir.resolve("compat/").toFile();
+		if (!compatDir.exists() && compatDir.mkdirs()) {
+			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/compat/");
+		}
+
+		ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
+		ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
+		ArrayList<JsonObject> compatDefinition = FileHelper.loadFilesAsJsonObjects(compatDir);
 
 		ArrayList<StrataModel> strataModels = new ArrayList<>();
 		for (JsonObject jsonObject : strataDefinition) {
@@ -94,75 +100,84 @@ public class EELoader {
 			MATERIALS.add(materialModel);
 		}
 
+		ArrayList<CompatModel> compatModels = new ArrayList<>();
+		for (JsonObject jsonObject : compatDefinition) {
+			Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
+			if (!result.isPresent()) {
+				continue;
+			}
+			CompatModel compatModel = result.get().getFirst();
+			compatModels.add(compatModel);
+			COMPAT.add(compatModel);
+		}
+
 		for (StrataModel strata : strataModels) {
 			for (MaterialModel material : materialModels) {
-				if (material.getProcessedType().contains("ore")) {
+				if (material.getProcessedTypes().contains("ore")) {
 					EERegistrar.registerOre(strata, material);
 				}
 			}
 		}
 
 		for (MaterialModel material : materialModels) {
-			if (material.getProcessedType().contains("storage_block")) {
+			if (material.getProcessedTypes().contains("storage_block")) {
 				EERegistrar.registerStorageBlocks(material);
 			}
-			if (material.getProcessedType().contains("raw")) {
+			if (material.getProcessedTypes().contains("raw")) {
 				EERegistrar.registerRaws(material);
+				EERegistrar.registerRawBlocks(material);
 			}
-//			if (material.getProcessedType().contains("cluster")) {
-//				EERegistrar.registerClusters(material);
-//			}
-			if (material.getProcessedType().contains("ingot")) {
+			if (material.getProcessedTypes().contains("ingot")) {
 				EERegistrar.registerIngots(material);
 			}
-			if (material.getProcessedType().contains("nugget")) {
+			if (material.getProcessedTypes().contains("nugget")) {
 				EERegistrar.registerNuggets(material);
 			}
-			if (material.getProcessedType().contains("gem")) {
+			if (material.getProcessedTypes().contains("gem")) {
 				EERegistrar.registerGems(material);
 			}
-			if (material.getProcessedType().contains("dust")) {
+			if (material.getProcessedTypes().contains("dust")) {
 				EERegistrar.registerDusts(material);
 			}
-			if (material.getProcessedType().contains("plate")) {
+			if (material.getProcessedTypes().contains("plate")) {
 				EERegistrar.registerPlates(material);
 			}
-			if (material.getProcessedType().contains("gear")) {
+			if (material.getProcessedTypes().contains("gear")) {
 				EERegistrar.registerGears(material);
 			}
-			if (material.getProcessedType().contains("rod")) {
+			if (material.getProcessedTypes().contains("rod")) {
 				EERegistrar.registerRods(material);
 			}
-			if (material.getProcessedType().contains("fluid")) {
+			if (material.getProcessedTypes().contains("fluid")) {
 				EERegistrar.registerFluids(material);
 			}
 			if (EmendatusEnigmatica.MEKANISM_LOADED) {
-				if (material.getProcessedType().contains("slurry")) {
+				if (material.getProcessedTypes().contains("slurry")) {
 					EEMekanismRegistrar.registerSlurries(material);
 				}
-				if (material.getProcessedType().contains("crystal")) {
+				if (material.getProcessedTypes().contains("crystal")) {
 					EEMekanismRegistrar.registerCrystals(material);
 				}
-				if (material.getProcessedType().contains("shard")) {
+				if (material.getProcessedTypes().contains("shard")) {
 					EEMekanismRegistrar.registerShards(material);
 				}
-				if (material.getProcessedType().contains("clump")) {
+				if (material.getProcessedTypes().contains("clump")) {
 					EEMekanismRegistrar.registerClumps(material);
 				}
-				if (material.getProcessedType().contains("dirty_dust")) {
+				if (material.getProcessedTypes().contains("dirty_dust")) {
 					EEMekanismRegistrar.registerDirtyDusts(material);
 				}
 			}
 			if (EmendatusEnigmatica.CREATE_LOADED) {
-				if (material.getProcessedType().contains("crushed_ore")) {
+				if (material.getProcessedTypes().contains("crushed_ore")) {
 					EECreateRegistrar.registerCrushedOres(material);
 				}
 			}
 			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-				if (material.getProcessedType().contains("fragment")) {
+				if (material.getProcessedTypes().contains("fragment")) {
 					EEBloodMagicRegistrar.registerFragments(material);
 				}
-				if (material.getProcessedType().contains("gravel")) {
+				if (material.getProcessedTypes().contains("gravel")) {
 					EEBloodMagicRegistrar.registerGravels(material);
 				}
 			}

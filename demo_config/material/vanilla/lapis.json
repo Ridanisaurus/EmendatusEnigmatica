@@ -1,0 +1,22 @@
+{
+  "id": "lapis",
+  "source": "vanilla",
+  "localizedName": "Lapis Lazuli",
+  "disableDefaultOre": true,
+  "processedTypes": [
+    "ore",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "properties": {
+    "materialType": "gem",
+    "harvestLevel": 1
+  },
+  "oreDrop": {
+    "drop": "minecraft:lapis_lazuli",
+    "min": 4,
+    "max": 9
+  }
+}

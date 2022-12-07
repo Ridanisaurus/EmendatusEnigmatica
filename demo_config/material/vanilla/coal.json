@@ -1,0 +1,24 @@
+{
+  "id": "coal",
+  "source": "vanilla",
+  "localizedName": "Coal",
+  "disableDefaultOre": true,
+  "processedTypes": [
+    "ore",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "properties": {
+    "materialType": "gem",
+    "harvestLevel": 0,
+    "isBurnable": true,
+    "burnTime": 1600
+  },
+  "oreDrop": {
+    "drop": "minecraft:coal",
+    "min": 1,
+    "max": 1
+  }
+}

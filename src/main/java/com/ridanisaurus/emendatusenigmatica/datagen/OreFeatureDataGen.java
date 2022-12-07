@@ -24,70 +24,165 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EEFeatureProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.FeatureBuilder;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.world.gen.EEBiomeTags;
-import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
-// Credit: FTB-IC
-public class OreFeatureDataGen implements DataProvider {
-	private static final Logger LOGGER = LogManager.getLogger();
-	private final RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.BUILTIN.get());
-	private final Path modifierPath;
-	private final OreBiomeModifier oreBiomeModifier;
+public class OreFeatureDataGen extends EEFeatureProvider {
 
 	public OreFeatureDataGen(DataGenerator gen) {
-		Registry<PlacedFeature> placedFeatures = ops.registry(Registry.PLACED_FEATURE_REGISTRY).get();
-
-		DataGenerator.PathProvider pathProvider = gen.createPathProvider(DataGenerator.Target.DATA_PACK, ForgeRegistries.Keys.BIOME_MODIFIERS.location().toString().replace(":", "/"));
-		this.modifierPath = pathProvider.json(new ResourceLocation(Reference.MOD_ID, "ore_biome_modifier"));
-
-		this.oreBiomeModifier = new OreBiomeModifier(
-				new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).get(), EEBiomeTags.ORE_SPAWN_BLACKLIST),
-				GenerationStep.Decoration.UNDERGROUND_ORES,
-				HolderSet.direct(EEDeposits.PLACEMENTS.stream().map(e -> placedFeatures.getOrCreateHolderOrThrow(e.getKey())).toList())
-		);
+		super(gen);
 	}
 
+	private final List<String> DEFAULT_COAL_ORE = List.of("minecraft:ore_coal_upper", "minecraft:ore_coal_lower");
+	private final List<String> DEFAULT_COPPER_ORE = List.of("minecraft:ore_copper", "minecraft:ore_copper_large");
+	private final List<String> DEFAULT_IRON_ORE = List.of("minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small");
+	private final List<String> DEFAULT_GOLD_ORE = List.of("minecraft:ore_gold_extra", "minecraft:ore_gold", "minecraft:ore_gold_lower");
+	private final List<String> DEFAULT_NETHER_GOLD_ORE = List.of("minecraft:ore_gold_nether", "minecraft:ore_gold_deltas");
+	private final List<String> DEFAULT_REDSTONE_ORE = List.of("minecraft:ore_redstone", "minecraft:ore_redstone_lower");
+	private final List<String> DEFAULT_LAPIS_ORE = List.of("minecraft:ore_lapis", "minecraft:ore_lapis_buried");
+	private final List<String> DEFAULT_DIAMOND_ORE = List.of("minecraft:ore_diamond", "minecraft:ore_diamond_large", "minecraft:ore_diamond_buried");
+	private final List<String> DEFAULT_EMERALD_ORE = List.of("minecraft:ore_emerald");
+	private final List<String> DEFAULT_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
+
 	@Override
-	public void run(CachedOutput cache) throws IOException {
-		BiomeModifier.DIRECT_CODEC.encodeStart(ops, oreBiomeModifier)
-				.resultOrPartial(msg -> LOGGER.error("Failed to encode {}: {}", modifierPath.toAbsolutePath(), msg)) // Log error on encode failure.
-				.ifPresent(json -> // Output to file on encode success.
-				{
-					try
-					{
-						DataProvider.saveStable(cache, json, modifierPath);
-					}
-					catch (IOException e) // The throws can't deal with this exception, because we're inside the ifPresent.
-					{
-						LOGGER.error("Failed to save " + modifierPath.toAbsolutePath(), e);
-					}
-				});
+	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
+		for (MaterialModel material : EELoader.MATERIALS) {
+			if (material.isVanilla() && material.getId().contains("coal") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_COAL_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_coal_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("copper") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_COPPER_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_copper_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("iron") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_IRON_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_iron_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("gold") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_GOLD_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_gold_ore"));
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_nether")
+						.features(DEFAULT_NETHER_GOLD_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_nether_gold_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("redstone") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_REDSTONE_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_redstone_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("lapis") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_LAPIS_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_lapis_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("diamond") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_DIAMOND_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_diamond_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("emerald") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_overworld")
+						.features(DEFAULT_EMERALD_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_emerald_ore"));
+			}
+			if (material.isVanilla() && material.getId().contains("nether_quartz") && material.getDisableDefaultOre()) {
+				new FeatureBuilder("forge:remove_features", "underground_ores")
+						.biome("#minecraft:is_nether")
+						.features(DEFAULT_QUARTZ_ORE)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_nether_quartz_ore"));
+			}
+		}
+
+		for (IDepositProcessor processor : EEDeposits.ACTIVE_PROCESSORS) {
+			CommonDepositModelBase model = processor.getCommonModel();
+			List<String> biomes = new ArrayList<>();
+			List<String> features = new ArrayList<>();
+			if(model.getDimension().equals("minecraft:overworld")) {
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
+				} else {
+					biomes.add("#minecraft:is_overworld");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new FeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			if(model.getDimension().equals("minecraft:the_nether")) {
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
+				} else {
+					biomes.add("#minecraft:is_nether");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new FeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			if(model.getDimension().equals("minecraft:the_end")) {
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
+				} else {
+					biomes.add("#minecraft:is_end");
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new FeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+			if(Stream.of("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end").noneMatch(s -> model.getDimension().equals(s))) {
+				if(!model.getBiomes().isEmpty()) {
+					biomes.addAll(model.getBiomes());
+				} else {
+					biomes.add("#" + getModdedDim(model.getDimension()) + ":is_" + getModdedDim(model.getDimension()));
+				}
+				features.add(Reference.MOD_ID + ":" + model.getName());
+				new FeatureBuilder("forge:add_features", "underground_ores")
+						.biomes(biomes)
+						.features(features)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, model.getName() + "_ore_features"));
+			}
+		}
 	}
 
 	@Override
 	public String getName() {
-		return "Emendatus Enigmatica Biome Modifier";
+		return "Emendatus Enigmatica Features";
+	}
+
+	private String getModdedDim(String dim) {
+		return StringUtils.substringBefore(dim, ":");
 	}
 }

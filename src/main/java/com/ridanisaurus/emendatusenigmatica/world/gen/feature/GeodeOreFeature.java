@@ -13,16 +13,12 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFea
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.GeodeConfiguration;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
@@ -69,18 +65,6 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-		if (!model.getDimensions().contains(WorldGenHelper.getDimensionAsString(reader.getLevel()))) {
-			return false;
-		}
-
-		int intRand = rand.nextInt(100);
-		double doubleRand = rand.nextDouble();
-		if (intRand >= 1) {
-			doubleRand += intRand - 1;
-		}
-		if (doubleRand > model.getConfig().getChance() / model.getConfig().getChanceChunkSkip()) {
-			return false;
-		}
 		int yTop = model.getConfig().getMaxYLevel();
 		int yBottom = model.getConfig().getMinYLevel();
 		int yPos = rand.nextInt(yTop);
@@ -90,7 +74,15 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		generateHollowSphere(reader, rand, pos, config, innerShellBlocks, model.getConfig().getRadius(), yPos);
 		generateHollowSphere(reader, rand, pos, config, innerBlocks, model.getConfig().getRadius() - 1, yPos);
 		for (int i = model.getConfig().getRadius() -2; i >= 0; i--) {
-			generateHollowSphere(reader, rand, pos, config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ()), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1), config, fillBlocks, i, yPos);
+			generateHollowSphere(reader, rand, new BlockPos(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1), config, fillBlocks, i, yPos);
 		}
 		return true;
 	}

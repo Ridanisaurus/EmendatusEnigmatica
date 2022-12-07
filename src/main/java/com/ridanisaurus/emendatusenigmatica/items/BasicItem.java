@@ -25,20 +25,26 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemStack;
 
 public class BasicItem extends Item {
 
-  public final int highlightColor;
-  public final int baseColor;
-  public final int shadeColor;
+  public final int highlight2;
+  public final int highlight1;
+  public final int base;
+  public final int shadow1;
+  public final int shadow2;
 
-  public BasicItem(int highlightColor, int baseColor, int shadeColor) {
+  public BasicItem(int highlight2, int highlight1, int base, int shadow1, int shadow2) {
     super(new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlightColor = highlightColor;
-    this.baseColor = baseColor;
-    this.shadeColor = shadeColor;
+    this.highlight2 = highlight2;
+    this.highlight1 = highlight1;
+    this.base = base;
+    this.shadow1 = shadow1;
+    this.shadow2 = shadow2;
   }
 }

@@ -1,0 +1,42 @@
+{
+  "id": "lignite",
+  "recipes" : [
+	{
+	  "mod": "thermal",
+	  "machine": "pulverizer",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:iron_dust", "count": 1, "chance": 0.25 },
+			{ "item": "minecraft:cobblestone", "count": 1, "chance": 0.35 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "thermal",
+	  "machine": "induction_smelter",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:lignite_gem", "count": 5, "chance": 0.25 }
+		  ]
+		}
+	  ]
+	},
+	{
+	  "mod": "create",
+	  "machine": "crushing_wheels",
+	  "values": [
+		{
+		  "type": "ore",
+		  "output": [
+			{ "item": "emendatusenigmatica:emerald_gear", "count": 2, "chance": 0.15 }
+		  ]
+		}
+	  ]
+	}
+  ]
+}

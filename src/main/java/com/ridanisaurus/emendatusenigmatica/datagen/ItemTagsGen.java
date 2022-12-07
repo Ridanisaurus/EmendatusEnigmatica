@@ -24,147 +24,140 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
-import net.minecraft.data.tags.TagsProvider.TagAppender;
+public class ItemTagsGen extends EETagProvider {
 
-public class ItemTagsGen extends ItemTagsProvider {
-
-	public ItemTagsGen(DataGenerator gen, BlockTagsProvider blockTagProvider, ExistingFileHelper existingFileHelper) {
-		super(gen, blockTagProvider, Reference.MOD_ID, existingFileHelper);
+	public ItemTagsGen(DataGenerator gen) {
+		super(gen);
 	}
 
+	private final List<String> forgeBlocks = Lists.newArrayList();
+	private final List<String> forgeIngots = Lists.newArrayList();
+	private final List<String> forgeGems = Lists.newArrayList();
+	private final List<String> forgeNuggets = Lists.newArrayList();
+	private final List<String> forgeDusts = Lists.newArrayList();
+	private final List<String> forgePlates = Lists.newArrayList();
+	private final List<String> forgeGears = Lists.newArrayList();
+	private final List<String> forgeRods = Lists.newArrayList();
+	private final List<String> forgeRaw = Lists.newArrayList();
+	private final List<String> forgeBuckets = Lists.newArrayList();
+	private final List<String> forgeOres = Lists.newArrayList();
+	private final Map<String, List<String>> oresPerMaterial = new HashMap<>();
+	private final Map<String, List<String>> oresInGround = new HashMap<>();
+
+	private final List<String> beaconIngots = Lists.newArrayList();
+
 	@Override
-	protected void addTags() {
-		// Forge Tags
-		TagAppender<Item> forgeBlocks = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks")));
-		TagAppender<Item> forgeIngots = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ingots")));
-		TagAppender<Item> forgeGems = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "gems")));
-		TagAppender<Item> forgeNuggets = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "nuggets")));
-		TagAppender<Item> forgeDusts = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "dusts")));
-		TagAppender<Item> forgePlates = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "plates")));
-		TagAppender<Item> forgeGears = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "gears")));
-		TagAppender<Item> forgeRods = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "rods")));
-		TagAppender<Item> forgeRaw = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "raws")));
-//		Builder<Item> forgeClusters = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters").toString()));
-		TagAppender<Item> forgeOres = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores")));
-		TagAppender<Item> forgeBuckets = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "buckets")));
-
-		TagAppender<Item> beaconIngots = tag(ItemTags.create(new ResourceLocation(Reference.MINECRAFT, "beacon_payment_items")));
-		TagAppender<Item> piglinLoved = tag(ItemTags.create(new ResourceLocation(Reference.MINECRAFT, "piglin_loved")));
-
+	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
-
+			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
-				forgeBlocks.add(EERegistrar.storageBlockItemMap.get(material.getId()).get());
-				TagAppender<Item> storageBlockTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "storage_blocks/" + material.getId())));
-				storageBlockTag.add(EERegistrar.storageBlockItemMap.get(material.getId()).get());
+				ResourceLocation block = EERegistrar.storageBlockItemMap.get(material.getId()).getId();
+				if (!forgeBlocks.contains("#forge:storage_blocks/" + material.getId())) forgeBlocks.add("#forge:storage_blocks/" + material.getId());
+				new TagBuilder().tag(block.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks/" + material.getId()));
 			}
 			// Ingots
 			if (processedType.contains("ingot")) {
-				forgeIngots.add(EERegistrar.ingotMap.get(material.getId()).get());
-				beaconIngots.add(EERegistrar.ingotMap.get(material.getId()).get());
-				TagAppender<Item> ingotTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ingots/" + material.getId())));
-				ingotTag.add(EERegistrar.ingotMap.get(material.getId()).get());
+				ResourceLocation ingot = EERegistrar.ingotMap.get(material.getId()).getId();
+				if (!forgeIngots.contains("#forge:ingots/" + material.getId())) forgeIngots.add("#forge:ingots/" + material.getId());
+				beaconIngots.add(ingot.toString());
+				new TagBuilder().tag(ingot.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ingots/" + material.getId()));
 			}
 			// Gems
 			if (processedType.contains("gem")) {
-				forgeGems.add(EERegistrar.gemMap.get(material.getId()).get());
-				TagAppender<Item> gemTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "gems/" + material.getId())));
-				gemTag.add(EERegistrar.gemMap.get(material.getId()).get());
+				ResourceLocation gem = EERegistrar.gemMap.get(material.getId()).getId();
+				if (!forgeGems.contains("#forge:gems/" + material.getId())) forgeGems.add("#forge:gems/" + material.getId());
+				new TagBuilder().tag(gem.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gems/" + material.getId()));
 			}
 			// Nuggets
 			if (processedType.contains("nugget")) {
-				forgeNuggets.add(EERegistrar.nuggetMap.get(material.getId()).get());
-				TagAppender<Item> nuggetTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "nuggets/" + material.getId())));
-				nuggetTag.add(EERegistrar.nuggetMap.get(material.getId()).get());
+				ResourceLocation nugget = EERegistrar.nuggetMap.get(material.getId()).getId();
+				if (!forgeNuggets.contains("#forge:nuggets/" + material.getId())) forgeNuggets.add("#forge:nuggets/" + material.getId());
+				new TagBuilder().tag(nugget.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/nuggets/" + material.getId()));
 			}
 			// Dusts
 			if (processedType.contains("dust")) {
-				forgeDusts.add(EERegistrar.dustMap.get(material.getId()).get());
-				TagAppender<Item> dustTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "dusts/" + material.getId())));
-				dustTag.add(EERegistrar.dustMap.get(material.getId()).get());
-				if (material.getId().equals("nether_quartz")) {
-					tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "dusts/quartz")));
-				}
+				ResourceLocation dust = EERegistrar.dustMap.get(material.getId()).getId();
+				if (!forgeDusts.contains("#forge:dusts/" + material.getId())) forgeDusts.add("#forge:dusts/" + material.getId());
+				new TagBuilder().tag(dust.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/dusts/" + material.getId()));
 			}
 			// Plates
 			if (processedType.contains("plate")) {
-				forgePlates.add(EERegistrar.plateMap.get(material.getId()).get());
-				TagAppender<Item> plateTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "plates/" + material.getId())));
-				plateTag.add(EERegistrar.plateMap.get(material.getId()).get());
+				ResourceLocation plate = EERegistrar.plateMap.get(material.getId()).getId();
+				if (!forgePlates.contains("#forge:plates/" + material.getId())) forgePlates.add("#forge:plates/" + material.getId());
+				new TagBuilder().tag(plate.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/plates/" + material.getId()));
 			}
 			// Gears
 			if (processedType.contains("gear")) {
-				forgeGears.add(EERegistrar.gearMap.get(material.getId()).get());
-				TagAppender<Item> gearTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "gears/" + material.getId())));
-				gearTag.add(EERegistrar.gearMap.get(material.getId()).get());
+				ResourceLocation gear = EERegistrar.gearMap.get(material.getId()).getId();
+				if (!forgeGears.contains("#forge:gears/" + material.getId())) forgeGears.add("#forge:gears/" + material.getId());
+				new TagBuilder().tag(gear.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gears/" + material.getId()));
 			}
 			// Rods
 			if (processedType.contains("rod")) {
-				forgeRods.add(EERegistrar.rodMap.get(material.getId()).get());
-				TagAppender<Item> rodTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "rods/" + material.getId())));
-				rodTag.add(EERegistrar.rodMap.get(material.getId()).get());
+				ResourceLocation rod = EERegistrar.rodMap.get(material.getId()).getId();
+				if (!forgeRods.contains("#forge:rods/" + material.getId())) forgeRods.add("#forge:rods/" + material.getId());
+				new TagBuilder().tag(rod.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/rods/" + material.getId()));
 			}
-			// Chunks
+			// Raw Materials
 			if (processedType.contains("raw")) {
-				forgeRaw.add(EERegistrar.rawMap.get(material.getId()).get());
-				forgeOres.add(EERegistrar.rawMap.get(material.getId()).get());
-				TagAppender<Item> rawTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "raws/" + material.getId())));
-				TagAppender<Item> oreTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores/" + material.getId())));
-				rawTag.add(EERegistrar.rawMap.get(material.getId()).get());
-				oreTag.add(EERegistrar.rawMap.get(material.getId()).get());
+				ResourceLocation raw = EERegistrar.rawMap.get(material.getId()).getId();
+				ResourceLocation rawBlock = EERegistrar.rawBlockItemMap.get(material.getId()).getId();
+				if (!forgeRaw.contains("#forge:raw_materials/" + material.getId())) forgeRaw.add("#forge:raw_materials/" + material.getId());
+				if (!forgeBlocks.contains("#forge:storage_blocks/raw_" + material.getId())) forgeBlocks.add("#forge:storage_blocks/raw_" + material.getId());
+				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials/" + material.getId()));
+				new TagBuilder().tag(rawBlock.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks/raw_" + material.getId()));
 			}
-//			// Clusters
-//			if (processedType.contains("cluster")) {
-//				forgeClusters.add(EERegistrar.clusterMap.get(material.getId()).get());
-//				Builder<Item> clusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "clusters/" + material.getId()).toString()));
-//				Builder<Item> oreClusterTag = tag(ItemTags.bind(new ResourceLocation(Reference.FORGE, "ores_cluster/" + material.getId()).toString()));
-//				clusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-//				oreClusterTag.add(EERegistrar.clusterMap.get(material.getId()).get());
-//			}
-			// Fluid Bucket
+			// Buckets
 			if (processedType.contains("fluid")) {
-				forgeBuckets.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
-				TagAppender<Item> bucketTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "buckets/" + material.getId())));
-				bucketTag.add(EERegistrar.fluidBucketMap.get(material.getId()).get());
+				ResourceLocation bucket = EERegistrar.fluidBucketMap.get(material.getId()).getId();
+				if (!forgeBuckets.contains("#forge:buckets/" + material.getId())) forgeBuckets.add("#forge:buckets/" + material.getId());
+				new TagBuilder().tag(bucket.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets/" + material.getId()));
 			}
-			// Piglin Loved
-			if (material.getId().equals("gold")) {
-				piglinLoved.add(EERegistrar.dustMap.get(material.getId()).get());
-				piglinLoved.add(EERegistrar.plateMap.get(material.getId()).get());
-				piglinLoved.add(EERegistrar.gearMap.get(material.getId()).get());
-				piglinLoved.add(EERegistrar.rodMap.get(material.getId()).get());
-				piglinLoved.add(EERegistrar.rawMap.get(material.getId()).get());
-			}
-		}
-
-		for (MaterialModel material : EELoader.MATERIALS) {
-			for (StrataModel stratum : EELoader.STRATA) {
-				List<String> processedType = material.getProcessedType();
-				// Ores
-				if (processedType.contains("ore")) {
-					forgeOres.add(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get());
-					TagAppender<Item> oreTag = tag(ItemTags.create(new ResourceLocation(Reference.FORGE, "ores/" + material.getId())));
-					oreTag.add(EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).get());
+			// Ores
+			if (processedType.contains("ore")) {
+				for (StrataModel stratum : EELoader.STRATA) {
+					ResourceLocation ore = EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).getId();
+					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
+					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
 				}
 			}
 		}
+		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores/" + material)));
+		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores_in_ground/" + strataPrefix)));
+
+		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks"));
+		new TagBuilder().tags(forgeIngots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ingots"));
+		new TagBuilder().tags(forgeGems).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gems"));
+		new TagBuilder().tags(forgeNuggets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/nuggets"));
+		new TagBuilder().tags(forgeDusts).save(consumer, new ResourceLocation(Reference.FORGE, "/items/dusts"));
+		new TagBuilder().tags(forgePlates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/plates"));
+		new TagBuilder().tags(forgeGears).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gears"));
+		new TagBuilder().tags(forgeRods).save(consumer, new ResourceLocation(Reference.FORGE, "/items/rods"));
+		new TagBuilder().tags(forgeRaw).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials"));
+		new TagBuilder().tags(forgeBuckets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets"));
+		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores"));
+
+		new TagBuilder().tags(beaconIngots).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/items/beacon_payment_items"));
 	}
 
 	@Override

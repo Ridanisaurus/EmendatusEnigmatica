@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:the_nether",
+  "biomes": [
+  ],
+  "registryName": "vanilla_nether_lignite_ore_deposit",
+  "config": {
+    "material": "lignite",
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_basalt",
+      "minecraft_blackstone"
+    ],
+    "chance": 10,
+    "size": 16,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

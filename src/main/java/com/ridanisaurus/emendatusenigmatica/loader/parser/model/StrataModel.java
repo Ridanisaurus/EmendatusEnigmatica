@@ -40,8 +40,16 @@ public class StrataModel {
 			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool)),
 			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
 			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance))
-	).apply(x, (s, s2, s3, s4, s5, s6, f, f2) -> new StrataModel(s, new ResourceLocation(s2), s3, new ResourceLocation(s4), s5, s6.orElse(""), f.orElse(3f),
-			f2.orElse(3f))));
+	).apply(x, (s, s2, s3, s4, s5, s6, f, f2) -> new StrataModel(
+			s,
+			new ResourceLocation(s2),
+			s3,
+			new ResourceLocation(s4),
+			s5,
+			s6.orElse("pickaxe"),
+			f.orElse(3f),
+			f2.orElse(3f)
+	)));
 
 	private final String id;
 	private final ResourceLocation baseTexture;
@@ -83,19 +91,9 @@ public class StrataModel {
 		return localizedName;
 	}
 
-	// TODO [RID] Switch to Tags
-//	public ToolType getHarvestTool() {
-//		switch (harvestTool) {
-//			case "shovel":
-//				return ToolType.SHOVEL;
-//			case "axe":
-//				return ToolType.AXE;
-//			case "hoe":
-//				return ToolType.HOE;
-//			default:
-//				return ToolType.PICKAXE;
-//		}
-//	}
+	public String getHarvestTool() {
+		return harvestTool;
+	}
 
 	public float getHardness() {
 		return hardness;

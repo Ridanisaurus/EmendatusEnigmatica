@@ -31,22 +31,22 @@ import net.minecraft.world.level.material.Material;
 
 public class MetalOreBlock extends Block implements IColorable {
 	private final String localisedName;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
+	public final int shadow2;
 
-	public final int highlightColor;
-	public final int baseColor;
-	public final int shadeColor;
-
-	// TODO [RID] Move harvestLevel and tool to Tags
-	public MetalOreBlock(Material material, float hardness, float resistance, String localisedName, int highlightColor, int baseColor, int shadeColor) {
+	public MetalOreBlock(Material material, float hardness, float resistance, String localisedName, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
 		super(Properties.of(material)
 				.strength(hardness, resistance)
-//				.harvestLevel(harvestLevel)
-//				.harvestTool(tool)
 				.requiresCorrectToolForDrops());
 		this.localisedName = localisedName;
-		this.highlightColor = highlightColor;
-		this.baseColor = baseColor;
-		this.shadeColor = shadeColor;
+		this.highlight2 = highlight2;
+		this.highlight1 = highlight1;
+		this.base = base;
+		this.shadow1 = shadow1;
+		this.shadow2 = shadow2;
 	}
 
 	@Override
@@ -55,17 +55,27 @@ public class MetalOreBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public int getHighlightColor() {
-		return highlightColor;
+	public int getHighlight2() {
+		return highlight2;
 	}
 
 	@Override
-	public int getBaseColor() {
-		return baseColor;
+	public int getHighlight1() {
+		return highlight1;
 	}
 
 	@Override
-	public int getShadeColor() {
-		return shadeColor;
+	public int getBase() {
+		return base;
+	}
+
+	@Override
+	public int getShadow1() {
+		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return shadow2;
 	}
 }

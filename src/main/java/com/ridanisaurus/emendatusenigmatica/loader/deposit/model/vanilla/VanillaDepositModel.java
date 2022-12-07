@@ -9,21 +9,23 @@ import java.util.List;
 public class VanillaDepositModel extends CommonDepositModelBase {
 	public static final Codec<VanillaDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("type").forGetter(it -> it.type),
-			Codec.list(Codec.STRING).fieldOf("dimensions").forGetter(it -> it.dimensions),
-			Codec.list(Codec.STRING).fieldOf("blacklistBiomes").forGetter(it -> it.blacklistBiomes),
-			Codec.list(Codec.STRING).fieldOf("whitelistBiomes").forGetter(it -> it.whitelistBiomes),
+			Codec.STRING.fieldOf("dimension").forGetter(it -> it.dimension),
+			Codec.list(Codec.STRING).fieldOf("biomes").orElse(List.of()).forGetter(it -> it.biomes),
 			Codec.STRING.fieldOf("registryName").forGetter(it -> it.name),
 			VanillaDepositConfigModel.CODEC.fieldOf("config").forGetter(it -> it.config)
 	).apply(x, VanillaDepositModel::new));
 
 	private VanillaDepositConfigModel config;
 
-	public VanillaDepositModel(String type, List<String> dimensions,List<String> blacklistBiomes, List<String> whitelistBiomes, String name, VanillaDepositConfigModel config) {
-		super(type, dimensions, blacklistBiomes, whitelistBiomes, name);
+	public VanillaDepositModel(String type, String dimension, List<String> biomes, String name, VanillaDepositConfigModel config) {
+		super(type, dimension, biomes, name);
 		this.config = config;
 	}
 
 	public VanillaDepositConfigModel getConfig() {
 		return config;
+	}
+	public String getType() {
+		return super.getType();
 	}
 }

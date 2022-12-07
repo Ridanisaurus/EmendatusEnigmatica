@@ -36,6 +36,8 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 
+import java.util.List;
+
 public class LangGen extends LanguageProvider {
 	public LangGen(DataGenerator gen) {
 		super(gen, Reference.MOD_ID, "en_us");
@@ -46,183 +48,173 @@ public class LangGen extends LanguageProvider {
 		// Item Group
 		add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
 
-		// JEI Compat
-		add("tooltip.emendatusenigmatica.ores.1", "Harvesting ores with Silktouch Enchanted tool will always drop a Chunk. The Vanilla Minecraft logic will apply when using non-Enchanted, or Fortune Enchanted tools.");
-		add("tooltip.emendatusenigmatica.ores.2", "These Chunks act as an Ore Block in an Item form, and it can be smelted, doubled, tripled ..etc.");
-		add("tooltip.emendatusenigmatica.ores.3", "Furthermore, these Chunks can be turned into their Stone Block Ore variant by using the Stonecutter or in a Crafting Grid.");
-
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
+		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
 		for (MaterialModel material : EELoader.MATERIALS) {
-			for (String processedType : material.getProcessedType()) {
+			List<String> processedType = material.getProcessedTypes();
+			// Storage Blocks
+			if (processedType.contains("storage_block")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("Block of ");
+				sb.append(material.getLocalizedName());
+				add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Storage Blocks
-				if (processedType.equals("storage_block")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Block of ");
-					sb.append(material.getLocalizedName());
-					add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
-				}
+			// Ingots
+			if (processedType.contains("ingot")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Ingot");
+				add(EERegistrar.ingotMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Ingots
-				if (processedType.equals("ingot")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Ingot");
-					add(EERegistrar.ingotMap.get(material.getId()).get(), sb.toString());
-				}
+			// Gems
+			if (processedType.contains("gem")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Gem");
+				add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Gems
-				if (processedType.equals("gem")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Gem");
-					add(EERegistrar.gemMap.get(material.getId()).get(), sb.toString());
-				}
+			// Nuggets
+			if (processedType.contains("nugget")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Nugget");
+				add(EERegistrar.nuggetMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Nuggets
-				if (processedType.equals("nugget")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Nugget");
-					add(EERegistrar.nuggetMap.get(material.getId()).get(), sb.toString());
-				}
+			// Dusts
+			if (processedType.contains("dust")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Dust");
+				add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Dusts
-				if (processedType.equals("dust")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Dust");
-					add(EERegistrar.dustMap.get(material.getId()).get(), sb.toString());
-				}
+			// Plates
+			if (processedType.contains("plate")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Plate");
+				add(EERegistrar.plateMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Plates
-				if (processedType.equals("plate")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Plate");
-					add(EERegistrar.plateMap.get(material.getId()).get(), sb.toString());
-				}
+			// Gears
+			if (processedType.contains("gear")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Gear");
+				add(EERegistrar.gearMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Gears
-				if (processedType.equals("gear")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Gear");
-					add(EERegistrar.gearMap.get(material.getId()).get(), sb.toString());
-				}
+			// Rods
+			if (processedType.contains("rod")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Rod");
+				add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
+			}
 
-				// Rods
-				if (processedType.equals("rod")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Rod");
-					add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
-				}
+			// Raw
+			if (processedType.contains("raw")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append("Raw ");
+				sb.append(material.getLocalizedName());
+				add(EERegistrar.rawMap.get(material.getId()).get(), sb.toString());
 
-				// Raw Chunks
-				if (processedType.equals("raw")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Raw ");
-					sb.append(material.getLocalizedName());
-					add(EERegistrar.rawMap.get(material.getId()).get(), sb.toString());
-				}
+				StringBuilder sb2 = new StringBuilder();
+				sb2.append("Block of Raw ");
+				sb2.append(material.getLocalizedName());
+				add(EERegistrar.rawBlockMap.get(material.getId()).get(), sb2.toString());
+			}
 
-				// Fluids
-				// TODO [RID] Revisit the add function for Fluids
-				if (processedType.equals("fluid")) {
+			// Fluids
+			if (processedType.contains("fluid")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				add(EERegistrar.fluidTypeMap.get(material.getId()).get().getDescriptionId(), sb.toString());
+
+				StringBuilder sb2 = new StringBuilder();
+				sb2.append(material.getLocalizedName());
+				sb2.append(" Bucket");
+				add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+			}
+
+			if (EmendatusEnigmatica.MEKANISM_LOADED) {
+				if (processedType.contains("slurry")) {
 					StringBuilder sb = new StringBuilder();
-					sb.append("Molten ");
+					sb.append("Dirty ");
 					sb.append(material.getLocalizedName());
-					add("fluid.emendatusenigmatica.molten_" + material.getId(), sb.toString());
+					sb.append(" Slurry");
+					add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
 
 					StringBuilder sb2 = new StringBuilder();
-					sb2.append("Bucket of Molten ");
+					sb2.append("Clean ");
 					sb2.append(material.getLocalizedName());
-					add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
+					sb2.append(" Slurry");
+					add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
 				}
-
-				// TODO [RID] Look into moving this to the MekanismDataGen class
-				if (EmendatusEnigmatica.MEKANISM_LOADED) {
-					// Slurries
-					// TODO [RID] Re-add after integrating Mekanism
-//					if (processedType.contains("slurry")) {
-//						StringBuilder sb = new StringBuilder();
-//						sb.append("Dirty ");
-//						sb.append(material.getLocalizedName());
-//						sb.append(" Slurry");
-//						add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
-//
-//						StringBuilder sb2 = new StringBuilder();
-//						sb2.append("Clean ");
-//						sb2.append(material.getLocalizedName());
-//						sb2.append(" Slurry");
-//						add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
-//					}
-					// Crystals
-					if (processedType.contains("crystal")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Crystal");
-						add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
-					}
-					// Shards
-					if (processedType.contains("shard")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Shard");
-						add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
-					}
-					// Clumps
-					if (processedType.contains("clump")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Clump");
-						add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
-					}
-					// Dirty Dusts
-					if (processedType.contains("dirty_dust")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append("Dirty ");
-						sb.append(material.getLocalizedName());
-						sb.append(" Dust");
-						add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
-					}
+				// Crystals
+				if (processedType.contains("crystal")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Crystal");
+					add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
 				}
-				// TODO [RID] Look into moving this to the CreateDataGen class
-				if (EmendatusEnigmatica.CREATE_LOADED) {
-					// Crushed Ore
-					if (processedType.contains("crushed_ore")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append("Crushed ");
-						sb.append(material.getLocalizedName());
-						sb.append(" ore");
-						add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
-					}
+				// Shards
+				if (processedType.contains("shard")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Shard");
+					add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
 				}
-				// TODO [RID] Look into moving this to the BloodMagicDataGen class
-				if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-					// Fragment
-					if (processedType.contains("fragment")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Fragment");
-						add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
-					}
-					// Gravel
-					if (processedType.contains("gravel")) {
-						StringBuilder sb = new StringBuilder();
-						sb.append(material.getLocalizedName());
-						sb.append(" Gravel");
-						add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
-					}
+				// Clumps
+				if (processedType.contains("clump")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Clump");
+					add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
+				}
+				// Dirty Dusts
+				if (processedType.contains("dirty_dust")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("Dirty ");
+					sb.append(material.getLocalizedName());
+					sb.append(" Dust");
+					add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
 				}
 			}
-		}
+			if (EmendatusEnigmatica.CREATE_LOADED) {
+				// Crushed Ore
+				if (processedType.contains("crushed_ore")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append("Crushed ");
+					sb.append(material.getLocalizedName());
+					sb.append(" Ore");
+					add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
+				}
+			}
+			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+				// Fragment
+				if (processedType.contains("fragment")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Fragment");
+					add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
+				}
+				// Gravel
+				if (processedType.contains("gravel")) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Gravel");
+					add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
+				}
+			}
 
-		for (MaterialModel material : EELoader.MATERIALS) {
 			for (StrataModel stratum : EELoader.STRATA) {
-				if (material.getProcessedType().contains("ore")) {
+				if (processedType.contains("ore")) {
 
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalizedName());
@@ -239,13 +231,10 @@ public class LangGen extends LanguageProvider {
 		}
 	}
 
-	// TODO [RID] Re-add after integrating Mekanism
-//	private void add(Slurry slurry, String name) {
-//		add(slurry.getTranslationKey(), name);
-//	}
-
 	@Override
 	public String getName() {
 		return "Emendatus Enigmatica Languages: en_us";
 	}
+
+
 }

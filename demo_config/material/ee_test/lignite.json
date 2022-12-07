@@ -1,0 +1,42 @@
+{
+  "id": "lignite",
+  "source": "modded",
+  "localizedName": "Lignite Coal",
+  "processedTypes": [
+    "ore",
+    "dust",
+    "fluid",
+    "gem",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust",
+    "fragment",
+    "gravel",
+    "storage_block",
+    "raw"
+  ],
+  "properties": {
+    "materialType": "gem",
+    "harvestLevel": 0,
+    "isBurnable": true,
+    "burnTime": 1600,
+    "blockRecipeType": 4,
+    "hasParticles": true
+  },
+  "colors": {
+    "fluidColor": "1c5961",
+    "materialColor": "1c5961",
+    "particlesColor": "1c5961"
+  },
+  "oreDrop": {
+    "min": 2,
+    "max": 6
+  },
+  "compat": {
+    "thermal": true,
+    "create": false,
+    "occultism": false
+  }
+}

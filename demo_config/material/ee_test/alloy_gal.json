@@ -1,0 +1,24 @@
+{
+  "id": "alloy_gal",
+  "source": "modded",
+  "localizedName": "Alloy Gal",
+  "processedTypes": [
+    "storage_block",
+    "ingot",
+    "nugget",
+    "dust",
+    "plate",
+    "gear",
+    "rod",
+    "fluid",
+    "slurry"
+  ],
+  "properties": {
+    "harvestLevel": 1,
+    "materialType": "alloy"
+},
+  "colors": {
+    "fluidColor": "000080",
+    "materialColor": "4eb74b"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "emendatusenigmatica:sphere_deposit",
+  "dimension": "undergarden:undergarden",
+  "biomes": [
+    "undergarden:dense_forest"
+  ],
+  "registryName": "sphere_undergarden_uranium_ore_deposit",
+  "config": {
+    "blocks": [
+      {
+        "material": "lapis",
+        "weight": 10
+      },
+      {
+        "material": "emerald",
+        "weight": 3
+      }
+    ],
+    "fillerTypes": [
+      "undergarden_depthrock"
+    ],
+    "chance": 10,
+    "radius": 6,
+    "minYLevel": 32,
+    "maxYLevel": 128
+  }
+}

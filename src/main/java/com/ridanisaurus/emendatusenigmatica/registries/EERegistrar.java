@@ -27,38 +27,28 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.mojang.math.Vector3f;
-import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlock;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
-import com.ridanisaurus.emendatusenigmatica.blocks.GemOreBlock;
-import com.ridanisaurus.emendatusenigmatica.blocks.MetalOreBlock;
+import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.fluids.BasicFluidType;
 import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
+import com.ridanisaurus.emendatusenigmatica.items.FeliniumJaminiteIngot;
 import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.world.gen.OreBiomeModifier;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.SoundAction;
-import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -67,9 +57,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Supplier;
 
 public class EERegistrar {
@@ -77,17 +65,14 @@ public class EERegistrar {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
-	public static final DeferredRegister<ConfiguredFeature<?,?>> ORE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MOD_ID);
-	public static final DeferredRegister<PlacedFeature> PLACED_ORE_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, Reference.MOD_ID);
-	public static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Reference.MOD_ID);
-
-	public static final RegistryObject<Codec<OreBiomeModifier>> ORE_BIOME_MODIFIER = BIOME_SERIALIZERS.register("ore_biome_modifiers", () -> OreBiomeModifier.CODEC);
 
 	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> rawBlockItemMap = new HashMap<>();
 
 	// Items
 	public static Map<String, RegistryObject<Item>> rawMap = new HashMap<>();
@@ -116,18 +101,334 @@ public class EERegistrar {
 	public static RegistryObject<LiquidBlock> fluidBlock;
 	public static RegistryObject<Item> fluidBucket;
 
-	public static void registerFluids(MaterialModel material) {
-		String fluidName = "molten_" + material.getId();
+	public static void registerOre(StrataModel strata, MaterialModel material) {
+		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
+		RegistryObject<Block> oreBlock;
+		if (material.getProperties().getMaterialType().equals("gem")) {
+			if(material.getProperties().hasParticles()) {
+				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlockWithParticles(
+						Material.STONE,
+						strata.getHardness(),
+						strata.getResistance(),
+						material.getLocalizedName(),
+						material.getOreDrop().getMin(),
+						material.getOreDrop().getMax(),
+						material.getColors().getParticlesColor(),
+						material.getColors().getHighlightColor(3),
+						material.getColors().getHighlightColor(1),
+						material.getColors().getMaterialColor(),
+						material.getColors().getShadowColor(1),
+						material.getColors().getShadowColor(2)
+				));
+			} else {
+				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
+						Material.STONE,
+						strata.getHardness(),
+						strata.getResistance(),
+						material.getLocalizedName(),
+						material.getOreDrop().getMin(),
+						material.getOreDrop().getMax(),
+						material.getColors().getHighlightColor(3),
+						material.getColors().getHighlightColor(1),
+						material.getColors().getMaterialColor(),
+						material.getColors().getShadowColor(1),
+						material.getColors().getShadowColor(2)
+				));
+			}
+		} else {
+			if (material.getProperties().hasParticles()) {
+				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlockWithParticles(
+						Material.STONE,
+						strata.getHardness(),
+						strata.getResistance(),
+						material.getLocalizedName(),
+						material.getColors().getParticlesColor(),
+						material.getColors().getHighlightColor(3),
+						material.getColors().getHighlightColor(1),
+						material.getColors().getMaterialColor(),
+						material.getColors().getShadowColor(1),
+						material.getColors().getShadowColor(2)
+				));
+			} else {
+				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
+						Material.STONE,
+						strata.getHardness(),
+						strata.getResistance(),
+						material.getLocalizedName(),
+						material.getColors().getHighlightColor(3),
+						material.getColors().getHighlightColor(1),
+						material.getColors().getMaterialColor(),
+						material.getColors().getShadowColor(1),
+						material.getColors().getShadowColor(2)
+				));
+			}
+		}
 
-		fluidType = FLUID_TYPES.register(fluidName,
-				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL, material.getColors().getFluidColor(), fluidTypeProperties(material)));
-		fluidSource = FLUIDS.register(fluidName,
-				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
-		fluidFlowing = FLUIDS.register(fluidName + "_flowing",
-				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()), fluidSourceMap.get(material.getId()), fluidFlowingMap.get(material.getId()), fluidBlockMap.get(material.getId()), fluidBucketMap.get(material.getId()))));
-		fluidBlock = BLOCKS.register(fluidName,
-				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.copy(Blocks.LAVA)));
-		fluidBucket = ITEMS.register(fluidName + "_bucket",
+		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
+
+		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
+	}
+
+	public static void registerStorageBlocks(MaterialModel material) {
+		String storageBlockName = material.getId() + "_block";
+
+		RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
+				Material.STONE,
+				3f,
+				3f,
+				material.getLocalizedName(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		));
+
+		storageBlockMap.put(material.getId(), storageBlock);
+
+		if (material.getProperties().isBurnable()) {
+			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
+					storageBlock.get(),
+					material.getProperties().getBurnTime() * 10)));
+		} else {
+			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
+					storageBlock.get(), 0)));
+		}
+	}
+
+	public static void registerRaws(MaterialModel material) {
+		String itemName = "raw_" + material.getId();
+
+		if (material.getProperties().isBurnable()) {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerRawBlocks(MaterialModel material) {
+		String rawBlockName = "raw_" + material.getId() + "_block";
+
+		RegistryObject<Block> rawBlock = BLOCKS.register(rawBlockName, () -> new BasicStorageBlock(
+				Material.STONE,
+				3f,
+				3f,
+				material.getLocalizedName(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		));
+
+		rawBlockMap.put(material.getId(), rawBlock);
+
+		if (material.getProperties().isBurnable()) {
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
+					rawBlock.get(),
+					material.getProperties().getBurnTime() * 10)));
+		} else {
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
+					rawBlock.get(), 0)));
+		}
+	}
+
+	public static void registerIngots(MaterialModel material) {
+		String itemName = material.getId() + "_ingot";
+
+		if (material.getProperties().isBurnable()) {
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerNuggets(MaterialModel material) {
+		String itemName = material.getId() + "_nugget";
+
+		if (material.getProperties().isBurnable()) {
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime() / 10,
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerGems(MaterialModel material) {
+		String itemName = material.getId() + "_gem";
+
+		if (material.getProperties().isBurnable()) {
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerDusts(MaterialModel material) {
+		String itemName = material.getId() + "_dust";
+
+		if (material.getProperties().isBurnable()) {
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerPlates(MaterialModel material) {
+		String itemName = material.getId() + "_plate";
+
+		if (material.getProperties().isBurnable()) {
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerGears(MaterialModel material) {
+		String itemName = material.getId() + "_gear";
+
+		if (material.getProperties().isBurnable()) {
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime() * 4,
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	public static void registerRods(MaterialModel material) {
+		String itemName = material.getId() + "_rod";
+
+		if (material.getProperties().isBurnable()) {
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
+					material.getProperties().getBurnTime() * 2,
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		} else {
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			)));
+		}
+	}
+
+	// Fluids
+	public static void registerFluids(MaterialModel material) {
+		fluidType = FLUID_TYPES.register(material.getId(),
+				() -> new BasicFluidType(FLUID_STILL_RL, FLUID_FLOWING_RL, FLUID_OVERLAY_RL,
+						material.getColors().getFluidColor(),
+						new Vector3f(Vec3.fromRGB24(material.getColors().getFluidColor())),
+						fluidTypeProperties(material)));
+		fluidSource = FLUIDS.register(material.getId(),
+				() -> new ForgeFlowingFluid.Source(makeProperties(fluidTypeMap.get(material.getId()),
+						fluidSourceMap.get(material.getId()),
+						fluidFlowingMap.get(material.getId()),
+						fluidBlockMap.get(material.getId()),
+						fluidBucketMap.get(material.getId()))));
+		fluidFlowing = FLUIDS.register("flowing_" + material.getId(),
+				() -> new ForgeFlowingFluid.Flowing(makeProperties(fluidTypeMap.get(material.getId()),
+						fluidSourceMap.get(material.getId()),
+						fluidFlowingMap.get(material.getId()),
+						fluidBlockMap.get(material.getId()),
+						fluidBucketMap.get(material.getId()))));
+		fluidBlock = BLOCKS.register(material.getId(),
+				() -> new LiquidBlock(fluidSourceMap.get(material.getId()), BlockBehaviour.Properties.of(Material.LAVA).noCollission().strength(100.0F).noLootTable()));
+		fluidBucket = ITEMS.register(material.getId() + "_bucket",
 				() -> new BucketItem(fluidSourceMap.get(material.getId()), new Item.Properties().stacksTo(1).craftRemainder(Items.BUCKET).tab(EmendatusEnigmatica.TAB)));
 
 		fluidTypeMap.put(material.getId(), fluidType);
@@ -139,7 +440,7 @@ public class EERegistrar {
 
 	private static FluidType.Properties fluidTypeProperties(MaterialModel material) {
 		return FluidType.Properties.create()
-				.descriptionId("fluid.emendatusenigmatica.molten_" + material.getId())
+				.descriptionId("fluid.emendatusenigmatica." + material.getId())
 				.lightLevel(15)
 				.density(3000)
 				.viscosity(6000)
@@ -161,157 +462,16 @@ public class EERegistrar {
 				.bucket(bucket);
 	}
 
-	// TODO [RID] Switch Harvest level and Tool to Tags
-	public static void registerOre(StrataModel strata, MaterialModel material) {
-		String oreName = material.getId() + (!strata.getId().equals("minecraft_stone") ? "_" + strata.getSuffix() : "") + "_ore";
-		RegistryObject<Block> oreBlock;
-		if (material.getProperties().getOreBlockType().equals("gem")) {
-			oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
-					Material.STONE,
-					strata.getHardness(),
-					strata.getResistance(),
-//					material.getProperties().getHarvestLevel(),
-//					strata.getHarvestTool(),
-					material.getLocalizedName(),
-					material.getOreDrop().getVanillaMin(),
-					material.getOreDrop().getVanillaMax(),
-					material.getColors().getHighlightColor(),
-					material.getColors().getBaseColor(),
-					material.getColors().getShadeColor()));
-		} else {
-			oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
-					Material.STONE,
-					strata.getHardness(),
-					strata.getResistance(),
-//					material.getProperties().getHarvestLevel(),
-//					strata.getHarvestTool(),
-					material.getLocalizedName(),
-					material.getColors().getHighlightColor(),
-					material.getColors().getBaseColor(),
-					material.getColors().getShadeColor()));
-		}
-
-		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
-
-		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
-	}
-
-	public static void registerStorageBlocks(MaterialModel material) {
-		String storageBlockName = material.getId() + "_block";
-
-		RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
-				Material.STONE,
-				3f,
-				3f,
-//				material.getProperties().getHarvestLevel(),
-//				ToolType.PICKAXE,
-				material.getLocalizedName(),
-				material.getColors().getHighlightColor(),
-				material.getColors().getBaseColor(),
-				material.getColors().getShadeColor()));
-
-		storageBlockMap.put(material.getId(), storageBlock);
-
-		if (material.getProperties().isBurnable()) {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
-					storageBlock.get(),
-					material.getProperties().getBurnTime() * 10)));
-		} else {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
-					storageBlock.get(), 0)));
-		}
-	}
-
-	public static void registerRaws(MaterialModel material) {
-		String itemName = "raw_" + material.getId();
-
-		if (material.getProperties().isBurnable()) {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerIngots(MaterialModel material) {
-		String itemName = material.getId() + "_ingot";
-
-		if (material.getProperties().isBurnable()) {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerNuggets(MaterialModel material) {
-		String itemName = material.getId() + "_nugget";
-
-		if (material.getProperties().isBurnable()) {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime() / 10, material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerGems(MaterialModel material) {
-		String itemName = material.getId() + "_gem";
-
-		if (material.getProperties().isBurnable()) {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerDusts(MaterialModel material) {
-		String itemName = material.getId() + "_dust";
-
-		if (material.getProperties().isBurnable()) {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerPlates(MaterialModel material) {
-		String itemName = material.getId() + "_plate";
-
-		if (material.getProperties().isBurnable()) {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime(), material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerGears(MaterialModel material) {
-		String itemName = material.getId() + "_gear";
-
-		if (material.getProperties().isBurnable()) {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime() * 4, material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
-	public static void registerRods(MaterialModel material) {
-		String itemName = material.getId() + "_rod";
-
-		if (material.getProperties().isBurnable()) {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material.getProperties().getBurnTime() * 2, material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		} else {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material.getColors().getHighlightColor(), material.getColors().getBaseColor(), material.getColors().getShadeColor())));
-		}
-	}
-
 	// Hammer
 	public static final RegistryObject<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", ItemHammer::new);
+
+	// Felinium Jaminite
+	public static final RegistryObject<Item> FELINIUM_JAMINITE = ITEMS.register("felinium_jaminite_ingot", FeliniumJaminiteIngot::new);
 
 	public static void finalize(IEventBus eventBus) {
 		ITEMS.register(eventBus);
 		BLOCKS.register(eventBus);
 		FLUID_TYPES.register(eventBus);
 		FLUIDS.register(eventBus);
-		ORE_FEATURES.register(eventBus);
-		PLACED_ORE_FEATURES.register(eventBus);
-		BIOME_SERIALIZERS.register(eventBus);
 	}
 }

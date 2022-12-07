@@ -7,24 +7,33 @@ import net.minecraft.world.item.ItemStack;
 public class ItemColorHandler implements ItemColor {
     @Override
     public int getColor(ItemStack stack, int layer) {
+        Item item = stack.getItem();
         if (layer == 0) {
-            Item item = stack.getItem();
             if (item instanceof BasicItem){
-                return ((BasicItem) item).highlightColor;
+                return ((BasicItem) item).highlight2;
             }
         }
         if (layer == 1) {
-            Item item = stack.getItem();
             if (item instanceof BasicItem){
-                return ((BasicItem) item).baseColor;
+                return ((BasicItem) item).highlight1;
             }
         }
         if (layer == 2) {
-            Item item = stack.getItem();
             if (item instanceof BasicItem){
-                return ((BasicItem) item).shadeColor;
+                return ((BasicItem) item).base;
             }
         }
+        if (layer == 3) {
+            if (item instanceof BasicItem){
+                return ((BasicItem) item).shadow1;
+            }
+        }
+        if (layer == 4) {
+            if (item instanceof BasicItem){
+                return ((BasicItem) item).shadow2;
+            }
+        }
+
         return 0xFFFFFF;
     }
 }

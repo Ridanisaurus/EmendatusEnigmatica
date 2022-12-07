@@ -4,16 +4,14 @@ import java.util.List;
 
 public class CommonDepositModelBase {
 	protected String type;
-	protected List<String> dimensions;
-	protected List<String> blacklistBiomes;
-	protected List<String> whitelistBiomes;
+	protected String dimension;
+	protected List<String> biomes;
 	protected String name;
 
-	public CommonDepositModelBase(String type, List<String> dimensions, List<String> blacklistBiomes, List<String> whitelistBiomes, String name) {
+	public CommonDepositModelBase(String type, String dimension, List<String> biomes, String name) {
 		this.type = type;
-		this.dimensions = dimensions;
-		this.blacklistBiomes = blacklistBiomes;
-		this.whitelistBiomes = whitelistBiomes;
+		this.dimension = dimension;
+		this.biomes = biomes;
 		this.name = name;
 	}
 
@@ -21,16 +19,12 @@ public class CommonDepositModelBase {
 		return type;
 	}
 
-	public List<String> getDimensions() {
-		return dimensions;
+	public String getDimension() {
+		return dimension;
 	}
 
-	public List<String> getBlacklistBiomes() {
-		return blacklistBiomes;
-	}
-
-	public List<String> getWhitelistBiomes() {
-		return whitelistBiomes;
+	public List<String> getBiomes() {
+		return biomes;
 	}
 
 	public String getName() {

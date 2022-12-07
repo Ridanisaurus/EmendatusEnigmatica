@@ -5,7 +5,6 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         maven { url 'https://modmaven.dev/' }
-//        maven { url "https://repo.spongepowered.org/maven/" }
         maven {
             name "Sponge"
             url "https://repo.spongepowered.org/repository/maven-public/"
@@ -13,31 +12,25 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-//        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
 
 plugins {
     id "maven-publish"
-    id 'com.github.johnrengelman.shadow' version '4.0.4'
+    id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
-
 apply plugin: 'org.spongepowered.mixin'
 
-configurations {
-    shade
-    compile.extendsFrom shade
-}
+def ENV = System.getenv()
 
-version = '1.1'
-group = 'com.ridanisaurus.emendatusenigmatica' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'emendatusenigmatica'
+version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}"
+group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = 'EmendatusEnigmatica'
 
-// sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
@@ -47,10 +40,8 @@ minecraft {
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'official', version: mcp_version
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+//    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-
-    // accessTransformer = file('src/main/resources/META-INF/at.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -119,13 +110,6 @@ repositories {
         url = "https://www.cursemaven.com"
     }
     maven { url 'https://maven.blamejared.com' }
-    // IE
-//    maven {	name = "BlameJared"; url = "https://maven.blamejared.com/" }
-//    maven {
-//        // location of a maven mirror for JEI files, as a fallback
-//        name = "ModMaven"
-//        url = "https://modmaven.k-4u.nl"
-//    }
 }
 
 dependencies {
@@ -135,8 +119,7 @@ dependencies {
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    shade 'org.spongepowered:noise:2.0.0-SNAPSHOT'
-//    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
 
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
@@ -156,44 +139,38 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    //if (findProject(':workspace') == null) {
-    //compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    // at runtime, use the full JEI jar
-    //runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    //}
+//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-    //compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-    //runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// core
+    runtimeOnly fg.deobf("curse.maven:jei-238222:4066007")
 
-    runtimeOnly fg.deobf("curse.maven:worldstripper-250603:3921630")
-    //runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3319255")
-    //runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:3477594")
-    //runtimeOnly fg.deobf("curse.maven:create-328085:3536025")
-    //runtimeOnly fg.deobf("curse.maven:flywheel-486392:3535459")
-    //runtimeOnly fg.deobf("curse.maven:blood-magic-224791:3540807")
-//    runtimeOnly fg.deobf("curse.maven:patchouli-306770:3459118")
-    //runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:3556313")
-    //runtimeOnly fg.deobf("curse.maven:geckolib-388172:3548338")
-    //runtimeOnly fg.deobf("curse.maven:occultism-361026:3565389")
-    //runtimeOnly fg.deobf("curse.maven:curios-309927:3456953")
-    //runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3556990")
-    //runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3556953")
-    //runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3556973")
+    compileOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}:api"
+    runtimeOnly fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")// core
+
+    runtimeOnly fg.deobf("curse.maven:tool-kit-324888:3933949")
+    runtimeOnly fg.deobf("curse.maven:world-stripper-250603:3921630")
+    runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
+    runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
+    runtimeOnly fg.deobf("curse.maven:create-328085:4011414")
+//    runtimeOnly fg.deobf("curse.maven:blood-magic-224791:3540807")
+    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4031402")
+    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:4060866")
+    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4064451")
+    runtimeOnly fg.deobf("curse.maven:occultism-361026:4061171")
+    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4066224")
+    runtimeOnly fg.deobf("curse.maven:curios-309927:3924518")
+    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:4112130")
+    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:4112137")
+    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:4112121")
 //    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
-//    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:3197729")
+//    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:4027228")
+//    runtimeOnly fg.deobf("curse.maven:terrablender-563928:4013816")
 //    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
-//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3497359")
+    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 
-    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
-    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
-
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-}
-
-shadowJar{
-    configurations = [project.configurations.shade]
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -214,19 +191,70 @@ jar {
 
 // Example configuration to allow publishing using the maven-publish task
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfShadowJar')
+jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
+
+// Creates a source jar (a jar with sources)
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+artifacts {
+    archives sourcesJar
+}
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            // Lowercase the name so we're not looking funny on the maven
+            artifactId = archivesBaseName.toLowerCase()
+            artifact(jar) {
+                classifier null
+            }
+
+            // Include the sourcejar
+            artifact(sourcesJar) {
+                builtBy sourcesJar
+            }
         }
     }
+// Push to nanite https://vers.nanite.dev/ https://maven.nanite.dev/
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+        if (ENV.NANITE_DEPLOY) {
+            maven {
+                url "https://maven.nanite.dev/"
+                credentials {
+                    username = "rid"
+                    password = "${ENV.NANITE_DEPLOY}"
+                }
+            }
+        }
+    }
+}
+
+if (ENV.CURSE_DEPLOY) {
+    curseforge {
+        apiKey = ENV.CURSE_DEPLOY
+        project {
+            id = project.curseforge_id // the project id of the Curse project
+            releaseType = "release" // Make it an alpha on curseforge
+            addGameVersion "Forge"  // Made for forge
+            addGameVersion "Java 17" // Targeting java 17
+            addGameVersion "${mc_version}" // Minecraft :pog:
+            mainArtifact(jar) {
+                displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
+                relations {
+                    optionalDependency "mekanism" // Mek is an optional
+                    optionalDependency "create" // Create is an optional
+                    optionalDependency "occultism" // Occultism is an optional
+                    optionalDependency "ars-nouveau" // Ars Nouveau is an optional
+                    optionalDependency "thermal-expansion" // Thermal Expansion is an optional
+                }
+            }
+            changelog = file("changelog.md") // pull the contents of the changelog.md
+            changelogType = 'markdown' // It's a markdown file so handle it as one
         }
     }
 }
@@ -242,17 +270,5 @@ if (System.getProperty("idea.sync.active") == "true") {
         tasks.withType(JavaCompile).all {
             it.options.annotationProcessorPath = files()
         }
-    }
-}
-
-artifacts {
-    archives shadowJar
-    shadow shadowJar
-}
-
-reobf {
-    shadowJar {
-        dependsOn createMcpToSrg
-        mappings = createMcpToSrg.outputs.files.singleFile
     }
 }

@@ -24,39 +24,33 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.FluidTagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.List;
+import java.util.function.Consumer;
 
-import net.minecraft.data.tags.TagsProvider.TagAppender;
+public class FluidTagsGen extends EETagProvider {
 
-public class FluidTagsGen extends FluidTagsProvider {
-
-	public FluidTagsGen(DataGenerator gen, ExistingFileHelper existingFileHelper) {
-		super(gen, Reference.MOD_ID, existingFileHelper);
+	public FluidTagsGen(DataGenerator gen) {
+		super(gen);
 	}
 
 	@Override
-	protected void addTags() {
-
-		// Fluids
+	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : EELoader.MATERIALS) {
-			List<String> processedType = material.getProcessedType();
+			List<String> processedType = material.getProcessedTypes();
 			if (processedType.contains("fluid")) {
-				TagAppender<Fluid> moltenTag = tag(FluidTags.create(new ResourceLocation(Reference.FORGE, "molten/" + material.getId())));
-				TagAppender<Fluid> forgeFluids = tag(FluidTags.create(new ResourceLocation(Reference.FORGE, "molten_" + material.getId())));
-
-				moltenTag.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
-				forgeFluids.add(EERegistrar.fluidFlowingMap.get(material.getId()).get());
+				ResourceLocation fluidSource = EERegistrar.fluidSourceMap.get(material.getId()).getId();
+				ResourceLocation fluidFlowing = EERegistrar.fluidFlowingMap.get(material.getId()).getId();
+				new TagBuilder().tag(fluidSource.toString()).tag(fluidFlowing.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/fluids/" + material.getId()));
 			}
 		}
 	}

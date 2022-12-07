@@ -1,0 +1,31 @@
+{
+  "id": "zinc",
+  "source": "modded",
+  "localizedName": "Zinc",
+  "processedTypes": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "raw",
+    "dust",
+    "plate",
+    "gear",
+    "rod",
+    "fluid",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust",
+    "fragment",
+    "gravel"
+  ],
+  "properties": {
+    "materialType": "metal",
+    "harvestLevel": 3
+  },
+  "colors": {
+    "fluidColor": "d1d1a5"
+  }
+}

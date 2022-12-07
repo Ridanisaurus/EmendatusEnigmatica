@@ -1,0 +1,29 @@
+{
+  "id": "uranium",
+  "source": "modded",
+  "localizedName": "Uranium",
+  "processedTypes": [
+    "ore",
+    "storage_block",
+    "ingot",
+    "nugget",
+    "raw",
+    "dust",
+    "plate",
+    "gear",
+    "rod",
+    "fluid",
+    "fragment",
+    "gravel",
+    "slurry"
+  ],
+  "properties": {
+    "materialType": "metal",
+    "harvestLevel": 4,
+    "isBurnable": true,
+    "burnTime": 3200
+  },
+  "colors": {
+    "fluidColor": "00FF00"
+  }
+}

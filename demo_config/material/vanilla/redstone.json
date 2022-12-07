@@ -1,0 +1,25 @@
+{
+  "id": "redstone",
+  "source": "vanilla",
+  "localizedName": "Redstone",
+  "disableDefaultOre": true,
+  "processedTypes": [
+    "ore",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "properties": {
+    "materialType": "gem",
+    "harvestLevel": 2,
+    "hasParticles": true
+  },
+  "oreDrop": {
+    "drop": "minecraft:redstone",
+    "min": 4,
+    "max": 5
+  },
+  "colors": {
+    "particlesColor": "ff0000"
+  }
+}
