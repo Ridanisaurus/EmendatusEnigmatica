@@ -24,163 +24,139 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.AnnotationUtil;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
-import net.minecraftforge.fml.loading.FMLPaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EELoader {
-	public static final List<MaterialModel> MATERIALS = new ArrayList<>();
-	public static final List<StrataModel> STRATA = new ArrayList<>();
-	public static final List<CompatModel> COMPAT = new ArrayList<>();
-	public static final Map<String, Integer> STRATA_INDEX_BY_FILLER = new HashMap<>();
 
-	public static void load() {
-		// Set the path to the defined folder
-		Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
+    public static final Logger LOADER_LOGGER = LogManager.getLogger(EELoader.class);
+    private final EmendatusDataRegistry registry;
 
-		// Check if the folder exists
-		if (!configDir.toFile().exists() && configDir.toFile().mkdirs()) {
-			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/");
-		}
+    private List<IEmendatusPlugin> plugins;
 
-		File strataDir = configDir.resolve("strata/").toFile();
-		if (!strataDir.exists() && strataDir.mkdirs()) {
-			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/strata/");
-		}
+    public EELoader() {
+        this.registry = new EmendatusDataRegistry();
+        this.plugins = new ArrayList<>();
+        this.scanForClasses();
+    }
 
-		File materialDir = configDir.resolve("material/").toFile();
-		if (!materialDir.exists() && materialDir.mkdirs()) {
-			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
-		}
+    /**
+     * Scans for classes that have the annotation {@link EmendatusPluginReference} and implements the class {@link IEmendatusPlugin} and
+     * creates an instance for those classes.
+     *
+     * If the class is {@link DefaultConfigPlugin} goes at the start of the list as it has priority.
+     */
+    private void scanForClasses(){
+        for (Class annotatedClass : AnnotationUtil.getAnnotatedClasses(EmendatusPluginReference.class)) {
+            if (annotatedClass.isAssignableFrom(IEmendatusPlugin.class)) {
+                var annotation = (EmendatusPluginReference) annotatedClass.getAnnotation(EmendatusPluginReference.class);
+                LOADER_LOGGER.debug("Registered plugin " + annotation.modid() + ":" + annotation.name());
+                try {
+                    if (annotatedClass.equals(DefaultConfigPlugin.class)) {
+                        this.plugins.add(0, (IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
+                    } else {
+                        plugins.add((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
+                    }
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                         NoSuchMethodException e) {
+                    LOADER_LOGGER.error(e);
+                }
+            } else {
+                LOADER_LOGGER.error(annotatedClass.getName() + " has an annotation but it doesn't implement IEmendatusPlugin");
+            }
+        }
+    }
 
-		File compatDir = configDir.resolve("compat/").toFile();
-		if (!compatDir.exists() && compatDir.mkdirs()) {
-			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/compat/");
-		}
+    public void load() {
+		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.onLoad(this.registry));
 
-		ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
-		ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
-		ArrayList<JsonObject> compatDefinition = FileHelper.loadFilesAsJsonObjects(compatDir);
+		var materialModels = this.registry.getMaterials();
+        for (StrataModel strata : this.registry.getStrata()) {
+            for (MaterialModel material : materialModels) {
+                if (material.getProcessedTypes().contains("ore")) {
+                    EERegistrar.registerOre(strata, material);
+                }
+            }
+        }
 
-		ArrayList<StrataModel> strataModels = new ArrayList<>();
-		for (JsonObject jsonObject : strataDefinition) {
-			Optional<Pair<StrataModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(StrataModel.CODEC).apply(jsonObject).result();
-			if (!result.isPresent()) {
-				continue;
-			}
-			StrataModel strataModel = result.get().getFirst();
-			strataModels.add(strataModel);
-			STRATA.add(strataModel);
-			STRATA_INDEX_BY_FILLER.put(strataModel.getFillerType().toString(), STRATA.size() - 1);
-		}
-
-		ArrayList<MaterialModel> materialModels = new ArrayList<>();
-		for (JsonObject jsonObject : materialDefinition) {
-			Optional<Pair<MaterialModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(MaterialModel.CODEC).apply(jsonObject).result();
-			if (!result.isPresent()) {
-				continue;
-			}
-			MaterialModel materialModel = result.get().getFirst();
-			materialModels.add(materialModel);
-			MATERIALS.add(materialModel);
-		}
-
-		ArrayList<CompatModel> compatModels = new ArrayList<>();
-		for (JsonObject jsonObject : compatDefinition) {
-			Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
-			if (!result.isPresent()) {
-				continue;
-			}
-			CompatModel compatModel = result.get().getFirst();
-			compatModels.add(compatModel);
-			COMPAT.add(compatModel);
-		}
-
-		for (StrataModel strata : strataModels) {
-			for (MaterialModel material : materialModels) {
-				if (material.getProcessedTypes().contains("ore")) {
-					EERegistrar.registerOre(strata, material);
-				}
-			}
-		}
-
-		for (MaterialModel material : materialModels) {
-			if (material.getProcessedTypes().contains("storage_block")) {
-				EERegistrar.registerStorageBlocks(material);
-			}
-			if (material.getProcessedTypes().contains("raw")) {
-				EERegistrar.registerRaws(material);
-				EERegistrar.registerRawBlocks(material);
-			}
-			if (material.getProcessedTypes().contains("ingot")) {
-				EERegistrar.registerIngots(material);
-			}
-			if (material.getProcessedTypes().contains("nugget")) {
-				EERegistrar.registerNuggets(material);
-			}
-			if (material.getProcessedTypes().contains("gem")) {
-				EERegistrar.registerGems(material);
-			}
-			if (material.getProcessedTypes().contains("dust")) {
-				EERegistrar.registerDusts(material);
-			}
-			if (material.getProcessedTypes().contains("plate")) {
-				EERegistrar.registerPlates(material);
-			}
-			if (material.getProcessedTypes().contains("gear")) {
-				EERegistrar.registerGears(material);
-			}
-			if (material.getProcessedTypes().contains("rod")) {
-				EERegistrar.registerRods(material);
-			}
-			if (material.getProcessedTypes().contains("fluid")) {
-				EERegistrar.registerFluids(material);
-			}
-			if (EmendatusEnigmatica.MEKANISM_LOADED) {
-				if (material.getProcessedTypes().contains("slurry")) {
-					EEMekanismRegistrar.registerSlurries(material);
-				}
-				if (material.getProcessedTypes().contains("crystal")) {
-					EEMekanismRegistrar.registerCrystals(material);
-				}
-				if (material.getProcessedTypes().contains("shard")) {
-					EEMekanismRegistrar.registerShards(material);
-				}
-				if (material.getProcessedTypes().contains("clump")) {
-					EEMekanismRegistrar.registerClumps(material);
-				}
-				if (material.getProcessedTypes().contains("dirty_dust")) {
-					EEMekanismRegistrar.registerDirtyDusts(material);
-				}
-			}
-			if (EmendatusEnigmatica.CREATE_LOADED) {
-				if (material.getProcessedTypes().contains("crushed_ore")) {
-					EECreateRegistrar.registerCrushedOres(material);
-				}
-			}
-			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-				if (material.getProcessedTypes().contains("fragment")) {
-					EEBloodMagicRegistrar.registerFragments(material);
-				}
-				if (material.getProcessedTypes().contains("gravel")) {
-					EEBloodMagicRegistrar.registerGravels(material);
-				}
-			}
-		}
-	}
+        for (MaterialModel material : materialModels) {
+            if (material.getProcessedTypes().contains("storage_block")) {
+                EERegistrar.registerStorageBlocks(material);
+            }
+            if (material.getProcessedTypes().contains("raw")) {
+                EERegistrar.registerRaws(material);
+                EERegistrar.registerRawBlocks(material);
+            }
+            if (material.getProcessedTypes().contains("ingot")) {
+                EERegistrar.registerIngots(material);
+            }
+            if (material.getProcessedTypes().contains("nugget")) {
+                EERegistrar.registerNuggets(material);
+            }
+            if (material.getProcessedTypes().contains("gem")) {
+                EERegistrar.registerGems(material);
+            }
+            if (material.getProcessedTypes().contains("dust")) {
+                EERegistrar.registerDusts(material);
+            }
+            if (material.getProcessedTypes().contains("plate")) {
+                EERegistrar.registerPlates(material);
+            }
+            if (material.getProcessedTypes().contains("gear")) {
+                EERegistrar.registerGears(material);
+            }
+            if (material.getProcessedTypes().contains("rod")) {
+                EERegistrar.registerRods(material);
+            }
+            if (material.getProcessedTypes().contains("fluid")) {
+                EERegistrar.registerFluids(material);
+            }
+            if (EmendatusEnigmatica.MEKANISM_LOADED) {
+                if (material.getProcessedTypes().contains("slurry")) {
+                    EEMekanismRegistrar.registerSlurries(material);
+                }
+                if (material.getProcessedTypes().contains("crystal")) {
+                    EEMekanismRegistrar.registerCrystals(material);
+                }
+                if (material.getProcessedTypes().contains("shard")) {
+                    EEMekanismRegistrar.registerShards(material);
+                }
+                if (material.getProcessedTypes().contains("clump")) {
+                    EEMekanismRegistrar.registerClumps(material);
+                }
+                if (material.getProcessedTypes().contains("dirty_dust")) {
+                    EEMekanismRegistrar.registerDirtyDusts(material);
+                }
+            }
+            if (EmendatusEnigmatica.CREATE_LOADED) {
+                if (material.getProcessedTypes().contains("crushed_ore")) {
+                    EECreateRegistrar.registerCrushedOres(material);
+                }
+            }
+            if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+                if (material.getProcessedTypes().contains("fragment")) {
+                    EEBloodMagicRegistrar.registerFragments(material);
+                }
+                if (material.getProcessedTypes().contains("gravel")) {
+                    EEBloodMagicRegistrar.registerGravels(material);
+                }
+            }
+        }
+    }
 }

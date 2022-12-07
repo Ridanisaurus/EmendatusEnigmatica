@@ -73,6 +73,8 @@ public class EmendatusEnigmatica {
 
     public static EmendatusEnigmatica instance;
 
+    private final EELoader loader;
+
     public EmendatusEnigmatica() {
         EmendatusEnigmatica.instance = this;
         EEConfig.registerClient();
@@ -90,7 +92,8 @@ public class EmendatusEnigmatica {
 
         DataGeneratorFactory.init();
 
-        EELoader.load();
+        this.loader = new EELoader();
+        this.loader.load();
         EERegistrar.finalize(modEventBus);
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
