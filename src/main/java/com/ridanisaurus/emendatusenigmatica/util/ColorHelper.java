@@ -198,10 +198,10 @@ public class ColorHelper {
 //			 300 Magenta
 		if (highlight) {
 			if (h >= 0 && h < 60) {
-				h2 = h + (10 * factor);
+				h2 = h + (5 * factor);
 			}
 			if (h >= 60 && h < 120) {
-				h2 = h - (10 * factor);
+				h2 = h - (5 * factor);
 			}
 			if (h >= 120 && h < 180) {
 				h2 = h + (10 * factor);
@@ -219,10 +219,10 @@ public class ColorHelper {
 			v2 = v + (10 * factor);
 		} else {
 			if (h >= 0 && h < 60) {
-				h2 = h - (10 * factor);
+				h2 = h - (5 * factor);
 			}
 			if (h >= 60 && h < 120) {
-				h2 = h + (10 * factor);
+				h2 = h + (5 * factor);
 			}
 			if (h >= 120 && h < 180) {
 				h2 = h - (10 * factor);

@@ -1,7 +1,6 @@
 Emendatus Enigmatica
-MC 1.19.2 | Version 2.0.5
+MC 1.19.2 | Version 2.0.6
 
-    - Fixed the breaking particles of Ore Blocks to be more visible
-    - Completely refactored the old Compat System
-**Note:** The [Wiki](https://emendatus-enigmatica.gitbook.io/emendatus-enigmatica-v2-wiki/compat) has been updated with information on how to set up the new Compat system, and a couple of examples have been provided.
-
+    - Compat recipes no longer have a minimum count of `1` and chance of `1.0`
+    - Minor tweaks to the tint system for any colors between Red-Yellow-Green
+    - Updated the Dirty Dust texture template

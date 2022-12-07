@@ -132,8 +132,8 @@ public class CompatModel {
 				Codec.FLOAT.optionalFieldOf("chance").forGetter(i -> Optional.of(i.chance))
 		).apply(x, (item, count, chance) -> new CompatIOModel(
 				item.orElse(""),
-				count.orElse(1),
-				chance.orElse(1.0f)
+				count.orElse(0),
+				chance.orElse(0.0f)
 		)));
 
 		private final String item;
