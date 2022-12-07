@@ -250,6 +250,7 @@ if (ENV.CURSE_DEPLOY) {
                     optionalDependency "create" // Create is an optional
                     optionalDependency "occultism" // Occultism is an optional
                     optionalDependency "ars-nouveau" // Ars Nouveau is an optional
+                    optionalDependency "thermal-expansion" // Thermal Expansion is an optional
                 }
             }
             changelog = file("changelog.md") // pull the contents of the changelog.md
