@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
@@ -45,17 +46,20 @@ public class CreateDataGen {
 
 	public static class CreateRecipes extends EERecipeProvider {
 
-		public CreateRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public CreateRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				if (material.getCompat().getCreateCompat()) {
 					List<String> processedType = material.getProcessedTypes();
 					// CRUSHING WHEEL
-					for (CompatModel compat : EELoader.COMPAT) {
+					for (CompatModel compat : registry.getCompat()) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
 								if (recipe.getMod().equals("create") && recipe.getMachine().equals("crushing_wheels")) {
@@ -125,7 +129,7 @@ public class CreateDataGen {
 						}
 					}
 					// SPLASHING
-					for (CompatModel compat : EELoader.COMPAT) {
+					for (CompatModel compat : registry.getCompat()) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
 								if (recipe.getMod().equals("create") && recipe.getMachine().equals("fan_washing")) {
@@ -160,13 +164,16 @@ public class CreateDataGen {
 
 	public static class CreateItemModels extends EEItemModelProvider {
 
-		public CreateItemModels(DataGenerator generator) {
+		private final EmendatusDataRegistry registry;
+
+		public CreateItemModels(DataGenerator generator, EmendatusDataRegistry registry) {
 			super(generator);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Crushed Ore
 				if (processedType.contains("crushed_ore")) {
@@ -194,15 +201,18 @@ public class CreateDataGen {
 
 	public static class CreateItemTags extends EETagProvider {
 
-		public CreateItemTags(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public CreateItemTags(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> createCrushedOres = Lists.newArrayList();
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Crushed Ores
 				if (processedType.contains("crushed_ore")) {

@@ -1,6 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositConfigModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla.VanillaDepositModel;
@@ -35,11 +36,13 @@ import java.util.function.Function;
 
 public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 	private final VanillaDepositModel model;
+	private final EmendatusDataRegistry registry;
 	private final Lazy<List<OreConfiguration.TargetBlockState>> lazyList;
 
-	public VanillaOreFeature(VanillaDepositModel model) {
+	public VanillaOreFeature(VanillaDepositModel model, EmendatusDataRegistry registry) {
 		super(NoneFeatureConfiguration.CODEC);
 		this.model = model;
+		this.registry = registry;
 
 		this.lazyList = Lazy.of(this::createTargetStateList);
 	}
@@ -54,7 +57,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 				return states; // Empty, something went wrong
 			}
 
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
 					Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
 					if (stratumBlock == null) {
@@ -69,10 +72,10 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 			return states;
 		}
 
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			if (!material.getId().equals(model.getConfig().getMaterial())) continue;
 
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (!model.getConfig().getFillerTypes().contains(stratum.getId())) continue;
 
 				Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());

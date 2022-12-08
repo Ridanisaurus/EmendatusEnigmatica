@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
@@ -44,17 +45,20 @@ public class ThermalDataGen {
 
 	public static class ThermalRecipes extends EERecipeProvider {
 
-		public ThermalRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public ThermalRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				if (material.getCompat().getThermalCompat()) {
 					List<String> processedType = material.getProcessedTypes();
 					// PULVERIZER
-					for (CompatModel compat : EELoader.COMPAT) {
+					for (CompatModel compat : registry.getCompat()) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
 								if (recipe.getMod().equals("thermal") && recipe.getMachine().equals("pulverizer")) {
@@ -139,7 +143,7 @@ public class ThermalDataGen {
 					}
 
 					// INDUCTION SMELTER
-					for (CompatModel compat : EELoader.COMPAT) {
+					for (CompatModel compat : registry.getCompat()) {
 						if (compat.getId().equals(material.getId()) && material.isModded()) {
 							for (CompatModel.CompatRecipesModel recipe : compat.getRecipes()) {
 								if (recipe.getMod().equals("thermal") && recipe.getMachine().equals("induction_smelter")) {

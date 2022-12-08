@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEBlockStateProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.BlockStateBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
@@ -38,13 +39,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class BlockStatesGen extends EEBlockStateProvider {
-	public BlockStatesGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public BlockStatesGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	@Override
 	protected void buildBlockState(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -68,7 +72,7 @@ public class BlockStatesGen extends EEBlockStateProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId()));
 			}
 			// Ores
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					new BlockStateBuilder()
 							.variant(new BlockStateBuilder.objectBuilder(false)

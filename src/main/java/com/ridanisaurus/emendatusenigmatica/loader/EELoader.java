@@ -36,6 +36,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import net.minecraft.data.DataGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,9 +65,9 @@ public class EELoader {
      */
     private void scanForClasses(){
         for (Class annotatedClass : AnnotationUtil.getAnnotatedClasses(EmendatusPluginReference.class)) {
-            if (annotatedClass.isAssignableFrom(IEmendatusPlugin.class)) {
+            if (IEmendatusPlugin.class.isAssignableFrom(annotatedClass)) {
                 var annotation = (EmendatusPluginReference) annotatedClass.getAnnotation(EmendatusPluginReference.class);
-                LOADER_LOGGER.debug("Registered plugin " + annotation.modid() + ":" + annotation.name());
+                LOADER_LOGGER.info("Registered plugin " + annotation.modid() + ":" + annotation.name());
                 try {
                     if (annotatedClass.equals(DefaultConfigPlugin.class)) {
                         this.plugins.add(0, (IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
@@ -81,82 +82,24 @@ public class EELoader {
                 LOADER_LOGGER.error(annotatedClass.getName() + " has an annotation but it doesn't implement IEmendatusPlugin");
             }
         }
+        LOADER_LOGGER.info("Finished scanning for plugins");
     }
 
     public void load() {
-		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.onLoad(this.registry));
+		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.load(this.registry));
 
-		var materialModels = this.registry.getMaterials();
-        for (StrataModel strata : this.registry.getStrata()) {
-            for (MaterialModel material : materialModels) {
-                if (material.getProcessedTypes().contains("ore")) {
-                    EERegistrar.registerOre(strata, material);
-                }
-            }
-        }
+		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerMinecraft(this.registry.getMaterials(), this.registry.getStrata()));
+    }
 
-        for (MaterialModel material : materialModels) {
-            if (material.getProcessedTypes().contains("storage_block")) {
-                EERegistrar.registerStorageBlocks(material);
-            }
-            if (material.getProcessedTypes().contains("raw")) {
-                EERegistrar.registerRaws(material);
-                EERegistrar.registerRawBlocks(material);
-            }
-            if (material.getProcessedTypes().contains("ingot")) {
-                EERegistrar.registerIngots(material);
-            }
-            if (material.getProcessedTypes().contains("nugget")) {
-                EERegistrar.registerNuggets(material);
-            }
-            if (material.getProcessedTypes().contains("gem")) {
-                EERegistrar.registerGems(material);
-            }
-            if (material.getProcessedTypes().contains("dust")) {
-                EERegistrar.registerDusts(material);
-            }
-            if (material.getProcessedTypes().contains("plate")) {
-                EERegistrar.registerPlates(material);
-            }
-            if (material.getProcessedTypes().contains("gear")) {
-                EERegistrar.registerGears(material);
-            }
-            if (material.getProcessedTypes().contains("rod")) {
-                EERegistrar.registerRods(material);
-            }
-            if (material.getProcessedTypes().contains("fluid")) {
-                EERegistrar.registerFluids(material);
-            }
-            if (EmendatusEnigmatica.MEKANISM_LOADED) {
-                if (material.getProcessedTypes().contains("slurry")) {
-                    EEMekanismRegistrar.registerSlurries(material);
-                }
-                if (material.getProcessedTypes().contains("crystal")) {
-                    EEMekanismRegistrar.registerCrystals(material);
-                }
-                if (material.getProcessedTypes().contains("shard")) {
-                    EEMekanismRegistrar.registerShards(material);
-                }
-                if (material.getProcessedTypes().contains("clump")) {
-                    EEMekanismRegistrar.registerClumps(material);
-                }
-                if (material.getProcessedTypes().contains("dirty_dust")) {
-                    EEMekanismRegistrar.registerDirtyDusts(material);
-                }
-            }
-            if (EmendatusEnigmatica.CREATE_LOADED) {
-                if (material.getProcessedTypes().contains("crushed_ore")) {
-                    EECreateRegistrar.registerCrushedOres(material);
-                }
-            }
-            if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-                if (material.getProcessedTypes().contains("fragment")) {
-                    EEBloodMagicRegistrar.registerFragments(material);
-                }
-                if (material.getProcessedTypes().contains("gravel")) {
-                    EEBloodMagicRegistrar.registerGravels(material);
-                }
-            }
-        }
+    public void datagen(DataGenerator dataGenerator){
+        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerDynamicDataGen(dataGenerator, this.registry));
+    }
+
+    public void finish(){
+        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.finish(this.registry));
+    }
+
+    public EmendatusDataRegistry getRegistry() {
+        return registry;
     }
 }

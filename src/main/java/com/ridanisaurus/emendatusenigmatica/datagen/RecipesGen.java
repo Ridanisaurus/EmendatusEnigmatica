@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -43,8 +44,11 @@ import java.util.function.Consumer;
 
 public class RecipesGen extends RecipeProvider {
 
-	public RecipesGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public RecipesGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	@Override
@@ -61,7 +65,7 @@ public class RecipesGen extends RecipeProvider {
 				.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 				.save(consumer);
 
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 
 			if (processedType.contains("ingot") && material.isModded()) {

@@ -51,4 +51,11 @@ public class EmendatusDataRegistry {
         return ImmutableList.copyOf(strata);
     }
 
+    public List<CompatModel> getCompat() {
+        return ImmutableList.copyOf(compat);
+    }
+
+    public Map<String, Integer> getStrataByIndex() {
+        return strataByIndex;
+    }
 }

@@ -2,6 +2,8 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import net.minecraft.util.RandomSource;
@@ -33,7 +35,7 @@ public class MultiStrataRuleTest extends RuleTest {
 	}
 
 	private void setup() {
-		for (StrataModel stratum : EELoader.STRATA) {
+		for (StrataModel stratum : EmendatusEnigmatica.getInstance().getLoader().getRegistry().getStrata()) {
 			if (this.fillerList.contains(stratum.getId())) {
 				this.blockFillerList.add(ForgeRegistries.BLOCKS.getValue(stratum.getFillerType()));
 			}

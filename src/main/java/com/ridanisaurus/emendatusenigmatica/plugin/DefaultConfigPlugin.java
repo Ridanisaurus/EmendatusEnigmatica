@@ -8,23 +8,31 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.datagen.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.compat.*;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
+import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
+import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.data.DataGenerator;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
     @Override
-    public void onLoad(EmendatusDataRegistry registry) {
+    public void load(EmendatusDataRegistry registry) {
         // Set the path to the defined folder
         Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
 
@@ -80,5 +88,124 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             compatModels.add(compatModel);
             registry.registerCompat(compatModel);
         }
+    }
+
+    @Override
+    public void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {
+        for (StrataModel strata : strataModels) {
+            for (MaterialModel material : materialModels) {
+                if (material.getProcessedTypes().contains("ore")) {
+                    EERegistrar.registerOre(strata, material);
+                }
+            }
+        }
+
+        for (MaterialModel material : materialModels) {
+            if (material.getProcessedTypes().contains("storage_block")) {
+                EERegistrar.registerStorageBlocks(material);
+            }
+            if (material.getProcessedTypes().contains("raw")) {
+                EERegistrar.registerRaws(material);
+                EERegistrar.registerRawBlocks(material);
+            }
+            if (material.getProcessedTypes().contains("ingot")) {
+                EERegistrar.registerIngots(material);
+            }
+            if (material.getProcessedTypes().contains("nugget")) {
+                EERegistrar.registerNuggets(material);
+            }
+            if (material.getProcessedTypes().contains("gem")) {
+                EERegistrar.registerGems(material);
+            }
+            if (material.getProcessedTypes().contains("dust")) {
+                EERegistrar.registerDusts(material);
+            }
+            if (material.getProcessedTypes().contains("plate")) {
+                EERegistrar.registerPlates(material);
+            }
+            if (material.getProcessedTypes().contains("gear")) {
+                EERegistrar.registerGears(material);
+            }
+            if (material.getProcessedTypes().contains("rod")) {
+                EERegistrar.registerRods(material);
+            }
+            if (material.getProcessedTypes().contains("fluid")) {
+                EERegistrar.registerFluids(material);
+            }
+            if (EmendatusEnigmatica.MEKANISM_LOADED) {
+                if (material.getProcessedTypes().contains("slurry")) {
+                    EEMekanismRegistrar.registerSlurries(material);
+                }
+                if (material.getProcessedTypes().contains("crystal")) {
+                    EEMekanismRegistrar.registerCrystals(material);
+                }
+                if (material.getProcessedTypes().contains("shard")) {
+                    EEMekanismRegistrar.registerShards(material);
+                }
+                if (material.getProcessedTypes().contains("clump")) {
+                    EEMekanismRegistrar.registerClumps(material);
+                }
+                if (material.getProcessedTypes().contains("dirty_dust")) {
+                    EEMekanismRegistrar.registerDirtyDusts(material);
+                }
+            }
+            if (EmendatusEnigmatica.CREATE_LOADED) {
+                if (material.getProcessedTypes().contains("crushed_ore")) {
+                    EECreateRegistrar.registerCrushedOres(material);
+                }
+            }
+            if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+                if (material.getProcessedTypes().contains("fragment")) {
+                    EEBloodMagicRegistrar.registerFragments(material);
+                }
+                if (material.getProcessedTypes().contains("gravel")) {
+                    EEBloodMagicRegistrar.registerGravels(material);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry) {
+        generator.addProvider(true, new BlockStatesGen(generator, registry));
+        generator.addProvider(true, new BlockModelsGen(generator, registry));
+        generator.addProvider(true, new ItemModelsGen(generator, registry));
+        generator.addProvider(true, new FluidModelsGen(generator, registry));
+        generator.addProvider(true, new LangGen(generator, registry));
+        if (EmendatusEnigmatica.CREATE_LOADED) generator.addProvider(true, new CreateDataGen.CreateItemModels(generator, registry));
+        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator, registry));
+
+        generator.addProvider(true, new BlockTagsGen(generator, registry));
+        generator.addProvider(true, new ItemTagsGen(generator, registry));
+        generator.addProvider(true, new FluidTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, registry));
+        generator.addProvider(true, new RecipesGen(generator, registry));
+        generator.addProvider(true, new LootTablesGen(generator, registry));
+        generator.addProvider(true, new OreFeatureDataGen(generator, registry));
+
+        if (EmendatusEnigmatica.CREATE_LOADED) {
+            generator.addProvider(true, new CreateDataGen.CreateItemTags(generator, registry));
+            generator.addProvider(true, new CreateDataGen.CreateRecipes(generator, registry));
+        }
+        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+            generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemTags(generator, registry));
+            generator.addProvider(true, new BloodMagicDataGen.BloodMagicRecipes(generator, registry));
+        }
+        if (EmendatusEnigmatica.ARSNOUVEAU_LOADED) generator.addProvider(true, new ArsNouveauDataGen.ArsNouveauRecipes(generator, registry));
+        if (EmendatusEnigmatica.OCCULTISM_LOADED) generator.addProvider(true, new OccultismDataGen.OccultismRecipes(generator, registry));
+        if (EmendatusEnigmatica.THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator, registry));
+
+        if (EmendatusEnigmatica.MEKANISM_LOADED) {
+            generator.addProvider(true, new MekanismDataGen.MekanismItemTags(generator, registry));
+            generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator, registry));
+            generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator, registry));
+            generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator, registry));
+        }
+    }
+
+    @Override
+    public void finish(EmendatusDataRegistry registry) {
+
     }
 }

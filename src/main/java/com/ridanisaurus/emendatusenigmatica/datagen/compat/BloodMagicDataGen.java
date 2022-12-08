@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
@@ -44,13 +45,16 @@ public class BloodMagicDataGen {
 
 	public static class BloodMagicRecipes extends EERecipeProvider {
 
-		public BloodMagicRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BloodMagicRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				if (material.getCompat().getBMCompat()) {
 					List<String> processedType = material.getProcessedTypes();
 					if (processedType.contains("dust") && processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal") && material.isModded()) {
@@ -117,13 +121,16 @@ public class BloodMagicDataGen {
 
 	public static class BloodMagicItemModels extends EEItemModelProvider {
 
-		public BloodMagicItemModels(DataGenerator generator) {
+		private final EmendatusDataRegistry registry;
+
+		public BloodMagicItemModels(DataGenerator generator, EmendatusDataRegistry registry) {
 			super(generator);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Fragment
 				if (processedType.contains("fragment")) {
@@ -165,8 +172,11 @@ public class BloodMagicDataGen {
 
 	public static class BloodMagicItemTags extends EETagProvider {
 
-		public BloodMagicItemTags(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BloodMagicItemTags(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> bloodMagicFragments = Lists.newArrayList();
@@ -174,7 +184,7 @@ public class BloodMagicDataGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Fragments
 				if (processedType.contains("fragment")) {
