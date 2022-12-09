@@ -1,6 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.mojang.serialization.Codec;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
@@ -33,10 +34,12 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> innerBlocks;
 	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final GeodeDepositModel model;
+	private final EmendatusDataRegistry registry;
 
-	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model) {
+	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model, EmendatusDataRegistry registry) {
 		super(codec);
 		this.model = model;
+		this.registry = registry;
 		outerShellBlocks = new ArrayList<>();
 		for (CommonBlockDefinitionModel block : model.getConfig().getOuterShellBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
@@ -169,9 +172,9 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		} else if (commonBlockDefinitionModel.getMaterial() != null) {
 			BlockState currentFiller = reader.getBlockState(pos);
 			String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
-			Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
+			Integer strataIndex = registry.getStrataByIndex().getOrDefault(fillerId, null);
 			if (strataIndex != null) {
-				StrataModel stratum = EELoader.STRATA.get(strataIndex);
+				StrataModel stratum = registry.getStrata().get(strataIndex);
 				Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
 				reader.setBlock(pos, block.defaultBlockState(), 2);
 			}

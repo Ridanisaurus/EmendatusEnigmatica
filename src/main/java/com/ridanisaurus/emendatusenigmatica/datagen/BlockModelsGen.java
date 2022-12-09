@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.BlockModelBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEBlockModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
@@ -38,13 +39,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class BlockModelsGen extends EEBlockModelProvider {
-	public BlockModelsGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public BlockModelsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	@Override
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -165,7 +169,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 				}
 			}
 			// Ores
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					if (material.getColors().getMaterialColor() == -1) {
 						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getModelName(stratum, material));

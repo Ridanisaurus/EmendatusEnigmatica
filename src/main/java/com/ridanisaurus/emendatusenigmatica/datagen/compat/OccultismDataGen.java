@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
@@ -42,13 +43,16 @@ public class OccultismDataGen {
 
 	public static class OccultismRecipes extends EERecipeProvider {
 
-		public OccultismRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public OccultismRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				if (material.getCompat().getOccultismCompat()) {
 					if (processedType.contains("dust") && processedType.contains("ore")) {

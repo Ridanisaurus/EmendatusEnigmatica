@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.*;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
@@ -54,13 +55,16 @@ public class MekanismDataGen {
 
 	public static class MekanismRecipes extends RecipeProvider {
 
-		public MekanismRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public MekanismRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				if (material.getCompat().getMeknaismCompat()) {
 					List<String> processedType = material.getProcessedTypes();
 					if (processedType.contains("slurry")) {
@@ -199,13 +203,16 @@ public class MekanismDataGen {
 
 	public static class MekanismItemModels extends EEItemModelProvider {
 
-		public MekanismItemModels(DataGenerator generator) {
+		private final EmendatusDataRegistry registry;
+
+		public MekanismItemModels(DataGenerator generator, EmendatusDataRegistry registry) {
 			super(generator);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Crystals
 				if (processedType.contains("crystal")) {
@@ -276,8 +283,11 @@ public class MekanismDataGen {
 
 	public static class MekanismItemTags extends EETagProvider {
 
-		public MekanismItemTags(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public MekanismItemTags(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> mekanismCrystals = Lists.newArrayList();
@@ -287,7 +297,7 @@ public class MekanismDataGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Crystals
 				if (processedType.contains("crystal")) {
@@ -327,8 +337,11 @@ public class MekanismDataGen {
 
 	public static class MekanismSlurryTags extends EETagProvider {
 
-		public MekanismSlurryTags(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public MekanismSlurryTags(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> mekanismCleanSlurry = Lists.newArrayList();
@@ -336,7 +349,7 @@ public class MekanismDataGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				// Slurries
 				if (processedType.contains("slurry")) {

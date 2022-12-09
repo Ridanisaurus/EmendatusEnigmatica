@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
@@ -33,11 +34,13 @@ import java.util.Random;
 
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private SphereDepositModel model;
+    private final EmendatusDataRegistry registry;
     private ArrayList<CommonBlockDefinitionModel> blocks;
 
-    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, SphereDepositModel model) {
+    public SphereOreFeature(Codec<SphereOreFeatureConfig> codec, SphereDepositModel model, EmendatusDataRegistry registry) {
         super(codec);
         this.model = model;
+        this.registry = registry;
         blocks = new ArrayList<>();
         for (CommonBlockDefinitionModel block : model.getConfig().getBlocks()) {
             NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
@@ -133,9 +136,9 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
                 BlockState currentFiller = reader.getBlockState(pos);
                 String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
-                Integer strataIndex = EELoader.STRATA_INDEX_BY_FILLER.getOrDefault(fillerId, null);
+                Integer strataIndex = registry.getStrataByIndex().getOrDefault(fillerId, null);
                 if (strataIndex != null) {
-                    StrataModel stratum = EELoader.STRATA.get(strataIndex);
+                    StrataModel stratum = registry.getStrata().get(strataIndex);
                     Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
                     reader.setBlock(pos, block.defaultBlockState(), 2);
                 }

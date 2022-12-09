@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EELootProvider;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
@@ -35,13 +36,16 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import java.util.List;
 
 public class LootTablesGen extends EELootProvider {
-	public LootTablesGen(DataGenerator dataGeneratorIn) {
+	private final EmendatusDataRegistry registry;
+
+	public LootTablesGen(DataGenerator dataGeneratorIn, EmendatusDataRegistry registry) {
 		super(dataGeneratorIn);
+		this.registry = registry;
 	}
 
 	@Override
 	protected void addTables() {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 
 			// Storage Blocks
@@ -57,7 +61,7 @@ public class LootTablesGen extends EELootProvider {
 				);
 			}
 			// Ores
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 //				if (processedType.contains("ore") && processedType.contains("raw") && material.getProperties().getMaterialType().equals("metal")) {
 //					blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 //							createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),

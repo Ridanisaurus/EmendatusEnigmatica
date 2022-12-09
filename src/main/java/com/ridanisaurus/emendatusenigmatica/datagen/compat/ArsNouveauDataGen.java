@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.compat;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.RecipeBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EERecipeProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericRecipe;
@@ -44,16 +45,19 @@ public class ArsNouveauDataGen {
 
 	public static class ArsNouveauRecipes extends EERecipeProvider {
 
-		public ArsNouveauRecipes(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public ArsNouveauRecipes(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		@Override
 		protected void buildRecipes(Consumer<IFinishedGenericRecipe> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				if (material.getCompat().getANCompat()) {
 					List<String> processedType = material.getProcessedTypes();
-					for (StrataModel stratum : EELoader.STRATA) {
+					for (StrataModel stratum : registry.getStrata()) {
 						if (processedType.contains("dust") && processedType.contains("ore")) {
 							// Dust from Ore - Crush Spell
 							new RecipeBuilder("output")

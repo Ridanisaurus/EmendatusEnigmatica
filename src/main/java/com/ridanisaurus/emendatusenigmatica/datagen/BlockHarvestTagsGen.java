@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
@@ -42,8 +43,11 @@ import java.util.function.Consumer;
 public class BlockHarvestTagsGen {
 
 	public static class BlockHarvestLevelTagsGen extends EETagProvider {
-		public BlockHarvestLevelTagsGen(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BlockHarvestLevelTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> woodTool = Lists.newArrayList();
@@ -54,7 +58,7 @@ public class BlockHarvestTagsGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
@@ -64,7 +68,7 @@ public class BlockHarvestTagsGen {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, raw);
 				}
-				for (StrataModel stratum : EELoader.STRATA) {
+				for (StrataModel stratum : registry.getStrata()) {
 					if (processedType.contains("ore")) {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						harvestLevelSwitch(material, ore);
@@ -96,8 +100,11 @@ public class BlockHarvestTagsGen {
 	}
 
 	public static class BlockHarvestToolTagsGen extends EETagProvider {
-		public BlockHarvestToolTagsGen(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BlockHarvestToolTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> shovel = Lists.newArrayList();
@@ -107,7 +114,7 @@ public class BlockHarvestTagsGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				if(processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
@@ -117,7 +124,7 @@ public class BlockHarvestTagsGen {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					pickaxe.add(raw.toString());
 				}
-				for (StrataModel stratum : EELoader.STRATA) {
+				for (StrataModel stratum : registry.getStrata()) {
 					if(processedType.contains("ore")) {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						switch (stratum.getHarvestTool()) {

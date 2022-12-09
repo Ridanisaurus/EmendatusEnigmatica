@@ -71,7 +71,14 @@ public class EmendatusEnigmatica {
     public static boolean OCCULTISM_LOADED = false;
     public static boolean THERMALSERIES_LOADED = false;
 
-    public static EmendatusEnigmatica instance;
+    private static EmendatusEnigmatica instance;
+
+    public static EmendatusEnigmatica getInstance() {
+        return instance;
+    }
+
+    private final EELoader loader;
+    private final EEDeposits deposits;
 
     public EmendatusEnigmatica() {
         EmendatusEnigmatica.instance = this;
@@ -90,19 +97,24 @@ public class EmendatusEnigmatica {
 
         DataGeneratorFactory.init();
 
-        EELoader.load();
+        this.loader = new EELoader();
+        this.loader.load();
+
         EERegistrar.finalize(modEventBus);
         if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
         if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
         if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
-        EEDeposits.load();
-        EEDeposits.setup();
-        EEDeposits.finalize(modEventBus);
+        this.deposits = new EEDeposits(this.loader);
+        this.deposits.load();
+        this.deposits.setup();
+        this.deposits.finalize(modEventBus);
 
         modEventBus.addListener(this::commonEvents);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
+
+        this.loader.finish();
     }
 
     private void commonEvents(FMLCommonSetupEvent event) {
@@ -119,41 +131,7 @@ public class EmendatusEnigmatica {
     private static void registerDataGen() {
         generator = DataGeneratorFactory.createEEDataGenerator();
 
-        generator.addProvider(true, new BlockStatesGen(generator));
-        generator.addProvider(true, new BlockModelsGen(generator));
-        generator.addProvider(true, new ItemModelsGen(generator));
-        generator.addProvider(true, new FluidModelsGen(generator));
-        generator.addProvider(true, new LangGen(generator));
-        if (CREATE_LOADED) generator.addProvider(true, new CreateDataGen.CreateItemModels(generator));
-        if (BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator));
-
-        generator.addProvider(true, new BlockTagsGen(generator));
-        generator.addProvider(true, new ItemTagsGen(generator));
-        generator.addProvider(true, new FluidTagsGen(generator));
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator));
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator));
-        generator.addProvider(true, new RecipesGen(generator));
-        generator.addProvider(true, new LootTablesGen(generator));
-        generator.addProvider(true, new OreFeatureDataGen(generator));
-
-        if (CREATE_LOADED) {
-            generator.addProvider(true, new CreateDataGen.CreateItemTags(generator));
-            generator.addProvider(true, new CreateDataGen.CreateRecipes(generator));
-        }
-        if (BLOODMAGIC_LOADED) {
-            generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemTags(generator));
-            generator.addProvider(true, new BloodMagicDataGen.BloodMagicRecipes(generator));
-        }
-        if (ARSNOUVEAU_LOADED) generator.addProvider(true, new ArsNouveauDataGen.ArsNouveauRecipes(generator));
-        if (OCCULTISM_LOADED) generator.addProvider(true, new OccultismDataGen.OccultismRecipes(generator));
-        if (THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator));
-
-        if (MEKANISM_LOADED) {
-            generator.addProvider(true, new MekanismDataGen.MekanismItemTags(generator));
-            generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator));
-            generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator));
-            generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator));
-        }
+        EmendatusEnigmatica.getInstance().getLoader().datagen(generator);
     }
 
     public static void generate() {
@@ -181,5 +159,9 @@ public class EmendatusEnigmatica {
             EmendatusEnigmatica.LOGGER.info("Injecting server data pack finder.");
             return false;
         });
+    }
+
+    public EELoader getLoader() {
+        return loader;
     }
 }

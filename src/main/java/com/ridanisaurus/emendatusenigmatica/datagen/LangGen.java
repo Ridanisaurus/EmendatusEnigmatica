@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -39,8 +40,11 @@ import net.minecraftforge.common.data.LanguageProvider;
 import java.util.List;
 
 public class LangGen extends LanguageProvider {
-	public LangGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public LangGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen, Reference.MOD_ID, "en_us");
+		this.registry = registry;
 	}
 
 	@Override
@@ -51,7 +55,7 @@ public class LangGen extends LanguageProvider {
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -213,7 +217,7 @@ public class LangGen extends LanguageProvider {
 				}
 			}
 
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 
 					StringBuilder sb = new StringBuilder();
