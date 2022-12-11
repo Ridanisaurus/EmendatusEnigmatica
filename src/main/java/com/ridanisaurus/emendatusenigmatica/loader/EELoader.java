@@ -24,18 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.AnnotationUtil;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
-import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import net.minecraft.data.DataGenerator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,12 +40,12 @@ import java.util.List;
 public class EELoader {
 
     public static final Logger LOADER_LOGGER = LogManager.getLogger(EELoader.class);
-    private final EmendatusDataRegistry registry;
+    private final EmendatusDataRegistry dataRegistry;
 
     private List<IEmendatusPlugin> plugins;
 
-    public EELoader() {
-        this.registry = new EmendatusDataRegistry();
+public EELoader() {
+        this.dataRegistry = new EmendatusDataRegistry();
         this.plugins = new ArrayList<>();
         this.scanForClasses();
     }
@@ -86,20 +79,20 @@ public class EELoader {
     }
 
     public void load() {
-		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.load(this.registry));
+		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.load(this.dataRegistry));
 
-		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerMinecraft(this.registry.getMaterials(), this.registry.getStrata()));
+		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerMinecraft(this.dataRegistry.getMaterials(), this.dataRegistry.getStrata()));
     }
 
     public void datagen(DataGenerator dataGenerator){
-        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerDynamicDataGen(dataGenerator, this.registry));
+        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerDynamicDataGen(dataGenerator, this.dataRegistry));
     }
 
     public void finish(){
-        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.finish(this.registry));
+        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.finish(this.dataRegistry));
     }
 
-    public EmendatusDataRegistry getRegistry() {
-        return registry;
+    public EmendatusDataRegistry getDataRegistry() {
+        return dataRegistry;
     }
 }
