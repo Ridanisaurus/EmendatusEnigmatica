@@ -19,6 +19,8 @@ public interface IEmendatusPlugin {
 
     /**
      * Method used to register minecraft objects like items or blocks
+     *
+     * You will only need to register objects if you are adding new types that aren't supported by EE
      * @param materialModels A list of all the available materials
      */
     void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels);
