@@ -22,6 +22,9 @@ repositories {
 }
 
 dependencies {
+    // For API development
+    implementation fg.deobf("com.ridanisaurus:emendatusenigmatica:${ee_version}+mc${mc_version}")
+    // For general use
     runtimeOnly fg.deobf("com.ridanisaurus:emendatusenigmatica:${ee_version}+mc${mc_version}")
 }
 ```
