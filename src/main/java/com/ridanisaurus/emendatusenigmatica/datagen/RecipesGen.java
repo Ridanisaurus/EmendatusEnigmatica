@@ -171,18 +171,18 @@ public class RecipesGen extends RecipeProvider {
 							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_raw/blasting/" + material.getId()));
 				}
-				if (processedType.contains("crushed_ore")) {
-					// Ingot from Smelting Crushed Ore
-					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
-									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 200)
-							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/smelting/" + material.getId()));
-					// Ingot from Blasting Crushed Ore
-					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
-									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 100)
-							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/blasting/" + material.getId()));
-				}
+//				if (processedType.contains("crushed_ore")) {
+//					// Ingot from Smelting Crushed Ore
+//					SimpleCookingRecipeBuilder.smelting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
+//									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 200)
+//							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+//							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/smelting/" + material.getId()));
+//					// Ingot from Blasting Crushed Ore
+//					SimpleCookingRecipeBuilder.blasting(Ingredient.of(EETags.MATERIAL_CRUSHED_ORE.apply(material.getId())),
+//									EERegistrar.ingotMap.get(material.getId()).get(), 0.1F, 100)
+//							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+//							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_crushed_ore/blasting/" + material.getId()));
+//				}
 			}
 
 			if (processedType.contains("gem") && material.isModded()) {

@@ -49,16 +49,16 @@ public class EETags {
 	public static final Function<String, TagKey<Item>> MATERIAL_FLUID = material -> getItemTag(new ResourceLocation(Reference.FORGE, "molten/" + material));
 
 
-	public static final Function<String, TagKey<Item>> MATERIAL_CRYSTAL = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "crystals/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_SHARD = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_CLUMP = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_DIRTY_DUST = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_CRYSTAL = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "crystals/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_SHARD = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_CLUMP = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_DIRTY_DUST = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
 
-	public static final Function<String, TagKey<Item>> MATERIAL_CRUSHED_ORE = material -> getItemTag(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
-
-	public static final Function<String, TagKey<Item>> MATERIAL_FRAGMENT = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_GRAVEL = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_ARC = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_CRUSHED_ORE = material -> getItemTag(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
+//
+//	public static final Function<String, TagKey<Item>> MATERIAL_FRAGMENT = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_GRAVEL = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_ARC = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
 
 	public static final Function<String, TagKey<Item>> MATERIAL_NONE = material -> getItemTag(new ResourceLocation(Reference.FORGE, material));
 

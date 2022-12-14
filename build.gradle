@@ -110,6 +110,8 @@ repositories {
         url = "https://www.cursemaven.com"
     }
     maven { url 'https://maven.blamejared.com' }
+    // LOCAL MAVEN
+    mavenLocal()
 }
 
 dependencies {
@@ -169,6 +171,8 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+
+    runtimeOnly fg.deobf("com.ridanisaurus:eemodaddon:1.0.0-build.9999+mc1.19.2")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }
