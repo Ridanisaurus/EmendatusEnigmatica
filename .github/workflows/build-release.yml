@@ -3,7 +3,7 @@ name: Build & Release
 on:
   push:
     branches:
-      - EEV2-1.19-2.1
+      - EEV2-1.19
 
 jobs:
   build:
@@ -21,6 +21,7 @@ jobs:
       - name: Build & release to curseforge
         env:
           NANITE_DEPLOY: ${{ secrets.NANITE_DEPLOY  }}
+          CURSE_DEPLOY: ${{ secrets.CURSE_DEPLOY }}
         run: |
           chmod +x ./gradlew
           ./gradlew build publish curseforge --stacktrace --no-daemon
