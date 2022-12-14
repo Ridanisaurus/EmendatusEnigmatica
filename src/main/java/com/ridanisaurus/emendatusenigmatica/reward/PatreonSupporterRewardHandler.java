@@ -82,7 +82,7 @@ public class PatreonSupporterRewardHandler extends LayerRenderer<AbstractClientP
 		Thread thread = new Thread(() -> {
 			Gson jsonParser = new Gson();
 			try {
-				URL url = new URL("https://raw.githubusercontent.com/Ridanisaurus/EmendatusEnigmatica/1.16-Current/supporters_list.json");
+				URL url = new URL("https://raw.githubusercontent.com/Ridanisaurus/EmendatusEnigmatica/EEV1-1.16/supporters_list.json");
 				try (JsonReader reader = new JsonReader(new InputStreamReader(url.openStream()))) {
 					Supporter[] supportersList = jsonParser.fromJson(reader, Supporter[].class);
 					for (Supporter supporter : supportersList) {
