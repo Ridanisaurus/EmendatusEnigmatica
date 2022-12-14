@@ -3,7 +3,7 @@ name: Build & Release
 on:
   push:
     branches:
-      - 1.16-Current
+      - EEV1-1.16
 
 jobs:
   build:
