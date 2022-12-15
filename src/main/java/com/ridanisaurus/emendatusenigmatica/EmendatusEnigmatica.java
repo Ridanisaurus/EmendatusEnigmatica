@@ -58,13 +58,6 @@ public class EmendatusEnigmatica {
     private static DataGenerator generator;
     private static boolean hasGenerated = false;
 
-//    public static boolean MEKANISM_LOADED = false;
-//    public static boolean CREATE_LOADED = false;
-//    public static boolean BLOODMAGIC_LOADED = false;
-//    public static boolean ARSNOUVEAU_LOADED = false;
-//    public static boolean OCCULTISM_LOADED = false;
-//    public static boolean THERMALSERIES_LOADED = false;
-
     private static EmendatusEnigmatica instance;
 
     public static EmendatusEnigmatica getInstance() {
@@ -78,13 +71,6 @@ public class EmendatusEnigmatica {
         EmendatusEnigmatica.instance = this;
         EEConfig.registerClient();
 
-//        MEKANISM_LOADED = ModList.get().isLoaded(Reference.MEKANISM);
-//        CREATE_LOADED = ModList.get().isLoaded(Reference.CREATE);
-//        BLOODMAGIC_LOADED = ModList.get().isLoaded(Reference.BLOODMAGIC);
-//        ARSNOUVEAU_LOADED = ModList.get().isLoaded(Reference.ARSNOUVEAU);
-//        OCCULTISM_LOADED = ModList.get().isLoaded(Reference.OCCULTISM);
-//        THERMALSERIES_LOADED = ModList.get().isLoaded(Reference.THERMALSERIES);
-
         // Register Deferred Registers and populate their tables once the mod is done constructing
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
@@ -95,8 +81,6 @@ public class EmendatusEnigmatica {
         this.loader.load();
 
         EERegistrar.finalize(modEventBus);
-//        if (MEKANISM_LOADED) EEMekanismRegistrar.finalize(modEventBus);
-//        if (CREATE_LOADED) EECreateRegistrar.finalize(modEventBus);
 //        if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
 
         this.deposits = new EEDeposits(this.loader);

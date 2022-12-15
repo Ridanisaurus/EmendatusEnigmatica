@@ -27,6 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.base;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootTables;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -62,7 +64,7 @@ public abstract class EELangProvider implements DataProvider {
 	public void run(CachedOutput cachedOutput) throws IOException {
 		addTranslations();
 		if (!data.isEmpty())
-			save(cachedOutput, data, this.gen.getOutputFolder().resolve("assets/" + modid + "/lang/" + locale + ".json"));
+			save(cachedOutput, this.data, this.gen.getOutputFolder().resolve("assets/" + modid + "/lang/" + locale + ".json"));
 	}
 
 	@Override
@@ -70,7 +72,7 @@ public abstract class EELangProvider implements DataProvider {
 		return "Languages: " + locale;
 	}
 
-	private void save(CachedOutput cache, Object object, Path target) throws IOException {
+	private void save(CachedOutput cache, Map<String, String> data, Path target) throws IOException {
 		// TODO: DataProvider.saveStable handles the caching and hashing already, but creating the JSON Object this way seems unreliable. -C
 		JsonObject json = new JsonObject();
 		for (Map.Entry<String, String> pair : data.entrySet()) {

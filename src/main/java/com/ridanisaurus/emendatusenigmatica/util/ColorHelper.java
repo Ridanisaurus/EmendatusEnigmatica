@@ -236,8 +236,8 @@ public class ColorHelper {
 			if (h >= 300 && h <= 360) {
 				h2 = h - (10 * factor);
 			}
-			s2 = s + (factor);
-			v2 = v - (10 * factor);
+			s2 = s + (5 * factor);
+			v2 = v - (20 * factor);
 		}
 
 		if (h2 < 0 || h2 > 360) h2 = ((h2 + 360) % 360);

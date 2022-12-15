@@ -128,28 +128,6 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             if (material.getProcessedTypes().contains("fluid")) {
                 EERegistrar.registerFluids(material);
             }
-//            if (EmendatusEnigmatica.MEKANISM_LOADED) {
-//                if (material.getProcessedTypes().contains("slurry")) {
-//                    EEMekanismRegistrar.registerSlurries(material);
-//                }
-//                if (material.getProcessedTypes().contains("crystal")) {
-//                    EEMekanismRegistrar.registerCrystals(material);
-//                }
-//                if (material.getProcessedTypes().contains("shard")) {
-//                    EEMekanismRegistrar.registerShards(material);
-//                }
-//                if (material.getProcessedTypes().contains("clump")) {
-//                    EEMekanismRegistrar.registerClumps(material);
-//                }
-//                if (material.getProcessedTypes().contains("dirty_dust")) {
-//                    EEMekanismRegistrar.registerDirtyDusts(material);
-//                }
-//            }
-//            if (EmendatusEnigmatica.CREATE_LOADED) {
-//                if (material.getProcessedTypes().contains("crushed_ore")) {
-//                    EECreateRegistrar.registerCrushedOres(material);
-//                }
-//            }
 //            if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
 //                if (material.getProcessedTypes().contains("fragment")) {
 //                    EEBloodMagicRegistrar.registerFragments(material);
@@ -168,7 +146,6 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         generator.addProvider(true, new ItemModelsGen(generator, registry));
         generator.addProvider(true, new FluidModelsGen(generator, registry));
         generator.addProvider(true, new LangGen(generator, registry));
-//        if (EmendatusEnigmatica.CREATE_LOADED) generator.addProvider(true, new CreateDataGen.CreateItemModels(generator, registry));
 //        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator, registry));
 
         generator.addProvider(true, new BlockTagsGen(generator, registry));
@@ -180,23 +157,9 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         generator.addProvider(true, new LootTablesGen(generator, registry));
         generator.addProvider(true, new OreFeatureDataGen(generator, registry));
 
-//        if (EmendatusEnigmatica.CREATE_LOADED) {
-//            generator.addProvider(true, new CreateDataGen.CreateItemTags(generator, registry));
-//            generator.addProvider(true, new CreateDataGen.CreateRecipes(generator, registry));
-//        }
 //        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
 //            generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemTags(generator, registry));
 //            generator.addProvider(true, new BloodMagicDataGen.BloodMagicRecipes(generator, registry));
-//        }
-//        if (EmendatusEnigmatica.ARSNOUVEAU_LOADED) generator.addProvider(true, new ArsNouveauDataGen.ArsNouveauRecipes(generator, registry));
-//        if (EmendatusEnigmatica.OCCULTISM_LOADED) generator.addProvider(true, new OccultismDataGen.OccultismRecipes(generator, registry));
-//        if (EmendatusEnigmatica.THERMALSERIES_LOADED) generator.addProvider(true, new ThermalDataGen.ThermalRecipes(generator, registry));
-//
-//        if (EmendatusEnigmatica.MEKANISM_LOADED) {
-//            generator.addProvider(true, new MekanismDataGen.MekanismItemTags(generator, registry));
-//            generator.addProvider(true, new MekanismDataGen.MekanismSlurryTags(generator, registry));
-//            generator.addProvider(true, new MekanismDataGen.MekanismItemModels(generator, registry));
-//            generator.addProvider(true, new MekanismDataGen.MekanismRecipes(generator, registry));
 //        }
     }
 

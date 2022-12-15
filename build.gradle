@@ -172,7 +172,11 @@ dependencies {
 //    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
 //    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
 
-    runtimeOnly fg.deobf("com.ridanisaurus:eemodaddon:1.0.0-build.9999+mc1.19.2")
+    runtimeOnly fg.deobf("com.ridanisaurus:eecreateaddon:1.0.0-build.9999+mc1.19.2")
+    runtimeOnly fg.deobf("com.ridanisaurus:eethermaladdon:1.0.0-build.9999+mc1.19.2")
+    runtimeOnly fg.deobf("com.ridanisaurus:eemekanismaddon:1.0.0-build.9999+mc1.19.2")
+    runtimeOnly fg.deobf("com.ridanisaurus:eeoccultismaddon:1.0.0-build.9999+mc1.19.2")
+    runtimeOnly fg.deobf("com.ridanisaurus:eearsnouveauaddon:1.0.0-build.9999+mc1.19.2")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 }

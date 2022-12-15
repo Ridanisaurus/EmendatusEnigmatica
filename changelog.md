@@ -1,6 +1,8 @@
 #Emendatus Enigmatica
-####MC 1.19.2 | Version 2.0.6
+####MC 1.19.2 | Version 2.1.0
 
-* Compat recipes no longer have a minimum count of `1` and chance of `1.0`
-* Minor tweaks to the tint system for any colors between Red-Yellow-Green
-* Updated the Dirty Dust texture template
+* Moved all mod compat to their own addons. (see below for more info)
+* Minor tweaks to some textures and the tint system.
+
+#### Compat Addons
+With the release of 2.1.0, each compat registration and processing has been moved to its own addon.
