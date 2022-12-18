@@ -31,22 +31,21 @@ public class OreVeinifierMixin {
             double d1 = Math.abs(d0);
             int j = oreveinifier$veintype.maxY - i;
             int k = i - oreveinifier$veintype.minY;
+
             if (k >= 0 && j >= 0) {
                 int l = Math.min(j, k);
-                double d2 = Mth.clampedMap((double) l, 0.0D, 20.0D, -0.2D, 0.0D);
-                if (d1 + d2 < (double) 0.4F) {
+                double d2 = Mth.clampedMap((double)l, 0.0D, 20.0D, -0.2D, 0.0D);
+                if (d1 + d2 < (double)0.4F) {
                     return blockstate;
                 } else {
                     RandomSource randomsource = randomFactory.at(filler.blockX(), i, filler.blockZ());
-                    if (randomsource.nextFloat() > 0.7F) { // DENSITY
+                    if (randomsource.nextFloat() > 0.7F) {
                         return blockstate;
                     } else if (dFunction2.compute(filler) >= 0.0D) {
                         return blockstate;
                     } else {
-                        double d3 = Mth.clampedMap(d1, (double) 0.4F, (double) 0.6F, (double) 0.1F, (double) 0.3F);
-//                        double d3 = (double) 0.05F;
-//                        if ((double) randomsource.nextFloat() < d3 && dFunction3.compute(filler) < (double) 1.0F) { // CHANCE
-                        if (dFunction3.compute(filler) < (double) 1.0F) {
+                        double d3 = Mth.clampedMap(d1, (double)0.4F, (double)0.6F, (double)0.1F, (double)0.3F);
+                        if ((double)randomsource.nextFloat() < d3 && dFunction3.compute(filler) > (double)-0.3F) {
                             BlockState mixinRawOreBlock = oreveinifier$veintype.rawOreBlock;
                             BlockState mixinOreBlock = oreveinifier$veintype.ore;
                             for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
@@ -59,7 +58,7 @@ public class OreVeinifierMixin {
                                     mixinOreBlock = Blocks.LIGHT_BLUE_CONCRETE.defaultBlockState();
                                 }
                             }
-                            return randomsource.nextFloat() < 0.02F ? mixinRawOreBlock : mixinOreBlock; // Chance of Raw Ore Block
+                            return randomsource.nextFloat() < 0.02F ? mixinRawOreBlock : mixinOreBlock;
                         } else {
 //                            return oreveinifier$veintype.filler;
                             return Blocks.RED_CONCRETE.defaultBlockState();
