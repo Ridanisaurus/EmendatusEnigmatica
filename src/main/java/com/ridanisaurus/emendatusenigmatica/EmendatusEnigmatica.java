@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica;
 
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
+import com.ridanisaurus.emendatusenigmatica.core.mixin.OreVeinifierMixin;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEPackFinder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;

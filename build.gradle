@@ -144,41 +144,35 @@ dependencies {
 //    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
 //    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-    runtimeOnly fg.deobf("curse.maven:jei-238222:4066007")
+    runtimeOnly fg.deobf("curse.maven:jei-238222:4175833")
 
-    compileOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}:api"
-    runtimeOnly fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")// core
+//    compileOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}:api"
+//    runtimeOnly fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")// core
 
     runtimeOnly fg.deobf("curse.maven:tool-kit-324888:3933949")
     runtimeOnly fg.deobf("curse.maven:world-stripper-250603:3921630")
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
     runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
-    runtimeOnly fg.deobf("curse.maven:create-328085:4011414")
-//    runtimeOnly fg.deobf("curse.maven:blood-magic-224791:3540807")
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4031402")
-    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:4060866")
-    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4064451")
-    runtimeOnly fg.deobf("curse.maven:occultism-361026:4061171")
-    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4066224")
-    runtimeOnly fg.deobf("curse.maven:curios-309927:3924518")
-    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:4112130")
-    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:4112137")
-    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:4112121")
-//    runtimeOnly fg.deobf("curse.maven:shutup-experimental-settings-407174:3188120")
-//    runtimeOnly fg.deobf("curse.maven:oh-the-biomes-youll-go-247560:4027228")
-//    runtimeOnly fg.deobf("curse.maven:terrablender-563928:4013816")
-//    runtimeOnly fg.deobf("curse.maven:betterend-forge-port-428877:3185939")
-    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
-//    runtimeOnly fg.deobf("curse.maven:apotheosis-313970:3095843")
-//    runtimeOnly fg.deobf("curse.maven:placebo-283644:3172794")
+//    runtimeOnly fg.deobf("curse.maven:create-328085:4174330")
+//    runtimeOnly fg.deobf("curse.maven:patchouli-306770:4031402")
+//    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:4132780")
+//    runtimeOnly fg.deobf("curse.maven:geckolib-388172:4064451")
+//    runtimeOnly fg.deobf("curse.maven:occultism-361026:4181275")
+//    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:4125150")
+//    runtimeOnly fg.deobf("curse.maven:curios-309927:3924518")
+//    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:4112130")
+//    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:4112137")
+//    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:4112121")
+//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
 
-    runtimeOnly fg.deobf("com.ridanisaurus:eecreateaddon:1.0.0-build.9999+mc1.19.2")
-    runtimeOnly fg.deobf("com.ridanisaurus:eethermaladdon:1.0.0-build.9999+mc1.19.2")
-    runtimeOnly fg.deobf("com.ridanisaurus:eemekanismaddon:1.0.0-build.9999+mc1.19.2")
-    runtimeOnly fg.deobf("com.ridanisaurus:eeoccultismaddon:1.0.0-build.9999+mc1.19.2")
-    runtimeOnly fg.deobf("com.ridanisaurus:eearsnouveauaddon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("com.ridanisaurus:eecreateaddon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("com.ridanisaurus:eethermaladdon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("com.ridanisaurus:eemekanismaddon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("com.ridanisaurus:eeoccultismaddon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("com.ridanisaurus:eearsnouveauaddon:1.0.0-build.9999+mc1.19.2")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+//    implementation "org.spongepowered:noise:2.0.0-SNAPSHOT"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

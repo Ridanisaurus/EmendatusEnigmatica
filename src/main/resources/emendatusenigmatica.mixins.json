@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "emendatusenigmatica.refmap.json",
   "mixins": [
-	"ResourceLoaderMixin"
+	"ResourceLoaderMixin",
+	"OreVeinifierMixin"
   ],
   "injectors": {
 	"maxShiftBy": 3,

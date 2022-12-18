@@ -27,6 +27,8 @@ import java.util.Optional;
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
+    public static final List<MaterialModel> MATERIALS = new ArrayList<>();
+
     @Override
     public void load(EmendatusDataRegistry registry) {
         // Set the path to the defined folder
@@ -72,6 +74,7 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             }
             MaterialModel materialModel = result.get().getFirst();
             registry.getMaterialOrRegister(materialModel.getId(), materialModel);
+            MATERIALS.add(materialModel);
         }
 
         ArrayList<CompatModel> compatModels = new ArrayList<>();
