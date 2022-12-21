@@ -196,7 +196,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 				}
 				if (processedType.contains("ore") && stratum.getSampleStrata()) {
 					if (material.getColors().getMaterialColor() == -1) {
-						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/sample/" + material.getId(), getOreSampleModelName(stratum, material));
+						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
 					} else {
 						dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
 								"blocks/templates/sample/00",

@@ -14,7 +14,7 @@ public class BlockItemColorHandler implements ItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getHighlight2();
                 }
             }
@@ -29,7 +29,7 @@ public class BlockItemColorHandler implements ItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getHighlight1();
                 }
             }
@@ -44,7 +44,7 @@ public class BlockItemColorHandler implements ItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getBase();
                 }
             }
@@ -59,7 +59,7 @@ public class BlockItemColorHandler implements ItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getShadow1();
                 }
             }
@@ -74,7 +74,7 @@ public class BlockItemColorHandler implements ItemColor {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getShadow2();
                 }
             }

@@ -204,14 +204,8 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                     level.setBlock(samplePos, block.defaultBlockState(), 2);
                 });
             } else if (sampleBlockDefinitionModel.getMaterial() != null) {
-//                BlockState currentFiller = level.getBlockState(samplePos);
-//                String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
-//                Integer strataIndex = registry.getStrataByIndex().getOrDefault(fillerId, null);
-//                if (strataIndex != null) {
-//                    StrataModel stratum = registry.getStrata() .get(sampleBlockDefinitionModel.getStrata().);
-                    Block sampleBlock = EERegistrar.oreSampleBlockTable.get(sampleBlockDefinitionModel.getStrata(), sampleBlockDefinitionModel.getMaterial()).get();
-                    level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
-//                }
+                Block sampleBlock = EERegistrar.oreSampleBlockTable.get(sampleBlockDefinitionModel.getStrata(), sampleBlockDefinitionModel.getMaterial()).get();
+                level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
             }
         } catch (Exception e) {
             JsonElement modelJson = JsonOps.INSTANCE.withEncoder(SphereDepositModel.CODEC).apply(model).result().get();

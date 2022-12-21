@@ -17,7 +17,7 @@ public class BlockColorHandler implements BlockColor {
     public int getColor(BlockState state, @Nullable BlockAndTintGetter reader, @Nullable BlockPos pos, int layer) {
         Block block = state.getBlock();
         if (layer == 0) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getHighlight2();
             }
             if (block instanceof BasicStorageBlock) {
@@ -25,7 +25,7 @@ public class BlockColorHandler implements BlockColor {
             }
         }
         if (layer == 1) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getHighlight1();
             }
             if (block instanceof BasicStorageBlock) {
@@ -33,7 +33,7 @@ public class BlockColorHandler implements BlockColor {
             }
         }
         if (layer == 2) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getBase();
             }
             if (block instanceof BasicStorageBlock) {
@@ -41,7 +41,7 @@ public class BlockColorHandler implements BlockColor {
             }
         }
         if (layer == 3) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getShadow1();
             }
             if (block instanceof BasicStorageBlock) {
@@ -49,7 +49,7 @@ public class BlockColorHandler implements BlockColor {
             }
         }
         if (layer == 4) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getShadow2();
             }
             if (block instanceof BasicStorageBlock) {
