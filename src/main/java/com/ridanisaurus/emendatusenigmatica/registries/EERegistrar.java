@@ -69,6 +69,8 @@ public class EERegistrar {
 	// Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
+	public static Table<String, String, RegistryObject<Block>> oreSampleBlockTable = HashBasedTable.create();
+	public static Table<String, String, RegistryObject<Item>> oreSampleBlockItemTable = HashBasedTable.create();
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
@@ -167,6 +169,41 @@ public class EERegistrar {
 		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
 
 		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
+	}
+
+	public static void registerOreSample(StrataModel strata, MaterialModel material) {
+		String oreSampleName = material.getId() + "_" + strata.getSuffix() + "_ore_sample";
+		RegistryObject<Block> oreSampleBlock;
+		if (strata.getSampleStrata() && material.getProperties().hasParticles()) {
+			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlockWithParticles(
+					Material.STONE,
+					strata.getHardness(),
+					strata.getResistance(),
+					material.getLocalizedName(),
+					material.getColors().getParticlesColor(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			));
+		} else {
+			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlock(
+					Material.STONE,
+					strata.getHardness(),
+					strata.getResistance(),
+					material.getLocalizedName(),
+					material.getColors().getHighlightColor(3),
+					material.getColors().getHighlightColor(1),
+					material.getColors().getMaterialColor(),
+					material.getColors().getShadowColor(1),
+					material.getColors().getShadowColor(2)
+			));
+		}
+
+		oreSampleBlockTable.put(strata.getId(), material.getId(), oreSampleBlock);
+
+		oreSampleBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreSampleName, () -> new BlockItem(oreSampleBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
 	}
 
 	public static void registerStorageBlocks(MaterialModel material) {

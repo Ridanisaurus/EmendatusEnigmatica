@@ -28,7 +28,6 @@ import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.BlockModelBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEBlockModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -172,7 +171,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					if (material.getColors().getMaterialColor() == -1) {
-						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getModelName(stratum, material));
+						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getOreModelName(stratum, material));
 					} else {
 						if (material.getProperties().getMaterialType().equals("gem")) {
 							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
@@ -182,7 +181,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 									"blocks/templates/ore/gem/03",
 									"blocks/templates/ore/gem/04",
 									"blocks/templates/ore/gem/shadow_drop",
-									getModelName(stratum, material));
+									getOreModelName(stratum, material));
 						} else {
 							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
 									"blocks/templates/ore/metal/00",
@@ -191,16 +190,34 @@ public class BlockModelsGen extends EEBlockModelProvider {
 									"blocks/templates/ore/metal/03",
 									"blocks/templates/ore/metal/04",
 									"blocks/templates/ore/metal/shadow_drop",
-									getModelName(stratum, material));
+									getOreModelName(stratum, material));
 						}
+					}
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					if (material.getColors().getMaterialColor() == -1) {
+						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/sample/" + material.getId(), getOreSampleModelName(stratum, material));
+					} else {
+						dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+								"blocks/templates/sample/00",
+								"blocks/templates/sample/01",
+								"blocks/templates/sample/02",
+								"blocks/templates/sample//03",
+								"blocks/templates/sample/04",
+								"blocks/templates/sample/shadow_drop",
+								getOreSampleModelName(stratum, material));
 					}
 				}
 			}
 		}
 	}
 
-	public static String getModelName(StrataModel stratum, MaterialModel material) {
+	public static String getOreModelName(StrataModel stratum, MaterialModel material) {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
+	}
+
+	public static String getOreSampleModelName(StrataModel stratum, MaterialModel material) {
+		return material.getId() + "_" + stratum.getSuffix() + "_ore_sample";
 	}
 
 	public void dynamicBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String overlayTexture, String path) {

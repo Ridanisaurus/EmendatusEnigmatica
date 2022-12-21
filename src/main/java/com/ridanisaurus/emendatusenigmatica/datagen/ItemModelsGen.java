@@ -28,7 +28,6 @@ import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEItemModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.ItemModelBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -182,15 +181,23 @@ public class ItemModelsGen extends EEItemModelProvider {
 			// Ores
 			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
-					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material)).toString())
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, getModelName(stratum, material)));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + getOreModelName(stratum, material)).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreModelName(stratum, material)));
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + getOreSampleModelName(stratum, material)).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreSampleModelName(stratum, material)));
 				}
 			}
 		}
 	}
 
-	public static String getModelName(StrataModel stratum, MaterialModel material) {
+	public static String getOreModelName(StrataModel stratum, MaterialModel material) {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
+	}
+
+	public static String getOreSampleModelName(StrataModel stratum, MaterialModel material) {
+		return material.getId() + "_" + stratum.getSuffix() + "_ore_sample";
 	}
 
 	@Override

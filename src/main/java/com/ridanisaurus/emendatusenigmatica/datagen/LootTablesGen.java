@@ -96,6 +96,20 @@ public class LootTablesGen extends EELootProvider {
 						);
 					}
 				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					if (material.getOreDrop().getMax() == 1) {
+						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+								createOreDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
+						);
+					} else {
+						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+								createSpecialOreDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+						);
+					}
+				}
 			}
 		}
 	}

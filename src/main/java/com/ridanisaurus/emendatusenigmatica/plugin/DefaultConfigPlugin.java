@@ -96,6 +96,9 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
                 if (material.getProcessedTypes().contains("ore")) {
                     EERegistrar.registerOre(strata, material);
                 }
+                if (material.getProcessedTypes().contains("ore") && strata.getSampleStrata()) {
+                    EERegistrar.registerOreSample(strata, material);
+                }
             }
         }
 

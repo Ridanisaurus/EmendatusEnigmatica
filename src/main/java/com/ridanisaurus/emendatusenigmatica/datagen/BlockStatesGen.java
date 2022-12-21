@@ -28,7 +28,6 @@ import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEBlockStateProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.BlockStateBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -76,15 +75,25 @@ public class BlockStatesGen extends EEBlockStateProvider {
 				if (processedType.contains("ore")) {
 					new BlockStateBuilder()
 							.variant(new BlockStateBuilder.objectBuilder(false)
-									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getModelName(stratum, material)).toString()))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, getModelName(stratum, material)));
+									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getOreModelName(stratum, material)).toString()))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreModelName(stratum, material)));
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.objectBuilder(false)
+									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getOreSampleModelName(stratum, material)).toString()))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreSampleModelName(stratum, material)));
 				}
 			}
 		}
 	}
 
-	public static String getModelName(StrataModel stratum, MaterialModel material) {
+	public static String getOreModelName(StrataModel stratum, MaterialModel material) {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
+	}
+
+	public static String getOreSampleModelName(StrataModel stratum, MaterialModel material) {
+		return material.getId() + "_" + stratum.getSuffix() + "_ore_sample";
 	}
 
 	@Override

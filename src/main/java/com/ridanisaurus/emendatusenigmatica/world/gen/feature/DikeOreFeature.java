@@ -51,14 +51,14 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
     public boolean place(FeaturePlaceContext<DikeOreFeatureConfig> config) {
         RandomSource rand = config.random();
         BlockPos pos = config.origin();
-        WorldGenLevel reader = config.level();
+        WorldGenLevel level = config.level();
 
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(reader.getSeed()));
-        NormalNoise normalnoise = NormalNoise.create(worldgenrandom, -3, 3.0D); // INT Sparseness - DOUBLE ARRAY Density
+        WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(level.getSeed()));
+        NormalNoise normalNoise = NormalNoise.create(worldgenRandom, -3, 3.0D); // INT Sparseness - DOUBLE ARRAY Density
         ChunkPos chunkPos = new ChunkPos(pos);
 
-        int xPos = chunkPos.getMinBlockX() + reader.getRandom().nextInt(16);
-        int zPos = chunkPos.getMinBlockZ() + reader.getRandom().nextInt(16);
+        int xPos = chunkPos.getMinBlockX() + level.getRandom().nextInt(16);
+        int zPos = chunkPos.getMinBlockZ() + level.getRandom().nextInt(16);
 
         int yTop = model.getConfig().getMaxYLevel();
         int yBottom = model.getConfig().getMinYLevel();
@@ -75,8 +75,8 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
                     if (dist > size) {
                         continue;
                     }
-                    if (normalnoise.getValue(dX, dY, dZ) >= 0.5) {
-                        placeBlock(reader, rand, new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ), config);
+                    if (normalNoise.getValue(dX, dY, dZ) >= 0.5) {
+                        placeBlock(level, rand, new BlockPos(basePos.getX() + dX, dY, basePos.getZ() + dZ), config);
                     }
                 }
             }
@@ -85,8 +85,8 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
         return true;
     }
 
-    private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos pos, FeaturePlaceContext<DikeOreFeatureConfig> config) {
-        if (!config.config().target.test(reader.getBlockState(pos), rand)) {
+    private void placeBlock(WorldGenLevel level, RandomSource rand, BlockPos pos, FeaturePlaceContext<DikeOreFeatureConfig> config) {
+        if (!config.config().target.test(level.getBlockState(pos), rand)) {
             return;
         }
 
@@ -95,20 +95,20 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
             if (commonBlockDefinitionModel.getBlock() != null) {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-                reader.setBlock(pos, block.defaultBlockState(), 2);
+                level.setBlock(pos, block.defaultBlockState(), 2);
             } else if (commonBlockDefinitionModel.getTag() != null) {
                 ITag<Block> blockITag = ForgeRegistries.BLOCKS.tags().getTag(EETags.getBlockTag(new ResourceLocation(commonBlockDefinitionModel.getTag())));
                 blockITag.getRandomElement(rand).ifPresent(block -> {
-                    reader.setBlock(pos, block.defaultBlockState(), 2);
+                    level.setBlock(pos, block.defaultBlockState(), 2);
                 });
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
-                BlockState currentFiller = reader.getBlockState(pos);
+                BlockState currentFiller = level.getBlockState(pos);
                 String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
                 Integer strataIndex = registry.getStrataByIndex().getOrDefault(fillerId, null);
                 if (strataIndex != null) {
                     StrataModel stratum = registry.getStrata().get(strataIndex);
                     Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-                    reader.setBlock(pos, block.defaultBlockState(), 2);
+                    level.setBlock(pos, block.defaultBlockState(), 2);
                 }
             }
         } catch (Exception e) {

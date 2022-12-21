@@ -73,6 +73,10 @@ public class BlockHarvestTagsGen {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						harvestLevelSwitch(material, ore);
 					}
+					if (processedType.contains("ore") && stratum.getSampleStrata()) {
+						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+						harvestLevelSwitch(material, oreSample);
+					}
 				}
 			}
 			if (!woodTool.isEmpty()) new TagBuilder().tags(woodTool).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/needs_wood_tool"));
@@ -132,6 +136,16 @@ public class BlockHarvestTagsGen {
 							case "hoe" -> hoe.add(ore.toString());
 							case "axe" -> axe.add(ore.toString());
 							case "pickaxe" -> pickaxe.add(ore.toString());
+							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+						}
+					}
+					if(processedType.contains("ore") && stratum.getSampleStrata()) {
+						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+						switch (stratum.getHarvestTool()) {
+							case "shovel" -> shovel.add(oreSample.toString());
+							case "hoe" -> hoe.add(oreSample.toString());
+							case "axe" -> axe.add(oreSample.toString());
+							case "pickaxe" -> pickaxe.add(oreSample.toString());
 							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
 						}
 					}

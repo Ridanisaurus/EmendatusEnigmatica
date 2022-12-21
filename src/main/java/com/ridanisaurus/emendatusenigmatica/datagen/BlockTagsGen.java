@@ -70,14 +70,21 @@ public class BlockTagsGen extends EETagProvider {
 				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/raw_" + material.getId()));
 			}
 			// Ores
-			if (processedType.contains("ore")) {
-				for (StrataModel stratum : registry.getStrata()) {
+			for (StrataModel stratum : registry.getStrata()) {
+				if (processedType.contains("ore")) {
 					ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
 					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
 					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
 				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					ResourceLocation ore = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
+					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
+				}
 			}
+
 		}
 		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + material)));
 		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores_in_ground/" + strataPrefix)));

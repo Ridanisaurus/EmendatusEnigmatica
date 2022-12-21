@@ -160,7 +160,6 @@ public class LangGen extends EELangProvider {
 
 			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
-
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalizedName());
 					sb.append(" Ore");
@@ -169,8 +168,14 @@ public class LangGen extends EELangProvider {
 						sb.append(" - ");
 						sb.append(stratum.getLocalizedName());
 					}
-
 					add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Rich ");
+					sb.append(stratum.getLocalizedName());
+					add(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
 				}
 			}
 		}

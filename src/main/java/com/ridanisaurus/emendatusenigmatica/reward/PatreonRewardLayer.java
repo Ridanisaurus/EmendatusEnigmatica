@@ -103,9 +103,8 @@ public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, Player
 					var name = entry.getKey();
 					var item = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Reference.MOD_ID, "felinium_jaminite_ingot")));
 					REWARD_MAP.put(name, item);
-					EmendatusEnigmatica.LOGGER.info("Fetching supporter information was successful!");
 				}
-
+				EmendatusEnigmatica.LOGGER.info("Fetching supporter information was successful!");
 				reader.close();
 			} catch (Exception e) {
 				EmendatusEnigmatica.LOGGER.warn("Fetching supporter information failed", e);
