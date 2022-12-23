@@ -115,6 +115,7 @@ public class BlockHarvestTagsGen {
 		private final List<String> hoe = Lists.newArrayList();
 		private final List<String> axe = Lists.newArrayList();
 		private final List<String> pickaxe = Lists.newArrayList();
+		private final List<String> paxel = Lists.newArrayList();
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
@@ -155,6 +156,10 @@ public class BlockHarvestTagsGen {
 			if (!hoe.isEmpty()) new TagBuilder().tags(hoe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/hoe"));
 			if (!axe.isEmpty()) new TagBuilder().tags(axe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/axe"));
 			if (!pickaxe.isEmpty()) new TagBuilder().tags(pickaxe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/pickaxe"));
+			paxel.add("#minecraft:mineable/axe");
+			paxel.add("#minecraft:mineable/pickaxe");
+			paxel.add("#minecraft:mineable/shovel");
+			new TagBuilder().tags(paxel).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/mineable/paxel"));
 		}
 
 		@Override

@@ -116,6 +116,54 @@ public class LangGen extends EELangProvider {
 				add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
 			}
 
+			// Swords
+			if (processedType.contains("sword")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Sword");
+				add(EERegistrar.swordMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Pickaxes
+			if (processedType.contains("pickaxe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Pickaxe");
+				add(EERegistrar.pickaxeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Axes
+			if (processedType.contains("axe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Axe");
+				add(EERegistrar.axeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Shovels
+			if (processedType.contains("shovel")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Shovel");
+				add(EERegistrar.shovelMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Hoes
+			if (processedType.contains("hoe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Hoe");
+				add(EERegistrar.hoeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Paxels
+			if (processedType.contains("paxel")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Paxel");
+				add(EERegistrar.paxelMap.get(material.getId()).get(), sb.toString());
+			}
+
 			// Raw
 			if (processedType.contains("raw")) {
 				StringBuilder sb = new StringBuilder();

@@ -170,7 +170,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString())
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
-			// Sword
+			// Swords
 			if (processedType.contains("sword")) {
 				ItemModelBuilder swordBuilder = new ItemModelBuilder("minecraft:item/generated");
 				if (material.getColors().getMaterialColor() == -1) {
@@ -183,6 +183,76 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/04").toString());
 				}
 				swordBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_sword"));
+			}
+			// Pickaxes
+			if (processedType.contains("pickaxe")) {
+				ItemModelBuilder pickaxeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					pickaxeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_pickaxe").toString());
+				} else {
+					pickaxeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/04").toString());
+				}
+				pickaxeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_pickaxe"));
+			}
+			// Axes
+			if (processedType.contains("axe")) {
+				ItemModelBuilder axeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					axeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_axe").toString());
+				} else {
+					axeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/04").toString());
+				}
+				axeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_axe"));
+			}
+			// Shovels
+			if (processedType.contains("shovel")) {
+				ItemModelBuilder shovelBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					shovelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shovel").toString());
+				} else {
+					shovelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/04").toString());
+				}
+				shovelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shovel"));
+			}
+			// Hoes
+			if (processedType.contains("hoe")) {
+				ItemModelBuilder hoeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					hoeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_hoe").toString());
+				} else {
+					hoeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/04").toString());
+				}
+				hoeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_hoe"));
+			}
+			// Paxels
+			if (processedType.contains("paxel")) {
+				ItemModelBuilder paxelBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					paxelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_paxel").toString());
+				} else {
+					paxelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/04").toString());
+				}
+				paxelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_paxel"));
 			}
 			// Fluid Buckets
 			if (processedType.contains("fluid")) {

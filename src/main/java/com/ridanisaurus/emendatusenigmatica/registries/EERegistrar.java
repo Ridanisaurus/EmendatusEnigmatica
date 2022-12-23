@@ -36,6 +36,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -46,7 +47,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.SoundAction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
@@ -89,8 +89,9 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<SwordItem>> swordMap = new HashMap<>();
 	public static Map<String, RegistryObject<PickaxeItem>> pickaxeMap = new HashMap<>();
 	public static Map<String, RegistryObject<AxeItem>> axeMap = new HashMap<>();
-	public static Map<String, RegistryObject<ShovelItem>> shoverMap = new HashMap<>();
+	public static Map<String, RegistryObject<ShovelItem>> shovelMap = new HashMap<>();
 	public static Map<String, RegistryObject<HoeItem>> hoeMap = new HashMap<>();
+	public static Map<String, RegistryObject<PaxelItem>> paxelMap = new HashMap<>();
 
 	// Fluids
 	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
@@ -458,17 +459,151 @@ public class EERegistrar {
 				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
 
 		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(
-				new ForgeTier(
+				new ItemTier(
 						material.getTools().getLevel(),
 						material.getTools().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
-						EETags.NEEDS_TOOL.apply(material.getId()),
 						() -> Ingredient.of(repairItem)
 				),
 				material.getTools().getSword().getDamage(),
 				material.getTools().getSword().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Pickaxes
+	public static void registerPickaxes(MaterialModel material) {
+		String itemName = material.getId() + "_pickaxe";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		pickaxeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPickaxeItem(
+				new ItemTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_PICKAXE,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getPickaxe().getDamage(),
+				material.getTools().getPickaxe().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Axes
+	public static void registerAxes(MaterialModel material) {
+		String itemName = material.getId() + "_axe";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		axeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicAxeItem(
+				new ItemTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_AXE,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getAxe().getDamage(),
+				material.getTools().getAxe().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Shovels
+	public static void registerShovels(MaterialModel material) {
+		String itemName = material.getId() + "_shovel";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		shovelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShovelItem(
+				new ItemTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_SHOVEL,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getShovel().getDamage(),
+				material.getTools().getShovel().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Hoes
+	public static void registerHoes(MaterialModel material) {
+		String itemName = material.getId() + "_hoe";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		hoeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicHoeItem(
+				new ItemTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_HOE,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getHoe().getDamage(),
+				material.getTools().getHoe().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Paxels
+	public static void registerPaxels(MaterialModel material) {
+		String itemName = material.getId() + "_paxel";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		paxelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPaxelItem(
+				new ItemTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						EETags.MINEABLE_WITH_PAXEL,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getPaxel().getDamage(),
+				material.getTools().getPaxel().getSpeed(),
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),

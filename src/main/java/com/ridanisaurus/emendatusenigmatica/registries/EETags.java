@@ -55,7 +55,7 @@ public class EETags {
 
 	public static final Function<String, TagKey<Item>> MATERIAL_NONE = material -> getItemTag(new ResourceLocation(Reference.FORGE, material));
 
-	public static final Function<String, TagKey<Block>> NEEDS_TOOL = material -> create("mineable/needs_" + material + "_tool");
+	public static final TagKey<Block> MINEABLE_WITH_PAXEL = create("mineable/paxel");
 
 	public static TagKey<Item> getItemTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.ITEMS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.ITEMS.tags().createTagKey(resourceLocation));
@@ -66,6 +66,6 @@ public class EETags {
 	}
 
 	private static TagKey<Block> create(String location) {
-		return BlockTags.create(new ResourceLocation(Reference.MOD_ID, location));
+		return BlockTags.create(new ResourceLocation(Reference.FORGE, location));
 	}
 }

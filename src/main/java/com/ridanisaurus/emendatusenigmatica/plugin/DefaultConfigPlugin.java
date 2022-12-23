@@ -134,6 +134,21 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             if (material.getProcessedTypes().contains("sword")) {
                 EERegistrar.registerSwords(material);
             }
+            if (material.getProcessedTypes().contains("pickaxe")) {
+                EERegistrar.registerPickaxes(material);
+            }
+            if (material.getProcessedTypes().contains("axe")) {
+                EERegistrar.registerAxes(material);
+            }
+            if (material.getProcessedTypes().contains("shovel")) {
+                EERegistrar.registerShovels(material);
+            }
+            if (material.getProcessedTypes().contains("hoe")) {
+                EERegistrar.registerHoes(material);
+            }
+            if (material.getProcessedTypes().contains("paxel")) {
+                EERegistrar.registerPaxels(material);
+            }
             if (material.getProcessedTypes().contains("fluid")) {
                 EERegistrar.registerFluids(material);
             }
