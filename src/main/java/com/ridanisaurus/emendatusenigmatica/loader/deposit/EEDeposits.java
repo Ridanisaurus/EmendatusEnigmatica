@@ -8,10 +8,7 @@ import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.*;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DenseOreFeatureConfig;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DikeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.*;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -52,6 +49,7 @@ public class EEDeposits {
 		DEPOSIT_PROCESSORS.put(DepositType.GEODE.getType(), GeodeDepositProcessor::new);
 		DEPOSIT_PROCESSORS.put(DepositType.DIKE.getType(), DikeDepositProcessor::new);
 		DEPOSIT_PROCESSORS.put(DepositType.DENSE.getType(), DenseDepositProcessor::new);
+		DEPOSIT_PROCESSORS.put(DepositType.TEST.getType(), TestDepositProcessor::new);
 	}
 	public void load() {
 		if (DEPOSIT_PROCESSORS.isEmpty()) {
@@ -136,7 +134,7 @@ public class EEDeposits {
 				);
 			}
 			if(activeProcessor.getType().equals(DepositType.DIKE.getType())) {
-				var model = ((DikeDepositProcessor) activeProcessor).getVeinModel();
+				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
 				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<DikeOreFeature> dikeOreFeature = FEATURES.register(model.getName(), () -> new DikeOreFeature(DikeOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
@@ -148,11 +146,23 @@ public class EEDeposits {
 				);
 			}
 			if(activeProcessor.getType().equals(DepositType.DENSE.getType())) {
-				var model = ((DenseDepositProcessor) activeProcessor).getSparseModel();
+				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
 				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<DenseOreFeature> denseOreFeature = FEATURES.register(model.getName(), () -> new DenseOreFeature(DenseOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(denseOreFeature.get(), new DenseOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+				);
+				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+				PLACED_ORE_FEATURES.register(model.getName(),
+						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
+				);
+			}
+			if(activeProcessor.getType().equals(DepositType.TEST.getType())) {
+				var model = ((TestDepositProcessor) activeProcessor).getTestModel();
+				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+				RegistryObject<TestOreFeature> testOreFeature = FEATURES.register(model.getName(), () -> new TestOreFeature(TestOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
+				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
+						() -> new ConfiguredFeature<>(testOreFeature.get(), new TestOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
 				);
 				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
 				PLACED_ORE_FEATURES.register(model.getName(),
@@ -167,7 +177,8 @@ public class EEDeposits {
 		SPHERE("emendatusenigmatica:sphere_deposit"),
 		GEODE("emendatusenigmatica:geode_deposit"),
 		DIKE("emendatusenigmatica:dike_deposit"),
-		DENSE("emendatusenigmatica:dense_deposit");
+		DENSE("emendatusenigmatica:dense_deposit"),
+		TEST("emendatusenigmatica:test_deposit");
 
 		private final String type;
 

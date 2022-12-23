@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -54,11 +55,17 @@ public class EETags {
 
 	public static final Function<String, TagKey<Item>> MATERIAL_NONE = material -> getItemTag(new ResourceLocation(Reference.FORGE, material));
 
+	public static final Function<String, TagKey<Block>> NEEDS_TOOL = material -> create("mineable/needs_" + material + "_tool");
+
 	public static TagKey<Item> getItemTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.ITEMS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.ITEMS.tags().createTagKey(resourceLocation));
 	}
 
 	public static TagKey<Block> getBlockTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.BLOCKS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.BLOCKS.tags().createTagKey(resourceLocation));
+	}
+
+	private static TagKey<Block> create(String location) {
+		return BlockTags.create(new ResourceLocation(Reference.MOD_ID, location));
 	}
 }

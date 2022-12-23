@@ -6,29 +6,29 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.dense.DenseDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.test.TestDepositModel;
 
 import java.util.Optional;
 
-public class DenseDepositProcessor implements IDepositProcessor {
+public class TestDepositProcessor implements IDepositProcessor {
 
 	private JsonObject object;
-	private DenseDepositModel model;
+	private TestDepositModel model;
 
-	public DenseDepositProcessor(JsonObject object) {
+	public TestDepositProcessor(JsonObject object) {
 		this.object = object;
 	}
 
 	@Override
 	public void load() {
-		Optional<Pair<DenseDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(DenseDepositModel.CODEC).apply(object).result();
+		Optional<Pair<TestDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(TestDepositModel.CODEC).apply(object).result();
 		if (!result.isPresent()) {
 			return;
 		}
 		model = result.get().getFirst();
 	}
 
-	public DenseDepositModel getDenseModel() {
+	public TestDepositModel getTestModel() {
 		return model;
 	}
 

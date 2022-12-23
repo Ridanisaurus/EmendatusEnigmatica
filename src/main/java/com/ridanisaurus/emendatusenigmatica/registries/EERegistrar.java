@@ -30,16 +30,14 @@ import com.mojang.math.Vector3f;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.fluids.BasicFluidType;
-import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
-import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.items.FeliniumJaminiteIngot;
-import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
+import com.ridanisaurus.emendatusenigmatica.items.*;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -48,6 +46,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.SoundAction;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
@@ -85,6 +84,13 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> plateMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
+
+	// Tools
+	public static Map<String, RegistryObject<SwordItem>> swordMap = new HashMap<>();
+	public static Map<String, RegistryObject<PickaxeItem>> pickaxeMap = new HashMap<>();
+	public static Map<String, RegistryObject<AxeItem>> axeMap = new HashMap<>();
+	public static Map<String, RegistryObject<ShovelItem>> shoverMap = new HashMap<>();
+	public static Map<String, RegistryObject<HoeItem>> hoeMap = new HashMap<>();
 
 	// Fluids
 	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
@@ -442,6 +448,33 @@ public class EERegistrar {
 					material.getColors().getShadowColor(2)
 			)));
 		}
+	}
+
+	// Swords
+	public static void registerSwords(MaterialModel material) {
+		String itemName = material.getId() + "_sword";
+		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+
+		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(
+				new ForgeTier(
+						material.getTools().getLevel(),
+						material.getTools().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						EETags.NEEDS_TOOL.apply(material.getId()),
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getSword().getDamage(),
+				material.getTools().getSword().getSpeed(),
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
 	}
 
 	// Fluids

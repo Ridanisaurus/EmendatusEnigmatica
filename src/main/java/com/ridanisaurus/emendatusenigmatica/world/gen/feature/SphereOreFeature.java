@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
@@ -14,34 +13,23 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
-import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private SphereDepositModel model;
@@ -133,26 +121,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                 }
             }
         }
-        BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
-        if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER) {
-            sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
-        }
-        if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).getMaterial() != Material.LEAVES) {
-            for(int l = 0; l < 3; ++l) {
-                int i = rand.nextInt(2);
-                int j = rand.nextInt(2);
-                int k = rand.nextInt(2);
-                float f = (float)(i + j + k) * 0.333F + 0.5F;
-
-                for(BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k))) {
-                    if (samplePos.distSqr(sample) <= (double)(f * f) && placed) {
-                        placeSample(level, rand, samplePos);
-                    }
-                }
-                sample = sample.offset(-1 + rand.nextInt(2), -rand.nextInt(2), -1 + rand.nextInt(2));
-            }
-        }
-        placed = false;
+        placeSurfaceSample(rand, pos, level);
         return true;
     }
 
@@ -190,7 +159,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         }
     }
 
-    private void placeSample(WorldGenLevel level, RandomSource rand, BlockPos samplePos) {
+    private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos) {
         try {
             int index = rand.nextInt(sampleBlocks.size());
             SampleBlockDefinitionModel sampleBlockDefinitionModel = sampleBlocks.get(index);
@@ -212,5 +181,28 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             EmendatusEnigmatica.LOGGER.error("model: " + new Gson().toJson(modelJson));
             e.printStackTrace();
         }
+    }
+
+    private void placeSurfaceSample(RandomSource rand, BlockPos pos, WorldGenLevel level) {
+        BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
+        if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER) {
+            sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
+        }
+        if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).getMaterial() != Material.LEAVES) {
+            for(int l = 0; l < 3; ++l) {
+                int i = rand.nextInt(2);
+                int j = rand.nextInt(2);
+                int k = rand.nextInt(2);
+                float f = (float)(i + j + k) * 0.333F + 0.5F;
+
+                for(BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k))) {
+                    if (samplePos.distSqr(sample) <= (double)(f * f) && placed) {
+                        placeSampleBlock(level, rand, samplePos);
+                    }
+                }
+                sample = sample.offset(-1 + rand.nextInt(2), -rand.nextInt(2), -1 + rand.nextInt(2));
+            }
+        }
+        placed = false;
     }
 }

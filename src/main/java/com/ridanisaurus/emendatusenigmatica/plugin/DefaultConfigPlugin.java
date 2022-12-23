@@ -131,6 +131,9 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             if (material.getProcessedTypes().contains("rod")) {
                 EERegistrar.registerRods(material);
             }
+            if (material.getProcessedTypes().contains("sword")) {
+                EERegistrar.registerSwords(material);
+            }
             if (material.getProcessedTypes().contains("fluid")) {
                 EERegistrar.registerFluids(material);
             }

@@ -28,7 +28,7 @@ public class DikeDepositProcessor implements IDepositProcessor {
 		model = result.get().getFirst();
 	}
 
-	public DikeDepositModel getVeinModel() {
+	public DikeDepositModel getDikeModel() {
 		return model;
 	}
 

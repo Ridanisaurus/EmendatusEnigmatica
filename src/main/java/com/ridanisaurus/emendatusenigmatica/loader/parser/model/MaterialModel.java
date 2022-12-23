@@ -40,8 +40,9 @@ public class MaterialModel {
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
-			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors))
-	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors) -> new MaterialModel(
+			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
+			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools))
+	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors, tools) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
@@ -50,7 +51,8 @@ public class MaterialModel {
 			properties.orElse(new MaterialPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
-			colors.orElse(new MaterialColorsModel())
+			colors.orElse(new MaterialColorsModel()),
+			tools.orElse(new MaterialToolsModel())
 	)));
 
 	private final String id;
@@ -62,8 +64,9 @@ public class MaterialModel {
 	private final MaterialOreDropModel oreDrop;
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
+	private final MaterialToolsModel tools;
 
-	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors) {
+	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
@@ -73,6 +76,7 @@ public class MaterialModel {
 		this.oreDrop = oreDrop;
 		this.compat = compat;
 		this.colors = colors;
+		this.tools = tools;
 	}
 
 	public String getId() {
@@ -117,5 +121,9 @@ public class MaterialModel {
 
 	public MaterialColorsModel getColors() {
 		return colors;
+	}
+
+	public MaterialToolsModel getTools() {
+		return tools;
 	}
 }

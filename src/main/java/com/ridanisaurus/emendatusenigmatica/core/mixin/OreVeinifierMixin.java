@@ -50,18 +50,17 @@ public class OreVeinifierMixin {
                             BlockState mixinOreBlock = oreveinifier$veintype.ore;
                             for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
                                 if (oreveinifier$veintype == OreVeinifier.VeinType.COPPER && material.getId().equals("copper") && material.getDisableDefaultOre()) {
-                                    mixinRawOreBlock = Blocks.GREEN_CONCRETE.defaultBlockState();
-                                    mixinOreBlock = Blocks.LIME_CONCRETE.defaultBlockState();
+                                    mixinRawOreBlock = Blocks.STONE.defaultBlockState();
+                                    mixinOreBlock = Blocks.STONE.defaultBlockState();
                                 }
                                 if (oreveinifier$veintype == OreVeinifier.VeinType.IRON && material.getId().equals("iron") && material.getDisableDefaultOre()) {
-                                    mixinRawOreBlock = Blocks.BLUE_CONCRETE.defaultBlockState();
-                                    mixinOreBlock = Blocks.LIGHT_BLUE_CONCRETE.defaultBlockState();
+                                    mixinRawOreBlock = Blocks.DEEPSLATE.defaultBlockState();
+                                    mixinOreBlock = Blocks.DEEPSLATE.defaultBlockState();
                                 }
                             }
                             return randomsource.nextFloat() < 0.02F ? mixinRawOreBlock : mixinOreBlock;
                         } else {
-//                            return oreveinifier$veintype.filler;
-                            return Blocks.RED_CONCRETE.defaultBlockState();
+                            return oreveinifier$veintype.filler;
                         }
                     }
                 }

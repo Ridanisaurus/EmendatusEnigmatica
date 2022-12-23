@@ -170,6 +170,20 @@ public class ItemModelsGen extends EEItemModelProvider {
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString())
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
+			// Sword
+			if (processedType.contains("sword")) {
+				ItemModelBuilder swordBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					swordBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_sword").toString());
+				} else {
+					swordBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/04").toString());
+				}
+				swordBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_sword"));
+			}
 			// Fluid Buckets
 			if (processedType.contains("fluid")) {
 				new ItemModelBuilder("forge:item/bucket_drip")
