@@ -455,9 +455,12 @@ public class EERegistrar {
 	// Swords
 	public static void registerSwords(MaterialModel material) {
 		String itemName = material.getId() + "_sword";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
 
 		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(
 				new ItemTier(
@@ -480,9 +483,12 @@ public class EERegistrar {
 	// Pickaxes
 	public static void registerPickaxes(MaterialModel material) {
 		String itemName = material.getId() + "_pickaxe";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
 
 		pickaxeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPickaxeItem(
 				new ItemTier(
@@ -506,9 +512,12 @@ public class EERegistrar {
 	// Axes
 	public static void registerAxes(MaterialModel material) {
 		String itemName = material.getId() + "_axe";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
 
 		axeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicAxeItem(
 				new ItemTier(
@@ -532,9 +541,12 @@ public class EERegistrar {
 	// Shovels
 	public static void registerShovels(MaterialModel material) {
 		String itemName = material.getId() + "_shovel";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
 
 		shovelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShovelItem(
 				new ItemTier(
@@ -558,9 +570,12 @@ public class EERegistrar {
 	// Hoes
 	public static void registerHoes(MaterialModel material) {
 		String itemName = material.getId() + "_hoe";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
 
 		hoeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicHoeItem(
 				new ItemTier(
@@ -584,16 +599,12 @@ public class EERegistrar {
 	// Paxels
 	public static void registerPaxels(MaterialModel material) {
 		String itemName = material.getId() + "_paxel";
-//		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-//				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isVanilla() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-//				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isVanilla() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
-		TagKey<Item> repairMaterial;
+		TagKey<Item> repairItem;
 		if (material.getProperties().getMaterialType().equals("metal")) {
-			repairMaterial = EETags.MATERIAL_INGOT.apply(material.getId());
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
 		} else {
-			repairMaterial = EETags.MATERIAL_GEM.apply(material.getId());
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
 		}
-
 
 		paxelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPaxelItem(
 				new ItemTier(
@@ -603,7 +614,7 @@ public class EERegistrar {
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
 						EETags.MINEABLE_WITH_PAXEL,
-						() -> Ingredient.of(repairMaterial)
+						() -> Ingredient.of(repairItem)
 				),
 				material.getTools().getPaxel().getDamage(),
 				material.getTools().getPaxel().getSpeed(),
