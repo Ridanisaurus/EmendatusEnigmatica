@@ -35,14 +35,12 @@ public class BasicAxeItem extends AxeItem {
   public final int highlight1;
   public final int base;
   public final int shadow1;
-  public final int shadow2;
 
-  public BasicAxeItem(Tier tier, int dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
+  public BasicAxeItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
     super(tier, dmgMod , speedMod, new Properties().tab(EmendatusEnigmatica.TAB));
     this.highlight2 = highlight2;
     this.highlight1 = highlight1;
     this.base = base;
     this.shadow1 = shadow1;
-    this.shadow2 = shadow2;
   }
 }

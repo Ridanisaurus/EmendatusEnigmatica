@@ -180,7 +180,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/sword/grip").toString());
 				}
 				swordBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_sword"));
 			}
@@ -194,7 +194,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/pickaxe/grip").toString());
 				}
 				pickaxeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_pickaxe"));
 			}
@@ -208,7 +208,8 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/axe/grip").toString());
+
 				}
 				axeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_axe"));
 			}
@@ -222,7 +223,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/shovel/grip").toString());
 				}
 				shovelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shovel"));
 			}
@@ -236,7 +237,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/hoe/grip").toString());
 				}
 				hoeBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_hoe"));
 			}
@@ -250,7 +251,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/01").toString())
 							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/02").toString())
 							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/04").toString());
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/paxel/grip").toString());
 				}
 				paxelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_paxel"));
 			}

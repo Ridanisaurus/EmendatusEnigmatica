@@ -37,6 +37,7 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -461,7 +462,7 @@ public class EERegistrar {
 		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getSword().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -472,8 +473,7 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 
@@ -487,7 +487,7 @@ public class EERegistrar {
 		pickaxeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPickaxeItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getPickaxe().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -499,8 +499,7 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 
@@ -514,7 +513,7 @@ public class EERegistrar {
 		axeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicAxeItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getAxe().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -526,8 +525,7 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 
@@ -541,7 +539,7 @@ public class EERegistrar {
 		shovelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShovelItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getShovel().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -553,8 +551,7 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 
@@ -568,7 +565,7 @@ public class EERegistrar {
 		hoeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicHoeItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getHoe().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -580,35 +577,40 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 
 	// Paxels
 	public static void registerPaxels(MaterialModel material) {
 		String itemName = material.getId() + "_paxel";
-		Item repairItem = material.getProperties().getMaterialType().equals("metal")
-				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
-				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isModded() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+//		Item repairItem = material.getProperties().getMaterialType().equals("metal")
+//				? ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isVanilla() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_ingot"))
+//				: ForgeRegistries.ITEMS.getValue(new ResourceLocation(material.isVanilla() ? Reference.MOD_ID : Reference.MINECRAFT, material.getId() + "_gem"));
+		TagKey<Item> repairMaterial;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairMaterial = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairMaterial = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+
 
 		paxelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPaxelItem(
 				new ItemTier(
 						material.getTools().getLevel(),
-						material.getTools().getDurability(),
+						(int) (material.getTools().getDurability() * material.getTools().getPaxel().getModifier()),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
 						EETags.MINEABLE_WITH_PAXEL,
-						() -> Ingredient.of(repairItem)
+						() -> Ingredient.of(repairMaterial)
 				),
 				material.getTools().getPaxel().getDamage(),
 				material.getTools().getPaxel().getSpeed(),
 				material.getColors().getHighlightColor(3),
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
+				material.getColors().getShadowColor(1)
 		)));
 	}
 

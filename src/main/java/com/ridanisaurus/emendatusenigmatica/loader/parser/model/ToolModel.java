@@ -31,31 +31,40 @@ import java.util.Optional;
 
 public class ToolModel {
 	public static final Codec<ToolModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.INT.optionalFieldOf("damage").forGetter(i -> Optional.of(i.damage)),
-			Codec.FLOAT.optionalFieldOf("speed").forGetter(i -> Optional.of(i.speed))
-	).apply(x, (damage, speed) -> new ToolModel(
-			damage.orElse(1),
-			speed.orElse(1.0f)
+			Codec.FLOAT.optionalFieldOf("damage").forGetter(i -> Optional.of(i.damage)),
+			Codec.FLOAT.optionalFieldOf("speed").forGetter(i -> Optional.of(i.speed)),
+			Codec.FLOAT.optionalFieldOf("modifier").forGetter(i -> Optional.of(i.modifier))
+	).apply(x, (damage, speed, modifier) -> new ToolModel(
+			damage.orElse(1.0f),
+			speed.orElse(1.0f),
+			modifier.orElse(1.0f)
 	)));
 
-	private final int damage;
+	private final float damage;
 	private final float speed;
+	private final float modifier;
 
-	public ToolModel(int damage, float speed) {
+	public ToolModel(float damage, float speed, float modifier) {
 		this.damage = damage;
 		this.speed = speed;
+		this.modifier = modifier;
 	}
 
 	public ToolModel() {
-		this.damage = 1;
+		this.damage = 1.0f;
 		this.speed = 1.0f;
+		this.modifier = 1.0f;
 	}
 
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 
 	public float getSpeed() {
 		return speed;
+	}
+
+	public float getModifier() {
+		return modifier;
 	}
 }
