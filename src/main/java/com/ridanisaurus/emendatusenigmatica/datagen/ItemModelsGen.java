@@ -255,6 +255,62 @@ public class ItemModelsGen extends EEItemModelProvider {
 				}
 				paxelBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_paxel"));
 			}
+			// Helmet
+			if (processedType.contains("helmet")) {
+				ItemModelBuilder helmetBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					helmetBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_helmet").toString());
+				} else {
+					helmetBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/helmet/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/helmet/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/helmet/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/helmet/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/helmet/04").toString());
+				}
+				helmetBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_helmet"));
+			}
+			// Chestplate
+			if (processedType.contains("chestplate")) {
+				ItemModelBuilder chestplateBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					chestplateBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_chestplate").toString());
+				} else {
+					chestplateBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/chestplate/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/chestplate/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/chestplate/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/chestplate/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/chestplate/04").toString());
+				}
+				chestplateBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_chestplate"));
+			}
+			// Leggings
+			if (processedType.contains("leggings")) {
+				ItemModelBuilder leggingsBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					leggingsBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_leggings").toString());
+				} else {
+					leggingsBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/leggings/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/leggings/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/leggings/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/leggings/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/leggings/04").toString());
+				}
+				leggingsBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_leggings"));
+			}
+			// Boots
+			if (processedType.contains("boots")) {
+				ItemModelBuilder bootsBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					bootsBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_boots").toString());
+				} else {
+					bootsBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/boots/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/boots/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/boots/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/boots/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/boots/04").toString());
+				}
+				bootsBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_boots"));
+			}
 			// Fluid Buckets
 			if (processedType.contains("fluid")) {
 				new ItemModelBuilder("forge:item/bucket_drip")

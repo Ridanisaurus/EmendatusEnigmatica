@@ -41,8 +41,9 @@ public class MaterialModel {
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
-			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools))
-	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors, tools) -> new MaterialModel(
+			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
+			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
+	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
@@ -52,7 +53,8 @@ public class MaterialModel {
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
 			colors.orElse(new MaterialColorsModel()),
-			tools.orElse(new MaterialToolsModel())
+			tools.orElse(new MaterialToolsModel()),
+			armor.orElse(new MaterialArmorModel())
 	)));
 
 	private final String id;
@@ -65,8 +67,10 @@ public class MaterialModel {
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
 	private final MaterialToolsModel tools;
+	private final MaterialArmorModel armor;
 
-	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools) {
+	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes,
+	                     MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
@@ -77,6 +81,7 @@ public class MaterialModel {
 		this.compat = compat;
 		this.colors = colors;
 		this.tools = tools;
+		this.armor = armor;
 	}
 
 	public String getId() {
@@ -125,5 +130,9 @@ public class MaterialModel {
 
 	public MaterialToolsModel getTools() {
 		return tools;
+	}
+
+	public MaterialArmorModel getArmor() {
+		return armor;
 	}
 }

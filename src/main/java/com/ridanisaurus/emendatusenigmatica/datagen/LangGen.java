@@ -164,6 +164,38 @@ public class LangGen extends EELangProvider {
 				add(EERegistrar.paxelMap.get(material.getId()).get(), sb.toString());
 			}
 
+			// Helmet
+			if (processedType.contains("helmet")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Helmet");
+				add(EERegistrar.helmetMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Chestplate
+			if (processedType.contains("chestplate")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Chestplate");
+				add(EERegistrar.chestplateMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Leggings
+			if (processedType.contains("leggings")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Leggings");
+				add(EERegistrar.leggingsMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Boots
+			if (processedType.contains("boots")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Boots");
+				add(EERegistrar.bootsMap.get(material.getId()).get(), sb.toString());
+			}
+
 			// Raw
 			if (processedType.contains("raw")) {
 				StringBuilder sb = new StringBuilder();

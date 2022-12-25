@@ -149,6 +149,18 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             if (material.getProcessedTypes().contains("paxel")) {
                 EERegistrar.registerPaxels(material);
             }
+            if (material.getProcessedTypes().contains("helmet")) {
+                EERegistrar.registerHelmets(material);
+            }
+            if (material.getProcessedTypes().contains("chestplate")) {
+                EERegistrar.registerChestplates(material);
+            }
+            if (material.getProcessedTypes().contains("leggings")) {
+                EERegistrar.registerLeggings(material);
+            }
+            if (material.getProcessedTypes().contains("boots")) {
+                EERegistrar.registerBoots(material);
+            }
             if (material.getProcessedTypes().contains("fluid")) {
                 EERegistrar.registerFluids(material);
             }

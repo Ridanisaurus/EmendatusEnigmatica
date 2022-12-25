@@ -29,39 +29,30 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.Optional;
 
-public class ToolModel {
-	public static final Codec<ToolModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.FLOAT.optionalFieldOf("damage").forGetter(i -> Optional.of(i.damage)),
-			Codec.FLOAT.optionalFieldOf("speed").forGetter(i -> Optional.of(i.speed)),
+public class ArmorModel {
+	public static final Codec<ArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.INT.optionalFieldOf("protection").forGetter(i -> Optional.of(i.protection)),
 			Codec.INT.optionalFieldOf("durability").forGetter(i -> Optional.of(i.durability))
-	).apply(x, (damage, speed, durability) -> new ToolModel(
-			damage.orElse(0.0f),
-			speed.orElse(0.0f),
+	).apply(x, (protection, durability) -> new ArmorModel(
+			protection.orElse(0),
 			durability.orElse(1)
 	)));
 
-	private final float damage;
-	private final float speed;
+	private final int protection;
 	private final int durability;
 
-	public ToolModel(float damage, float speed, int durability) {
-		this.damage = damage;
-		this.speed = speed;
+	public ArmorModel(int protection, int durability) {
+		this.protection = protection;
 		this.durability = durability;
 	}
 
-	public ToolModel() {
-		this.damage = 0.0f;
-		this.speed = 0.0f;
+	public ArmorModel() {
+		this.protection = 0;
 		this.durability = 1;
 	}
 
-	public float getDamage() {
-		return damage;
-	}
-
-	public float getSpeed() {
-		return speed;
+	public int getProtection() {
+		return protection;
 	}
 
 	public int getDurability() {

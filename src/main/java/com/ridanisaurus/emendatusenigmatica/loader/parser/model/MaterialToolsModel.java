@@ -34,7 +34,6 @@ public class MaterialToolsModel {
 			Codec.FLOAT.optionalFieldOf("attackDamage").forGetter(i -> Optional.of(i.attackDamage)),
 			Codec.INT.optionalFieldOf("level").forGetter(i -> Optional.of(i.level)),
 			Codec.INT.optionalFieldOf("enchantability").forGetter(i -> Optional.of(i.enchantability)),
-			Codec.INT.optionalFieldOf("durability").forGetter(i -> Optional.of(i.durability)),
 			Codec.FLOAT.optionalFieldOf("efficiency").forGetter(i -> Optional.of(i.efficiency)),
 			ToolModel.CODEC.optionalFieldOf("sword").forGetter(i -> Optional.of(i.sword)),
 			ToolModel.CODEC.optionalFieldOf("pickaxe").forGetter(i -> Optional.of(i.pickaxe)),
@@ -42,12 +41,11 @@ public class MaterialToolsModel {
 			ToolModel.CODEC.optionalFieldOf("shovel").forGetter(i -> Optional.of(i.shovel)),
 			ToolModel.CODEC.optionalFieldOf("hoe").forGetter(i -> Optional.of(i.hoe)),
 			ToolModel.CODEC.optionalFieldOf("paxel").forGetter(i -> Optional.of(i.paxel))
-	).apply(x, (attackDamage, level, enchantability, durability, efficiency, sword, pickaxe, axe, shovel, hoe, paxel) -> new MaterialToolsModel(
-			attackDamage.orElse(1.0f),
-			level.orElse(1),
-			enchantability.orElse(100),
-			durability.orElse(100),
-			efficiency.orElse(1.0f),
+	).apply(x, (attackDamage, level, enchantability, efficiency, sword, pickaxe, axe, shovel, hoe, paxel) -> new MaterialToolsModel(
+			attackDamage.orElse(0.0f),
+			level.orElse(0),
+			enchantability.orElse(0),
+			efficiency.orElse(0.0f),
 			sword.orElse(new ToolModel()),
 			pickaxe.orElse(new ToolModel()),
 			axe.orElse(new ToolModel()),
@@ -59,7 +57,6 @@ public class MaterialToolsModel {
 	private final float attackDamage;
 	private final int level;
 	private final int enchantability;
-	private final int durability;
 	private final float efficiency;
 	private final ToolModel sword;
 	private final ToolModel pickaxe;
@@ -68,11 +65,10 @@ public class MaterialToolsModel {
 	private final ToolModel hoe;
 	private final ToolModel paxel;
 
-	public MaterialToolsModel(float attackDamage, int level, int enchantability, int durability, float efficiency, ToolModel sword, ToolModel pickaxe, ToolModel axe, ToolModel shovel, ToolModel hoe, ToolModel paxel) {
+	public MaterialToolsModel(float attackDamage, int level, int enchantability, float efficiency, ToolModel sword, ToolModel pickaxe, ToolModel axe, ToolModel shovel, ToolModel hoe, ToolModel paxel) {
 		this.attackDamage = attackDamage;
 		this.level = level;
 		this.enchantability = enchantability;
-		this.durability = durability;
 		this.efficiency = efficiency;
 		this.sword = sword;
 		this.pickaxe = pickaxe;
@@ -83,11 +79,10 @@ public class MaterialToolsModel {
 	}
 
 	public MaterialToolsModel() {
-		this.attackDamage = 1.0f;
-		this.level = 1;
-		this.enchantability = 100;
-		this.durability = 100;
-		this.efficiency = 1.0f;
+		this.attackDamage = 0.0f;
+		this.level = 0;
+		this.enchantability = 0;
+		this.efficiency = 0.0f;
 		this.sword = new ToolModel();
 		this.pickaxe = new ToolModel();
 		this.axe = new ToolModel();
@@ -106,10 +101,6 @@ public class MaterialToolsModel {
 
 	public int getEnchantability() {
 		return enchantability;
-	}
-
-	public int getDurability() {
-		return durability;
 	}
 
 	public float getEfficiency() {

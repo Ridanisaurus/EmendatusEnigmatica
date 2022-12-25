@@ -33,34 +33,33 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-public class ItemTier implements Tier {
+public class ToolTier implements Tier {
 	private final int level;
 	private final int uses;
-	private final float speed;
-	private final float attackDamageBonus;
-	private final int enchantmentValue;
+	private final float efficiency;
+	private final float attackDamage;
+	private final int enchantability;
 	@Nullable
 	private final TagKey<Block> tag;
 	@NotNull
 	private final Supplier<Ingredient> repairIngredient;
 
-	public ItemTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue,
-	                @Nullable TagKey<Block> tag, @NotNull Supplier<Ingredient> repairIngredient) {
+	public ToolTier(int level, int uses, float efficiency, float attackDamage, int enchantability, @Nullable TagKey<Block> tag, @NotNull Supplier<Ingredient> repairIngredient) {
 		this.level = level;
 		this.uses = uses;
-		this.speed = speed;
-		this.attackDamageBonus = attackDamageBonus;
-		this.enchantmentValue = enchantmentValue;
+		this.efficiency = efficiency;
+		this.attackDamage = attackDamage;
+		this.enchantability = enchantability;
 		this.tag = tag;
 		this.repairIngredient = repairIngredient;
 	}
 
-	public ItemTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue, @NotNull Supplier<Ingredient> repairIngredient) {
+	public ToolTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue, @NotNull Supplier<Ingredient> repairIngredient) {
 		this.level = level;
 		this.uses = uses;
-		this.speed = speed;
-		this.attackDamageBonus = attackDamageBonus;
-		this.enchantmentValue = enchantmentValue;
+		this.efficiency = speed;
+		this.attackDamage = attackDamageBonus;
+		this.enchantability = enchantmentValue;
 		this.tag = Tier.super.getTag();
 		this.repairIngredient = repairIngredient;
 	}
@@ -72,12 +71,12 @@ public class ItemTier implements Tier {
 
 	@Override
 	public float getSpeed() {
-		return this.speed;
+		return this.efficiency;
 	}
 
 	@Override
 	public float getAttackDamageBonus() {
-		return this.attackDamageBonus;
+		return this.attackDamage;
 	}
 
 	@Override
@@ -87,7 +86,7 @@ public class ItemTier implements Tier {
 
 	@Override
 	public int getEnchantmentValue() {
-		return this.enchantmentValue;
+		return this.enchantability;
 	}
 
 	@Override
@@ -105,9 +104,9 @@ public class ItemTier implements Tier {
 		return "ForgeTier[" +
 				"level=" + level + ", " +
 				"uses=" + uses + ", " +
-				"speed=" + speed + ", " +
-				"attackDamageBonus=" + attackDamageBonus + ", " +
-				"enchantmentValue=" + enchantmentValue + ", " +
+				"speed=" + efficiency + ", " +
+				"attackDamageBonus=" + attackDamage + ", " +
+				"enchantmentValue=" + enchantability + ", " +
 				"tag=" + tag + ", " +
 				"repairIngredient=" + repairIngredient + ']';
 	}

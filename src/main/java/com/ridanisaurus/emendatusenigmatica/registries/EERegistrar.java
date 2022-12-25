@@ -38,6 +38,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -93,6 +94,12 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<ShovelItem>> shovelMap = new HashMap<>();
 	public static Map<String, RegistryObject<HoeItem>> hoeMap = new HashMap<>();
 	public static Map<String, RegistryObject<PaxelItem>> paxelMap = new HashMap<>();
+
+	// Armor
+	public static Map<String, RegistryObject<ArmorItem>> helmetMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> chestplateMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> leggingsMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> bootsMap = new HashMap<>();
 
 	// Fluids
 	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
@@ -463,9 +470,9 @@ public class EERegistrar {
 		}
 
 		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getSword().getModifier()),
+						material.getTools().getSword().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -491,9 +498,9 @@ public class EERegistrar {
 		}
 
 		pickaxeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPickaxeItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getPickaxe().getModifier()),
+						material.getTools().getPickaxe().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -520,9 +527,9 @@ public class EERegistrar {
 		}
 
 		axeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicAxeItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getAxe().getModifier()),
+						material.getTools().getAxe().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -549,9 +556,9 @@ public class EERegistrar {
 		}
 
 		shovelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShovelItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getShovel().getModifier()),
+						material.getTools().getShovel().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -578,9 +585,9 @@ public class EERegistrar {
 		}
 
 		hoeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicHoeItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getHoe().getModifier()),
+						material.getTools().getHoe().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -607,9 +614,9 @@ public class EERegistrar {
 		}
 
 		paxelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPaxelItem(
-				new ItemTier(
+				new ToolTier(
 						material.getTools().getLevel(),
-						(int) (material.getTools().getDurability() * material.getTools().getPaxel().getModifier()),
+						material.getTools().getPaxel().getDurability(),
 						material.getTools().getEfficiency(),
 						material.getTools().getAttackDamage(),
 						material.getTools().getEnchantability(),
@@ -622,6 +629,122 @@ public class EERegistrar {
 				material.getColors().getHighlightColor(1),
 				material.getColors().getMaterialColor(),
 				material.getColors().getShadowColor(1)
+		)));
+	}
+
+	// Helmet
+	public static void registerHelmets(MaterialModel material) {
+		String itemName = material.getId() + "_helmet";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+
+		helmetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				new ArmorTier(
+						material.getId(),
+						material.getArmor().getHelmet().getDurability(),
+						material.getArmor().getHelmet().getProtection(),
+						material.getArmor().getEnchantability(),
+						material.getArmor().getToughness(),
+						material.getArmor().getKnockback(),
+						() -> Ingredient.of(repairItem)
+				),
+				EquipmentSlot.HEAD,
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Chestplate
+	public static void registerChestplates(MaterialModel material) {
+		String itemName = material.getId() + "_chestplate";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+
+		chestplateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				new ArmorTier(
+						material.getId(),
+						material.getArmor().getChestplate().getDurability(),
+						material.getArmor().getChestplate().getProtection(),
+						material.getArmor().getEnchantability(),
+						material.getArmor().getToughness(),
+						material.getArmor().getKnockback(),
+						() -> Ingredient.of(repairItem)
+				),
+				EquipmentSlot.CHEST,
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Leggings
+	public static void registerLeggings(MaterialModel material) {
+		String itemName = material.getId() + "_leggings";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+
+		leggingsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				new ArmorTier(
+						material.getId(),
+						material.getArmor().getLeggings().getDurability(),
+						material.getArmor().getLeggings().getProtection(),
+						material.getArmor().getEnchantability(),
+						material.getArmor().getToughness(),
+						material.getArmor().getKnockback(),
+						() -> Ingredient.of(repairItem)
+				),
+				EquipmentSlot.LEGS,
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
+		)));
+	}
+
+	// Boots
+	public static void registerBoots(MaterialModel material) {
+		String itemName = material.getId() + "_boots";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+
+		bootsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				new ArmorTier(
+						material.getId(),
+						material.getArmor().getBoots().getDurability(),
+						material.getArmor().getBoots().getProtection(),
+						material.getArmor().getEnchantability(),
+						material.getArmor().getToughness(),
+						material.getArmor().getKnockback(),
+						() -> Ingredient.of(repairItem)
+				),
+				EquipmentSlot.FEET,
+				material.getColors().getHighlightColor(3),
+				material.getColors().getHighlightColor(1),
+				material.getColors().getMaterialColor(),
+				material.getColors().getShadowColor(1),
+				material.getColors().getShadowColor(2)
 		)));
 	}
 
