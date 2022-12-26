@@ -171,6 +171,122 @@ public class RecipesGen extends RecipeProvider {
 							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "ingot/from_raw/blasting/" + material.getId()));
 				}
+				if (processedType.contains("helmet")) {
+					// Helmet from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.helmetMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern("III")
+							.pattern("I I")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "helmet/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("chestplate")) {
+					// Chestplate from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.chestplateMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern("I I")
+							.pattern("III")
+							.pattern("III")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "chestplate/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("leggings")) {
+					// Leggings from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.leggingsMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern("III")
+							.pattern("I I")
+							.pattern("I I")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "leggings/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("boots")) {
+					// Boots from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.bootsMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.pattern("I I")
+							.pattern("I I")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "boots/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("sword")) {
+					// Sword from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.swordMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("I")
+							.pattern("I")
+							.pattern("#")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "sword/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("pickaxe")) {
+					// Pickaxe from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.pickaxeMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("III")
+							.pattern(" # ")
+							.pattern(" # ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "pickaxe/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("axe")) {
+					// Axe from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.axeMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("II")
+							.pattern("I#")
+							.pattern(" #")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "axe/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("shovel")) {
+					// Shovel from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.shovelMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("I")
+							.pattern("#")
+							.pattern("#")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "shovel/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("hoe")) {
+					// Hoe from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.hoeMap.get(material.getId()).get())
+							.define('I', EETags.MATERIAL_INGOT.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("II")
+							.pattern(" #")
+							.pattern(" #")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "hoe/from_ingot/" + material.getId()));
+				}
+				if (processedType.contains("paxel") && processedType.contains("pickaxe") && processedType.contains("axe") && processedType.contains("shovel")) {
+					// Paxel from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.paxelMap.get(material.getId()).get())
+							.define('P', EERegistrar.pickaxeMap.get(material.getId()).get())
+							.define('A', EERegistrar.axeMap.get(material.getId()).get())
+							.define('S', EERegistrar.shovelMap.get(material.getId()).get())
+							.define('#', Items.STICK)
+							.pattern("PAS")
+							.pattern(" # ")
+							.pattern(" # ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "paxel/from_ingot/" + material.getId()));
+				}
 			}
 
 			if (processedType.contains("gem") && material.isModded()) {
@@ -241,6 +357,122 @@ public class RecipesGen extends RecipeProvider {
 							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 							.group(Reference.MOD_ID)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "rod/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("helmet")) {
+					// Helmet from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.helmetMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.pattern("GGG")
+							.pattern("G G")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "helmet/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("chestplate")) {
+					// Chestplate from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.chestplateMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.pattern("G G")
+							.pattern("GGG")
+							.pattern("GGG")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "chestplate/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("leggings")) {
+					// Leggings from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.leggingsMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.pattern("GGG")
+							.pattern("G G")
+							.pattern("G G")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "leggings/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("boots")) {
+					// Boots from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.bootsMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.pattern("G G")
+							.pattern("G G")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "boots/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("sword")) {
+					// Sword from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.swordMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("G")
+							.pattern("G")
+							.pattern("#")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "sword/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("pickaxe")) {
+					// Pickaxe from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.pickaxeMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("GGG")
+							.pattern(" # ")
+							.pattern(" # ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "pickaxe/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("axe")) {
+					// Axe from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.axeMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("GG")
+							.pattern("G#")
+							.pattern(" #")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "axe/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("shovel")) {
+					// Shovel from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.shovelMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("G")
+							.pattern("#")
+							.pattern("#")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "shovel/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("hoe")) {
+					// Hoe from Gem
+					ShapedRecipeBuilder.shaped(EERegistrar.hoeMap.get(material.getId()).get())
+							.define('G', EETags.MATERIAL_GEM.apply(material.getId()))
+							.define('#', Items.STICK)
+							.pattern("GG")
+							.pattern(" #")
+							.pattern(" #")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "hoe/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("paxel") && processedType.contains("pickaxe") && processedType.contains("axe") && processedType.contains("shovel")) {
+					// Paxel from Ingot
+					ShapedRecipeBuilder.shaped(EERegistrar.paxelMap.get(material.getId()).get())
+							.define('P', EERegistrar.pickaxeMap.get(material.getId()).get())
+							.define('A', EERegistrar.axeMap.get(material.getId()).get())
+							.define('S', EERegistrar.shovelMap.get(material.getId()).get())
+							.define('#', Items.STICK)
+							.pattern("PAS")
+							.pattern(" # ")
+							.pattern(" # ")
+							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.group(Reference.MOD_ID)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "paxel/from_gem/" + material.getId()));
 				}
 			}
 

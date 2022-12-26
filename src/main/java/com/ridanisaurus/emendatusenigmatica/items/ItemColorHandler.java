@@ -31,6 +31,9 @@ public class ItemColorHandler implements ItemColor {
             if (item instanceof BasicPaxelItem){
                 return ((BasicPaxelItem) item).highlight2;
             }
+            if (item instanceof BasicArmorItem){
+                return ((BasicArmorItem) item).highlight2;
+            }
         }
         if (layer == 1) {
             if (item instanceof BasicItem){
@@ -53,6 +56,9 @@ public class ItemColorHandler implements ItemColor {
             }
             if (item instanceof BasicPaxelItem){
                 return ((BasicPaxelItem) item).highlight1;
+            }
+            if (item instanceof BasicArmorItem){
+                return ((BasicArmorItem) item).highlight1;
             }
         }
         if (layer == 2) {
@@ -77,6 +83,9 @@ public class ItemColorHandler implements ItemColor {
             if (item instanceof BasicPaxelItem){
                 return ((BasicPaxelItem) item).base;
             }
+            if (item instanceof BasicArmorItem){
+                return ((BasicArmorItem) item).base;
+            }
         }
         if (layer == 3) {
             if (item instanceof BasicItem){
@@ -100,6 +109,9 @@ public class ItemColorHandler implements ItemColor {
             if (item instanceof BasicPaxelItem){
                 return ((BasicPaxelItem) item).shadow1;
             }
+            if (item instanceof BasicArmorItem){
+                return ((BasicArmorItem) item).shadow1;
+            }
         }
         if (layer == 4) {
             if (item instanceof BasicItem){
@@ -122,6 +134,9 @@ public class ItemColorHandler implements ItemColor {
             }
             if (item instanceof BasicPaxelItem){
                 return -1;
+            }
+            if (item instanceof BasicArmorItem){
+                return ((BasicArmorItem) item).shadow2;
             }
         }
 

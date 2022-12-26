@@ -643,6 +643,7 @@ public class EERegistrar {
 		}
 
 		helmetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				material,
 				new ArmorTier(
 						material.getId(),
 						material.getArmor().getHelmet().getDurability(),
@@ -672,6 +673,7 @@ public class EERegistrar {
 		}
 
 		chestplateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				material,
 				new ArmorTier(
 						material.getId(),
 						material.getArmor().getChestplate().getDurability(),
@@ -701,6 +703,7 @@ public class EERegistrar {
 		}
 
 		leggingsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				material,
 				new ArmorTier(
 						material.getId(),
 						material.getArmor().getLeggings().getDurability(),
@@ -730,6 +733,7 @@ public class EERegistrar {
 		}
 
 		bootsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(
+				material,
 				new ArmorTier(
 						material.getId(),
 						material.getArmor().getBoots().getDurability(),
