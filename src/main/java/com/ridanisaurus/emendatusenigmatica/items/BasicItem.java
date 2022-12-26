@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
@@ -39,12 +40,12 @@ public class BasicItem extends Item {
   public final int shadow1;
   public final int shadow2;
 
-  public BasicItem(int highlight2, int highlight1, int base, int shadow1, int shadow2) {
+  public BasicItem(MaterialModel material) {
     super(new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-    this.shadow2 = shadow2;
+    this.highlight2 = material.getColors().getHighlightColor(3);
+    this.highlight1 = material.getColors().getHighlightColor(1);
+    this.base = material.getColors().getMaterialColor();
+    this.shadow1 = material.getColors().getShadowColor(1);
+    this.shadow2 = material.getColors().getShadowColor(2);
   }
 }

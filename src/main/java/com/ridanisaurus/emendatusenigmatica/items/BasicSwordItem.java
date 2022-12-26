@@ -25,22 +25,37 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BasicSwordItem extends SwordItem {
 
-  public final int highlight2;
-  public final int highlight1;
-  public final int base;
-  public final int shadow1;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
 
-  public BasicSwordItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
-    super(tier, (int) dmgMod , speedMod, new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-  }
+	public BasicSwordItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(
+				new ToolTier(
+						material.getTools().getLevel(),
+						material.getTools().getSword().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						() -> Ingredient.of(repairItem)
+				),
+				(int) material.getTools().getSword().getDamage(),
+				material.getTools().getSword().getSpeed(),
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+	}
 }

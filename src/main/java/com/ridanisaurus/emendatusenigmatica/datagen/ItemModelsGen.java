@@ -172,7 +172,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Swords
 			if (processedType.contains("sword")) {
-				ItemModelBuilder swordBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder swordBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					swordBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_sword").toString());
 				} else {
@@ -186,7 +186,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Pickaxes
 			if (processedType.contains("pickaxe")) {
-				ItemModelBuilder pickaxeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder pickaxeBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					pickaxeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_pickaxe").toString());
 				} else {
@@ -200,7 +200,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Axes
 			if (processedType.contains("axe")) {
-				ItemModelBuilder axeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder axeBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					axeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_axe").toString());
 				} else {
@@ -215,7 +215,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Shovels
 			if (processedType.contains("shovel")) {
-				ItemModelBuilder shovelBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder shovelBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					shovelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_shovel").toString());
 				} else {
@@ -229,7 +229,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Hoes
 			if (processedType.contains("hoe")) {
-				ItemModelBuilder hoeBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder hoeBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					hoeBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_hoe").toString());
 				} else {
@@ -243,7 +243,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 			}
 			// Paxels
 			if (processedType.contains("paxel")) {
-				ItemModelBuilder paxelBuilder = new ItemModelBuilder("minecraft:item/generated");
+				ItemModelBuilder paxelBuilder = new ItemModelBuilder("minecraft:item/handheld");
 				if (material.getColors().getMaterialColor() == -1) {
 					paxelBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_paxel").toString());
 				} else {

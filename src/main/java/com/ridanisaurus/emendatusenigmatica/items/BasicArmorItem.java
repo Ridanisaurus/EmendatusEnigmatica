@@ -25,47 +25,60 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+// Credit: Atum 2
 public class BasicArmorItem extends ArmorItem {
 	private final MaterialModel material;
+	public final boolean isSet;
+	public final MobEffect effect;
+	public final int duration;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
 	public final int shadow2;
-	public final boolean isSet;
-	public final MobEffect effect;
-	public final int duration;
 
-	public BasicArmorItem(MaterialModel material, ArmorMaterial tier, EquipmentSlot slot, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
-		super(tier, slot, new Properties().tab(EmendatusEnigmatica.TAB));
+	public BasicArmorItem(MaterialModel material, TagKey<Item> repairItem, EquipmentSlot slot, ArmorModel model) {
+		super(
+				new ArmorTier(
+						material.getId(),
+						model.getDurability(),
+						model.getProtection(),
+						material.getArmor().getEnchantability(),
+						material.getArmor().getToughness(),
+						material.getArmor().getKnockback(),
+						() -> Ingredient.of(repairItem)
+				),
+				slot,
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
 		this.material = material;
-		this.highlight2 = highlight2;
-		this.highlight1 = highlight1;
-		this.base = base;
-		this.shadow1 = shadow1;
-		this.shadow2 = shadow2;
 		this.isSet = material.getArmor().isSetArmor();
 		this.effect = material.getArmor().getEffect();
 		this.duration = material.getArmor().getDuration();
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override
@@ -111,24 +124,24 @@ public class BasicArmorItem extends ArmorItem {
 		};
 	}
 
-	public boolean hasSetPiece(Player player, EquipmentSlot slotType) {
-		ItemStack stack = player.getItemBySlot(slotType);
-		return switch (slotType) {
-			case HEAD -> stack.getItem() == EERegistrar.helmetMap.get(this.material.getId()).get();
-			case CHEST -> stack.getItem() == EERegistrar.chestplateMap.get(this.material.getId()).get();
-			case LEGS -> stack.getItem() == EERegistrar.leggingsMap.get(this.material.getId()).get();
-			case FEET -> stack.getItem() == EERegistrar.bootsMap.get(this.material.getId()).get();
+	public boolean hasSetPiece(Player player, EquipmentSlot slot) {
+		return switch (slot) {
+			case HEAD -> player.getItemBySlot(slot).getItem() == EERegistrar.helmetMap.get(this.material.getId()).get();
+			case CHEST -> player.getItemBySlot(slot).getItem() == EERegistrar.chestplateMap.get(this.material.getId()).get();
+			case LEGS -> player.getItemBySlot(slot).getItem() == EERegistrar.leggingsMap.get(this.material.getId()).get();
+			case FEET -> player.getItemBySlot(slot).getItem() == EERegistrar.bootsMap.get(this.material.getId()).get();
 			default -> false;
 		};
 	}
 
 	private int getPiecesEquipped(Player player) {
-		int pieces = 0;
-		for (EquipmentSlot slotType : EquipmentSlot.values()) {
-			if (slotType.getType() == EquipmentSlot.Type.ARMOR && hasSetPiece(player, slotType)) {
-				pieces++;
+		int armorPieces = 0;
+		EquipmentSlot[] values = EquipmentSlot.values();
+		for (EquipmentSlot slot : values) {
+			if (slot.getType() == EquipmentSlot.Type.ARMOR && hasSetPiece(player, slot)) {
+				armorPieces++;
 			}
 		}
-		return pieces;
+		return armorPieces;
 	}
 }

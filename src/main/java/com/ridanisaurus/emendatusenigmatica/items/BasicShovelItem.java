@@ -25,22 +25,40 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BasicShovelItem extends ShovelItem {
 
-  public final int highlight2;
-  public final int highlight1;
-  public final int base;
-  public final int shadow1;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
 
-  public BasicShovelItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
-    super(tier, dmgMod , speedMod, new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-  }
+	public BasicShovelItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(
+				new ToolTier(
+						material.getTools().getLevel(),
+						material.getTools().getShovel().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_SHOVEL,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getShovel().getDamage(),
+				material.getTools().getShovel().getSpeed(),
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+	}
 }

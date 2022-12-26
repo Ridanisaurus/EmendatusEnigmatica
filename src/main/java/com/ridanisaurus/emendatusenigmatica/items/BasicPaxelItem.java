@@ -25,8 +25,13 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.registries.EETags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BasicPaxelItem extends PaxelItem {
 	public final int highlight2;
@@ -34,11 +39,24 @@ public class BasicPaxelItem extends PaxelItem {
 	public final int base;
 	public final int shadow1;
 
-	public BasicPaxelItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
-		super(dmgMod, speedMod, tier, new Properties().tab(EmendatusEnigmatica.TAB));
-		this.highlight2 = highlight2;
-		this.highlight1 = highlight1;
-		this.base = base;
-		this.shadow1 = shadow1;
+	public BasicPaxelItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(
+				new ToolTier(
+						material.getTools().getLevel(),
+						material.getTools().getPaxel().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						EETags.MINEABLE_WITH_PAXEL,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getPaxel().getDamage(),
+				material.getTools().getPaxel().getSpeed(),
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
 	}
 }

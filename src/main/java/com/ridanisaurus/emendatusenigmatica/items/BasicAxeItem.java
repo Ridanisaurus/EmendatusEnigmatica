@@ -25,22 +25,40 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BasicAxeItem extends AxeItem {
 
-  public final int highlight2;
-  public final int highlight1;
-  public final int base;
-  public final int shadow1;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
 
-  public BasicAxeItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
-    super(tier, dmgMod , speedMod, new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-  }
+	public BasicAxeItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(
+				new ToolTier(
+						material.getTools().getLevel(),
+						material.getTools().getAxe().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_AXE,
+						() -> Ingredient.of(repairItem)
+				),
+				material.getTools().getAxe().getDamage(),
+				material.getTools().getAxe().getSpeed(),
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+	}
 }

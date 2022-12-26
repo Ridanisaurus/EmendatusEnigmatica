@@ -50,7 +50,7 @@ import org.jetbrains.annotations.Nullable;
 public class PaxelItem extends DiggerItem {
 	private static final ToolAction PAXEL_DIG = ToolAction.get("paxel_dig");
 
-	public PaxelItem(float dmgMod, float speedMod, Tier tier, Properties props) {
+	public PaxelItem(Tier tier, float dmgMod, float speedMod, Properties props) {
 		super(dmgMod, speedMod, tier, EETags.MINEABLE_WITH_PAXEL, props);
 	}
 

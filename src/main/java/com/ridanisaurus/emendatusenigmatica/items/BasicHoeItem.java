@@ -25,22 +25,40 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public class BasicHoeItem extends HoeItem {
 
-  public final int highlight2;
-  public final int highlight1;
-  public final int base;
-  public final int shadow1;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
 
-  public BasicHoeItem(Tier tier, float dmgMod, float speedMod, int highlight2, int highlight1, int base, int shadow1) {
-    super(tier, (int) dmgMod , speedMod, new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-  }
+	public BasicHoeItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(
+				new ToolTier(
+						material.getTools().getLevel(),
+						material.getTools().getHoe().getDurability(),
+						material.getTools().getEfficiency(),
+						material.getTools().getAttackDamage(),
+						material.getTools().getEnchantability(),
+						BlockTags.MINEABLE_WITH_HOE,
+						() -> Ingredient.of(repairItem)
+				),
+				(int) material.getTools().getHoe().getDamage(),
+				material.getTools().getHoe().getSpeed(),
+				new Properties().tab(EmendatusEnigmatica.TAB)
+		);
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+	}
 }

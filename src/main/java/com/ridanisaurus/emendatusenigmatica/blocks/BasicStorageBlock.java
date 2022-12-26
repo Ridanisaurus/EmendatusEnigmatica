@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.block.Block;
@@ -38,16 +39,16 @@ public class BasicStorageBlock extends Block implements IColorable {
 	public final int shadow1;
 	public final int shadow2;
 
-	public BasicStorageBlock(Material material, float hardness, float resistance, String localisedName, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
-		super(Properties.of(material)
-				.strength(hardness, resistance)
+	public BasicStorageBlock(MaterialModel material) {
+		super(Properties.of(Material.METAL)
+				.strength(3f, 3f)
 				.requiresCorrectToolForDrops());
-		this.localisedName = localisedName;
-		this.highlight2 = highlight2;
-		this.highlight1 = highlight1;
-		this.base = base;
-		this.shadow1 = shadow1;
-		this.shadow2 = shadow2;
+		this.localisedName = material.getLocalizedName();
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override

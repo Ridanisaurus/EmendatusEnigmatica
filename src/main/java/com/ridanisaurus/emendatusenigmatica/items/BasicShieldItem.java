@@ -24,21 +24,26 @@
 
 package com.ridanisaurus.emendatusenigmatica.items;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.Tier;
 
-public class BasicBurnableItem extends BasicItem {
-	private final int burnTime;
+public class BasicShieldItem extends ShieldItem {
 
-	public BasicBurnableItem(MaterialModel material, int burnTime) {
-		super(material);
-		this.burnTime = burnTime;
-	}
+  public final int highlight2;
+  public final int highlight1;
+  public final int base;
+  public final int shadow1;
 
-	@Override
-	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
-		return burnTime;
-	}
+  public BasicShieldItem(MaterialModel material) {
+    super(new Properties().tab(EmendatusEnigmatica.TAB).durability(durability));
+    this.highlight2 = highlight2;
+    this.highlight1 = highlight1;
+    this.base = base;
+    this.shadow1 = shadow1;
+  }
+
+  
 }
