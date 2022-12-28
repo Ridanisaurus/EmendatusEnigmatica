@@ -311,6 +311,20 @@ public class ItemModelsGen extends EEItemModelProvider {
 				}
 				bootsBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_boots"));
 			}
+			// Shields
+			if (processedType.contains("shield")) {
+				ItemModelBuilder shieldBlockingBuilder = new ItemModelBuilder("minecraft:item/shield_blocking")
+						.texture("particle", new ResourceLocation(Reference.MINECRAFT, "block/dark_oak_planks").toString());
+				shieldBlockingBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shield_blocking"));
+
+				ItemModelBuilder shieldBuilder = new ItemModelBuilder("minecraft:item/shield")
+						.texture("particle", new ResourceLocation(Reference.MINECRAFT, "block/dark_oak_planks").toString())
+						.override()
+						.predicate(new ResourceLocation(Reference.MOD_ID, "blocking"), 1)
+						.model(new ResourceLocation(Reference.MOD_ID, "item/" + material.getId() + "_shield_blocking"))
+						.end();
+				shieldBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_shield"));
+			}
 			// Fluid Buckets
 			if (processedType.contains("fluid")) {
 				new ItemModelBuilder("forge:item/bucket_drip")

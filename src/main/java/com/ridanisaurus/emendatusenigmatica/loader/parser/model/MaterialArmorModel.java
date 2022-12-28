@@ -46,8 +46,9 @@ public class MaterialArmorModel {
 			ArmorModel.CODEC.optionalFieldOf("helmet").forGetter(i -> Optional.of(i.helmet)),
 			ArmorModel.CODEC.optionalFieldOf("chestplate").forGetter(i -> Optional.of(i.chestplate)),
 			ArmorModel.CODEC.optionalFieldOf("leggings").forGetter(i -> Optional.of(i.leggings)),
-			ArmorModel.CODEC.optionalFieldOf("boots").forGetter(i -> Optional.of(i.boots))
-	).apply(x, (setArmor, effect, duration, setName, setDesc, toughness, knockback, enchantability, helmet, chestplate, leggings, boots) -> new MaterialArmorModel(
+			ArmorModel.CODEC.optionalFieldOf("boots").forGetter(i -> Optional.of(i.boots)),
+			ArmorModel.CODEC.optionalFieldOf("shield").forGetter(i -> Optional.of(i.shield))
+	).apply(x, (setArmor, effect, duration, setName, setDesc, toughness, knockback, enchantability, helmet, chestplate, leggings, boots, shield) -> new MaterialArmorModel(
 			setArmor.orElse(false),
 			effect.orElse(""),
 			duration.orElse(0),
@@ -59,7 +60,8 @@ public class MaterialArmorModel {
 			helmet.orElse(new ArmorModel()),
 			chestplate.orElse(new ArmorModel()),
 			leggings.orElse(new ArmorModel()),
-			boots.orElse(new ArmorModel())
+			boots.orElse(new ArmorModel()),
+			shield.orElse(new ArmorModel())
 	)));
 
 	private final boolean setArmor;
@@ -74,10 +76,11 @@ public class MaterialArmorModel {
 	private final ArmorModel chestplate;
 	private final ArmorModel leggings;
 	private final ArmorModel boots;
+	private final ArmorModel shield;
 
 	public MaterialArmorModel(boolean setArmor, String effect, int duration, String setName, String setDesc,
 	                          float toughness, float knockback, int enchantability,
-	                          ArmorModel helmet, ArmorModel chestplate, ArmorModel leggings, ArmorModel boots) {
+	                          ArmorModel helmet, ArmorModel chestplate, ArmorModel leggings, ArmorModel boots, ArmorModel shield) {
 		this.setArmor = setArmor;
 		this.effect = effect;
 		this.duration = duration;
@@ -90,6 +93,7 @@ public class MaterialArmorModel {
 		this.chestplate = chestplate;
 		this.leggings = leggings;
 		this.boots = boots;
+		this.shield = shield;
 	}
 
 	public MaterialArmorModel() {
@@ -105,6 +109,7 @@ public class MaterialArmorModel {
 		this.chestplate = new ArmorModel();
 		this.leggings = new ArmorModel();
 		this.boots = new ArmorModel();
+		this.shield = new ArmorModel();
 	}
 
 	public boolean isSetArmor() {
@@ -153,5 +158,9 @@ public class MaterialArmorModel {
 
 	public ArmorModel getBoots() {
 		return boots;
+	}
+
+	public ArmorModel getShield() {
+		return shield;
 	}
 }

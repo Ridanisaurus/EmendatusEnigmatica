@@ -26,24 +26,74 @@ package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import net.minecraft.world.item.AxeItem;
-import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.item.Tier;
+import com.ridanisaurus.emendatusenigmatica.renderers.ShieldTextureRenderer;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Consumer;
 
 public class BasicShieldItem extends ShieldItem {
 
-  public final int highlight2;
-  public final int highlight1;
-  public final int base;
-  public final int shadow1;
+	public final int highlight2;
+	public final int highlight1;
+	public final int base;
+	public final int shadow1;
+	public final TagKey<Item> repairItem;
+	public final MaterialModel material;
 
-  public BasicShieldItem(MaterialModel material) {
-    super(new Properties().tab(EmendatusEnigmatica.TAB).durability(durability));
-    this.highlight2 = highlight2;
-    this.highlight1 = highlight1;
-    this.base = base;
-    this.shadow1 = shadow1;
-  }
+	public BasicShieldItem(MaterialModel material, TagKey<Item> repairItem) {
+		super(new Properties().tab(EmendatusEnigmatica.TAB).durability(material.getArmor().getShield().getDurability()));
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+		this.repairItem = repairItem;
+		this.material = material;
+	}
 
-  
+	@Override
+	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+		consumer.accept(new IClientItemExtensions() {
+			@Override
+			public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+				return ShieldTextureRenderer.RENDERER;
+			}
+		});
+	}
+
+	public Ingredient getRepairMaterial() {
+		return Ingredient.of(repairItem);
+	}
+
+	@Override
+	public int getMaxDamage(ItemStack stack) {
+		return material.getArmor().getShield().getDurability();
+	}
+
+	@Override
+	public boolean canBeDepleted() {
+		return material.getArmor().getShield().getDurability() > 0;
+	}
+
+	@Override
+	public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
+		return getRepairMaterial().test(repair);
+	}
+
+	@Override
+	public int getEnchantmentValue() {
+		return material.getArmor().getEnchantability();
+	}
+
+	@Override
+	public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+		return super.getArmorTexture(stack, entity, slot, type);
+	}
 }

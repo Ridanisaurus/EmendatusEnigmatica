@@ -100,6 +100,7 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<ArmorItem>> chestplateMap = new HashMap<>();
 	public static Map<String, RegistryObject<ArmorItem>> leggingsMap = new HashMap<>();
 	public static Map<String, RegistryObject<ArmorItem>> bootsMap = new HashMap<>();
+	public static Map<String, RegistryObject<ShieldItem>> shieldMap = new HashMap<>();
 
 	// Fluids
 	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
@@ -362,6 +363,18 @@ public class EERegistrar {
 			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
 		}
 		bootsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(material, repairItem, EquipmentSlot.FEET, material.getArmor().getBoots())));
+	}
+
+	// Shield
+	public static void registerShields(MaterialModel material) {
+		String itemName = material.getId() + "_shield";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		shieldMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShieldItem(material, repairItem)));
 	}
 
 	// Fluids

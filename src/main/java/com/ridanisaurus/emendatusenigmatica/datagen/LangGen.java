@@ -196,6 +196,14 @@ public class LangGen extends EELangProvider {
 				add(EERegistrar.bootsMap.get(material.getId()).get(), sb.toString());
 			}
 
+			// Shields
+			if (processedType.contains("shield")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Shield");
+				add(EERegistrar.shieldMap.get(material.getId()).get(), sb.toString());
+			}
+
 			// Raw
 			if (processedType.contains("raw")) {
 				StringBuilder sb = new StringBuilder();

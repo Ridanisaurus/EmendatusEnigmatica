@@ -22,22 +22,23 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.reward;
+package com.ridanisaurus.emendatusenigmatica.events;
 
+import com.ridanisaurus.emendatusenigmatica.blocks.BlockColorHandler;
+import com.ridanisaurus.emendatusenigmatica.blocks.IColorable;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class PatreonRewardRenderer {
+public class BlockColorEvent {
 	@SubscribeEvent
-	public static void addLayers(EntityRenderersEvent.AddLayers event) {
-		for (String skin : event.getSkins()) {
-			PlayerRenderer renderer = event.getSkin(skin);
-			renderer.addLayer(new PatreonRewardLayer(renderer));
-		}
+	public static void blockColorEvent(RegisterColorHandlersEvent.Block event) {
+		event.register(new BlockColorHandler(), EERegistrar.BLOCKS.getEntries().stream().filter(x -> x.get() instanceof IColorable).map(RegistryObject::get).toArray(Block[]::new));
 	}
 }

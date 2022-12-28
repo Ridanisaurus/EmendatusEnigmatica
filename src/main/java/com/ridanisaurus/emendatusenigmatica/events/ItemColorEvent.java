@@ -22,10 +22,11 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.items;
+package com.ridanisaurus.emendatusenigmatica.events;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.BasicStorageBlockItem;
+import com.ridanisaurus.emendatusenigmatica.items.*;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.world.item.BlockItem;

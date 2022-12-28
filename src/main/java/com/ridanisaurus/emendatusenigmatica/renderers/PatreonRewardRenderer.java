@@ -22,7 +22,7 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.reward;
+package com.ridanisaurus.emendatusenigmatica.renderers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
@@ -54,14 +54,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class PatreonRewardLayer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>  {
+public class PatreonRewardRenderer extends RenderLayer<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>>  {
 	private static final Map<String, ItemStack> REWARD_MAP = new HashMap<>();
 
 	static {
 		new FetchThread();
 	}
 
-	public PatreonRewardLayer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> playerModel) {
+	public PatreonRewardRenderer(RenderLayerParent<AbstractClientPlayer, PlayerModel<AbstractClientPlayer>> playerModel) {
 		super(playerModel);
 	}
 
