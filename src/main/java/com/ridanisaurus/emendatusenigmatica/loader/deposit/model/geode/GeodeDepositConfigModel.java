@@ -13,8 +13,9 @@ public class GeodeDepositConfigModel {
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").forGetter(i -> i.innerBlocks),
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").forGetter(i -> i.fillBlocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
+			Codec.list(Codec.STRING).fieldOf("clusters").forGetter(i -> i.clusters),
 			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.INT.fieldOf("radius").forGetter(it -> it.radius),
+			Codec.DOUBLE.fieldOf("crackChance").forGetter(it -> it.crackChance),
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel)
 	).apply(x, GeodeDepositConfigModel::new));
@@ -24,29 +25,31 @@ public class GeodeDepositConfigModel {
 	private final List<CommonBlockDefinitionModel> innerBlocks;
 	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final List<String> fillerTypes;
+	private final List<String> clusters;
 	private final int chance;
-	private final int radius;
+	private final double crackChance;
 	private final int minYLevel;
 	private final int maxYLevel;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel) {
+	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;
 		this.fillBlocks = fillBlocks;
 		this.fillerTypes = fillerTypes;
+		this.clusters = clusters;
 		this.chance = chance;
-		this.radius = radius;
+		this.crackChance = crackChance;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
 	}
 
-	public int getRadius() {
-		return radius;
-	}
-
 	public List<String> getFillerTypes() {
 		return fillerTypes;
+	}
+
+		public List<String> getClusters() {
+		return clusters;
 	}
 
 	public int getMaxYLevel() {
@@ -59,6 +62,10 @@ public class GeodeDepositConfigModel {
 
 	public int getChance() {
 		return (100 - chance) + 1;
+	}
+
+	public double getCrackChance() {
+		return crackChance;
 	}
 
 	public List<CommonBlockDefinitionModel> getOuterShellBlocks() {
