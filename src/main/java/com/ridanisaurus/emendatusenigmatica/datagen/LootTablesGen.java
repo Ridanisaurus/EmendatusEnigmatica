@@ -73,7 +73,7 @@ public class LootTablesGen extends EELootProvider {
 				);
 				// Cluster
 				blockLootTable.put(EERegistrar.clusterBlockMap.get(material.getId()).get(),
-						createSilkTouchDispatchTable(EERegistrar.clusterBlockMap.get(material.getId()).get(), EERegistrar.clusterShardMap.get(material.getId()).get(), 2.0f, 4.0f)
+						dropWhenSilkTouchWithSetCount(EERegistrar.clusterBlockMap.get(material.getId()).get(), EERegistrar.clusterShardMap.get(material.getId()).get(), 2.0f, 4.0f)
 				);
 
 			}

@@ -104,7 +104,7 @@ public abstract class EELootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder createSilkTouchDispatchTable(Block block, Item item, float min, float max) {
+	protected static LootTable.Builder dropWhenSilkTouchWithSetCount(Block block, Item item, float min, float max) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1.0F))
 				.add(LootItem.lootTableItem(block)
@@ -117,14 +117,6 @@ public abstract class EELootProvider extends LootTableProvider {
 						)
 				)
 		);
-//
-//		LootItem.lootTableItem(Items.AMETHYST_SHARD)
-//				.apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F)))
-//				.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
-//				.when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
-//				.otherwise(applyExplosionDecay(p_236253_, LootItem.lootTableItem(Items.AMETHYST_SHARD)
-//						.apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F))))));
-
 	}
 
 	protected static LootTable.Builder specialDrop(Block block, Item item) {
