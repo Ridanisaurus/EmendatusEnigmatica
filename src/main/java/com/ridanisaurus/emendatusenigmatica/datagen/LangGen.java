@@ -217,6 +217,48 @@ public class LangGen extends EELangProvider {
 				add(EERegistrar.rawBlockMap.get(material.getId()).get(), sb2.toString());
 			}
 
+			// Cluster
+			if (processedType.contains("cluster")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Cluster Shard");
+				add(EERegistrar.clusterShardMap.get(material.getId()).get(), sb.toString());
+
+				StringBuilder sb2 = new StringBuilder();
+				sb2.append("Budding ");
+				sb2.append(material.getLocalizedName());
+				add(EERegistrar.buddingBlockMap.get(material.getId()).get(), sb2.toString());
+
+				StringBuilder sb3 = new StringBuilder();
+				sb3.append("Small ");
+				sb3.append(material.getLocalizedName());
+				sb3.append(" Bud");
+				add(EERegistrar.smallBudBlockMap.get(material.getId()).get(), sb3.toString());
+
+				StringBuilder sb4 = new StringBuilder();
+				sb4.append("Medium ");
+				sb4.append(material.getLocalizedName());
+				sb4.append(" Bud");
+				add(EERegistrar.mediumBudBlockMap.get(material.getId()).get(), sb4.toString());
+
+				StringBuilder sb5 = new StringBuilder();
+				sb5.append("Large ");
+				sb5.append(material.getLocalizedName());
+				sb5.append(" Bud");
+				add(EERegistrar.largeBudBlockMap.get(material.getId()).get(), sb5.toString());
+
+				StringBuilder sb6 = new StringBuilder();
+				sb6.append(material.getLocalizedName());
+				sb6.append(" Cluster");
+				add(EERegistrar.clusterBlockMap.get(material.getId()).get(), sb6.toString());
+
+				StringBuilder sb7 = new StringBuilder();
+				sb7.append("Block of ");
+				sb7.append(material.getLocalizedName());
+				sb7.append(" Cluster Shard");
+				add(EERegistrar.clusterShardBlockMap.get(material.getId()).get(), sb7.toString());
+			}
+
 			// Fluids
 			if (processedType.contains("fluid")) {
 				StringBuilder sb = new StringBuilder();

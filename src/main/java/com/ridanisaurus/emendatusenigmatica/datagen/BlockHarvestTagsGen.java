@@ -68,6 +68,20 @@ public class BlockHarvestTagsGen {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, raw);
 				}
+				if (processedType.contains("cluster")) {
+					ResourceLocation budding = EERegistrar.buddingBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, budding);
+					ResourceLocation smallBud = EERegistrar.smallBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, smallBud);
+					ResourceLocation mediumBud = EERegistrar.mediumBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, mediumBud);
+					ResourceLocation largeBud = EERegistrar.largeBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, largeBud);
+					ResourceLocation clusterBlock = EERegistrar.clusterBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, clusterBlock);
+					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, clusterShardBlock);
+				}
 				for (StrataModel stratum : registry.getStrata()) {
 					if (processedType.contains("ore")) {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
@@ -128,6 +142,20 @@ public class BlockHarvestTagsGen {
 				if(processedType.contains("raw")) {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					pickaxe.add(raw.toString());
+				}
+				if (processedType.contains("cluster")) {
+					ResourceLocation budding = EERegistrar.buddingBlockMap.get(material.getId()).getId();
+					pickaxe.add(budding.toString());
+					ResourceLocation smallBud = EERegistrar.smallBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(smallBud.toString());
+					ResourceLocation mediumBud = EERegistrar.mediumBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(mediumBud.toString());
+					ResourceLocation largeBud = EERegistrar.largeBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(largeBud.toString());
+					ResourceLocation clusterBlock = EERegistrar.clusterBlockMap.get(material.getId()).getId();
+					pickaxe.add(clusterBlock.toString());
+					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
+					pickaxe.add(clusterShardBlock.toString());
 				}
 				for (StrataModel stratum : registry.getStrata()) {
 					if(processedType.contains("ore")) {

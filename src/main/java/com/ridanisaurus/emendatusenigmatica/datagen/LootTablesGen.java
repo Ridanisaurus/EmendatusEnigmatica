@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EELootProvider;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -51,13 +50,37 @@ public class LootTablesGen extends EELootProvider {
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				blockLootTable.put(EERegistrar.storageBlockMap.get(material.getId()).get(),
-						createBlockDrop(EERegistrar.storageBlockMap.get(material.getId()).get())
+						selfDrop(EERegistrar.storageBlockMap.get(material.getId()).get())
 				);
+			}
+			// Clusters
+			if (processedType.contains("cluster")) {
+				// Block
+				blockLootTable.put(EERegistrar.clusterShardBlockMap.get(material.getId()).get(),
+						selfDrop(EERegistrar.clusterShardBlockMap.get(material.getId()).get())
+				);
+				// Small Bud
+				blockLootTable.put(EERegistrar.smallBudBlockMap.get(material.getId()).get(),
+						dropWhenSilkTouch(EERegistrar.smallBudBlockMap.get(material.getId()).get())
+				);
+				// Medium Bud
+				blockLootTable.put(EERegistrar.mediumBudBlockMap.get(material.getId()).get(),
+						dropWhenSilkTouch(EERegistrar.mediumBudBlockMap.get(material.getId()).get())
+				);
+				// Large Bud
+				blockLootTable.put(EERegistrar.mediumBudBlockMap.get(material.getId()).get(),
+						dropWhenSilkTouch(EERegistrar.mediumBudBlockMap.get(material.getId()).get())
+				);
+				// Cluster
+				blockLootTable.put(EERegistrar.clusterBlockMap.get(material.getId()).get(),
+						createSilkTouchDispatchTable(EERegistrar.clusterBlockMap.get(material.getId()).get(), EERegistrar.clusterShardMap.get(material.getId()).get(), 2.0f, 4.0f)
+				);
+
 			}
 			// Raw Storage Blocks
 			if (processedType.contains("raw")) {
 				blockLootTable.put(EERegistrar.rawBlockMap.get(material.getId()).get(),
-						createBlockDrop(EERegistrar.rawBlockMap.get(material.getId()).get())
+						selfDrop(EERegistrar.rawBlockMap.get(material.getId()).get())
 				);
 			}
 			// Ores
@@ -71,12 +94,12 @@ public class LootTablesGen extends EELootProvider {
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								createSpecialOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
 										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
 						);
@@ -85,12 +108,12 @@ public class LootTablesGen extends EELootProvider {
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem")) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								createOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								createSpecialOreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
 										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
 						);
@@ -99,12 +122,12 @@ public class LootTablesGen extends EELootProvider {
 				if (processedType.contains("ore") && stratum.getSampleStrata()) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
-								createOreDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
 						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
-								createSpecialOreDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+								specialCountDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
 										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
 						);

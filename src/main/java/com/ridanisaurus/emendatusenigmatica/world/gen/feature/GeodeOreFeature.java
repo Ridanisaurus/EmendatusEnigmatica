@@ -209,7 +209,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 					blockstate1 = blockstate1.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(blockstate2.getFluidState().isSource()));
 				}
 
-				if (BuddingAmethystBlock.canClusterGrowAtState(blockstate2) && level.getBlockState(blockpos4).getBlock() == Blocks.BUDDING_AMETHYST) {
+				if (BuddingAmethystBlock.canClusterGrowAtState(blockstate2) && level.getBlockState(blockpos4).getBlock() instanceof BuddingAmethystBlock) {
 					this.safeSetBlock(level, blockpos5, blockstate1, predicate);
 					break;
 				}

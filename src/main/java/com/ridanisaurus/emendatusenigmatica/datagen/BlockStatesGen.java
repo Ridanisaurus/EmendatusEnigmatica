@@ -49,39 +49,133 @@ public class BlockStatesGen extends EEBlockStateProvider {
 	protected void buildBlockState(Consumer<IFinishedGenericJSON> consumer) {
 		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
+
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString()))
+						.variant(new BlockStateBuilder.VariantBuilder("")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
+						)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
+			}
+			// Shard Blocks
+			if (processedType.contains("cluster")) {
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster_shard_block").toString())
+						)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster_shard_block"));
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("facing=down")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString()).setX(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=east")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString()).setX(90).setY(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=north")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString()).setX(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=south")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString()).setX(90).setY(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=up")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString())
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=west")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/small_" + material.getId() + "_bud").toString()).setX(90).setY(270)
+						)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "small_" + material.getId() + "_bud"));
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("facing=down")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString()).setX(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=east")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString()).setX(90).setY(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=north")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString()).setX(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=south")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString()).setX(90).setY(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=up")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString())
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=west")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/medium_" + material.getId() + "_bud").toString()).setX(90).setY(270)
+						)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "medium_" + material.getId() + "_bud"));
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("facing=down")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString()).setX(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=east")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString()).setX(90).setY(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=north")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString()).setX(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=south")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString()).setX(90).setY(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=up")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString())
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=west")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/large_" + material.getId() + "_bud").toString()).setX(90).setY(270)
+						)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "large_" + material.getId() + "_bud"));
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("facing=down")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString()).setX(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=east")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString()).setX(90).setY(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=north")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString()).setX(90)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=south")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString()).setX(90).setY(180)
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=up")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString())
+						)
+						.variant(new BlockStateBuilder.VariantBuilder("facing=west")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster").toString()).setX(90).setY(270)
+						)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster"));
+				new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/budding_" + material.getId()).toString()))
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "budding_" + material.getId()));
 			}
 			// Raw Blocks
 			if (processedType.contains("raw")) {
 				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
+						.variant(new BlockStateBuilder.VariantBuilder("")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
 			// Fluids
 			if (processedType.contains("fluid")) {
 				new BlockStateBuilder()
-						.variant(new BlockStateBuilder.objectBuilder(false)
-								.model(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId()).toString()))
+						.variant(new BlockStateBuilder.VariantBuilder("")
+								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId()).toString()))
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId()));
 			}
 			// Ores
 			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					new BlockStateBuilder()
-							.variant(new BlockStateBuilder.objectBuilder(false)
-									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getOreModelName(stratum, material)).toString()))
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + getOreModelName(stratum, material)).toString()))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreModelName(stratum, material)));
 				}
 				if (processedType.contains("ore") && stratum.getSampleStrata()) {
 					new BlockStateBuilder()
-							.variant(new BlockStateBuilder.objectBuilder(false)
-									.model(new ResourceLocation(Reference.MOD_ID, "block/" + getOreSampleModelName(stratum, material)).toString()))
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + getOreSampleModelName(stratum, material)).toString()))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreSampleModelName(stratum, material)));
 				}
 			}

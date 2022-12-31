@@ -515,6 +515,39 @@ public class RecipesGen extends RecipeProvider {
 				}
 			}
 
+			// Clusters
+			if (processedType.contains("cluster")) {
+				// Spyglass
+				ShapedRecipeBuilder.shaped(Items.SPYGLASS)
+						.define('#', EERegistrar.clusterShardMap.get(material.getId()).get())
+						.define('X', EETags.MATERIAL_INGOT.apply("copper"))
+						.pattern(" # ")
+						.pattern(" X ")
+						.pattern(" X ")
+						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+						.group(Reference.MOD_ID)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "spyglass/from_cluster_shard/" + material.getId()));
+				// Tinted Glass
+				ShapedRecipeBuilder.shaped(Blocks.TINTED_GLASS, 2)
+						.define('G', Blocks.GLASS)
+						.define('S', EERegistrar.clusterShardMap.get(material.getId()).get())
+						.pattern(" S ")
+						.pattern("SGS")
+						.pattern(" S ")
+						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+						.group(Reference.MOD_ID)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "tinted_glass/from_cluster_shard/" + material.getId()));
+				// Cluster Shard Block
+				ShapedRecipeBuilder.shaped(EERegistrar.clusterShardBlockItemMap.get(material.getId()).get())
+						.define('S', EERegistrar.clusterShardMap.get(material.getId()).get())
+						.pattern("SS")
+						.pattern("SS")
+						.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+						.group(Reference.MOD_ID)
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "cluster_shard_block/from_cluster_shard/" + material.getId()));
+			}
+
+
 			// Vanilla Compat
 			if (material.isVanilla()) {
 				if (material.getId().equals("coal")) {

@@ -38,79 +38,78 @@ import java.util.function.Consumer;
 
 public class BlockStateBuilder {
 
-	private final Map<String, objectBuilder> variantObject = Maps.newLinkedHashMap();
+	private final Map<String, VariantBuilder> variants = Maps.newLinkedHashMap();
 
 	public BlockStateBuilder() {}
 
-	public BlockStateBuilder variant(objectBuilder builder) {
-		this.variantObject.put("variants", builder);
+	public BlockStateBuilder variant(VariantBuilder builder) {
+		this.variants.put(builder.getFaceName(), builder);
 		return this;
 	}
 
 	public void save(Consumer<IFinishedGenericJSON> consumer, ResourceLocation resourceLocation) {
-		consumer.accept(new BlockStateBuilder.Result(resourceLocation, this.variantObject));
+		consumer.accept(new BlockStateBuilder.Result(resourceLocation, this.variants));
 	}
 
-	public static class objectBuilder {
-		private List<JsonObject> jsonObject = new ArrayList<>();
-		private boolean forceArray;
+	public static class VariantBuilder {
+		private final String faceName;
+		private String model;
+		private int x = -1;
+		private int y = -1;
 
-		public objectBuilder(boolean forceArray) {
-			this.forceArray = forceArray;
+		public VariantBuilder(String faceName) {
+			this.faceName = faceName;
 		}
 
-		public objectBuilder addObject(Pair<String, Object>... elements) {
-			JsonObject object = new JsonObject();
+		public String getFaceName() {
+			return faceName;
+		}
 
-			for (Pair<String, Object> element : elements) {
-				if (element.getValue() instanceof Pair) {
-					object.add(element.getKey(), parsePair((Pair<String, Object>) element.getValue()));
-				}
-			}
-			jsonObject.add(object);
+		public VariantBuilder setModel(String model) {
+			this.model = model;
 			return this;
 		}
 
-		private static JsonObject parsePair(Pair<String, Object>... elements) {
-			JsonObject object = new JsonObject();
-			for (Pair<String, Object> element : elements) {
-				if (element.getValue() instanceof String) {
-					object.addProperty(element.getKey(), (String) element.getValue());
-				}
-			}
-			return object;
+		public VariantBuilder setX(int x) {
+			this.x = x;
+			return this;
 		}
 
-		public objectBuilder model(String pairValue) {
-			return addObject(Pair.of("",
-					Pair.of("model", pairValue)));
+		public VariantBuilder setY(int y) {
+			this.y = y;
+			return this;
 		}
 
-		public JsonElement getOutput() {
-			if (jsonObject.size() > 1 || forceArray) {
-				JsonArray array = new JsonArray();
-				jsonObject.forEach(array::add);
-				return array;
+		JsonObject toJson() {
+			JsonObject ret = new JsonObject();
+			ret.addProperty("model", model);
+			if (x != -1) {
+				ret.addProperty("x", x);
 			}
-			return jsonObject.get(0);
+			if (y != -1) {
+				ret.addProperty("y", y);
+			}
+			return ret;
 		}
 	}
 
 	public class Result implements IFinishedGenericJSON {
 		private final ResourceLocation id;
-		private final Map<String, objectBuilder> fieldValueJson;
+		private final Map<String, VariantBuilder> variants;
 
-		public Result(ResourceLocation id, Map<String, objectBuilder> fieldValueJson) {
+		public Result(ResourceLocation id, Map<String, VariantBuilder> variants) {
 			this.id = id;
-			this.fieldValueJson = fieldValueJson;
+			this.variants = variants;
 		}
 
 		@Override
 		public void serializeJSONData(JsonObject json) {
-			if (!this.fieldValueJson.isEmpty()) {
-				for (Map.Entry<String, objectBuilder> entry : this.fieldValueJson.entrySet()) {
-					json.add(entry.getKey(), entry.getValue().getOutput());
+			if (!this.variants.isEmpty()) {
+				JsonObject variantsJson = new JsonObject();
+				for (Map.Entry<String, VariantBuilder> s : variants.entrySet()) {
+					variantsJson.add(s.getKey(), s.getValue().toJson());
 				}
+				json.add("variants", variantsJson);
 			}
 		}
 

@@ -36,11 +36,9 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -76,6 +74,18 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
 	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rawBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> buddingBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> buddingBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> smallBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> smallBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> mediumBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> mediumBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> largeBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> largeBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> clusterBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> clusterShardBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterShardBlockItemMap = new HashMap<>();
 
 	// Items
 	public static Map<String, RegistryObject<Item>> rawMap = new HashMap<>();
@@ -86,6 +96,7 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> plateMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterShardMap = new HashMap<>();
 
 	// Tools
 	public static Map<String, RegistryObject<SwordItem>> swordMap = new HashMap<>();
@@ -162,15 +173,6 @@ public class EERegistrar {
 		}
 	}
 
-	public static void registerRaws(MaterialModel material) {
-		String itemName = "raw_" + material.getId();
-		if (material.getProperties().isBurnable()) {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
-		} else {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
-		}
-	}
-
 	public static void registerRawBlocks(MaterialModel material) {
 		String rawBlockName = "raw_" + material.getId() + "_block";
 		RegistryObject<Block> rawBlock = BLOCKS.register(rawBlockName, () -> new BasicStorageBlock(material));
@@ -179,6 +181,91 @@ public class EERegistrar {
 			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(rawBlock.get(),material.getProperties().getBurnTime() * 10)));
 		} else {
 			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(rawBlock.get(), 0)));
+		}
+	}
+
+	// TODO: Fix burnable values
+	public static void registerBuddingBlocks(MaterialModel material) {
+		String buddingBlockName = "budding_" + material.getId();
+		RegistryObject<Block> buddingBlock = BLOCKS.register(buddingBlockName, () -> new BasicBuddingBlock(material, smallBudBlockMap.get(material.getId()), mediumBudBlockMap.get(material.getId()), largeBudBlockMap.get(material.getId()), clusterBlockMap.get(material.getId())));
+		buddingBlockMap.put(material.getId(), buddingBlock);
+		if (material.getProperties().isBurnable()) {
+			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(), 0)));
+		}
+	}
+
+	public static void registerSmallBudBlocks(MaterialModel material) {
+		String smallBudBlockName = "small_" + material.getId() + "_bud";
+		RegistryObject<Block> smallBudBlock = BLOCKS.register(smallBudBlockName, () -> new BasicClusterBlock(3, 4, 1, material));
+		smallBudBlockMap.put(material.getId(), smallBudBlock);
+		if (material.getProperties().isBurnable()) {
+			smallBudBlockItemMap.put(material.getId(), ITEMS.register(smallBudBlockName, () -> new BasicStorageBlockItem(smallBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			smallBudBlockItemMap.put(material.getId(), ITEMS.register(smallBudBlockName, () -> new BasicStorageBlockItem(smallBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerMediumBudBlocks(MaterialModel material) {
+		String mediumBudBlockName = "medium_" + material.getId() + "_bud";
+		RegistryObject<Block> mediumBudBlock = BLOCKS.register(mediumBudBlockName, () -> new BasicClusterBlock(4, 3, 2, material));
+		mediumBudBlockMap.put(material.getId(), mediumBudBlock);
+		if (material.getProperties().isBurnable()) {
+			mediumBudBlockItemMap.put(material.getId(), ITEMS.register(mediumBudBlockName, () -> new BasicStorageBlockItem(mediumBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			mediumBudBlockItemMap.put(material.getId(), ITEMS.register(mediumBudBlockName, () -> new BasicStorageBlockItem(mediumBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerLargeBudBlocks(MaterialModel material) {
+		String largeBudBlockName = "large_" + material.getId() + "_bud";
+		RegistryObject<Block> largeBudBlock = BLOCKS.register(largeBudBlockName, () -> new BasicClusterBlock(5, 3, 4, material));
+		largeBudBlockMap.put(material.getId(), largeBudBlock);
+		if (material.getProperties().isBurnable()) {
+			largeBudBlockItemMap.put(material.getId(), ITEMS.register(largeBudBlockName, () -> new BasicStorageBlockItem(largeBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			largeBudBlockItemMap.put(material.getId(), ITEMS.register(largeBudBlockName, () -> new BasicStorageBlockItem(largeBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterBlocks(MaterialModel material) {
+		String clusterBlockName = material.getId() + "_cluster";
+		RegistryObject<Block> clusterBlock = BLOCKS.register(clusterBlockName, () -> new BasicClusterBlock(7, 3, 5, material));
+		clusterBlockMap.put(material.getId(), clusterBlock);
+		if (material.getProperties().isBurnable()) {
+			clusterBlockItemMap.put(material.getId(), ITEMS.register(clusterBlockName, () -> new BasicStorageBlockItem(clusterBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			clusterBlockItemMap.put(material.getId(), ITEMS.register(clusterBlockName, () -> new BasicStorageBlockItem(clusterBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterShardBlocks(MaterialModel material) {
+		String clusterShardBlockName = material.getId() + "_cluster_shard_block";
+		RegistryObject<Block> clusterShardBlock = BLOCKS.register(clusterShardBlockName, () -> new BasicClusterShardBlock(material));
+		clusterShardBlockMap.put(material.getId(), clusterShardBlock);
+		if (material.getProperties().isBurnable()) {
+			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterShards(MaterialModel material) {
+		String itemName = material.getId() + "_cluster_shard";
+		if (material.getProperties().isBurnable()) {
+			clusterShardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
+		} else {
+			clusterShardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
+		}
+	}
+
+	public static void registerRaws(MaterialModel material) {
+		String itemName = "raw_" + material.getId();
+		if (material.getProperties().isBurnable()) {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
+		} else {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 

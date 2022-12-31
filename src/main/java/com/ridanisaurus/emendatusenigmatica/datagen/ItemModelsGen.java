@@ -55,6 +55,68 @@ public class ItemModelsGen extends EEItemModelProvider {
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
 			}
+			// Shard Blocks
+			if (processedType.contains("cluster")) {
+				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_cluster_shard_block").toString())
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster_shard_block"));
+				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/budding_" + material.getId()).toString())
+						.save(consumer, new ResourceLocation(Reference.MOD_ID, "budding_" + material.getId()));
+				ItemModelBuilder smallBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				if (material.getColors().getMaterialColor() == -1) {
+					smallBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/small_" + material.getId() + "_bud").toString());
+				} else {
+					smallBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/04").toString());
+				}
+				smallBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "small_" + material.getId() + "_bud"));
+				ItemModelBuilder mediumBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				if (material.getColors().getMaterialColor() == -1) {
+					mediumBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/medium_" + material.getId() + "_bud").toString());
+				} else {
+					mediumBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/04").toString());
+				}
+				mediumBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "medium_" + material.getId() + "_bud"));
+				ItemModelBuilder largeBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				if (material.getColors().getMaterialColor() == -1) {
+					largeBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/large_" + material.getId() + "_bud").toString());
+				} else {
+					largeBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/04").toString());
+				}
+				largeBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "large_" + material.getId() + "_bud"));
+				ItemModelBuilder clusterBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				if (material.getColors().getMaterialColor() == -1) {
+					clusterBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_cluster").toString());
+				} else {
+					clusterBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/templates/cluster/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "blocks/templates/cluster/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "blocks/templates/cluster/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "blocks/templates/cluster/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/cluster/04").toString());
+				}
+				clusterBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster"));
+				ItemModelBuilder clusterShardBuilder = new ItemModelBuilder("minecraft:item/generated");
+				if (material.getColors().getMaterialColor() == -1) {
+					clusterShardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_cluster_shard").toString());
+				} else {
+					clusterShardBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/cluster_shard/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/cluster_shard/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/cluster_shard/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/cluster_shard/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/cluster_shard/04").toString());
+				}
+				clusterShardBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster_shard"));
+			}
 			// Ingots
 			if (processedType.contains("ingot")) {
 				ItemModelBuilder ingotBuilder = new ItemModelBuilder("minecraft:item/generated");

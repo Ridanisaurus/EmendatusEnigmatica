@@ -110,6 +110,15 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
                 EERegistrar.registerRaws(material);
                 EERegistrar.registerRawBlocks(material);
             }
+            if (material.getProcessedTypes().contains("cluster")) {
+                EERegistrar.registerSmallBudBlocks(material);
+                EERegistrar.registerMediumBudBlocks(material);
+                EERegistrar.registerLargeBudBlocks(material);
+                EERegistrar.registerClusterBlocks(material);
+                EERegistrar.registerBuddingBlocks(material);
+                EERegistrar.registerClusterShardBlocks(material);
+                EERegistrar.registerClusterShards(material);
+            }
             if (material.getProcessedTypes().contains("ingot")) {
                 EERegistrar.registerIngots(material);
             }
