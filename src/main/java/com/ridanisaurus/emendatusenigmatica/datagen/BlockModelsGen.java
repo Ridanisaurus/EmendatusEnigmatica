@@ -52,6 +52,32 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
 				if (material.getColors().getMaterialColor() == -1) {
+					if (material.getProperties().hasOxidization()) {
+						new BlockModelBuilder("minecraft:block/block")
+								.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/exposed_" + material.getId()))
+								.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/exposed_" + material.getId()))
+								.element()
+								.cube("#base")
+								.allFaces((d, u) -> u.tintindex(-1))
+								.end()
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "exposed_" + material.getId()));
+						new BlockModelBuilder("minecraft:block/block")
+								.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/weathered_" + material.getId()))
+								.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/weathered_" + material.getId()))
+								.element()
+								.cube("#base")
+								.allFaces((d, u) -> u.tintindex(-1))
+								.end()
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "weathered_" + material.getId()));
+						new BlockModelBuilder("minecraft:block/block")
+								.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/oxidized_" + material.getId()))
+								.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/oxidized_" + material.getId()))
+								.element()
+								.cube("#base")
+								.allFaces((d, u) -> u.tintindex(-1))
+								.end()
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "oxidized_" + material.getId()));
+					}
 					new BlockModelBuilder("minecraft:block/block")
 							.texture("base",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))
 							.texture("particle",  new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_block"))

@@ -57,6 +57,23 @@ public class BlockStatesGen extends EEBlockStateProvider {
 								.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
 						)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
+				if (material.getProperties().hasOxidization()) {
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/exposed_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "exposed_" + material.getId()));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/weathered_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "weathered_" + material.getId()));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/oxidized_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "oxidized_" + material.getId()));
+				}
 			}
 			// Shard Blocks
 			if (processedType.contains("cluster")) {

@@ -24,7 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Table;
 import com.mojang.math.Vector3f;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
@@ -65,15 +68,31 @@ public class EERegistrar {
 	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
-	// Blocks
+	// Ore Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
+
+	// Ore Sample Blocks
 	public static Table<String, String, RegistryObject<Block>> oreSampleBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreSampleBlockItemTable = HashBasedTable.create();
+
+	// Storage Blocks
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
+
+	// Weathering Blocks
+	public static Map<String, RegistryObject<Block>> exposedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> exposedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> weatheredBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> weatheredBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> oxidizedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> oxidizedBlockItemMap = new HashMap<>();
+
+	// Raw Blocks
 	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rawBlockItemMap = new HashMap<>();
+
+	// Cluster Blocks
 	public static Map<String, RegistryObject<Block>> buddingBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> buddingBlockItemMap = new HashMap<>();
 	public static Map<String, RegistryObject<Block>> smallBudBlockMap = new HashMap<>();
@@ -163,13 +182,47 @@ public class EERegistrar {
 	}
 
 	public static void registerStorageBlocks(MaterialModel material) {
-		String storageBlockName = material.getId() + "_block";
-		RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(material));
-		storageBlockMap.put(material.getId(), storageBlock);
-		if (material.getProperties().isBurnable()) {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
+		if (material.getProperties().hasOxidization()) {
+			Supplier<BiMap<Block, Block>> nextByBlock = Suppliers.memoize(
+			() -> ImmutableBiMap.<Block, Block>builder()
+					.put(storageBlockMap.get(material.getId()).get(), exposedBlockMap.get(material.getId()).get())
+					.put(exposedBlockMap.get(material.getId()).get(), weatheredBlockMap.get(material.getId()).get())
+					.put(weatheredBlockMap.get(material.getId()).get(), oxidizedBlockMap.get(material.getId()).get())
+					.build()
+			);
+			String storageBlockName = material.getId() + "_block";
+			String exposedBlockName = "exposed_" + material.getId();
+			String weatheredBlockName = "weathered_" + material.getId();
+			String oxidizedBlockName = "oxidized_" + material.getId();
+			RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.UNAFFECTED, nextByBlock));
+			RegistryObject<Block> exposedBlock = BLOCKS.register(exposedBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.EXPOSED, nextByBlock));
+			RegistryObject<Block> weatheredBlock = BLOCKS.register(weatheredBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.WEATHERED, nextByBlock));
+			RegistryObject<Block> oxidizedBlock = BLOCKS.register(oxidizedBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.OXIDIZED, nextByBlock));
+
+			storageBlockMap.put(material.getId(), storageBlock);
+			exposedBlockMap.put(material.getId(), exposedBlock);
+			weatheredBlockMap.put(material.getId(), weatheredBlock);
+			oxidizedBlockMap.put(material.getId(), oxidizedBlock);
+			if (material.getProperties().isBurnable()) {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
+			} else {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(), 0)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),0)));
+				storageBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),0)));
+			}
 		} else {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
+			String storageBlockName = material.getId() + "_block";
+			RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(material));
+			storageBlockMap.put(material.getId(), storageBlock);
+			if (material.getProperties().isBurnable()) {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
+			} else {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
+			}
 		}
 	}
 
