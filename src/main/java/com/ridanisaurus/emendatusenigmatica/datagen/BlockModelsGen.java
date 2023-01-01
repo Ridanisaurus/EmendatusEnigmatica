@@ -425,41 +425,83 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					if (material.getColors().getMaterialColor() == -1) {
-						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getOreModelName(stratum, material));
-					} else {
-						if (material.getProperties().getMaterialType().equals("gem")) {
-							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
-									"blocks/templates/ore/gem/00",
-									"blocks/templates/ore/gem/01",
-									"blocks/templates/ore/gem/02",
-									"blocks/templates/ore/gem/03",
-									"blocks/templates/ore/gem/04",
-									"blocks/templates/ore/gem/shadow_drop",
-									getOreModelName(stratum, material));
+						if (material.getProperties().isEmissive()) {
+							dynamicEmissiveBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getOreModelName(stratum, material));
 						} else {
-							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
-									"blocks/templates/ore/metal/00",
-									"blocks/templates/ore/metal/01",
-									"blocks/templates/ore/metal/02",
-									"blocks/templates/ore/metal/03",
-									"blocks/templates/ore/metal/04",
-									"blocks/templates/ore/metal/shadow_drop",
-									getOreModelName(stratum, material));
+							dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId(), getOreModelName(stratum, material));
+						}
+					} else {
+
+						if (material.getProperties().getMaterialType().equals("gem")) {
+							if (material.getProperties().isEmissive()) {
+								dynamicEmissiveTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/ore/gem/00",
+										"blocks/templates/ore/gem/01",
+										"blocks/templates/ore/gem/02",
+										"blocks/templates/ore/gem/03",
+										"blocks/templates/ore/gem/04",
+										"blocks/templates/ore/gem/shadow_drop",
+										getOreModelName(stratum, material));
+							} else {
+								dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/ore/gem/00",
+										"blocks/templates/ore/gem/01",
+										"blocks/templates/ore/gem/02",
+										"blocks/templates/ore/gem/03",
+										"blocks/templates/ore/gem/04",
+										"blocks/templates/ore/gem/shadow_drop",
+										getOreModelName(stratum, material));
+							}
+						} else {
+							if (material.getProperties().isEmissive()) {
+								dynamicEmissiveTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/ore/metal/00",
+										"blocks/templates/ore/metal/01",
+										"blocks/templates/ore/metal/02",
+										"blocks/templates/ore/metal/03",
+										"blocks/templates/ore/metal/04",
+										"blocks/templates/ore/metal/shadow_drop",
+										getOreModelName(stratum, material));
+							} else {
+								dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/ore/metal/00",
+										"blocks/templates/ore/metal/01",
+										"blocks/templates/ore/metal/02",
+										"blocks/templates/ore/metal/03",
+										"blocks/templates/ore/metal/04",
+										"blocks/templates/ore/metal/shadow_drop",
+										getOreModelName(stratum, material));
+							}
 						}
 					}
 				}
 				if (processedType.contains("ore") && stratum.getSampleStrata()) {
 					if (material.getColors().getMaterialColor() == -1) {
-						dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
+						if (material.getProperties().isEmissive()) {
+							dynamicEmissiveBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
+						} else {
+							dynamicBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
+						}
 					} else {
-						dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
-								"blocks/templates/sample/00",
-								"blocks/templates/sample/01",
-								"blocks/templates/sample/02",
-								"blocks/templates/sample//03",
-								"blocks/templates/sample/04",
-								"blocks/templates/sample/shadow_drop",
-								getOreSampleModelName(stratum, material));
+						if (material.getProperties().isEmissive()) {
+							dynamicEmissiveTintBlock(consumer, stratum.getBaseTexture().toString(),
+									"blocks/templates/sample/00",
+									"blocks/templates/sample/01",
+									"blocks/templates/sample/02",
+									"blocks/templates/sample//03",
+									"blocks/templates/sample/04",
+									"blocks/templates/sample/shadow_drop",
+									getOreSampleModelName(stratum, material));
+						} else {
+							dynamicTintBlock(consumer, stratum.getBaseTexture().toString(),
+									"blocks/templates/sample/00",
+									"blocks/templates/sample/01",
+									"blocks/templates/sample/02",
+									"blocks/templates/sample//03",
+									"blocks/templates/sample/04",
+									"blocks/templates/sample/shadow_drop",
+									getOreSampleModelName(stratum, material));
+						}
 					}
 				}
 			}
@@ -495,6 +537,32 @@ public class BlockModelsGen extends EEBlockModelProvider {
 						.to(16, 16, 16)
 						.cube("#overlay")
 						.allFaces((dir, uv) -> uv.tintindex(-1))
+						.end()
+						.renderType("translucent")
+				).save(consumer, new ResourceLocation(Reference.MOD_ID, path));
+	}
+
+	public void dynamicEmissiveBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String overlayTexture, String path) {
+		new BlockModelBuilder("minecraft:block/block")
+				.texture("particle", strata)
+				.setLoader("forge:composite")
+				.child("solid", new BlockModelBuilder("minecraft:block/block")
+						.texture("strata", strata)
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#strata")
+						.allFaces((dir, uv) -> uv.tintindex(-1))
+						.end()
+						.renderType("solid")
+				)
+				.child("translucent", new BlockModelBuilder("minecraft:block/block")
+						.texture("overlay", new ResourceLocation(Reference.MOD_ID, overlayTexture))
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#overlay")
+						.allFaces((dir, uv) -> uv.tintindex(-1).emissive())
 						.end()
 						.renderType("translucent")
 				).save(consumer, new ResourceLocation(Reference.MOD_ID, path));
@@ -549,6 +617,71 @@ public class BlockModelsGen extends EEBlockModelProvider {
 						.to(16, 16, 16)
 						.cube("#shadow2")
 						.allFaces((dir, uv) -> uv.tintindex(4))
+						.end()
+						.renderType("cutout")
+				)
+				.child("translucent", new BlockModelBuilder("minecraft:block/block")
+						.texture("drop", new ResourceLocation(Reference.MOD_ID, drop))
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#drop")
+						.allFaces((dir, uv) -> uv.tintindex(-1))
+						.end()
+						.renderType("translucent")
+				)
+				.save(consumer, new ResourceLocation(Reference.MOD_ID, path));
+	}
+
+	public void dynamicEmissiveTintBlock(Consumer<IFinishedGenericJSON> consumer, String strata, String highlight2, String highlight1, String base, String shadow1, String shadow2, String drop, String path) {
+		new BlockModelBuilder("minecraft:block/block")
+				.texture("particle", strata)
+				.setLoader("forge:composite")
+				.child("solid", new BlockModelBuilder("minecraft:block/block")
+						.texture("strata", strata)
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#strata")
+						.allFaces((dir, uv) -> uv.tintindex(-1))
+						.end()
+						.renderType("solid")
+				)
+				.child("cutout", new BlockModelBuilder("minecraft:block/block")
+						.texture("highlight2", new ResourceLocation(Reference.MOD_ID, highlight2))
+						.texture("highlight1", new ResourceLocation(Reference.MOD_ID, highlight1))
+						.texture("base", new ResourceLocation(Reference.MOD_ID, base))
+						.texture("shadow1", new ResourceLocation(Reference.MOD_ID, shadow1))
+						.texture("shadow2", new ResourceLocation(Reference.MOD_ID, shadow2))
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#highlight2")
+						.allFaces((dir, uv) -> uv.tintindex(0).emissive())
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#highlight1")
+						.allFaces((dir, uv) -> uv.tintindex(1).emissive())
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#base")
+						.allFaces((dir, uv) -> uv.tintindex(2).emissive())
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#shadow1")
+						.allFaces((dir, uv) -> uv.tintindex(3).emissive())
+						.end()
+						.element()
+						.from(0, 0, 0)
+						.to(16, 16, 16)
+						.cube("#shadow2")
+						.allFaces((dir, uv) -> uv.tintindex(4).emissive())
 						.end()
 						.renderType("cutout")
 				)

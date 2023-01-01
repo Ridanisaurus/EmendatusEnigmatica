@@ -409,6 +409,12 @@ public class BlockModelBuilder{
 					if (face.tintIndex != -1) {
 						faceObj.addProperty("tintindex", face.tintIndex);
 					}
+					if (face.emissivity > 0) {
+						faceObj.addProperty("emissivity", face.emissivity);
+					}
+					if (!face.hasAmbientOcclusion) {
+						faceObj.addProperty("ambientocclusion", face.hasAmbientOcclusion);
+					}
 					faces.add(dir.getSerializedName(), faceObj);
 				}
 				if (!part.faces.isEmpty()) {
