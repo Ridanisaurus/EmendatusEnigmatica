@@ -37,15 +37,17 @@ public class MaterialPropertiesModel {
 			Codec.BOOL.optionalFieldOf("hasOxidization").forGetter(i -> Optional.of(i.hasOxidization)),
 			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
 			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
-			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType))
-	).apply(x, (materialType, harvestLevel, hasParticles, hasOxidization, isBurnable, burnTime, blockRecipeType) -> new MaterialPropertiesModel(
+			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType)),
+			Codec.INT.optionalFieldOf("gemTexture").forGetter(i -> Optional.of(i.gemTexture))
+	).apply(x, (materialType, harvestLevel, hasParticles, hasOxidization, isBurnable, burnTime, blockRecipeType, gemTexture) -> new MaterialPropertiesModel(
 			materialType,
 			harvestLevel.orElse(0),
 			hasParticles.orElse(false),
 			hasOxidization.orElse(false),
 			isBurnable.orElse(false),
 			burnTime.orElse(0),
-			blockRecipeType.orElse(9)
+			blockRecipeType.orElse(9),
+			gemTexture.orElse(1)
 	)));
 
 	private final String materialType;
@@ -55,8 +57,9 @@ public class MaterialPropertiesModel {
 	private final boolean isBurnable;
 	private final int burnTime;
 	private final int blockRecipeType;
+	private final int gemTexture;
 
-	public MaterialPropertiesModel(String materialType, int harvestLevel, boolean hasParticles, boolean hasOxidization, boolean isBurnable, int burnTime, int blockRecipeType) {
+	public MaterialPropertiesModel(String materialType, int harvestLevel, boolean hasParticles, boolean hasOxidization, boolean isBurnable, int burnTime, int blockRecipeType, int gemTexture) {
 		this.materialType = materialType;
 		this.harvestLevel = harvestLevel;
 		this.hasParticles = hasParticles;
@@ -64,6 +67,7 @@ public class MaterialPropertiesModel {
 		this.isBurnable = isBurnable;
 		this.burnTime = burnTime;
 		this.blockRecipeType = blockRecipeType;
+		this.gemTexture = gemTexture;
 	}
 
 	public MaterialPropertiesModel() {
@@ -74,6 +78,7 @@ public class MaterialPropertiesModel {
 		this.isBurnable = false;
 		this.burnTime = 0;
 		this.blockRecipeType = 9;
+		this.gemTexture = 1;
 	}
 
 	public String getMaterialType() {
@@ -102,5 +107,9 @@ public class MaterialPropertiesModel {
 
 	public int getBlockRecipeType() {
 		return blockRecipeType;
+	}
+
+	public int getGemTexture() {
+		return gemTexture;
 	}
 }

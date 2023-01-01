@@ -151,11 +151,11 @@ public class ItemModelsGen extends EEItemModelProvider {
 				if (material.getColors().getMaterialColor() == -1) {
 					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/" + material.getId() + "_gem").toString());
 				} else {
-					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/00").toString())
-							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/01").toString())
-							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/02").toString())
-							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/03").toString())
-							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/04").toString());
+					gemBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/template_" + material.getProperties().getGemTexture() + "/00").toString())
+							.texture("layer1", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/template_" + material.getProperties().getGemTexture() + "/01").toString())
+							.texture("layer2", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/template_" + material.getProperties().getGemTexture() + "/02").toString())
+							.texture("layer3", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/template_" + material.getProperties().getGemTexture() + "/03").toString())
+							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "items/templates/gem/template_" + material.getProperties().getGemTexture() + "/04").toString());
 				}
 				gemBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_gem"));
 			}
