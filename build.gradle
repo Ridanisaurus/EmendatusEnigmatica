@@ -141,10 +141,13 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-//    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+    // compile against the JEI API but do not include it at runtime
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 
-    runtimeOnly fg.deobf("curse.maven:jei-238222:4175833")
+//    runtimeOnly fg.deobf("curse.maven:jei-238222:4175833")
 
 //    compileOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}:api"
 //    runtimeOnly fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")// core

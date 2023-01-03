@@ -26,6 +26,10 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Optional;
@@ -134,5 +138,17 @@ public class MaterialModel {
 
 	public MaterialArmorModel getArmor() {
 		return armor;
+	}
+
+	public ItemLike getOreDefaultDrop() {
+		if (processedTypes.contains("ore")) {
+			if (properties.getMaterialType().equals("gem")) {
+				return processedTypes.contains("gem") ? EERegistrar.gemMap.get(id).get() : oreDrop.getDefaultItemDropAsItem();
+			} else {
+				return processedTypes.contains("raw") ? EERegistrar.rawMap.get(id).get() : oreDrop.getDefaultItemDropAsItem();
+			}
+		} else {
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft:air"));
+		}
 	}
 }

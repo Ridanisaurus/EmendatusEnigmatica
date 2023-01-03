@@ -17,7 +17,7 @@ public class SphereDepositConfigModel {
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").forGetter(it -> it.sampleBlocks)
+			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, SphereDepositConfigModel::new));
 
 	private final List<CommonBlockDefinitionModel> blocks;
@@ -42,6 +42,10 @@ public class SphereDepositConfigModel {
 	}
 
 	public int getChance() {
+		return chance;
+	}
+
+	public int getPlacementChance() {
 		return (100 - chance) + 1;
 	}
 

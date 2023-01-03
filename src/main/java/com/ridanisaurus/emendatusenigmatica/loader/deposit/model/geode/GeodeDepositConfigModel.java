@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ public class GeodeDepositConfigModel {
 			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
 			Codec.DOUBLE.fieldOf("crackChance").forGetter(it -> it.crackChance),
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel)
+			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
+			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
+			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, GeodeDepositConfigModel::new));
 
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
@@ -30,8 +33,10 @@ public class GeodeDepositConfigModel {
 	private final double crackChance;
 	private final int minYLevel;
 	private final int maxYLevel;
+	private final boolean generateSamples;
+	private final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel) {
+	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;
@@ -42,6 +47,8 @@ public class GeodeDepositConfigModel {
 		this.crackChance = crackChance;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
+		this.generateSamples = generateSamples;
+		this.sampleBlocks = sampleBlocks;
 	}
 
 	public List<String> getFillerTypes() {
@@ -61,6 +68,10 @@ public class GeodeDepositConfigModel {
 	}
 
 	public int getChance() {
+		return chance;
+	}
+
+	public int getPlacementChance() {
 		return (100 - chance) + 1;
 	}
 
@@ -82,5 +93,13 @@ public class GeodeDepositConfigModel {
 
 	public List<CommonBlockDefinitionModel> getFillBlocks() {
 		return fillBlocks;
+	}
+
+	public boolean getGenerateSamples() {
+		return generateSamples;
+	}
+
+	public List<SampleBlockDefinitionModel> getSampleBlocks() {
+		return sampleBlocks;
 	}
 }

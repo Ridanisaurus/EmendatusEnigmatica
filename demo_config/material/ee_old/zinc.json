@@ -23,7 +23,8 @@
   ],
   "properties": {
     "materialType": "metal",
-    "harvestLevel": 3
+    "harvestLevel": 3,
+    "hasOxidization": true
   },
   "colors": {
     "fluidColor": "d1d1a5"

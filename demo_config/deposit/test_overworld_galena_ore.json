@@ -1,0 +1,16 @@
+{
+  "type": "emendatusenigmatica:test_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": ["#minecraft:is_savanna"],
+  "registryName": "test_overworld_gold_ore_deposit",
+  "config": {
+    "blocks": [
+      { "material": "osmium", "weight": 3 }
+    ],
+    "fillerTypes": [ "minecraft_stone", "minecraft_andesite", "minecraft_diorite", "minecraft_granite" ],
+    "chance": 50,
+    "size": 16,
+    "minYLevel": 10,
+    "maxYLevel": 128
+  }
+}

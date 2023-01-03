@@ -28,6 +28,7 @@ import java.util.Optional;
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
     public static final List<MaterialModel> MATERIALS = new ArrayList<>();
+    public static final List<StrataModel> STRATA = new ArrayList<>();
 
     @Override
     public void load(EmendatusDataRegistry registry) {
@@ -65,6 +66,7 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             }
             StrataModel strataModel = result.get().getFirst();
             registry.registerStrata(strataModel);
+            STRATA.add(strataModel);
         }
 
         for (JsonObject jsonObject : materialDefinition) {

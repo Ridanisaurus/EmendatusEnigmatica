@@ -20,7 +20,13 @@
     "dirty_dust",
     "fragment",
     "gravel",
-    "crushed_ore"
+    "crushed_ore",
+    "sword",
+    "pickaxe",
+    "axe",
+    "shovel",
+    "hoe",
+    "paxel"
   ],
   "properties": {
     "materialType": "metal",
@@ -38,5 +44,18 @@
     "thermal": false,
     "create": true,
     "ars_nouveau": false
+  },
+  "tools": {
+    "level": 2,
+    "attackDamage": 4.0,
+    "enchantability": 14,
+    "durability": 1024,
+    "efficiency": 4.0,
+    "sword": { "damage": 3.2, "speed":  -2.4, "modifier":  1.7 },
+    "pickaxe": { "damage": 2.5, "speed":  -1.3, "modifier":  1.2 },
+    "axe": { "damage": 3.4, "speed":  -2.2, "modifier":  2.0 },
+    "shovel": { "damage": 2.1, "speed":  -2.1 },
+    "hoe": { "damage": 1.7, "speed":  -1.2 },
+    "paxel": { "damage": 5, "speed": -2.1, "modifier":  1.5}
   }
 }

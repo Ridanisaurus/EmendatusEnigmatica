@@ -9,7 +9,8 @@
   ],
   "properties": {
     "materialType": "gem",
-    "harvestLevel": 1
+    "harvestLevel": 1,
+    "isEmissive": true
   },
   "oreDrop": {
     "min": 2,

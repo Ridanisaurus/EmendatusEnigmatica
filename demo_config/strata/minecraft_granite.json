@@ -3,5 +3,6 @@
   "baseTexture": "minecraft:block/granite",
   "suffix": "granite",
   "fillerType": "minecraft:granite",
-  "localizedName": "Granite"
+  "localizedName": "Granite",
+  "sampleStrata": true
 }

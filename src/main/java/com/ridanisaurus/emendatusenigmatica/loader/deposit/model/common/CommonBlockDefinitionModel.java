@@ -11,12 +11,11 @@ public class CommonBlockDefinitionModel {
 			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.tag)),
 			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
 			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight)
-	).apply(x, (s, s2, s3, i) -> new CommonBlockDefinitionModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i)));
+	).apply(x, (s, s2, s3, i) -> new CommonBlockDefinitionModel(s.orElse(""), s2.orElse(""), s3.orElse(""), i)));
 	protected final String block;
 	protected final String tag;
 	private final String material;
 	protected final int weight;
-
 
 	public CommonBlockDefinitionModel(String block, String tag, String material, int weight) {
 		this.block = block;

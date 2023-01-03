@@ -21,7 +21,8 @@
     "materialType": "metal",
     "harvestLevel": 4,
     "isBurnable": true,
-    "burnTime": 3200
+    "burnTime": 3200,
+    "isEmissive": true
   },
   "colors": {
     "fluidColor": "00FF00"
