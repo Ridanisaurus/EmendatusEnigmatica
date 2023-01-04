@@ -26,16 +26,28 @@ package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
+import com.ridanisaurus.emendatusenigmatica.items.PaxelItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -50,17 +62,6 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	public final int base;
 	public final int shadow1;
 	public final int shadow2;
-
-//	private final Supplier<BiMap<Block, Block>> NEXT_BY_BLOCK = Suppliers.memoize(
-//			() -> ImmutableBiMap.<Block, Block>builder()
-//					.put(Blocks.COPPER_BLOCK, Blocks.EXPOSED_COPPER)
-//					.put(Blocks.EXPOSED_COPPER, Blocks.WEATHERED_COPPER)
-//					.put(Blocks.WEATHERED_COPPER, Blocks.OXIDIZED_COPPER)
-//					.build()
-//	);
-//	private final Supplier<BiMap<Block, Block>> PREVIOUS_BY_BLOCK = Suppliers.memoize(
-//			() -> NEXT_BY_BLOCK.get().inverse()
-//	);
 
 	public BasicWeatheringBlock(MaterialModel material, WeatherState weatherState, Supplier<BiMap<Block, Block>> nextByBlock) {
 		super(Properties.of(Material.METAL)
@@ -102,6 +103,35 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 		}
 
 		return block1;
+	}
+
+	@Override
+	public InteractionResult use(BlockState blockState, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		ItemStack stack = player.getItemInHand(hand);
+
+		if (stack.getItem() instanceof AxeItem || stack.getItem() instanceof PaxelItem) {
+			Optional<Block> block = getPrevious(blockState.getBlock());
+			if (block.isPresent()) {
+				level.setBlock(pos, block.map(b -> b.withPropertiesOf(blockState)).get(), 11);
+				level.playSound(player, pos, SoundEvents.AXE_SCRAPE, SoundSource.BLOCKS, 1.0F, 1.0F);
+				level.levelEvent(player, 3005, pos, 0);
+				stack.shrink(0);
+				return InteractionResult.SUCCESS;
+			}
+		}
+
+		if (stack.getItem() == Items.HONEYCOMB) {
+			Optional<Block> block = Optional.of(Blocks.BONE_BLOCK);
+			if (block.isPresent()) {
+				level.setBlock(pos, block.map(b -> b.withPropertiesOf(blockState)).get(), 11);
+				level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0F, 1.0F);
+				level.levelEvent(player, 3003, pos, 0);
+				stack.shrink(1);
+				return InteractionResult.SUCCESS;
+			}
+		}
+
+		return InteractionResult.PASS;
 	}
 
 	public Optional<Block> getNext(Block block) {
