@@ -19,9 +19,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.ForgeHooksClient;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/*
+    Thanks PNC
+ */
 public class DynamicArmorLayer <E extends LivingEntity, M extends HumanoidModel<E>> extends RenderLayer<E, M> {
 
     private HumanoidModel<E> body;
