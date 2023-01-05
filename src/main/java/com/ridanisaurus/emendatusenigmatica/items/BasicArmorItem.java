@@ -28,13 +28,16 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -143,5 +146,25 @@ public class BasicArmorItem extends ArmorItem {
 			}
 		}
 		return armorPieces;
+	}
+
+	public MaterialModel getMaterialModel() {
+		return material;
+	}
+
+	@Override
+	public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+		return new ResourceLocation(Reference.MOD_ID, "textures/armor/empty.png").toString();
+	}
+
+	public int getColorForIndex(int index){
+		switch (index){
+			case 0: return material.getColors().getHighlightColor(3);
+			case 1: return material.getColors().getHighlightColor(1);
+			case 3: return material.getColors().getShadowColor(1);
+			case 4: return material.getColors().getShadowColor(2);
+			default: material.getColors().getMaterialColor();
+		};
+		return material.getColors().getMaterialColor();
 	}
 }
