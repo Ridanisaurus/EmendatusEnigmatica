@@ -73,6 +73,26 @@ public class BlockStatesGen extends EEBlockStateProvider {
 									.setModel(new ResourceLocation(Reference.MOD_ID, "block/oxidized_" + material.getId()).toString())
 							)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "oxidized_" + material.getId()));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/waxed_" + material.getId() + "_block").toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_" + material.getId() + "_block"));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/waxed_exposed_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_exposed_" + material.getId()));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/waxed_weathered_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_weathered_" + material.getId()));
+					new BlockStateBuilder()
+							.variant(new BlockStateBuilder.VariantBuilder("")
+									.setModel(new ResourceLocation(Reference.MOD_ID, "block/waxed_oxidized_" + material.getId()).toString())
+							)
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_oxidized_" + material.getId()));
 				}
 			}
 			// Shard Blocks

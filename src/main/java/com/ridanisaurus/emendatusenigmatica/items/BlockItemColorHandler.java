@@ -85,6 +85,17 @@ public class BlockItemColorHandler implements ItemColor {
                 }
             }
         }
+        if (layer == 9) {
+            if (stack.getItem() instanceof BasicStorageBlockItem) {
+                BlockItem item = (BasicStorageBlockItem) stack.getItem();
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getOxidizationColor();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getOxidizationColor();
+                }
+            }
+        }
         return 0xFFFFFF;
     }
 }

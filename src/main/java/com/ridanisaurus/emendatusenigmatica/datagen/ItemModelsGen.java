@@ -52,6 +52,22 @@ public class ItemModelsGen extends EEItemModelProvider {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
+				if (material.getProperties().hasOxidization()) {
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/exposed_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "exposed_" + material.getId()));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/weathered_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "weathered_" + material.getId()));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/oxidized_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "oxidized_" + material.getId()));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/waxed_" + material.getId() + "_block").toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_" + material.getId() + "_block"));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/waxed_exposed_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_exposed_" + material.getId()));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/waxed_weathered_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_weathered_" + material.getId()));
+					new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/waxed_oxidized_" + material.getId()).toString())
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_oxidized_" + material.getId()));
+				}
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_block"));
 			}

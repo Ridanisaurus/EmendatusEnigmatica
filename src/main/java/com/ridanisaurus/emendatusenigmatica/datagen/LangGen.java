@@ -58,6 +58,36 @@ public class LangGen extends EELangProvider {
 				sb.append("Block of ");
 				sb.append(material.getLocalizedName());
 				add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
+				if (material.getProperties().hasOxidization()) {
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("Exposed ");
+					sb2.append(material.getLocalizedName());
+					add(EERegistrar.exposedBlockMap.get(material.getId()).get(), sb2.toString());
+					StringBuilder sb3 = new StringBuilder();
+					sb3.append("Weathered ");
+					sb3.append(material.getLocalizedName());
+					add(EERegistrar.weatheredBlockMap.get(material.getId()).get(), sb3.toString());
+					StringBuilder sb4 = new StringBuilder();
+					sb4.append("Oxidized ");
+					sb4.append(material.getLocalizedName());
+					add(EERegistrar.oxidizedBlockMap.get(material.getId()).get(), sb4.toString());
+					StringBuilder sb5 = new StringBuilder();
+					sb5.append("Waxed Block of ");
+					sb5.append(material.getLocalizedName());
+					add(EERegistrar.waxedStorageBlockMap.get(material.getId()).get(), sb5.toString());
+					StringBuilder sb6 = new StringBuilder();
+					sb6.append("Waxed Exposed ");
+					sb6.append(material.getLocalizedName());
+					add(EERegistrar.waxedExposedBlockMap.get(material.getId()).get(), sb6.toString());
+					StringBuilder sb7 = new StringBuilder();
+					sb7.append("Waxed Weathered ");
+					sb7.append(material.getLocalizedName());
+					add(EERegistrar.waxedWeatheredBlockMap.get(material.getId()).get(), sb7.toString());
+					StringBuilder sb8 = new StringBuilder();
+					sb8.append("Waxed Oxidized ");
+					sb8.append(material.getLocalizedName());
+					add(EERegistrar.waxedOxidizedBlockMap.get(material.getId()).get(), sb8.toString());
+				}
 			}
 
 			// Ingots

@@ -35,27 +35,32 @@ public class MaterialColorsModel {
 	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
 			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> Optional.of(i.particlesColor)),
-			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor))
-	).apply(x, (fluidColor, particlesColor, materialColor) -> new MaterialColorsModel(
+			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor)),
+			Codec.STRING.optionalFieldOf("oxidizationColor").forGetter(i -> Optional.of(i.oxidizationColor))
+	).apply(x, (fluidColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
 			fluidColor.orElse(null),
 			particlesColor.orElse(null),
-			materialColor.orElse(null)
+			materialColor.orElse(null),
+			oxidizationColor.orElse(null)
 	)));
 
 	private final String fluidColor;
 	private final String particlesColor;
 	private final String materialColor;
+	private final String oxidizationColor;
 
-	public MaterialColorsModel(String fluidColor, String particlesColor, String materialColor) {
+	public MaterialColorsModel(String fluidColor, String particlesColor, String materialColor, String oxidizationColor) {
 		this.fluidColor = fluidColor;
 		this.particlesColor = particlesColor;
 		this.materialColor = materialColor;
+		this.oxidizationColor = oxidizationColor;
 	}
 
 	public MaterialColorsModel() {
 		this.fluidColor = null;
 		this.particlesColor = null;
 		this.materialColor = null;
+		this.oxidizationColor = null;
 	}
 
 	public int getMaterialColor() {
@@ -68,6 +73,10 @@ public class MaterialColorsModel {
 
 	public int getShadowColor(int factor) {
 		return materialColor != null ? ColorHelper.HEXtoDEC(ColorHelper.hueShift(materialColor, factor, false)) : -1;
+	}
+
+	public int getOxidizationColor() {
+		return oxidizationColor != null ? ColorHelper.HEXtoDEC(oxidizationColor) : -1;
 	}
 
 	public int getFluidColor() {

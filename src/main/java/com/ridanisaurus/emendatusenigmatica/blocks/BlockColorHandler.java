@@ -56,6 +56,14 @@ public class BlockColorHandler implements BlockColor {
                 return ((BasicStorageBlock) block).getShadow2();
             }
         }
+        if (layer == 9) {
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getOxidizationColor();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getOxidizationColor();
+            }
+        }
         return 0xFFFFFF;
     }
 }

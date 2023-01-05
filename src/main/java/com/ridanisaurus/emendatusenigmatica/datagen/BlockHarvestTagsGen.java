@@ -70,6 +70,14 @@ public class BlockHarvestTagsGen {
 						harvestLevelSwitch(material, weatheredBlock);
 						ResourceLocation oxidizedBlock = EERegistrar.oxidizedBlockMap.get(material.getId()).getId();
 						harvestLevelSwitch(material, oxidizedBlock);
+						ResourceLocation waxedBlock = EERegistrar.waxedStorageBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedBlock);
+						ResourceLocation waxedExposedBlock = EERegistrar.waxedExposedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedExposedBlock);
+						ResourceLocation waxedWeatheredBlock = EERegistrar.waxedWeatheredBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedWeatheredBlock);
+						ResourceLocation waxedOxidizedBlock = EERegistrar.waxedOxidizedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedOxidizedBlock);
 					}
 				}
 				if (processedType.contains("raw")) {
@@ -153,6 +161,14 @@ public class BlockHarvestTagsGen {
 						pickaxe.add(weatheredBlock.toString());
 						ResourceLocation oxidizedBlock = EERegistrar.oxidizedBlockMap.get(material.getId()).getId();
 						pickaxe.add(oxidizedBlock.toString());
+						ResourceLocation waxedBlock = EERegistrar.waxedStorageBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedBlock.toString());
+						ResourceLocation waxedExposedBlock = EERegistrar.waxedExposedBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedExposedBlock.toString());
+						ResourceLocation waxedWeatheredBlock = EERegistrar.waxedWeatheredBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedWeatheredBlock.toString());
+						ResourceLocation waxedOxidizedBlock = EERegistrar.waxedOxidizedBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedOxidizedBlock.toString());
 					}
 				}
 				if(processedType.contains("raw")) {
