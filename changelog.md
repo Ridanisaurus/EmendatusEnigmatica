@@ -9,6 +9,8 @@
 * Added surface Ore Samples which can be setup for each Deposit.
 * Added Tools to Materials (Sword, Pickaxe, Axe, Shovel, Hoe, Paxel).
 * Added Armor to Materials (Helmet, Chest, Leggings, Boots, Shield).
+* Added JEI support for Ore Generation.
+* Added Oxidization Feature to Storage Blocks (similar to Vanilla Copper).
 
 #### Compat Addons
 With the release of 2.1.0, each compat registration and processing has been moved to its own addon.
