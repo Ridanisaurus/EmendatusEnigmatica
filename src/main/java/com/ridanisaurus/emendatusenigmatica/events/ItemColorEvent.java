@@ -51,6 +51,7 @@ public class ItemColorEvent {
 		event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicShovelItem).map(RegistryObject::get).toArray(Item[]::new));
 		event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicHoeItem).map(RegistryObject::get).toArray(Item[]::new));
 		event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicPaxelItem).map(RegistryObject::get).toArray(Item[]::new));
+		event.register(new ItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicArmorItem).map(RegistryObject::get).toArray(Item[]::new));
 //		if(EmendatusEnigmatica.BLOODMAGIC_LOADED)event.register(new ItemColorHandler(), EEBloodMagicRegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BasicItem).map(RegistryObject::get).toArray(Item[]::new));
 		event.register(new BlockItemColorHandler(), EERegistrar.ITEMS.getEntries().stream().filter(x -> x.get() instanceof BlockItem || x.get() instanceof BasicStorageBlockItem).map(RegistryObject::get).toArray(Item[]::new));
 	}

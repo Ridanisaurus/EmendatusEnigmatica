@@ -77,7 +77,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, material.getId() + "_cluster_shard_block"));
 				new ItemModelBuilder(new ResourceLocation(Reference.MOD_ID, "block/budding_" + material.getId()).toString())
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "budding_" + material.getId()));
-				ItemModelBuilder smallBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				ItemModelBuilder smallBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (material.getColors().getMaterialColor() == -1) {
 					smallBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/small_" + material.getId() + "_bud").toString());
 				} else {
@@ -88,7 +88,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/small_bud/04").toString());
 				}
 				smallBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "small_" + material.getId() + "_bud"));
-				ItemModelBuilder mediumBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				ItemModelBuilder mediumBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (material.getColors().getMaterialColor() == -1) {
 					mediumBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/medium_" + material.getId() + "_bud").toString());
 				} else {
@@ -99,7 +99,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/medium_bud/04").toString());
 				}
 				mediumBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "medium_" + material.getId() + "_bud"));
-				ItemModelBuilder largeBudBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				ItemModelBuilder largeBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (material.getColors().getMaterialColor() == -1) {
 					largeBudBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/large_" + material.getId() + "_bud").toString());
 				} else {
@@ -110,7 +110,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", new ResourceLocation(Reference.MOD_ID, "blocks/templates/large_bud/04").toString());
 				}
 				largeBudBuilder.save(consumer, new ResourceLocation(Reference.MOD_ID, "large_" + material.getId() + "_bud"));
-				ItemModelBuilder clusterBuilder = new ItemModelBuilder("minecraft:item/amethyst_bud");
+				ItemModelBuilder clusterBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (material.getColors().getMaterialColor() == -1) {
 					clusterBuilder.texture("layer0", new ResourceLocation(Reference.MOD_ID, "blocks/" + material.getId() + "_cluster").toString());
 				} else {

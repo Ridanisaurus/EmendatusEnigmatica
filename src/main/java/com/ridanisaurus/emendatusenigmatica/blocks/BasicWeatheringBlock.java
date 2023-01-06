@@ -175,8 +175,7 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 
 	@Override
 	public int getHighlight2() {
-//		return highlight2;
-		return ColorHelper.HEXtoDEC("0099ff");
+		return highlight2;
 	}
 
 	@Override

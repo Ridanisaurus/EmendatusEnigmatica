@@ -1,5 +1,30 @@
-package com.ridanisaurus.emendatusenigmatica.renderers;
+/*
+ *  MIT License
+ *
+ *  Copyright (c) 2020 Ridanisaurus
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in all
+ *  copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ */
 
+package com.ridanisaurus.emendatusenigmatica.events;
+
+import com.ridanisaurus.emendatusenigmatica.renderers.ArmorTextureRenderer;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -20,10 +45,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class EEArmorLayers {
-
+public class ArmorTextureEvent {
     public static final ModelLayerLocation ARMOR = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "layer_1"), "main");
-
     public static final ModelLayerLocation LEGS = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "layer_2"), "main");
 
     @SubscribeEvent
@@ -49,8 +72,7 @@ public class EEArmorLayers {
         }
     }
 
-
     private static <T extends LivingEntity, M extends HumanoidModel<T>> void addRenderLayer(LivingEntityRenderer<T, M> render, EntityModelSet models) {
-        render.addLayer(new DynamicArmorLayer<>(render, models));
+        render.addLayer(new ArmorTextureRenderer<>(render, models));
     }
 }

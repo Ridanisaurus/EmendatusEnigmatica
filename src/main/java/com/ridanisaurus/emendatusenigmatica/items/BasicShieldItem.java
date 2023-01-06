@@ -27,7 +27,9 @@ package com.ridanisaurus.emendatusenigmatica.items;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.renderers.ShieldTextureRenderer;
+import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -92,8 +94,27 @@ public class BasicShieldItem extends ShieldItem {
 		return material.getArmor().getEnchantability();
 	}
 
+	public MaterialModel getMaterialModel() {
+		return material;
+	}
+
 	@Override
 	public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-		return super.getArmorTexture(stack, entity, slot, type);
+		if (material.getColors().getMaterialColor() == -1) {
+			return super.getArmorTexture(stack, entity, slot, type);
+		} else {
+			return new ResourceLocation(Reference.MOD_ID, "textures/armor/empty.png").toString();
+		}
+	}
+
+	public int getColorForIndex(int index){
+		switch (index){
+			case 0: return material.getColors().getHighlightColor(3);
+			case 1: return material.getColors().getHighlightColor(1);
+			case 3: return material.getColors().getShadowColor(1);
+			case 4: return material.getColors().getShadowColor(2);
+			default: material.getColors().getMaterialColor();
+		};
+		return material.getColors().getMaterialColor();
 	}
 }

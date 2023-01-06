@@ -2,6 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.ridanisaurus.emendatusenigmatica.events.ArmorTextureEvent;
 import com.ridanisaurus.emendatusenigmatica.items.BasicArmorItem;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.model.HumanoidModel;
@@ -19,18 +20,16 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.ForgeHooksClient;
 
-/*
-    Thanks PNC
- */
-public class DynamicArmorLayer <E extends LivingEntity, M extends HumanoidModel<E>> extends RenderLayer<E, M> {
+// Credit: PNC:R
+public class ArmorTextureRenderer<E extends LivingEntity, M extends HumanoidModel<E>> extends RenderLayer<E, M> {
 
     private HumanoidModel<E> body;
     private HumanoidModel<E> legs;
 
-    public DynamicArmorLayer(RenderLayerParent<E, M> renderLayerParent, EntityModelSet entityModelSet) {
+    public ArmorTextureRenderer(RenderLayerParent<E, M> renderLayerParent, EntityModelSet entityModelSet) {
         super(renderLayerParent);
-        this.body = new HumanoidModel<>(entityModelSet.bakeLayer(EEArmorLayers.ARMOR));
-        this.legs = new HumanoidModel<>(entityModelSet.bakeLayer(EEArmorLayers.LEGS));
+        this.body = new HumanoidModel<>(entityModelSet.bakeLayer(ArmorTextureEvent.ARMOR));
+        this.legs = new HumanoidModel<>(entityModelSet.bakeLayer(ArmorTextureEvent.LEGS));
     }
 
     @Override
@@ -51,12 +50,11 @@ public class DynamicArmorLayer <E extends LivingEntity, M extends HumanoidModel<
             renderSlot(matrixStackIn, bufferIn, entity, EquipmentSlot.HEAD, packedLightIn, body,
                     partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, renderType, i);
         }
-
     }
 
     private void renderSlot(PoseStack matrixStack, MultiBufferSource buffer, E entity, EquipmentSlot slot, int light, HumanoidModel<E> model, float partialTicks, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, RenderType renderType, int colorIndex) {
         ItemStack stack = entity.getItemBySlot(slot);
-        if (stack.getItem() instanceof BasicArmorItem armor && armor.getSlot() == slot) {
+        if (stack.getItem() instanceof BasicArmorItem armor && armor.getSlot() == slot && armor.getMaterialModel().getColors().getMaterialColor() != -1) {
             this.getParentModel().copyPropertiesTo(model);
             model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
             model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
@@ -99,6 +97,7 @@ public class DynamicArmorLayer <E extends LivingEntity, M extends HumanoidModel<
         }
     }
 
+    // TODO: user ColorHelper class
     public static float[] decomposeColorF(int color) {
         float[] res = new float[4];
         res[0] = (color >> 24 & 0xff) / 255f;

@@ -23,6 +23,12 @@ public class BlockColorHandler implements BlockColor {
             if (block instanceof BasicStorageBlock) {
                 return ((BasicStorageBlock) block).getHighlight2();
             }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getHighlight2();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getHighlight2();
+            }
         }
         if (layer == 1) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
@@ -30,6 +36,12 @@ public class BlockColorHandler implements BlockColor {
             }
             if (block instanceof BasicStorageBlock) {
                 return ((BasicStorageBlock) block).getHighlight1();
+            }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getHighlight1();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getHighlight1();
             }
         }
         if (layer == 2) {
@@ -39,6 +51,12 @@ public class BlockColorHandler implements BlockColor {
             if (block instanceof BasicStorageBlock) {
                 return ((BasicStorageBlock) block).getBase();
             }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getBase();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getBase();
+            }
         }
         if (layer == 3) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
@@ -47,6 +65,12 @@ public class BlockColorHandler implements BlockColor {
             if (block instanceof BasicStorageBlock) {
                 return ((BasicStorageBlock) block).getShadow1();
             }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getShadow1();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getShadow1();
+            }
         }
         if (layer == 4) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
@@ -54,6 +78,12 @@ public class BlockColorHandler implements BlockColor {
             }
             if (block instanceof BasicStorageBlock) {
                 return ((BasicStorageBlock) block).getShadow2();
+            }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getShadow2();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getShadow2();
             }
         }
         if (layer == 9) {

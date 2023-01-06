@@ -25,19 +25,35 @@
 package com.ridanisaurus.emendatusenigmatica.events;
 
 import com.ridanisaurus.emendatusenigmatica.items.BasicShieldItem;
+import com.ridanisaurus.emendatusenigmatica.renderers.ArmorTextureRenderer;
 import com.ridanisaurus.emendatusenigmatica.renderers.ShieldTextureRenderer;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.ShieldModel;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.LayerDefinitions;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.entity.ArmorStandRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,7 +64,6 @@ import net.minecraftforge.registries.RegistryObject;
 // Credit: Mekanism
 @Mod.EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ShieldTextureEvent {
-
 	@SubscribeEvent
 	public static void init(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> addShieldPropertyOverrides(new ResourceLocation(Reference.MOD_ID, "blocking"),
@@ -65,17 +80,5 @@ public class ShieldTextureEvent {
 	@SubscribeEvent
 	public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(ShieldTextureRenderer.RENDERER);
-	}
-
-	@SubscribeEvent
-	public static void onStitch(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location().equals(TextureAtlas.LOCATION_BLOCKS)) {
-			for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
-				if (material.getProcessedTypes().contains("shield")) {
-					event.addSprite(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(Reference.MOD_ID, "models/armor/" + material.getId() + "_shield")).texture());
-					event.addSprite(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(Reference.MOD_ID, "models/armor/" + material.getId() + "_shield_base")).texture());
-				}
-			}
-		}
 	}
 }

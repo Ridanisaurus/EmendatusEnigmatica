@@ -154,7 +154,11 @@ public class BasicArmorItem extends ArmorItem {
 
 	@Override
 	public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-		return new ResourceLocation(Reference.MOD_ID, "textures/armor/empty.png").toString();
+		if (material.getColors().getMaterialColor() == -1) {
+			return super.getArmorTexture(stack, entity, slot, type);
+		} else {
+			return new ResourceLocation(Reference.MOD_ID, "textures/armor/empty.png").toString();
+		}
 	}
 
 	public int getColorForIndex(int index){

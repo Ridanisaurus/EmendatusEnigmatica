@@ -23,6 +23,12 @@ public class BlockItemColorHandler implements ItemColor {
                 if (item.getBlock() instanceof BasicStorageBlock) {
                     return ((BasicStorageBlock) item.getBlock()).getHighlight2();
                 }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getHighlight2();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getHighlight2();
+                }
             }
         }
         if (layer == 1) {
@@ -37,6 +43,12 @@ public class BlockItemColorHandler implements ItemColor {
                 BlockItem item = (BasicStorageBlockItem) stack.getItem();
                 if (item.getBlock() instanceof BasicStorageBlock) {
                     return ((BasicStorageBlock) item.getBlock()).getHighlight1();
+                }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getHighlight1();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getHighlight1();
                 }
             }
         }
@@ -53,6 +65,12 @@ public class BlockItemColorHandler implements ItemColor {
                 if (item.getBlock() instanceof BasicStorageBlock) {
                     return ((BasicStorageBlock) item.getBlock()).getBase();
                 }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getBase();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getBase();
+                }
             }
         }
         if (layer == 3) {
@@ -68,6 +86,12 @@ public class BlockItemColorHandler implements ItemColor {
                 if (item.getBlock() instanceof BasicStorageBlock) {
                     return ((BasicStorageBlock) item.getBlock()).getShadow1();
                 }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getShadow1();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getShadow1();
+                }
             }
         }
         if (layer == 4) {
@@ -82,6 +106,12 @@ public class BlockItemColorHandler implements ItemColor {
                 BlockItem item = (BasicStorageBlockItem) stack.getItem();
                 if (item.getBlock() instanceof BasicStorageBlock) {
                     return ((BasicStorageBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getShadow2();
                 }
             }
         }
