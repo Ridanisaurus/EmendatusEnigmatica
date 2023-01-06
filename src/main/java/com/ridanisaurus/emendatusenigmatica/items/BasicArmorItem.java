@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.items;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.ArmorModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -45,14 +46,15 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 // Credit: Atum 2
 public class BasicArmorItem extends ArmorItem {
 	private final MaterialModel material;
 	public final boolean isSet;
-	public final MobEffect effect;
-	public final int duration;
+	public final List<EffectModel> effects;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
@@ -75,8 +77,7 @@ public class BasicArmorItem extends ArmorItem {
 		);
 		this.material = material;
 		this.isSet = material.getArmor().isSetArmor();
-		this.effect = material.getArmor().getEffect();
-		this.duration = material.getArmor().getDuration();
+		this.effects = material.getArmor().getEffects();
 		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
@@ -88,7 +89,9 @@ public class BasicArmorItem extends ArmorItem {
 	public void onArmorTick(ItemStack stack, Level level, Player player) {
 		super.onArmorTick(stack, level, player);
 		if (isSet && isSetActive(player)) {
-			player.addEffect(new MobEffectInstance(effect, duration, 0, true, true));
+			for (EffectModel effect : effects) {
+				player.addEffect(new MobEffectInstance(effect.getEffect(), 600, effect.getLevel(), true, effect.isShowParticles(), effect.isShowIcon()));
+			}
 		}
 	}
 
@@ -106,7 +109,14 @@ public class BasicArmorItem extends ArmorItem {
 				for (int i = 0; i < setPieces.length; i++) {
 					components.add(setPieces[i].getHoverName().plainCopy().withStyle((hasSetPiece(player, EquipmentSlot.byTypeAndIndex(EquipmentSlot.Type.ARMOR, setPieces.length - i - 1)) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)));
 				}
+				components.add(Component.literal(" "));
 				components.add(Component.literal(this.material.getArmor().getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
+				components.add(Component.literal(" "));
+				components.add(Component.literal("Effect(s):").withStyle(ChatFormatting.GRAY));
+				for (EffectModel effect : this.effects) {
+					components.add(Component.literal("- " + effect.getEffect().getDisplayName().getString() + " " + RomanNumerals(effect.getLevel() + 1)).withStyle(isSetActive(player) ? ChatFormatting.BLUE : ChatFormatting.DARK_GRAY));
+				}
+				components.add(Component.literal(" "));
 			}
 		}
 	}
@@ -170,5 +180,39 @@ public class BasicArmorItem extends ArmorItem {
 			default: material.getColors().getMaterialColor();
 		};
 		return material.getColors().getMaterialColor();
+	}
+
+	public static String RomanNumerals(int Int) {
+		LinkedHashMap<String, Integer> roman_numerals = new LinkedHashMap<String, Integer>();
+		roman_numerals.put("M", 1000);
+		roman_numerals.put("CM", 900);
+		roman_numerals.put("D", 500);
+		roman_numerals.put("CD", 400);
+		roman_numerals.put("C", 100);
+		roman_numerals.put("XC", 90);
+		roman_numerals.put("L", 50);
+		roman_numerals.put("XL", 40);
+		roman_numerals.put("X", 10);
+		roman_numerals.put("IX", 9);
+		roman_numerals.put("V", 5);
+		roman_numerals.put("IV", 4);
+		roman_numerals.put("I", 1);
+		String res = "";
+		for(Map.Entry<String, Integer> entry : roman_numerals.entrySet()){
+			int matches = Int/entry.getValue();
+			res += repeat(entry.getKey(), matches);
+			Int = Int % entry.getValue();
+		}
+		return res;
+	}
+	public static String repeat(String s, int n) {
+		if(s == null) {
+			return null;
+		}
+		final StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < n; i++) {
+			sb.append(s);
+		}
+		return sb.toString();
 	}
 }

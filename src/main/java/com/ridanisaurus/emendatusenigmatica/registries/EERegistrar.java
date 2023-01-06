@@ -88,6 +88,13 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Block>> waxedExposedBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Block>> waxedWeatheredBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Block>> waxedOxidizedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> exposedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> weatheredBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> oxidizedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedStorageBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedExposedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedWeatheredBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedOxidizedBlockItemMap = new HashMap<>();
 
 	// Raw Blocks
 	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
@@ -226,22 +233,22 @@ public class EERegistrar {
 			waxedOxidizedBlockMap.put(material.getId(), waxedOxidizedBlock);
 			if (material.getProperties().isBurnable()) {
 				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				exposedBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				weatheredBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
+				oxidizedBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedStorageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedExposedBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedWeatheredBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedOxidizedBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
 			} else {
 				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(), 0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),0)));
-				storageBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),0)));
+				exposedBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(), 0)));
+				weatheredBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),0)));
+				oxidizedBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),0)));
+				waxedStorageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),0)));
+				waxedExposedBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),0)));
+				waxedWeatheredBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),0)));
+				waxedOxidizedBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),0)));
 			}
 		} else {
 			String storageBlockName = material.getId() + "_block";

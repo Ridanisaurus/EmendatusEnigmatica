@@ -24,7 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.blocks.BasicWaxedBlock;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -33,14 +37,17 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class RecipesGen extends RecipeProvider {
 
@@ -53,7 +60,6 @@ public class RecipesGen extends RecipeProvider {
 
 	@Override
 	protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-
 		ShapedRecipeBuilder.shaped(EERegistrar.ENIGMATIC_HAMMER::get)
 				.pattern(" IN")
 				.pattern(" SI")
@@ -67,7 +73,8 @@ public class RecipesGen extends RecipeProvider {
 
 		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
-
+			// TODO: Fix recipe save IDs
+			// TODO: Add Armor and Tools for Vanilla Compat
 			if (processedType.contains("ingot") && material.isModded()) {
 				if (processedType.contains("storage_block")) {
 					// Ingot from Block
@@ -85,6 +92,33 @@ public class RecipesGen extends RecipeProvider {
 							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 							.group(Reference.MOD_ID)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "block/from_ingot/" + material.getId()));
+					// Waxed
+					if (material.getProperties().hasOxidization()) {
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedStorageBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_" + material.getId() + "_block"));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedExposedBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.exposedBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_exposed_" + material.getId()));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedWeatheredBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.weatheredBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_weathered_" + material.getId()));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedOxidizedBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.oxidizedBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_oxidized_" + material.getId()));
+					}
 				}
 				if (processedType.contains("nugget")) {
 					// Ingot from Nugget
@@ -213,6 +247,15 @@ public class RecipesGen extends RecipeProvider {
 							.group(Reference.MOD_ID)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "boots/from_ingot/" + material.getId()));
 				}
+				if (processedType.contains("shield")) {
+					// Shield from Ingot
+					UpgradeRecipeBuilder.smithing(
+							Ingredient.of(Items.SHIELD),
+							Ingredient.of(EETags.MATERIAL_INGOT.apply(material.getId())),
+							EERegistrar.shieldMap.get(material.getId()).get())
+							.unlocks("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "shield/from_ingot/" + material.getId()));
+				}
 				if (processedType.contains("sword")) {
 					// Sword from Ingot
 					ShapedRecipeBuilder.shaped(EERegistrar.swordMap.get(material.getId()).get())
@@ -324,6 +367,33 @@ public class RecipesGen extends RecipeProvider {
 								.group(Reference.MOD_ID)
 								.save(consumer, new ResourceLocation(Reference.MOD_ID, "gem/from_block/9x/" + material.getId()));
 					}
+					// Waxed
+					if (material.getProperties().hasOxidization()) {
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedStorageBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.storageBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_" + material.getId() + "_block"));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedExposedBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.exposedBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_exposed_" + material.getId()));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedWeatheredBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.weatheredBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_weathered_" + material.getId()));
+						ShapelessRecipeBuilder.shapeless(EERegistrar.waxedOxidizedBlockItemMap.get(material.getId()).get())
+								.requires(EERegistrar.oxidizedBlockItemMap.get(material.getId()).get())
+								.requires(Items.HONEYCOMB)
+								.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+								.group(Reference.MOD_ID)
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, "waxed_block/from_block/waxed_oxidized_" + material.getId()));
+					}
 				}
 				// Plate from Gem
 				if (processedType.contains("plate")) {
@@ -346,7 +416,6 @@ public class RecipesGen extends RecipeProvider {
 							.group(Reference.MOD_ID)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "gear/from_gem/" + material.getId()));
 				}
-
 				// Rod from Gem
 				if (processedType.contains("rod")) {
 					ShapedRecipeBuilder.shaped(EERegistrar.rodMap.get(material.getId()).get(), 2)
@@ -399,6 +468,15 @@ public class RecipesGen extends RecipeProvider {
 							.unlockedBy("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
 							.group(Reference.MOD_ID)
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, "boots/from_gem/" + material.getId()));
+				}
+				if (processedType.contains("shield")) {
+					// Shield from Ingot
+					UpgradeRecipeBuilder.smithing(
+							Ingredient.of(Items.SHIELD),
+							Ingredient.of(EETags.MATERIAL_GEM.apply(material.getId())),
+							EERegistrar.shieldMap.get(material.getId()).get())
+							.unlocks("cobblestone", InventoryChangeTrigger.TriggerInstance.hasItems(Blocks.COBBLESTONE))
+							.save(consumer, new ResourceLocation(Reference.MOD_ID, "shield/from_gem/" + material.getId()));
 				}
 				if (processedType.contains("sword")) {
 					// Sword from Gem

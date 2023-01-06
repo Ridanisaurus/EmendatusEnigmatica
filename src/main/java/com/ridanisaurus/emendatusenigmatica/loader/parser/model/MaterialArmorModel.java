@@ -31,13 +31,14 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class MaterialArmorModel {
 	public static final Codec<MaterialArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.BOOL.optionalFieldOf("setArmor").forGetter(i -> Optional.of(i.setArmor)),
-			Codec.STRING.optionalFieldOf("effect").forGetter(i -> Optional.of(i.effect)),
-			Codec.INT.optionalFieldOf("duration").forGetter(i -> Optional.of(i.duration)),
+			Codec.list(EffectModel.CODEC).optionalFieldOf("effects").forGetter(i -> Optional.of(i.effects)),
 			Codec.STRING.optionalFieldOf("setName").forGetter(i -> Optional.of(i.setName)),
 			Codec.STRING.optionalFieldOf("setDesc").forGetter(i -> Optional.of(i.setDesc)),
 			Codec.FLOAT.optionalFieldOf("toughness").forGetter(i -> Optional.of(i.toughness)),
@@ -48,10 +49,9 @@ public class MaterialArmorModel {
 			ArmorModel.CODEC.optionalFieldOf("leggings").forGetter(i -> Optional.of(i.leggings)),
 			ArmorModel.CODEC.optionalFieldOf("boots").forGetter(i -> Optional.of(i.boots)),
 			ArmorModel.CODEC.optionalFieldOf("shield").forGetter(i -> Optional.of(i.shield))
-	).apply(x, (setArmor, effect, duration, setName, setDesc, toughness, knockback, enchantability, helmet, chestplate, leggings, boots, shield) -> new MaterialArmorModel(
+	).apply(x, (setArmor, effects, setName, setDesc, toughness, knockback, enchantability, helmet, chestplate, leggings, boots, shield) -> new MaterialArmorModel(
 			setArmor.orElse(false),
-			effect.orElse(""),
-			duration.orElse(0),
+			effects.orElse(List.of()),
 			setName.orElse(""),
 			setDesc.orElse(""),
 			toughness.orElse(0.0f),
@@ -65,8 +65,7 @@ public class MaterialArmorModel {
 	)));
 
 	private final boolean setArmor;
-	private final String effect;
-	private final int duration;
+	private final List<EffectModel> effects;
 	private final String setName;
 	private final String setDesc;
 	private final float toughness;
@@ -78,12 +77,11 @@ public class MaterialArmorModel {
 	private final ArmorModel boots;
 	private final ArmorModel shield;
 
-	public MaterialArmorModel(boolean setArmor, String effect, int duration, String setName, String setDesc,
+	public MaterialArmorModel(boolean setArmor, List<EffectModel> effects, String setName, String setDesc,
 	                          float toughness, float knockback, int enchantability,
 	                          ArmorModel helmet, ArmorModel chestplate, ArmorModel leggings, ArmorModel boots, ArmorModel shield) {
 		this.setArmor = setArmor;
-		this.effect = effect;
-		this.duration = duration;
+		this.effects = effects;
 		this.setName = setName;
 		this.setDesc = setDesc;
 		this.toughness = toughness;
@@ -98,8 +96,7 @@ public class MaterialArmorModel {
 
 	public MaterialArmorModel() {
 		this.setArmor = false;
-		this.effect = "";
-		this.duration = 0;
+		this.effects = Collections.emptyList();
 		this.setName = "";
 		this.setDesc = "";
 		this.toughness = 0.0f;
@@ -115,13 +112,8 @@ public class MaterialArmorModel {
 	public boolean isSetArmor() {
 		return setArmor;
 	}
-
-	public MobEffect getEffect() {
-		return ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(effect));
-	}
-
-	public int getDuration() {
-		return duration;
+	public List<EffectModel> getEffects() {
+		return effects;
 	}
 
 	public String getSetName() {

@@ -51,6 +51,7 @@ import java.util.function.Supplier;
 
 public class BasicWaxedBlock extends Block implements IColorable {
 	private final Supplier<BiMap<Block, Block>> waxableBlockMap;
+	private final Supplier<BiMap<Block, Block>> reverseWaxableBlockMap;
 	private final String localisedName;
 	public final int highlight2;
 	public final int highlight1;
@@ -63,7 +64,8 @@ public class BasicWaxedBlock extends Block implements IColorable {
 		super(Properties.of(Material.METAL)
 				.strength(3f, 3f)
 				.requiresCorrectToolForDrops());
-		this.waxableBlockMap = Suppliers.memoize(() -> waxableBlockMap.get().inverse());
+		this.waxableBlockMap = waxableBlockMap;
+		this.reverseWaxableBlockMap = Suppliers.memoize(() -> waxableBlockMap.get().inverse());
 		this.localisedName = material.getLocalizedName();
 		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
@@ -91,7 +93,11 @@ public class BasicWaxedBlock extends Block implements IColorable {
 	}
 
 	private Optional<Block> getUnwaxed(Block block) {
-		return Optional.ofNullable(waxableBlockMap.get().get(block));
+		return Optional.ofNullable(reverseWaxableBlockMap.get().get(block));
+	}
+
+	public Supplier<BiMap<Block, Block>> getWaxable() {
+		return waxableBlockMap;
 	}
 
 	@Override
