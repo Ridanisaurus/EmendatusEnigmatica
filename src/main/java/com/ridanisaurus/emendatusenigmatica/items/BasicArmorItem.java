@@ -36,7 +36,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -55,11 +54,11 @@ public class BasicArmorItem extends ArmorItem {
 	private final MaterialModel material;
 	public final boolean isSet;
 	public final List<EffectModel> effects;
+	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
-	public final int shadow2;
 
 	public BasicArmorItem(MaterialModel material, TagKey<Item> repairItem, EquipmentSlot slot, ArmorModel model) {
 		super(
@@ -78,11 +77,11 @@ public class BasicArmorItem extends ArmorItem {
 		this.material = material;
 		this.isSet = material.getArmor().isSetArmor();
 		this.effects = material.getArmor().getEffects();
-		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight3 = material.getColors().getHighlightColor(3);
+		this.highlight2 = material.getColors().getHighlightColor(2);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
-		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override
@@ -116,7 +115,6 @@ public class BasicArmorItem extends ArmorItem {
 				for (EffectModel effect : this.effects) {
 					components.add(Component.literal("- " + effect.getEffect().getDisplayName().getString() + " " + RomanNumerals(effect.getLevel() + 1)).withStyle(isSetActive(player) ? ChatFormatting.BLUE : ChatFormatting.DARK_GRAY));
 				}
-				components.add(Component.literal(" "));
 			}
 		}
 	}
@@ -174,9 +172,9 @@ public class BasicArmorItem extends ArmorItem {
 	public int getColorForIndex(int index){
 		switch (index){
 			case 0: return material.getColors().getHighlightColor(3);
-			case 1: return material.getColors().getHighlightColor(1);
-			case 3: return material.getColors().getShadowColor(1);
-			case 4: return material.getColors().getShadowColor(2);
+			case 1: return material.getColors().getHighlightColor(2);
+			case 2: return material.getColors().getHighlightColor(1);
+			case 4: return material.getColors().getShadowColor(1);
 			default: material.getColors().getMaterialColor();
 		};
 		return material.getColors().getMaterialColor();

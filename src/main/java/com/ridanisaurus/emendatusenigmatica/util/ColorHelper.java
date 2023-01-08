@@ -183,69 +183,114 @@ public class ColorHelper {
 		return rs + gs + bs;
 	}
 
-	public static String hueShift(String hex, int factor, boolean highlight) {
+	public static String hueShift(String hex, int factor, boolean isHighlight) {
+//		Color color = Color.decode("#" + hex);
+//		int r = color.getRed();
+//		int g = color.getGreen();
+//		int b = color.getBlue();
+//
+//		float[] hsb = Color.RGBtoHSB(r, g, b, null);
+//		float hueShift = (hsb[0] >= 0.1f && hsb[0] <= 0.16f) ? 0.02f : (hsb[0] >= 0.33f && hsb[0] <= 0.66f) ? 0.04f : 0.06f;
+//		if (isHighlight) {
+//			// Shift the hue, saturation, and brightness of the color to create the highlight
+//			hsb[0] = (hsb[0] - hueShift * factor) % 1.0f;
+//			hsb[1] = Math.min(1.0f, hsb[1] * (factor * 2));
+//			hsb[2] = Math.min(1.0f, hsb[2] * (factor * 3));
+//			Color highlight = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+//			return String.format("%02x%02x%02x", highlight.getRed(), highlight.getGreen(), highlight.getBlue());
+//		} else {
+//			// Shift the hue, saturation, and brightness of the color to create the shadow
+//			hsb[0] = (hsb[0] + hueShift * factor + 1.0f) % 1.0f;
+//			hsb[1] = Math.max(0.0f, hsb[1] / (factor * 2));
+//			hsb[2] = Math.max(0.0f, hsb[2] / (factor * 3));
+//			Color shadow = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
+//			return String.format("%02x%02x%02x", shadow.getRed(), shadow.getGreen(), shadow.getBlue());
+//		}
+
 		float h = ColorHelper.getHue(hex);
-		float s = ColorHelper.getSaturation(hex);
-		float v = ColorHelper.getValue(hex);
+		float s = ColorHelper.getSaturation(hex); // 15 - 85
+		float v = ColorHelper.getValue(hex); // 15 - 85
+//		float s = 50;
+//		float v = 50;
 		float h2 = 0;
-		float s2;
-		float v2;
+		float s2 = 0;
+		float v2 = 0;
 //			 0 Red
 //			 60 Yellow
 //			 120 Green
 //			 180 Cyan
 //			 240 Blue
 //			 300 Magenta
-		if (highlight) {
+		if (isHighlight) {
 			if (h >= 0 && h < 60) {
-				h2 = h + (5 * factor);
+				h2 = h + (4 * factor);
+				s2 = s - (5 * factor);
+				v2 = v + (10 * factor);
 			}
 			if (h >= 60 && h < 120) {
-				h2 = h - (5 * factor);
+				h2 = h - (4 * factor);
+				s2 = s - (5 * factor);
+				v2 = v + (10 * factor);
 			}
 			if (h >= 120 && h < 180) {
-				h2 = h + (10 * factor);
+				h2 = h + (8 * factor);
+				s2 = s - (2 * factor);
+				v2 = v + (20 * factor);
 			}
 			if (h >= 180 && h < 240) {
-				h2 = h - (10 * factor);
+				h2 = h - (8 * factor);
+				s2 = s - (2 * factor);
+				v2 = v + (20 * factor);
 			}
 			if (h >= 240 && h < 300) {
-				h2 = h + (10 * factor);
+				h2 = h + (8 * factor);
+				s2 = s - (2 * factor);
+				v2 = v + (20 * factor);
 			}
 			if (h >= 300 && h <= 360) {
-				h2 = h + (10 * factor);
+				h2 = h + (8 * factor);
+				s2 = s - (2 * factor);
+				v2 = v + (20 * factor);
 			}
-			s2 = s - (2 * factor);
-			v2 = v + (10 * factor);
 		} else {
 			if (h >= 0 && h < 60) {
-				h2 = h - (5 * factor);
+				h2 = h - (4 * factor);
+				s2 = s + (5 * factor);
+				v2 = v - (15 * factor);
 			}
 			if (h >= 60 && h < 120) {
-				h2 = h + (5 * factor);
+				h2 = h + (4 * factor);
+				s2 = s + (5 * factor);
+				v2 = v - (15 * factor);
 			}
 			if (h >= 120 && h < 180) {
-				h2 = h - (10 * factor);
+				h2 = h - (8 * factor);
+				s2 = s + (2 * factor);
+				v2 = v - (10 * factor);
 			}
 			if (h >= 180 && h < 240) {
-				h2 = h + (10 * factor);
+				h2 = h + (8 * factor);
+				s2 = s + (2 * factor);
+				v2 = v - (10 * factor);
 			}
 			if (h >= 240 && h < 300) {
-				h2 = h - (10 * factor);
+				h2 = h - (8 * factor);
+				s2 = s + (2 * factor);
+				v2 = v - (10 * factor);
 			}
 			if (h >= 300 && h <= 360) {
-				h2 = h - (10 * factor);
+				h2 = h - (8 * factor);
+				s2 = s + (2 * factor);
+				v2 = v - (10 * factor);
 			}
-			s2 = s + (3 * factor);
-			v2 = v - (15 * factor);
 		}
 
 		if (h2 < 0 || h2 > 360) h2 = ((h2 + 360) % 360);
 
-		if (s2 < 0) s2 = 10;
+		if (s2 < 0) s2 = 0;
 		if (s2 > 100) s2 = 100;
 
-		if (v2 < 0) v2 = 10;
+		if (v2 < 0) v2 = 0;
 		if (v2 > 100) v2 = 100;
 
 		return ColorHelper.HSVtoHEX(h2, s2, v2);

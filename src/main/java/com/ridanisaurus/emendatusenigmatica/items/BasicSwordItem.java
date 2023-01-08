@@ -53,7 +53,7 @@ public class BasicSwordItem extends SwordItem {
 				material.getTools().getSword().getSpeed(),
 				new Properties().tab(EmendatusEnigmatica.TAB)
 		);
-		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight2 = material.getColors().getHighlightColor(2);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);

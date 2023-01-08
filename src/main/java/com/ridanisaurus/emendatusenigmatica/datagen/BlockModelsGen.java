@@ -234,53 +234,53 @@ public class BlockModelsGen extends EEBlockModelProvider {
 				} else {
 					// Cluster Shard Block
 					storageTintBlock(consumer,
-							"blocks/templates/block/cluster_shard/00",
-							"blocks/templates/block/cluster_shard/01",
-							"blocks/templates/block/cluster_shard/02",
-							"blocks/templates/block/cluster_shard/03",
-							"blocks/templates/block/cluster_shard/04",
+							"blocks/templates/clusters/block/00",
+							"blocks/templates/clusters/block/01",
+							"blocks/templates/clusters/block/02",
+							"blocks/templates/clusters/block/03",
+							"blocks/templates/clusters/block/04",
 							material.getId() + "_cluster_shard_block"
 					);
 					// Budding Block
 					storageTintBlock(consumer,
-							"blocks/templates/block/budding/00",
-							"blocks/templates/block/budding/01",
-							"blocks/templates/block/budding/02",
-							"blocks/templates/block/budding/03",
-							"blocks/templates/block/budding/04",
+							"blocks/templates/clusters/budding/00",
+							"blocks/templates/clusters/budding/01",
+							"blocks/templates/clusters/budding/02",
+							"blocks/templates/clusters/budding/03",
+							"blocks/templates/clusters/budding/04",
 							"budding_" + material.getId()
 					);
 					// Clusters
 					clusterTintBlock(consumer,
-							"blocks/templates/block/small_bud/00",
-							"blocks/templates/block/small_bud/01",
-							"blocks/templates/block/small_bud/02",
-							"blocks/templates/block/small_bud/03",
-							"blocks/templates/block/small_bud/04",
+							"blocks/templates/clusters/small_bud/00",
+							"blocks/templates/clusters/small_bud/01",
+							"blocks/templates/clusters/small_bud/02",
+							"blocks/templates/clusters/small_bud/03",
+							"blocks/templates/clusters/small_bud/04",
 							"small_" + material.getId() + "_bud"
 					);
 					clusterTintBlock(consumer,
-							"blocks/templates/block/medium_bud/00",
-							"blocks/templates/block/medium_bud/01",
-							"blocks/templates/block/medium_bud/02",
-							"blocks/templates/block/medium_bud/03",
-							"blocks/templates/block/medium_bud/04",
+							"blocks/templates/clusters/medium_bud/00",
+							"blocks/templates/clusters/medium_bud/01",
+							"blocks/templates/clusters/medium_bud/02",
+							"blocks/templates/clusters/medium_bud/03",
+							"blocks/templates/clusters/medium_bud/04",
 							"medium_" + material.getId() + "_bud"
 					);
 					clusterTintBlock(consumer,
-							"blocks/templates/block/large_bud/00",
-							"blocks/templates/block/large_bud/01",
-							"blocks/templates/block/large_bud/02",
-							"blocks/templates/block/large_bud/03",
-							"blocks/templates/block/large_bud/04",
+							"blocks/templates/clusters/large_bud/00",
+							"blocks/templates/clusters/large_bud/01",
+							"blocks/templates/clusters/large_bud/02",
+							"blocks/templates/clusters/large_bud/03",
+							"blocks/templates/clusters/large_bud/04",
 							"large_" + material.getId() + "_bud"
 					);
 					clusterTintBlock(consumer,
-							"blocks/templates/block/cluster/00",
-							"blocks/templates/block/cluster/01",
-							"blocks/templates/block/cluster/02",
-							"blocks/templates/block/cluster/03",
-							"blocks/templates/block/cluster/04",
+							"blocks/templates/clusters/cluster/00",
+							"blocks/templates/clusters/cluster/01",
+							"blocks/templates/clusters/cluster/02",
+							"blocks/templates/clusters/cluster/03",
+							"blocks/templates/clusters/cluster/04",
 							material.getId() + "_cluster"
 					);
 				}
@@ -466,7 +466,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 	}
 
 	private void clusterTintBlock(Consumer<IFinishedGenericJSON> consumer, String highlight2, String highlight1, String base, String shadow1, String shadow2, String path) {
-		new BlockModelBuilder("minecraft:block/cross")
+		new BlockModelBuilder("emendatusenigmatica:block/bud")
 				.renderType("cutout")
 				.texture("highlight2", new ResourceLocation(Reference.MOD_ID, highlight2))
 				.texture("highlight1", new ResourceLocation(Reference.MOD_ID, highlight1))
@@ -474,26 +474,6 @@ public class BlockModelsGen extends EEBlockModelProvider {
 				.texture("shadow1", new ResourceLocation(Reference.MOD_ID, shadow1))
 				.texture("shadow2", new ResourceLocation(Reference.MOD_ID, shadow2))
 				.texture("particle", new ResourceLocation(Reference.MOD_ID, base))
-				.element()
-				.cube("#highlight2")
-				.allFaces((d, u) -> u.tintindex(0))
-				.end()
-				.element()
-				.cube("#highlight1")
-				.allFaces((d, u) -> u.tintindex(1))
-				.end()
-				.element()
-				.cube("#base")
-				.allFaces((d, u) -> u.tintindex(2))
-				.end()
-				.element()
-				.cube("#shadow1")
-				.allFaces((d, u) -> u.tintindex(3))
-				.end()
-				.element()
-				.cube("#shadow2")
-				.allFaces((d, u) -> u.tintindex(4))
-				.end()
 				.save(consumer, new ResourceLocation(Reference.MOD_ID, path));
 	}
 

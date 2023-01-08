@@ -41,11 +41,11 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	private final String localisedName;
 	private final int minExp;
 	private final int maxExp;
+	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
-	public final int shadow2;
 
 	public GemOreBlock(StrataModel strata, MaterialModel material) {
 		super(BlockBehaviour.Properties.of(Material.STONE)
@@ -54,11 +54,11 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 		this.localisedName = material.getLocalizedName();
 		this.minExp = material.getOreDrop().getMin();
 		this.maxExp = material.getOreDrop().getMax();
-		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight3 = material.getColors().getHighlightColor(3);
+		this.highlight2 = material.getColors().getHighlightColor(2);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
-		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override
@@ -73,6 +73,11 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	@Override
 	public int getExpDrop(BlockState state, LevelReader reader, RandomSource random, BlockPos pos, int fortune, int silktouch) {
 		return silktouch == 0 ? this.getExperience(random) : 0;
+	}
+
+	@Override
+	public int getHighlight3() {
+		return highlight3;
 	}
 
 	@Override
@@ -93,10 +98,5 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	@Override
 	public int getShadow1() {
 		return shadow1;
-	}
-
-	@Override
-	public int getShadow2() {
-		return shadow2;
 	}
 }

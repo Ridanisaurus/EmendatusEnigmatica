@@ -28,7 +28,6 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
 import com.ridanisaurus.emendatusenigmatica.items.PaxelItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -44,7 +43,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
@@ -59,11 +57,11 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	private final Supplier<BiMap<Block, Block>> previousByBlock;
 	private final Supplier<BiMap<Block, Block>> waxableBlockMap;
 	private final String localisedName;
+	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
-	public final int shadow2;
 	public final int oxidizationColor;
 
 	public BasicWeatheringBlock(MaterialModel material, WeatherState weatherState, Supplier<BiMap<Block, Block>> nextByBlock, Supplier<BiMap<Block, Block>> waxableBlockMap) {
@@ -75,11 +73,11 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 		this.previousByBlock = Suppliers.memoize(() -> nextByBlock.get().inverse());
 		this.waxableBlockMap = waxableBlockMap;
 		this.localisedName = material.getLocalizedName();
-		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight3 = material.getColors().getHighlightColor(3);
+		this.highlight2 = material.getColors().getHighlightColor(2);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
-		this.shadow2 = material.getColors().getShadowColor(2);
 		this.oxidizationColor = material.getColors().getOxidizationColor();
 	}
 
@@ -174,6 +172,11 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	}
 
 	@Override
+	public int getHighlight3() {
+		return highlight3;
+	}
+
+	@Override
 	public int getHighlight2() {
 		return highlight2;
 	}
@@ -191,11 +194,6 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	@Override
 	public int getShadow1() {
 		return shadow1;
-	}
-
-	@Override
-	public int getShadow2() {
-		return shadow2;
 	}
 
 	public int getOxidizationColor() {

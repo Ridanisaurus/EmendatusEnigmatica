@@ -166,6 +166,10 @@ public class BlockModelBuilder{
 			return allFaces(addTexture(texture).andThen((dir, f) -> f.cullface(dir)));
 		}
 
+		public ElementBuilder cross(String texture) {
+			return faces(addTexture(texture).andThen((dir, f) -> f.cullface(dir)));
+		}
+
 		private BiConsumer<Direction, FaceBuilder> addTexture(String texture) {
 			return ($, f) -> f.texture(texture);
 		}

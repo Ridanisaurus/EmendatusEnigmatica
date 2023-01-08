@@ -34,18 +34,18 @@ import net.minecraft.world.item.ItemStack;
 
 public class BasicItem extends Item {
 
+  public final int highlight3;
   public final int highlight2;
   public final int highlight1;
   public final int base;
   public final int shadow1;
-  public final int shadow2;
 
   public BasicItem(MaterialModel material) {
     super(new Properties().tab(EmendatusEnigmatica.TAB));
-    this.highlight2 = material.getColors().getHighlightColor(3);
+    this.highlight3 = material.getColors().getHighlightColor(3);
+    this.highlight2 = material.getColors().getHighlightColor(2);
     this.highlight1 = material.getColors().getHighlightColor(1);
     this.base = material.getColors().getMaterialColor();
     this.shadow1 = material.getColors().getShadowColor(1);
-    this.shadow2 = material.getColors().getShadowColor(2);
   }
 }

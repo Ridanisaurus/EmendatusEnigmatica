@@ -43,6 +43,7 @@ import java.util.function.Consumer;
 
 public class BasicShieldItem extends ShieldItem {
 
+	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
@@ -52,7 +53,8 @@ public class BasicShieldItem extends ShieldItem {
 
 	public BasicShieldItem(MaterialModel material, TagKey<Item> repairItem) {
 		super(new Properties().tab(EmendatusEnigmatica.TAB).durability(material.getArmor().getShield().getDurability()));
-		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight3 = material.getColors().getHighlightColor(3);
+		this.highlight2 = material.getColors().getHighlightColor(2);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
@@ -110,9 +112,9 @@ public class BasicShieldItem extends ShieldItem {
 	public int getColorForIndex(int index){
 		switch (index){
 			case 0: return material.getColors().getHighlightColor(3);
-			case 1: return material.getColors().getHighlightColor(1);
-			case 3: return material.getColors().getShadowColor(1);
-			case 4: return material.getColors().getShadowColor(2);
+			case 1: return material.getColors().getHighlightColor(2);
+			case 2: return material.getColors().getHighlightColor(1);
+			case 4: return material.getColors().getShadowColor(1);
 			default: material.getColors().getMaterialColor();
 		};
 		return material.getColors().getMaterialColor();
