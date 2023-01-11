@@ -1,12 +1,18 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -29,6 +35,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -36,6 +43,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
@@ -51,9 +59,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private final List<CommonBlockDefinitionModel> innerShellBlocks;
 	private final List<CommonBlockDefinitionModel> innerBlocks;
 	private final List<CommonBlockDefinitionModel> fillBlocks;
+	private final List<SampleBlockDefinitionModel> sampleBlocks;
 	private final List<BlockState> clusters;
 	private final GeodeDepositModel model;
 	private final EmendatusDataRegistry registry;
+	private boolean placed = false;
 
 	public GeodeOreFeature(Codec<GeodeOreFeatureConfig> codec, GeodeDepositModel model, EmendatusDataRegistry registry) {
 		super(codec);
@@ -84,6 +94,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			BlockState clusterBlockstate = Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(cluster))).defaultBlockState();
 			NonNullList<BlockState> filled = NonNullList.withSize(1, clusterBlockstate);
 			clusters.addAll(filled);
+		}
+		sampleBlocks = new ArrayList<>();
+		for (SampleBlockDefinitionModel sampleBlock : model.getConfig().getSampleBlocks()) {
+			NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
+			sampleBlocks.addAll(filled);
 		}
 	}
 
@@ -215,6 +230,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 				}
 			}
 		}
+		placeSurfaceSample(rand, pos, level);
 		return true;
 	}
 
@@ -246,5 +262,54 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 				level.setBlock(pos, block.defaultBlockState(), 2);
 			}
 		}
+		placed = true;
+	}
+
+	private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos) {
+		try {
+			int index = rand.nextInt(sampleBlocks.size());
+			SampleBlockDefinitionModel sampleBlockDefinitionModel = sampleBlocks.get(index);
+
+			if (sampleBlockDefinitionModel.getBlock() != null) {
+				Block sampleBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(sampleBlockDefinitionModel.getBlock()));
+				level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
+			} else if (sampleBlockDefinitionModel.getTag() != null) {
+				ITag<Block> blockITag = ForgeRegistries.BLOCKS.tags().getTag(EETags.getBlockTag(new ResourceLocation(sampleBlockDefinitionModel.getTag())));
+				blockITag.getRandomElement(rand).ifPresent(block -> {
+					level.setBlock(samplePos, block.defaultBlockState(), 2);
+				});
+			} else if (sampleBlockDefinitionModel.getMaterial() != null) {
+				Block sampleBlock = EERegistrar.oreSampleBlockTable.get(sampleBlockDefinitionModel.getStrata(), sampleBlockDefinitionModel.getMaterial()).get();
+				level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
+			}
+		} catch (Exception e) {
+			JsonElement modelJson = JsonOps.INSTANCE.withEncoder(GeodeDepositModel.CODEC).apply(model).result().get();
+			EmendatusEnigmatica.LOGGER.error("model: " + new Gson().toJson(modelJson));
+			e.printStackTrace();
+		}
+	}
+
+	private void placeSurfaceSample(RandomSource rand, BlockPos pos, WorldGenLevel level) {
+		BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
+		if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER) {
+			sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
+		}
+		if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).getMaterial() != Material.LEAVES) {
+			for(int l = 0; l < 3; ++l) {
+				int i = rand.nextInt(2);
+				int j = rand.nextInt(2);
+				int k = rand.nextInt(2);
+				float f = (float)(i + j + k) * 0.333F + 0.5F;
+
+				for(BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k))) {
+					if (samplePos.distSqr(sample) <= (double)(f * f) && placed) {
+						placeSampleBlock(level, rand, samplePos);
+					}
+				}
+				sample = sample.offset(-1 + rand.nextInt(2), -rand.nextInt(2), -1 + rand.nextInt(2));
+			}
+
+		}
+		placed = false;
 	}
 }

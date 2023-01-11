@@ -30,6 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
     private SphereDepositModel model;

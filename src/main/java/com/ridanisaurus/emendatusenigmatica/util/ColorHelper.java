@@ -210,8 +210,6 @@ public class ColorHelper {
 		float h = ColorHelper.getHue(hex);
 		float s = ColorHelper.getSaturation(hex); // 15 - 85
 		float v = ColorHelper.getValue(hex); // 15 - 85
-//		float s = 50;
-//		float v = 50;
 		float h2 = 0;
 		float s2 = 0;
 		float v2 = 0;

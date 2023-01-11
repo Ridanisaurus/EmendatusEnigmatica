@@ -33,45 +33,72 @@ public class MaterialPropertiesModel {
 	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("materialType").forGetter(i -> i.materialType),
 			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel)),
+			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType)),
+			Codec.INT.optionalFieldOf("gemTexture").forGetter(i -> Optional.of(i.gemTexture)),
 			Codec.BOOL.optionalFieldOf("hasParticles").forGetter(i -> Optional.of(i.hasParticles)),
 			Codec.BOOL.optionalFieldOf("hasOxidization").forGetter(i -> Optional.of(i.hasOxidization)),
 			Codec.BOOL.optionalFieldOf("isEmissive").forGetter(i -> Optional.of(i.isEmissive)),
 			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
 			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime)),
-			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType)),
-			Codec.INT.optionalFieldOf("gemTexture").forGetter(i -> Optional.of(i.gemTexture))
-	).apply(x, (materialType, harvestLevel, hasParticles, hasOxidization, isEmissive, isBurnable, burnTime, blockRecipeType, gemTexture) -> new MaterialPropertiesModel(
+			Codec.BOOL.optionalFieldOf("isRadioactive").forGetter(i -> Optional.of(i.isRadioactive)),
+			Codec.DOUBLE.optionalFieldOf("radioactivity").forGetter(i -> Optional.of(i.radioactivity)),
+			Codec.BOOL.optionalFieldOf("isCoolant").forGetter(i -> Optional.of(i.isCoolant)),
+			Codec.STRING.optionalFieldOf("coolantType").forGetter(i -> Optional.of(i.coolantType)),
+			Codec.DOUBLE.optionalFieldOf("thermalEnthalpy").forGetter(i -> Optional.of(i.thermalEnthalpy)),
+			Codec.DOUBLE.optionalFieldOf("conductivity").forGetter(i -> Optional.of(i.conductivity))
+	).apply(x, (materialType, harvestLevel, blockRecipeType, gemTexture, hasParticles, hasOxidization, isEmissive, isBurnable, burnTime,
+	            isRadioactive, radioactivity, isCoolant, coolantType, thermalEnthalpy, conductivity) -> new MaterialPropertiesModel(
 			materialType,
 			harvestLevel.orElse(0),
+			blockRecipeType.orElse(9),
+			gemTexture.orElse(1),
 			hasParticles.orElse(false),
 			hasOxidization.orElse(false),
 			isEmissive.orElse(false),
 			isBurnable.orElse(false),
 			burnTime.orElse(0),
-			blockRecipeType.orElse(9),
-			gemTexture.orElse(1)
+			isRadioactive.orElse(false),
+			radioactivity.orElse(0.0D),
+			isCoolant.orElse(false),
+			coolantType.orElse("cooled"),
+			thermalEnthalpy.orElse(0.0D),
+			conductivity.orElse(0.0D)
 	)));
 
 	private final String materialType;
 	private final int harvestLevel;
 	private final boolean hasParticles;
+	private final int blockRecipeType;
+	private final int gemTexture;
 	private final boolean hasOxidization;
 	private final boolean isEmissive;
 	private final boolean isBurnable;
 	private final int burnTime;
-	private final int blockRecipeType;
-	private final int gemTexture;
+	private final boolean isRadioactive;
+	private final double radioactivity;
+	private final boolean isCoolant;
+	private final String coolantType;
+	private final double thermalEnthalpy;
+	private final double conductivity;
 
-	public MaterialPropertiesModel(String materialType, int harvestLevel, boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime, int blockRecipeType, int gemTexture) {
+	public MaterialPropertiesModel(String materialType, int harvestLevel, int blockRecipeType, int gemTexture,
+	                               boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime,
+	                               boolean isRadioactive, double radioactivity, boolean isCoolant, String coolantType, double thermalEnthalpy, double conductivity) {
 		this.materialType = materialType;
 		this.harvestLevel = harvestLevel;
+		this.blockRecipeType = blockRecipeType;
+		this.gemTexture = gemTexture;
 		this.hasParticles = hasParticles;
 		this.hasOxidization = hasOxidization;
 		this.isEmissive = isEmissive;
 		this.isBurnable = isBurnable;
 		this.burnTime = burnTime;
-		this.blockRecipeType = blockRecipeType;
-		this.gemTexture = gemTexture;
+		this.isRadioactive = isRadioactive;
+		this.radioactivity = radioactivity;
+		this.isCoolant = isCoolant;
+		this.coolantType = coolantType;
+		this.thermalEnthalpy = thermalEnthalpy;
+		this.conductivity = conductivity;
 	}
 
 	public MaterialPropertiesModel() {
@@ -84,6 +111,12 @@ public class MaterialPropertiesModel {
 		this.burnTime = 0;
 		this.blockRecipeType = 9;
 		this.gemTexture = 1;
+		this.isRadioactive = false;
+		this.radioactivity = 0.0D;
+		this.isCoolant = false;
+		this.coolantType = "cooled";
+		this.thermalEnthalpy = 0.0D;
+		this.conductivity = 0.0D;
 	}
 
 	public String getMaterialType() {
@@ -92,6 +125,14 @@ public class MaterialPropertiesModel {
 
 	public int getHarvestLevel() {
 		return harvestLevel;
+	}
+
+	public int getBlockRecipeType() {
+		return blockRecipeType;
+	}
+
+	public int getGemTexture() {
+		return gemTexture;
 	}
 
 	public boolean hasParticles() {
@@ -114,11 +155,27 @@ public class MaterialPropertiesModel {
 		return burnTime;
 	}
 
-	public int getBlockRecipeType() {
-		return blockRecipeType;
+	public boolean isRadioactive() {
+		return isRadioactive;
 	}
 
-	public int getGemTexture() {
-		return gemTexture;
+	public double getRadioactivity() {
+		return radioactivity;
+	}
+
+	public boolean isCoolant() {
+		return isCoolant;
+	}
+
+	public String getCoolantType() {
+		return coolantType;
+	}
+
+	public double getThermalEnthalpy() {
+		return thermalEnthalpy;
+	}
+
+	public double getConductivity() {
+		return conductivity;
 	}
 }

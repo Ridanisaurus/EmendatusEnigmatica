@@ -157,18 +157,18 @@ public class EEDeposits {
 						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getPlacementChance(), placement))
 				);
 			}
-			if(activeProcessor.getType().equals(DepositType.TEST.getType())) {
-				var model = ((TestDepositProcessor) activeProcessor).getTestModel();
-				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
-				RegistryObject<TestOreFeature> testOreFeature = FEATURES.register(model.getName(), () -> new TestOreFeature(TestOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
-				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
-						() -> new ConfiguredFeature<>(testOreFeature.get(), new TestOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
-				);
-				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
-				PLACED_ORE_FEATURES.register(model.getName(),
-						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
-				);
-			}
+//			if(activeProcessor.getType().equals(DepositType.TEST.getType())) {
+//				var model = ((TestDepositProcessor) activeProcessor).getTestModel();
+//				if (model.getConfig().getChance() < 1 || model.getConfig().getChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+//				RegistryObject<TestOreFeature> testOreFeature = FEATURES.register(model.getName(), () -> new TestOreFeature(TestOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
+//				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
+//						() -> new ConfiguredFeature<>(testOreFeature.get(), new TestOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+//				);
+//				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+//				PLACED_ORE_FEATURES.register(model.getName(),
+//						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getChance(), placement))
+//				);
+//			}
 		}
 	}
 

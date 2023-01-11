@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+// TODO: Remove sample check from Vanilla
 public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCategory.WorldGenWrapper> {
 	private static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "world_gen");
 	public static final RecipeType<WorldGenRecipeCategory.WorldGenWrapper> RECIPE = new RecipeType<>(ID, WorldGenRecipeCategory.WorldGenWrapper.class);
