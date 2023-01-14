@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.parser.model.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import com.ridanisaurus.emendatusenigmatica.util.RomanNumberHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -54,11 +55,11 @@ public class BasicArmorItem extends ArmorItem {
 	private final MaterialModel material;
 	public final boolean isSet;
 	public final List<EffectModel> effects;
-	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
+	public final int shadow2;
 
 	public BasicArmorItem(MaterialModel material, TagKey<Item> repairItem, EquipmentSlot slot, ArmorModel model) {
 		super(
@@ -77,11 +78,11 @@ public class BasicArmorItem extends ArmorItem {
 		this.material = material;
 		this.isSet = material.getArmor().isSetArmor();
 		this.effects = material.getArmor().getEffects();
-		this.highlight3 = material.getColors().getHighlightColor(3);
-		this.highlight2 = material.getColors().getHighlightColor(2);
+		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override
@@ -113,7 +114,7 @@ public class BasicArmorItem extends ArmorItem {
 				components.add(Component.literal(" "));
 				components.add(Component.literal("Effect(s):").withStyle(ChatFormatting.GRAY));
 				for (EffectModel effect : this.effects) {
-					components.add(Component.literal("- " + effect.getEffect().getDisplayName().getString() + " " + RomanNumerals(effect.getLevel() + 1)).withStyle(isSetActive(player) ? ChatFormatting.BLUE : ChatFormatting.DARK_GRAY));
+					components.add(Component.literal("- " + effect.getEffect().getDisplayName().getString() + " " + RomanNumberHelper.toRoman(effect.getLevel() + 1)).withStyle(isSetActive(player) ? ChatFormatting.BLUE : ChatFormatting.DARK_GRAY));
 				}
 			}
 		}
@@ -171,46 +172,12 @@ public class BasicArmorItem extends ArmorItem {
 
 	public int getColorForIndex(int index){
 		switch (index){
-			case 0: return material.getColors().getHighlightColor(3);
-			case 1: return material.getColors().getHighlightColor(2);
-			case 2: return material.getColors().getHighlightColor(1);
-			case 4: return material.getColors().getShadowColor(1);
+			case 0: return material.getColors().getHighlightColor(2);
+			case 1: return material.getColors().getHighlightColor(1);
+			case 3: return material.getColors().getShadowColor(1);
+			case 4: return material.getColors().getShadowColor(2);
 			default: material.getColors().getMaterialColor();
 		};
 		return material.getColors().getMaterialColor();
-	}
-
-	public static String RomanNumerals(int Int) {
-		LinkedHashMap<String, Integer> roman_numerals = new LinkedHashMap<String, Integer>();
-		roman_numerals.put("M", 1000);
-		roman_numerals.put("CM", 900);
-		roman_numerals.put("D", 500);
-		roman_numerals.put("CD", 400);
-		roman_numerals.put("C", 100);
-		roman_numerals.put("XC", 90);
-		roman_numerals.put("L", 50);
-		roman_numerals.put("XL", 40);
-		roman_numerals.put("X", 10);
-		roman_numerals.put("IX", 9);
-		roman_numerals.put("V", 5);
-		roman_numerals.put("IV", 4);
-		roman_numerals.put("I", 1);
-		String res = "";
-		for(Map.Entry<String, Integer> entry : roman_numerals.entrySet()){
-			int matches = Int/entry.getValue();
-			res += repeat(entry.getKey(), matches);
-			Int = Int % entry.getValue();
-		}
-		return res;
-	}
-	public static String repeat(String s, int n) {
-		if(s == null) {
-			return null;
-		}
-		final StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < n; i++) {
-			sb.append(s);
-		}
-		return sb.toString();
 	}
 }

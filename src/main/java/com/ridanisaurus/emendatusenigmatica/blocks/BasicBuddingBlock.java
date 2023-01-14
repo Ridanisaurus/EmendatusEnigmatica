@@ -43,11 +43,11 @@ import java.util.function.Supplier;
 public class BasicBuddingBlock extends BuddingAmethystBlock implements IColorable {
 	private static final Direction[] DIRECTIONS = Direction.values();
 	private final String localisedName;
-	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
+	public final int shadow2;
 	private final Supplier<Block> small_bud;
 	private final Supplier<Block> medium_bud;
 	private final Supplier<Block> large_bud;
@@ -59,11 +59,11 @@ public class BasicBuddingBlock extends BuddingAmethystBlock implements IColorabl
 				.randomTicks()
 				.requiresCorrectToolForDrops());
 		this.localisedName = material.getLocalizedName();
-		this.highlight3 = material.getColors().getHighlightColor(3);
-		this.highlight2 = material.getColors().getHighlightColor(2);
+		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 		this.small_bud = small_bud;
 		this.medium_bud = medium_bud;
 		this.large_bud = large_bud;
@@ -101,11 +101,6 @@ public class BasicBuddingBlock extends BuddingAmethystBlock implements IColorabl
 	}
 
 	@Override
-	public int getHighlight3() {
-		return highlight3;
-	}
-
-	@Override
 	public int getHighlight2() {
 		return highlight2;
 	}
@@ -123,5 +118,10 @@ public class BasicBuddingBlock extends BuddingAmethystBlock implements IColorabl
 	@Override
 	public int getShadow1() {
 		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return shadow2;
 	}
 }

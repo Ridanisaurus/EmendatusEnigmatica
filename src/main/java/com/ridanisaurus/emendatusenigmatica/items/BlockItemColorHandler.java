@@ -14,36 +14,6 @@ public class BlockItemColorHandler implements ItemColor {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
                 if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
-                    return ((IColorable) block).getHighlight3();
-                }
-            }
-            if (stack.getItem() instanceof BasicStorageBlockItem) {
-                BlockItem item = (BasicStorageBlockItem) stack.getItem();
-                if (item.getBlock() instanceof BasicStorageBlock) {
-                    return ((BasicStorageBlock) item.getBlock()).getHighlight3();
-                }
-                if (item.getBlock() instanceof BasicWeatheringBlock) {
-                    return ((BasicWeatheringBlock) item.getBlock()).getHighlight3();
-                }
-                if (item.getBlock() instanceof BasicWaxedBlock) {
-                    return ((BasicWaxedBlock) item.getBlock()).getHighlight3();
-                }
-                if (item.getBlock() instanceof BasicClusterBlock) {
-                    return ((BasicClusterBlock) item.getBlock()).getHighlight3();
-                }
-                if (item.getBlock() instanceof BasicClusterShardBlock) {
-                    return ((BasicClusterShardBlock) item.getBlock()).getHighlight3();
-                }
-                if (item.getBlock() instanceof BasicBuddingBlock) {
-                    return ((BasicBuddingBlock) item.getBlock()).getHighlight3();
-                }
-            }
-        }
-        if (layer == 1) {
-            if (stack.getItem() instanceof BlockItem) {
-                BlockItem item = (BlockItem) stack.getItem();
-                Block block = item.getBlock();
-                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                     return ((IColorable) block).getHighlight2();
                 }
             }
@@ -69,7 +39,7 @@ public class BlockItemColorHandler implements ItemColor {
                 }
             }
         }
-        if (layer == 2) {
+        if (layer == 1) {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
@@ -99,7 +69,7 @@ public class BlockItemColorHandler implements ItemColor {
                 }
             }
         }
-        if (layer == 3) {
+        if (layer == 2) {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
@@ -129,7 +99,7 @@ public class BlockItemColorHandler implements ItemColor {
                 }
             }
         }
-        if (layer == 4) {
+        if (layer == 3) {
             if (stack.getItem() instanceof BlockItem) {
                 BlockItem item = (BlockItem) stack.getItem();
                 Block block = item.getBlock();
@@ -156,6 +126,36 @@ public class BlockItemColorHandler implements ItemColor {
                 }
                 if (item.getBlock() instanceof BasicBuddingBlock) {
                     return ((BasicBuddingBlock) item.getBlock()).getShadow1();
+                }
+            }
+        }
+        if (layer == 4) {
+            if (stack.getItem() instanceof BlockItem) {
+                BlockItem item = (BlockItem) stack.getItem();
+                Block block = item.getBlock();
+                if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
+                    return ((IColorable) block).getShadow2();
+                }
+            }
+            if (stack.getItem() instanceof BasicStorageBlockItem) {
+                BlockItem item = (BasicStorageBlockItem) stack.getItem();
+                if (item.getBlock() instanceof BasicStorageBlock) {
+                    return ((BasicStorageBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicWeatheringBlock) {
+                    return ((BasicWeatheringBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicWaxedBlock) {
+                    return ((BasicWaxedBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicClusterBlock) {
+                    return ((BasicClusterBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicClusterShardBlock) {
+                    return ((BasicClusterShardBlock) item.getBlock()).getShadow2();
+                }
+                if (item.getBlock() instanceof BasicBuddingBlock) {
+                    return ((BasicBuddingBlock) item.getBlock()).getShadow2();
                 }
             }
         }

@@ -33,11 +33,11 @@ import net.minecraft.world.level.material.Material;
 
 public class BasicClusterShardBlock extends AmethystBlock implements IColorable {
 	private final String localisedName;
-	public final int highlight3;
 	public final int highlight2;
 	public final int highlight1;
 	public final int base;
 	public final int shadow1;
+	public final int shadow2;
 
 	public BasicClusterShardBlock(MaterialModel material) {
 		super(Properties.of(Material.AMETHYST)
@@ -45,21 +45,16 @@ public class BasicClusterShardBlock extends AmethystBlock implements IColorable 
 				.sound(SoundType.AMETHYST)
 				.requiresCorrectToolForDrops());
 		this.localisedName = material.getLocalizedName();
-		this.highlight3 = material.getColors().getHighlightColor(3);
-		this.highlight2 = material.getColors().getHighlightColor(2);
+		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override
 	public MutableComponent getName() {
 		return Component.translatable(localisedName);
-	}
-
-	@Override
-	public int getHighlight3() {
-		return highlight3;
 	}
 
 	@Override
@@ -80,5 +75,10 @@ public class BasicClusterShardBlock extends AmethystBlock implements IColorable 
 	@Override
 	public int getShadow1() {
 		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return shadow2;
 	}
 }

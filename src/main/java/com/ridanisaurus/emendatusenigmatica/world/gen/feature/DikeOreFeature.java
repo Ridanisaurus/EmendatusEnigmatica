@@ -94,7 +94,9 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
                 }
             }
         }
-        placeSurfaceSample(rand, pos, level);
+        if (rand.nextInt(100) < model.getConfig().getChance()) {
+            placeSurfaceSample(rand, pos, level);
+        }
         return true;
     }
 

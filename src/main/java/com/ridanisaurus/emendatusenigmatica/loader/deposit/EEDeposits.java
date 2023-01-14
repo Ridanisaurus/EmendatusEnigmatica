@@ -172,7 +172,7 @@ public class EEDeposits {
 		}
 	}
 
-	private enum DepositType {
+	public enum DepositType {
 		VANILLA("emendatusenigmatica:vanilla_deposit"),
 		SPHERE("emendatusenigmatica:sphere_deposit"),
 		GEODE("emendatusenigmatica:geode_deposit"),

@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.integration;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
@@ -73,15 +74,16 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
 				String depositMaterial = model.getConfig().getMaterial();
-				if (depositMaterial.equals(material.getId())) {
+				if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 					recipes.add(new WorldGenWrapper(material, activeProcessor));
 				}
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
+				// TODO: Add support for Non-Materials
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				List<CommonBlockDefinitionModel> innerBlocks = model.getConfig().getInnerBlocks();
 				for (CommonBlockDefinitionModel innerBlock : innerBlocks) {
 					String depositMaterial = innerBlock.getMaterial();
-					if (depositMaterial.equals(material.getId())) {
+					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 						recipes.add(new WorldGenWrapper(material, activeProcessor));
 					}
 				}
@@ -90,7 +92,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
-					if (depositMaterial.equals(material.getId())) {
+					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 						recipes.add(new WorldGenWrapper(material, activeProcessor));
 					}
 				}
@@ -99,7 +101,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
-					if (depositMaterial.equals(material.getId())) {
+					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 						recipes.add(new WorldGenWrapper(material, activeProcessor));
 					}
 				}
@@ -108,7 +110,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
-					if (depositMaterial.equals(material.getId())) {
+					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 						recipes.add(new WorldGenWrapper(material, activeProcessor));
 					}
 				}
@@ -144,45 +146,46 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		RenderSystem.setShaderTexture(0, new ResourceLocation(Reference.MOD_ID, "textures/gui/world_gen.png"));
 
 		if (recipe.getDimension().equals("Overworld")) {
-			Minecraft.getInstance().screen.blit(matrix, 76, 10, 134, 0, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 74, 8, 134, 0, 12, 12);
 		} else if (recipe.getDimension().equals("The Nether")) {
-			Minecraft.getInstance().screen.blit(matrix, 76, 10, 134, 8, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 74, 8, 134, 12, 12, 12);
 		} else if (recipe.getDimension().equals("The End")) {
-			Minecraft.getInstance().screen.blit(matrix, 76, 10, 134, 16, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 74, 8, 134, 24, 12, 12);
 		} else {
-			Minecraft.getInstance().screen.blit(matrix, 76, 10, 134, 24, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 74, 8, 134, 36, 12, 12);
 		}
 
 		if (recipe.getBiomes().contains("#" + BiomeTags.IS_DEEP_OCEAN.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 0, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 0, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_OCEAN.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 8, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 12, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_BEACH.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 16, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 24, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_RIVER.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 24, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 36, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_MOUNTAIN.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 32, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 48, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_BADLANDS.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 40, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 60, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_HILL.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 48, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 72, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_TAIGA.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 56, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 84, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_JUNGLE.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 64, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 96, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_FOREST.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 72, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 108, 12, 12);
 		} else if (recipe.getBiomes().contains("#" + BiomeTags.IS_SAVANNA.location().toString())) {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 80, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 120, 12, 12);
 		} else {
-			Minecraft.getInstance().screen.blit(matrix, 93, 10, 142, 40, 8, 8);
+			Minecraft.getInstance().screen.blit(matrix, 91, 8, 146, 132, 12, 12);
 		}
-
-		if (recipe.hasSurfaceSample()) {
-			Minecraft.getInstance().screen.blit(matrix, 110, 10, 150, 0, 8, 8);
-		} else {
-			Minecraft.getInstance().screen.blit(matrix, 110, 10, 150, 8, 8, 8);
+		if (!recipe.getType().equals(EEDeposits.DepositType.VANILLA.getType())) {
+			if (recipe.hasSurfaceSample()) {
+				Minecraft.getInstance().screen.blit(matrix, 108, 8, 158, 0, 12, 12);
+			} else {
+				Minecraft.getInstance().screen.blit(matrix, 108, 8, 158, 12, 12, 12);
+			}
 		}
 	}
 
@@ -205,7 +208,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 			}
 			return biomes;
 		}
-		if (mouseX > 108 && mouseX < 120 && mouseY > 8 && mouseY < 20) {
+		if (mouseX > 108 && mouseX < 120 && mouseY > 8 && mouseY < 20 && !recipe.getType().equals(EEDeposits.DepositType.VANILLA.getType())) {
 			List<Component> surfaceSamples = new ArrayList<>();
 			surfaceSamples.add(Component.literal(ChatFormatting.GOLD + "Generate Surface Samples:"));
 			if (recipe.hasSurfaceSample()) {

@@ -34,23 +34,27 @@ import java.util.Optional;
 public class MaterialColorsModel {
 	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
+			Codec.STRING.optionalFieldOf("gasColor").forGetter(i -> Optional.of(i.gasColor)),
 			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> Optional.of(i.particlesColor)),
 			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor)),
 			Codec.STRING.optionalFieldOf("oxidizationColor").forGetter(i -> Optional.of(i.oxidizationColor))
-	).apply(x, (fluidColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
+	).apply(x, (fluidColor, gasColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
 			fluidColor.orElse(null),
+			gasColor.orElse(null),
 			particlesColor.orElse(null),
 			materialColor.orElse(null),
 			oxidizationColor.orElse(null)
 	)));
 
 	private final String fluidColor;
+	private final String gasColor;
 	private final String particlesColor;
 	private final String materialColor;
 	private final String oxidizationColor;
 
-	public MaterialColorsModel(String fluidColor, String particlesColor, String materialColor, String oxidizationColor) {
+	public MaterialColorsModel(String fluidColor, String gasColor, String particlesColor, String materialColor, String oxidizationColor) {
 		this.fluidColor = fluidColor;
+		this.gasColor = gasColor;
 		this.particlesColor = particlesColor;
 		this.materialColor = materialColor;
 		this.oxidizationColor = oxidizationColor;
@@ -58,6 +62,7 @@ public class MaterialColorsModel {
 
 	public MaterialColorsModel() {
 		this.fluidColor = null;
+		this.gasColor = null;
 		this.particlesColor = null;
 		this.materialColor = null;
 		this.oxidizationColor = null;
@@ -81,6 +86,10 @@ public class MaterialColorsModel {
 
 	public int getFluidColor() {
 		return fluidColor != null ? ColorHelper.HEXtoDEC(fluidColor) : -1;
+	}
+
+	public int getGasColor() {
+		return gasColor != null ? ColorHelper.HEXtoDEC(gasColor) : -1;
 	}
 
 	public int getParticlesColor() {

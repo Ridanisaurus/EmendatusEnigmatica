@@ -42,18 +42,20 @@ public class MaterialModel {
 			Codec.BOOL.optionalFieldOf("disableDefaultOre").forGetter(i -> Optional.of(i.disableDefaultOre)),
 			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
+			MaterialGasPropertiesModel.CODEC.optionalFieldOf("gas").forGetter(i -> Optional.of(i.gas)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
 			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
 			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
-	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, gas, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
 			disableDefaultOre.orElse(false),
 			processedTypes,
 			properties.orElse(new MaterialPropertiesModel()),
+			gas.orElse(new MaterialGasPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
 			colors.orElse(new MaterialColorsModel()),
@@ -67,6 +69,7 @@ public class MaterialModel {
 	private final boolean disableDefaultOre;
 	private final List<String> processedTypes;
 	private final MaterialPropertiesModel properties;
+	private final MaterialGasPropertiesModel gas;
 	private final MaterialOreDropModel oreDrop;
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
@@ -74,13 +77,14 @@ public class MaterialModel {
 	private final MaterialArmorModel armor;
 
 	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes,
-	                     MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {
+	                     MaterialPropertiesModel properties, MaterialGasPropertiesModel gas, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
 		this.disableDefaultOre = disableDefaultOre;
 		this.processedTypes = processedTypes;
 		this.properties = properties;
+		this.gas = gas;
 		this.oreDrop = oreDrop;
 		this.compat = compat;
 		this.colors = colors;
@@ -118,6 +122,10 @@ public class MaterialModel {
 
 	public MaterialPropertiesModel getProperties() {
 		return properties;
+	}
+
+	public MaterialGasPropertiesModel getGas() {
+		return gas;
 	}
 
 	public MaterialOreDropModel getOreDrop() {

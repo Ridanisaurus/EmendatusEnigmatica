@@ -17,29 +17,6 @@ public class BlockColorHandler implements BlockColor {
         Block block = state.getBlock();
         if (layer == 0) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
-                return ((IColorable) block).getHighlight3();
-            }
-            if (block instanceof BasicStorageBlock) {
-                return ((BasicStorageBlock) block).getHighlight3();
-            }
-            if (block instanceof BasicWeatheringBlock) {
-                return ((BasicWeatheringBlock) block).getHighlight3();
-            }
-            if (block instanceof BasicWaxedBlock) {
-                return ((BasicWaxedBlock) block).getHighlight3();
-            }
-            if (block instanceof BasicClusterBlock) {
-                return ((BasicClusterBlock) block).getHighlight3();
-            }
-            if (block instanceof BasicClusterShardBlock) {
-                return ((BasicClusterShardBlock) block).getHighlight3();
-            }
-            if (block instanceof BasicBuddingBlock) {
-                return ((BasicBuddingBlock) block).getHighlight3();
-            }
-        }
-        if (layer == 1) {
-            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getHighlight2();
             }
             if (block instanceof BasicStorageBlock) {
@@ -61,7 +38,7 @@ public class BlockColorHandler implements BlockColor {
                 return ((BasicBuddingBlock) block).getHighlight2();
             }
         }
-        if (layer == 2) {
+        if (layer == 1) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getHighlight1();
             }
@@ -84,7 +61,7 @@ public class BlockColorHandler implements BlockColor {
                 return ((BasicBuddingBlock) block).getHighlight1();
             }
         }
-        if (layer == 3) {
+        if (layer == 2) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getBase();
             }
@@ -107,7 +84,7 @@ public class BlockColorHandler implements BlockColor {
                 return ((BasicBuddingBlock) block).getBase();
             }
         }
-        if (layer == 4) {
+        if (layer == 3) {
             if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
                 return ((IColorable) block).getShadow1();
             }
@@ -128,6 +105,29 @@ public class BlockColorHandler implements BlockColor {
             }
             if (block instanceof BasicBuddingBlock) {
                 return ((BasicBuddingBlock) block).getShadow1();
+            }
+        }
+        if (layer == 4) {
+            if (block instanceof GemOreBlock || block instanceof MetalOreBlock || block instanceof GemOreBlockWithParticles || block instanceof  MetalOreBlockWithParticles || block instanceof SampleOreBlock || block instanceof SampleOreBlockWithParticles) {
+                return ((IColorable) block).getShadow2();
+            }
+            if (block instanceof BasicStorageBlock) {
+                return ((BasicStorageBlock) block).getShadow2();
+            }
+            if (block instanceof BasicWeatheringBlock) {
+                return ((BasicWeatheringBlock) block).getShadow2();
+            }
+            if (block instanceof BasicWaxedBlock) {
+                return ((BasicWaxedBlock) block).getShadow2();
+            }
+            if (block instanceof BasicClusterBlock) {
+                return ((BasicClusterBlock) block).getShadow2();
+            }
+            if (block instanceof BasicClusterShardBlock) {
+                return ((BasicClusterShardBlock) block).getShadow2();
+            }
+            if (block instanceof BasicBuddingBlock) {
+                return ((BasicBuddingBlock) block).getShadow2();
             }
         }
         if (layer == 9) {
