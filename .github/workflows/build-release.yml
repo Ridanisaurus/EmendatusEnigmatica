@@ -20,7 +20,7 @@ jobs:
           cache: "gradle"
       - name: Build & release to curseforge
         env:
-          NANITE_DEPLOY: ${{ secrets.NANITE_DEPLOY  }}
+          SAPS_DEPLOY: ${{ secrets.SAPS_DEPLOY  }}
           CURSE_DEPLOY: ${{ secrets.CURSE_DEPLOY }}
         run: |
           chmod +x ./gradlew
