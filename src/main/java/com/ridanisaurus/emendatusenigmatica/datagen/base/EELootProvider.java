@@ -33,7 +33,9 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -85,7 +87,7 @@ public abstract class EELootProvider extends LootTableProvider {
 
 	protected abstract void addTables();
 
-	protected static LootTable.Builder createBlockDrop(Block block) {
+	protected static LootTable.Builder selfDrop(Block block) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block))
@@ -93,7 +95,31 @@ public abstract class EELootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder createOreDrop(Block block, Item item) {
+	protected static LootTable.Builder dropWhenSilkTouch(Block block) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
+				.setRolls(ConstantValue.exactly(1))
+				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH)
+						.apply(ApplyExplosionDecay.explosionDecay())
+				)
+		);
+	}
+
+	protected static LootTable.Builder dropWhenSilkTouchWithSetCount(Block block, Item item, float min, float max) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
+				.setRolls(ConstantValue.exactly(1.0F))
+				.add(LootItem.lootTableItem(block)
+						.when(HAS_SILK_TOUCH)
+						.otherwise(LootItem.lootTableItem(item.asItem())
+								.apply(SetItemCountFunction.setCount(ConstantValue.exactly(max)))
+								.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+								.when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
+								.otherwise(LootItem.lootTableItem(item.asItem()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(min))))
+						)
+				)
+		);
+	}
+
+	protected static LootTable.Builder specialDrop(Block block, Item item) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
@@ -103,7 +129,7 @@ public abstract class EELootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder createSpecialOreDrop(Block block, ItemLike item, UniformGenerator range) {
+	protected static LootTable.Builder specialCountDrop(Block block, ItemLike item, UniformGenerator range) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())

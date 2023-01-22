@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.registries;
 
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -47,20 +48,14 @@ public class EETags {
 	public static final Function<String, TagKey<Item>> MATERIAL_RAW = material -> getItemTag(new ResourceLocation(Reference.FORGE, "raw_materials/" + material));
 	public static final Function<String, TagKey<Item>> MATERIAL_RAW_STORAGE_BLOCK = material -> getItemTag(new ResourceLocation(Reference.FORGE, "storage_blocks/raw_" + material));
 	public static final Function<String, TagKey<Item>> MATERIAL_FLUID = material -> getItemTag(new ResourceLocation(Reference.FORGE, "molten/" + material));
-
-
-	public static final Function<String, TagKey<Item>> MATERIAL_CRYSTAL = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "crystals/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_SHARD = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "shards/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_CLUMP = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "clumps/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_DIRTY_DUST = material -> getItemTag(new ResourceLocation(Reference.MEKANISM, "dirty_dusts/" + material));
-
-	public static final Function<String, TagKey<Item>> MATERIAL_CRUSHED_ORE = material -> getItemTag(new ResourceLocation(Reference.CREATE, "crushed_ores/" + material));
-
-	public static final Function<String, TagKey<Item>> MATERIAL_FRAGMENT = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_GRAVEL = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
-	public static final Function<String, TagKey<Item>> MATERIAL_ARC = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
+//
+//	public static final Function<String, TagKey<Item>> MATERIAL_FRAGMENT = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "fragments/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_GRAVEL = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "gravels/" + material));
+//	public static final Function<String, TagKey<Item>> MATERIAL_ARC = material -> getItemTag(new ResourceLocation(Reference.BLOODMAGIC, "arc/" + material));
 
 	public static final Function<String, TagKey<Item>> MATERIAL_NONE = material -> getItemTag(new ResourceLocation(Reference.FORGE, material));
+
+	public static final TagKey<Block> MINEABLE_WITH_PAXEL = create("mineable/paxel");
 
 	public static TagKey<Item> getItemTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.ITEMS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.ITEMS.tags().createTagKey(resourceLocation));
@@ -68,5 +63,9 @@ public class EETags {
 
 	public static TagKey<Block> getBlockTag(ResourceLocation resourceLocation) {
 		return ForgeRegistries.BLOCKS.tags().stream().filter(items -> items.getKey().location().equals(resourceLocation)).map(ITag::getKey).findFirst().orElse(ForgeRegistries.BLOCKS.tags().createTagKey(resourceLocation));
+	}
+
+	private static TagKey<Block> create(String location) {
+		return BlockTags.create(new ResourceLocation(Reference.FORGE, location));
 	}
 }

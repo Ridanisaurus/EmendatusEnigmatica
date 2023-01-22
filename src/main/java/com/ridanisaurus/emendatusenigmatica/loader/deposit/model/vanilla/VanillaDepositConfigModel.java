@@ -2,6 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.vanilla;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -17,8 +18,10 @@ public class VanillaDepositConfigModel {
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
 			Codec.STRING.optionalFieldOf("placement").forGetter(it -> Optional.ofNullable(it.placement)),
-			Codec.STRING.optionalFieldOf("rarity").forGetter(it -> Optional.ofNullable(it.rarity))
-	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3.orElse("uniform"), s4.orElse("common"))));
+			Codec.STRING.optionalFieldOf("rarity").forGetter(it -> Optional.ofNullable(it.rarity)),
+			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
+			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
+	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4, b, l2) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3.orElse("uniform"), s4.orElse("common"), b, l2)));
 
 	private final String block;
 	private final String material;
@@ -29,8 +32,10 @@ public class VanillaDepositConfigModel {
 	private final int maxYLevel;
 	private final String placement;
 	private final String rarity;
+	private final boolean generateSamples;
+	private final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public VanillaDepositConfigModel(String block, String material, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity) {
+	public VanillaDepositConfigModel(String block, String material, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 
 		this.block = block;
 		this.material = material;
@@ -41,6 +46,8 @@ public class VanillaDepositConfigModel {
 		this.maxYLevel = maxYLevel;
 		this.placement = placement;
 		this.rarity = rarity;
+		this.generateSamples = generateSamples;
+		this.sampleBlocks = sampleBlocks;
 	}
 
 	public int getMinYLevel() {
@@ -60,6 +67,10 @@ public class VanillaDepositConfigModel {
 	}
 
 	public int getChance() {
+		return chance;
+	}
+
+	public int getPlacementChance() {
 		return rarity.equals("rare") ? (100 - chance) + 1 : chance;
 	}
 
@@ -78,5 +89,13 @@ public class VanillaDepositConfigModel {
 
 	public List<String> getFillerTypes() {
 		return fillerTypes;
+	}
+
+	public boolean getGenerateSamples() {
+		return generateSamples;
+	}
+
+	public List<SampleBlockDefinitionModel> getSampleBlocks() {
+		return sampleBlocks;
 	}
 }

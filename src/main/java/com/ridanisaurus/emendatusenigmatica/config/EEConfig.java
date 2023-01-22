@@ -39,7 +39,7 @@ public class EEConfig {
 			builder.push("Patreon Reward");
 			showPatreonReward = builder
 					.comment("Whether the Patreon Reward should appear floating over the player's head")
-					.translation(Reference.MOD_ID + ".config.client.items.show_first_person_gloves")
+					.translation(Reference.MOD_ID + ".config.client.show_reward")
 					.define("showReward", true);
 			builder.pop();
 		}

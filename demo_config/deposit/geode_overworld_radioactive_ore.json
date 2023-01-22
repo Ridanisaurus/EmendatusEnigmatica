@@ -1,0 +1,52 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [
+    "#minecraft:is_beach"
+  ],
+  "registryName": "geode_overworld_radioactive_ore_deposit",
+  "config": {
+    "outerShellBlocks": [
+      {
+        "block": "minecraft:smooth_basalt",
+        "weight": 3
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:calcite",
+        "weight": 10
+      }
+    ],
+    "innerBlocks": [
+      {
+        "block": "emendatusenigmatica:osmium_cluster_shard_block",
+        "weight": 10
+      },
+      {
+        "block": "emendatusenigmatica:budding_osmium",
+        "weight": 1
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite",
+      "minecraft_deepslate"
+    ],
+    "clusters": [
+      "emendatusenigmatica:small_osmium_bud", "emendatusenigmatica:medium_osmium_bud", "emendatusenigmatica:large_osmium_bud"
+    ],
+    "chance": 50,
+    "crackChance": 0.95,
+    "minYLevel": -64,
+    "maxYLevel": 0
+  }
+}

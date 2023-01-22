@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
 
 import java.util.List;
 
@@ -13,10 +14,13 @@ public class GeodeDepositConfigModel {
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").forGetter(i -> i.innerBlocks),
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").forGetter(i -> i.fillBlocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
+			Codec.list(Codec.STRING).fieldOf("clusters").forGetter(i -> i.clusters),
 			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.INT.fieldOf("radius").forGetter(it -> it.radius),
+			Codec.DOUBLE.fieldOf("crackChance").forGetter(it -> it.crackChance),
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel)
+			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
+			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
+			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, GeodeDepositConfigModel::new));
 
 	private final List<CommonBlockDefinitionModel> outerShellBlocks;
@@ -24,29 +28,35 @@ public class GeodeDepositConfigModel {
 	private final List<CommonBlockDefinitionModel> innerBlocks;
 	private final List<CommonBlockDefinitionModel> fillBlocks;
 	private final List<String> fillerTypes;
+	private final List<String> clusters;
 	private final int chance;
-	private final int radius;
+	private final double crackChance;
 	private final int minYLevel;
 	private final int maxYLevel;
+	private final boolean generateSamples;
+	private final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel) {
+	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;
 		this.fillBlocks = fillBlocks;
 		this.fillerTypes = fillerTypes;
+		this.clusters = clusters;
 		this.chance = chance;
-		this.radius = radius;
+		this.crackChance = crackChance;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
-	}
-
-	public int getRadius() {
-		return radius;
+		this.generateSamples = generateSamples;
+		this.sampleBlocks = sampleBlocks;
 	}
 
 	public List<String> getFillerTypes() {
 		return fillerTypes;
+	}
+
+		public List<String> getClusters() {
+		return clusters;
 	}
 
 	public int getMaxYLevel() {
@@ -58,7 +68,15 @@ public class GeodeDepositConfigModel {
 	}
 
 	public int getChance() {
+		return chance;
+	}
+
+	public int getPlacementChance() {
 		return (100 - chance) + 1;
+	}
+
+	public double getCrackChance() {
+		return crackChance;
 	}
 
 	public List<CommonBlockDefinitionModel> getOuterShellBlocks() {
@@ -75,5 +93,13 @@ public class GeodeDepositConfigModel {
 
 	public List<CommonBlockDefinitionModel> getFillBlocks() {
 		return fillBlocks;
+	}
+
+	public boolean getGenerateSamples() {
+		return generateSamples;
+	}
+
+	public List<SampleBlockDefinitionModel> getSampleBlocks() {
+		return sampleBlocks;
 	}
 }

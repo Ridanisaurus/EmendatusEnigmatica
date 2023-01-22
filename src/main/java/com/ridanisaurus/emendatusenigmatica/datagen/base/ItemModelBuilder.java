@@ -24,11 +24,13 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.base;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.model.generators.ModelFile;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
@@ -42,6 +44,7 @@ public class ItemModelBuilder {
 	private boolean applyTint = false;
 	private String fluid;
 	private String loader;
+	private List<OverrideBuilder> overrides = new ArrayList<>();
 
 	public ItemModelBuilder(String parent) {
 		this.parent = parent;
@@ -67,8 +70,46 @@ public class ItemModelBuilder {
 		return this;
 	}
 
+	public OverrideBuilder override() {
+		OverrideBuilder ret = new ItemModelBuilder.OverrideBuilder();
+		overrides.add(ret);
+		return ret;
+	}
+
+	public OverrideBuilder override(int index) {
+		Preconditions.checkElementIndex(index, overrides.size(), "override");
+		return overrides.get(index);
+	}
+
 	public void save(Consumer<IFinishedGenericJSON> consumer, ResourceLocation jsonResourceLocation) {
-		consumer.accept(new Result(jsonResourceLocation, this.parent, this.textures, this.applyTint, this.fluid, this.loader));
+		consumer.accept(new Result(jsonResourceLocation, this.parent, this.textures, this.applyTint, this.fluid, this.loader, this.overrides));
+	}
+
+	public class OverrideBuilder {
+
+		private ResourceLocation model;
+		private final Map<ResourceLocation, Float> predicates = new LinkedHashMap<>();
+
+		public OverrideBuilder model(ResourceLocation model) {
+			this.model = model;
+			return this;
+		}
+
+		public OverrideBuilder predicate(ResourceLocation key, float value) {
+			this.predicates.put(key, value);
+			return this;
+		}
+
+		public ItemModelBuilder end() { return ItemModelBuilder.this; }
+
+		JsonObject toJson() {
+			JsonObject ret = new JsonObject();
+			JsonObject predicatesJson = new JsonObject();
+			predicates.forEach((key, val) -> predicatesJson.addProperty(key.toString(), val));
+			ret.add("predicate", predicatesJson);
+			ret.addProperty("model", model.toString());
+			return ret;
+		}
 	}
 
 	public class Result implements IFinishedGenericJSON {
@@ -78,14 +119,16 @@ public class ItemModelBuilder {
 		private final boolean applyTint;
 		private final String fluid;
 		private final String loader;
+		private final List<OverrideBuilder> overrides;
 
-		public Result(ResourceLocation id, String parent, Map<String, String> textures, boolean applyTint, @Nullable String fluid, @Nullable String loader) {
+		public Result(ResourceLocation id, String parent, Map<String, String> textures, boolean applyTint, @Nullable String fluid, @Nullable String loader, List<OverrideBuilder> overrides) {
 			this.id = id;
 			this.parent = parent;
 			this.textures = textures;
 			this.applyTint = applyTint;
 			this.fluid = fluid;
 			this.loader = loader;
+			this.overrides = overrides;
 		}
 
 		public void serializeJSONData(JsonObject json) {
@@ -107,6 +150,11 @@ public class ItemModelBuilder {
 			}
 			if (this.loader != null) {
 				json.addProperty("loader", this.loader);
+			}
+			if (!this.overrides.isEmpty()) {
+				JsonArray overridesJson = new JsonArray();
+				overrides.stream().map(OverrideBuilder::toJson).forEach(overridesJson::add);
+				json.add("overrides", overridesJson);
 			}
 		}
 

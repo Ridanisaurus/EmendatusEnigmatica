@@ -14,7 +14,7 @@
   ],
   "registryName": "vanilla_overworld_emerald_ore_normal_deposit",
   "config": {
-    "material": "emerald",
+    "material": "diamond",
     "fillerTypes": [
       "minecraft_stone",
       "minecraft_deepslate"

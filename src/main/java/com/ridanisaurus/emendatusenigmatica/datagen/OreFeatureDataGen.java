@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EEFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.FeatureBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
@@ -44,8 +45,11 @@ import java.util.stream.Stream;
 
 public class OreFeatureDataGen extends EEFeatureProvider {
 
-	public OreFeatureDataGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public OreFeatureDataGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	private final List<String> DEFAULT_COAL_ORE = List.of("minecraft:ore_coal_upper", "minecraft:ore_coal_lower");
@@ -61,7 +65,7 @@ public class OreFeatureDataGen extends EEFeatureProvider {
 
 	@Override
 	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			if (material.isVanilla() && material.getId().contains("coal") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")

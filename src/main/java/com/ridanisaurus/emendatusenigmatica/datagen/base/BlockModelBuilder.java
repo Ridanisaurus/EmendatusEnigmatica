@@ -166,6 +166,10 @@ public class BlockModelBuilder{
 			return allFaces(addTexture(texture).andThen((dir, f) -> f.cullface(dir)));
 		}
 
+		public ElementBuilder cross(String texture) {
+			return faces(addTexture(texture).andThen((dir, f) -> f.cullface(dir)));
+		}
+
 		private BiConsumer<Direction, FaceBuilder> addTexture(String texture) {
 			return ($, f) -> f.texture(texture);
 		}
@@ -408,6 +412,12 @@ public class BlockModelBuilder{
 					}
 					if (face.tintIndex != -1) {
 						faceObj.addProperty("tintindex", face.tintIndex);
+					}
+					if (face.emissivity > 0) {
+						faceObj.addProperty("emissivity", face.emissivity);
+					}
+					if (!face.hasAmbientOcclusion) {
+						faceObj.addProperty("ambientocclusion", face.hasAmbientOcclusion);
 					}
 					faces.add(dir.getSerializedName(), faceObj);
 				}

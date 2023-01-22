@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
@@ -39,13 +40,16 @@ import java.util.function.Consumer;
 
 public class FluidTagsGen extends EETagProvider {
 
-	public FluidTagsGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public FluidTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			if (processedType.contains("fluid")) {
 				ResourceLocation fluidSource = EERegistrar.fluidSourceMap.get(material.getId()).getId();

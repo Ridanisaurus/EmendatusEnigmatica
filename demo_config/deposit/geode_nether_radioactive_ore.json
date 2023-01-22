@@ -1,0 +1,54 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimension": "minecraft:the_nether",
+  "biomes": [
+    "minecraft:crimson_forest"
+  ],
+  "registryName": "geode_nether_radioactive_ore_deposit",
+  "config": {
+    "outerShellBlocks": [
+      {
+        "block": "minecraft:smooth_basalt",
+        "weight": 10
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:calcite",
+        "weight": 10
+      }
+    ],
+    "innerBlocks": [
+      {
+        "material": "osmium",
+        "weight": 10
+      },
+      {
+        "material": "diamond",
+        "weight": 5
+      },
+      {
+        "block": "minecraft:budding_amethyst",
+        "weight": 1
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_basalt",
+      "minecraft_blackstone"
+    ],
+    "clusters": [
+      "minecraft:small_amethyst_bud", "minecraft:medium_amethyst_bud", "minecraft:large_amethyst_bud"
+    ],
+    "chance": 25,
+    "crackChance": 0.95,
+    "minYLevel": -64,
+    "maxYLevel": 320
+  }
+}
