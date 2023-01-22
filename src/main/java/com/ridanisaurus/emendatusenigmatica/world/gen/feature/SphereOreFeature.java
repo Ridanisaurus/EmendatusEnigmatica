@@ -66,7 +66,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
 
         int yPos = rand.nextInt(yTop);
         yPos = Math.max(yPos, yBottom);
-
+        // TODO: Fix the radius calculation
         int radius = model.getConfig().getRadius();
 
         radius += 0.5;

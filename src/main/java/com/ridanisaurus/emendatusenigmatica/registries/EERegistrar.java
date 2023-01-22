@@ -273,13 +273,12 @@ public class EERegistrar {
 		}
 	}
 
-	// TODO: Fix burnable values
 	public static void registerBuddingBlocks(MaterialModel material) {
 		String buddingBlockName = "budding_" + material.getId();
 		RegistryObject<Block> buddingBlock = BLOCKS.register(buddingBlockName, () -> new BasicBuddingBlock(material, smallBudBlockMap.get(material.getId()), mediumBudBlockMap.get(material.getId()), largeBudBlockMap.get(material.getId()), clusterBlockMap.get(material.getId())));
 		buddingBlockMap.put(material.getId(), buddingBlock);
 		if (material.getProperties().isBurnable()) {
-			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(),material.getProperties().getBurnTime())));
+			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(),material.getProperties().getBurnTime() * 4)));
 		} else {
 			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(), 0)));
 		}
@@ -334,7 +333,7 @@ public class EERegistrar {
 		RegistryObject<Block> clusterShardBlock = BLOCKS.register(clusterShardBlockName, () -> new BasicClusterShardBlock(material));
 		clusterShardBlockMap.put(material.getId(), clusterShardBlock);
 		if (material.getProperties().isBurnable()) {
-			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(),material.getProperties().getBurnTime())));
+			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(),material.getProperties().getBurnTime() * 4)));
 		} else {
 			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(), 0)));
 		}

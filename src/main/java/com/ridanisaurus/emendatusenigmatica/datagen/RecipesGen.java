@@ -590,7 +590,6 @@ public class RecipesGen extends RecipeProvider {
 					}
 				}
 				if (processedType.contains("cluster")) {
-					// TODO: Do I need Vanilla Compat for this?
 					// Spyglass
 					ShapedRecipeBuilder.shaped(Items.SPYGLASS)
 							.define('#', EERegistrar.clusterShardMap.get(material.getId()).get())

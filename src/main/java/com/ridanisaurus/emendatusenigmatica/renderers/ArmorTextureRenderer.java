@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.ridanisaurus.emendatusenigmatica.events.ArmorTextureEvent;
 import com.ridanisaurus.emendatusenigmatica.items.BasicArmorItem;
+import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -63,7 +64,8 @@ public class ArmorTextureRenderer<E extends LivingEntity, M extends HumanoidMode
             boolean glint = stack.hasFoil();
 
             // secondary texture layer in all slots
-            float[] secondary = decomposeColorF(armor.getColorForIndex(colorIndex));
+//            float[] secondary = decomposeColorF(armor.getColorForIndex(colorIndex));
+            float[] secondary = ColorHelper.INTtoRGB(armor.getColorForIndex(colorIndex));
             this.doRender(matrixStack, buffer, light, glint, model1, secondary[1], secondary[2], secondary[3], slot, renderType);
         }
     }
@@ -95,15 +97,5 @@ public class ArmorTextureRenderer<E extends LivingEntity, M extends HumanoidMode
                 model.leftLeg.visible = true;
             }
         }
-    }
-
-    // TODO: user ColorHelper class
-    public static float[] decomposeColorF(int color) {
-        float[] res = new float[4];
-        res[0] = (color >> 24 & 0xff) / 255f;
-        res[1] = (color >> 16 & 0xff) / 255f;
-        res[2] = (color >> 8  & 0xff) / 255f;
-        res[3] = (color       & 0xff) / 255f;
-        return res;
     }
 }

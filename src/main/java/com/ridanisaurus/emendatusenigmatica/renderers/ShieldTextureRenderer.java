@@ -32,6 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.items.BasicShieldItem;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -92,7 +93,7 @@ public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer {
 				for (int i = 0; i < 5; i++) {
 					var rl = new ResourceLocation(Reference.MOD_ID, "textures/armor/shield/0" + i + ".png");
 					var renderType = RenderType.entityCutoutNoCull(rl);
-					float[] secondary = decomposeColorF(bsi.getColorForIndex(i));
+					float[] secondary = ColorHelper.INTtoRGB(bsi.getColorForIndex(i));
 					doRender(stack, matrix, renderer, light, overlayLight, shieldModel, secondary[1], secondary[2], secondary[3], renderType);
 				}
 				var rl = new ResourceLocation(Reference.MOD_ID, "textures/armor/shield/wood.png");
@@ -110,15 +111,5 @@ public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer {
 		} else {
 			model.renderToBuffer(matrix, vertexConsumer, light, overlayLight, r, g, b, 1.0F);
 		}
-	}
-
-	// TODO: user ColorHelper class
-	public static float[] decomposeColorF(int color) {
-		float[] res = new float[4];
-		res[0] = (color >> 24 & 0xff) / 255f;
-		res[1] = (color >> 16 & 0xff) / 255f;
-		res[2] = (color >> 8  & 0xff) / 255f;
-		res[3] = (color       & 0xff) / 255f;
-		return res;
 	}
 }

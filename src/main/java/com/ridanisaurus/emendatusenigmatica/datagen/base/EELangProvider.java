@@ -73,7 +73,6 @@ public abstract class EELangProvider implements DataProvider {
 	}
 
 	private void save(CachedOutput cache, Map<String, String> data, Path target) throws IOException {
-		// TODO: DataProvider.saveStable handles the caching and hashing already, but creating the JSON Object this way seems unreliable. -C
 		JsonObject json = new JsonObject();
 		for (Map.Entry<String, String> pair : data.entrySet()) {
 			json.addProperty(pair.getKey(), pair.getValue());
