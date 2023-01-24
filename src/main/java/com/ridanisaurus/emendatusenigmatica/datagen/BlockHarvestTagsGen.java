@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
@@ -42,8 +43,11 @@ import java.util.function.Consumer;
 public class BlockHarvestTagsGen {
 
 	public static class BlockHarvestLevelTagsGen extends EETagProvider {
-		public BlockHarvestLevelTagsGen(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BlockHarvestLevelTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> woodTool = Lists.newArrayList();
@@ -54,20 +58,54 @@ public class BlockHarvestTagsGen {
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				if (processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, block);
+					if (material.getProperties().hasOxidization()) {
+						ResourceLocation exposedBlock = EERegistrar.exposedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, exposedBlock);
+						ResourceLocation weatheredBlock = EERegistrar.weatheredBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, weatheredBlock);
+						ResourceLocation oxidizedBlock = EERegistrar.oxidizedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, oxidizedBlock);
+						ResourceLocation waxedBlock = EERegistrar.waxedStorageBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedBlock);
+						ResourceLocation waxedExposedBlock = EERegistrar.waxedExposedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedExposedBlock);
+						ResourceLocation waxedWeatheredBlock = EERegistrar.waxedWeatheredBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedWeatheredBlock);
+						ResourceLocation waxedOxidizedBlock = EERegistrar.waxedOxidizedBlockMap.get(material.getId()).getId();
+						harvestLevelSwitch(material, waxedOxidizedBlock);
+					}
 				}
 				if (processedType.contains("raw")) {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, raw);
 				}
-				for (StrataModel stratum : EELoader.STRATA) {
+				if (processedType.contains("cluster")) {
+					ResourceLocation budding = EERegistrar.buddingBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, budding);
+					ResourceLocation smallBud = EERegistrar.smallBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, smallBud);
+					ResourceLocation mediumBud = EERegistrar.mediumBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, mediumBud);
+					ResourceLocation largeBud = EERegistrar.largeBudBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, largeBud);
+					ResourceLocation clusterBlock = EERegistrar.clusterBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, clusterBlock);
+					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
+					harvestLevelSwitch(material, clusterShardBlock);
+				}
+				for (StrataModel stratum : registry.getStrata()) {
 					if (processedType.contains("ore")) {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						harvestLevelSwitch(material, ore);
+					}
+					if (processedType.contains("ore") && stratum.getSampleStrata()) {
+						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+						harvestLevelSwitch(material, oreSample);
 					}
 				}
 			}
@@ -96,28 +134,62 @@ public class BlockHarvestTagsGen {
 	}
 
 	public static class BlockHarvestToolTagsGen extends EETagProvider {
-		public BlockHarvestToolTagsGen(DataGenerator gen) {
+		private final EmendatusDataRegistry registry;
+
+		public BlockHarvestToolTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 			super(gen);
+			this.registry = registry;
 		}
 
 		private final List<String> shovel = Lists.newArrayList();
 		private final List<String> hoe = Lists.newArrayList();
 		private final List<String> axe = Lists.newArrayList();
 		private final List<String> pickaxe = Lists.newArrayList();
+		private final List<String> paxel = Lists.newArrayList();
 
 		@Override
 		protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-			for (MaterialModel material : EELoader.MATERIALS) {
+			for (MaterialModel material : registry.getMaterials()) {
 				List<String> processedType = material.getProcessedTypes();
 				if(processedType.contains("storage_block")) {
 					ResourceLocation block = EERegistrar.storageBlockMap.get(material.getId()).getId();
 					pickaxe.add(block.toString());
+					if (material.getProperties().hasOxidization()) {
+						ResourceLocation exposedBlock = EERegistrar.exposedBlockMap.get(material.getId()).getId();
+						pickaxe.add(exposedBlock.toString());
+						ResourceLocation weatheredBlock = EERegistrar.weatheredBlockMap.get(material.getId()).getId();
+						pickaxe.add(weatheredBlock.toString());
+						ResourceLocation oxidizedBlock = EERegistrar.oxidizedBlockMap.get(material.getId()).getId();
+						pickaxe.add(oxidizedBlock.toString());
+						ResourceLocation waxedBlock = EERegistrar.waxedStorageBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedBlock.toString());
+						ResourceLocation waxedExposedBlock = EERegistrar.waxedExposedBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedExposedBlock.toString());
+						ResourceLocation waxedWeatheredBlock = EERegistrar.waxedWeatheredBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedWeatheredBlock.toString());
+						ResourceLocation waxedOxidizedBlock = EERegistrar.waxedOxidizedBlockMap.get(material.getId()).getId();
+						pickaxe.add(waxedOxidizedBlock.toString());
+					}
 				}
 				if(processedType.contains("raw")) {
 					ResourceLocation raw = EERegistrar.rawBlockMap.get(material.getId()).getId();
 					pickaxe.add(raw.toString());
 				}
-				for (StrataModel stratum : EELoader.STRATA) {
+				if (processedType.contains("cluster")) {
+					ResourceLocation budding = EERegistrar.buddingBlockMap.get(material.getId()).getId();
+					pickaxe.add(budding.toString());
+					ResourceLocation smallBud = EERegistrar.smallBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(smallBud.toString());
+					ResourceLocation mediumBud = EERegistrar.mediumBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(mediumBud.toString());
+					ResourceLocation largeBud = EERegistrar.largeBudBlockMap.get(material.getId()).getId();
+					pickaxe.add(largeBud.toString());
+					ResourceLocation clusterBlock = EERegistrar.clusterBlockMap.get(material.getId()).getId();
+					pickaxe.add(clusterBlock.toString());
+					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
+					pickaxe.add(clusterShardBlock.toString());
+				}
+				for (StrataModel stratum : registry.getStrata()) {
 					if(processedType.contains("ore")) {
 						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 						switch (stratum.getHarvestTool()) {
@@ -128,12 +200,26 @@ public class BlockHarvestTagsGen {
 							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
 						}
 					}
+					if(processedType.contains("ore") && stratum.getSampleStrata()) {
+						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+						switch (stratum.getHarvestTool()) {
+							case "shovel" -> shovel.add(oreSample.toString());
+							case "hoe" -> hoe.add(oreSample.toString());
+							case "axe" -> axe.add(oreSample.toString());
+							case "pickaxe" -> pickaxe.add(oreSample.toString());
+							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+						}
+					}
 				}
 			}
 			if (!shovel.isEmpty()) new TagBuilder().tags(shovel).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/shovel"));
 			if (!hoe.isEmpty()) new TagBuilder().tags(hoe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/hoe"));
 			if (!axe.isEmpty()) new TagBuilder().tags(axe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/axe"));
 			if (!pickaxe.isEmpty()) new TagBuilder().tags(pickaxe).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/blocks/mineable/pickaxe"));
+			paxel.add("#minecraft:mineable/axe");
+			paxel.add("#minecraft:mineable/pickaxe");
+			paxel.add("#minecraft:mineable/shovel");
+			new TagBuilder().tags(paxel).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/mineable/paxel"));
 		}
 
 		@Override

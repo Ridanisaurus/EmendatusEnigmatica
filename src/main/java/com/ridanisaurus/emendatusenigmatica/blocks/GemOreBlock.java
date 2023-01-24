@@ -24,6 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -45,18 +47,18 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	public final int shadow1;
 	public final int shadow2;
 
-	public GemOreBlock(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
-		super(BlockBehaviour.Properties.of(material)
-				.strength(hardness, resistance)
+	public GemOreBlock(StrataModel strata, MaterialModel material) {
+		super(BlockBehaviour.Properties.of(Material.STONE)
+				.strength(strata.getHardness(), strata.getResistance())
 				.requiresCorrectToolForDrops());
-		this.localisedName = localisedName;
-		this.minExp = minExp;
-		this.maxExp = maxExp;
-		this.highlight2 = highlight2;
-		this.highlight1 = highlight1;
-		this.base = base;
-		this.shadow1 = shadow1;
-		this.shadow2 = shadow2;
+		this.localisedName = material.getLocalizedName();
+		this.minExp = material.getOreDrop().getMin();
+		this.maxExp = material.getOreDrop().getMax();
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override

@@ -1,0 +1,18 @@
+name: Addon Request
+description: Suggest a mod for an Emendatus Enigmatica Addon
+assignees: Ridanisaurus
+labels: addon request, to be reviewed
+body:
+  - type: markdown
+    attributes:
+      value: "*Please use the search functionality before requesting an addon. Also take a look at the closed issues!*"
+  - type: textarea
+    attributes:
+      label: provide the name(s) of the mod(s) you'd like for an Emendatus Enigmatica Addon
+      description: Name(s) of what mod(s) you would like to be supported.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: A place to provide any additional context to help us better understand the request.

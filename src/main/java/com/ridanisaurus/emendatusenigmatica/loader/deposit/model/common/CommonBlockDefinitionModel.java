@@ -17,7 +17,6 @@ public class CommonBlockDefinitionModel {
 	private final String material;
 	protected final int weight;
 
-
 	public CommonBlockDefinitionModel(String block, String tag, String material, int weight) {
 		this.block = block;
 		this.tag = tag;

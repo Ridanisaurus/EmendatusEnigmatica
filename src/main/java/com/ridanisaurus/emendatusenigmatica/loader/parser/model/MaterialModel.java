@@ -26,6 +26,10 @@ package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,19 +42,25 @@ public class MaterialModel {
 			Codec.BOOL.optionalFieldOf("disableDefaultOre").forGetter(i -> Optional.of(i.disableDefaultOre)),
 			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
+			MaterialGasPropertiesModel.CODEC.optionalFieldOf("gas").forGetter(i -> Optional.of(i.gas)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
-			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors))
-	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, oreDrop, compat, colors) -> new MaterialModel(
+			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
+			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
+			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
+	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, properties, gas, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
 			disableDefaultOre.orElse(false),
 			processedTypes,
 			properties.orElse(new MaterialPropertiesModel()),
+			gas.orElse(new MaterialGasPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
-			colors.orElse(new MaterialColorsModel())
+			colors.orElse(new MaterialColorsModel()),
+			tools.orElse(new MaterialToolsModel()),
+			armor.orElse(new MaterialArmorModel())
 	)));
 
 	private final String id;
@@ -59,20 +69,27 @@ public class MaterialModel {
 	private final boolean disableDefaultOre;
 	private final List<String> processedTypes;
 	private final MaterialPropertiesModel properties;
+	private final MaterialGasPropertiesModel gas;
 	private final MaterialOreDropModel oreDrop;
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
+	private final MaterialToolsModel tools;
+	private final MaterialArmorModel armor;
 
-	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, MaterialPropertiesModel properties, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors) {
+	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes,
+	                     MaterialPropertiesModel properties, MaterialGasPropertiesModel gas, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
 		this.disableDefaultOre = disableDefaultOre;
 		this.processedTypes = processedTypes;
 		this.properties = properties;
+		this.gas = gas;
 		this.oreDrop = oreDrop;
 		this.compat = compat;
 		this.colors = colors;
+		this.tools = tools;
+		this.armor = armor;
 	}
 
 	public String getId() {
@@ -107,6 +124,10 @@ public class MaterialModel {
 		return properties;
 	}
 
+	public MaterialGasPropertiesModel getGas() {
+		return gas;
+	}
+
 	public MaterialOreDropModel getOreDrop() {
 		return oreDrop;
 	}
@@ -117,5 +138,25 @@ public class MaterialModel {
 
 	public MaterialColorsModel getColors() {
 		return colors;
+	}
+
+	public MaterialToolsModel getTools() {
+		return tools;
+	}
+
+	public MaterialArmorModel getArmor() {
+		return armor;
+	}
+
+	public ItemLike getOreDefaultDrop() {
+		if (processedTypes.contains("ore")) {
+			if (properties.getMaterialType().equals("gem")) {
+				return processedTypes.contains("gem") ? EERegistrar.gemMap.get(id).get() : oreDrop.getDefaultItemDropAsItem();
+			} else {
+				return processedTypes.contains("raw") ? EERegistrar.rawMap.get(id).get() : oreDrop.getDefaultItemDropAsItem();
+			}
+		} else {
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation("minecraft:air"));
+		}
 	}
 }

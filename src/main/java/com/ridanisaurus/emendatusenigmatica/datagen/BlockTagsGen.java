@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
@@ -40,8 +41,11 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class BlockTagsGen extends EETagProvider {
-	public BlockTagsGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public BlockTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	private final List<String> forgeBlocks = Lists.newArrayList();
@@ -51,7 +55,7 @@ public class BlockTagsGen extends EETagProvider {
 
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -66,14 +70,21 @@ public class BlockTagsGen extends EETagProvider {
 				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks/raw_" + material.getId()));
 			}
 			// Ores
-			if (processedType.contains("ore")) {
-				for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
+				if (processedType.contains("ore")) {
 					ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
 					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
 					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
 					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
 				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					ResourceLocation ore = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
+					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
+					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
+				}
 			}
+
 		}
 		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + material)));
 		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores_in_ground/" + strataPrefix)));

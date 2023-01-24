@@ -24,21 +24,23 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Table;
 import com.mojang.math.Vector3f;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.blocks.*;
 import com.ridanisaurus.emendatusenigmatica.fluids.BasicFluidType;
-import com.ridanisaurus.emendatusenigmatica.items.BasicBurnableItem;
-import com.ridanisaurus.emendatusenigmatica.items.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.items.FeliniumJaminiteIngot;
-import com.ridanisaurus.emendatusenigmatica.items.ItemHammer;
+import com.ridanisaurus.emendatusenigmatica.items.*;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -66,13 +68,51 @@ public class EERegistrar {
 	public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 
-	// Blocks
+	// Ore Blocks
 	public static Table<String, String, RegistryObject<Block>> oreBlockTable = HashBasedTable.create();
 	public static Table<String, String, RegistryObject<Item>> oreBlockItemTable = HashBasedTable.create();
+
+	// Ore Sample Blocks
+	public static Table<String, String, RegistryObject<Block>> oreSampleBlockTable = HashBasedTable.create();
+	public static Table<String, String, RegistryObject<Item>> oreSampleBlockItemTable = HashBasedTable.create();
+
+	// Storage Blocks
 	public static Map<String, RegistryObject<Block>> storageBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> storageBlockItemMap = new HashMap<>();
+
+	// Weathering Blocks
+	public static Map<String, RegistryObject<Block>> exposedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> weatheredBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> oxidizedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> waxedStorageBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> waxedExposedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> waxedWeatheredBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> waxedOxidizedBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> exposedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> weatheredBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> oxidizedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedStorageBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedExposedBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedWeatheredBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> waxedOxidizedBlockItemMap = new HashMap<>();
+
+	// Raw Blocks
 	public static Map<String, RegistryObject<Block>> rawBlockMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rawBlockItemMap = new HashMap<>();
+
+	// Cluster Blocks
+	public static Map<String, RegistryObject<Block>> buddingBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> buddingBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> smallBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> smallBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> mediumBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> mediumBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> largeBudBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> largeBudBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> clusterBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterBlockItemMap = new HashMap<>();
+	public static Map<String, RegistryObject<Block>> clusterShardBlockMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterShardBlockItemMap = new HashMap<>();
 
 	// Items
 	public static Map<String, RegistryObject<Item>> rawMap = new HashMap<>();
@@ -83,6 +123,22 @@ public class EERegistrar {
 	public static Map<String, RegistryObject<Item>> plateMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> gearMap = new HashMap<>();
 	public static Map<String, RegistryObject<Item>> rodMap = new HashMap<>();
+	public static Map<String, RegistryObject<Item>> clusterShardMap = new HashMap<>();
+
+	// Tools
+	public static Map<String, RegistryObject<SwordItem>> swordMap = new HashMap<>();
+	public static Map<String, RegistryObject<PickaxeItem>> pickaxeMap = new HashMap<>();
+	public static Map<String, RegistryObject<AxeItem>> axeMap = new HashMap<>();
+	public static Map<String, RegistryObject<ShovelItem>> shovelMap = new HashMap<>();
+	public static Map<String, RegistryObject<HoeItem>> hoeMap = new HashMap<>();
+	public static Map<String, RegistryObject<PaxelItem>> paxelMap = new HashMap<>();
+
+	// Armor
+	public static Map<String, RegistryObject<ArmorItem>> helmetMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> chestplateMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> leggingsMap = new HashMap<>();
+	public static Map<String, RegistryObject<ArmorItem>> bootsMap = new HashMap<>();
+	public static Map<String, RegistryObject<ShieldItem>> shieldMap = new HashMap<>();
 
 	// Fluids
 	public static Map<String, RegistryObject<FluidType>> fluidTypeMap = new HashMap<>();
@@ -106,305 +162,394 @@ public class EERegistrar {
 		RegistryObject<Block> oreBlock;
 		if (material.getProperties().getMaterialType().equals("gem")) {
 			if(material.getProperties().hasParticles()) {
-				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlockWithParticles(
-						Material.STONE,
-						strata.getHardness(),
-						strata.getResistance(),
-						material.getLocalizedName(),
-						material.getOreDrop().getMin(),
-						material.getOreDrop().getMax(),
-						material.getColors().getParticlesColor(),
-						material.getColors().getHighlightColor(3),
-						material.getColors().getHighlightColor(1),
-						material.getColors().getMaterialColor(),
-						material.getColors().getShadowColor(1),
-						material.getColors().getShadowColor(2)
-				));
+				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlockWithParticles(strata, material));
 			} else {
-				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(
-						Material.STONE,
-						strata.getHardness(),
-						strata.getResistance(),
-						material.getLocalizedName(),
-						material.getOreDrop().getMin(),
-						material.getOreDrop().getMax(),
-						material.getColors().getHighlightColor(3),
-						material.getColors().getHighlightColor(1),
-						material.getColors().getMaterialColor(),
-						material.getColors().getShadowColor(1),
-						material.getColors().getShadowColor(2)
-				));
+				oreBlock = BLOCKS.register(oreName, () -> new GemOreBlock(strata, material));
 			}
 		} else {
 			if (material.getProperties().hasParticles()) {
-				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlockWithParticles(
-						Material.STONE,
-						strata.getHardness(),
-						strata.getResistance(),
-						material.getLocalizedName(),
-						material.getColors().getParticlesColor(),
-						material.getColors().getHighlightColor(3),
-						material.getColors().getHighlightColor(1),
-						material.getColors().getMaterialColor(),
-						material.getColors().getShadowColor(1),
-						material.getColors().getShadowColor(2)
-				));
+				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlockWithParticles(strata, material));
 			} else {
-				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(
-						Material.STONE,
-						strata.getHardness(),
-						strata.getResistance(),
-						material.getLocalizedName(),
-						material.getColors().getHighlightColor(3),
-						material.getColors().getHighlightColor(1),
-						material.getColors().getMaterialColor(),
-						material.getColors().getShadowColor(1),
-						material.getColors().getShadowColor(2)
-				));
+				oreBlock = BLOCKS.register(oreName, () -> new MetalOreBlock(strata, material));
 			}
 		}
-
 		oreBlockTable.put(strata.getId(), material.getId(), oreBlock);
-
 		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
 	}
 
-	public static void registerStorageBlocks(MaterialModel material) {
-		String storageBlockName = material.getId() + "_block";
-
-		RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(
-				Material.STONE,
-				3f,
-				3f,
-				material.getLocalizedName(),
-				material.getColors().getHighlightColor(3),
-				material.getColors().getHighlightColor(1),
-				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
-		));
-
-		storageBlockMap.put(material.getId(), storageBlock);
-
-		if (material.getProperties().isBurnable()) {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
-					storageBlock.get(),
-					material.getProperties().getBurnTime() * 10)));
+	public static void registerOreSample(StrataModel strata, MaterialModel material) {
+		String oreSampleName = material.getId() + "_" + strata.getSuffix() + "_ore_sample";
+		RegistryObject<Block> oreSampleBlock;
+		if (strata.getSampleStrata() && material.getProperties().hasParticles()) {
+			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlockWithParticles(strata, material));
 		} else {
-			storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(
-					storageBlock.get(), 0)));
+			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlock(strata, material));
 		}
+		oreSampleBlockTable.put(strata.getId(), material.getId(), oreSampleBlock);
+		oreSampleBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreSampleName, () -> new BlockItem(oreSampleBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
 	}
 
-	public static void registerRaws(MaterialModel material) {
-		String itemName = "raw_" + material.getId();
+	public static void registerStorageBlocks(MaterialModel material) {
+		if (material.getProperties().hasOxidization()) {
+			Supplier<BiMap<Block, Block>> oxidizationBlockMap = Suppliers.memoize(
+			() -> ImmutableBiMap.<Block, Block>builder()
+					.put(storageBlockMap.get(material.getId()).get(), exposedBlockMap.get(material.getId()).get())
+					.put(exposedBlockMap.get(material.getId()).get(), weatheredBlockMap.get(material.getId()).get())
+					.put(weatheredBlockMap.get(material.getId()).get(), oxidizedBlockMap.get(material.getId()).get())
+					.build()
+			);
+			Supplier<BiMap<Block, Block>> waxableBlockMap = Suppliers.memoize(
+					() -> ImmutableBiMap.<Block, Block>builder()
+							.put(storageBlockMap.get(material.getId()).get(), waxedStorageBlockMap.get(material.getId()).get())
+							.put(exposedBlockMap.get(material.getId()).get(), waxedExposedBlockMap.get(material.getId()).get())
+							.put(weatheredBlockMap.get(material.getId()).get(), waxedWeatheredBlockMap.get(material.getId()).get())
+							.put(oxidizedBlockMap.get(material.getId()).get(), waxedOxidizedBlockMap.get(material.getId()).get())
+							.build()
+			);
+			String storageBlockName = material.getId() + "_block";
+			String exposedBlockName = "exposed_" + material.getId();
+			String weatheredBlockName = "weathered_" + material.getId();
+			String oxidizedBlockName = "oxidized_" + material.getId();
+			String waxedStorageBlockName = "waxed_" + material.getId() + "_block";
+			String waxedExposedBlockName = "waxed_exposed_" + material.getId();
+			String waxedWeatheredBlockName = "waxed_weathered_" + material.getId();
+			String waxedOxidizedBlockName = "waxed_oxidized_" + material.getId();
+			RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.UNAFFECTED, oxidizationBlockMap, waxableBlockMap));
+			RegistryObject<Block> exposedBlock = BLOCKS.register(exposedBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.EXPOSED, oxidizationBlockMap, waxableBlockMap));
+			RegistryObject<Block> weatheredBlock = BLOCKS.register(weatheredBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.WEATHERED, oxidizationBlockMap, waxableBlockMap));
+			RegistryObject<Block> oxidizedBlock = BLOCKS.register(oxidizedBlockName, () -> new BasicWeatheringBlock(material, BasicWeatheringBlock.WeatherState.OXIDIZED, oxidizationBlockMap, waxableBlockMap));
+			RegistryObject<Block> waxedStorageBlock = BLOCKS.register(waxedStorageBlockName, () -> new BasicWaxedBlock(material, waxableBlockMap));
+			RegistryObject<Block> waxedExposedBlock = BLOCKS.register(waxedExposedBlockName, () -> new BasicWaxedBlock(material, waxableBlockMap));
+			RegistryObject<Block> waxedWeatheredBlock = BLOCKS.register(waxedWeatheredBlockName, () -> new BasicWaxedBlock(material, waxableBlockMap));
+			RegistryObject<Block> waxedOxidizedBlock = BLOCKS.register(waxedOxidizedBlockName, () -> new BasicWaxedBlock(material, waxableBlockMap));
 
-		if (material.getProperties().isBurnable()) {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime(),
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			storageBlockMap.put(material.getId(), storageBlock);
+			exposedBlockMap.put(material.getId(), exposedBlock);
+			weatheredBlockMap.put(material.getId(), weatheredBlock);
+			oxidizedBlockMap.put(material.getId(), oxidizedBlock);
+			waxedStorageBlockMap.put(material.getId(), waxedStorageBlock);
+			waxedExposedBlockMap.put(material.getId(), waxedExposedBlock);
+			waxedWeatheredBlockMap.put(material.getId(), waxedWeatheredBlock);
+			waxedOxidizedBlockMap.put(material.getId(), waxedOxidizedBlock);
+			if (material.getProperties().isBurnable()) {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
+				exposedBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				weatheredBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
+				oxidizedBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedStorageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedExposedBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedWeatheredBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),material.getProperties().getBurnTime() * 10)));
+				waxedOxidizedBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),material.getProperties().getBurnTime() * 10)));
+			} else {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
+				exposedBlockItemMap.put(material.getId(), ITEMS.register(exposedBlockName, () -> new BasicStorageBlockItem(exposedBlock.get(), 0)));
+				weatheredBlockItemMap.put(material.getId(), ITEMS.register(weatheredBlockName, () -> new BasicStorageBlockItem(weatheredBlock.get(),0)));
+				oxidizedBlockItemMap.put(material.getId(), ITEMS.register(oxidizedBlockName, () -> new BasicStorageBlockItem(oxidizedBlock.get(),0)));
+				waxedStorageBlockItemMap.put(material.getId(), ITEMS.register(waxedStorageBlockName, () -> new BasicStorageBlockItem(waxedStorageBlock.get(),0)));
+				waxedExposedBlockItemMap.put(material.getId(), ITEMS.register(waxedExposedBlockName, () -> new BasicStorageBlockItem(waxedExposedBlock.get(),0)));
+				waxedWeatheredBlockItemMap.put(material.getId(), ITEMS.register(waxedWeatheredBlockName, () -> new BasicStorageBlockItem(waxedWeatheredBlock.get(),0)));
+				waxedOxidizedBlockItemMap.put(material.getId(), ITEMS.register(waxedOxidizedBlockName, () -> new BasicStorageBlockItem(waxedOxidizedBlock.get(),0)));
+			}
 		} else {
-			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			String storageBlockName = material.getId() + "_block";
+			RegistryObject<Block> storageBlock = BLOCKS.register(storageBlockName, () -> new BasicStorageBlock(material));
+			storageBlockMap.put(material.getId(), storageBlock);
+			if (material.getProperties().isBurnable()) {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(),material.getProperties().getBurnTime() * 10)));
+			} else {
+				storageBlockItemMap.put(material.getId(), ITEMS.register(storageBlockName, () -> new BasicStorageBlockItem(storageBlock.get(), 0)));
+			}
 		}
 	}
 
 	public static void registerRawBlocks(MaterialModel material) {
 		String rawBlockName = "raw_" + material.getId() + "_block";
-
-		RegistryObject<Block> rawBlock = BLOCKS.register(rawBlockName, () -> new BasicStorageBlock(
-				Material.STONE,
-				3f,
-				3f,
-				material.getLocalizedName(),
-				material.getColors().getHighlightColor(3),
-				material.getColors().getHighlightColor(1),
-				material.getColors().getMaterialColor(),
-				material.getColors().getShadowColor(1),
-				material.getColors().getShadowColor(2)
-		));
-
+		RegistryObject<Block> rawBlock = BLOCKS.register(rawBlockName, () -> new BasicStorageBlock(material));
 		rawBlockMap.put(material.getId(), rawBlock);
-
 		if (material.getProperties().isBurnable()) {
-			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
-					rawBlock.get(),
-					material.getProperties().getBurnTime() * 10)));
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(rawBlock.get(),material.getProperties().getBurnTime() * 10)));
 		} else {
-			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(
-					rawBlock.get(), 0)));
+			rawBlockItemMap.put(material.getId(), ITEMS.register(rawBlockName, () -> new BasicStorageBlockItem(rawBlock.get(), 0)));
+		}
+	}
+
+	public static void registerBuddingBlocks(MaterialModel material) {
+		String buddingBlockName = "budding_" + material.getId();
+		RegistryObject<Block> buddingBlock = BLOCKS.register(buddingBlockName, () -> new BasicBuddingBlock(material, smallBudBlockMap.get(material.getId()), mediumBudBlockMap.get(material.getId()), largeBudBlockMap.get(material.getId()), clusterBlockMap.get(material.getId())));
+		buddingBlockMap.put(material.getId(), buddingBlock);
+		if (material.getProperties().isBurnable()) {
+			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(),material.getProperties().getBurnTime() * 4)));
+		} else {
+			buddingBlockItemMap.put(material.getId(), ITEMS.register(buddingBlockName, () -> new BasicStorageBlockItem(buddingBlock.get(), 0)));
+		}
+	}
+
+	public static void registerSmallBudBlocks(MaterialModel material) {
+		String smallBudBlockName = "small_" + material.getId() + "_bud";
+		RegistryObject<Block> smallBudBlock = BLOCKS.register(smallBudBlockName, () -> new BasicClusterBlock(3, 4, 1, material));
+		smallBudBlockMap.put(material.getId(), smallBudBlock);
+		if (material.getProperties().isBurnable()) {
+			smallBudBlockItemMap.put(material.getId(), ITEMS.register(smallBudBlockName, () -> new BasicStorageBlockItem(smallBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			smallBudBlockItemMap.put(material.getId(), ITEMS.register(smallBudBlockName, () -> new BasicStorageBlockItem(smallBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerMediumBudBlocks(MaterialModel material) {
+		String mediumBudBlockName = "medium_" + material.getId() + "_bud";
+		RegistryObject<Block> mediumBudBlock = BLOCKS.register(mediumBudBlockName, () -> new BasicClusterBlock(4, 3, 2, material));
+		mediumBudBlockMap.put(material.getId(), mediumBudBlock);
+		if (material.getProperties().isBurnable()) {
+			mediumBudBlockItemMap.put(material.getId(), ITEMS.register(mediumBudBlockName, () -> new BasicStorageBlockItem(mediumBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			mediumBudBlockItemMap.put(material.getId(), ITEMS.register(mediumBudBlockName, () -> new BasicStorageBlockItem(mediumBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerLargeBudBlocks(MaterialModel material) {
+		String largeBudBlockName = "large_" + material.getId() + "_bud";
+		RegistryObject<Block> largeBudBlock = BLOCKS.register(largeBudBlockName, () -> new BasicClusterBlock(5, 3, 4, material));
+		largeBudBlockMap.put(material.getId(), largeBudBlock);
+		if (material.getProperties().isBurnable()) {
+			largeBudBlockItemMap.put(material.getId(), ITEMS.register(largeBudBlockName, () -> new BasicStorageBlockItem(largeBudBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			largeBudBlockItemMap.put(material.getId(), ITEMS.register(largeBudBlockName, () -> new BasicStorageBlockItem(largeBudBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterBlocks(MaterialModel material) {
+		String clusterBlockName = material.getId() + "_cluster";
+		RegistryObject<Block> clusterBlock = BLOCKS.register(clusterBlockName, () -> new BasicClusterBlock(7, 3, 5, material));
+		clusterBlockMap.put(material.getId(), clusterBlock);
+		if (material.getProperties().isBurnable()) {
+			clusterBlockItemMap.put(material.getId(), ITEMS.register(clusterBlockName, () -> new BasicStorageBlockItem(clusterBlock.get(),material.getProperties().getBurnTime())));
+		} else {
+			clusterBlockItemMap.put(material.getId(), ITEMS.register(clusterBlockName, () -> new BasicStorageBlockItem(clusterBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterShardBlocks(MaterialModel material) {
+		String clusterShardBlockName = material.getId() + "_cluster_shard_block";
+		RegistryObject<Block> clusterShardBlock = BLOCKS.register(clusterShardBlockName, () -> new BasicClusterShardBlock(material));
+		clusterShardBlockMap.put(material.getId(), clusterShardBlock);
+		if (material.getProperties().isBurnable()) {
+			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(),material.getProperties().getBurnTime() * 4)));
+		} else {
+			clusterShardBlockItemMap.put(material.getId(), ITEMS.register(clusterShardBlockName, () -> new BasicStorageBlockItem(clusterShardBlock.get(), 0)));
+		}
+	}
+
+	public static void registerClusterShards(MaterialModel material) {
+		String itemName = material.getId() + "_cluster_shard";
+		if (material.getProperties().isBurnable()) {
+			clusterShardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
+		} else {
+			clusterShardMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
+		}
+	}
+
+	public static void registerRaws(MaterialModel material) {
+		String itemName = "raw_" + material.getId();
+		if (material.getProperties().isBurnable()) {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
+		} else {
+			rawMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerIngots(MaterialModel material) {
 		String itemName = material.getId() + "_ingot";
-
 		if (material.getProperties().isBurnable()) {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime(),
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
 		} else {
-			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			ingotMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerNuggets(MaterialModel material) {
 		String itemName = material.getId() + "_nugget";
-
 		if (material.getProperties().isBurnable()) {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime() / 10,
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime() / 10)));
 		} else {
-			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			nuggetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerGems(MaterialModel material) {
 		String itemName = material.getId() + "_gem";
-
 		if (material.getProperties().isBurnable()) {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime(),
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
 		} else {
-			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			gemMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerDusts(MaterialModel material) {
 		String itemName = material.getId() + "_dust";
-
 		if (material.getProperties().isBurnable()) {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime(),
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
 		} else {
-			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			dustMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerPlates(MaterialModel material) {
 		String itemName = material.getId() + "_plate";
-
 		if (material.getProperties().isBurnable()) {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime(),
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime())));
 		} else {
-			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			plateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerGears(MaterialModel material) {
 		String itemName = material.getId() + "_gear";
-
 		if (material.getProperties().isBurnable()) {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime() * 4,
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime() * 4)));
 		} else {
-			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			gearMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
 	}
 
 	public static void registerRods(MaterialModel material) {
 		String itemName = material.getId() + "_rod";
-
 		if (material.getProperties().isBurnable()) {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(
-					material.getProperties().getBurnTime() * 2,
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicBurnableItem(material, material.getProperties().getBurnTime() * 2)));
 		} else {
-			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(
-					material.getColors().getHighlightColor(3),
-					material.getColors().getHighlightColor(1),
-					material.getColors().getMaterialColor(),
-					material.getColors().getShadowColor(1),
-					material.getColors().getShadowColor(2)
-			)));
+			rodMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicItem(material)));
 		}
+	}
+
+	// Swords
+	public static void registerSwords(MaterialModel material) {
+		String itemName = material.getId() + "_sword";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		swordMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicSwordItem(material, repairItem)));
+	}
+
+	// Pickaxes
+	public static void registerPickaxes(MaterialModel material) {
+		String itemName = material.getId() + "_pickaxe";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		pickaxeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPickaxeItem(material, repairItem)));
+	}
+
+	// Axes
+	public static void registerAxes(MaterialModel material) {
+		String itemName = material.getId() + "_axe";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		axeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicAxeItem(material, repairItem)));
+	}
+
+	// Shovels
+	public static void registerShovels(MaterialModel material) {
+		String itemName = material.getId() + "_shovel";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		shovelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShovelItem(material, repairItem)));
+	}
+
+	// Hoes
+	public static void registerHoes(MaterialModel material) {
+		String itemName = material.getId() + "_hoe";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		hoeMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicHoeItem(material, repairItem)));
+	}
+
+	// Paxels
+	public static void registerPaxels(MaterialModel material) {
+		String itemName = material.getId() + "_paxel";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		paxelMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicPaxelItem(material, repairItem)));
+	}
+
+	// Helmet
+	public static void registerHelmets(MaterialModel material) {
+		String itemName = material.getId() + "_helmet";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		helmetMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(material, repairItem, EquipmentSlot.HEAD, material.getArmor().getHelmet())));
+	}
+
+	// Chestplate
+	public static void registerChestplates(MaterialModel material) {
+		String itemName = material.getId() + "_chestplate";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		chestplateMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(material, repairItem, EquipmentSlot.CHEST, material.getArmor().getChestplate())));
+	}
+
+	// Leggings
+	public static void registerLeggings(MaterialModel material) {
+		String itemName = material.getId() + "_leggings";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		leggingsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(material, repairItem, EquipmentSlot.LEGS, material.getArmor().getLeggings())));
+	}
+
+	// Boots
+	public static void registerBoots(MaterialModel material) {
+		String itemName = material.getId() + "_boots";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		bootsMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicArmorItem(material, repairItem, EquipmentSlot.FEET, material.getArmor().getBoots())));
+	}
+
+	// Shield
+	public static void registerShields(MaterialModel material) {
+		String itemName = material.getId() + "_shield";
+		TagKey<Item> repairItem;
+		if (material.getProperties().getMaterialType().equals("metal")) {
+			repairItem = EETags.MATERIAL_INGOT.apply(material.getId());
+		} else {
+			repairItem = EETags.MATERIAL_GEM.apply(material.getId());
+		}
+		shieldMap.put(material.getId(), ITEMS.register(itemName, () -> new BasicShieldItem(material, repairItem)));
 	}
 
 	// Fluids

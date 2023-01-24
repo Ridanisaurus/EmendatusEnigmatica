@@ -1,0 +1,18 @@
+name: Processed Type Request
+description: Suggest a processed type to be added for Emendatus Enigmatica
+assignees: Ridanisaurus
+labels: processed type request, to be reviewed
+body:
+  - type: markdown
+    attributes:
+      value: "*Please use the search functionality before requesting a processed type. Also take a look at the closed issues!*"
+  - type: textarea
+    attributes:
+      label: Describe the processed type you'd like
+      description: A clear and concise description of what processed type you would like added.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: A place to provide any additional context to help us better understand the request.

@@ -39,8 +39,9 @@ public class StrataModel {
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
 			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool)),
 			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
-			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance))
-	).apply(x, (s, s2, s3, s4, s5, s6, f, f2) -> new StrataModel(
+			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
+			Codec.BOOL.optionalFieldOf("sampleStrata").forGetter(i -> Optional.of(i.sampleStrata))
+	).apply(x, (s, s2, s3, s4, s5, s6, f, f2, b) -> new StrataModel(
 			s,
 			new ResourceLocation(s2),
 			s3,
@@ -48,7 +49,8 @@ public class StrataModel {
 			s5,
 			s6.orElse("pickaxe"),
 			f.orElse(3f),
-			f2.orElse(3f)
+			f2.orElse(3f),
+			b.orElse(false)
 	)));
 
 	private final String id;
@@ -59,8 +61,9 @@ public class StrataModel {
 	private final String harvestTool;
 	private final float hardness;
 	private final float resistance;
+	private final boolean sampleStrata;
 
-	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool, float hardness, float resistance) {
+	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool, float hardness, float resistance, boolean sampleStrata) {
 		this.id = id;
 		this.baseTexture = baseTexture;
 		this.suffix = suffix;
@@ -69,6 +72,7 @@ public class StrataModel {
 		this.harvestTool = harvestTool;
 		this.hardness = hardness;
 		this.resistance = resistance;
+		this.sampleStrata = sampleStrata;
 	}
 
 	public String getId() {
@@ -101,5 +105,9 @@ public class StrataModel {
 
 	public float getResistance() {
 		return resistance;
+	}
+
+	public boolean getSampleStrata() {
+		return sampleStrata;
 	}
 }

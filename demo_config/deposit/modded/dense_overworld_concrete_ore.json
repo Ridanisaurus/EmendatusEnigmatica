@@ -1,0 +1,30 @@
+{
+  "type": "emendatusenigmatica:dense_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [
+  ],
+  "registryName": "dense_overworld_concrete_deposit",
+  "config": {
+    "blocks": [
+      {
+        "material": "lignite",
+        "weight": 10
+      },
+      {
+        "material": "felinium_jammies",
+        "weight": 10
+      }
+    ],
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_andesite",
+      "minecraft_diorite",
+      "minecraft_granite",
+      "minecraft_deepslate"
+    ],
+    "chance": 50,
+    "size": 256,
+    "minYLevel": -10,
+    "maxYLevel": 64
+  }
+}

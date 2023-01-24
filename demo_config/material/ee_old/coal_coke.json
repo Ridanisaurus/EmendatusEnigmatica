@@ -8,7 +8,12 @@
 	"dust"
   ],
   "properties": {
+	"materialType": "gem",
 	"isBurnable": true,
-	"burnTime": 3200
+	"burnTime": 3200,
+	"gemTexture": 9
+  },
+  "colors": {
+	"materialColor": "2c3142"
   }
 }

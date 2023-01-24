@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.items;
 
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.jetbrains.annotations.Nullable;
@@ -31,8 +32,8 @@ import org.jetbrains.annotations.Nullable;
 public class BasicBurnableItem extends BasicItem {
 	private final int burnTime;
 
-	public BasicBurnableItem(int burnTime, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
-		super(highlight2, highlight1, base, shadow1, shadow2);
+	public BasicBurnableItem(MaterialModel material, int burnTime) {
+		super(material);
 		this.burnTime = burnTime;
 	}
 

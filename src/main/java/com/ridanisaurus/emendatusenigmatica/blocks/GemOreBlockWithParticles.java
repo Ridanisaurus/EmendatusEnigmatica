@@ -25,6 +25,8 @@
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
 import com.mojang.math.Vector3f;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -50,19 +52,19 @@ public class GemOreBlockWithParticles extends DropExperienceBlock implements ICo
 	public final int shadow1;
 	public final int shadow2;
 
-	public GemOreBlockWithParticles(Material material, float hardness, float resistance, String localisedName, int minExp, int maxExp, int particleColor, int highlight2, int highlight1, int base, int shadow1, int shadow2) {
-		super(Properties.of(material)
-				.strength(hardness, resistance)
+	public GemOreBlockWithParticles(StrataModel strata, MaterialModel material) {
+		super(Properties.of(Material.STONE)
+				.strength(strata.getHardness(), strata.getResistance())
 				.requiresCorrectToolForDrops());
-		this.localisedName = localisedName;
-		this.minExp = minExp;
-		this.maxExp = maxExp;
-		this.particleColor = particleColor;
-		this.highlight2 = highlight2;
-		this.highlight1 = highlight1;
-		this.base = base;
-		this.shadow1 = shadow1;
-		this.shadow2 = shadow2;
+		this.localisedName = material.getLocalizedName();
+		this.minExp = material.getOreDrop().getMin();
+		this.maxExp = material.getOreDrop().getMax();
+		this.particleColor = material.getColors().getParticlesColor();
+		this.highlight2 = material.getColors().getHighlightColor(3);
+		this.highlight1 = material.getColors().getHighlightColor(1);
+		this.base = material.getColors().getMaterialColor();
+		this.shadow1 = material.getColors().getShadowColor(1);
+		this.shadow2 = material.getColors().getShadowColor(2);
 	}
 
 	@Override

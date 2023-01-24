@@ -24,23 +24,22 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.datagen.base.EELangProvider;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EEBloodMagicRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EECreateRegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.common.data.LanguageProvider;
 
 import java.util.List;
 
-public class LangGen extends LanguageProvider {
-	public LangGen(DataGenerator gen) {
+public class LangGen extends EELangProvider {
+	private final EmendatusDataRegistry registry;
+
+	public LangGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen, Reference.MOD_ID, "en_us");
+		this.registry = registry;
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public class LangGen extends LanguageProvider {
 		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
 		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -59,6 +58,36 @@ public class LangGen extends LanguageProvider {
 				sb.append("Block of ");
 				sb.append(material.getLocalizedName());
 				add(EERegistrar.storageBlockMap.get(material.getId()).get(), sb.toString());
+				if (material.getProperties().hasOxidization()) {
+					StringBuilder sb2 = new StringBuilder();
+					sb2.append("Exposed ");
+					sb2.append(material.getLocalizedName());
+					add(EERegistrar.exposedBlockMap.get(material.getId()).get(), sb2.toString());
+					StringBuilder sb3 = new StringBuilder();
+					sb3.append("Weathered ");
+					sb3.append(material.getLocalizedName());
+					add(EERegistrar.weatheredBlockMap.get(material.getId()).get(), sb3.toString());
+					StringBuilder sb4 = new StringBuilder();
+					sb4.append("Oxidized ");
+					sb4.append(material.getLocalizedName());
+					add(EERegistrar.oxidizedBlockMap.get(material.getId()).get(), sb4.toString());
+					StringBuilder sb5 = new StringBuilder();
+					sb5.append("Waxed Block of ");
+					sb5.append(material.getLocalizedName());
+					add(EERegistrar.waxedStorageBlockMap.get(material.getId()).get(), sb5.toString());
+					StringBuilder sb6 = new StringBuilder();
+					sb6.append("Waxed Exposed ");
+					sb6.append(material.getLocalizedName());
+					add(EERegistrar.waxedExposedBlockMap.get(material.getId()).get(), sb6.toString());
+					StringBuilder sb7 = new StringBuilder();
+					sb7.append("Waxed Weathered ");
+					sb7.append(material.getLocalizedName());
+					add(EERegistrar.waxedWeatheredBlockMap.get(material.getId()).get(), sb7.toString());
+					StringBuilder sb8 = new StringBuilder();
+					sb8.append("Waxed Oxidized ");
+					sb8.append(material.getLocalizedName());
+					add(EERegistrar.waxedOxidizedBlockMap.get(material.getId()).get(), sb8.toString());
+				}
 			}
 
 			// Ingots
@@ -117,6 +146,94 @@ public class LangGen extends LanguageProvider {
 				add(EERegistrar.rodMap.get(material.getId()).get(), sb.toString());
 			}
 
+			// Swords
+			if (processedType.contains("sword")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Sword");
+				add(EERegistrar.swordMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Pickaxes
+			if (processedType.contains("pickaxe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Pickaxe");
+				add(EERegistrar.pickaxeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Axes
+			if (processedType.contains("axe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Axe");
+				add(EERegistrar.axeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Shovels
+			if (processedType.contains("shovel")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Shovel");
+				add(EERegistrar.shovelMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Hoes
+			if (processedType.contains("hoe")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Hoe");
+				add(EERegistrar.hoeMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Paxels
+			if (processedType.contains("paxel")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Paxel");
+				add(EERegistrar.paxelMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Helmet
+			if (processedType.contains("helmet")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Helmet");
+				add(EERegistrar.helmetMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Chestplate
+			if (processedType.contains("chestplate")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Chestplate");
+				add(EERegistrar.chestplateMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Leggings
+			if (processedType.contains("leggings")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Leggings");
+				add(EERegistrar.leggingsMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Boots
+			if (processedType.contains("boots")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Boots");
+				add(EERegistrar.bootsMap.get(material.getId()).get(), sb.toString());
+			}
+
+			// Shields
+			if (processedType.contains("shield")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Shield");
+				add(EERegistrar.shieldMap.get(material.getId()).get(), sb.toString());
+			}
+
 			// Raw
 			if (processedType.contains("raw")) {
 				StringBuilder sb = new StringBuilder();
@@ -128,6 +245,48 @@ public class LangGen extends LanguageProvider {
 				sb2.append("Block of Raw ");
 				sb2.append(material.getLocalizedName());
 				add(EERegistrar.rawBlockMap.get(material.getId()).get(), sb2.toString());
+			}
+
+			// Cluster
+			if (processedType.contains("cluster")) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(material.getLocalizedName());
+				sb.append(" Cluster Shard");
+				add(EERegistrar.clusterShardMap.get(material.getId()).get(), sb.toString());
+
+				StringBuilder sb2 = new StringBuilder();
+				sb2.append("Budding ");
+				sb2.append(material.getLocalizedName());
+				add(EERegistrar.buddingBlockMap.get(material.getId()).get(), sb2.toString());
+
+				StringBuilder sb3 = new StringBuilder();
+				sb3.append("Small ");
+				sb3.append(material.getLocalizedName());
+				sb3.append(" Bud");
+				add(EERegistrar.smallBudBlockMap.get(material.getId()).get(), sb3.toString());
+
+				StringBuilder sb4 = new StringBuilder();
+				sb4.append("Medium ");
+				sb4.append(material.getLocalizedName());
+				sb4.append(" Bud");
+				add(EERegistrar.mediumBudBlockMap.get(material.getId()).get(), sb4.toString());
+
+				StringBuilder sb5 = new StringBuilder();
+				sb5.append("Large ");
+				sb5.append(material.getLocalizedName());
+				sb5.append(" Bud");
+				add(EERegistrar.largeBudBlockMap.get(material.getId()).get(), sb5.toString());
+
+				StringBuilder sb6 = new StringBuilder();
+				sb6.append(material.getLocalizedName());
+				sb6.append(" Cluster");
+				add(EERegistrar.clusterBlockMap.get(material.getId()).get(), sb6.toString());
+
+				StringBuilder sb7 = new StringBuilder();
+				sb7.append("Block of ");
+				sb7.append(material.getLocalizedName());
+				sb7.append(" Cluster Shard");
+				add(EERegistrar.clusterShardBlockMap.get(material.getId()).get(), sb7.toString());
 			}
 
 			// Fluids
@@ -142,80 +301,25 @@ public class LangGen extends LanguageProvider {
 				add(EERegistrar.fluidBucketMap.get(material.getId()).get(), sb2.toString());
 			}
 
-			if (EmendatusEnigmatica.MEKANISM_LOADED) {
-				if (processedType.contains("slurry")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Dirty ");
-					sb.append(material.getLocalizedName());
-					sb.append(" Slurry");
-					add(EEMekanismRegistrar.dirtySlurryMap.get(material.getId()).get().getTranslationKey(), sb.toString());
+//			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
+//				// Fragment
+//				if (processedType.contains("fragment")) {
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(material.getLocalizedName());
+//					sb.append(" Fragment");
+//					add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
+//				}
+//				// Gravel
+//				if (processedType.contains("gravel")) {
+//					StringBuilder sb = new StringBuilder();
+//					sb.append(material.getLocalizedName());
+//					sb.append(" Gravel");
+//					add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
+//				}
+//			}
 
-					StringBuilder sb2 = new StringBuilder();
-					sb2.append("Clean ");
-					sb2.append(material.getLocalizedName());
-					sb2.append(" Slurry");
-					add(EEMekanismRegistrar.cleanSlurryMap.get(material.getId()).get().getTranslationKey(), sb2.toString());
-				}
-				// Crystals
-				if (processedType.contains("crystal")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Crystal");
-					add(EEMekanismRegistrar.crystalMap.get(material.getId()).get(), sb.toString());
-				}
-				// Shards
-				if (processedType.contains("shard")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Shard");
-					add(EEMekanismRegistrar.shardMap.get(material.getId()).get(), sb.toString());
-				}
-				// Clumps
-				if (processedType.contains("clump")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Clump");
-					add(EEMekanismRegistrar.clumpMap.get(material.getId()).get(), sb.toString());
-				}
-				// Dirty Dusts
-				if (processedType.contains("dirty_dust")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Dirty ");
-					sb.append(material.getLocalizedName());
-					sb.append(" Dust");
-					add(EEMekanismRegistrar.dirtyDustMap.get(material.getId()).get(), sb.toString());
-				}
-			}
-			if (EmendatusEnigmatica.CREATE_LOADED) {
-				// Crushed Ore
-				if (processedType.contains("crushed_ore")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("Crushed ");
-					sb.append(material.getLocalizedName());
-					sb.append(" Ore");
-					add(EECreateRegistrar.crushedOreMap.get(material.getId()).get(), sb.toString());
-				}
-			}
-			if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-				// Fragment
-				if (processedType.contains("fragment")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Fragment");
-					add(EEBloodMagicRegistrar.fragmentMap.get(material.getId()).get(), sb.toString());
-				}
-				// Gravel
-				if (processedType.contains("gravel")) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Gravel");
-					add(EEBloodMagicRegistrar.gravelMap.get(material.getId()).get(), sb.toString());
-				}
-			}
-
-			for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
 				if (processedType.contains("ore")) {
-
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalizedName());
 					sb.append(" Ore");
@@ -224,8 +328,14 @@ public class LangGen extends LanguageProvider {
 						sb.append(" - ");
 						sb.append(stratum.getLocalizedName());
 					}
-
 					add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(material.getLocalizedName());
+					sb.append(" Rich ");
+					sb.append(stratum.getLocalizedName());
+					add(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
 				}
 			}
 		}
@@ -235,6 +345,4 @@ public class LangGen extends LanguageProvider {
 	public String getName() {
 		return "Emendatus Enigmatica Languages: en_us";
 	}
-
-
 }

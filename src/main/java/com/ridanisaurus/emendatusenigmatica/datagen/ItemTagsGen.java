@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.collect.Lists;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.EETagProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.base.TagBuilder;
@@ -44,8 +45,11 @@ import java.util.function.Consumer;
 
 public class ItemTagsGen extends EETagProvider {
 
-	public ItemTagsGen(DataGenerator gen) {
+	private final EmendatusDataRegistry registry;
+
+	public ItemTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
 		super(gen);
+		this.registry = registry;
 	}
 
 	private final List<String> forgeBlocks = Lists.newArrayList();
@@ -59,6 +63,18 @@ public class ItemTagsGen extends EETagProvider {
 	private final List<String> forgeRaw = Lists.newArrayList();
 	private final List<String> forgeBuckets = Lists.newArrayList();
 	private final List<String> forgeOres = Lists.newArrayList();
+	private final List<String> forgeTools = Lists.newArrayList();
+	private final List<String> forgeSwords = Lists.newArrayList();
+	private final List<String> forgePickaxes = Lists.newArrayList();
+	private final List<String> forgeAxes = Lists.newArrayList();
+	private final List<String> forgeShovels = Lists.newArrayList();
+	private final List<String> forgeHoes = Lists.newArrayList();
+	private final List<String> forgePaxels = Lists.newArrayList();
+	private final List<String> forgeShields = Lists.newArrayList();
+	private final List<String> forgeHelmets = Lists.newArrayList();
+	private final List<String> forgeChestplates = Lists.newArrayList();
+	private final List<String> forgeLeggings = Lists.newArrayList();
+	private final List<String> forgeBoots = Lists.newArrayList();
 	private final Map<String, List<String>> oresPerMaterial = new HashMap<>();
 	private final Map<String, List<String>> oresInGround = new HashMap<>();
 
@@ -66,7 +82,7 @@ public class ItemTagsGen extends EETagProvider {
 
 	@Override
 	protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : EELoader.MATERIALS) {
+		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -126,6 +142,64 @@ public class ItemTagsGen extends EETagProvider {
 				new TagBuilder().tag(raw.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials/" + material.getId()));
 				new TagBuilder().tag(rawBlock.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks/raw_" + material.getId()));
 			}
+			// Tools
+			if (processedType.contains("sword")) {
+				ResourceLocation sword = EERegistrar.swordMap.get(material.getId()).getId();
+				if (!forgeSwords.contains("#forge:tools/swords/" + material.getId())) forgeSwords.add("#forge:tools/swords/" + material.getId());
+				new TagBuilder().tag(sword.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/swords/" + material.getId()));
+			}
+			if (processedType.contains("pickaxe")) {
+				ResourceLocation pickaxe = EERegistrar.pickaxeMap.get(material.getId()).getId();
+				if (!forgePickaxes.contains("#forge:tools/pickaxes/" + material.getId())) forgePickaxes.add("#forge:tools/pickaxes/" + material.getId());
+				new TagBuilder().tag(pickaxe.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/pickaxes/" + material.getId()));
+			}
+			if (processedType.contains("axe")) {
+				ResourceLocation axe = EERegistrar.axeMap.get(material.getId()).getId();
+				if (!forgeAxes.contains("#forge:tools/axes/" + material.getId())) forgeAxes.add("#forge:tools/axes/" + material.getId());
+				new TagBuilder().tag(axe.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/axes/" + material.getId()));
+			}
+			if (processedType.contains("shovel")) {
+				ResourceLocation shovel = EERegistrar.shovelMap.get(material.getId()).getId();
+				if (!forgeShovels.contains("#forge:tools/shovels/" + material.getId())) forgeShovels.add("#forge:tools/shovels/" + material.getId());
+				new TagBuilder().tag(shovel.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/shovels/" + material.getId()));
+			}
+			if (processedType.contains("hoe")) {
+				ResourceLocation hoe = EERegistrar.hoeMap.get(material.getId()).getId();
+				if (!forgeHoes.contains("#forge:tools/hoes/" + material.getId())) forgeHoes.add("#forge:tools/hoes/" + material.getId());
+				new TagBuilder().tag(hoe.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/hoes/" + material.getId()));
+			}
+			if (processedType.contains("paxel")) {
+				ResourceLocation paxel = EERegistrar.paxelMap.get(material.getId()).getId();
+				if (!forgeTools.contains("#forge:tools/paxels")) forgeTools.add("#forge:tools/paxels");
+				if (!forgePaxels.contains("#forge:tools/paxels/" + material.getId())) forgePaxels.add("#forge:tools/paxels/" + material.getId());
+				new TagBuilder().tag(paxel.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/paxels/" + material.getId()));
+			}
+			if (processedType.contains("shield")) {
+				ResourceLocation shield = EERegistrar.shieldMap.get(material.getId()).getId();
+				if (!forgeShields.contains("#forge:tools/shields/" + material.getId())) forgeShields.add("#forge:tools/shields/" + material.getId());
+				new TagBuilder().tag(shield.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/shields/" + material.getId()));
+			}
+			// Armor
+			if (processedType.contains("helmet")) {
+				ResourceLocation helmet = EERegistrar.helmetMap.get(material.getId()).getId();
+				if (!forgeHelmets.contains("#forge:armors/helmets/" + material.getId())) forgeHelmets.add("#forge:armors/helmets/" + material.getId());
+				new TagBuilder().tag(helmet.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/helmets/" + material.getId()));
+			}
+			if (processedType.contains("chestplate")) {
+				ResourceLocation chestplate = EERegistrar.chestplateMap.get(material.getId()).getId();
+				if (!forgeChestplates.contains("#forge:armors/chestplates/" + material.getId())) forgeChestplates.add("#forge:armors/chestplates/" + material.getId());
+				new TagBuilder().tag(chestplate.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/chestplates/" + material.getId()));
+			}
+			if (processedType.contains("leggings")) {
+				ResourceLocation leggings = EERegistrar.leggingsMap.get(material.getId()).getId();
+				if (!forgeLeggings.contains("#forge:armors/leggings/" + material.getId())) forgeLeggings.add("#forge:armors/leggings/" + material.getId());
+				new TagBuilder().tag(leggings.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/leggings/" + material.getId()));
+			}
+			if (processedType.contains("boots")) {
+				ResourceLocation boots = EERegistrar.bootsMap.get(material.getId()).getId();
+				if (!forgeBoots.contains("#forge:armors/boots/" + material.getId())) forgeBoots.add("#forge:armors/boots/" + material.getId());
+				new TagBuilder().tag(boots.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/boots/" + material.getId()));
+			}
 			// Buckets
 			if (processedType.contains("fluid")) {
 				ResourceLocation bucket = EERegistrar.fluidBucketMap.get(material.getId()).getId();
@@ -133,12 +207,18 @@ public class ItemTagsGen extends EETagProvider {
 				new TagBuilder().tag(bucket.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets/" + material.getId()));
 			}
 			// Ores
-			if (processedType.contains("ore")) {
-				for (StrataModel stratum : EELoader.STRATA) {
+			for (StrataModel stratum : registry.getStrata()) {
+				if (processedType.contains("ore")) {
 					ResourceLocation ore = EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).getId();
 					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
 					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
 					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
+				}
+				if (processedType.contains("ore") && stratum.getSampleStrata()) {
+					ResourceLocation oreSample = EERegistrar.oreSampleBlockItemTable.get(stratum.getId(), material.getId()).getId();
+					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(oreSample.toString());
+					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(oreSample.toString());
 				}
 			}
 		}
@@ -154,6 +234,17 @@ public class ItemTagsGen extends EETagProvider {
 		new TagBuilder().tags(forgeGears).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gears"));
 		new TagBuilder().tags(forgeRods).save(consumer, new ResourceLocation(Reference.FORGE, "/items/rods"));
 		new TagBuilder().tags(forgeRaw).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials"));
+		new TagBuilder().tags(forgeSwords).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/swords"));
+		new TagBuilder().tags(forgePickaxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/pickaxes"));
+		new TagBuilder().tags(forgeAxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/axes"));
+		new TagBuilder().tags(forgeShovels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/shovels"));
+		new TagBuilder().tags(forgeHoes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/hoes"));
+		new TagBuilder().tags(forgePaxels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/paxels"));
+		new TagBuilder().tags(forgeTools).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools"));
+		new TagBuilder().tags(forgeHelmets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/helmets"));
+		new TagBuilder().tags(forgeChestplates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/chestplates"));
+		new TagBuilder().tags(forgeLeggings).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/leggings"));
+		new TagBuilder().tags(forgeBoots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/boots"));
 		new TagBuilder().tags(forgeBuckets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets"));
 		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores"));
 
