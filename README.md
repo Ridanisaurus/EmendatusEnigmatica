@@ -1,6 +1,6 @@
 [![Build & Release](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml/badge.svg?branch=EEV2-1.19)](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml)
 
-![EE Logo](https://i.imgur.com/pcX09Dd.png)
+![EE Logo]([https://i.imgur.com/pcX09Dd.png](https://media.forgecdn.net/attachments/611/984/eelogo.png))
 
 This mod is created to help unifying some items, blocks, and ores that are common among most mods. This mod provide little to no functionality as a stand-alone mod. It does however offer a wide range of options for Modpack authors to utilize these blocks, and items as a method of unification.
 
@@ -10,14 +10,14 @@ All blocks, and items have been properly Forge tagged, and have all the basic re
 Emendatus Enigmatica is licensed under the MIT license. You may use it in modpacks, reviews, or any other form as long as you abide by the terms of this license.
 
 # Maven #
-Emendatus Enigmatica is available via [Nanite Maven](https://maven.nanite.dev/releases/com/ridanisaurus) for development purposes.
+Emendatus Enigmatica is available via [Saps Maven](https://maven.saps.dev/releases/com/ridanisaurus) for development purposes.
 
 Update your `build.gradle` file to include the following:
 
 ```groovy
 repositories {
     maven {
-        url "https://maven.nanite.dev"
+        url "https://maven.saps.dev/releases/"
     }
 }
 
@@ -33,7 +33,7 @@ Add the following to your `gradle.properties` file:
 
 **NOTE:** Please refer to the maven page for the latest `ee_version`
 ```properties
-ee_version=2.0.0-build.11
+ee_version=2.1.0-build.50
 mc_version=1.19.2
 ```
 
