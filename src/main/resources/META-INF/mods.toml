@@ -1,57 +1,38 @@
-# This is an example mods.toml file. It contains the data relating to the loading mods.
-# There are several mandatory fields (#mandatory), and many more that are optional (#optional).
-# The overall format is standard TOML format, v0.5.0.
-# Note that there are a couple of TOML lists in this file.
-# Find more information on toml format here:  https://github.com/toml-lang/toml
-
-# The name of the mod loader type to load - for regular FML @Mod mods it should be javafml
-modLoader="javafml" #mandatory
-
-# A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[43,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+modLoader="javafml"
+loaderVersion="[43,)"
 license="MIT License"
+issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues"
 
-# A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues" #optional
+[[mods]]
+modId="emendatusenigmatica"
+version="1.19.2-2.1.0"
+displayName="Emendatus Enigmatica"
+displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica"
+logoFile= "ee_logo.png"
+credits='''
+Thanks to Buuz135, MaxNeedsSnacks, Ellpeck, Mikey, and Darkere for their guidance and help on the development process.
 
-# A list of mods - how many allowed here is determined by the individual mod loader
-[[mods]] #mandatory
+Special thanks to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, and continues support on this journey.
+'''
+authors="Ridanisaurus"
+description='''
+This mod is a Data-Driven solution created for Modpack Developers to create their own materials, unify the look and feel of modded Minecraft, and provides them with a handful of feature generation options.
 
-# The modid of the mod
-modId="emendatusenigmatica" #mandatory
+All blocks, and items have been properly tagged, and have all the basic recipes included upon their material's registration.
 
-# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version="1.19.2-2.1.0" #mandatory
+Additional information on how to setup new Materials, configure new Strata Blocks to be used for dynamic ores, and generating Deposit features can be found on the Wiki.
+'''
 
-# A display name for the mod
-displayName="Emendatus Enigmatica" #mandatory
+[[dependencies.emendatusenigmatica]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19,)"
+ordering = "AFTER"
+side = "BOTH"
 
-# A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica" #optional
-
-# A file name (in the root of the mod JAR) containing a logo for display
-logoFile="logo.png" #optional
-
-# A text field displayed in the mod UI
-credits='''Thanks to Buuz135, MaxNeedsSnacks, Ellpeck, Mikey, and Darkere for their guidance and help on the development process. Special thanks to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, and continues support on this journey.''' #optional
-
-# A text field displayed in the mod UI
-authors="Ridanisaurus" #optional
-
-# The description text for the mod (multi line!) (#mandatory)
-description='''This mod is created to help unifying some items, blocks, and ores that are common among most mods. This mod provide little to no functionality as a stand-alone mod.
-It does however offer a wide range of options for Modpack authors to utilize these blocks, and items as a method of unification.
-All blocks, and items have been properly Forge tagged, and have all the basic recipes. This mod also includes a world gen of ores that match the strata provided by other mods such as Create and Quark.'''
-
-# A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.emendatusenigmatica]] #optional
-    # the modid of the dependency
-    modId="forge" #mandatory
-    # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
-    # The version range of the dependency
-    versionRange="[43,)" #mandatory
-    # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
-    ordering="NONE"
-    # Side this dependency is applied on - BOTH, CLIENT or SERVER
-    side="BOTH"
+[[dependencies.emendatusenigmatica]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "AFTER"
+side = "BOTH"
