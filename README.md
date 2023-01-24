@@ -1,6 +1,6 @@
 [![Build & Release](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml/badge.svg?branch=EEV2-1.19)](https://github.com/Ridanisaurus/EmendatusEnigmatica/actions/workflows/build-release.yml)
 
-![EE Logo]([https://i.imgur.com/pcX09Dd.png](https://media.forgecdn.net/attachments/611/984/eelogo.png))
+![EE Logo]([https://www.curseforge.com/minecraft/mc-mods/emendatus-enigmatica](https://i.imgur.com/pcX09Dd.png))
 
 This mod is created to help unifying some items, blocks, and ores that are common among most mods. This mod provide little to no functionality as a stand-alone mod. It does however offer a wide range of options for Modpack authors to utilize these blocks, and items as a method of unification.
 
