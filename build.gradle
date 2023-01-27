@@ -112,6 +112,10 @@ repositories {
     maven { url 'https://maven.blamejared.com' }
     // LOCAL MAVEN
     mavenLocal()
+    // SAPS
+    maven {
+        url "https://maven.saps.dev/releases/"
+    }
 }
 
 dependencies {
@@ -148,29 +152,29 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 
     runtimeOnly fg.deobf("curse.maven:tool-kit-324888:3933949")
-//    runtimeOnly fg.deobf("curse.maven:world-stripper-250603:3921630")
+    runtimeOnly fg.deobf("curse.maven:world-stripper-250603:3921630")
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
     runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
 //
-    runtimeOnly fg.deobf("curse.maven:mekanism-268560:${mekanism_version}")
-    runtimeOnly fg.deobf("curse.maven:geckolib-388172:${geckolib_version}")
-    runtimeOnly fg.deobf("curse.maven:occultism-361026:${occultism_version}")
-    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:${modonomicon_version}")
-    runtimeOnly fg.deobf("curse.maven:curios-309927:${curios_version}")
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:${patchouli_version}")
-    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:${an_version}")
-    runtimeOnly fg.deobf("curse.maven:create-328085:${create_version}")
-    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:${thermal_expansion_version}")
-    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:${thermal_foundation_version}")
-    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:${cofh_core_version}")
-
-    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
-
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_create_addon:1.0.0-build.9999+mc1.19.2")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_thermal_addon:1.0.0-build.9999+mc1.19.2")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_mekanism_addon:1.0.0-build.9999+mc1.19.2")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_occultism_addon:1.0.0-build.9999+mc1.19.2")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_ars_nouveau_addon:1.0.0-build.9999+mc1.19.2")
+//    runtimeOnly fg.deobf("curse.maven:mekanism-268560:${mekanism_version}")
+//    runtimeOnly fg.deobf("curse.maven:geckolib-388172:${geckolib_version}")
+//    runtimeOnly fg.deobf("curse.maven:occultism-361026:${occultism_version}")
+//    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:${modonomicon_version}")
+//    runtimeOnly fg.deobf("curse.maven:curios-309927:${curios_version}")
+//    runtimeOnly fg.deobf("curse.maven:patchouli-306770:${patchouli_version}")
+//    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:${an_version}")
+//    runtimeOnly fg.deobf("curse.maven:create-328085:${create_version}")
+//    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:${thermal_expansion_version}")
+//    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:${thermal_foundation_version}")
+//    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:${cofh_core_version}")
+//
+//    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
+//
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_create_addon:${ee_create}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_thermal_addon:${ee_thermal}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_mekanism_addon:${ee_mekanism}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_occultism_addon:${ee_occultism}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_ars_nouveau_addon:${ee_ars_nouveau}+mc${mc_version}")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 //    implementation "org.spongepowered:noise:2.0.0-SNAPSHOT"
@@ -260,13 +264,13 @@ if (ENV.CURSE_DEPLOY) {
             addGameVersion "${mc_version}" // Minecraft :pog:
             mainArtifact(jar) {
                 displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
-//                relations {
-//                    optionalDependency "emendatus-enigmatica-thermal-addon"
-//                    optionalDependency "emendatus-enigmatica-create-addon"
-//                    optionalDependency "emendatus-enigmatica-occultism-addon"
-//                    optionalDependency "emendatus-enigmatica-mekanism-addon"
-//                    optionalDependency "emendatus-enigmatica-ars-nouveau-addon"
-//                }
+                relations {
+                    optionalDependency "emendatus-enigmatica-thermal-addon"
+                    optionalDependency "emendatus-enigmatica-create-addon"
+                    optionalDependency "emendatus-enigmatica-occultism-addon"
+                    optionalDependency "emendatus-enigmatica-mekanism-addon"
+                    optionalDependency "emendatus-enigmatica-ars-nouveau-addon"
+                }
             }
             changelog = file("changelog.md") // pull the contents of the changelog.md
             changelogType = 'markdown' // It's a markdown file so handle it as one

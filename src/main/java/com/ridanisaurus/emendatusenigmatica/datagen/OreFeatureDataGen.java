@@ -118,7 +118,7 @@ public class OreFeatureDataGen extends EEFeatureProvider {
 						.features(DEFAULT_EMERALD_ORE)
 						.save(consumer, new ResourceLocation(Reference.MOD_ID, "remove_default_emerald_ore"));
 			}
-			if (material.isVanilla() && material.getId().contains("nether_quartz") && material.getDisableDefaultOre()) {
+			if (material.isVanilla() && material.getId().contains("quartz") && material.getDisableDefaultOre()) {
 				new FeatureBuilder("forge:remove_features", "underground_ores")
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_QUARTZ_ORE)
