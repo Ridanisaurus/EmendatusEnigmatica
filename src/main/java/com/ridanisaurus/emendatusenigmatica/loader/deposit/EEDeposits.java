@@ -91,7 +91,8 @@ public class EEDeposits {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			if(activeProcessor.getType().equals(DepositType.VANILLA.getType())) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
+					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model, this.loader.getDataRegistry()));
 		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
@@ -111,7 +112,8 @@ public class EEDeposits {
 			}
 			if(activeProcessor.getType().equals(DepositType.SPHERE.getType())) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
+					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<SphereOreFeature> sphereOreFeature = FEATURES.register(model.getName(), () -> new SphereOreFeature(SphereOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(sphereOreFeature.get(), new SphereOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -123,7 +125,8 @@ public class EEDeposits {
 			}
 			if(activeProcessor.getType().equals(DepositType.GEODE.getType())) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
+					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<GeodeOreFeature> geodeOreFeature = FEATURES.register(model.getName(), () -> new GeodeOreFeature(GeodeOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 						() -> new ConfiguredFeature<>(geodeOreFeature.get(), new GeodeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
@@ -135,26 +138,28 @@ public class EEDeposits {
 			}
 			if(activeProcessor.getType().equals(DepositType.DIKE.getType())) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+//				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
+//					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<DikeOreFeature> dikeOreFeature = FEATURES.register(model.getName(), () -> new DikeOreFeature(DikeOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
-						() -> new ConfiguredFeature<>(dikeOreFeature.get(), new DikeOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+						() -> new ConfiguredFeature<>(dikeOreFeature.get(), new DikeOreFeatureConfig(new MultiStrataRuleTest(model.getFillerTypes())))
 				);
-				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getMinYLevel()), VerticalAnchor.absolute(model.getMaxYLevel()));
 				PLACED_ORE_FEATURES.register(model.getName(),
-						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getPlacementChance(), placement))
+						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getPlacementChance(), placement))
 				);
 			}
 			if(activeProcessor.getType().equals(DepositType.DENSE.getType())) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100) throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+//				if (model.getPlacementChance() < 1 || model.getPlacementChance() > 100)
+//					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<DenseOreFeature> denseOreFeature = FEATURES.register(model.getName(), () -> new DenseOreFeature(DenseOreFeatureConfig.CODEC, model, this.loader.getDataRegistry()));
 				RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
-						() -> new ConfiguredFeature<>(denseOreFeature.get(), new DenseOreFeatureConfig(new MultiStrataRuleTest(model.getConfig().getFillerTypes())))
+						() -> new ConfiguredFeature<>(denseOreFeature.get(), new DenseOreFeatureConfig(new MultiStrataRuleTest(model.getFillerTypes())))
 				);
-				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+				HeightRangePlacement placement = HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getMinYLevel()), VerticalAnchor.absolute(model.getMaxYLevel()));
 				PLACED_ORE_FEATURES.register(model.getName(),
-						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getConfig().getPlacementChance(), placement))
+						() -> new PlacedFeature(oreFeature.getHolder().get(), WorldGenHelper.rareOrePlacement(model.getPlacementChance(), placement))
 				);
 			}
 //			if(activeProcessor.getType().equals(DepositType.TEST.getType())) {

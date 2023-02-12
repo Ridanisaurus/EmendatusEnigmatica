@@ -98,7 +98,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -107,7 +107,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -295,10 +295,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getGenerateSamples();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else {
 				return false;
 			}
@@ -316,10 +316,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getMinYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else {
 				return -1;
 			}
@@ -337,10 +337,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getMaxYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else {
 				return -1;
 			}
@@ -358,10 +358,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getChance();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else {
 				return -1;
 			}

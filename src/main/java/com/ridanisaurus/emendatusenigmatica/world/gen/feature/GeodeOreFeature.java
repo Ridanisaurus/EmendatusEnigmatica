@@ -209,28 +209,30 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 			}
 		}
 
-		for(BlockPos blockpos4 : list2) {
-			int index = rand.nextInt(clusters.size());
-			BlockState blockstate1 = clusters.get(index);
+		if (!clusters.isEmpty()) {
+			for(BlockPos blockpos4 : list2) {
+				int index = rand.nextInt(clusters.size());
+				BlockState blockstate1 = clusters.get(index);
 
-			for(Direction direction : DIRECTIONS) {
-				if (blockstate1.hasProperty(BlockStateProperties.FACING)) {
-					blockstate1 = blockstate1.setValue(BlockStateProperties.FACING, direction);
-				}
+				for(Direction direction : DIRECTIONS) {
+					if (blockstate1.hasProperty(BlockStateProperties.FACING)) {
+						blockstate1 = blockstate1.setValue(BlockStateProperties.FACING, direction);
+					}
 
-				BlockPos blockpos5 = blockpos4.relative(direction);
-				BlockState blockstate2 = level.getBlockState(blockpos5);
-				if (blockstate1.hasProperty(BlockStateProperties.WATERLOGGED)) {
-					blockstate1 = blockstate1.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(blockstate2.getFluidState().isSource()));
-				}
+					BlockPos blockpos5 = blockpos4.relative(direction);
+					BlockState blockstate2 = level.getBlockState(blockpos5);
+					if (blockstate1.hasProperty(BlockStateProperties.WATERLOGGED)) {
+						blockstate1 = blockstate1.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(blockstate2.getFluidState().isSource()));
+					}
 
-				if (BuddingAmethystBlock.canClusterGrowAtState(blockstate2) && level.getBlockState(blockpos4).getBlock() instanceof BuddingAmethystBlock) {
-					this.safeSetBlock(level, blockpos5, blockstate1, predicate);
-					break;
+					if (BuddingAmethystBlock.canClusterGrowAtState(blockstate2) && level.getBlockState(blockpos4).getBlock() instanceof BuddingAmethystBlock) {
+						this.safeSetBlock(level, blockpos5, blockstate1, predicate);
+						break;
+					}
 				}
 			}
 		}
-		if (rand.nextInt(100) < model.getConfig().getChance()) {
+		if (rand.nextInt(100) < model.getConfig().getChance() && !sampleBlocks.isEmpty()) {
 			placeSurfaceSample(rand, pos, level);
 		}
 		return true;

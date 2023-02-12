@@ -14,7 +14,7 @@ public class GeodeDepositConfigModel {
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").forGetter(i -> i.innerBlocks),
 			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").forGetter(i -> i.fillBlocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.list(Codec.STRING).fieldOf("clusters").forGetter(i -> i.clusters),
+			Codec.list(Codec.STRING).fieldOf("clusters").orElse(List.of()).forGetter(i -> i.clusters),
 			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
 			Codec.DOUBLE.fieldOf("crackChance").forGetter(it -> it.crackChance),
 			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),

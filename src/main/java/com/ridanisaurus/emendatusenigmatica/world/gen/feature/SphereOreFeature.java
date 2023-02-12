@@ -122,7 +122,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                 }
             }
         }
-        if (rand.nextInt(100) < model.getConfig().getChance()) {
+        if (rand.nextInt(100) < model.getConfig().getChance() && !sampleBlocks.isEmpty()) {
             placeSurfaceSample(rand, pos, level);
         }
         return true;

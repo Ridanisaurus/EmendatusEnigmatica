@@ -19,17 +19,16 @@ public class DikeDepositConfigModel {
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, DikeDepositConfigModel::new));
 
-	private final List<CommonBlockDefinitionModel> blocks;
-	private final List<String> fillerTypes;
-	private final int chance;
-	private final int size;
-	private final int minYLevel;
-	private final int maxYLevel;
-	private final boolean generateSamples;
-	private final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<CommonBlockDefinitionModel> blocks;
+	public final List<String> fillerTypes;
+	public final int chance;
+	public final int size;
+	public final int minYLevel;
+	public final int maxYLevel;
+	public final boolean generateSamples;
+	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
 	public DikeDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
-
 		this.blocks = blocks;
 		this.chance = chance;
 		this.size = size;
@@ -38,41 +37,5 @@ public class DikeDepositConfigModel {
 		this.fillerTypes = fillerTypes;
 		this.generateSamples = generateSamples;
 		this.sampleBlocks = sampleBlocks;
-	}
-
-	public int getChance() {
-		return chance;
-	}
-
-	public int getPlacementChance() {
-		return (100 - chance) + 1;
-	}
-
-	public int getMaxYLevel() {
-		return maxYLevel;
-	}
-
-	public int getMinYLevel() {
-		return minYLevel;
-	}
-
-	public List<CommonBlockDefinitionModel> getBlocks() {
-		return blocks;
-	}
-
-	public List<String> getFillerTypes() {
-		return fillerTypes;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public boolean getGenerateSamples() {
-		return generateSamples;
-	}
-
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		return sampleBlocks;
 	}
 }
