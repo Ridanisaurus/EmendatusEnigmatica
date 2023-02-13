@@ -80,7 +80,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				// TODO: Add support for Non-Materials
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				List<CommonBlockDefinitionModel> innerBlocks = model.getConfig().getInnerBlocks();
+				List<CommonBlockDefinitionModel> innerBlocks = model.getInnerBlocks();
 				for (CommonBlockDefinitionModel innerBlock : innerBlocks) {
 					String depositMaterial = innerBlock.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -89,7 +89,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -289,10 +289,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getGenerateSamples();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
 				return model.getGenerateSamples();
@@ -310,10 +310,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getMinYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
 				return model.getMinYLevel();
@@ -331,10 +331,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getMaxYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
 				return model.getMaxYLevel();
@@ -352,10 +352,10 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				return model.getConfig().getChance();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
 				return model.getChance();

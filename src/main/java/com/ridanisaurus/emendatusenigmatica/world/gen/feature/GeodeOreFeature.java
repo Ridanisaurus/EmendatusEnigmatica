@@ -70,33 +70,33 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		this.model = model;
 		this.registry = registry;
 		outerShellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel outerShellBlock : model.getConfig().getOuterShellBlocks()) {
+		for (CommonBlockDefinitionModel outerShellBlock : model.getOuterShellBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(outerShellBlock.getWeight(), outerShellBlock);
 			outerShellBlocks.addAll(filled);
 		}
 		innerShellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel innerShellBlock : model.getConfig().getInnerShellBlocks()) {
+		for (CommonBlockDefinitionModel innerShellBlock : model.getInnerShellBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(innerShellBlock.getWeight(), innerShellBlock);
 			innerShellBlocks.addAll(filled);
 		}
 		innerBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel innerBlock : model.getConfig().getInnerBlocks()) {
+		for (CommonBlockDefinitionModel innerBlock : model.getInnerBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(innerBlock.getWeight(), innerBlock);
 			innerBlocks.addAll(filled);
 		}
 		fillBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel fillBlock : model.getConfig().getFillBlocks()) {
+		for (CommonBlockDefinitionModel fillBlock : model.getFillBlocks()) {
 			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(fillBlock.getWeight(), fillBlock);
 			fillBlocks.addAll(filled);
 		}
 		clusters = new ArrayList<>();
-		for (String cluster : model.getConfig().getClusters()) {
+		for (String cluster : model.getClusters()) {
 			BlockState clusterBlockstate = Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(cluster))).defaultBlockState();
 			NonNullList<BlockState> filled = NonNullList.withSize(1, clusterBlockstate);
 			clusters.addAll(filled);
 		}
 		sampleBlocks = new ArrayList<>();
-		for (SampleBlockDefinitionModel sampleBlock : model.getConfig().getSampleBlocks()) {
+		for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
 			NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
 			sampleBlocks.addAll(filled);
 		}
@@ -127,7 +127,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 		double d3 = 1.0D / Math.sqrt(3.2D + d0); // Inner Shell
 		double d4 = 1.0D / Math.sqrt(4.2D + d0); // Outer Shell
 		double d5 = 1.0D / Math.sqrt(2.0D + rand.nextDouble() / 2.0D + (k > 3 ? d0 : 0.0D)); // Crack Size
-		boolean flag = (double)rand.nextFloat() < model.getConfig().getCrackChance();
+		boolean flag = (double)rand.nextFloat() < model.getCrackChance();
 		int l = 0;
 
 		for(int i1 = 0; i1 < k; ++i1) {
@@ -232,7 +232,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 				}
 			}
 		}
-		if (rand.nextInt(100) < model.getConfig().getChance() && !sampleBlocks.isEmpty()) {
+		if (rand.nextInt(100) < model.getChance() && !sampleBlocks.isEmpty()) {
 			placeSurfaceSample(rand, pos, level);
 		}
 		return true;
@@ -294,6 +294,7 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	}
 
 	private void placeSurfaceSample(RandomSource rand, BlockPos pos, WorldGenLevel level) {
+		// TODO: Refactor this to be used as a helper method, and add a check if true to generate
 		BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
 		if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER) {
 			sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());

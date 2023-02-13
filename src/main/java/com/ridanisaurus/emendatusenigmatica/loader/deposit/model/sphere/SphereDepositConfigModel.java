@@ -10,27 +10,26 @@ import java.util.Optional;
 
 public class SphereDepositConfigModel {
 	public static final Codec<SphereDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
-			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.INT.fieldOf("radius").forGetter(it -> it.radius),
-			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
+			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
+			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
+			Codec.INT.fieldOf("radius").orElse(0).forGetter(it -> it.radius),
+			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
+			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, SphereDepositConfigModel::new));
 
-	private final List<CommonBlockDefinitionModel> blocks;
-	private final List<String> fillerTypes;
-	private final int chance;
-	private final int radius;
-	private final int minYLevel;
-	private final int maxYLevel;
-	private final boolean generateSamples;
-	private final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<CommonBlockDefinitionModel> blocks;
+	public final List<String> fillerTypes;
+	public final int chance;
+	public final int radius;
+	public final int minYLevel;
+	public final int maxYLevel;
+	public final boolean generateSamples;
+	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
 	public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
-
 		this.blocks = blocks;
 		this.chance = chance;
 		this.radius = radius;
@@ -39,41 +38,5 @@ public class SphereDepositConfigModel {
 		this.fillerTypes = fillerTypes;
 		this.generateSamples = generateSamples;
 		this.sampleBlocks = sampleBlocks;
-	}
-
-	public int getChance() {
-		return chance;
-	}
-
-	public int getPlacementChance() {
-		return (100 - chance) + 1;
-	}
-
-	public int getMaxYLevel() {
-		return maxYLevel;
-	}
-
-	public int getMinYLevel() {
-		return minYLevel;
-	}
-
-	public List<CommonBlockDefinitionModel> getBlocks() {
-		return blocks;
-	}
-
-	public List<String> getFillerTypes() {
-		return fillerTypes;
-	}
-
-	public int getRadius() {
-		return radius;
-	}
-
-	public boolean getGenerateSamples() {
-		return generateSamples;
-	}
-
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		return sampleBlocks;
 	}
 }

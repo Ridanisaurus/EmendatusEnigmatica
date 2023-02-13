@@ -9,12 +9,12 @@ import java.util.List;
 
 public class DikeDepositConfigModel {
 	public static final Codec<DikeDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
-			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.INT.fieldOf("size").forGetter(it -> it.size),
-			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
+			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
+			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
+			Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
+			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
+			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, DikeDepositConfigModel::new));

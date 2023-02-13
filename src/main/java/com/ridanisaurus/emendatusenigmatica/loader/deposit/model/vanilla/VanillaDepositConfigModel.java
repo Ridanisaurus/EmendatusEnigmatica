@@ -23,20 +23,19 @@ public class VanillaDepositConfigModel {
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4, b, l2) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3.orElse("uniform"), s4.orElse("common"), b, l2)));
 
-	private final String block;
-	private final String material;
-	private final List<String> fillerTypes;
-	private final int chance;
-	private final int size;
-	private final int minYLevel;
-	private final int maxYLevel;
-	private final String placement;
-	private final String rarity;
-	private final boolean generateSamples;
-	private final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final String block;
+	public final String material;
+	public final List<String> fillerTypes;
+	public final int chance;
+	public final int size;
+	public final int minYLevel;
+	public final int maxYLevel;
+	public final String placement;
+	public final String rarity;
+	public final boolean generateSamples;
+	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
 	public VanillaDepositConfigModel(String block, String material, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
-
 		this.block = block;
 		this.material = material;
 		this.fillerTypes = fillerTypes;
