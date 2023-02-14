@@ -1,4 +1,5 @@
 #Emendatus Enigmatica
-####MC 1.19.2 | Version 2.1.1
+####MC 1.19.2 | Version 2.1.2
 
-* Fixed an issue with disabling Vanilla Nether Quartz ore features.
+* Fixed an issue with Geode Deposits.
+* Added some basic error log handling when reading Deposit JSONs.
