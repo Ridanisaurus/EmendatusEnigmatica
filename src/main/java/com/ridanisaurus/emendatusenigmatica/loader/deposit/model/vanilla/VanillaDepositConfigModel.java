@@ -10,18 +10,16 @@ import java.util.Optional;
 
 public class VanillaDepositConfigModel {
 	public static final Codec<VanillaDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.block)),
-			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
-			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.INT.fieldOf("size").forGetter(it -> it.size),
-			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
-			Codec.STRING.optionalFieldOf("placement").forGetter(it -> Optional.ofNullable(it.placement)),
-			Codec.STRING.optionalFieldOf("rarity").forGetter(it -> Optional.ofNullable(it.rarity)),
-			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
-	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4, b, l2) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3.orElse("uniform"), s4.orElse("common"), b, l2)));
+			Codec.STRING.optionalFieldOf("block").orElse(null).forGetter(it -> Optional.ofNullable(it.block)),
+			Codec.STRING.optionalFieldOf("material").orElse(null).forGetter(it -> Optional.ofNullable(it.material)),
+			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
+			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
+			Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
+			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
+			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
+			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
+			Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity)
+	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3, s4)));
 
 	public final String block;
 	public final String material;
@@ -32,10 +30,8 @@ public class VanillaDepositConfigModel {
 	public final int maxYLevel;
 	public final String placement;
 	public final String rarity;
-	public final boolean generateSamples;
-	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public VanillaDepositConfigModel(String block, String material, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
+	public VanillaDepositConfigModel(String block, String material, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity) {
 		this.block = block;
 		this.material = material;
 		this.fillerTypes = fillerTypes;
@@ -45,56 +41,5 @@ public class VanillaDepositConfigModel {
 		this.maxYLevel = maxYLevel;
 		this.placement = placement;
 		this.rarity = rarity;
-		this.generateSamples = generateSamples;
-		this.sampleBlocks = sampleBlocks;
-	}
-
-	public int getMinYLevel() {
-		return minYLevel;
-	}
-
-	public int getMaxYLevel() {
-		return maxYLevel;
-	}
-
-	public String getPlacement() {
-		return placement;
-	}
-
-	public String getRarity() {
-		return rarity;
-	}
-
-	public int getChance() {
-		return chance;
-	}
-
-	public int getPlacementChance() {
-		return rarity.equals("rare") ? (100 - chance) + 1 : chance;
-	}
-
-	@Nullable
-	public String getBlock() {
-		return block;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public String getMaterial() {
-		return material;
-	}
-
-	public List<String> getFillerTypes() {
-		return fillerTypes;
-	}
-
-	public boolean getGenerateSamples() {
-		return generateSamples;
-	}
-
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		return sampleBlocks;
 	}
 }

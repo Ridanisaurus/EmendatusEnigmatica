@@ -73,7 +73,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		if (material.getProcessedTypes().contains("ore")) {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				String depositMaterial = model.getConfig().getMaterial();
+				String depositMaterial = model.getMaterial();
 				if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 					recipes.add(new WorldGenWrapper(material, activeProcessor));
 				}
@@ -285,8 +285,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 
 		public boolean hasSurfaceSample() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
-				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getGenerateSamples();
+				return false;
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				return model.getGenerateSamples();
@@ -307,7 +306,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getMinY() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				return model.getMinYLevel();
@@ -328,7 +327,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getMaxY() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				return model.getMaxYLevel();
@@ -349,7 +348,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getChance() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
 				return model.getChance();
