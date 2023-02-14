@@ -9,32 +9,32 @@ import java.util.List;
 
 public class GeodeDepositConfigModel {
 	public static final Codec<GeodeDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("outerShellBlocks").forGetter(i -> i.outerShellBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerShellBlocks").forGetter(i -> i.innerShellBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").forGetter(i -> i.innerBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").forGetter(i -> i.fillBlocks),
-			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
-			Codec.list(Codec.STRING).fieldOf("clusters").forGetter(i -> i.clusters),
-			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
-			Codec.DOUBLE.fieldOf("crackChance").forGetter(it -> it.crackChance),
-			Codec.INT.fieldOf("minYLevel").forGetter(it -> it.minYLevel),
-			Codec.INT.fieldOf("maxYLevel").forGetter(it -> it.maxYLevel),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("outerShellBlocks").orElse(List.of()).forGetter(i -> i.outerShellBlocks),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerShellBlocks").orElse(List.of()).forGetter(i -> i.innerShellBlocks),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").orElse(List.of()).forGetter(i -> i.innerBlocks),
+			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").orElse(List.of()).forGetter(i -> i.fillBlocks),
+			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
+			Codec.list(Codec.STRING).fieldOf("clusters").orElse(List.of()).forGetter(i -> i.clusters),
+			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
+			Codec.DOUBLE.fieldOf("crackChance").orElse(0D).forGetter(it -> it.crackChance),
+			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
+			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, GeodeDepositConfigModel::new));
 
-	private final List<CommonBlockDefinitionModel> outerShellBlocks;
-	private final List<CommonBlockDefinitionModel> innerShellBlocks;
-	private final List<CommonBlockDefinitionModel> innerBlocks;
-	private final List<CommonBlockDefinitionModel> fillBlocks;
-	private final List<String> fillerTypes;
-	private final List<String> clusters;
-	private final int chance;
-	private final double crackChance;
-	private final int minYLevel;
-	private final int maxYLevel;
-	private final boolean generateSamples;
-	private final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<CommonBlockDefinitionModel> outerShellBlocks;
+	public final List<CommonBlockDefinitionModel> innerShellBlocks;
+	public final List<CommonBlockDefinitionModel> innerBlocks;
+	public final List<CommonBlockDefinitionModel> fillBlocks;
+	public final List<String> fillerTypes;
+	public final List<String> clusters;
+	public final int chance;
+	public final double crackChance;
+	public final int minYLevel;
+	public final int maxYLevel;
+	public final boolean generateSamples;
+	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
 	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;
@@ -49,57 +49,5 @@ public class GeodeDepositConfigModel {
 		this.maxYLevel = maxYLevel;
 		this.generateSamples = generateSamples;
 		this.sampleBlocks = sampleBlocks;
-	}
-
-	public List<String> getFillerTypes() {
-		return fillerTypes;
-	}
-
-		public List<String> getClusters() {
-		return clusters;
-	}
-
-	public int getMaxYLevel() {
-		return maxYLevel;
-	}
-
-	public int getMinYLevel() {
-		return minYLevel;
-	}
-
-	public int getChance() {
-		return chance;
-	}
-
-	public int getPlacementChance() {
-		return (100 - chance) + 1;
-	}
-
-	public double getCrackChance() {
-		return crackChance;
-	}
-
-	public List<CommonBlockDefinitionModel> getOuterShellBlocks() {
-		return outerShellBlocks;
-	}
-
-	public List<CommonBlockDefinitionModel> getInnerShellBlocks() {
-		return innerShellBlocks;
-	}
-
-	public List<CommonBlockDefinitionModel> getInnerBlocks() {
-		return innerBlocks;
-	}
-
-	public List<CommonBlockDefinitionModel> getFillBlocks() {
-		return fillBlocks;
-	}
-
-	public boolean getGenerateSamples() {
-		return generateSamples;
-	}
-
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		return sampleBlocks;
 	}
 }

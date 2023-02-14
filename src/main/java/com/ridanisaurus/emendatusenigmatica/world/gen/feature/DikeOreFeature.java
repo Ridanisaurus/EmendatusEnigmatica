@@ -49,12 +49,12 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
         this.model = model;
         this.registry = registry;
         blocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getBlocks()) {
+        for (CommonBlockDefinitionModel block : model.getBlocks()) {
             NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
             blocks.addAll(filled);
         }
         sampleBlocks = new ArrayList<>();
-        for (SampleBlockDefinitionModel sampleBlock : model.getConfig().getSampleBlocks()) {
+        for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
             NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
             sampleBlocks.addAll(filled);
         }
@@ -73,13 +73,13 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
         int xPos = chunkPos.getMinBlockX() + level.getRandom().nextInt(16);
         int zPos = chunkPos.getMinBlockZ() + level.getRandom().nextInt(16);
 
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
+        int yTop = model.getMaxYLevel();
+        int yBottom = model.getMinYLevel();
 
         BlockPos basePos = new BlockPos(xPos, yBottom, zPos);
 
         // TODO: Figure out the Size and other Parameters
-        int size = model.getConfig().getSize();
+        int size = model.getSize();
 
         for (int dY = yBottom; dY <= yTop; dY++) {
             for (int dX = -size; dX <= size; dX++) {
@@ -94,7 +94,7 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
                 }
             }
         }
-        if (rand.nextInt(100) < model.getConfig().getChance()) {
+        if (rand.nextInt(100) < model.getChance() && !sampleBlocks.isEmpty()) {
             placeSurfaceSample(rand, pos, level);
         }
         return true;

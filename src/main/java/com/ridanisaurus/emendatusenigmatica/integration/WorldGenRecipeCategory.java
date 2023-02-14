@@ -73,14 +73,14 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		if (material.getProcessedTypes().contains("ore")) {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				String depositMaterial = model.getConfig().getMaterial();
+				String depositMaterial = model.getMaterial();
 				if (depositMaterial != null && depositMaterial.equals(material.getId())) {
 					recipes.add(new WorldGenWrapper(material, activeProcessor));
 				}
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				// TODO: Add support for Non-Materials
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				List<CommonBlockDefinitionModel> innerBlocks = model.getConfig().getInnerBlocks();
+				List<CommonBlockDefinitionModel> innerBlocks = model.getInnerBlocks();
 				for (CommonBlockDefinitionModel innerBlock : innerBlocks) {
 					String depositMaterial = innerBlock.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -89,7 +89,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -98,7 +98,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -107,7 +107,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 				}
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				List<CommonBlockDefinitionModel> blocks = model.getConfig().getBlocks();
+				List<CommonBlockDefinitionModel> blocks = model.getBlocks();
 				for (CommonBlockDefinitionModel block : blocks) {
 					String depositMaterial = block.getMaterial();
 					if (depositMaterial != null && depositMaterial.equals(material.getId())) {
@@ -285,20 +285,19 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 
 		public boolean hasSurfaceSample() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
-				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getGenerateSamples();
+				return false;
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getGenerateSamples();
+				return model.getGenerateSamples();
 			} else {
 				return false;
 			}
@@ -307,19 +306,19 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getMinY() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getMinYLevel();
+				return model.getMinYLevel();
 			} else {
 				return -1;
 			}
@@ -328,19 +327,19 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getMaxY() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getMaxYLevel();
+				return model.getMaxYLevel();
 			} else {
 				return -1;
 			}
@@ -349,19 +348,19 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		public int getChance() {
 			if (activeProcessor instanceof VanillaDepositProcessor) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof GeodeDepositProcessor) {
 				var model = ((GeodeDepositProcessor) activeProcessor).getGeodeModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof SphereDepositProcessor) {
 				var model = ((SphereDepositProcessor) activeProcessor).getSphereModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof DenseDepositProcessor) {
 				var model = ((DenseDepositProcessor) activeProcessor).getDenseModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else if (activeProcessor instanceof DikeDepositProcessor) {
 				var model = ((DikeDepositProcessor) activeProcessor).getDikeModel();
-				return model.getConfig().getChance();
+				return model.getChance();
 			} else {
 				return -1;
 			}

@@ -46,12 +46,12 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
         this.model = model;
         this.registry = registry;
         blocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getBlocks()) {
+        for (CommonBlockDefinitionModel block : model.getBlocks()) {
             NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
             blocks.addAll(filled);
         }
         sampleBlocks = new ArrayList<>();
-        for (SampleBlockDefinitionModel sampleBlock : model.getConfig().getSampleBlocks()) {
+        for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
             NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
             sampleBlocks.addAll(filled);
         }
@@ -63,10 +63,10 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
         BlockPos pos = config.origin();
         WorldGenLevel level = config.level();
 
-        int yTop = model.getConfig().getMaxYLevel();
-        int yBottom = model.getConfig().getMinYLevel();
+        int yTop = model.getMaxYLevel();
+        int yBottom = model.getMinYLevel();
         // TODO: Fix the size calculation
-        int size = model.getConfig().getSize();
+        int size = model.getSize();
 
         int randY = yBottom + level.getRandom().nextInt(yTop - yBottom);
 
@@ -113,7 +113,7 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
             }
 
         }
-        if (rand.nextInt(100) < model.getConfig().getChance()) {
+        if (rand.nextInt(100) < model.getChance() && !sampleBlocks.isEmpty()) {
             placeSurfaceSample(rand, pos, level);
         }
         return true;
