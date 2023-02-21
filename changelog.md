@@ -1,5 +1,4 @@
 #Emendatus Enigmatica
-####MC 1.19.2 | Version 2.1.2
+####MC 1.19.2 | Version 2.1.3
 
-* Fixed an issue with Geode Deposits.
-* Added some basic error log handling when reading Deposit JSONs.
+* Increased the Dense Deposit's size range to [1-48]
