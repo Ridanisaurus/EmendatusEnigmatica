@@ -37,7 +37,7 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getPlacementChance() {
-		return (100 - getChance()) + 1;
+		return config.rarity.equals("rare") ? (100 - getChance()) + 1 : getChance();
 	}
 
 	public int getMaxYLevel() {
@@ -63,6 +63,16 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	public int getRadius() {
 		if (config.radius < 1 || config.radius > 16) throw new IllegalArgumentException("Radius for " + name + " is out of Range [1 - 16]");
 		return config.radius;
+	}
+
+	public String getPlacement() {
+		if (!config.placement.equals("uniform") && !config.placement.equals("triangle")) throw new IllegalArgumentException("Placement for " + name + " is invalid.");
+		return config.placement;
+	}
+
+	public String getRarity() {
+		if (!config.rarity.equals("common") && !config.rarity.equals("rare")) throw new IllegalArgumentException("Rarity for " + name + " is invalid.");
+		return config.rarity;
 	}
 
 	public boolean getGenerateSamples() {

@@ -19,6 +19,8 @@ public class GeodeDepositConfigModel {
 			Codec.DOUBLE.fieldOf("crackChance").orElse(0D).forGetter(it -> it.crackChance),
 			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
+			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
+			Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, GeodeDepositConfigModel::new));
@@ -33,10 +35,12 @@ public class GeodeDepositConfigModel {
 	public final double crackChance;
 	public final int minYLevel;
 	public final int maxYLevel;
+	public final String placement;
+	public final String rarity;
 	public final boolean generateSamples;
 	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
+	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;
@@ -47,6 +51,8 @@ public class GeodeDepositConfigModel {
 		this.crackChance = crackChance;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
+		this.placement = placement;
+		this.rarity = rarity;
 		this.generateSamples = generateSamples;
 		this.sampleBlocks = sampleBlocks;
 	}
