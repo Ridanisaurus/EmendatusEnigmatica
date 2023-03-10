@@ -24,10 +24,6 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 		this.config = config;
 	}
 
-	public GeodeDepositConfigModel getConfig() {
-		return config;
-	}
-
 	public String getType() {
 		return super.getType();
 	}

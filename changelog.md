@@ -1,4 +1,4 @@
 #Emendatus Enigmatica
-####MC 1.19.2 | Version 2.1.1
+####MC 1.19.2 | Version 2.1.3
 
-* Fixed an issue with disabling Vanilla Nether Quartz ore features.
+* Increased the Dense Deposit's size range to [1-48]

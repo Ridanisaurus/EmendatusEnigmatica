@@ -50,15 +50,15 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 	private List<OreConfiguration.TargetBlockState> createTargetStateList() {
 		List<OreConfiguration.TargetBlockState> states = new ArrayList<>();
 
-		if (this.model.getConfig().getBlock() != null) {
-			Block oreBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(model.getConfig().getBlock()));
+		if (this.model.getBlock() != null) {
+			Block oreBlock = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(model.getBlock()));
 			if (oreBlock == null) {
-				EmendatusEnigmatica.LOGGER.warn("Unable to find {} in forge registries", model.getConfig().getBlock());
+				EmendatusEnigmatica.LOGGER.warn("Unable to find {} in forge registries", model.getBlock());
 				return states; // Empty, something went wrong
 			}
 
 			for (StrataModel stratum : registry.getStrata()) {
-				if (model.getConfig().getFillerTypes().contains(stratum.getId())) {
+				if (model.getFillerTypes().contains(stratum.getId())) {
 					Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
 					if (stratumBlock == null) {
 						EmendatusEnigmatica.LOGGER.warn("Unable to find {} in forge registries", stratum.getFillerType());
@@ -73,10 +73,10 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		}
 
 		for (MaterialModel material : registry.getMaterials()) {
-			if (!material.getId().equals(model.getConfig().getMaterial())) continue;
+			if (!material.getId().equals(model.getMaterial())) continue;
 
 			for (StrataModel stratum : registry.getStrata()) {
-				if (!model.getConfig().getFillerTypes().contains(stratum.getId())) continue;
+				if (!model.getFillerTypes().contains(stratum.getId())) continue;
 
 				Block stratumBlock = ForgeRegistries.BLOCKS.getValue(stratum.getFillerType());
 				if (stratumBlock == null) {
@@ -103,11 +103,9 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		BlockPos pos = config.origin();
 		WorldGenLevel reader = config.level();
 
-		var oreConfig = this.model.getConfig();
-
 		float f = rand.nextFloat() * (float)Math.PI;
-		float f1 = (float)oreConfig.getSize() / 8.0F;
-		int i = Mth.ceil(((float)oreConfig.getSize() / 16.0F * 2.0F + 1.0F) / 2.0F);
+		float f1 = (float)this.model.getSize() / 8.0F;
+		int i = Mth.ceil(((float)this.model.getSize() / 16.0F * 2.0F + 1.0F) / 2.0F);
 		double d0 = (double)pos.getX() + Math.sin((double)f) * (double)f1;
 		double d1 = (double)pos.getX() - Math.sin((double)f) * (double)f1;
 		double d2 = (double)pos.getZ() + Math.cos((double)f) * (double)f1;
@@ -136,7 +134,7 @@ public class VanillaOreFeature extends Feature<NoneFeatureConfiguration> {
 		int i = 0;
 		BitSet bitset = new BitSet(p_225184_ * p_225185_ * p_225184_);
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-		int j = this.model.getConfig().getSize();
+		int j = this.model.getSize();
 		double[] adouble = new double[j * 4];
 
 		for(int k = 0; k < j; ++k) {

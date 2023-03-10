@@ -24,10 +24,6 @@ public class DikeDepositModel extends CommonDepositModelBase {
 		this.config = config;
 	}
 
-	public DikeDepositConfigModel getConfig() {
-		return config;
-	}
-
 	public String getType() {
 		return super.getType();
 	}

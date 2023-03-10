@@ -91,22 +91,22 @@ public class EEDeposits {
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			if(activeProcessor.getType().equals(DepositType.VANILLA.getType())) {
 				var model = ((VanillaDepositProcessor) activeProcessor).getVanillaModel();
-				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
-					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
+//				if (model.getConfig().getPlacementChance() < 1 || model.getConfig().getPlacementChance() > 100)
+//					throw new IllegalArgumentException("Chance for " + model.getName() + " is out of Range [1-100]");
 				RegistryObject<VanillaOreFeature> vanillaOreFeature = FEATURES.register(model.getName(), () -> new VanillaOreFeature(model, this.loader.getDataRegistry()));
 		        RegistryObject<ConfiguredFeature<?, ?>> oreFeature = ORE_FEATURES.register(model.getName(),
 				        () -> new ConfiguredFeature<>(vanillaOreFeature.get(), new NoneFeatureConfiguration())
 		        );
 
-				HeightRangePlacement placement = model.getConfig().getPlacement().equals("uniform") ?
-						HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel())) :
-						HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getConfig().getMinYLevel()), VerticalAnchor.absolute(model.getConfig().getMaxYLevel()));
+				HeightRangePlacement placement = model.getPlacement().equals("uniform") ?
+						HeightRangePlacement.uniform(VerticalAnchor.absolute(model.getMinYLevel()), VerticalAnchor.absolute(model.getMaxYLevel())) :
+						HeightRangePlacement.triangle(VerticalAnchor.absolute(model.getMinYLevel()), VerticalAnchor.absolute(model.getMaxYLevel()));
 
 		        PLACED_ORE_FEATURES.register(
 		                model.getName(), () -> new PlacedFeature(oreFeature.getHolder().get(),
-						        model.getConfig().getRarity().equals("common") ?
-								         WorldGenHelper.commonOrePlacement(model.getConfig().getPlacementChance(), placement) :
-								         WorldGenHelper.rareOrePlacement(model.getConfig().getPlacementChance(), placement)
+						        model.getRarity().equals("common") ?
+								         WorldGenHelper.commonOrePlacement(model.getPlacementChance(), placement) :
+								         WorldGenHelper.rareOrePlacement(model.getPlacementChance(), placement)
 				        )
 		        );
 			}

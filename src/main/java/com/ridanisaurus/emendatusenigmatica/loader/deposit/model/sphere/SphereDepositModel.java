@@ -24,9 +24,6 @@ public class SphereDepositModel extends CommonDepositModelBase {
 		this.config = config;
 	}
 
-	public SphereDepositConfigModel getConfig() {
-		return config;
-	}
 	public String getType() {
 		return super.getType();
 	}
