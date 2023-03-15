@@ -58,7 +58,7 @@ public class DikeDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getSize() {
-		if (config.size < 1 || config.size > 16) throw new IllegalArgumentException("Size for " + name + " is out of Range [1 - 16]");
+//		if (config.size < 1 || config.size > 16) throw new IllegalArgumentException("Size for " + name + " is out of Range [1 - 16]");
 		return config.size;
 	}
 

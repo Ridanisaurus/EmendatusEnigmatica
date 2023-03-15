@@ -19,14 +19,29 @@
     "clump",
     "dirty_dust",
     "fragment",
-    "gravel"
+    "gravel",
+    "gas",
+    "crushed_ore"
   ],
   "properties": {
     "materialType": "metal",
     "harvestLevel": 3,
     "hasOxidization": true
   },
+  "gas": {
+    "isBurnable": true,
+    "burnTime": 40,
+    "energyDensity": 200,
+    "isRadioactive": true,
+    "radioactivity": 0.5,
+    "isCoolant": true,
+    "coolantType": "heated",
+    "thermalEnthalpy": 0.4,
+    "conductivity": 0.7
+  },
   "colors": {
-    "fluidColor": "d1d1a5"
+    "fluidColor": "d1d1a5",
+    "gasColor": "c8c85c",
+    "oxidizationColor": "50aa91"
   }
 }

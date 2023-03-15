@@ -1,4 +1,6 @@
-#Emendatus Enigmatica
-####MC 1.19.2 | Version 2.1.3
+# Emendatus Enigmatica
+#### MC 1.19.2 | Version 2.1.4
 
-* Increased the Dense Deposit's size range to [1-48]
+* Add support for different Placement and Rarity for non-Vanilla Deposits.
+* Fixed a log error regarding tag files generating empty.
+* Added a way to limit materials in a dike between custom Y-levels.

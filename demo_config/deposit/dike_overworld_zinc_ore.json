@@ -1,0 +1,20 @@
+{
+  "type": "emendatusenigmatica:dike_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": ["#minecraft:is_overworld"],
+  "registryName": "dike_overworld_zinc_ore_deposit",
+  "config": {
+    "blocks": [
+      { "material": "zinc", "weight": 3 }
+    ],
+    "fillerTypes": [ "minecraft_stone" ],
+    "chance": 75,
+    "size": 64,
+    "minYLevel": 125,
+    "maxYLevel": 256,
+    "generateSamples": false,
+    "sampleBlocks": [
+      { "material": "zinc", "weight": 1 , "strata":  "minecraft_stone" }
+    ]
+  }
+}

@@ -17,7 +17,7 @@ public class SphereDepositConfigModel {
 			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
 			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
-			Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity),
+			Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, SphereDepositConfigModel::new));

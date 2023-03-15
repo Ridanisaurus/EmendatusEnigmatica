@@ -1,0 +1,11 @@
+{
+  "id": "minecraft_air",
+  "baseTexture": "minecraft:block/stone",
+  "suffix": "air",
+  "fillerType": "minecraft:air",
+  "localizedName": "Air",
+  "harvestTool": "shovel",
+  "hardness": 0.5,
+  "resistance": 0.7,
+  "sampleStrata": true
+}

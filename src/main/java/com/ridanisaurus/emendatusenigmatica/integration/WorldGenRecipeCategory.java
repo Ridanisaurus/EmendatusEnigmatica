@@ -138,6 +138,7 @@ public class WorldGenRecipeCategory implements IRecipeCategory<WorldGenRecipeCat
 		String minY = ChatFormatting.DARK_AQUA + "Min Y: " + ChatFormatting.DARK_GRAY + recipe.getMinY();
 		String maxY = ChatFormatting.DARK_AQUA + "Max Y: " + ChatFormatting.DARK_GRAY + recipe.getMaxY();
 		String chance = ChatFormatting.DARK_AQUA + "Chance: " + ChatFormatting.DARK_GRAY + recipe.getChance() + "%";
+		// TODO: Add Rarity?
 		Minecraft.getInstance().font.draw(matrix, featureType, 5, 30, 0);
 		Minecraft.getInstance().font.draw(matrix, minY, 5, 30 + 12, 0);
 		Minecraft.getInstance().font.draw(matrix, maxY, 75, 30 + 12, 0);
