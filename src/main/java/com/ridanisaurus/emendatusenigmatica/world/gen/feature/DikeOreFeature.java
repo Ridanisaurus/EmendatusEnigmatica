@@ -67,9 +67,9 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
         WorldGenLevel level = config.level();
 
         WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(level.getSeed()));
-        NormalNoise normalNoise = NormalNoise.create(worldgenRandom, -3, 3.0D); // INT Sparseness - DOUBLE ARRAY Density
+        NormalNoise normalNoise = NormalNoise.create(worldgenRandom, -2, 4.0D); // INT Sparseness - DOUBLE ARRAY Density
         ChunkPos chunkPos = new ChunkPos(pos);
-
+        int size = model.getSize();
         int xPos = chunkPos.getMinBlockX() + level.getRandom().nextInt(16);
         int zPos = chunkPos.getMinBlockZ() + level.getRandom().nextInt(16);
 
@@ -79,7 +79,6 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
         BlockPos basePos = new BlockPos(xPos, yBottom, zPos);
 
         // TODO: Figure out the Size and other Parameters
-        int size = model.getSize();
 
         for (int dY = yBottom; dY <= yTop; dY++) {
             for (int dX = -size; dX <= size; dX++) {
@@ -94,6 +93,11 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
                 }
             }
         }
+//        for (int dY = yBottom; dY <= yTop; dY++) {
+//            if (normalNoise.getValue(basePos.getX(), dY, basePos.getZ()) >= 0.5) {
+//                placeBlock(level, rand, new BlockPos(basePos.getX(), dY, basePos.getZ()), config);
+//            }
+//        }
         if (rand.nextInt(100) < model.getChance() && !sampleBlocks.isEmpty()) {
             placeSurfaceSample(rand, pos, level);
         }
@@ -110,11 +114,15 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
             if (commonBlockDefinitionModel.getBlock() != null) {
                 Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
-                level.setBlock(pos, block.defaultBlockState(), 2);
+                if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+                    level.setBlock(pos, block.defaultBlockState(), 2);
+                }
             } else if (commonBlockDefinitionModel.getTag() != null) {
                 ITag<Block> blockITag = ForgeRegistries.BLOCKS.tags().getTag(EETags.getBlockTag(new ResourceLocation(commonBlockDefinitionModel.getTag())));
                 blockITag.getRandomElement(rand).ifPresent(block -> {
-                    level.setBlock(pos, block.defaultBlockState(), 2);
+                    if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+                        level.setBlock(pos, block.defaultBlockState(), 2);
+                    }
                 });
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
                 BlockState currentFiller = level.getBlockState(pos);
@@ -123,7 +131,9 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
                 if (strataIndex != null) {
                     StrataModel stratum = registry.getStrata().get(strataIndex);
                     Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
-                    level.setBlock(pos, block.defaultBlockState(), 2);
+                    if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+                        level.setBlock(pos, block.defaultBlockState(), 2);
+                    }
                 }
             }
             placed = true;

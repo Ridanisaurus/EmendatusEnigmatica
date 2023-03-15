@@ -15,16 +15,29 @@
     "fluid",
     "fragment",
     "gravel",
-    "slurry"
+    "slurry",
+    "gas",
+    "crushed_ore"
   ],
   "properties": {
     "materialType": "metal",
     "harvestLevel": 4,
     "isBurnable": true,
     "burnTime": 3200,
-    "isEmissive": true
+    "isEmissive": true,
+    "hasOxidization": true
+  },
+  "gas": {
+    "isRadioactive": true,
+    "radioactivity": 0.9,
+    "isCoolant": true,
+    "coolantType": "cooled",
+    "thermalEnthalpy": 0.2,
+    "conductivity": 0.3
   },
   "colors": {
-    "fluidColor": "00FF00"
+    "fluidColor": "799c46",
+    "gasColor":"98b350",
+    "oxidizationColor": "781c22"
   }
 }

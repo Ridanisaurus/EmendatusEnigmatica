@@ -1,0 +1,20 @@
+{
+  "type": "emendatusenigmatica:dense_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": ["#minecraft:is_overworld"],
+  "registryName": "dense_overworld_arcane_ore_deposit",
+  "config": {
+    "blocks": [
+      { "material": "arcane", "weight": 3 }
+    ],
+    "fillerTypes": [ "minecraft_air" ],
+    "chance": 100,
+    "size": 32,
+    "minYLevel": -64,
+    "maxYLevel": 320,
+    "generateSamples": true,
+    "sampleBlocks": [
+      { "material": "arcane", "weight": 1 , "strata":  "minecraft_sand" }
+    ]
+  }
+}

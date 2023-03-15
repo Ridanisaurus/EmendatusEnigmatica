@@ -6,5 +6,6 @@
   "localizedName": "Sand",
   "harvestTool": "shovel",
   "hardness": 0.5,
-  "resistance": 0.7
+  "resistance": 0.7,
+  "sampleStrata": true
 }

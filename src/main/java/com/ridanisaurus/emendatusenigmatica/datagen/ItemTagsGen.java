@@ -222,33 +222,35 @@ public class ItemTagsGen extends EETagProvider {
 				}
 			}
 		}
-		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores/" + material)));
-		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores_in_ground/" + strataPrefix)));
+		if (!oresPerMaterial.isEmpty())	oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores/" + material)));
+		if (!oresInGround.isEmpty()) oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores_in_ground/" + strataPrefix)));
 
-		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks"));
-		new TagBuilder().tags(forgeIngots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ingots"));
-		new TagBuilder().tags(forgeGems).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gems"));
-		new TagBuilder().tags(forgeNuggets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/nuggets"));
-		new TagBuilder().tags(forgeDusts).save(consumer, new ResourceLocation(Reference.FORGE, "/items/dusts"));
-		new TagBuilder().tags(forgePlates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/plates"));
-		new TagBuilder().tags(forgeGears).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gears"));
-		new TagBuilder().tags(forgeRods).save(consumer, new ResourceLocation(Reference.FORGE, "/items/rods"));
-		new TagBuilder().tags(forgeRaw).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials"));
-		new TagBuilder().tags(forgeSwords).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/swords"));
-		new TagBuilder().tags(forgePickaxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/pickaxes"));
-		new TagBuilder().tags(forgeAxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/axes"));
-		new TagBuilder().tags(forgeShovels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/shovels"));
-		new TagBuilder().tags(forgeHoes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/hoes"));
-		new TagBuilder().tags(forgePaxels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/paxels"));
-		new TagBuilder().tags(forgeTools).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools"));
-		new TagBuilder().tags(forgeHelmets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/helmets"));
-		new TagBuilder().tags(forgeChestplates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/chestplates"));
-		new TagBuilder().tags(forgeLeggings).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/leggings"));
-		new TagBuilder().tags(forgeBoots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/boots"));
-		new TagBuilder().tags(forgeBuckets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets"));
-		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores"));
+		if (!forgeBlocks.isEmpty()) new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/items/storage_blocks"));
+		if (!forgeIngots.isEmpty()) new TagBuilder().tags(forgeIngots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ingots"));
+		if (!forgeGems.isEmpty()) new TagBuilder().tags(forgeGems).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gems"));
+		if (!forgeNuggets.isEmpty()) new TagBuilder().tags(forgeNuggets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/nuggets"));
+		if (!forgeDusts.isEmpty()) new TagBuilder().tags(forgeDusts).save(consumer, new ResourceLocation(Reference.FORGE, "/items/dusts"));
+		if (!forgePlates.isEmpty()) new TagBuilder().tags(forgePlates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/plates"));
+		if (!forgeGears.isEmpty()) new TagBuilder().tags(forgeGears).save(consumer, new ResourceLocation(Reference.FORGE, "/items/gears"));
+		if (!forgeRods.isEmpty()) new TagBuilder().tags(forgeRods).save(consumer, new ResourceLocation(Reference.FORGE, "/items/rods"));
+		if (!forgeRaw.isEmpty()) new TagBuilder().tags(forgeRaw).save(consumer, new ResourceLocation(Reference.FORGE, "/items/raw_materials"));
+		if (!forgeSwords.isEmpty()) new TagBuilder().tags(forgeSwords).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/swords"));
+		if (!forgePickaxes.isEmpty()) new TagBuilder().tags(forgePickaxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/pickaxes"));
+		if (!forgeAxes.isEmpty()) new TagBuilder().tags(forgeAxes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/axes"));
+		if (!forgeShovels.isEmpty()) new TagBuilder().tags(forgeShovels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/shovels"));
+		if (!forgeHoes.isEmpty()) new TagBuilder().tags(forgeHoes).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/hoes"));
+		if (!forgePaxels.isEmpty()) new TagBuilder().tags(forgePaxels).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools/paxels"));
+		if (!forgeTools.isEmpty()) new TagBuilder().tags(forgeTools).save(consumer, new ResourceLocation(Reference.FORGE, "/items/tools"));
+		if (!forgeHelmets.isEmpty()) new TagBuilder().tags(forgeHelmets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/helmets"));
+		if (!forgeChestplates.isEmpty()) new TagBuilder().tags(forgeChestplates).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/chestplates"));
+		if (!forgeLeggings.isEmpty()) new TagBuilder().tags(forgeLeggings).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/leggings"));
+		if (!forgeBoots.isEmpty()) new TagBuilder().tags(forgeBoots).save(consumer, new ResourceLocation(Reference.FORGE, "/items/armors/boots"));
+		if (!forgeBuckets.isEmpty()) new TagBuilder().tags(forgeBuckets).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets"));
+		if (!forgeOres.isEmpty()) new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/items/ores"));
 
-		new TagBuilder().tags(beaconIngots).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/items/beacon_payment_items"));
+		if (!beaconIngots.isEmpty()) new TagBuilder().tags(beaconIngots).save(consumer, new ResourceLocation(Reference.MINECRAFT, "/items/beacon_payment_items"));
+
+		// TODO: Add Tag list check for Addons
 	}
 
 	@Override

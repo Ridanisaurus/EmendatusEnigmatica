@@ -1,24 +1,23 @@
 {
   "type": "emendatusenigmatica:sphere_deposit",
   "dimension": "minecraft:overworld",
-  "biomes": ["minecraft:dark_forest", "minecraft:savanna", "minecraft:desert"],
+  "biomes": ["#minecraft:is_overworld"],
   "registryName": "sphere_overworld_gold_ore_deposit",
   "config": {
     "blocks": [
-      { "block": "minecraft:gold_block", "weight": 2 },
-      { "tag": "forge:ores/uranium", "weight": 1 },
-      { "material": "arcane", "weight": 3 }
+      { "block": "minecraft:amethyst_block", "weight": 2 },
+      { "material": "enderite", "weight": 3 }
     ],
-    "fillerTypes": [ "minecraft_stone", "minecraft_andesite", "minecraft_diorite", "minecraft_granite" ],
+    "fillerTypes": [ "minecraft_stone" ],
     "chance": 75,
-    "radius": 5,
-    "minYLevel": 32,
-    "maxYLevel": 128,
-    "generateSamples": true,
+    "radius": 10,
+    "minYLevel": 0,
+    "maxYLevel": 256,
+    "generateSamples": false,
     "sampleBlocks": [
       { "material": "uranium", "weight": 1 , "strata":  "minecraft_stone" },
       { "material": "gold", "weight": 2, "strata": "minecraft_stone" },
-      { "material": "osmium", "weight": 3, "strata": "minecraft_stone" }
+      { "material": "enderite", "weight": 3, "strata": "minecraft_stone" }
     ]
   }
 }

@@ -26,19 +26,23 @@
     "axe",
     "shovel",
     "hoe",
-    "paxel"
+    "paxel",
+    "cluster"
   ],
   "properties": {
     "materialType": "metal",
     "harvestLevel": 1,
     "hasParticles": true,
     "isBurnable": true,
-    "burnTime": 3600
+    "burnTime": 3600,
+    "hasOxidization": true,
+    "isEmissive": true
   },
   "colors": {
-    "fluidColor": "c87456",
-    "particlesColor": "c87456",
-    "materialColor": "c87456"
+    "fluidColor": "cc6d51",
+    "particlesColor": "cc6d51",
+    "materialColor": "cc6d51",
+    "oxidizationColor": "50aa91"
   },
   "compat": {
     "thermal": false,

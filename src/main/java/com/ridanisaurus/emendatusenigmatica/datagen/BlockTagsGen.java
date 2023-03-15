@@ -86,11 +86,11 @@ public class BlockTagsGen extends EETagProvider {
 			}
 
 		}
-		oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + material)));
-		oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores_in_ground/" + strataPrefix)));
+		if (!oresPerMaterial.isEmpty()) oresPerMaterial.forEach((material, oreList) -> new TagBuilder().tags(oreList).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores/" + material)));
+		if (!oresInGround.isEmpty()) oresInGround.forEach((strataPrefix, oreType) -> new TagBuilder().tags(oreType).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores_in_ground/" + strataPrefix)));
 
-		new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks"));
-		new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores"));
+		if (!forgeBlocks.isEmpty()) new TagBuilder().tags(forgeBlocks).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/storage_blocks"));
+		if (!forgeOres.isEmpty()) new TagBuilder().tags(forgeOres).save(consumer, new ResourceLocation(Reference.FORGE, "/blocks/ores"));
 	}
 
 	@Override

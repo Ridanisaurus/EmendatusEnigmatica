@@ -53,7 +53,7 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getPlacementChance() {
-		return (100 - getChance()) + 1;
+		return config.rarity.equals("rare") ? (100 - getChance()) + 1 : getChance();
 	}
 
 	public double getCrackChance() {
@@ -80,6 +80,16 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 		// TODO: Check to see if this can be empty
 		if (config.fillBlocks.isEmpty()) throw new IllegalArgumentException("Fill Blocks for " + name + " cannot be empty.");
 		return config.fillBlocks;
+	}
+
+	public String getPlacement() {
+		if (!config.placement.equals("uniform") && !config.placement.equals("triangle")) throw new IllegalArgumentException("Placement for " + name + " is invalid.");
+		return config.placement;
+	}
+
+	public String getRarity() {
+		if (!config.rarity.equals("common") && !config.rarity.equals("rare")) throw new IllegalArgumentException("Rarity for " + name + " is invalid.");
+		return config.rarity;
 	}
 
 	public boolean getGenerateSamples() {

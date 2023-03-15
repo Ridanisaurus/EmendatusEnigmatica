@@ -1,0 +1,88 @@
+{
+  "id": "enderite",
+  "source": "modded",
+  "localizedName": "Enderite",
+  "processedTypes": [
+    "ore",
+    "dust",
+    "fluid",
+    "gem",
+    "slurry",
+    "crystal",
+    "shard",
+    "clump",
+    "dirty_dust",
+    "fragment",
+    "gravel",
+    "storage_block",
+    "raw",
+    "sword",
+    "pickaxe",
+    "axe",
+    "shovel",
+    "hoe",
+    "paxel",
+    "helmet",
+    "chestplate",
+    "leggings",
+    "boots",
+    "shield",
+    "cluster"
+  ],
+  "properties": {
+    "materialType": "gem",
+    "harvestLevel": 0,
+    "isBurnable": true,
+    "burnTime": 1600,
+    "blockRecipeType": 4,
+    "hasParticles": true,
+    "gemTexture": 7,
+    "hasOxidization": true,
+    "isEmissive": true
+  },
+  "colors": {
+    "fluidColor": "381c61",
+    "materialColor": "381c61",
+    "particlesColor": "381c61",
+    "oxidizationColor": "0d0f3c"
+  },
+  "oreDrop": {
+    "min": 2,
+    "max": 6
+  },
+  "compat": {
+    "thermal": true,
+    "create": false,
+    "occultism": false
+  },
+  "tools": {
+    "level": 2,
+    "attackDamage": 4.0,
+    "enchantability": 14,
+    "efficiency": 4.0,
+    "sword": { "damage": 3.2, "speed":  -2.4, "durability": 1024 },
+    "pickaxe": { "damage": 2.5, "speed":  -1.3, "durability": 1024 },
+    "axe": { "damage": 3.4, "speed":  -2.2, "durability": 1024 },
+    "shovel": { "damage": 2.1, "speed":  -2.1, "durability": 1024 },
+    "hoe": { "damage": 1.7, "speed":  -1.2, "durability": 1024 },
+    "paxel": { "damage": 5, "speed": -2.1, "durability": 2048 }
+  },
+  "armor": {
+    "setArmor": true,
+    "effects": [
+      {"effect": "undergarden:virulent_resistance", "level": 2, "showParticles": false},
+      {"effect": "minecraft:night_vision", "level": 1, "showParticles": false},
+      {"effect": "minecraft:absorption", "level": 3, "showParticles":  false}
+    ],
+    "setName": "Armor of Anti-Burny-Ouchie",
+    "setDesc": "Provides its wearer a complete immunity to the toxic Virulent effect in the Undergarden.",
+    "enchantability": 14,
+    "toughness": 3.0,
+    "knockback": 0.1,
+    "helmet": { "protection": 4, "durability": 330 },
+    "chestplate": { "protection": 8, "durability": 480 },
+    "leggings": { "protection": 6, "durability": 450 },
+    "boots": { "protection": 3, "durability": 390 },
+    "shield": { "durability": 675 }
+  }
+}

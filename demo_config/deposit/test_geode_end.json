@@ -1,0 +1,62 @@
+{
+  "type": "emendatusenigmatica:geode_deposit",
+  "dimension": "minecraft:the_nether",
+  "biomes": [
+  ],
+  "registryName": "geode_nether_quartz_deposit",
+  "config": {
+    "outerShellBlocks": [
+      {
+        "block": "minecraft:smooth_basalt",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:netherrack",
+        "weight": 2
+      }
+    ],
+    "innerShellBlocks": [
+      {
+        "block": "minecraft:polished_blackstone",
+        "weight": 10
+      },
+      {
+        "block": "minecraft:soul_soil",
+        "weight": 3
+      },
+      {
+        "block": "minecraft:netherrack",
+        "weight": 2
+      }
+    ],
+    "innerBlocks": [
+      {
+        "block": "emendatusenigmatica:osmium_cluster_shard_block",
+        "weight": 10
+      },
+      {
+        "block": "emendatusenigmatica:budding_osmium",
+        "weight": 1
+      }
+    ],
+    "fillBlocks": [
+      {
+        "block": "minecraft:air",
+        "weight": 10
+      }
+    ],
+    "clusters": [
+      "emendatusenigmatica:small_osmium_bud",
+      "emendatusenigmatica:medium_osmium_bud",
+      "emendatusenigmatica:large_osmium_bud"
+    ],
+    "fillerTypes": [
+      "minecraft_netherrack",
+      "minecraft_blackstone"
+    ],
+    "chance": 50,
+    "crackChance": 0.65,
+    "minYLevel": 0,
+    "maxYLevel": 128
+  }
+}

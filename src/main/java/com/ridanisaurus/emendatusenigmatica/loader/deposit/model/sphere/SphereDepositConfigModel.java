@@ -16,6 +16,8 @@ public class SphereDepositConfigModel {
 			Codec.INT.fieldOf("radius").orElse(0).forGetter(it -> it.radius),
 			Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
 			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
+			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
+			Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
 			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, SphereDepositConfigModel::new));
@@ -26,16 +28,20 @@ public class SphereDepositConfigModel {
 	public final int radius;
 	public final int minYLevel;
 	public final int maxYLevel;
+	public final String placement;
+	public final String rarity;
 	public final boolean generateSamples;
 	public final List<SampleBlockDefinitionModel> sampleBlocks;
 
-	public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
+	public SphereDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int radius, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.blocks = blocks;
 		this.chance = chance;
 		this.radius = radius;
 		this.minYLevel = minYLevel;
 		this.maxYLevel = maxYLevel;
 		this.fillerTypes = fillerTypes;
+		this.placement = placement;
+		this.rarity = rarity;
 		this.generateSamples = generateSamples;
 		this.sampleBlocks = sampleBlocks;
 	}
