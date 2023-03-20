@@ -38,5 +38,5 @@ mc_version=1.19.2
 ```
 
 # Integration [For EEV1 - Minecraft 1.16] #
-The wonderful folks at AVSP have created KubeJS Scripts to help integrating Emendatus Enimgatica with your modpack.
+The wonderful folks at AVSP have created KubeJS Scripts to help integrating Emendatus Enigmatica with your modpack.
 [![AVSP EE Scripts](https://i.imgur.com/CquGD8Q.png)](https://www.curseforge.com/minecraft/customization/avsps-easy-emendatus-enigmatica-scripts)
