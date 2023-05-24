@@ -45,10 +45,10 @@ public class LangGen extends EELangProvider {
 	@Override
 	protected void addTranslations() {
 		// Item Group
-		add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
-
-		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
-		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
+//		add("itemGroup." + Reference.MOD_ID, Reference.MOD_NAME);
+//
+//		add(EERegistrar.ENIGMATIC_HAMMER.get(), "Enigmatic Hammer");
+//		add(EERegistrar.FELINIUM_JAMINITE.get(), "Felinium Jaminite Ingot");
 
 		for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();

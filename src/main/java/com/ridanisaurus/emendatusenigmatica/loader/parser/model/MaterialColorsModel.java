@@ -32,6 +32,7 @@ import org.checkerframework.checker.units.qual.C;
 import java.util.Optional;
 
 public class MaterialColorsModel {
+	// TODO 3.0: Change gasColor to chemicalColor
 	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
 			Codec.STRING.optionalFieldOf("gasColor").forGetter(i -> Optional.of(i.gasColor)),
