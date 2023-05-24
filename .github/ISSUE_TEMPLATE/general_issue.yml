@@ -44,7 +44,8 @@ body:
       description: What version of Emendatus Enigmatica are you using?
       options:
         - Current Dev Branch (Manually Compiled)
-        - 2.0.x (Latest)
+        - 2.0.x
+        - 2.1.x (Latest)
         - Older
     validations:
       required: true
