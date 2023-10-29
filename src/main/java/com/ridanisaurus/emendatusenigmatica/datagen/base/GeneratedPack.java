@@ -40,7 +40,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GeneratedPack implements PackResources {
@@ -105,12 +104,8 @@ public class GeneratedPack implements PackResources {
     @Override
     public Set<String> getNamespaces(PackType type) {
         Set<String> result = new HashSet<>();
-        try {
-            Stream<Path> list = Files.list(path.resolve(type.getDirectory()));
-            for (Path resultingPath : list.collect(Collectors.toList())) {
-                result.add(resultingPath.getFileName().toString());
-            }
-
+        try (Stream<Path> list = Files.list(path.resolve(type.getDirectory()))) {
+            for (Path resultingPath : list.toList()) result.add(resultingPath.getFileName().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +114,7 @@ public class GeneratedPack implements PackResources {
 
     @Nullable
     @Override
-    public <T> T getMetadataSection(MetadataSectionSerializer<T> deserializer) throws IOException {
+    public <T> T getMetadataSection(MetadataSectionSerializer<T> deserializer) {
         JsonObject jsonobject = new JsonObject();
         JsonObject packObject = new JsonObject();
         packObject.addProperty("pack_format", 9);
