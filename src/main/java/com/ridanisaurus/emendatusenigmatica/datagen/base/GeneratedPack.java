@@ -78,20 +78,20 @@ public class GeneratedPack implements PackResources {
     }
 
     private void getChildResourceLocations(List<ResourceLocation> result, int depth, Predicate<ResourceLocation> filter, Path current, String currentRLNS, String currentRLPath) {
-        try {
-            if (!Files.exists(current) || !Files.isDirectory(current)){
-                return;
-            }
-            Stream<Path> list = Files.list(current);
-            for (Path child : list.collect(Collectors.toList())) {
+        if (!Files.exists(current) || !Files.isDirectory(current)){
+            return;
+        }
+        try (Stream<Path> list = Files.list(current)) {
+            for (Path child : list.toList()) {
                 if (!Files.isDirectory(child)) {
-                    result.add(new ResourceLocation(currentRLNS, currentRLPath + "/" + child.getFileName()));
-                    continue;
+                    ResourceLocation loc = new ResourceLocation(currentRLNS, currentRLPath + "/" + child.getFileName());
+                    if (filter.test(loc)) result.add(loc);
+                } else {
+                    getChildResourceLocations(result, depth + 1, filter, child, currentRLNS, currentRLPath + "/" + child.getFileName());
                 }
-                getChildResourceLocations(result, depth + 1, filter, child, currentRLNS, currentRLPath + "/" + child.getFileName());
             }
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
