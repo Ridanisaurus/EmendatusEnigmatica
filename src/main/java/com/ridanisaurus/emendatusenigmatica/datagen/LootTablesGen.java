@@ -94,43 +94,79 @@ public class LootTablesGen extends EELootProvider {
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("metal")) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								oreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
-						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
-										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
-						);
+						if (material.getOreDrop().isUniformCount()) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									oreUniformedDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+											(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+											UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+							);
+						}
+						else {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									oreCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+											(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+											UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+							);
+						}
 					}
 				}
 				if (processedType.contains("ore") && material.getProperties().getMaterialType().equals("gem")) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+								oreDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
-						blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
-										(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
-										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
-						);
+						if (material.getOreDrop().isUniformCount()) {
+							blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+									oreUniformedDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+											(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+											UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+							);
+						}
+						else {
+							if (material.getOreDrop().isUniformCount()) {
+								blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										oreUniformedDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+												(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+												UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+								);
+							}
+							else {
+								blockLootTable.put(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+										oreCountDrop(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(),
+												(processedType.contains("gem") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.gemMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+												UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+								);
+							}
+						}
 					}
 				}
 				if (processedType.contains("ore") && stratum.getSampleStrata()) {
 					if (material.getOreDrop().getMax() == 1) {
 						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+								oreDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
 										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem().asItem()))
 						);
 					} else {
-						blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
-								specialCountDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
-										(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
-										UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
-						);
+						if (material.getOreDrop().isUniformCount()) {
+							blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+									oreUniformedDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+											(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+											UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+							);
+						}
+						else {
+							blockLootTable.put(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+									oreCountDrop(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(),
+											(processedType.contains("raw") && material.getOreDrop().getDrop().isEmpty() ? EERegistrar.rawMap.get(material.getId()).get() : material.getOreDrop().getDefaultItemDropAsItem()),
+											UniformGenerator.between(material.getOreDrop().getMin(), material.getOreDrop().getMax()))
+							);
+						}
 					}
 				}
 			}

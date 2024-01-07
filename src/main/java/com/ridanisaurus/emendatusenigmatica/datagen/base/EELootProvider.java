@@ -35,7 +35,6 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -119,7 +118,7 @@ public abstract class EELootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder specialDrop(Block block, Item item) {
+	protected static LootTable.Builder oreDrop(Block block, Item item) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
 				.setRolls(ConstantValue.exactly(1))
 				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
@@ -129,12 +128,23 @@ public abstract class EELootProvider extends LootTableProvider {
 		);
 	}
 
-	protected static LootTable.Builder specialCountDrop(Block block, ItemLike item, UniformGenerator range) {
+	protected static LootTable.Builder oreCountDrop(Block block, ItemLike item, UniformGenerator range) {
 		return LootTable.lootTable().withPool(LootPool.lootPool()
-				.setRolls(ConstantValue.exactly(1))
+				.setRolls(ConstantValue.exactly(1.0F))
 				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
-						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
 						.apply(SetItemCountFunction.setCount(range))
+						.apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+						.apply(ApplyExplosionDecay.explosionDecay())
+				))
+		);
+	}
+
+	protected static LootTable.Builder oreUniformedDrop(Block block, ItemLike item, UniformGenerator range) {
+		return LootTable.lootTable().withPool(LootPool.lootPool()
+				.setRolls(ConstantValue.exactly(1.0F))
+				.add(LootItem.lootTableItem(block).when(HAS_SILK_TOUCH).otherwise(LootItem.lootTableItem(item.asItem())
+						.apply(SetItemCountFunction.setCount(range))
+						.apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE))
 						.apply(ApplyExplosionDecay.explosionDecay())
 				))
 		);
