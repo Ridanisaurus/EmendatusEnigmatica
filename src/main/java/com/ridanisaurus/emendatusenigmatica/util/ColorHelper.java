@@ -28,7 +28,7 @@ import java.awt.*;
 
 public class ColorHelper {
 	public static int HEXtoDEC(String hex) {
-		return Integer.parseInt(hex, 16);
+		return Integer.parseInt(hex, 16) | 0xFF000000;
 	}
 
 	public static Color HEXtoColor(String hex) {

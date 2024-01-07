@@ -36,27 +36,32 @@ public class MaterialOreDropModel {
 	public static final Codec<MaterialOreDropModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("drop").forGetter(i -> Optional.ofNullable(i.drop)),
 			Codec.INT.optionalFieldOf("min").forGetter(i -> Optional.of(i.min)),
-			Codec.INT.optionalFieldOf("max").forGetter(i -> Optional.of(i.max))
-	).apply(x, (drop, min, max) -> new MaterialOreDropModel(
+			Codec.INT.optionalFieldOf("max").forGetter(i -> Optional.of(i.max)),
+			Codec.BOOL.optionalFieldOf("uniformCount").forGetter(i -> Optional.of(i.uniformCount))
+	).apply(x, (drop, min, max, uniformCount) -> new MaterialOreDropModel(
 			drop.orElse(""),
 			min.orElse(1),
-			max.orElse(1)
+			max.orElse(1),
+			uniformCount.orElse(false)
 	)));
 
 	private final String drop;
 	private final int min;
 	private final int max;
+	private final boolean uniformCount;
 
-	public MaterialOreDropModel(String drop, int min, int max) {
+	public MaterialOreDropModel(String drop, int min, int max, boolean uniformCount) {
 		this.drop = drop;
 		this.min = min;
 		this.max = max;
+		this.uniformCount = uniformCount;
 	}
 
 	public MaterialOreDropModel() {
 		this.drop = "";
 		this.min = 1;
 		this.max = 1;
+		this.uniformCount = false;
 	}
 
 	public String getDrop() {
@@ -69,6 +74,10 @@ public class MaterialOreDropModel {
 
 	public int getMax() {
 		return max;
+	}
+
+	public boolean isUniformCount() {
+		return uniformCount;
 	}
 
 	public ItemLike getDefaultItemDropAsItem() {
