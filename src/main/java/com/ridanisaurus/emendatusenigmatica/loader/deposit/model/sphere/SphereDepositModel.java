@@ -72,12 +72,12 @@ public class SphereDepositModel extends CommonDepositModelBase {
 		return config.rarity;
 	}
 
-	public boolean getGenerateSamples() {
+	public boolean hasSamples() {
 		return config.generateSamples;
 	}
 
 	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		if (getGenerateSamples() && config.sampleBlocks.isEmpty()) throw new IllegalArgumentException("Sample Blocks for " + name + " cannot be empty if generateSamples is set to true.");
+		if (hasSamples() && config.sampleBlocks.isEmpty()) throw new IllegalArgumentException("Sample Blocks for " + name + " cannot be empty if generateSamples is set to true.");
 		return config.sampleBlocks;
 	}
 }

@@ -5,9 +5,12 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode.GeodeDepositModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class GeodeDepositProcessor implements IDepositProcessor {
@@ -41,5 +44,41 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	@Override
 	public CommonDepositModelBase getCommonModel() {
 		return model;
+	}
+
+	@Override
+	public List<CommonBlockDefinitionModel> getBlocks() {
+		List<CommonBlockDefinitionModel> innerBlocks = model.getInnerBlocks();
+		List<CommonBlockDefinitionModel> fillBlocks = model.getFillBlocks();
+		List<CommonBlockDefinitionModel> innerShellBlocks = model.getInnerShellBlocks();
+		List<CommonBlockDefinitionModel> outerShellBlocks = model.getOuterShellBlocks();
+
+		List<CommonBlockDefinitionModel> mergedList = new ArrayList<>();
+		mergedList.addAll(innerBlocks);
+		mergedList.addAll(fillBlocks);
+		mergedList.addAll(innerShellBlocks);
+		mergedList.addAll(outerShellBlocks);
+		// TODO: If minecraft:air then skip
+		return mergedList;
+	}
+
+	@Override
+	public int getChance() {
+		return model.getChance();
+	}
+
+	@Override
+	public int getMaxY() {
+		return model.getMaxYLevel();
+	}
+
+	@Override
+	public int getMinY() {
+		return model.getMinYLevel();
+	}
+
+	@Override
+	public boolean hasSurfaceSample() {
+		return model.hasSamples();
 	}
 }

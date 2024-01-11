@@ -5,9 +5,11 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.dike.DikeDepositModel;
 
+import java.util.List;
 import java.util.Optional;
 
 public class DikeDepositProcessor implements IDepositProcessor {
@@ -40,5 +42,30 @@ public class DikeDepositProcessor implements IDepositProcessor {
 	@Override
 	public CommonDepositModelBase getCommonModel() {
 		return model;
+	}
+
+	@Override
+	public List<CommonBlockDefinitionModel> getBlocks() {
+		return model.getBlocks();
+	}
+
+	@Override
+	public int getChance() {
+		return model.getChance();
+	}
+
+	@Override
+	public int getMaxY() {
+		return model.getMaxYLevel();
+	}
+
+	@Override
+	public int getMinY() {
+		return model.getMinYLevel();
+	}
+
+	@Override
+	public boolean hasSurfaceSample() {
+		return model.hasSamples();
 	}
 }

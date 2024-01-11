@@ -54,10 +54,14 @@ public class JEIPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipes(@NotNull IRecipeRegistration registration) {
-		for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
-			for (IDepositProcessor activeProcessor : EEDeposits.ACTIVE_PROCESSORS) {
-				registration.addRecipes(WorldGenRecipeCategory.RECIPE, WorldGenRecipeCategory.getWorldGenRecipes(material, activeProcessor));
-			}
+//		for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
+//			for (IDepositProcessor activeProcessor : EEDeposits.ACTIVE_PROCESSORS) {
+//				registration.addRecipes(WorldGenRecipeCategory.RECIPE, WorldGenRecipeCategory.getWorldGenRecipes(material, activeProcessor));
+//			}
+//		}
+
+		for (IDepositProcessor activeProcessor : EEDeposits.ACTIVE_PROCESSORS) {
+			registration.addRecipes(WorldGenRecipeCategory.RECIPE, WorldGenRecipeCategory.getWorldGenRecipes(activeProcessor));
 		}
 	}
 }
