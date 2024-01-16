@@ -13,7 +13,12 @@ public interface IDepositProcessor {
 	List<CommonBlockDefinitionModel> getBlocks();
 
 	int getChance();
+	int getSize();
 	int getMaxY();
 	int getMinY();
 	boolean hasSurfaceSample();
+
+	String getPlacement();
+
+	String getRarity();
 }

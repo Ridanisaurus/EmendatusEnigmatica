@@ -55,6 +55,20 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     }
 
     @Override
+    public int getSize() {
+        int size = model.getSize();
+        if (size >= 1 && size < 6) {
+            return 0; // Small
+        } else if (size >= 6 && size < 11) {
+            return 1; // Average
+        } else if (size >= 11 && size < 17) {
+            return 2; // Large
+        } else {
+            return -1;
+        }
+    }
+
+    @Override
     public int getMaxY() {
         return model.getMaxYLevel();
     }
@@ -67,5 +81,15 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     @Override
     public boolean hasSurfaceSample() {
         return false;
+    }
+
+    @Override
+    public String getPlacement() {
+        return model.getPlacement();
+    }
+
+    @Override
+    public String getRarity() {
+        return model.getRarity();
     }
 }

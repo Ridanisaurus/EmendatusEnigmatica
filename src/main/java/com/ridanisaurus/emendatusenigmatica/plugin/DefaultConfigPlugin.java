@@ -96,10 +96,14 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         for (StrataModel strata : strataModels) {
             for (MaterialModel material : materialModels) {
                 if (material.getProcessedTypes().contains("ore")) {
-                    EERegistrar.registerOre(strata, material);
-                }
-                if (material.getProcessedTypes().contains("ore") && strata.getSampleStrata()) {
-                    EERegistrar.registerOreSample(strata, material);
+                    if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+                        EERegistrar.registerOre(strata, material);
+                    }
+                    if (material.getProcessedTypes().contains("sample")) {
+                        if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+                            EERegistrar.registerSample(strata, material);
+                        }
+                    }
                 }
             }
         }

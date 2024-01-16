@@ -207,18 +207,25 @@ public class ItemTagsGen extends EETagProvider {
 				new TagBuilder().tag(bucket.toString()).save(consumer, new ResourceLocation(Reference.FORGE, "/items/buckets/" + material.getId()));
 			}
 			// Ores
-			for (StrataModel stratum : registry.getStrata()) {
+			for (StrataModel strata : registry.getStrata()) {
 				if (processedType.contains("ore")) {
-					ResourceLocation ore = EERegistrar.oreBlockItemTable.get(stratum.getId(), material.getId()).getId();
-					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
-					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
-					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
-				}
-				if (processedType.contains("ore") && stratum.getSampleStrata()) {
-					ResourceLocation oreSample = EERegistrar.oreSampleBlockItemTable.get(stratum.getId(), material.getId()).getId();
-					if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
-					oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(oreSample.toString());
-					oresInGround.computeIfAbsent(stratum.getSuffix(), s -> new ArrayList<>()).add(oreSample.toString());
+//					ResourceLocation ore = new ResourceLocation("minecraft:stone");
+					if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+						ResourceLocation ore = EERegistrar.oreBlockItemTable.get(strata.getId(), material.getId()).getId();
+						if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+						oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(ore.toString());
+						oresInGround.computeIfAbsent(strata.getSuffix(), s -> new ArrayList<>()).add(ore.toString());
+					}
+
+					if (processedType.contains("sample")) {
+//						ResourceLocation sample = new ResourceLocation("minecraft:stone");
+						if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+							ResourceLocation sample = EERegistrar.oreSampleBlockItemTable.get(strata.getId(), material.getId()).getId();
+							if (!forgeOres.contains("#forge:ores/" + material.getId())) forgeOres.add("#forge:ores/" + material.getId());
+							oresPerMaterial.computeIfAbsent(material.getId(), s -> new ArrayList<>()).add(sample.toString());
+							oresInGround.computeIfAbsent(strata.getSuffix(), s -> new ArrayList<>()).add(sample.toString());
+						}
+					}
 				}
 			}
 		}

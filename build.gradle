@@ -170,11 +170,11 @@ dependencies {
 
     runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
 
-    runtimeOnly fg.deobf("com.ridanisaurus:ee_create_addon:${ee_create}+mc${mc_version}")
-    runtimeOnly fg.deobf("com.ridanisaurus:ee_thermal_addon:${ee_thermal}+mc${mc_version}")
-    runtimeOnly fg.deobf("com.ridanisaurus:ee_mekanism_addon:${ee_mekanism}+mc${mc_version}")
-    runtimeOnly fg.deobf("com.ridanisaurus:ee_occultism_addon:${ee_occultism}+mc${mc_version}")
-    runtimeOnly fg.deobf("com.ridanisaurus:ee_ars_nouveau_addon:${ee_ars_nouveau}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_create_addon:${ee_create}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_thermal_addon:${ee_thermal}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_mekanism_addon:${ee_mekanism}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_occultism_addon:${ee_occultism}+mc${mc_version}")
+//    runtimeOnly fg.deobf("com.ridanisaurus:ee_ars_nouveau_addon:${ee_ars_nouveau}+mc${mc_version}")
 
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
 //    implementation "org.spongepowered:noise:2.0.0-SNAPSHOT"

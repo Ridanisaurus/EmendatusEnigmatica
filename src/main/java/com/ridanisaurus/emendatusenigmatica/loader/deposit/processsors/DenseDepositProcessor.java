@@ -55,6 +55,20 @@ public class DenseDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
+	public int getSize() {
+		int size = model.getSize();
+		if (size >= 1 && size < 17) {
+			return 0; // Small
+		} else if (size >= 17 && size < 33) {
+			return 1; // Average
+		} else if (size >= 33 && size < 49) {
+			return 2; // Large
+		} else {
+			return -1;
+		}
+	}
+
+	@Override
 	public int getMaxY() {
 		return model.getMaxYLevel();
 	}
@@ -67,5 +81,15 @@ public class DenseDepositProcessor implements IDepositProcessor {
 	@Override
 	public boolean hasSurfaceSample() {
 		return model.hasSamples();
+	}
+
+	@Override
+	public String getPlacement() {
+		return model.getPlacement();
+	}
+
+	@Override
+	public String getRarity() {
+		return model.getRarity();
 	}
 }

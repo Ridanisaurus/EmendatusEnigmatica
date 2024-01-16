@@ -318,24 +318,30 @@ public class LangGen extends EELangProvider {
 //				}
 //			}
 
-			for (StrataModel stratum : registry.getStrata()) {
+			for (StrataModel strata : registry.getStrata()) {
 				if (processedType.contains("ore")) {
 					StringBuilder sb = new StringBuilder();
 					sb.append(material.getLocalizedName());
 					sb.append(" Ore");
 
-					if (!stratum.getId().equals("minecraft_stone")) {
+					if (!strata.getId().equals("minecraft_stone")) {
 						sb.append(" - ");
-						sb.append(stratum.getLocalizedName());
+						sb.append(strata.getLocalizedName());
 					}
-					add(EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
-				}
-				if (processedType.contains("ore") && stratum.getSampleStrata()) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(material.getLocalizedName());
-					sb.append(" Rich ");
-					sb.append(stratum.getLocalizedName());
-					add(EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).get(), sb.toString());
+
+					if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+						add(EERegistrar.oreBlockTable.get(strata.getId(), material.getId()).get(), sb.toString());
+					}
+
+					if (processedType.contains("sample")) {
+						StringBuilder sb2 = new StringBuilder();
+						sb2.append(material.getLocalizedName());
+						sb2.append(" Rich ");
+						sb2.append(strata.getLocalizedName());
+						if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+							add(EERegistrar.oreSampleBlockTable.get(strata.getId(), material.getId()).get(), sb2.toString());
+						}
+					}
 				}
 			}
 		}

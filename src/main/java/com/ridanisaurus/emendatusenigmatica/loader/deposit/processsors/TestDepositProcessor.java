@@ -55,6 +55,11 @@ public class TestDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
+	public int getSize() {
+		return 0;
+	}
+
+	@Override
 	public int getMaxY() {
 		return 0;
 	}
@@ -67,5 +72,15 @@ public class TestDepositProcessor implements IDepositProcessor {
 	@Override
 	public boolean hasSurfaceSample() {
 		return false;
+	}
+
+	@Override
+	public String getPlacement() {
+		return "";
+	}
+
+	@Override
+	public String getRarity() {
+		return "";
 	}
 }

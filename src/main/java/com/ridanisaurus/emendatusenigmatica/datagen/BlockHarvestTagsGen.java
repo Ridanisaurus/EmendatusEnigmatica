@@ -98,14 +98,20 @@ public class BlockHarvestTagsGen {
 					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
 					harvestLevelSwitch(material, clusterShardBlock);
 				}
-				for (StrataModel stratum : registry.getStrata()) {
+				for (StrataModel strata : registry.getStrata()) {
 					if (processedType.contains("ore")) {
-						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
+						ResourceLocation ore = new ResourceLocation("minecraft:stone");
+						if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+							ore = EERegistrar.oreBlockTable.get(strata.getId(), material.getId()).getId();
+						}
 						harvestLevelSwitch(material, ore);
-					}
-					if (processedType.contains("ore") && stratum.getSampleStrata()) {
-						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
-						harvestLevelSwitch(material, oreSample);
+						if (processedType.contains("sample")) {
+							ResourceLocation sample = new ResourceLocation("minecraft:stone");
+							if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+								sample = EERegistrar.oreSampleBlockTable.get(strata.getId(), material.getId()).getId();
+							}
+							harvestLevelSwitch(material, sample);
+						}
 					}
 				}
 			}
@@ -189,25 +195,32 @@ public class BlockHarvestTagsGen {
 					ResourceLocation clusterShardBlock = EERegistrar.clusterShardBlockMap.get(material.getId()).getId();
 					pickaxe.add(clusterShardBlock.toString());
 				}
-				for (StrataModel stratum : registry.getStrata()) {
+				for (StrataModel strata : registry.getStrata()) {
 					if(processedType.contains("ore")) {
-						ResourceLocation ore = EERegistrar.oreBlockTable.get(stratum.getId(), material.getId()).getId();
-						switch (stratum.getHarvestTool()) {
-							case "shovel" -> shovel.add(ore.toString());
-							case "hoe" -> hoe.add(ore.toString());
-							case "axe" -> axe.add(ore.toString());
-							case "pickaxe" -> pickaxe.add(ore.toString());
-							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+//						ResourceLocation ore = new ResourceLocation("minecraft:stone");
+						if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+							ResourceLocation ore = EERegistrar.oreBlockTable.get(strata.getId(), material.getId()).getId();
+							switch (strata.getHarvestTool()) {
+								case "shovel" -> shovel.add(ore.toString());
+								case "hoe" -> hoe.add(ore.toString());
+								case "axe" -> axe.add(ore.toString());
+								case "pickaxe" -> pickaxe.add(ore.toString());
+								default -> throw new IllegalStateException("Harvest tool " + strata.getHarvestTool() + " for " + strata.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+							}
 						}
-					}
-					if(processedType.contains("ore") && stratum.getSampleStrata()) {
-						ResourceLocation oreSample = EERegistrar.oreSampleBlockTable.get(stratum.getId(), material.getId()).getId();
-						switch (stratum.getHarvestTool()) {
-							case "shovel" -> shovel.add(oreSample.toString());
-							case "hoe" -> hoe.add(oreSample.toString());
-							case "axe" -> axe.add(oreSample.toString());
-							case "pickaxe" -> pickaxe.add(oreSample.toString());
-							default -> throw new IllegalStateException("Harvest tool " + stratum.getHarvestTool() + " for " + stratum.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+
+						if(processedType.contains("sample")) {
+//							ResourceLocation sample = new ResourceLocation("minecraft:stone");
+							if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+								ResourceLocation sample = EERegistrar.oreSampleBlockTable.get(strata.getId(), material.getId()).getId();
+								switch (strata.getHarvestTool()) {
+									case "shovel" -> shovel.add(sample.toString());
+									case "hoe" -> hoe.add(sample.toString());
+									case "axe" -> axe.add(sample.toString());
+									case "pickaxe" -> pickaxe.add(sample.toString());
+									default -> throw new IllegalStateException("Harvest tool " + strata.getHarvestTool() + " for " + strata.getId() + " is out of Vanilla tool system bounds, and the tag should be added manually");
+								}
+							}
 						}
 					}
 				}

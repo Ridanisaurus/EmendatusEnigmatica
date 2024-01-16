@@ -55,6 +55,10 @@ public class DikeDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
+	public int getSize() {
+		return 1;
+	}
+	@Override
 	public int getMaxY() {
 		return model.getMaxYLevel();
 	}
@@ -67,5 +71,15 @@ public class DikeDepositProcessor implements IDepositProcessor {
 	@Override
 	public boolean hasSurfaceSample() {
 		return model.hasSamples();
+	}
+
+	@Override
+	public String getPlacement() {
+		return model.getPlacement();
+	}
+
+	@Override
+	public String getRarity() {
+		return model.getRarity();
 	}
 }

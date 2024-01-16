@@ -351,33 +351,33 @@ public class BlockModelsGen extends EEBlockModelProvider {
 							}
 						}
 					}
-				}
-				if (processedType.contains("ore") && stratum.getSampleStrata()) {
-					if (material.getColors().getMaterialColor() == -1) {
-						if (material.getProperties().isEmissive()) {
-							oreEmissiveBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
+					if (processedType.contains("sample")) {
+						if (material.getColors().getMaterialColor() == -1) {
+							if (material.getProperties().isEmissive()) {
+								oreEmissiveBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getSampleModelName(stratum, material));
+							} else {
+								oreBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getSampleModelName(stratum, material));
+							}
 						} else {
-							oreBlock(consumer, stratum.getBaseTexture().toString(), "blocks/overlays/" + material.getId() + "_sample", getOreSampleModelName(stratum, material));
-						}
-					} else {
-						if (material.getProperties().isEmissive()) {
-							oreEmissiveTintBlock(consumer, stratum.getBaseTexture().toString(),
-									"blocks/templates/sample/00",
-									"blocks/templates/sample/01",
-									"blocks/templates/sample/02",
-									"blocks/templates/sample//03",
-									"blocks/templates/sample/04",
-									"blocks/templates/sample/shadow_drop",
-									getOreSampleModelName(stratum, material));
-						} else {
-							oreTintBlock(consumer, stratum.getBaseTexture().toString(),
-									"blocks/templates/sample/00",
-									"blocks/templates/sample/01",
-									"blocks/templates/sample/02",
-									"blocks/templates/sample//03",
-									"blocks/templates/sample/04",
-									"blocks/templates/sample/shadow_drop",
-									getOreSampleModelName(stratum, material));
+							if (material.getProperties().isEmissive()) {
+								oreEmissiveTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/sample/00",
+										"blocks/templates/sample/01",
+										"blocks/templates/sample/02",
+										"blocks/templates/sample//03",
+										"blocks/templates/sample/04",
+										"blocks/templates/sample/shadow_drop",
+										getSampleModelName(stratum, material));
+							} else {
+								oreTintBlock(consumer, stratum.getBaseTexture().toString(),
+										"blocks/templates/sample/00",
+										"blocks/templates/sample/01",
+										"blocks/templates/sample/02",
+										"blocks/templates/sample//03",
+										"blocks/templates/sample/04",
+										"blocks/templates/sample/shadow_drop",
+										getSampleModelName(stratum, material));
+							}
 						}
 					}
 				}
@@ -706,7 +706,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
 	}
 
-	public static String getOreSampleModelName(StrataModel stratum, MaterialModel material) {
+	public static String getSampleModelName(StrataModel stratum, MaterialModel material) {
 		return material.getId() + "_" + stratum.getSuffix() + "_ore_sample";
 	}
 

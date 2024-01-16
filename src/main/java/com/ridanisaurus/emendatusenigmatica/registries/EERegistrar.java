@@ -177,10 +177,10 @@ public class EERegistrar {
 		oreBlockItemTable.put(strata.getId(), material.getId(), ITEMS.register(oreName, () -> new BlockItem(oreBlock.get(), new Item.Properties().tab(EmendatusEnigmatica.TAB))));
 	}
 
-	public static void registerOreSample(StrataModel strata, MaterialModel material) {
+	public static void registerSample(StrataModel strata, MaterialModel material) {
 		String oreSampleName = material.getId() + "_" + strata.getSuffix() + "_ore_sample";
 		RegistryObject<Block> oreSampleBlock;
-		if (strata.getSampleStrata() && material.getProperties().hasParticles()) {
+		if (material.getProperties().getMaterialType().equals("sample") && material.getProperties().hasParticles()) {
 			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlockWithParticles(strata, material));
 		} else {
 			oreSampleBlock = BLOCKS.register(oreSampleName, () -> new SampleOreBlock(strata, material));

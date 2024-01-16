@@ -208,12 +208,12 @@ public class BlockStatesGen extends EEBlockStateProvider {
 							.variant(new BlockStateBuilder.VariantBuilder("")
 									.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + getOreModelName(stratum, material)).toString()))
 							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreModelName(stratum, material)));
-				}
-				if (processedType.contains("ore") && stratum.getSampleStrata()) {
-					new BlockStateBuilder()
-							.variant(new BlockStateBuilder.VariantBuilder("")
-									.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + getOreSampleModelName(stratum, material)).toString()))
-							.save(consumer, new ResourceLocation(Reference.MOD_ID, getOreSampleModelName(stratum, material)));
+					if (processedType.contains("sample")) {
+						new BlockStateBuilder()
+								.variant(new BlockStateBuilder.VariantBuilder("")
+										.setModel(new ResourceLocation(Reference.MOD_ID, "block/" + getSampleModelName(stratum, material)).toString()))
+								.save(consumer, new ResourceLocation(Reference.MOD_ID, getSampleModelName(stratum, material)));
+					}
 				}
 			}
 		}
@@ -223,7 +223,7 @@ public class BlockStatesGen extends EEBlockStateProvider {
 		return material.getId() + (!stratum.getId().equals("minecraft_stone") ? "_" + stratum.getSuffix() : "") + "_ore";
 	}
 
-	public static String getOreSampleModelName(StrataModel stratum, MaterialModel material) {
+	public static String getSampleModelName(StrataModel stratum, MaterialModel material) {
 		return material.getId() + "_" + stratum.getSuffix() + "_ore_sample";
 	}
 
