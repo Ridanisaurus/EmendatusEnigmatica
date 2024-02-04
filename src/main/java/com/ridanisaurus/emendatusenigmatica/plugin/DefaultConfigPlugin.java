@@ -2,13 +2,16 @@ package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -22,13 +25,17 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
     public static final List<MaterialModel> MATERIALS = new ArrayList<>();
+    public static final List<String> MATERIAL_IDS = new ArrayList<>();
     public static final List<StrataModel> STRATA = new ArrayList<>();
+    public static final List<String> STRATA_IDS = new ArrayList<>();
 
     @Override
     public void load(EmendatusDataRegistry registry) {
@@ -55,40 +62,65 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/compat/");
         }
 
-        ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
-        ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
-        ArrayList<JsonObject> compatDefinition = FileHelper.loadFilesAsJsonObjects(compatDir);
 
-        for (JsonObject jsonObject : strataDefinition) {
-            Optional<Pair<StrataModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(StrataModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
+        Map<Path, JsonObject> strataDefinition = FileHelper.loadJsonsWithPaths(strataDir.toPath());
+        Map<Path, JsonObject> materialDefinition = FileHelper.loadJsonsWithPaths(materialDir.toPath());
+        Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(compatDir.toPath());
+        Validator validator = new Validator("Main Validator");
+        final boolean log = EEConfig.common.logConfigErrors.get();
+
+        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Strata");
+        strataDefinition.forEach((path, jsonObject) -> {
+            if (!validator.validateObject(jsonObject, path, StrataModel.verifiers)) {
+                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                return;
             }
+
+            Optional<Pair<StrataModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(StrataModel.CODEC).apply(jsonObject).result();
+            if (result.isEmpty()) return;
+
             StrataModel strataModel = result.get().getFirst();
             registry.registerStrata(strataModel);
             STRATA.add(strataModel);
-        }
+            STRATA_IDS.add(strataModel.getId());
+        });
 
-        for (JsonObject jsonObject : materialDefinition) {
-            Optional<Pair<MaterialModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(MaterialModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
+        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Material");
+        materialDefinition.forEach((path, jsonObject) -> {
+            if (!validator.validateObject(jsonObject, path, MaterialModel.verifiers)) {
+                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                return;
             }
+
+            Optional<Pair<MaterialModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(MaterialModel.CODEC).apply(jsonObject).result();
+            if (result.isEmpty()) return;
+
             MaterialModel materialModel = result.get().getFirst();
             registry.getMaterialOrRegister(materialModel.getId(), materialModel);
             MATERIALS.add(materialModel);
-        }
+            MATERIAL_IDS.add(materialModel.getId());
+        });
 
-        ArrayList<CompatModel> compatModels = new ArrayList<>();
-        for (JsonObject jsonObject : compatDefinition) {
-            Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
+        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Compatibility");
+        compatDefinition.forEach((path, jsonObject) -> {
+            if (!validator.validateObject(jsonObject, path, CompatModel.verifiers)) {
+                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                return;
             }
+
+            Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
+            if (result.isEmpty()) return;
+
             CompatModel compatModel = result.get().getFirst();
-            compatModels.add(compatModel);
             registry.registerCompat(compatModel);
+        });
+
+        if (log)  {
+            EmendatusEnigmatica.LOGGER.info("Finished validation and registration of data files.");
+        } else {
+            EmendatusEnigmatica.LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
         }
+        throw new RuntimeException();
     }
 
     @Override

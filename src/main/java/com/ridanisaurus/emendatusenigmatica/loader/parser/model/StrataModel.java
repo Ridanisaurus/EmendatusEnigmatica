@@ -24,11 +24,18 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.resources.ResourceLocation;
 
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class StrataModel {
 	public static final Codec<StrataModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -52,6 +59,29 @@ public class StrataModel {
 			f2.orElse(3f),
 			b.orElse(false)
 	)));
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	static {
+		verifiers.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		verifiers.put("baseTexture", new Validator("baseTexture").NON_EMPTY_REQUIRED);
+		verifiers.put("suffix", new Validator("suffix").NON_EMPTY_REQUIRED);
+		verifiers.put("fillerType", new Validator("fillerType").NON_EMPTY_REQUIRED);
+		verifiers.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+		verifiers.put("harvestTool", new Validator("harvestTool").getAcceptsOnlyValidation(List.of(
+				"pickaxe",
+				"axe",
+				"hoe",
+				"shovel"
+		)));
+		verifiers.put("hardness", new Validator("hardness").getRange(0, Integer.MAX_VALUE));
+		verifiers.put("resistance", new Validator("resistance").getRange(0, Integer.MAX_VALUE));
+		verifiers.put("sampleStrata", Validator.ALL);
+	}
 
 	private final String id;
 	private final ResourceLocation baseTexture;

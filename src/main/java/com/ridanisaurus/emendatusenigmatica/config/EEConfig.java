@@ -24,18 +24,66 @@
 
 package com.ridanisaurus.emendatusenigmatica.config;
 
+import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.config.ConfigFileTypeHandler;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
+
+import java.nio.file.Path;
+
 
 public class EEConfig {
 	public static ClientConfig client;
+	public static CommonConfig common;
+
+	public static void registerClient() {
+		Pair<ClientConfig, ForgeConfigSpec> clientSpecPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+		client = clientSpecPair.getLeft();
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, clientSpecPair.getRight());
+		EmendatusEnigmatica.LOGGER.info("Emendatus Enigmatica Client Config has been registered.");
+	}
+
+	public static void setupCommon() {
+		Pair<CommonConfig, ForgeConfigSpec> commonSpecPair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+		common = commonSpecPair.getLeft();
+		ForgeConfigSpec commonSpec = commonSpecPair.getRight();
+
+		try {
+			// Even tho this uses ModConfig object,
+			// which will be tracked for changes,
+			// there are no listeners for this config, so it's going to be fine.
+			CommentedFileConfig configData = new ConfigFileTypeHandler()
+				.reader(FMLPaths.CONFIGDIR.get())
+				.apply(new ModConfig(ModConfig.Type.COMMON, commonSpec, ModLoadingContext.get().getActiveContainer()));
+			commonSpec.setConfig(configData);
+			EmendatusEnigmatica.LOGGER.info("EmendatusEnigmatica Common Config has been parsed.");
+		} catch (Exception e) {
+			EmendatusEnigmatica.LOGGER.error("Failed parsing Common config!", e);
+			throw new IllegalStateException("Common Config for EmendatusEnigmatica wasn't possible to parse.", e);
+		}
+	}
+
+	public static class CommonConfig {
+		public final ForgeConfigSpec.BooleanValue logConfigErrors;
+		CommonConfig(ForgeConfigSpec.@NotNull Builder builder) {
+			builder.push("Debug");
+			logConfigErrors = builder
+					.comment("Whether EmendatusEnigmatica should log warnings and errors generated on the configuration parsing.")
+					.translation(Reference.MOD_ID + ".config.common.log_errors")
+					.define("logConfigErrors", true);
+			builder.pop();
+		}
+	}
 
 	public static class ClientConfig {
 		public final ForgeConfigSpec.BooleanValue showPatreonReward;
-		ClientConfig(ForgeConfigSpec.Builder builder) {
+		ClientConfig(ForgeConfigSpec.@NotNull Builder builder) {
 			builder.push("Patreon Reward");
 			showPatreonReward = builder
 					.comment("Whether the Patreon Reward should appear floating over the player's head")
@@ -43,13 +91,5 @@ public class EEConfig {
 					.define("showReward", true);
 			builder.pop();
 		}
-	}
-
-	public static void registerClient() {
-		Pair<ClientConfig, ForgeConfigSpec> clientSpecPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
-		ForgeConfigSpec clientSpec = clientSpecPair.getRight();
-		client = clientSpecPair.getLeft();
-		ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, clientSpec);
-		EmendatusEnigmatica.LOGGER.info("Emendatus Enigmatica Config has been parsed.");
 	}
 }

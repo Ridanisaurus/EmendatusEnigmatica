@@ -47,6 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -66,7 +67,7 @@ public class PatreonRewardRenderer extends RenderLayer<AbstractClientPlayer, Pla
 	}
 
 	@Override
-	public void render(PoseStack matrixStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void render(@NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight, @NotNull AbstractClientPlayer player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 		String name = player.getGameProfile().getName();
 		Level world = player.getCommandSenderWorld();
 
@@ -92,7 +93,6 @@ public class PatreonRewardRenderer extends RenderLayer<AbstractClientPlayer, Pla
 
 		@Override
 		public void run() {
-			Gson jsonParser = new Gson();
 			try {
 				var url = new URL("https://raw.githubusercontent.com/Ridanisaurus/EmendatusEnigmatica/EEV2-1.19/patreon_supporters_list.json");
 				var reader = new JsonReader(new InputStreamReader(url.openStream()));

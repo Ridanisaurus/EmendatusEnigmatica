@@ -24,16 +24,23 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialModel {
 	public static final Codec<MaterialModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -79,6 +86,90 @@ public class MaterialModel {
 	private final MaterialColorsModel colors;
 	private final MaterialToolsModel tools;
 	private final MaterialArmorModel armor;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	static {
+		verifiers.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		verifiers.put("source", new Validator("source").getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded")));
+		verifiers.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+
+		Validator typesValidator = new Validator("processedTypes");
+		verifiers.put("processedTypes", (element, path) ->
+			typesValidator.getRequiredAcceptsOnlyValidation(List.of(
+				"storage_block",
+				"ingot",
+				"gem",
+				"ore",
+				"raw",
+				"nugget",
+				"dust",
+				"plate",
+				"gear",
+				"rod",
+				"fluid",
+				"cluster",
+				"sword",
+				"pickaxe",
+				"axe",
+				"shovel",
+				"hoe",
+				"paxel",
+				"helmet",
+				"chestplate",
+				"leggings",
+				"boots",
+				"shield",
+				"infuse_type",
+				"gas",
+				"slurry",
+				"crystal",
+				"shard",
+				"clump",
+				"dirty_dust",
+				"crushed_ore")
+			).apply(element, path) &&
+			typesValidator.getIllegalPairsValidation(List.of(
+					new Pair<>("ingot", "gem")
+			)).apply(element, path)
+		);
+
+		verifiers.put("disableDefaultOre", Validator.ALL);
+
+		Validator strataValidator = new Validator("strata");
+		verifiers.put("strata", (element, path) -> {
+			if (Objects.isNull(element)) return true;
+			if (!strataValidator.assertArray(element, path)) return false;
+
+			AtomicBoolean validation = new AtomicBoolean(strataValidator.NON_EMPTY.apply(element, path));
+			element.getAsJsonArray().forEach(element1 -> {
+				try {
+					String value = element1.getAsString();
+					if (!DefaultConfigPlugin.STRATA_IDS.contains(value)) {
+						if (log) Validator.LOGGER.error("Strata under id %s is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
+						validation.set(false);
+					}
+				} catch (ClassCastException ignored) {} catch (Exception e) {
+					if (log) Validator.LOGGER.error("Caught exception while reading values from Strata array in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
+					validation.set(false);
+				}
+			});
+
+			return validation.get();
+		});
+
+//		verifiers.put("properties", new Validator("properties").getObjectValidation(null));
+//		verifiers.put("gas", new Validator("gas").getObjectValidation(null));
+//		verifiers.put("oreDrop", new Validator("oreDrop").getObjectValidation(null));
+//		verifiers.put("compat", new Validator("compat").getObjectValidation(null));
+//		verifiers.put("colors", new Validator("colors").getObjectValidation(null));
+//		verifiers.put("tools", new Validator("tools").getObjectValidation(null));
+//		verifiers.put("armor_rg", new Validator("armor").getObjectValidation(null));
+	}
 
 	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, List<String> strata,
 	                     MaterialPropertiesModel properties, MaterialGasPropertiesModel gas, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {

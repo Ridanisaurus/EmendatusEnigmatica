@@ -24,10 +24,18 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 
-import java.util.Optional;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica.LOGGER;
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialPropertiesModel {
 	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -61,6 +69,49 @@ public class MaterialPropertiesModel {
 	private final boolean isEmissive;
 	private final boolean isBurnable;
 	private final int burnTime;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	static {
+		verifiers.put("materialType", new Validator("materialType").getRequiredAcceptsOnlyValidation(List.of("metal", "gem", "alloy")));
+		verifiers.put("harvestLevel", new Validator("harvestLevel").getRange(0, 4));
+		verifiers.put("hasParticles", Validator.ALL);
+		verifiers.put("hasOxidation", Validator.ALL);
+		verifiers.put("isEmissive", Validator.ALL);
+		verifiers.put("isBurnable", Validator.ALL);
+		Validator burnTimeValidator = new Validator("burnTime");
+		verifiers.put("burnTime_rg", (element_rg, path) -> {
+			if (!burnTimeValidator.assertObject(element_rg, path)) return false;
+
+			JsonObject element = element_rg.getAsJsonObject();
+			JsonElement isBurnable = element.get("isBurnable");
+			JsonElement burnTime = element.get("burnTime");
+
+			if (Objects.isNull(isBurnable)) {
+				if (log && Objects.nonNull(burnTime)) LOGGER.warn("burnTime should not be present when isBurnable is not present in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+				return true;
+			}
+
+			try {
+				boolean bol = isBurnable.getAsBoolean();
+				if (log && bol && Objects.isNull(burnTime)) {
+					LOGGER.warn("burnTime should be specified if isBurnable is true in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+				} else if (log && !bol && Objects.nonNull(burnTime)) {
+					LOGGER.warn("burnTime should not be present when isBurnable is false in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+				}
+				return true;
+			} catch (ClassCastException e) {
+				if (log) LOGGER.error("isBurnable is not boolean! Can't verify value of burnTime in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+			}
+			return false;
+		});
+
+		//TODO. Finish this from here. Left: BlockRecipeType and GemTexture (requiring rework of everything above)
+	}
 
 	public MaterialPropertiesModel(String materialType, int harvestLevel, int blockRecipeType, int gemTexture,
 	                               boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime) {
