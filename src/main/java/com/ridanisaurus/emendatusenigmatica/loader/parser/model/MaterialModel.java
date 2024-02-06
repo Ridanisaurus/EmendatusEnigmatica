@@ -162,7 +162,7 @@ public class MaterialModel {
 			return validation.get();
 		});
 
-//		verifiers.put("properties", new Validator("properties").getObjectValidation(null));
+		verifiers.put("properties_rg", new Validator("properties").getPassParentToValidators(MaterialPropertiesModel.verifiers));
 //		verifiers.put("gas", new Validator("gas").getObjectValidation(null));
 //		verifiers.put("oreDrop", new Validator("oreDrop").getObjectValidation(null));
 //		verifiers.put("compat", new Validator("compat").getObjectValidation(null));

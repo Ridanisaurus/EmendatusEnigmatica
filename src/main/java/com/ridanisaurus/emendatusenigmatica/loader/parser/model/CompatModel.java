@@ -54,7 +54,7 @@ public class CompatModel {
 	 * Holds verifying functions for each field.
 	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 	 */
-	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
 	static {
 		Validator idValidator = new Validator("id");
 		verifiers.put("id", (element, path) -> {
@@ -64,11 +64,11 @@ public class CompatModel {
 			try {
 				String value = element.getAsString();
 				if (!DefaultConfigPlugin.MATERIAL_IDS.contains(value)) {
-					if (log) LOGGER.error("Material id (%s) is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
+					if (log) LOGGER.error("Material id (\"%s\") is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
 					return false;
 				}
 			} catch (ClassCastException ignored) {} catch (Exception e) {
-				if (log) LOGGER.error("Caught exception while reading values for id in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
+				if (log) LOGGER.error("Caught exception while reading values for \"id\" in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
 				return false;
 			}
 
@@ -111,7 +111,7 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
 		/**
 		 * Holds all acceptable mods and validators for their machines for the CompatModel.
 		 * @apiNote To add support for additional mod + machines, add an entry to this map with mod name and validator of the machine.
@@ -158,7 +158,7 @@ public class CompatModel {
 				try {
 					temp.add("machine", new JsonPrimitive(Objects.requireNonNull(element.get("machine")).getAsString()));
 				} catch (ClassCastException | NullPointerException e) {
-					temp.add("mod", new JsonPrimitive("NONE"));
+					temp.add("machine", new JsonPrimitive("NONE"));
 				}
 
 				array.forEach(entry -> {
@@ -247,7 +247,7 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
 		static {
 			//TODO: Add "Accept_only_x_values" validator here
 			// All values here have _rg due to getting entire object of CompatRecipeModel.
@@ -352,11 +352,10 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
 		static {
 			verifiers.put("item", new Validator("item").NON_EMPTY);
-			//TODO: Get real ranges, I'm guessing 64 and 1 is max here, but not sure
-			verifiers.put("count", new Validator("count").getRange(0, 64));
+			verifiers.put("count", new Validator("count").getIntRange(0, 64));
 			verifiers.put("chance", new Validator("chance").getRange(0, 1));
 		}
 

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * This class holds default validators for values from json configuration files.
@@ -111,13 +112,52 @@ public class Validator {
     }
 
     /**
-     * Used to get validator of Number Range. Supports: int, long, float, double.
+     * Used to get validator of Number Range marked as Required. Supports: int, long, float, double.
      * @param min Minimum value.
      * @param max Maximum value.
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredRange(double min, double max) {
         return (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && getRange(min, max).apply(data, jsonPath);
+    }
+
+    /**
+     * Used to get validator of Number Range, checking additionally for illegal floating-point values. Supports: int, long, (Will issue warning) -> float, double
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIntRange(long min, long max) {
+        return (element, path) -> {
+            try {
+                if (log) {
+                    double check = element.getAsDouble();
+                    if (Math.ceil(check) > check) LOGGER.warn("%s in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(path)));
+                }
+
+                long value = element.getAsLong();
+                if (value < min || value > max) {
+                    if (log) LOGGER.error("%s in file \"%s\" is out of range! Provided: %d, Min: %d, Max: %d.".formatted(name, obfuscatePath(path), value, min, max));
+                    return false;
+                }
+                return true;
+            } catch (ClassCastException | NullPointerException e) {
+                if (Objects.isNull(element)) return true;
+                if (log) LOGGER.error("%s in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
+            }
+            return false;
+        };
+    }
+
+    /**
+     * Used to get validator of Number Range, marked as Required, checking additionally for illegal floating-point values.
+     * Supports: int, long, (Will issue warning) -> float, double
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredIntRange(long min, long max) {
+        return (element, path) -> REQUIRED.apply(element, path) && getIntRange(min, max).apply(element, path);
     }
 
     /**
@@ -151,10 +191,10 @@ public class Validator {
             try {
                 String value = element.getAsString();
                 boolean validation = values.contains(value);
-                if (log && !validation) LOGGER.error("%s in file \"%s\" contains illegal value (%s)! Accepted values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
+                if (log && !validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Accepted values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
                 return validation;
-            } catch (Exception e) {
-                if (log) LOGGER.error("%s in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
+            } catch (ClassCastException e) {
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
@@ -178,7 +218,7 @@ public class Validator {
         return (element, path) -> {
             if (Objects.isNull(element)) return true;
             if (!element.isJsonArray()) {
-                if (log) LOGGER.error("Expected array for %s in file \"%s\".".formatted(name, obfuscatePath(path)));
+                if (log) LOGGER.error("Expected array for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
                 return false;
             }
 
@@ -189,7 +229,7 @@ public class Validator {
                 try {
                     values.add(entry.getAsString());
                 } catch (Exception e) {
-                    LOGGER.error("Non-String value present in the array of %s in file \"%s\".".formatted(name, obfuscatePath(path)));
+                    LOGGER.error("Non-String value present in the array of \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
                     validation.set(false);
                 }
             });
@@ -198,7 +238,7 @@ public class Validator {
 
             pairs.forEach(pair -> {
                 if (values.contains(pair.getFirst()) && values.contains(pair.getSecond())) {
-                    if (log) LOGGER.error("Illegal pair found (%s and %s) in the array %s of file \"%s\".".formatted(pair.getFirst(), pair.getSecond(), name, obfuscatePath(path)));
+                    if (log) LOGGER.error("Illegal pair found (%s and %s) in the array \"%s\" of file \"%s\".".formatted(pair.getFirst(), pair.getSecond(), name, obfuscatePath(path)));
                     validation.set(false);
                 }
             });
@@ -215,6 +255,60 @@ public class Validator {
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredIllegalPairsValidation(List<Pair<String,String>> pairs) {
         return (element, path) -> NON_EMPTY_REQUIRED.apply(element, path) && getIllegalPairsValidation(pairs).apply(element, path);
+    }
+
+    /**
+     * Used to pass the parent object to the validators.
+     * Suffix _rg is required.
+     * Parent object will be added under the "TEMP" field of the object
+     * (or for all entries in the array) and validation will be launcher as normal.
+     * @param validators Map with validators.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getPassParentToValidators(Map<String, BiFunction<JsonElement, Path, Boolean>> validators) {
+        return (parent, path) -> {
+            if (!assertObject(parent, path)) return false;
+            JsonElement element = parent.getAsJsonObject().get(name);
+            if (Objects.isNull(element)) return true;
+            if (element.isJsonPrimitive()) {
+                if (log) LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
+                return false;
+            }
+
+            validators.put("TEMP", Validator.ALL);
+
+            Consumer<JsonObject> addTemp = jsonObject -> {
+                checkForTEMP(jsonObject, path, true);
+                jsonObject.add("TEMP", parent.deepCopy());
+            };
+
+            if (element.isJsonObject()) {
+                addTemp.accept(element.getAsJsonObject());
+            } else {
+                if (!assertArray(element, path)) return false;
+
+                element.getAsJsonArray().forEach(entry -> {
+                    if (!assertObject(entry, path)) return;
+                    addTemp.accept(entry.getAsJsonObject());
+                });
+            }
+
+            boolean result = validateObject(element, path, validators);
+            validators.remove("TEMP");
+            return result;
+        };
+    }
+
+    /**
+     * Utility method checking if TEMP field is present. Used mostly in scenarios where parent is required.
+     * @param object JsonObject to check for TEMP field.
+     * @param path Path of the file.
+     * @return True if TEMP exists, otherwise false.
+     */
+    public boolean checkForTEMP(JsonObject object, Path path, boolean shouldLog) {
+        boolean temp = Objects.nonNull(object.get("TEMP"));
+        if (temp && log && shouldLog) LOGGER.warn("Unknown key (\"TEMP\") found in file \"%s\".".formatted(obfuscatePath(path)));
+        return temp;
     }
 
     /**
@@ -244,17 +338,14 @@ public class Validator {
     public boolean validateObject(JsonElement jsonElement, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators) {
         return validateArray(jsonElement, path, (element, jsonPath) -> {
             if (Objects.isNull(element)) return true;
-            if (!element.isJsonObject()) {
-                if (log) LOGGER.error("Expected object for key %s in %s.".formatted(name, obfuscatePath(jsonPath)));
-                return false;
-            }
+            if (!assertObject(element, path)) return false;
 
             JsonObject object = element.getAsJsonObject();
             AtomicBoolean validation = new AtomicBoolean(true);
 
             object.entrySet().forEach(entry -> {
                 if (log && !(validators.containsKey(entry.getKey()) || validators.containsKey(entry.getKey() + "_rg"))) {
-                    LOGGER.warn("Unknown key (%s) found in file \"%s\".".formatted(entry.getKey(), obfuscatePath(jsonPath)));
+                    LOGGER.warn("Unknown key (\"%s\") found in file \"%s\".".formatted(entry.getKey(), obfuscatePath(jsonPath)));
                 }
             });
 
@@ -273,7 +364,7 @@ public class Validator {
      */
     public boolean assertObject(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonObject()) {
-            if (log) LOGGER.error("Expected object for verification of key %s in file \"%s\"%s Something is terribly wrong.".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            if (log) LOGGER.error("Expected object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;
@@ -287,7 +378,7 @@ public class Validator {
      */
     public boolean assertNotArray(@Nullable JsonElement element, Path path) {
         if (Objects.nonNull(element) && element.isJsonArray()) {
-            if (log) LOGGER.error("Array found on non-array key %s in file \"%s\".".formatted(name, obfuscatePath(path)));
+            if (log) LOGGER.error("Array found on non-array key \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
             return false;
         }
         return true;
@@ -301,12 +392,24 @@ public class Validator {
      */
     public boolean assertArray(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonArray()) {
-            if (log) LOGGER.error("Expected array for verification of key %s in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            if (log) LOGGER.error("Expected array for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;
     }
 
+    /**
+     * Utility method used for custom validators, allowing to get the name of the field stored in used validator.
+     * @return Field Name of this Validator
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * Used as a cache of ConfigDir, instead of calling get each time obfuscatePath executes.
+     */
+    private static Path CONFIGDIR = null;
     /**
      * Used to cut off part of the path that is not in minecraft directory.<br><br>
      * Input: <br>
@@ -317,6 +420,7 @@ public class Validator {
      * @return String with an obfuscated path.
      */
     public static String obfuscatePath(Path path) {
-        return FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/").relativize(path).toString();
+        if (Objects.isNull(CONFIGDIR)) CONFIGDIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
+        return CONFIGDIR.relativize(path).toString();
     }
 }

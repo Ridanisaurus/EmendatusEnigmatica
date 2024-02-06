@@ -69,10 +69,10 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         Validator validator = new Validator("Main Validator");
         final boolean log = EEConfig.common.logConfigErrors.get();
 
-        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Strata");
+        Validator.LOGGER.info("Validating and registering data for: Strata");
         strataDefinition.forEach((path, jsonObject) -> {
             if (!validator.validateObject(jsonObject, path, StrataModel.verifiers)) {
-                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (log) Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 return;
             }
 
@@ -85,10 +85,10 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             STRATA_IDS.add(strataModel.getId());
         });
 
-        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Material");
+        Validator.LOGGER.info("Validating and registering data for: Material");
         materialDefinition.forEach((path, jsonObject) -> {
             if (!validator.validateObject(jsonObject, path, MaterialModel.verifiers)) {
-                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (log) Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 return;
             }
 
@@ -101,10 +101,10 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             MATERIAL_IDS.add(materialModel.getId());
         });
 
-        EmendatusEnigmatica.LOGGER.info("Validating and registering data for: Compatibility");
+        Validator.LOGGER.info("Validating and registering data for: Compatibility");
         compatDefinition.forEach((path, jsonObject) -> {
             if (!validator.validateObject(jsonObject, path, CompatModel.verifiers)) {
-                if (log) EmendatusEnigmatica.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (log) Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 return;
             }
 
@@ -116,11 +116,10 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         });
 
         if (log)  {
-            EmendatusEnigmatica.LOGGER.info("Finished validation and registration of data files.");
+            Validator.LOGGER.info("Finished validation and registration of data files.");
         } else {
-            EmendatusEnigmatica.LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
+            Validator.LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
         }
-        throw new RuntimeException();
     }
 
     @Override
