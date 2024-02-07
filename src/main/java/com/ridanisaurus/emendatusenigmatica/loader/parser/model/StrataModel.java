@@ -65,22 +65,22 @@ public class StrataModel {
 	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 	 * Adding suffix _rg will request the original object instead of just the value of the field.
 	 */
-	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		verifiers.put("id", new Validator("id").NON_EMPTY_REQUIRED);
-		verifiers.put("baseTexture", new Validator("baseTexture").NON_EMPTY_REQUIRED);
-		verifiers.put("suffix", new Validator("suffix").NON_EMPTY_REQUIRED);
-		verifiers.put("fillerType", new Validator("fillerType").NON_EMPTY_REQUIRED);
-		verifiers.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
-		verifiers.put("harvestTool", new Validator("harvestTool").getAcceptsOnlyValidation(List.of(
+		validators.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		validators.put("suffix", new Validator("suffix").NON_EMPTY_REQUIRED);
+		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+		validators.put("baseTexture", new Validator("baseTexture").RESOURCE_ID_REQUIRED);
+		validators.put("fillerType", new Validator("fillerType").RESOURCE_ID_REQUIRED);
+		validators.put("harvestTool", new Validator("harvestTool").getAcceptsOnlyValidation(List.of(
 				"pickaxe",
 				"axe",
 				"hoe",
 				"shovel"
-		)));
-		verifiers.put("hardness", new Validator("hardness").getRange(0, Integer.MAX_VALUE));
-		verifiers.put("resistance", new Validator("resistance").getRange(0, Integer.MAX_VALUE));
-		verifiers.put("sampleStrata", Validator.ALL);
+		), false));
+		validators.put("hardness", new Validator("hardness").getRange(0, Integer.MAX_VALUE, false));
+		validators.put("resistance", new Validator("resistance").getRange(0, Integer.MAX_VALUE, false));
+		validators.put("sampleStrata", new Validator("sampleStrata").REQUIRES_BOOLEAN);
 	}
 
 	private final String id;

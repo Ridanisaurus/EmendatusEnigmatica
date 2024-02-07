@@ -24,10 +24,16 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class MaterialCompatModel {
 	public static final Codec<MaterialCompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -52,6 +58,20 @@ public class MaterialCompatModel {
 	private final boolean ars_nouveau;
 	private final boolean blood_magic;
 	private final boolean occultism;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
+	static {
+		validators.put("create", new Validator("create").REQUIRES_BOOLEAN);
+		validators.put("thermal", new Validator("thermal").REQUIRES_BOOLEAN);
+		validators.put("mekanism", new Validator("mekanism").REQUIRES_BOOLEAN);
+		validators.put("ars_nouveau", new Validator("ars_nouveau").REQUIRES_BOOLEAN);
+		validators.put("occultism", new Validator("occultism").REQUIRES_BOOLEAN);
+	}
 
 	public MaterialCompatModel(boolean create, boolean thermal, boolean mekanism, boolean ars_nouveau, boolean blood_magic, boolean occultism) {
 		this.create = create;

@@ -24,12 +24,27 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
 import org.checkerframework.checker.units.qual.C;
+import org.jetbrains.annotations.Nullable;
 
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialColorsModel {
 	// TODO 3.0: Change gasColor to chemicalColor
@@ -53,7 +68,105 @@ public class MaterialColorsModel {
 	private final String materialColor;
 	private final String oxidizationColor;
 
-	public MaterialColorsModel(String fluidColor, String gasColor, String particlesColor, String materialColor, String oxidizationColor) {
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
+
+	static {
+		validators.put("fluidColor", new Validator("fluidColor").HEX_COLOR);
+		validators.put("materialColor", new Validator("materialColor").HEX_COLOR);
+
+		validators.put("gasColor", new Validator("gasColor").HEX_COLOR);
+		validators.put("particlesColor", new Validator("particlesColor").HEX_COLOR);
+		validators.put("oxidizationColor", new Validator("oxidizationColor").HEX_COLOR);
+
+		Validator gasValidator = new Validator("gasColor");
+
+		validators.put("gasColor_rg", (element, path) -> {
+			if (!gasValidator.assertParentObject(element, path)) return false;
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(gasValidator.getName());
+
+			if (!log || !gasValidator.checkForTEMP(obj, path, false)) {
+				if (log) LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+			} else {
+				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("processedTypes");
+				if (Objects.isNull(requiredJson)) {
+                    LOGGER.warn("\"processedTypes\" are missing from file \"%s\". Can't accurately verify values of \"%s\"."
+                            .formatted(Validator.obfuscatePath(path), gasValidator.getName())
+                    );
+                } else if (!requiredJson.isJsonArray()) {
+                    LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+				}
+
+				JsonArray types = requiredJson.getAsJsonArray();
+				boolean infuse = types.contains(new JsonPrimitive("infuse_type"));
+				boolean slurry = types.contains(new JsonPrimitive("slurry"));
+				boolean gas	   = types.contains(new JsonPrimitive("gas"));
+				if (!(infuse || slurry || gas) && Objects.nonNull(valueJson)) {
+					LOGGER.warn("\"%s\" should not be present when \"infuse_type\", \"slurry\" or \"gas\" are not present in \"processedTypes\" in file \"%s\"."
+						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
+					);
+				} else if (Objects.isNull(valueJson)) {
+					LOGGER.warn("\"%s\" should be set when \"infuse_type\", \"slurry\" or \"gas\" are present in \"processedTypes\" in file \"%s\"."
+						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
+					);
+				}
+			}
+
+			return gasValidator.HEX_COLOR.apply(obj.get(gasValidator.getName()), path);
+		});
+
+		PropertyDispatch.QuadFunction<Validator, String, JsonElement, Path, Boolean> validationFunction = (validator, fieldName, element, path) -> {
+			if (!validator.assertParentObject(element, path)) return false;
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(validator.getName());
+
+			if (!log || !validator.checkForTEMP(obj, path, false)) {
+				if (log) LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
+			} else {
+				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("properties");
+				if (Objects.nonNull(requiredJson)) {
+					if (!requiredJson.isJsonObject()) {
+						LOGGER.warn("Expected \"properties\" to be an object! Can't accurately verify values of \"%s\" in file \"%s\"."
+								.formatted(validator.getName(), Validator.obfuscatePath(path))
+						);
+					} else {
+						JsonElement requiredValue = requiredJson.getAsJsonObject().get(fieldName);
+						boolean required = false;
+						if (Objects.nonNull(requiredValue)) {
+							try {
+								required = requiredValue.getAsBoolean();
+							} catch (Exception e) {
+								LOGGER.error("\"%s\" in Properties is not a boolean! Can't accurately verify values of \"%s\" in file \"%s\"."
+										.formatted(fieldName, validator.getName(), Validator.obfuscatePath(path))
+								);
+							}
+						}
+						if (Objects.nonNull(valueJson) && !required) {
+							LOGGER.warn("\"%s\" should not be present when \"%s\" is set to false in file \"%s\"."
+									.formatted(validator.getName(), fieldName, Validator.obfuscatePath(path))
+							);
+						} else if (Objects.isNull(valueJson) && required) {
+							LOGGER.warn("\"%s\" should be set when \"%s\" is set to true in file \"%s\"."
+									.formatted(validator.getName(), fieldName, Validator.obfuscatePath(path))
+							);
+						}
+					}
+				}
+			}
+
+			return validator.HEX_COLOR.apply(obj.get(gasValidator.getName()), path);
+		};
+
+		validators.put("particlesColor_rg", (element, path) -> validationFunction.apply(new Validator("particlesColor"), "hasParticles", element, path));
+		validators.put("oxidizationColor_rg", (element, path) -> validationFunction.apply(new Validator("oxidizationColor"), "hasOxidization", element, path));
+	}
+
+	public MaterialColorsModel(@Nullable String fluidColor, @Nullable String gasColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
 		this.fluidColor = fluidColor;
 		this.gasColor = gasColor;
 		this.particlesColor = particlesColor;

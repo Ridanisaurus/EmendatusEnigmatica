@@ -24,16 +24,23 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.function.TriFunction;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialArmorModel {
 	public static final Codec<MaterialArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -76,6 +83,52 @@ public class MaterialArmorModel {
 	private final ArmorModel leggings;
 	private final ArmorModel boots;
 	private final ArmorModel shield;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
+
+	static {
+		validators.put("setArmor", new Validator("setArmor").REQUIRES_BOOLEAN);
+		validators.put("setName", new Validator("setName").NON_EMPTY);
+		validators.put("setDesc", new Validator("setDesc").NON_EMPTY);
+		validators.put("toughness", new Validator("toughness").REQUIRES_FLOAT);
+		validators.put("enchantability", new Validator("enchantability").REQUIRES_INT);
+		validators.put("knockback", new Validator("knockback").REQUIRES_FLOAT);
+		validators.put("effects", new Validator("effects").getObjectValidation(EffectModel.validators));
+
+		TriFunction<Validator, JsonElement, Path, Boolean> armorValidator = (validator, element, path) -> {
+			if (!validator.assertParentObject(element, path)) return false;
+			String armorPiece = validator.getName();
+			JsonObject obj = element.getAsJsonObject();
+			boolean required = false;
+
+			if (!validator.checkForTEMP(obj, path, false)) {
+				if (log) LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(armorPiece, Validator.obfuscatePath(path)));
+			} else {
+				required = obj.get("TEMP").getAsJsonObject().get(armorPiece).getAsBoolean();
+			}
+
+			JsonElement valueJson = obj.get(armorPiece);
+
+			if (!required) {
+				if (Objects.isNull(valueJson)) return true;
+				if (log) LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(armorPiece, Validator.obfuscatePath(path)));
+				return validator.validateObject(valueJson, path, ArmorModel.validators);
+			}
+
+			return validator.getRequiredObjectValidation(ArmorModel.validators).apply(valueJson, path);
+		};
+
+		validators.put("helmet_rg",   	(element, path) -> armorValidator.apply(new Validator("helmet"), element, path));
+		validators.put("chestplate_rg", (element, path) -> armorValidator.apply(new Validator("chestplate"), element, path));
+		validators.put("leggings_rg",   (element, path) -> armorValidator.apply(new Validator("leggings"), element, path));
+		validators.put("boots_rg",  	(element, path) -> armorValidator.apply(new Validator("boots"), element, path));
+		validators.put("shield_rg",     (element, path) -> armorValidator.apply(new Validator("shield"), element, path));
+	}
 
 	public MaterialArmorModel(boolean setArmor, List<EffectModel> effects, String setName, String setDesc,
 	                          float toughness, float knockback, int enchantability,

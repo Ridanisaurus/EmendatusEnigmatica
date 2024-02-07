@@ -30,13 +30,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
@@ -54,10 +52,10 @@ public class CompatModel {
 	 * Holds verifying functions for each field.
 	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 	 */
-	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 	static {
 		Validator idValidator = new Validator("id");
-		verifiers.put("id", (element, path) -> {
+		validators.put("id", (element, path) -> {
 			if (!idValidator.NON_EMPTY_REQUIRED.apply(element, path)) return false;
 			if (!idValidator.assertNotArray(element, path)) return false;
 
@@ -74,7 +72,8 @@ public class CompatModel {
 
 			return true;
 		});
-		verifiers.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.verifiers));
+
+		validators.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.validators));
 	}
 
 	public CompatModel(String id, List<CompatRecipesModel> recipes) {
@@ -111,7 +110,7 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 		/**
 		 * Holds all acceptable mods and validators for their machines for the CompatModel.
 		 * @apiNote To add support for additional mod + machines, add an entry to this map with mod name and validator of the machine.
@@ -131,20 +130,19 @@ public class CompatModel {
 		static {
 
 			Validator machineValidator = new Validator("machine");
-			acceptableMods.put("thermal", machineValidator.getRequiredAcceptsOnlyValidation(List.of("pulverizer", "induction_smelter")));
-			acceptableMods.put("create", machineValidator.getRequiredAcceptsOnlyValidation(List.of("crushing_wheels", "fan_washing")));
+			acceptableMods.put("thermal", machineValidator.getRequiredAcceptsOnlyValidation(List.of("pulverizer", "induction_smelter"), false));
+			acceptableMods.put("create", machineValidator.getRequiredAcceptsOnlyValidation(List.of("crushing_wheels", "fan_washing"), false));
 			acceptableModIds.addAll(acceptableMods.keySet());
 
-			verifiers.put("mod", new Validator("mod").getRequiredAcceptsOnlyValidation(acceptableModIds));
+			validators.put("mod", new Validator("mod").getRequiredAcceptsOnlyValidation(acceptableModIds, false));
 
 			Validator valuesValidator = new Validator("values");
-			verifiers.put("values_rg", (element_rg, path_rg) -> {
+			validators.put("values_rg", (element_rg, path_rg) -> {
 				if (!(
-					valuesValidator.assertObject(element_rg, path_rg) &&
+					valuesValidator.assertParentObject(element_rg, path_rg) &&
 					valuesValidator.assertArray(element_rg.getAsJsonObject().get("values"), path_rg)
 				)) return false;
 
-				AtomicBoolean validation = new AtomicBoolean(true);
 				JsonObject element = element_rg.getAsJsonObject();
 				JsonArray array = element.get("values").getAsJsonArray();
 
@@ -161,19 +159,11 @@ public class CompatModel {
 					temp.add("machine", new JsonPrimitive("NONE"));
 				}
 
-				array.forEach(entry -> {
-					if (!valuesValidator.assertNotArray(entry, path_rg) || !valuesValidator.assertObject(entry, path_rg)) {
-						validation.set(false);
-						return;
-					}
-					if (Objects.nonNull(entry.getAsJsonObject().get("TEMP"))) LOGGER.warn("Unknown key TEMP found in file \"%s\".".formatted(Validator.obfuscatePath(path_rg)));
-					entry.getAsJsonObject().add("TEMP", temp);
-				});
-				return valuesValidator.validateObject(array, path_rg, CompatValuesModel.verifiers) && validation.get();
+				return valuesValidator.passTempToValidators(temp, array, path_rg, CompatValuesModel.validators, false);
 			});
 
-			verifiers.put("machine_rg", (element, path) -> {
-				if (!machineValidator.assertObject(element, path)) return false;
+			validators.put("machine_rg", (element, path) -> {
+				if (!machineValidator.assertParentObject(element, path)) return false;
 				if (!machineValidator.REQUIRED.apply(element.getAsJsonObject().get("machine"), path)) return false;
 
 				JsonElement modJson = element.getAsJsonObject().get("mod");
@@ -247,24 +237,21 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 		static {
-			//TODO: Add "Accept_only_x_values" validator here
-			// All values here have _rg due to getting entire object of CompatRecipeModel.
-			// Those fields don't exists in that object.
 			Validator typeValidator = new Validator("type");
 			Validator inputValidator = new Validator("input");
 			Validator outputValidator = new Validator("output");
 
-			acceptableMods.put("thermal", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "raw", "alloy")));
-			acceptableMods.put("create", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "crushed_ore")));
+			acceptableMods.put("thermal", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "raw", "alloy"), false));
+			acceptableMods.put("create", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "crushed_ore"), false));
 
 			// This is here to not spam the log with false warnings about a temporary memory-only field.
 			// Checking if this field is actually in the file is done above.
-			verifiers.put("TEMP", Validator.ALL);
+			validators.put("TEMP", Validator.ALL);
 
-			verifiers.put("type_rg", (element, path) -> {
-				if (!typeValidator.assertObject(element, path)) return false;
+			validators.put("type_rg", (element, path) -> {
+				if (!typeValidator.assertParentObject(element, path)) return false;
 
 				String mod = element.getAsJsonObject().get("TEMP").getAsJsonObject().get("mod").getAsString();
 				if (mod.equals("NONE")) {
@@ -280,8 +267,8 @@ public class CompatModel {
 				return validator.apply(element.getAsJsonObject().get("type"), path);
 			});
 
-			verifiers.put("input_rg", (element_rg, path) -> {
-				if (!inputValidator.assertObject(element_rg, path)) return false;
+			validators.put("input_rg", (element_rg, path) -> {
+				if (!inputValidator.assertParentObject(element_rg, path)) return false;
 
 				JsonObject element = element_rg.getAsJsonObject();
 				if (Objects.isNull(element.get("input"))) return true;
@@ -311,10 +298,10 @@ public class CompatModel {
 					if (Objects.nonNull(entry.getAsJsonObject().get("chance"))) LOGGER.warn("Chance should not be present in input object! Found in file \"%s\".".formatted(Validator.obfuscatePath(path)));
 				});
 
-				return outputValidator.getObjectValidation(CompatIOModel.verifiers).apply(element.get("input"), path);
+				return outputValidator.getObjectValidation(CompatIOModel.validators).apply(element.get("input"), path);
 			});
 
-			verifiers.put("output", outputValidator.getObjectValidation(CompatIOModel.verifiers));
+			validators.put("output", outputValidator.getObjectValidation(CompatIOModel.validators));
 		}
 
 		CompatValuesModel(String type, List<CompatIOModel> input, List<CompatIOModel> output) {
@@ -352,11 +339,11 @@ public class CompatModel {
 		 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 		 * Adding suffix _rg will request the original object instead of just the value of the field.
 		 */
-		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
+		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 		static {
-			verifiers.put("item", new Validator("item").NON_EMPTY);
-			verifiers.put("count", new Validator("count").getIntRange(0, 64));
-			verifiers.put("chance", new Validator("chance").getRange(0, 1));
+			validators.put("item", new Validator("item").RESOURCE_ID);
+			validators.put("count", new Validator("count").getIntRange(0, 64, false));
+			validators.put("chance", new Validator("chance").getRange(0, 1, false));
 		}
 
 		private final String item;

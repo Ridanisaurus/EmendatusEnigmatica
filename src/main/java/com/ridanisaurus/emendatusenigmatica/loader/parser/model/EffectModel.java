@@ -24,13 +24,19 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class EffectModel {
 	public static final Codec<EffectModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -49,6 +55,20 @@ public class EffectModel {
 	private final int level;
 	private final boolean showIcon;
 	private final boolean showParticles;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
+
+	static {
+		validators.put("effect", new Validator("effect").RESOURCE_ID_REQUIRED);
+		validators.put("level", new Validator("level").NON_EMPTY);
+		validators.put("showIcon", new Validator("showIcon").REQUIRES_BOOLEAN);
+		validators.put("showParticles", new Validator("showParticles").REQUIRES_BOOLEAN);
+	}
 
 	public EffectModel(String effect, int level, boolean showIcon, boolean showParticles) {
 		this.effect = effect;

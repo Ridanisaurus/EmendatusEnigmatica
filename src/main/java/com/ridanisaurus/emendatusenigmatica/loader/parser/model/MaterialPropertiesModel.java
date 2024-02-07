@@ -78,51 +78,58 @@ public class MaterialPropertiesModel {
 	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 	 * Adding suffix _rg will request the original object instead of just the value of the field.
 	 */
-	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new LinkedHashMap<>();
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 	static {
-		verifiers.put("materialType", new Validator("materialType").getRequiredAcceptsOnlyValidation(List.of("metal", "gem", "alloy")));
-		verifiers.put("harvestLevel", new Validator("harvestLevel").getRange(0, 4));
-		verifiers.put("hasParticles", Validator.ALL);
-		verifiers.put("hasOxidation", Validator.ALL);
-		verifiers.put("isEmissive", Validator.ALL);
-		verifiers.put("isBurnable", Validator.ALL);
+		validators.put("materialType", new Validator("materialType").getRequiredAcceptsOnlyValidation(List.of("metal", "gem", "alloy"), false));
+		validators.put("harvestLevel", new Validator("harvestLevel").getRange(0, 4, false));
+		validators.put("hasParticles", new Validator("hasParticles").REQUIRES_BOOLEAN);
+		validators.put("hasOxidization", new Validator("hasOxidization").REQUIRES_BOOLEAN);
+		validators.put("isEmissive",   new Validator("isEmissive").REQUIRES_BOOLEAN);
+		validators.put("isBurnable",   new Validator("isBurnable").REQUIRES_BOOLEAN);
 
 		Validator burnTimeValidator = new Validator("burnTime");
-		verifiers.put("burnTime_rg", (element_rg, path) -> {
-			if (!burnTimeValidator.assertObject(element_rg, path)) return false;
+		validators.put(burnTimeValidator.getName() + "_rg", (element_rg, path) -> {
+			if (!burnTimeValidator.assertParentObject(element_rg, path)) return false;
 
 			JsonObject element = element_rg.getAsJsonObject();
 			JsonElement isBurnable = element.get("isBurnable");
 			JsonElement burnTime = element.get(burnTimeValidator.getName());
 
-			if (Objects.isNull(isBurnable)) {
-				if (log && Objects.nonNull(burnTime)) {
-					LOGGER.warn(
-						"\"%s\" should not be present when \"isBurnable\" is not present in file \"%s\"."
-							.formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path))
-					);
+			if (log) {
+				if (Objects.isNull(isBurnable)) {
+					if (Objects.nonNull(burnTime)) {
+						LOGGER.warn(
+							"Properties \"%s\" should not be present when Properties \"isBurnable\" is not present in file \"%s\"."
+								.formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path))
+						);
+					}
+				} else {
+					try {
+						boolean bol = isBurnable.getAsBoolean();
+						if (bol && Objects.isNull(burnTime)) {
+							LOGGER.warn("Properties \"%s\" should be specified if Properties \"isBurnable\" is true in file \"%s\"."
+								.formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path))
+							);
+						} else if (!bol && Objects.nonNull(burnTime)) {
+							LOGGER.warn("Properties \"%s\" should not be present when Properties \"isBurnable\" is false in file \"%s\"."
+								.formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path))
+							);
+						}
+					} catch (Exception e) {
+						LOGGER.error("Properties \"isBurnable\" is not boolean! Can't accurately verify value of Properties \"%s\" in file \"%s\"."
+							.formatted(Validator.obfuscatePath(path), burnTimeValidator.getName())
+						);
+					}
 				}
-				return true;
 			}
 
-			try {
-				boolean bol = isBurnable.getAsBoolean();
-				if (log && bol && Objects.isNull(burnTime)) {
-					LOGGER.warn("\"%s\" should be specified if \"isBurnable\" is true in file \"%s\".".formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path)));
-				} else if (log && !bol && Objects.nonNull(burnTime)) {
-					LOGGER.warn("\"%s\" should not be present when \"isBurnable\" is false in file \"%s\".".formatted(burnTimeValidator.getName(), Validator.obfuscatePath(path)));
-				}
-				return true;
-			} catch (ClassCastException e) {
-				if (log) LOGGER.error("\"isBurnable\" is not boolean! Can't verify value of \"%s\" in file \"%s\".".formatted(Validator.obfuscatePath(path)), burnTimeValidator.getName());
-			}
-			return false;
+			return burnTimeValidator.REQUIRES_INT.apply(burnTime, path);
 		});
 
 		Validator blockRecipeValidator = new Validator("blockRecipeType");
 		List<Integer> acceptedValues = List.of(4, 9);
-		verifiers.put("blockRecipeType_rg", (element, path) -> {
-			if (!blockRecipeValidator.assertObject(element, path)) return false;
+		validators.put("blockRecipeType_rg", (element, path) -> {
+			if (!blockRecipeValidator.assertParentObject(element, path)) return false;
 
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(blockRecipeValidator.getName());
@@ -132,7 +139,7 @@ public class MaterialPropertiesModel {
 
 			if (log && !blockRecipeValidator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
-			} else if (log && blockRecipeValidator.assertObject(parent, path)) {
+			} else if (log && blockRecipeValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(typesElement)) {
 					LOGGER.warn("\"processedTypes\" is missing! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
@@ -142,8 +149,8 @@ public class MaterialPropertiesModel {
 					boolean storage_block = types.contains(new JsonPrimitive("storage_block"));
 					if (!gem || !storage_block) {
 						LOGGER.warn(
-							"\"%s\" should not be present when \"gem\" %s \"storage_block\" aren't present in the \"processedTypes\" in file \"%s\"."
-								.formatted(blockRecipeValidator.getName(), gem || storage_block? "or":"and", Validator.obfuscatePath(path))
+							"\"%s\" should not be present when \"gem\" and \"storage_block\" aren't present in the \"processedTypes\" in file \"%s\"."
+								.formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path))
 						);
 					}
 				}
@@ -170,8 +177,8 @@ public class MaterialPropertiesModel {
 		});
 
 		Validator GemTextureValidator = new Validator("gemTexture");
-		verifiers.put("gemTexture_rg", (element, path) -> {
-			if (!GemTextureValidator.assertObject(element, path)) return false;
+		validators.put("gemTexture_rg", (element, path) -> {
+			if (!GemTextureValidator.assertParentObject(element, path)) return false;
 
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(GemTextureValidator.getName());
@@ -181,7 +188,7 @@ public class MaterialPropertiesModel {
 
 			if (log && !GemTextureValidator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(GemTextureValidator.getName(), Validator.obfuscatePath(path)));
-			} else if (log && GemTextureValidator.assertObject(parent, path)) {
+			} else if (log && GemTextureValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(typesElement)) {
 					LOGGER.warn("\"processedTypes\" is missing! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(GemTextureValidator.getName(), Validator.obfuscatePath(path)));
@@ -208,7 +215,7 @@ public class MaterialPropertiesModel {
 				}
 			}
 
-			return GemTextureValidator.getIntRange(0, 9).apply(valueJson, path);
+			return GemTextureValidator.getIntRange(0, 9, false).apply(valueJson, path);
 		});
 	}
 

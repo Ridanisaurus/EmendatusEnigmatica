@@ -6,14 +6,10 @@ import com.mojang.datafixers.util.Pair;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -30,7 +26,7 @@ public class Validator {
     // - All of the Material sub-models (pain)
     // - Deposits
     public static final boolean log = EEConfig.common.logConfigErrors.get();
-    public static final Logger LOGGER = LoggerFactory.getLogger("EE Data Validation");
+    public static final ValidatorLogger LOGGER = new ValidatorLogger(LoggerFactory.getLogger("EE Data Validation"));
     /**
      * All values are accepted. Simply returns true.
      */
@@ -50,42 +46,188 @@ public class Validator {
      */
     public final BiFunction<JsonElement, Path, Boolean> NON_EMPTY_REQUIRED;
     /**
-     * ResourceLocation has to exist, but is not required (can be null).
+     * The Field has to be boolean, but it's not required (can be null).
      */
-    public final BiFunction<JsonElement, Path, Boolean> RESOURCE_EXISTS;
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_BOOLEAN;
     /**
-     * ResourceLocation has to exist and is required (can't be null).
+     * The Field has to be boolean and is required (can't be null).
      */
-    public final BiFunction<JsonElement, Path, Boolean> RESOURCE_EXISTS_REQUIRED;
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_BOOLEAN_REQUIRED;
+    /**
+     * The Field has to be integer-like, but it's not required (can be null).
+     */
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_INT;
+    /**
+     * The Field has to be integer-like and is required (can't be null).
+     */
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_INT_REQUIRED;
+    /**
+     * The Field has to be a float, but it's not required (can be null).
+     * @apiNote Accepts Integer
+     */
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_FLOAT;
+    /**
+     * The Field has to be a float and is required (can't be null).
+     * @apiNote Accepts Integer
+     */
+    public final BiFunction<JsonElement, Path, Boolean> REQUIRES_FLOAT_REQUIRED;
+    /**
+     * String has to be in the format of minecraft item id "namespace:id", but it's not required (can be null).
+     * @apiNote Does not accept empty Strings.
+     */
+    public final BiFunction<JsonElement, Path, Boolean> RESOURCE_ID;
+    /**
+     * String has to be in the format of minecraft item id "namespace:id" and is required (can't be null).
+     * @apiNote Does not accept empty Strings.
+     */
+    public final BiFunction<JsonElement, Path, Boolean> RESOURCE_ID_REQUIRED;
+    /**
+     * String has to be correct hex color, without #.<br>
+     * Example:<br>
+     * "#aabbcc" -> Incorrect, contains # at the beginning.<br>
+     * "ggiijj" -> Illegal hex value (Different length than 6 also counts)<br>
+     * "15ffb3" -> Correct, hex value like that exists, so it's a color :D
+     */
+    public final BiFunction<JsonElement, Path, Boolean> HEX_COLOR;
+    /**
+     * String has to be correct hex color, without #, marked as Required.<br>
+     * Example:<br>
+     * "#aabbcc" -> Incorrect, contains # at the beginning.<br>
+     * "ggiijj" -> Illegal hex value (Different length than 6 also counts)<br>
+     * "15ffb3" -> Correct, hex value like that exists, so it's a color :D
+     */
+    public final BiFunction<JsonElement, Path, Boolean> HEX_COLOR_REQUIRED;
     private final String name;
 
     public Validator(String fieldName) {
         name = fieldName;
 
         NON_EMPTY = (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
+            if (Objects.isNull(element)) return true;
             try {
-                if (Objects.isNull(element)) return true;
+                if (element.isJsonObject()) throw new ClassCastException();
                 boolean value = element.getAsString().isBlank();
-                if (value && log) LOGGER.error("%s in file \"%s\" can't be blank!".formatted(name, obfuscatePath(path)));
+                if (value && log) LOGGER.error("\"%s\" in file \"%s\" can't be blank!".formatted(name, obfuscatePath(path)));
                 return !value;
-            } catch (Exception e) {
-                if (log) LOGGER.error("%s in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
+            } catch (ClassCastException e) {
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
 
         REQUIRED = (data, jsonPath) -> {
             boolean value = Objects.nonNull(data);
-            if (!value && log) LOGGER.error("%s in file \"%s\" is missing!".formatted(name, obfuscatePath(jsonPath)));
+            if (!value && log) LOGGER.error("\"%s\" in file \"%s\" is missing!".formatted(name, obfuscatePath(jsonPath)));
             return value;
         };
 
         NON_EMPTY_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && NON_EMPTY.apply(data, jsonPath);
 
-        // It's very likely I can't verify this.
-        RESOURCE_EXISTS = (data, jsonPath) -> true;
+        REQUIRES_BOOLEAN = (data, jsonPath) -> {
+            if (Objects.isNull(data)) return true;
+            try {
+                if (!data.isJsonPrimitive()) throw new ClassCastException();
+                data.getAsBoolean();
+                return true;
+            } catch (ClassCastException e) {
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires Boolean (true/false) value!".formatted(name, obfuscatePath(jsonPath)));
+            }
+            return false;
+        };
 
-        RESOURCE_EXISTS_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && RESOURCE_EXISTS.apply(data, jsonPath);
+        REQUIRES_BOOLEAN_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && REQUIRES_BOOLEAN.apply(data, jsonPath);
+
+        REQUIRES_INT = (data, jsonPath) -> {
+            if (Objects.isNull(data)) return true;
+            try {
+                if (!data.isJsonPrimitive()) throw new ClassCastException();
+                double value = data.getAsDouble();
+                if (log && Math.ceil(value) > value) {
+                    LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(jsonPath)));
+                }
+                return true;
+            } catch (ClassCastException | NumberFormatException e) {
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
+            }
+            return false;
+        };
+
+        REQUIRES_INT_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && REQUIRES_INT.apply(data, jsonPath);
+
+        REQUIRES_FLOAT = (data, jsonPath) -> {
+            if (Objects.isNull(data)) return true;
+            try {
+                if (!data.isJsonPrimitive()) throw new ClassCastException();
+                data.getAsDouble();
+                return true;
+            } catch (ClassCastException | NumberFormatException e) {
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
+            }
+            return false;
+        };
+
+        REQUIRES_FLOAT_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && REQUIRES_INT.apply(data, jsonPath);
+
+        RESOURCE_ID = (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
+            //TODO: Probably replace this with ResourceLocation#isValidResourceLocation
+            if (Objects.isNull(element)) return true;
+            if (!NON_EMPTY.apply(element, path)) return false;
+            String value = element.getAsString();
+            String[] values = (value + " :").split(":");
+            boolean validation = true;
+            if (values.length != 2) {
+                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" isn't in a proper format! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                return false;
+            }
+            if (values[0].isBlank()) {
+                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the namespace! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                validation = false;
+            }
+            if (values[1].isBlank()) {
+                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the id! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                validation = false;
+            }
+            return validation;
+        });
+
+        RESOURCE_ID_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && RESOURCE_ID.apply(data, jsonPath);
+
+        HEX_COLOR = (element, path) -> {
+            if (Objects.isNull(element)) return true;
+            if (!NON_EMPTY.apply(element, path)) return false;
+
+            String value = element.getAsString();
+            boolean validation = true;
+
+            if (value.startsWith("#")) {
+                if (log) LOGGER.error("Hexadecimal color values should not start with #! Found in \"%s\" in file \"%s\"".formatted(name, obfuscatePath(path)));
+                value = value.substring(1);
+                validation = false;
+            }
+            if (value.length() != 6) {
+                if (log) {
+                    LOGGER.error("Too %s hexadecimal value for color in \"%s\" in file \"%s\"! String should have length 6 (RR GG BB (Red / Green / Blue value)), but it has %d."
+                        .formatted(value.length() > 6? "long": "short", name, obfuscatePath(path), value.length())
+                    );
+                }
+                validation = false;
+            } else {
+                try {
+                    HexFormat.fromHexDigits(value);
+                } catch (Exception e) {
+                    if (log) {
+                        LOGGER.error("Non-Hexadecimal character found in provided string (\"%s\") in \"%s\" in file \"%s\".".
+                            formatted(value, name, obfuscatePath(path))
+                        );
+                    }
+                    validation = false;
+                }
+            }
+
+            return validation;
+        };
+
+        HEX_COLOR_REQUIRED = (element, path) -> REQUIRED.apply(element, path) && HEX_COLOR.apply(element, path);
     }
 
     /**
@@ -97,18 +239,30 @@ public class Validator {
     public BiFunction<JsonElement, Path, Boolean> getRange(double min, double max) {
         return (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
             try {
+                if (!element.isJsonPrimitive()) throw new ClassCastException();
                 double value = element.getAsDouble();
                 if (value < min || value > max) {
-                    if (log) LOGGER.error("%s in file \"%s\" is out of range! Provided: %f, Min: %f, Max: %f.".formatted(name, obfuscatePath(path), value, min, max));
+                    if (log) LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %f, Min: %f, Max: %f.".formatted(name, obfuscatePath(path), value, min, max));
                     return false;
                 }
                 return true;
             } catch (Exception e) {
                 if (Objects.isNull(element)) return true;
-                if (log) LOGGER.error("%s in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
+    }
+
+    /**
+     * Used to get validator of Number Range. Supports: int, long, float, double.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @param array Determines if value should be an array. True -> Accepts only arrays / False -> Accepts only non-arrays.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRange(double min, double max, boolean array) {
+        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getRange(min, max).apply(jsonElement, path);
     }
 
     /**
@@ -122,31 +276,54 @@ public class Validator {
     }
 
     /**
+     * Used to get validator of Number Range marked as Required. Supports: int, long, float, double.
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @param array Determines if value should be an array. True -> Accepts only arrays / False -> Accepts only non-arrays.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredRange(double min, double max, boolean array) {
+        return (jsonElement, path) -> REQUIRED.apply(jsonElement, path) && getRange(min, max, array).apply(jsonElement, path);
+    }
+
+    /**
      * Used to get validator of Number Range, checking additionally for illegal floating-point values. Supports: int, long, (Will issue warning) -> float, double
      * @param min Minimum value.
      * @param max Maximum value.
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getIntRange(long min, long max) {
-        return (element, path) -> {
+        return (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
             try {
+                if (!element.isJsonPrimitive()) throw new ClassCastException();
                 if (log) {
                     double check = element.getAsDouble();
-                    if (Math.ceil(check) > check) LOGGER.warn("%s in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(path)));
+                    if (Math.ceil(check) > check) LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(path)));
                 }
 
                 long value = element.getAsLong();
                 if (value < min || value > max) {
-                    if (log) LOGGER.error("%s in file \"%s\" is out of range! Provided: %d, Min: %d, Max: %d.".formatted(name, obfuscatePath(path), value, min, max));
+                    if (log) LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %d, Min: %d, Max: %d.".formatted(name, obfuscatePath(path), value, min, max));
                     return false;
                 }
                 return true;
             } catch (ClassCastException | NullPointerException e) {
                 if (Objects.isNull(element)) return true;
-                if (log) LOGGER.error("%s in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
+                if (log) LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
             }
             return false;
-        };
+        });
+    }
+
+    /**
+     * Used to get validator of Number Range, checking additionally for illegal floating-point values. Supports: int, long, (Will issue warning) -> float, double
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @param array Determines if value should be an array. True -> Accepts only arrays / False -> Accepts only non-arrays.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIntRange(long min, long max, boolean array) {
+        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIntRange(min, max).apply(jsonElement, path);
     }
 
     /**
@@ -161,6 +338,18 @@ public class Validator {
     }
 
     /**
+     * Used to get validator of Number Range, marked as Required, checking additionally for illegal floating-point values.
+     * Supports: int, long, (Will issue warning) -> float, double
+     * @param min Minimum value.
+     * @param max Maximum value.
+     * @param array Determines if value should be an array. True -> Accepts only arrays / False -> Accepts only non-arrays.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredIntRange(long min, long max, boolean array) {
+        return (element, path) -> REQUIRED.apply(element, path) && getIntRange(min, max, array).apply(element, path);
+    }
+
+    /**
      * Used to get validator of another JsonObject.
      * @param validators Map with validators for JsonObject to verify.
      * @return BiFunction used as validator.
@@ -171,7 +360,7 @@ public class Validator {
     }
 
     /**
-     * Used to get validator of another JsonObject marked as REQUIRED.
+     * Used to get validator of another JsonObject marked as Required.
      * @param validators Map with validators for JsonObject to verify.
      * @return BiFunction used as validator.
      * @apiNote This is a wrapper of {@link Validator#validateObject(JsonElement, Path, Map)}. See JavaDoc for that method for full documentation.
@@ -189,6 +378,7 @@ public class Validator {
         return (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
             if (Objects.isNull(element)) return true;
             try {
+                if (!element.isJsonPrimitive()) throw new ClassCastException();
                 String value = element.getAsString();
                 boolean validation = values.contains(value);
                 if (log && !validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Accepted values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
@@ -201,6 +391,15 @@ public class Validator {
     }
 
     /**
+     * Used to get a validator that checks if value is one of the acceptable ones. Supports: String
+     * @param values List with accepted String values.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getAcceptsOnlyValidation(List<String> values, boolean array) {
+        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getAcceptsOnlyValidation(values).apply(jsonElement, path);
+    }
+
+    /**
      * Used to get a validator that checks if value is one of the acceptable ones, marked as Required. Supports: String
      * @param values List with accepted String values.
      * @return BiFunction used as validator.
@@ -210,8 +409,18 @@ public class Validator {
     }
 
     /**
+     * Used to get a validator that checks if value is one of the acceptable ones, marked as Required. Supports: String
+     * @param values List with accepted String values.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredAcceptsOnlyValidation(List<String> values, boolean array) {
+        return (jsonElement, path) -> REQUIRED.apply(jsonElement, path) && getAcceptsOnlyValidation(values, array).apply(jsonElement, path);
+    }
+
+    /**
      * Used to get a validator that checks the array for containing illegal pairs of values. Supports: String
      * @param pairs List of Pairs with values that are illegal at the same time.
+     * @apiNote This validator can only be used for array values.
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getIllegalPairsValidation(List<Pair<String, String>> pairs) {
@@ -261,54 +470,70 @@ public class Validator {
      * Used to pass the parent object to the validators.
      * Suffix _rg is required.
      * Parent object will be added under the "TEMP" field of the object
-     * (or for all entries in the array) and validation will be launcher as normal.
+     * (or for all entries in the array) and validation will be launched as normal.
      * @param validators Map with validators.
      * @return BiFunction used as validator.
+     * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
      */
-    public BiFunction<JsonElement, Path, Boolean> getPassParentToValidators(Map<String, BiFunction<JsonElement, Path, Boolean>> validators) {
+    public BiFunction<JsonElement, Path, Boolean> getPassParentToValidators(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
         return (parent, path) -> {
-            if (!assertObject(parent, path)) return false;
-            JsonElement element = parent.getAsJsonObject().get(name);
-            if (Objects.isNull(element)) return true;
-            if (element.isJsonPrimitive()) {
-                if (log) LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
-                return false;
-            }
-
-            validators.put("TEMP", Validator.ALL);
-
-            Consumer<JsonObject> addTemp = jsonObject -> {
-                checkForTEMP(jsonObject, path, true);
-                jsonObject.add("TEMP", parent.deepCopy());
-            };
-
-            if (element.isJsonObject()) {
-                addTemp.accept(element.getAsJsonObject());
-            } else {
-                if (!assertArray(element, path)) return false;
-
-                element.getAsJsonArray().forEach(entry -> {
-                    if (!assertObject(entry, path)) return;
-                    addTemp.accept(entry.getAsJsonObject());
-                });
-            }
-
-            boolean result = validateObject(element, path, validators);
-            validators.remove("TEMP");
-            return result;
+            if (!assertParentObject(parent, path)) return false;
+            JsonObject parentObj = parent.getAsJsonObject();
+            return passTempToValidators(parentObj, parentObj.get(name), path, validators, required);
         };
+    }
+
+    /**
+     * Used to pass a provided object to the validators by adding it to the TEMP field of the object
+     * (or for all entries in the array) and validation will be launched as normal.
+     * @param validators Map with validators.
+     * @return BiFunction used as validator.
+     * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
+     */
+    public boolean passTempToValidators(JsonObject tempObject, @Nullable JsonElement element, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
+        if (Objects.isNull(element)) return (required? REQUIRED.apply(null, path): true);
+        if (element.isJsonPrimitive() || element.isJsonNull()) {
+            if (log) LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
+            return false;
+        }
+
+        validators.put("TEMP", Validator.ALL);
+
+        Consumer<JsonObject> addTemp = jsonObject -> {
+            checkForTEMP(jsonObject, path, true);
+            jsonObject.add("TEMP", tempObject.deepCopy());;
+        };
+
+        AtomicBoolean validation = new AtomicBoolean(true);
+        if (element.isJsonObject()) {
+            addTemp.accept(element.getAsJsonObject());
+        } else {
+            element.getAsJsonArray().forEach(entry -> {
+                // If Support for arrays of arrays is required, this is the place it needs to be added.
+                if (!assertObject(entry, path)) {
+                    validation.set(false);
+                    return;
+                }
+                addTemp.accept(entry.getAsJsonObject());
+            });
+        }
+
+        boolean result = validateObject(element, path, validators);
+        validators.remove("TEMP");
+        return result && validation.get();
     }
 
     /**
      * Utility method checking if TEMP field is present. Used mostly in scenarios where parent is required.
      * @param object JsonObject to check for TEMP field.
      * @param path Path of the file.
-     * @return True if TEMP exists, otherwise false.
+     * @return True if TEMP exists and is JsonObject, otherwise false.
      */
     public boolean checkForTEMP(JsonObject object, Path path, boolean shouldLog) {
-        boolean temp = Objects.nonNull(object.get("TEMP"));
+        JsonElement tempElement = object.get("TEMP");
+        boolean temp = Objects.nonNull(tempElement);
         if (temp && log && shouldLog) LOGGER.warn("Unknown key (\"TEMP\") found in file \"%s\".".formatted(obfuscatePath(path)));
-        return temp;
+        return temp && tempElement.isJsonObject();
     }
 
     /**
@@ -365,6 +590,14 @@ public class Validator {
     public boolean assertObject(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonObject()) {
             if (log) LOGGER.error("Expected object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            return false;
+        }
+        return true;
+    }
+
+    public boolean assertParentObject(@Nullable JsonElement element, Path path) {
+        if (Objects.isNull(element) || !element.isJsonObject()) {
+            if (log) LOGGER.error("Expected parent object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;

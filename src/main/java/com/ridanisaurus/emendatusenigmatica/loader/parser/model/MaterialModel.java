@@ -24,7 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -40,6 +43,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialModel {
@@ -92,14 +96,18 @@ public class MaterialModel {
 	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
 	 * Adding suffix _rg will request the original object instead of just the value of the field.
 	 */
-	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> verifiers = new HashMap<>();
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		verifiers.put("id", new Validator("id").NON_EMPTY_REQUIRED);
-		verifiers.put("source", new Validator("source").getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded")));
-		verifiers.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+		validators.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		validators.put("source", new Validator("source").getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded"), false));
+		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+		validators.put("disableDefaultOre", new Validator("disableDefaultOre").REQUIRES_BOOLEAN);
+		validators.put("properties_rg", new Validator("properties").getPassParentToValidators(MaterialPropertiesModel.validators, false));
+		validators.put("colors_rg", new Validator("colors").getPassParentToValidators(MaterialColorsModel.validators, false));
+		validators.put("compat", new Validator("compat").getObjectValidation(MaterialCompatModel.validators));
 
 		Validator typesValidator = new Validator("processedTypes");
-		verifiers.put("processedTypes", (element, path) ->
+		validators.put("processedTypes", (element, path) ->
 			typesValidator.getRequiredAcceptsOnlyValidation(List.of(
 				"storage_block",
 				"ingot",
@@ -131,17 +139,15 @@ public class MaterialModel {
 				"shard",
 				"clump",
 				"dirty_dust",
-				"crushed_ore")
-			).apply(element, path) &&
+				"crushed_ore"),
+			true).apply(element, path) &&
 			typesValidator.getIllegalPairsValidation(List.of(
 					new Pair<>("ingot", "gem")
 			)).apply(element, path)
 		);
 
-		verifiers.put("disableDefaultOre", Validator.ALL);
-
 		Validator strataValidator = new Validator("strata");
-		verifiers.put("strata", (element, path) -> {
+		validators.put("strata", (element, path) -> {
 			if (Objects.isNull(element)) return true;
 			if (!strataValidator.assertArray(element, path)) return false;
 
@@ -150,11 +156,11 @@ public class MaterialModel {
 				try {
 					String value = element1.getAsString();
 					if (!DefaultConfigPlugin.STRATA_IDS.contains(value)) {
-						if (log) Validator.LOGGER.error("Strata under id %s is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
+						if (log) LOGGER.error("Strata under id \"%s\" is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
 						validation.set(false);
 					}
 				} catch (ClassCastException ignored) {} catch (Exception e) {
-					if (log) Validator.LOGGER.error("Caught exception while reading values from Strata array in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
+					if (log) LOGGER.error("Caught exception while reading values from Strata array in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
 					validation.set(false);
 				}
 			});
@@ -162,13 +168,160 @@ public class MaterialModel {
 			return validation.get();
 		});
 
-		verifiers.put("properties_rg", new Validator("properties").getPassParentToValidators(MaterialPropertiesModel.verifiers));
-//		verifiers.put("gas", new Validator("gas").getObjectValidation(null));
-//		verifiers.put("oreDrop", new Validator("oreDrop").getObjectValidation(null));
-//		verifiers.put("compat", new Validator("compat").getObjectValidation(null));
-//		verifiers.put("colors", new Validator("colors").getObjectValidation(null));
-//		verifiers.put("tools", new Validator("tools").getObjectValidation(null));
-//		verifiers.put("armor_rg", new Validator("armor").getObjectValidation(null));
+		Validator oreDropValidator = new Validator("oreDrop");
+		validators.put("oreDrop_rg", (element, path) -> {
+			if (!oreDropValidator.assertParentObject(element, path)) return false;
+
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(oreDropValidator.getName());
+			JsonElement typesElement = obj.get("processedTypes");
+			JsonObject tempObj = new JsonObject();
+			boolean dropRequired = false;
+
+			if (Objects.nonNull(typesElement) && typesElement.isJsonArray()) {
+				JsonArray types = typesElement.getAsJsonArray();
+				boolean gem = types.contains(new JsonPrimitive("gem"));
+				boolean raw = types.contains(new JsonPrimitive("raw"));
+				boolean ore = types.contains(new JsonPrimitive("ore"));
+				if (!ore) {
+					if (log && Objects.nonNull(valueJson)) {
+						LOGGER.warn("\"%s\" should not be present when \"ore\" is missing from the \"processedTypes\" in file \"%s\"".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
+					}
+				} else if (!gem && !raw) {
+					if (Objects.isNull(valueJson)) {
+						if (log) {
+							LOGGER.error("\"%s\" is required when \"ore\", but no \"gem\" or \"raw\" is present in the \"processedTypes\" in file \"%s\".".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
+						}
+						return false;
+					}
+					dropRequired = true;
+				}
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
+			}
+
+			tempObj.add("DROP_REQUIRED", new JsonPrimitive(dropRequired));
+			return oreDropValidator.passTempToValidators(tempObj, valueJson, path, MaterialOreDropModel.validators, false);
+		});
+
+		Validator toolsValidator = new Validator("tools");
+		validators.put(toolsValidator.getName() + "_rg", (element, path) -> {
+			if (!toolsValidator.assertParentObject(element, path)) return false;
+
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(toolsValidator.getName());
+			JsonElement typesElement = obj.get("processedTypes");
+			JsonObject tempObj = new JsonObject();
+			boolean sword = false;
+			boolean pickaxe = false;
+			boolean axe = false;
+			boolean shovel = false;
+			boolean hoe = false;
+			boolean paxel = false;
+
+			if (Objects.nonNull(typesElement) && typesElement.isJsonArray()) {
+				JsonArray types = typesElement.getAsJsonArray();
+				sword = types.contains(new JsonPrimitive("sword"));
+				pickaxe = types.contains(new JsonPrimitive("pickaxe"));
+				axe = types.contains(new JsonPrimitive("axe"));
+				shovel = types.contains(new JsonPrimitive("shovel"));
+				hoe = types.contains(new JsonPrimitive("hoe"));
+				paxel = types.contains(new JsonPrimitive("paxel"));
+				if (!(sword || pickaxe || axe || shovel || hoe || paxel)) {
+					if (log && Objects.nonNull(valueJson)) {
+						LOGGER.warn("\"%s\" should not be present when tools are missing from the \"processedTypes\" in file \"%s\"".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
+					}
+				} else if (Objects.isNull(valueJson)) {
+					if (log) {
+						LOGGER.error("\"%s\" is required when tools are present in the \"processedTypes\" in file \"%s\".".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
+					}
+					return false;
+				}
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
+			}
+
+			tempObj.add("sword",   new JsonPrimitive(sword));
+			tempObj.add("pickaxe", new JsonPrimitive(pickaxe));
+			tempObj.add("axe",     new JsonPrimitive(axe));
+			tempObj.add("shovel",  new JsonPrimitive(shovel));
+			tempObj.add("hoe",     new JsonPrimitive(hoe));
+			tempObj.add("paxel",   new JsonPrimitive(paxel));
+
+			return toolsValidator.passTempToValidators(tempObj, valueJson, path, MaterialToolsModel.validators, false);
+		});
+
+		Validator armorValidator = new Validator("armor");
+		validators.put(armorValidator.getName() + "_rg", (element, path) -> {
+			if (!armorValidator.assertParentObject(element, path)) return false;
+
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(armorValidator.getName());
+			JsonElement typesElement = obj.get("processedTypes");
+			JsonObject tempObj = new JsonObject();
+			boolean helmet = false;
+			boolean chestplate = false;
+			boolean leggings = false;
+			boolean boots = false;
+			boolean shield = false;
+
+			if (Objects.nonNull(typesElement) && typesElement.isJsonArray()) {
+				JsonArray types = typesElement.getAsJsonArray();
+				helmet = types.contains(new JsonPrimitive("helmet"));
+				chestplate = types.contains(new JsonPrimitive("chestplate"));
+				leggings = types.contains(new JsonPrimitive("leggings"));
+				boots = types.contains(new JsonPrimitive("boots"));
+				shield = types.contains(new JsonPrimitive("shield"));
+				if (!(helmet || chestplate || leggings || boots || shield)) {
+					if (log && Objects.nonNull(valueJson)) {
+						LOGGER.warn("\"%s\" should not be present when armor pieces are missing from the \"processedTypes\" in file \"%s\"".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
+					}
+				} else if (Objects.isNull(valueJson)) {
+					if (log) {
+						LOGGER.error("\"%s\" is required when armor pieces are present in the \"processedTypes\" in file \"%s\".".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
+					}
+					return false;
+				}
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
+			}
+
+			tempObj.add("helmet",     new JsonPrimitive(helmet));
+			tempObj.add("chestplate", new JsonPrimitive(chestplate));
+			tempObj.add("leggings",   new JsonPrimitive(leggings));
+			tempObj.add("boots",      new JsonPrimitive(boots));
+			tempObj.add("shield",     new JsonPrimitive(shield));
+
+			return armorValidator.passTempToValidators(tempObj, valueJson, path, MaterialArmorModel.validators, false);
+		});
+
+		Validator gasValidator = new Validator("gas");
+		validators.put(gasValidator.getName() + "_rg", (element, path) -> {
+			if (!gasValidator.assertParentObject(element, path)) return false;
+
+			JsonObject obj = element.getAsJsonObject();
+			JsonElement valueJson = obj.get(gasValidator.getName());
+			JsonElement typesElement = obj.get("processedTypes");
+
+			if (Objects.nonNull(typesElement) && typesElement.isJsonArray()) {
+				JsonArray types = typesElement.getAsJsonArray();
+				boolean gas = types.contains(new JsonPrimitive("gas"));
+				if (!gas) {
+					if (log && Objects.nonNull(valueJson)) {
+						LOGGER.warn("\"%s\" should not be present when \"gas\" is missing from the \"processedTypes\" in file \"%s\"".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+					}
+				} else if (Objects.isNull(valueJson)) {
+					if (log) {
+						LOGGER.error("\"%s\" is required when \"gas\" is present in the \"processedTypes\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+					}
+					return false;
+				}
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+			}
+
+			return gasValidator.validateObject(valueJson, path, MaterialGasPropertiesModel.validators);
+		});
 	}
 
 	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, List<String> strata,
