@@ -23,8 +23,9 @@ public class Validator {
     // - Strata - DONE
     // - Compat Model - DONE
     // - Material Model - DONE
-    // - All of the Material sub-models (pain)
+    // - All of the Material sub-models (pain) - DONE
     // - Deposits
+    // - Code Cleanup
     public static final boolean log = EEConfig.common.logConfigErrors.get();
     public static final ValidatorLogger LOGGER = new ValidatorLogger(LoggerFactory.getLogger("EE Data Validation"));
     /**

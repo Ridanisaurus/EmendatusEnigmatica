@@ -118,7 +118,7 @@ public class EmendatusEnigmatica {
             try {
                 if(generator == null)
                     registerDataGen();
-                    generator.run();
+                generator.run();
             } catch (IOException e) {
                 e.printStackTrace();
             }

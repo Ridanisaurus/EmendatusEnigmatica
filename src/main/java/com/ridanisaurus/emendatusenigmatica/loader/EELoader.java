@@ -38,11 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EELoader {
-
     public static final Logger LOADER_LOGGER = LogManager.getLogger(EELoader.class);
     private final EmendatusDataRegistry dataRegistry;
-
-    private List<IEmendatusPlugin> plugins;
+    private final List<IEmendatusPlugin> plugins;
 
 public EELoader() {
         this.dataRegistry = new EmendatusDataRegistry();
