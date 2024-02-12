@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import net.minecraft.resources.ResourceLocation;
 
 import java.nio.file.Path;
@@ -67,7 +68,7 @@ public class StrataModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		validators.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		validators.put("id", new Validator("id").getRequiredIllegalValuesValidation(DefaultConfigPlugin.STRATA_IDS, false));
 		validators.put("suffix", new Validator("suffix").NON_EMPTY_REQUIRED);
 		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
 		validators.put("baseTexture", new Validator("baseTexture").RESOURCE_ID_REQUIRED);

@@ -108,17 +108,17 @@ public class Validator {
             try {
                 if (element.isJsonObject()) throw new ClassCastException();
                 boolean value = element.getAsString().isBlank();
-                if (value && log) LOGGER.error("\"%s\" in file \"%s\" can't be blank!".formatted(name, obfuscatePath(path)));
+                if (value) LOGGER.error("\"%s\" in file \"%s\" can't be blank!".formatted(name, obfuscatePath(path)));
                 return !value;
             } catch (ClassCastException e) {
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
+                LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
 
         REQUIRED = (data, jsonPath) -> {
             boolean value = Objects.nonNull(data);
-            if (!value && log) LOGGER.error("\"%s\" in file \"%s\" is missing!".formatted(name, obfuscatePath(jsonPath)));
+            if (!value) LOGGER.error("\"%s\" in file \"%s\" is missing!".formatted(name, obfuscatePath(jsonPath)));
             return value;
         };
 
@@ -131,7 +131,7 @@ public class Validator {
                 data.getAsBoolean();
                 return true;
             } catch (ClassCastException e) {
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires Boolean (true/false) value!".formatted(name, obfuscatePath(jsonPath)));
+                LOGGER.error("\"%s\" in file \"%s\" requires Boolean (true/false) value!".formatted(name, obfuscatePath(jsonPath)));
             }
             return false;
         };
@@ -148,7 +148,7 @@ public class Validator {
                 }
                 return true;
             } catch (ClassCastException | NumberFormatException e) {
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
+                LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
             }
             return false;
         };
@@ -162,7 +162,7 @@ public class Validator {
                 data.getAsDouble();
                 return true;
             } catch (ClassCastException | NumberFormatException e) {
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
+                LOGGER.error("\"%s\" in file \"%s\" requires numeric value!".formatted(name, obfuscatePath(jsonPath)));
             }
             return false;
         };
@@ -177,15 +177,15 @@ public class Validator {
             String[] values = (value + " :").split(":");
             boolean validation = true;
             if (values.length != 2) {
-                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" isn't in a proper format! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" isn't in a proper format! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
                 return false;
             }
             if (values[0].isBlank()) {
-                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the namespace! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the namespace! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
                 validation = false;
             }
             if (values[1].isBlank()) {
-                if (log) LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the id! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
+                LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the id! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
                 validation = false;
             }
             return validation;
@@ -201,26 +201,22 @@ public class Validator {
             boolean validation = true;
 
             if (value.startsWith("#")) {
-                if (log) LOGGER.error("Hexadecimal color values should not start with #! Found in \"%s\" in file \"%s\"".formatted(name, obfuscatePath(path)));
+                LOGGER.error("Hexadecimal color values should not start with #! Found in \"%s\" in file \"%s\"".formatted(name, obfuscatePath(path)));
                 value = value.substring(1);
                 validation = false;
             }
             if (value.length() != 6) {
-                if (log) {
-                    LOGGER.error("Too %s hexadecimal value for color in \"%s\" in file \"%s\"! String should have length 6 (RR GG BB (Red / Green / Blue value)), but it has %d."
-                        .formatted(value.length() > 6? "long": "short", name, obfuscatePath(path), value.length())
-                    );
-                }
+                LOGGER.error("Too %s hexadecimal value for color in \"%s\" in file \"%s\"! String should have length 6 (RR GG BB (Red / Green / Blue value)), but it has %d."
+                    .formatted(value.length() > 6? "long": "short", name, obfuscatePath(path), value.length())
+                );
                 validation = false;
             } else {
                 try {
                     HexFormat.fromHexDigits(value);
                 } catch (Exception e) {
-                    if (log) {
-                        LOGGER.error("Non-Hexadecimal character found in provided string (\"%s\") in \"%s\" in file \"%s\".".
-                            formatted(value, name, obfuscatePath(path))
-                        );
-                    }
+                    LOGGER.error("Non-Hexadecimal character found in provided string (\"%s\") in \"%s\" in file \"%s\".".
+                        formatted(value, name, obfuscatePath(path))
+                    );
                     validation = false;
                 }
             }
@@ -243,13 +239,13 @@ public class Validator {
                 if (!element.isJsonPrimitive()) throw new ClassCastException();
                 double value = element.getAsDouble();
                 if (value < min || value > max) {
-                    if (log) LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %f, Min: %f, Max: %f.".formatted(name, obfuscatePath(path), value, min, max));
+                    LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %f, Min: %f, Max: %f.".formatted(name, obfuscatePath(path), value, min, max));
                     return false;
                 }
                 return true;
             } catch (Exception e) {
                 if (Objects.isNull(element)) return true;
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
+                LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
@@ -304,13 +300,13 @@ public class Validator {
 
                 long value = element.getAsLong();
                 if (value < min || value > max) {
-                    if (log) LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %d, Min: %d, Max: %d.".formatted(name, obfuscatePath(path), value, min, max));
+                    LOGGER.error("\"%s\" in file \"%s\" is out of range! Provided: %d, Min: %d, Max: %d.".formatted(name, obfuscatePath(path), value, min, max));
                     return false;
                 }
                 return true;
             } catch (ClassCastException | NullPointerException e) {
                 if (Objects.isNull(element)) return true;
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
+                LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
@@ -371,6 +367,56 @@ public class Validator {
     }
 
     /**
+     * Used to get a validator that checks if value is not one of the illegal ones. Supports: String
+     * @param values List with illegal String values.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIllegalValuesValidation(List<String> values) {
+        return (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
+            if (Objects.isNull(element)) return true;
+            try {
+                if (!element.isJsonPrimitive()) throw new ClassCastException();
+                String value = element.getAsString();
+                boolean validation = values.contains(value);
+                if (validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Illegal values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
+                return !validation;
+            } catch (ClassCastException e) {
+                LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Used to get a validator that checks if value is not one of the illegal ones. Supports: String
+     * @param values List with illegal String values.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIllegalValuesValidation(List<String> values, boolean array) {
+        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIllegalValuesValidation(values).apply(jsonElement, path);
+    }
+
+    /**
+     * Used to get a validator that checks if value is not one of the illegal ones. Supports: String
+     * @param values List with illegal String values.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredIllegalValuesValidation(List<String> values) {
+        return (element, path) -> REQUIRED.apply(element, path) && getIllegalValuesValidation(values).apply(element, path);
+    }
+
+    /**
+     * Used to get a validator that checks if value is not one of the illegal ones. Supports: String
+     * @param values List with illegal String values.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredIllegalValuesValidation(List<String> values, boolean array) {
+        return (element, path) -> REQUIRED.apply(element, path) && getIllegalValuesValidation(values, array).apply(element, path);
+    }
+
+    /**
      * Used to get a validator that checks if value is one of the acceptable ones. Supports: String
      * @param values List with accepted String values.
      * @return BiFunction used as validator.
@@ -382,10 +428,10 @@ public class Validator {
                 if (!element.isJsonPrimitive()) throw new ClassCastException();
                 String value = element.getAsString();
                 boolean validation = values.contains(value);
-                if (log && !validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Accepted values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
+                if (!validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Accepted values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
                 return validation;
             } catch (ClassCastException e) {
-                if (log) LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
+                LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
             }
             return false;
         });
@@ -394,6 +440,7 @@ public class Validator {
     /**
      * Used to get a validator that checks if value is one of the acceptable ones. Supports: String
      * @param values List with accepted String values.
+     * @param array Determines if expected is an array value (true) or not (false);
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getAcceptsOnlyValidation(List<String> values, boolean array) {
@@ -412,6 +459,7 @@ public class Validator {
     /**
      * Used to get a validator that checks if value is one of the acceptable ones, marked as Required. Supports: String
      * @param values List with accepted String values.
+     * @param array Determines if expected is an array value (true) or not (false);
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredAcceptsOnlyValidation(List<String> values, boolean array) {
@@ -428,7 +476,7 @@ public class Validator {
         return (element, path) -> {
             if (Objects.isNull(element)) return true;
             if (!element.isJsonArray()) {
-                if (log) LOGGER.error("Expected array for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
+                LOGGER.error("Expected array for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
                 return false;
             }
 
@@ -448,7 +496,7 @@ public class Validator {
 
             pairs.forEach(pair -> {
                 if (values.contains(pair.getFirst()) && values.contains(pair.getSecond())) {
-                    if (log) LOGGER.error("Illegal pair found (%s and %s) in the array \"%s\" of file \"%s\".".formatted(pair.getFirst(), pair.getSecond(), name, obfuscatePath(path)));
+                    LOGGER.error("Illegal pair found (%s and %s) in the array \"%s\" of file \"%s\".".formatted(pair.getFirst(), pair.getSecond(), name, obfuscatePath(path)));
                     validation.set(false);
                 }
             });
@@ -494,7 +542,7 @@ public class Validator {
     public boolean passTempToValidators(JsonObject tempObject, @Nullable JsonElement element, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
         if (Objects.isNull(element)) return (required? REQUIRED.apply(null, path): true);
         if (element.isJsonPrimitive() || element.isJsonNull()) {
-            if (log) LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
+            LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
             return false;
         }
 
@@ -533,7 +581,7 @@ public class Validator {
     public boolean checkForTEMP(JsonObject object, Path path, boolean shouldLog) {
         JsonElement tempElement = object.get("TEMP");
         boolean temp = Objects.nonNull(tempElement);
-        if (temp && log && shouldLog) LOGGER.warn("Unknown key (\"TEMP\") found in file \"%s\".".formatted(obfuscatePath(path)));
+        if (temp && shouldLog) LOGGER.warn("Unknown key (\"TEMP\") found in file \"%s\".".formatted(obfuscatePath(path)));
         return temp && tempElement.isJsonObject();
     }
 
@@ -569,8 +617,8 @@ public class Validator {
             JsonObject object = element.getAsJsonObject();
             AtomicBoolean validation = new AtomicBoolean(true);
 
-            object.entrySet().forEach(entry -> {
-                if (log && !(validators.containsKey(entry.getKey()) || validators.containsKey(entry.getKey() + "_rg"))) {
+            if (log) object.entrySet().forEach(entry -> {
+                if (!(validators.containsKey(entry.getKey()) || validators.containsKey(entry.getKey() + "_rg"))) {
                     LOGGER.warn("Unknown key (\"%s\") found in file \"%s\".".formatted(entry.getKey(), obfuscatePath(jsonPath)));
                 }
             });
@@ -590,7 +638,7 @@ public class Validator {
      */
     public boolean assertObject(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonObject()) {
-            if (log) LOGGER.error("Expected object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            LOGGER.error("Expected object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;
@@ -598,7 +646,7 @@ public class Validator {
 
     public boolean assertParentObject(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonObject()) {
-            if (log) LOGGER.error("Expected parent object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            LOGGER.error("Expected parent object for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;
@@ -612,7 +660,7 @@ public class Validator {
      */
     public boolean assertNotArray(@Nullable JsonElement element, Path path) {
         if (Objects.nonNull(element) && element.isJsonArray()) {
-            if (log) LOGGER.error("Array found on non-array key \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
+            LOGGER.error("Array found on non-array key \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
             return false;
         }
         return true;
@@ -626,7 +674,7 @@ public class Validator {
      */
     public boolean assertArray(@Nullable JsonElement element, Path path) {
         if (Objects.isNull(element) || !element.isJsonArray()) {
-            if (log) LOGGER.error("Expected array for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
+            LOGGER.error("Expected array for verification of key \"%s\" in file \"%s\"%s".formatted(name, obfuscatePath(path), Objects.isNull(element)? ", got null.": "."));
             return false;
         }
         return true;
