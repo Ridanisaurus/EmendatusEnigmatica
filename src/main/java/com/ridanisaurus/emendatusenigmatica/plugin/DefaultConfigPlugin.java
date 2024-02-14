@@ -8,9 +8,9 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.*;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.loader.ValidatorLogger;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
@@ -66,15 +66,15 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(compatDir.toPath());
 
         Validator validator = new Validator("Main Validator");
-        final boolean log = EEConfig.common.logConfigErrors.get();
+        ValidatorLogger LOGGER = Validator.LOGGER;
 
-        Validator.LOGGER.info("Validating and registering data for: Strata");
+        LOGGER.info("Validating and registering data for: Strata");
         strataDefinition.forEach((path, jsonObject) -> {
-            Validator.LOGGER.restartSpacer();
+            LOGGER.restartSpacer();
             if (!validator.validateObject(jsonObject, path, StrataModel.validators)) {
-                if (log) {
-                    Validator.LOGGER.printSpacer(2);
-                    Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (LOGGER.shouldLog) {
+                    LOGGER.printSpacer(2);
+                    LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 }
                 return;
             }
@@ -88,14 +88,14 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             STRATA_IDS.add(strataModel.getId());
         });
 
-        Validator.LOGGER.restartSpacer();
-        Validator.LOGGER.info("Validating and registering data for: Material");
+        LOGGER.restartSpacer();
+        LOGGER.info("Validating and registering data for: Material");
         materialDefinition.forEach((path, jsonObject) -> {
-            Validator.LOGGER.restartSpacer();
+            LOGGER.restartSpacer();
             if (!validator.validateObject(jsonObject, path, MaterialModel.validators)) {
-                if (log) {
-                    Validator.LOGGER.printSpacer(2);
-                    Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (LOGGER.shouldLog) {
+                    LOGGER.printSpacer(2);
+                    LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 }
                 return;
             }
@@ -109,14 +109,14 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             MATERIAL_IDS.add(materialModel.getId());
         });
 
-        Validator.LOGGER.restartSpacer();
-        Validator.LOGGER.info("Validating and registering data for: Compatibility");
+        LOGGER.restartSpacer();
+        LOGGER.info("Validating and registering data for: Compatibility");
         compatDefinition.forEach((path, jsonObject) -> {
-            Validator.LOGGER.restartSpacer();
+            LOGGER.restartSpacer();
             if (!validator.validateObject(jsonObject, path, CompatModel.validators)) {
-                if (log) {
-                    Validator.LOGGER.printSpacer(2);
-                    Validator.LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+                if (LOGGER.shouldLog) {
+                    LOGGER.printSpacer(2);
+                    LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
                 }
                 return;
             }
@@ -128,13 +128,13 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             registry.registerCompat(compatModel);
         });
 
-        Validator.LOGGER.restartSpacer();
-        if (log)  {
-            Validator.LOGGER.info("Finished validation and registration of data files.");
+        LOGGER.restartSpacer();
+        if (LOGGER.shouldLog)  {
+            LOGGER.info("Finished validation and registration of data files.");
         } else {
-            Validator.LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
+            LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
         }
-        Validator.LOGGER.printSpacer(0);
+        LOGGER.printSpacer(0);
     }
 
     @Override
