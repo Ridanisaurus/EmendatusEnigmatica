@@ -259,7 +259,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRange(double min, double max, boolean array) {
-        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getRange(min, max).apply(jsonElement, path);
+        return (jsonElement, path) ->
+            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getRange(min, max).apply(jsonElement, path);
     }
 
     /**
@@ -320,7 +321,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getIntRange(long min, long max, boolean array) {
-        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIntRange(min, max).apply(jsonElement, path);
+        return (jsonElement, path) ->
+            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIntRange(min, max).apply(jsonElement, path);
     }
 
     /**
@@ -371,10 +373,11 @@ public class Validator {
      * to check if ID isn't already registered in the provided registry.
      * @param values List with IDS to check against.
      * @return BiFunction used as validator.
+     * @apiNote Take a note this implements "NON_EMPTY_REQUIRED" and assertNotArray validations.
      */
     public BiFunction<JsonElement, Path, Boolean> getIDValidation(List<String> values) {
         return (element, path) -> {
-            if (!assertNotArray(element, path) && !NON_EMPTY_REQUIRED.apply(element, path)) return false;
+            if (!assertNotArray(element, path) || !NON_EMPTY_REQUIRED.apply(element, path)) return false;
             String value = element.getAsString();
             boolean isIllegal = values.contains(value);
             if (isIllegal) LOGGER.error("\"%s\" (%s) found in file \"%s\" is already registered!".formatted(name, value, obfuscatePath(path)));
@@ -412,7 +415,36 @@ public class Validator {
      * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
      */
     public BiFunction<JsonElement, Path, Boolean> getRegisteredIDValidation(List<String> values, String registryType, boolean array) {
-        return (element, path) -> (array? assertArray(element, path): assertNotArray(element, path)) && getRegisteredIDValidation(values, registryType).apply(element, path);
+        return (element, path) ->
+            Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) && getRegisteredIDValidation(values, registryType).apply(element, path);
+    }
+
+    /**
+     * Custom version of {@link Validator#getRequiredAcceptsOnlyValidation(List)} that is used
+     * to check if ID is registered in the provided registry. Marked as Required.
+     * @param values List with IDS to check against.
+     * @param registryType String with a registry type. Used only for logging.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     * @apiNote Log entry template:<br>
+     * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredRegisteredIDValidation(List<String> values, String registryType) {
+        return (element, path) -> REQUIRED.apply(element, path) && getRegisteredIDValidation(values, registryType).apply(element, path);
+    }
+
+    /**
+     * Custom version of {@link Validator#getRequiredAcceptsOnlyValidation(List)} that is used
+     * to check if ID is registered in the provided registry. Marked as Required.
+     * @param values List with IDS to check against.
+     * @param registryType String with a registry type. Used only for logging.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     * @apiNote Log entry template:<br>
+     * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredRegisteredIDValidation(List<String> values, String registryType, boolean array) {
+        return (element, path) -> REQUIRED.apply(element, path) && getRegisteredIDValidation(values, registryType, array).apply(element, path);
     }
 
     /**
@@ -443,7 +475,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getIllegalValuesValidation(List<String> values, boolean array) {
-        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIllegalValuesValidation(values).apply(jsonElement, path);
+        return (jsonElement, path) ->
+            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIllegalValuesValidation(values).apply(jsonElement, path);
     }
 
     /**
@@ -493,7 +526,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getAcceptsOnlyValidation(List<String> values, boolean array) {
-        return (jsonElement, path) -> (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getAcceptsOnlyValidation(values).apply(jsonElement, path);
+        return (jsonElement, path) ->
+            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getAcceptsOnlyValidation(values).apply(jsonElement, path);
     }
 
     /**
