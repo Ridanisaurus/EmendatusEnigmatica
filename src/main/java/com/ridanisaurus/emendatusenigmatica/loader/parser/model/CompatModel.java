@@ -38,7 +38,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class CompatModel {
 	public static final Codec<CompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -54,25 +53,7 @@ public class CompatModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 	static {
-		Validator idValidator = new Validator("id");
-		validators.put("id", (element, path) -> {
-			if (!idValidator.NON_EMPTY_REQUIRED.apply(element, path)) return false;
-			if (!idValidator.assertNotArray(element, path)) return false;
-
-			try {
-				String value = element.getAsString();
-				if (!DefaultConfigPlugin.MATERIAL_IDS.contains(value)) {
-					if (log) LOGGER.error("Material id (\"%s\") is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
-					return false;
-				}
-			} catch (ClassCastException ignored) {} catch (Exception e) {
-				if (log) LOGGER.error("Caught exception while reading values for \"id\" in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
-				return false;
-			}
-
-			return true;
-		});
-
+		validators.put("id", new Validator("id").getRegisteredIDValidation(DefaultConfigPlugin.MATERIAL_IDS, "Material Registry", false));
 		validators.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.validators));
 	}
 
@@ -176,12 +157,12 @@ public class CompatModel {
 					String mod = modJson.getAsString();
 					var validator = acceptableMods.get(mod);
 					if (Objects.isNull(validator)) {
-						if (log) LOGGER.error("Illegal value for mod present! Can't verify values of machine for \"%s\"".formatted(Validator.obfuscatePath(path)));
+						LOGGER.error("Illegal value for mod present! Can't verify values of machine for \"%s\"".formatted(Validator.obfuscatePath(path)));
 						return false;
 					}
 					return validator.apply(element.getAsJsonObject().get("machine"), path);
 				} catch (ClassCastException e) {
-					if (log) LOGGER.error("Mod is not a string! Can't verify values of machine for \"%s\".".formatted(Validator.obfuscatePath(path)));
+					LOGGER.error("Mod is not a string! Can't verify values of machine for \"%s\".".formatted(Validator.obfuscatePath(path)));
 				}
 				return false;
 			});
@@ -246,10 +227,6 @@ public class CompatModel {
 			acceptableMods.put("thermal", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "raw", "alloy"), false));
 			acceptableMods.put("create", typeValidator.getRequiredAcceptsOnlyValidation(List.of("ore", "crushed_ore"), false));
 
-			// This is here to not spam the log with false warnings about a temporary memory-only field.
-			// Checking if this field is actually in the file is done above.
-			validators.put("TEMP", Validator.ALL);
-
 			validators.put("type_rg", (element, path) -> {
 				if (!typeValidator.assertParentObject(element, path)) return false;
 
@@ -261,7 +238,7 @@ public class CompatModel {
 
 				var validator = acceptableMods.get(mod);
 				if (Objects.isNull(validator)) {
-					if (log) LOGGER.error("Illegal value for mod present! Can't verify values of type for \"%s\"".formatted(Validator.obfuscatePath(path)));
+					LOGGER.error("Illegal value for mod present! Can't verify values of type for \"%s\"".formatted(Validator.obfuscatePath(path)));
 					return false;
 				}
 				return validator.apply(element.getAsJsonObject().get("type"), path);
@@ -272,31 +249,32 @@ public class CompatModel {
 
 				JsonObject element = element_rg.getAsJsonObject();
 				if (Objects.isNull(element.get("input"))) return true;
+				if (LOGGER.shouldLog) {
+					JsonObject temp = element.get("TEMP").getAsJsonObject();
+					String mod = temp.get("mod").getAsString();
+					String machine = temp.get("machine").getAsString();
+					String type = "NONE";
 
-				JsonObject temp = element.get("TEMP").getAsJsonObject();
-				String mod = temp.get("mod").getAsString();
-				String machine = temp.get("machine").getAsString();
-				String type = "NONE";
+					if (mod.equals("NONE")) LOGGER.warn("Mod is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+					if (machine.equals("NONE")) LOGGER.warn("Machine is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
 
-				if (log && mod.equals("NONE")) LOGGER.warn("Mod is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
-				if (log && machine.equals("NONE")) LOGGER.warn("Machine is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+					try {
+						type = element.get("type").getAsString();
+					} catch (ClassCastException e) {
+						LOGGER.error("Type is not a string! Can't accurately verify values of input for \"%s\".".formatted(Validator.obfuscatePath(path)));
+					} catch (NullPointerException e) {
+						LOGGER.warn("Type is null! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+					}
 
-				try {
-					type = element.get("type").getAsString();
-				} catch (ClassCastException e) {
-					if (log) LOGGER.error("Type is not a string! Can't accurately verify values of input for \"%s\".".formatted(Validator.obfuscatePath(path)));
-				} catch (NullPointerException e) {
-					if (log) LOGGER.warn("Type is null! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+
+					if (!mod.equals("thermal")) LOGGER.warn("Input should not be present when selected mod is different than thermal (Currently: %s). Found in file \"%s\".".formatted(mod, Validator.obfuscatePath(path)));
+					if (!machine.equals("induction_smelter")) LOGGER.warn("Input should not be present when selected machine is different than induction_smelter (Currently: %s). Found in file \"%s\".".formatted(machine, Validator.obfuscatePath(path)));
+					if (!type.equals("alloy")) LOGGER.warn("Input should not be present when selected type is different than alloy (Currently: %s). Found in file \"%s\".".formatted(type, Validator.obfuscatePath(path)));
+
+					element.get("input").getAsJsonArray().forEach(entry -> {
+						if (Objects.nonNull(entry.getAsJsonObject().get("chance"))) LOGGER.warn("Chance should not be present in input object! Found in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+					});
 				}
-
-
-				if (log && !mod.equals("thermal")) LOGGER.warn("Input should not be present when selected mod is different than thermal (Currently: %s). Found in file \"%s\".".formatted(mod, Validator.obfuscatePath(path)));
-				if (log && !machine.equals("induction_smelter")) LOGGER.warn("Input should not be present when selected machine is different than induction_smelter (Currently: %s). Found in file \"%s\".".formatted(machine, Validator.obfuscatePath(path)));
-				if (log && !type.equals("alloy")) LOGGER.warn("Input should not be present when selected type is different than alloy (Currently: %s). Found in file \"%s\".".formatted(type, Validator.obfuscatePath(path)));
-
-				if (log) element.get("input").getAsJsonArray().forEach(entry -> {
-					if (Objects.nonNull(entry.getAsJsonObject().get("chance"))) LOGGER.warn("Chance should not be present in input object! Found in file \"%s\".".formatted(Validator.obfuscatePath(path)));
-				});
 
 				return outputValidator.getObjectValidation(CompatIOModel.validators).apply(element.get("input"), path);
 			});

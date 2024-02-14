@@ -40,11 +40,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialModel {
 	public static final Codec<MaterialModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -105,6 +103,7 @@ public class MaterialModel {
 		validators.put("properties_rg", new Validator("properties").getPassParentToValidators(MaterialPropertiesModel.validators, false));
 		validators.put("colors_rg", new Validator("colors").getPassParentToValidators(MaterialColorsModel.validators, false));
 		validators.put("compat", new Validator("compat").getObjectValidation(MaterialCompatModel.validators));
+		validators.put("strata", new Validator("strata").getRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
 
 		Validator typesValidator = new Validator("processedTypes");
 		validators.put("processedTypes", (element, path) ->
@@ -146,28 +145,6 @@ public class MaterialModel {
 			)).apply(element, path)
 		);
 
-		Validator strataValidator = new Validator("strata");
-		validators.put("strata", (element, path) -> {
-			if (Objects.isNull(element)) return true;
-			if (!strataValidator.assertArray(element, path)) return false;
-
-			AtomicBoolean validation = new AtomicBoolean(strataValidator.NON_EMPTY.apply(element, path));
-			element.getAsJsonArray().forEach(element1 -> {
-				try {
-					String value = element1.getAsString();
-					if (!DefaultConfigPlugin.STRATA_IDS.contains(value)) {
-						if (log) LOGGER.error("Strata under id \"%s\" is not registered. Found in file \"%s\".".formatted(value, Validator.obfuscatePath(path)));
-						validation.set(false);
-					}
-				} catch (ClassCastException ignored) {} catch (Exception e) {
-					if (log) LOGGER.error("Caught exception while reading values from Strata array in \"%s\" file.".formatted(Validator.obfuscatePath(path)));
-					validation.set(false);
-				}
-			});
-
-			return validation.get();
-		});
-
 		Validator oreDropValidator = new Validator("oreDrop");
 		validators.put("oreDrop_rg", (element, path) -> {
 			if (!oreDropValidator.assertParentObject(element, path)) return false;
@@ -184,19 +161,17 @@ public class MaterialModel {
 				boolean raw = types.contains(new JsonPrimitive("raw"));
 				boolean ore = types.contains(new JsonPrimitive("ore"));
 				if (!ore) {
-					if (log && Objects.nonNull(valueJson)) {
+					if (Objects.nonNull(valueJson)) {
 						LOGGER.warn("\"%s\" should not be present when \"ore\" is missing from the \"processedTypes\" in file \"%s\"".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
 					}
 				} else if (!gem && !raw) {
 					if (Objects.isNull(valueJson)) {
-						if (log) {
-							LOGGER.error("\"%s\" is required when \"ore\", but no \"gem\" or \"raw\" is present in the \"processedTypes\" in file \"%s\".".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
-						}
+						LOGGER.error("\"%s\" is required when \"ore\", but no \"gem\" or \"raw\" is present in the \"processedTypes\" in file \"%s\".".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
 						return false;
 					}
 					dropRequired = true;
 				}
-			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray()) {
 				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(oreDropValidator.getName(), Validator.obfuscatePath(path)));
 			}
 
@@ -204,6 +179,7 @@ public class MaterialModel {
 			return oreDropValidator.passTempToValidators(tempObj, valueJson, path, MaterialOreDropModel.validators, false);
 		});
 
+		// Yes, Tools and armor are nearly identical. I don't have any idea how to "unify" those however...
 		Validator toolsValidator = new Validator("tools");
 		validators.put(toolsValidator.getName() + "_rg", (element, path) -> {
 			if (!toolsValidator.assertParentObject(element, path)) return false;
@@ -228,16 +204,14 @@ public class MaterialModel {
 				hoe = types.contains(new JsonPrimitive("hoe"));
 				paxel = types.contains(new JsonPrimitive("paxel"));
 				if (!(sword || pickaxe || axe || shovel || hoe || paxel)) {
-					if (log && Objects.nonNull(valueJson)) {
+					if (Objects.nonNull(valueJson)) {
 						LOGGER.warn("\"%s\" should not be present when tools are missing from the \"processedTypes\" in file \"%s\"".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
 					}
 				} else if (Objects.isNull(valueJson)) {
-					if (log) {
-						LOGGER.error("\"%s\" is required when tools are present in the \"processedTypes\" in file \"%s\".".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
-					}
+					LOGGER.error("\"%s\" is required when tools are present in the \"processedTypes\" in file \"%s\".".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
 					return false;
 				}
-			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray()) {
 				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(toolsValidator.getName(), Validator.obfuscatePath(path)));
 			}
 
@@ -273,16 +247,14 @@ public class MaterialModel {
 				boots = types.contains(new JsonPrimitive("boots"));
 				shield = types.contains(new JsonPrimitive("shield"));
 				if (!(helmet || chestplate || leggings || boots || shield)) {
-					if (log && Objects.nonNull(valueJson)) {
+					if (Objects.nonNull(valueJson)) {
 						LOGGER.warn("\"%s\" should not be present when armor pieces are missing from the \"processedTypes\" in file \"%s\"".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
 					}
 				} else if (Objects.isNull(valueJson)) {
-					if (log) {
-						LOGGER.error("\"%s\" is required when armor pieces are present in the \"processedTypes\" in file \"%s\".".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
-					}
+					LOGGER.error("\"%s\" is required when armor pieces are present in the \"processedTypes\" in file \"%s\".".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
 					return false;
 				}
-			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray()) {
 				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(armorValidator.getName(), Validator.obfuscatePath(path)));
 			}
 
@@ -307,16 +279,14 @@ public class MaterialModel {
 				JsonArray types = typesElement.getAsJsonArray();
 				boolean gas = types.contains(new JsonPrimitive("gas"));
 				if (!gas) {
-					if (log && Objects.nonNull(valueJson)) {
+					if (Objects.nonNull(valueJson)) {
 						LOGGER.warn("\"%s\" should not be present when \"gas\" is missing from the \"processedTypes\" in file \"%s\"".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
 					}
 				} else if (Objects.isNull(valueJson)) {
-					if (log) {
-						LOGGER.error("\"%s\" is required when \"gas\" is present in the \"processedTypes\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
-					}
+					LOGGER.error("\"%s\" is required when \"gas\" is present in the \"processedTypes\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
 					return false;
 				}
-			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray() && log) {
+			} else if (Objects.nonNull(typesElement) && !typesElement.isJsonArray()) {
 				LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
 			}
 

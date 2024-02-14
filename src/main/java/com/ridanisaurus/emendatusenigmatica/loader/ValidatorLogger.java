@@ -12,7 +12,7 @@ import java.util.Objects;
 public class ValidatorLogger {
     private static final String spacer = "------------------------------------------------------------------------------------------------------------------------";
     private final Logger logger;
-    private final boolean shouldLog;
+    public final boolean shouldLog;
     private boolean spacerPrinted = false;
     private int warns = 0;
     private int errors = 0;

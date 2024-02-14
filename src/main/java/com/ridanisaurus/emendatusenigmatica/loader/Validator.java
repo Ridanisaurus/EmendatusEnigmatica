@@ -374,12 +374,45 @@ public class Validator {
      */
     public BiFunction<JsonElement, Path, Boolean> getIDValidation(List<String> values) {
         return (element, path) -> {
-            if (!NON_EMPTY_REQUIRED.apply(element, path)) return false;
+            if (!assertNotArray(element, path) && !NON_EMPTY_REQUIRED.apply(element, path)) return false;
             String value = element.getAsString();
             boolean isIllegal = values.contains(value);
             if (isIllegal) LOGGER.error("\"%s\" (%s) found in file \"%s\" is already registered!".formatted(name, value, obfuscatePath(path)));
             return !isIllegal;
         };
+    }
+
+    /**
+     * Custom version of {@link Validator#getRequiredAcceptsOnlyValidation(List)} that is used
+     * to check if ID is registered in the provided registry.
+     * @param values List with IDS to check against.
+     * @param registryType String with a registry type. Used only for logging.
+     * @return BiFunction used as validator.
+     * @apiNote Log entry template:<br>
+     * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRegisteredIDValidation(List<String> values, String registryType) {
+        return (jsonElement, jsonPath) -> validateArray(jsonElement, jsonPath, (element, path) -> {
+            if (!NON_EMPTY_REQUIRED.apply(element, path)) return false;
+            String value = element.getAsString();
+            boolean isRegistered = values.contains(value);
+            if (!isRegistered) LOGGER.error("\"%s\" (%s) found in file \"%s\" isn't registered in \"%s\"!".formatted(name, value, obfuscatePath(path), registryType));
+            return isRegistered;
+        });
+    }
+
+    /**
+     * Custom version of {@link Validator#getRequiredAcceptsOnlyValidation(List)} that is used
+     * to check if ID is registered in the provided registry.
+     * @param values List with IDS to check against.
+     * @param registryType String with a registry type. Used only for logging.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     * @apiNote Log entry template:<br>
+     * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRegisteredIDValidation(List<String> values, String registryType, boolean array) {
+        return (element, path) -> (array? assertArray(element, path): assertNotArray(element, path)) && getRegisteredIDValidation(values, registryType).apply(element, path);
     }
 
     /**
