@@ -53,7 +53,7 @@ public class CompatModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 	static {
-		validators.put("id", new Validator("id").getRegisteredIDValidation(DefaultConfigPlugin.MATERIAL_IDS, "Material Registry", false));
+		validators.put("id", new Validator("id").getRequiredRegisteredIDValidation(DefaultConfigPlugin.MATERIAL_IDS, "Material Registry", false));
 		validators.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.validators));
 	}
 
