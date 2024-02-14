@@ -106,7 +106,7 @@ public class Validator {
         NON_EMPTY = (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
             if (Objects.isNull(element)) return true;
             try {
-                if (element.isJsonObject()) throw new ClassCastException();
+                if (!element.isJsonPrimitive()) throw new ClassCastException();
                 boolean value = element.getAsString().isBlank();
                 if (value) LOGGER.error("\"%s\" in file \"%s\" can't be blank!".formatted(name, obfuscatePath(path)));
                 return !value;
@@ -367,6 +367,22 @@ public class Validator {
     }
 
     /**
+     * Custom version of {@link Validator#getRequiredIllegalValuesValidation(List)} that is used
+     * to check if ID isn't already registered in the provided registry.
+     * @param values List with IDS to check against.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIDValidation(List<String> values) {
+        return (element, path) -> {
+            if (!NON_EMPTY_REQUIRED.apply(element, path)) return false;
+            String value = element.getAsString();
+            boolean isIllegal = values.contains(value);
+            if (isIllegal) LOGGER.error("\"%s\" (%s) found in file \"%s\" is already registered!".formatted(name, value, obfuscatePath(path)));
+            return !isIllegal;
+        };
+    }
+
+    /**
      * Used to get a validator that checks if value is not one of the illegal ones. Supports: String
      * @param values List with illegal String values.
      * @return BiFunction used as validator.
@@ -377,9 +393,9 @@ public class Validator {
             try {
                 if (!element.isJsonPrimitive()) throw new ClassCastException();
                 String value = element.getAsString();
-                boolean validation = values.contains(value);
-                if (validation) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Illegal values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
-                return !validation;
+                boolean isIllegal = values.contains(value);
+                if (isIllegal) LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Illegal values are: %s".formatted(name, obfuscatePath(path), value, String.join(", ", values)));
+                return !isIllegal;
             } catch (ClassCastException e) {
                 LOGGER.error("\"%s\" in file \"%s\" requires String value!".formatted(name, obfuscatePath(path)));
             }

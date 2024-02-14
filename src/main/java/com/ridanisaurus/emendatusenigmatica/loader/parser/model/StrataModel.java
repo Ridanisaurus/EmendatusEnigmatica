@@ -68,7 +68,7 @@ public class StrataModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		validators.put("id", new Validator("id").getRequiredIllegalValuesValidation(DefaultConfigPlugin.STRATA_IDS, false));
+		validators.put("id", new Validator("id").getIDValidation(DefaultConfigPlugin.STRATA_IDS));
 		validators.put("suffix", new Validator("suffix").NON_EMPTY_REQUIRED);
 		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
 		validators.put("baseTexture", new Validator("baseTexture").RESOURCE_ID_REQUIRED);

@@ -98,7 +98,7 @@ public class MaterialModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		validators.put("id", new Validator("id").NON_EMPTY_REQUIRED);
+		validators.put("id", new Validator("id").getIDValidation(DefaultConfigPlugin.MATERIAL_IDS));
 		validators.put("source", new Validator("source").getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded"), false));
 		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
 		validators.put("disableDefaultOre", new Validator("disableDefaultOre").REQUIRES_BOOLEAN);
