@@ -42,13 +42,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
@@ -102,7 +102,7 @@ public class EmendatusEnigmatica {
 
     public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
         @Override
-        public ItemStack makeIcon() {
+        public @NotNull ItemStack makeIcon() {
             return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
         }
     };
@@ -113,14 +113,20 @@ public class EmendatusEnigmatica {
         EmendatusEnigmatica.getInstance().getLoader().datagen(generator);
     }
 
-    public static void generate() {
+    public static void generate()  {
         if (!hasGenerated) {
             try {
-                if(generator == null)
-                    registerDataGen();
+                if(generator == null) registerDataGen();
+                if (!ModLoader.isLoadingStateValid()) {
+                    LOGGER.error("Loading state is invalid! Aborting running Data Generation to avoid even more issues.");
+                    return;
+                }
                 generator.run();
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Throwable e) {
+                LOGGER.error("Exception caught while running data generation!", e);
+                if (ModLoader.isLoadingStateValid()) throw new RuntimeException(e);
+                LOGGER.error("It was probably caused by another mod crashing before Data Generation, as LoadingState is already invalid!");
+                return;
             }
             hasGenerated = true;
         }
