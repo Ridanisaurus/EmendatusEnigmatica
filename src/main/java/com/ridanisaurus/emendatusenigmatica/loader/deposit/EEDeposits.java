@@ -3,13 +3,17 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.loader.ValidatorLogger;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.*;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.*;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.*;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DenseOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DikeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -33,6 +37,7 @@ import java.util.function.Function;
 
 public class EEDeposits {
 	public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
+	public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
 	public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
 
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registry.FEATURE_REGISTRY, Reference.MOD_ID);
@@ -57,6 +62,11 @@ public class EEDeposits {
 			initProcessors();
 		}
 
+		if (DEPOSIT_TYPES.size() != DEPOSIT_PROCESSORS.size()) {
+			DEPOSIT_TYPES.clear();
+			DEPOSIT_TYPES.addAll(DEPOSIT_PROCESSORS.keySet());
+		}
+
 		Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
 
 		// Check if the folder exists
@@ -69,19 +79,21 @@ public class EEDeposits {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/deposit/");
 		}
 
-		ArrayList<JsonObject> depositJsonDefinitions = FileHelper.loadFilesAsJsonObjects(depositDir);
+		Map<Path, JsonObject> depositJsonDefinitionsMap = FileHelper.loadJsonsWithPaths(depositDir.toPath());
+		Validator validator = new Validator("type");
+		ValidatorLogger LOGGER = Validator.LOGGER;
 
-		for (JsonObject depositJsonDefinition : depositJsonDefinitions) {
-			if (!depositJsonDefinition.has("type")) {
-				continue;
+		LOGGER.info("Validating and registering data for: Deposits");
+		depositJsonDefinitionsMap.forEach((path, element) -> {
+			LOGGER.restartSpacer();
+			if (!validator.getRequiredAcceptsOnlyValidation(DEPOSIT_TYPES).apply(element.get(validator.getName()), path)) {
+				LOGGER.printSpacer(2);
+				LOGGER.error("File \"%s\" is not going to be registered due to it's missing a mandatory \"%s\" field!.".formatted(path, validator.getName()));
+				return;
 			}
-			String type = depositJsonDefinition.get("type").getAsString();
-			Function<JsonObject, IDepositProcessor> processor = DEPOSIT_PROCESSORS.getOrDefault(type, null);
-			if (processor == null) {
-				continue;
-			}
-			ACTIVE_PROCESSORS.add(processor.apply(depositJsonDefinition));
-		}
+
+			ACTIVE_PROCESSORS.add(DEPOSIT_PROCESSORS.get(element.get(validator.getName()).getAsString()).apply(element));
+		});
 
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
 			activeProcessor.load();

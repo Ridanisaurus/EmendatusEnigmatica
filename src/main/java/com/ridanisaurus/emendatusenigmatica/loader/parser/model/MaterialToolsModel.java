@@ -29,9 +29,6 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
-
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.nio.file.Path;
@@ -40,6 +37,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
 
 public class MaterialToolsModel {
 	public static final Codec<MaterialToolsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -96,7 +95,7 @@ public class MaterialToolsModel {
 			boolean required = false;
 
 			if (!validator.checkForTEMP(obj, path, false)) {
-				if (log) LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(tool, Validator.obfuscatePath(path)));
+				LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(tool, Validator.obfuscatePath(path)));
 			} else {
 				required = obj.get("TEMP").getAsJsonObject().get(tool).getAsBoolean();
 			}
@@ -105,7 +104,7 @@ public class MaterialToolsModel {
 
 			if (!required) {
 				if (Objects.isNull(valueJson)) return true;
-				if (log) LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(tool, Validator.obfuscatePath(path)));
+				LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(tool, Validator.obfuscatePath(path)));
 				return validator.validateObject(valueJson, path, ToolModel.validators);
 			}
 

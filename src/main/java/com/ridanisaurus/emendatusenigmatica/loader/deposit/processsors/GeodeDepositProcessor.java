@@ -26,9 +26,7 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	@Override
 	public void load() {
 		Optional<Pair<GeodeDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(GeodeDepositModel.CODEC).apply(object).result();
-		if (!result.isPresent()) {
-			return;
-		}
+		if (result.isEmpty()) return;
 		model = result.get().getFirst();
 	}
 

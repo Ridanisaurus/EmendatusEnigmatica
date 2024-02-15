@@ -41,7 +41,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialOreDropModel {
 	public static final Codec<MaterialOreDropModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -77,11 +76,11 @@ public class MaterialOreDropModel {
 			boolean required = false;
 
 			if (!dropValidator.checkForTEMP(obj, path, false)) {
-				if (log) LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(dropValidator.getName(), Validator.obfuscatePath(path)));
+				LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(dropValidator.getName(), Validator.obfuscatePath(path)));
 			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("DROP_REQUIRED");
 				if (Objects.isNull(requiredJson)) {
-					if (log) LOGGER.warn("Parent data doesn't contain required information for proper validation of \"%s\" in file \"%s\", something is not right.".formatted(dropValidator.getName(), Validator.obfuscatePath(path)));
+					LOGGER.warn("Parent data doesn't contain required information for proper validation of \"%s\" in file \"%s\", something is not right.".formatted(dropValidator.getName(), Validator.obfuscatePath(path)));
 				} else {
 					required = requiredJson.getAsBoolean();
 				}
@@ -102,7 +101,7 @@ public class MaterialOreDropModel {
 				try {
 					min = obj.get("min").getAsInt();
 				} catch (ClassCastException e) {
-					if (log) LOGGER.error("\"min\" requested while validating \"max\" in file \"%s\" is not a numeric value!");
+					LOGGER.error("\"min\" requested while validating \"max\" in file \"%s\" is not a numeric value!");
 				}
 			}
 			return maxValidator.getIntRange(min, Integer.MAX_VALUE, false).apply(obj.get("max"), path);

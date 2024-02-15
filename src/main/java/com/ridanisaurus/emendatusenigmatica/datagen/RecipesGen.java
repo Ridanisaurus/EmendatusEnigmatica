@@ -24,11 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.google.common.base.Suppliers;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.blocks.BasicWaxedBlock;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -37,20 +33,16 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.*;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class RecipesGen extends RecipeProvider {
 

@@ -33,7 +33,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import net.minecraft.data.models.blockstates.PropertyDispatch;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -44,7 +43,6 @@ import java.util.Optional;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialColorsModel {
 	// TODO 3.0: Change gasColor to chemicalColor
@@ -90,8 +88,11 @@ public class MaterialColorsModel {
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(gasValidator.getName());
 
-			if (!log || !gasValidator.checkForTEMP(obj, path, false)) {
-				if (log) LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+			if (!LOGGER.shouldLog || !gasValidator.checkForTEMP(obj, path, false)) {
+				LOGGER.warn(
+					"Parent data is missing while verifying \"%s\" in file \"%s\", something is not right."
+						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
+				);
 			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(requiredJson)) {
@@ -125,8 +126,8 @@ public class MaterialColorsModel {
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(validator.getName());
 
-			if (!log || !validator.checkForTEMP(obj, path, false)) {
-				if (log) LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
+			if (!LOGGER.shouldLog || !validator.checkForTEMP(obj, path, false)) {
+				LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
 			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("properties");
 				if (Objects.nonNull(requiredJson)) {

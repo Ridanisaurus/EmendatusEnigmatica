@@ -38,7 +38,6 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialPropertiesModel {
 	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -95,7 +94,7 @@ public class MaterialPropertiesModel {
 			JsonElement isBurnable = element.get("isBurnable");
 			JsonElement burnTime = element.get(burnTimeValidator.getName());
 
-			if (log) {
+			if (LOGGER.shouldLog) {
 				if (Objects.isNull(isBurnable)) {
 					if (Objects.nonNull(burnTime)) {
 						LOGGER.warn(
@@ -137,9 +136,9 @@ public class MaterialPropertiesModel {
 
 			if (Objects.isNull(valueJson)) return true;
 
-			if (log && !blockRecipeValidator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog && !blockRecipeValidator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
-			} else if (log && blockRecipeValidator.assertParentObject(parent, path)) {
+			} else if (blockRecipeValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(typesElement)) {
 					LOGGER.warn("\"processedTypes\" is missing! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
@@ -158,19 +157,19 @@ public class MaterialPropertiesModel {
 
 			try {
 				double value = valueJson.getAsDouble();
-				if (log && Math.ceil(value) > value) {
+				if (LOGGER.shouldLog && Math.ceil(value) > value) {
 					LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
 				}
 				int val = Double.valueOf(value).intValue();
 				boolean validation = acceptedValues.contains(val);
-				if (log && !validation) {
+				if (!validation) {
 					LOGGER.error("\"%s\" in file \"%s\" contains illegal value (%s)! Accepted values are: %s"
 						.formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path), val, acceptedValues.stream().map(String::valueOf).collect(Collectors.joining(", ")))
 					);
 				}
 				return validation;
 			} catch (ClassCastException e) {
-				if (log) LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
+				LOGGER.error("\"%s\" in file \"%s\" requires a numeric value!".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
 			}
 
 			return false;
@@ -186,9 +185,9 @@ public class MaterialPropertiesModel {
 
 			if (Objects.isNull(valueJson)) return true;
 
-			if (log && !GemTextureValidator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog && !GemTextureValidator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(GemTextureValidator.getName(), Validator.obfuscatePath(path)));
-			} else if (log && GemTextureValidator.assertParentObject(parent, path)) {
+			} else if (GemTextureValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(typesElement)) {
 					LOGGER.warn("\"processedTypes\" is missing! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(GemTextureValidator.getName(), Validator.obfuscatePath(path)));

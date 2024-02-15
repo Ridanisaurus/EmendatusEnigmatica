@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class DikeDepositProcessor implements IDepositProcessor {
 
-	private JsonObject object;
+	private final JsonObject object;
 	private DikeDepositModel model;
 
 	public DikeDepositProcessor(JsonObject object) {
@@ -24,9 +24,7 @@ public class DikeDepositProcessor implements IDepositProcessor {
 	@Override
 	public void load() {
 		Optional<Pair<DikeDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(DikeDepositModel.CODEC).apply(object).result();
-		if (!result.isPresent()) {
-			return;
-		}
+		if (result.isEmpty()) return;
 		model = result.get().getFirst();
 	}
 

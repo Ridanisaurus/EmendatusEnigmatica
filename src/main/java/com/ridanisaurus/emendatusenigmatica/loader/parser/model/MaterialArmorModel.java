@@ -29,10 +29,6 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.nio.file.Path;
@@ -40,7 +36,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialArmorModel {
 	public static final Codec<MaterialArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -107,7 +102,7 @@ public class MaterialArmorModel {
 			boolean required = false;
 
 			if (!validator.checkForTEMP(obj, path, false)) {
-				if (log) LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(armorPiece, Validator.obfuscatePath(path)));
+				LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(armorPiece, Validator.obfuscatePath(path)));
 			} else {
 				required = obj.get("TEMP").getAsJsonObject().get(armorPiece).getAsBoolean();
 			}
@@ -116,7 +111,7 @@ public class MaterialArmorModel {
 
 			if (!required) {
 				if (Objects.isNull(valueJson)) return true;
-				if (log) LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(armorPiece, Validator.obfuscatePath(path)));
+				LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(armorPiece, Validator.obfuscatePath(path)));
 				return validator.validateObject(valueJson, path, ArmorModel.validators);
 			}
 

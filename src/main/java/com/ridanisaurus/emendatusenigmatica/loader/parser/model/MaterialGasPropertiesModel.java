@@ -37,7 +37,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 
 import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
-import static com.ridanisaurus.emendatusenigmatica.loader.Validator.log;
 
 public class MaterialGasPropertiesModel {
 	public static final Codec<MaterialGasPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -93,7 +92,7 @@ public class MaterialGasPropertiesModel {
 			JsonElement jsonBoolean = obj.get(fieldName);
 			JsonElement jsonValue = obj.get(validator.getName());
 
-			if (log) {
+			if (LOGGER.shouldLog) {
 				if (Objects.isNull(jsonBoolean)) {
 					if (Objects.nonNull(jsonValue)) {
 						LOGGER.warn(

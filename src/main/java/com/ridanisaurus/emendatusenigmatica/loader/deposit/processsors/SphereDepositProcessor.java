@@ -7,7 +7,6 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositConfigModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sphere.SphereDepositModel;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 public class SphereDepositProcessor implements IDepositProcessor {
 
-	private JsonObject object;
+	private final JsonObject object;
 	private SphereDepositModel model;
 
 	public SphereDepositProcessor(JsonObject object) {
@@ -25,9 +24,7 @@ public class SphereDepositProcessor implements IDepositProcessor {
 	@Override
 	public void load() {
 		Optional<Pair<SphereDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(SphereDepositModel.CODEC).apply(object).result();
-		if (!result.isPresent()) {
-			return;
-		}
+		if (result.isEmpty()) return;
 		model = result.get().getFirst();
 	}
 

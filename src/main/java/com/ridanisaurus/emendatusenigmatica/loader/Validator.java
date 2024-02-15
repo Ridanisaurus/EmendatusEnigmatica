@@ -3,7 +3,6 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
-import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
@@ -19,14 +18,6 @@ import java.util.function.Consumer;
  * @apiNote If not specified, the validator supports JsonArrays.
  */
 public class Validator {
-    //TODO: Validation of:
-    // - Strata - DONE
-    // - Compat Model - DONE
-    // - Material Model - DONE
-    // - All of the Material sub-models (pain) - DONE
-    // - Deposits
-    // - Code Cleanup
-    public static final boolean log = EEConfig.common.logConfigErrors.get();
     public static final ValidatorLogger LOGGER = new ValidatorLogger(LoggerFactory.getLogger("EE Data Validation"));
     /**
      * All values are accepted. Simply returns true.
@@ -143,7 +134,7 @@ public class Validator {
             try {
                 if (!data.isJsonPrimitive()) throw new ClassCastException();
                 double value = data.getAsDouble();
-                if (log && Math.ceil(value) > value) {
+                if (LOGGER.shouldLog && Math.ceil(value) > value) {
                     LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(jsonPath)));
                 }
                 return true;
@@ -294,7 +285,7 @@ public class Validator {
         return (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
             try {
                 if (!element.isJsonPrimitive()) throw new ClassCastException();
-                if (log) {
+                if (LOGGER.shouldLog) {
                     double check = element.getAsDouble();
                     if (Math.ceil(check) > check) LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(name, obfuscatePath(path)));
                 }
@@ -424,7 +415,6 @@ public class Validator {
      * to check if ID is registered in the provided registry. Marked as Required.
      * @param values List with IDS to check against.
      * @param registryType String with a registry type. Used only for logging.
-     * @param array Determines if expected is an array value (true) or not (false);
      * @return BiFunction used as validator.
      * @apiNote Log entry template:<br>
      * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
@@ -700,7 +690,7 @@ public class Validator {
             JsonObject object = element.getAsJsonObject();
             AtomicBoolean validation = new AtomicBoolean(true);
 
-            if (log) object.entrySet().forEach(entry -> {
+            if (LOGGER.shouldLog) object.entrySet().forEach(entry -> {
                 if (!(validators.containsKey(entry.getKey()) || validators.containsKey(entry.getKey() + "_rg"))) {
                     LOGGER.warn("Unknown key (\"%s\") found in file \"%s\".".formatted(entry.getKey(), obfuscatePath(jsonPath)));
                 }
