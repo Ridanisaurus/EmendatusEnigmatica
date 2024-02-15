@@ -5,6 +5,7 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.loader.ValidatorLogger;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.DepositValidators;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.*;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -39,6 +40,7 @@ public class EEDeposits {
 	public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
 	public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
 	public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
+	public static final List<String> DEPOSIT_IDS = new ArrayList<>();
 
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registry.FEATURE_REGISTRY, Reference.MOD_ID);
 	public static final DeferredRegister<ConfiguredFeature<?,?>> ORE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MOD_ID);
@@ -86,13 +88,14 @@ public class EEDeposits {
 		LOGGER.info("Validating and registering data for: Deposits");
 		depositJsonDefinitionsMap.forEach((path, element) -> {
 			LOGGER.restartSpacer();
-			if (!validator.getRequiredAcceptsOnlyValidation(DEPOSIT_TYPES).apply(element.get(validator.getName()), path)) {
+			if (!validator.validateObject(element, path, DepositValidators.get(element.get(validator.getName())))) {
 				LOGGER.printSpacer(2);
-				LOGGER.error("File \"%s\" is not going to be registered due to it's missing a mandatory \"%s\" field!.".formatted(path, validator.getName()));
+				LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
 				return;
 			}
 
 			ACTIVE_PROCESSORS.add(DEPOSIT_PROCESSORS.get(element.get(validator.getName()).getAsString()).apply(element));
+			DEPOSIT_IDS.add(element.get("registryName").getAsString());
 		});
 
 		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
