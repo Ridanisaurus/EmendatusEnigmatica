@@ -2,6 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class CommonBlockDefinitionModel {
 	protected final int min;
 	protected final int max;
 
-	public CommonBlockDefinitionModel(String block, String tag, String material, int weight, int min, int max) {
+	public CommonBlockDefinitionModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, int min, int max) {
 		this.block = block;
 		this.tag = tag;
 		this.material = material;
@@ -30,15 +31,15 @@ public class CommonBlockDefinitionModel {
 		this.max = max;
 	}
 
-	public String getBlock() {
+	public @Nullable String getBlock() {
 		return block;
 	}
 
-	public String getTag() {
+	public @Nullable String getTag() {
 		return tag;
 	}
 
-	public String getMaterial() {
+	public @Nullable String getMaterial() {
 		return material;
 	}
 

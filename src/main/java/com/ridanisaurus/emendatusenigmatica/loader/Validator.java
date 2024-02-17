@@ -19,6 +19,7 @@ import java.util.function.Consumer;
  */
 public class Validator {
     public static final ValidatorLogger LOGGER = new ValidatorLogger(LoggerFactory.getLogger("EE Data Validation"));
+    //TODO: Find a way for basic methods to determine if they should accept arrays or not. I hate those sooo much lmao
     /**
      * All values are accepted. Simply returns true.
      */
@@ -164,6 +165,7 @@ public class Validator {
             //TODO: Probably replace this with ResourceLocation#isValidResourceLocation
             if (Objects.isNull(element)) return true;
             if (!NON_EMPTY.apply(element, path)) return false;
+
             String value = element.getAsString();
             String[] values = (value + " :").split(":");
             boolean validation = true;
@@ -350,6 +352,17 @@ public class Validator {
     }
 
     /**
+     * Used to get validator of another JsonObject.
+     * @param validators Map with validators for JsonObject to verify.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     * @apiNote This is a wrapper of {@link Validator#validateObject(JsonElement, Path, Map)}. See JavaDoc for that method for full documentation.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getObjectValidation(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean array) {
+        return (element, path) -> Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) && validateObject(element, path, validators);
+    }
+
+    /**
      * Used to get validator of another JsonObject marked as Required.
      * @param validators Map with validators for JsonObject to verify.
      * @return BiFunction used as validator.
@@ -357,6 +370,17 @@ public class Validator {
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredObjectValidation(Map<String, BiFunction<JsonElement, Path, Boolean>> validators) {
         return (element, path) -> REQUIRED.apply(element, path) && validateObject(element, path, validators);
+    }
+
+    /**
+     * Used to get validator of another JsonObject marked as Required.
+     * @param validators Map with validators for JsonObject to verify.
+     * @param array Determines if expected is an array value (true) or not (false);
+     * @return BiFunction used as validator.
+     * @apiNote This is a wrapper of {@link Validator#validateObject(JsonElement, Path, Map)}. See JavaDoc for that method for full documentation.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredObjectValidation(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean array) {
+        return (element, path) -> (array? assertArray(element, path): assertNotArray(element, path)) && validateObject(element, path, validators);
     }
 
     /**
@@ -548,10 +572,7 @@ public class Validator {
     public BiFunction<JsonElement, Path, Boolean> getIllegalPairsValidation(List<Pair<String, String>> pairs) {
         return (element, path) -> {
             if (Objects.isNull(element)) return true;
-            if (!element.isJsonArray()) {
-                LOGGER.error("Expected array for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
-                return false;
-            }
+            if (!assertArray(element, path)) return false;
 
             List<String> values = new ArrayList<>();
             AtomicBoolean validation = new AtomicBoolean(true);
@@ -596,6 +617,7 @@ public class Validator {
      * @param validators Map with validators.
      * @return BiFunction used as validator.
      * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
+     * @implSpec Map of validators is required to be modifiable. Otherwise, an exception will be thrown, causing the game crash.
      */
     public BiFunction<JsonElement, Path, Boolean> getPassParentToValidators(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
         return (parent, path) -> {
@@ -611,6 +633,7 @@ public class Validator {
      * @param validators Map with validators.
      * @return BiFunction used as validator.
      * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
+     * @implSpec Map of validators is required to be modifiable. Otherwise, an exception will be thrown, causing the game crash.
      */
     public boolean passTempToValidators(JsonObject tempObject, @Nullable JsonElement element, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
         if (Objects.isNull(element)) return (required? REQUIRED.apply(null, path): true);
@@ -651,7 +674,7 @@ public class Validator {
      * @param path Path of the file.
      * @return True if TEMP exists and is JsonObject, otherwise false.
      */
-    public boolean checkForTEMP(JsonObject object, Path path, boolean shouldLog) {
+    public static boolean checkForTEMP(JsonObject object, Path path, boolean shouldLog) {
         JsonElement tempElement = object.get("TEMP");
         boolean temp = Objects.nonNull(tempElement);
         if (temp && shouldLog) LOGGER.warn("Unknown key (\"TEMP\") found in file \"%s\".".formatted(obfuscatePath(path)));
@@ -665,7 +688,7 @@ public class Validator {
      * @param validator BiFunction used as a Validator.
      * @return true if all entries in the array pass validation, otherwise false. In case JsonElement is not an array, returns result of the validation.
      */
-    public boolean validateArray(@Nullable JsonElement element, Path path, BiFunction<JsonElement, Path, Boolean> validator) {
+    public static boolean validateArray(@Nullable JsonElement element, Path path, BiFunction<JsonElement, Path, Boolean> validator) {
         if (Objects.nonNull(element) && element.isJsonArray()) {
             AtomicBoolean validation = new AtomicBoolean(true);
             element.getAsJsonArray().forEach(entry -> {if (!validateArray(entry, path, validator)) validation.set(false);});
@@ -681,6 +704,7 @@ public class Validator {
      * @param validators Map with validators for passed JsonObject.
      * @return True if validations pass, False if validations fail or jsonElement is not a JsonObject.
      * @apiNote Be aware that this might break if used in chained _rg requests. If you need to chain _rg requests to get parent of the object, you need to do your own implementation.
+     * @implSpec Map of validators is required to be modifiable. Otherwise, an exception could be thrown, causing the game crash.
      */
     public boolean validateObject(JsonElement jsonElement, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators) {
         return validateArray(jsonElement, path, (element, jsonPath) -> {

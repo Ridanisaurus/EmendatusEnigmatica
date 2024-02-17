@@ -138,11 +138,8 @@ public class MaterialModel {
 				"shard",
 				"clump",
 				"dirty_dust",
-				"crushed_ore"),
-			true).apply(element, path) &&
-			typesValidator.getIllegalPairsValidation(List.of(
-					new Pair<>("ingot", "gem")
-			)).apply(element, path)
+				"crushed_ore")
+			, true).apply(element, path) && typesValidator.getIllegalPairsValidation(List.of(new Pair<>("ingot", "gem"))).apply(element, path)
 		);
 
 		Validator oreDropValidator = new Validator("oreDrop");
@@ -179,7 +176,7 @@ public class MaterialModel {
 			return oreDropValidator.passTempToValidators(tempObj, valueJson, path, MaterialOreDropModel.validators, false);
 		});
 
-		// Yes, Tools and armor are nearly identical. I don't have any idea how to "unify" those however...
+		// Yes, Tools and armor are nearly identical. I don't have any idea how to "unify" those, however...
 		Validator toolsValidator = new Validator("tools");
 		validators.put(toolsValidator.getName() + "_rg", (element, path) -> {
 			if (!toolsValidator.assertParentObject(element, path)) return false;

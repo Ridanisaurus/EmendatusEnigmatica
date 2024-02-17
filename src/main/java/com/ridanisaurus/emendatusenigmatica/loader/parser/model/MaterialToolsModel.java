@@ -94,7 +94,7 @@ public class MaterialToolsModel {
 			JsonObject obj = element.getAsJsonObject();
 			boolean required = false;
 
-			if (!validator.checkForTEMP(obj, path, false)) {
+			if (!Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(tool, Validator.obfuscatePath(path)));
 			} else {
 				required = obj.get("TEMP").getAsJsonObject().get(tool).getAsBoolean();

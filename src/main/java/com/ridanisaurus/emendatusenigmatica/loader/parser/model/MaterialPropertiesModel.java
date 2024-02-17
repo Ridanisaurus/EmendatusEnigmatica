@@ -104,6 +104,7 @@ public class MaterialPropertiesModel {
 					}
 				} else {
 					try {
+						if (!isBurnable.isJsonPrimitive()) throw new ClassCastException();
 						boolean bol = isBurnable.getAsBoolean();
 						if (bol && Objects.isNull(burnTime)) {
 							LOGGER.warn("Properties \"%s\" should be specified if Properties \"isBurnable\" is true in file \"%s\"."
@@ -136,7 +137,7 @@ public class MaterialPropertiesModel {
 
 			if (Objects.isNull(valueJson)) return true;
 
-			if (!LOGGER.shouldLog && !blockRecipeValidator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog && !Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
 			} else if (blockRecipeValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");
@@ -156,6 +157,7 @@ public class MaterialPropertiesModel {
 			}
 
 			try {
+				if (!valueJson.isJsonPrimitive()) throw new ClassCastException();
 				double value = valueJson.getAsDouble();
 				if (LOGGER.shouldLog && Math.ceil(value) > value) {
 					LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
@@ -185,7 +187,7 @@ public class MaterialPropertiesModel {
 
 			if (Objects.isNull(valueJson)) return true;
 
-			if (!LOGGER.shouldLog && !GemTextureValidator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog && !Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("No Parent object found while validating field \"%s\" in file \"%s\", something is not right.".formatted(GemTextureValidator.getName(), Validator.obfuscatePath(path)));
 			} else if (GemTextureValidator.assertParentObject(parent, path)) {
 				JsonElement typesElement = parent.getAsJsonObject().get("processedTypes");

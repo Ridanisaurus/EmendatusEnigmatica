@@ -75,7 +75,7 @@ public class MaterialOreDropModel {
 			JsonObject obj = element.getAsJsonObject();
 			boolean required = false;
 
-			if (!dropValidator.checkForTEMP(obj, path, false)) {
+			if (!Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(dropValidator.getName(), Validator.obfuscatePath(path)));
 			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("DROP_REQUIRED");

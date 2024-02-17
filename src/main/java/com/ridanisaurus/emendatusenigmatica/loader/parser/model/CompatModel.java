@@ -276,7 +276,7 @@ public class CompatModel {
 					});
 				}
 
-				return outputValidator.getObjectValidation(CompatIOModel.validators).apply(element.get("input"), path);
+				return outputValidator.getObjectValidation(CompatIOModel.validators).apply(element.get("output"), path);
 			});
 
 			validators.put("output", outputValidator.getObjectValidation(CompatIOModel.validators));

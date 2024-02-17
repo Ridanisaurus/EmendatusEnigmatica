@@ -60,9 +60,7 @@ public class EEDeposits {
 		DEPOSIT_PROCESSORS.put(DepositType.TEST.getType(), TestDepositProcessor::new);
 	}
 	public void load() {
-		if (DEPOSIT_PROCESSORS.isEmpty()) {
-			initProcessors();
-		}
+		if (DEPOSIT_PROCESSORS.isEmpty()) initProcessors();
 
 		if (DEPOSIT_TYPES.size() != DEPOSIT_PROCESSORS.size()) {
 			DEPOSIT_TYPES.clear();
@@ -98,9 +96,15 @@ public class EEDeposits {
 			DEPOSIT_IDS.add(element.get("registryName").getAsString());
 		});
 
-		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
-			activeProcessor.load();
+		LOGGER.restartSpacer();
+		if (LOGGER.shouldLog)  {
+			LOGGER.info("Finished validation and registration of data files.");
+		} else {
+			LOGGER.info("Finished registration of data files. Any validation errors that occurred, if any, have been hidden due to your current configuration file.");
 		}
+		LOGGER.printSpacer(0);
+
+		ACTIVE_PROCESSORS.forEach(IDepositProcessor::load);
 	}
 
 	public void setup() {

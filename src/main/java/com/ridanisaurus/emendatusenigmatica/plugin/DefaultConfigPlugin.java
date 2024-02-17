@@ -127,14 +127,6 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
             CompatModel compatModel = result.get().getFirst();
             registry.registerCompat(compatModel);
         });
-
-        LOGGER.restartSpacer();
-        if (LOGGER.shouldLog)  {
-            LOGGER.info("Finished validation and registration of data files.");
-        } else {
-            LOGGER.info("Finished registration of data files. Any validation errors that occurred have been hidden due to your current configuration.");
-        }
-        LOGGER.printSpacer(0);
     }
 
     @Override

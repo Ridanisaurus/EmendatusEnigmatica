@@ -93,7 +93,7 @@ public class MaterialArmorModel {
 		validators.put("toughness", new Validator("toughness").REQUIRES_FLOAT);
 		validators.put("enchantability", new Validator("enchantability").REQUIRES_INT);
 		validators.put("knockback", new Validator("knockback").REQUIRES_FLOAT);
-		validators.put("effects", new Validator("effects").getObjectValidation(EffectModel.validators));
+		validators.put("effects", new Validator("effects").getObjectValidation(EffectModel.validators, true));
 
 		TriFunction<Validator, JsonElement, Path, Boolean> armorValidator = (validator, element, path) -> {
 			if (!validator.assertParentObject(element, path)) return false;
@@ -101,7 +101,7 @@ public class MaterialArmorModel {
 			JsonObject obj = element.getAsJsonObject();
 			boolean required = false;
 
-			if (!validator.checkForTEMP(obj, path, false)) {
+			if (!Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.error("Parent object is missing while validating \"%s\" in file \"%s\". Something is not right.".formatted(armorPiece, Validator.obfuscatePath(path)));
 			} else {
 				required = obj.get("TEMP").getAsJsonObject().get(armorPiece).getAsBoolean();

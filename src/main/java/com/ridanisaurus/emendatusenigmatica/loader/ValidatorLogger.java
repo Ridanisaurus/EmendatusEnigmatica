@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
-import com.mojang.datafixers.util.Pair;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import org.slf4j.Logger;
 
@@ -14,8 +13,6 @@ public class ValidatorLogger {
     private final Logger logger;
     public final boolean shouldLog;
     private boolean spacerPrinted = false;
-    private int warns = 0;
-    private int errors = 0;
 
     /**
      * Creates instance of Validator Logger Wrapper.
@@ -24,9 +21,6 @@ public class ValidatorLogger {
     public ValidatorLogger(Logger logger) {
         Objects.requireNonNull(logger, "Can't create logger wrapper from Null logger!");
         this.logger = logger;
-        //TODO:
-        // Remove checks "if log" in places where methods below are used,
-        // this is now handled here by the logger wrapper.
         shouldLog = EEConfig.common.logConfigErrors.get();
     }
 
@@ -43,7 +37,6 @@ public class ValidatorLogger {
      * @param msg Message to log.
      */
     public void warn(String msg) {
-        warns++;
         if (shouldLog) log(msg, 1);
     }
 
@@ -52,7 +45,6 @@ public class ValidatorLogger {
      * @param msg Message to log.
      */
     public void error(String msg) {
-        errors++;
         if (shouldLog) log(msg, 2);
     }
 
@@ -91,17 +83,6 @@ public class ValidatorLogger {
     }
     public void restartSpacer() {
         this.spacerPrinted = false;
-    }
-
-    /**
-     * Used to get logger statistics and reset them to 0.
-     * @return Pair with left -> warns / right -> errors
-     */
-    public Pair<Integer, Integer> getStatistics() {
-        var pair = new Pair<>(warns,errors);
-        warns = 0;
-        errors = 0;
-        return pair;
     }
 
     /**

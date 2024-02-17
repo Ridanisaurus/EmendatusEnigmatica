@@ -88,7 +88,7 @@ public class MaterialColorsModel {
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(gasValidator.getName());
 
-			if (!LOGGER.shouldLog || !gasValidator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog || !Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.warn(
 					"Parent data is missing while verifying \"%s\" in file \"%s\", something is not right."
 						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
@@ -126,7 +126,7 @@ public class MaterialColorsModel {
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(validator.getName());
 
-			if (!LOGGER.shouldLog || !validator.checkForTEMP(obj, path, false)) {
+			if (!LOGGER.shouldLog || !Validator.checkForTEMP(obj, path, false)) {
 				LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
 			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("properties");
