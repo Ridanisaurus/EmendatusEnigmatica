@@ -96,14 +96,14 @@ public class MaterialModel {
 	 */
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
 	static {
-		validators.put("id", new Validator("id").getIDValidation(DefaultConfigPlugin.MATERIAL_IDS));
-		validators.put("source", new Validator("source").getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded"), false));
-		validators.put("localizedName", new Validator("localizedName").NON_EMPTY_REQUIRED);
+		validators.put("id", 			new Validator("id")			.getIDValidation(DefaultConfigPlugin.MATERIAL_IDS));
+		validators.put("source",		new Validator("source")		.getRequiredAcceptsOnlyValidation(List.of("vanilla", "modded"), false));
+		validators.put("localizedName", new Validator("localizedName").getRequiredNonEmptyValidation(false));
+		validators.put("properties_rg", new Validator("properties")	.getPassParentToValidators(MaterialPropertiesModel.validators, false, false));
+		validators.put("colors_rg", 	new Validator("colors")		.getPassParentToValidators(MaterialColorsModel.validators, false, false));
+		validators.put("compat", 		new Validator("compat")		.getObjectValidation(MaterialCompatModel.validators, false));
+		validators.put("strata", 		new Validator("strata")		.getRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
 		validators.put("disableDefaultOre", new Validator("disableDefaultOre").REQUIRES_BOOLEAN);
-		validators.put("properties_rg", new Validator("properties").getPassParentToValidators(MaterialPropertiesModel.validators, false));
-		validators.put("colors_rg", new Validator("colors").getPassParentToValidators(MaterialColorsModel.validators, false));
-		validators.put("compat", new Validator("compat").getObjectValidation(MaterialCompatModel.validators));
-		validators.put("strata", new Validator("strata").getRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
 
 		Validator typesValidator = new Validator("processedTypes");
 		validators.put("processedTypes", (element, path) ->

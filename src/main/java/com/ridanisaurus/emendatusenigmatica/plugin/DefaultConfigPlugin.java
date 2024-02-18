@@ -30,10 +30,11 @@ import java.util.Optional;
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
-    public static final List<MaterialModel> MATERIALS = new ArrayList<>();
     public static final List<String> MATERIAL_IDS = new ArrayList<>();
-    public static final List<StrataModel> STRATA = new ArrayList<>();
     public static final List<String> STRATA_IDS = new ArrayList<>();
+    public static final List<MaterialModel> MATERIALS = new ArrayList<>();
+    // Not used anywhere, commented to reduce memory usage a bit.
+//    public static final List<StrataModel> STRATA = new ArrayList<>();
 
     @Override
     public void load(EmendatusDataRegistry registry) {
@@ -84,7 +85,7 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
 
             StrataModel strataModel = result.get().getFirst();
             registry.registerStrata(strataModel);
-            STRATA.add(strataModel);
+//            STRATA.add(strataModel);
             STRATA_IDS.add(strataModel.getId());
         });
 

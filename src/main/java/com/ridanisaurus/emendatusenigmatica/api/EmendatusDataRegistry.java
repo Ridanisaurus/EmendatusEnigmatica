@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,8 +30,23 @@ public class EmendatusDataRegistry {
         this.strataByIndex = new HashMap<>();
     }
 
+    /**
+     * Used to register new Material model, returning passed defaultModel or previous value under that id.
+     * @param material ID of the material.
+     * @param defaultModel MaterialModel to register under that id.
+     * @return MaterialModel passed to the argument or previous MaterialModel that was registered under that id.
+     */
     public MaterialModel getMaterialOrRegister(String material, MaterialModel defaultModel){
         return this.materials.computeIfAbsent(material, s -> defaultModel);
+    }
+
+    /**
+     * Used to get MaterialModel by its ID.
+     * @param materialID MaterialID to get model of.
+     * @return MaterialModel under that ID, or null if not registered.
+     */
+    public @Nullable MaterialModel getMaterialByID(String materialID) {
+        return this.materials.get(materialID);
     }
 
     public void registerStrata(StrataModel strataModel){
@@ -55,6 +71,10 @@ public class EmendatusDataRegistry {
         return ImmutableList.copyOf(compat);
     }
 
+    /**
+     * Used to get Map with Strata Filler Types mapped to indexes of {@link EmendatusDataRegistry#strata} list.
+     * @return Map with mapping of Strata Filler Type -> Index of the model
+     */
     public Map<String, Integer> getStrataByIndex() {
         return strataByIndex;
     }

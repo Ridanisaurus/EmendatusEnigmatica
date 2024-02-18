@@ -54,7 +54,7 @@ public class CompatModel {
 	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 	static {
 		validators.put("id", new Validator("id").getRequiredRegisteredIDValidation(DefaultConfigPlugin.MATERIAL_IDS, "Material Registry", false));
-		validators.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.validators));
+		validators.put("recipes", new Validator("recipes").getRequiredObjectValidation(CompatRecipesModel.validators, true));
 	}
 
 	public CompatModel(String id, List<CompatRecipesModel> recipes) {
@@ -248,6 +248,7 @@ public class CompatModel {
 				if (!inputValidator.assertParentObject(element_rg, path)) return false;
 
 				JsonObject element = element_rg.getAsJsonObject();
+				//TODO: Should this be required when the material is alloy -> Mod Thermal -> Machine Induction Smelter?
 				if (Objects.isNull(element.get("input"))) return true;
 				if (LOGGER.shouldLog) {
 					JsonObject temp = element.get("TEMP").getAsJsonObject();
@@ -276,10 +277,10 @@ public class CompatModel {
 					});
 				}
 
-				return outputValidator.getObjectValidation(CompatIOModel.validators).apply(element.get("output"), path);
+				return inputValidator.getObjectValidation(CompatIOModel.validators, true).apply(element.get("input"), path);
 			});
 
-			validators.put("output", outputValidator.getObjectValidation(CompatIOModel.validators));
+			validators.put("output", outputValidator.getObjectValidation(CompatIOModel.validators, true));
 		}
 
 		CompatValuesModel(String type, List<CompatIOModel> input, List<CompatIOModel> output) {
@@ -319,7 +320,7 @@ public class CompatModel {
 		 */
 		public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 		static {
-			validators.put("item", new Validator("item").RESOURCE_ID);
+			validators.put("item", new Validator("item").getResourceIDValidation(false));
 			validators.put("count", new Validator("count").getIntRange(0, 64, false));
 			validators.put("chance", new Validator("chance").getRange(0, 1, false));
 		}

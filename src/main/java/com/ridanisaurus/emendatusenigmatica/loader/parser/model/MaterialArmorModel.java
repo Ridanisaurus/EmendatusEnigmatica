@@ -88,8 +88,8 @@ public class MaterialArmorModel {
 
 	static {
 		validators.put("setArmor", new Validator("setArmor").REQUIRES_BOOLEAN);
-		validators.put("setName", new Validator("setName").NON_EMPTY);
-		validators.put("setDesc", new Validator("setDesc").NON_EMPTY);
+		validators.put("setName", new Validator("setName").getNonEmptyValidation(false));
+		validators.put("setDesc", new Validator("setDesc").getNonEmptyValidation(false));
 		validators.put("toughness", new Validator("toughness").REQUIRES_FLOAT);
 		validators.put("enchantability", new Validator("enchantability").REQUIRES_INT);
 		validators.put("knockback", new Validator("knockback").REQUIRES_FLOAT);
@@ -112,10 +112,9 @@ public class MaterialArmorModel {
 			if (!required) {
 				if (Objects.isNull(valueJson)) return true;
 				LOGGER.warn("\"%s\" should not be present when it's missing from \"processedTypes\" in file \"%s\".".formatted(armorPiece, Validator.obfuscatePath(path)));
-				return validator.validateObject(valueJson, path, ArmorModel.validators);
 			}
 
-			return validator.getRequiredObjectValidation(ArmorModel.validators).apply(valueJson, path);
+			return validator.getRequiredObjectValidation(ArmorModel.validators, false).apply(valueJson, path);
 		};
 
 		validators.put("helmet_rg",   	(element, path) -> armorValidator.apply(new Validator("helmet"), element, path));

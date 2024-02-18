@@ -64,8 +64,8 @@ public class EffectModel {
 	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 
 	static {
-		validators.put("effect", new Validator("effect").RESOURCE_ID_REQUIRED);
-		validators.put("level", new Validator("level").NON_EMPTY);
+		validators.put("effect", new Validator("effect").getRequiredResourceIDValidation(false));
+		validators.put("level", new Validator("level").REQUIRES_INT);
 		validators.put("showIcon", new Validator("showIcon").REQUIRES_BOOLEAN);
 		validators.put("showParticles", new Validator("showParticles").REQUIRES_BOOLEAN);
 	}

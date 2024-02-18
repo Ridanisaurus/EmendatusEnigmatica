@@ -83,6 +83,7 @@ public class EEDeposits {
 		Validator validator = new Validator("type");
 		ValidatorLogger LOGGER = Validator.LOGGER;
 
+		LOGGER.restartSpacer();
 		LOGGER.info("Validating and registering data for: Deposits");
 		depositJsonDefinitionsMap.forEach((path, element) -> {
 			LOGGER.restartSpacer();

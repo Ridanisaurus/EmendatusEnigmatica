@@ -28,7 +28,9 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.DepositValidators;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -61,8 +63,12 @@ public class TestDepositConfigModel {
 	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 
 	static {
-		validators.put("protection", new Validator("protection").REQUIRES_INT);
-		validators.put("durability", new Validator("durability").REQUIRES_INT);
+		validators.put("blocks", 		new Validator("blocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("fillerTypes", 	new Validator("fillerTypes").getRequiredRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
+		validators.put("chance", 		new Validator("chance").getRequiredIntRange(1, 100, false));
+		validators.put("size", 			new Validator("size").getRequiredIntRange(1, Integer.MAX_VALUE, false));
+		validators.put("minYLevel", 	new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
+		validators.put("maxYLevel_rg", 	DepositValidators.getMaxYLevelValidation(new Validator("maxYLevel"), "minYLevel"));
 	}
 
 	public TestDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel) {

@@ -4,8 +4,10 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.DepositValidators;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -54,8 +56,20 @@ public class GeodeDepositConfigModel {
 	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 
 	static {
-		validators.put("protection", new Validator("protection").REQUIRES_INT);
-		validators.put("durability", new Validator("durability").REQUIRES_INT);
+		validators.put("outerShellBlocks", 	new Validator("outerShellBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("innerShellBlocks",	new Validator("innerShellBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("innerBlocks", 		new Validator("innerBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("fillBlocks", 		new Validator("fillBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("fillerTypes", 		new Validator("fillerTypes").getRequiredRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
+		validators.put("clusters", 			new Validator("clusters").getResourceIDValidation(true));
+		validators.put("chance", 			new Validator("chance").getRequiredIntRange(1, 100, false));
+		validators.put("crackChance", 		new Validator("crackChance").getRequiredRange(0, 1, false));
+		validators.put("minYLevel", 		new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
+		validators.put("maxYLevel_rg", 		DepositValidators.getMaxYLevelValidation(new Validator("maxYLevel"), "minYLevel"));
+		validators.put("placement", 	new Validator("placement").getAcceptsOnlyValidation(List.of("uniform", "triangle"), false));
+		validators.put("rarity", 			new Validator("rarity").getAcceptsOnlyValidation(List.of("common", "rare"), false));
+		validators.put("generateSamples",	new Validator("generateSamples").REQUIRES_BOOLEAN);
+		validators.put("sampleBlocks", 		new Validator("sampleBlocks").getObjectValidation(SampleBlockDefinitionModel.validators, true));
 	}
 
 	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {

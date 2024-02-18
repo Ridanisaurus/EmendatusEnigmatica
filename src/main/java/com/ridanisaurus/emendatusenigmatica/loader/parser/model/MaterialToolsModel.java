@@ -108,7 +108,7 @@ public class MaterialToolsModel {
 				return validator.validateObject(valueJson, path, ToolModel.validators);
 			}
 
-			return validator.getRequiredObjectValidation(ToolModel.validators).apply(valueJson, path);
+			return validator.getRequiredObjectValidation(ToolModel.validators, false).apply(valueJson, path);
 		};
 
 		validators.put("sword_rg",   (element, path) -> toolValidator.apply(new Validator("sword"), element, path));

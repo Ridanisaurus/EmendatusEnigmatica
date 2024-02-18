@@ -74,12 +74,8 @@ public class MaterialColorsModel {
 	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
 
 	static {
-		validators.put("fluidColor", new Validator("fluidColor").HEX_COLOR);
-		validators.put("materialColor", new Validator("materialColor").HEX_COLOR);
-
-		validators.put("gasColor", new Validator("gasColor").HEX_COLOR);
-		validators.put("particlesColor", new Validator("particlesColor").HEX_COLOR);
-		validators.put("oxidizationColor", new Validator("oxidizationColor").HEX_COLOR);
+		validators.put("fluidColor", new Validator("fluidColor").getHexColorValidation(false));
+		validators.put("materialColor", new Validator("materialColor").getHexColorValidation(false));
 
 		Validator gasValidator = new Validator("gasColor");
 
@@ -118,7 +114,7 @@ public class MaterialColorsModel {
 				}
 			}
 
-			return gasValidator.HEX_COLOR.apply(obj.get(gasValidator.getName()), path);
+			return gasValidator.getHexColorValidation(false).apply(obj.get(gasValidator.getName()), path);
 		});
 
 		PropertyDispatch.QuadFunction<Validator, String, JsonElement, Path, Boolean> validationFunction = (validator, fieldName, element, path) -> {
@@ -160,7 +156,7 @@ public class MaterialColorsModel {
 				}
 			}
 
-			return validator.HEX_COLOR.apply(obj.get(gasValidator.getName()), path);
+			return validator.getHexColorValidation(false).apply(obj.get(gasValidator.getName()), path);
 		};
 
 		validators.put("particlesColor_rg", (element, path) -> validationFunction.apply(new Validator("particlesColor"), "hasParticles", element, path));

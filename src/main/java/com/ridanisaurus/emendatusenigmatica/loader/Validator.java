@@ -19,7 +19,6 @@ import java.util.function.Consumer;
  */
 public class Validator {
     public static final ValidatorLogger LOGGER = new ValidatorLogger(LoggerFactory.getLogger("EE Data Validation"));
-    //TODO: Find a way for basic methods to determine if they should accept arrays or not. I hate those sooo much lmao
     /**
      * All values are accepted. Simply returns true.
      */
@@ -218,6 +217,60 @@ public class Validator {
         };
 
         HEX_COLOR_REQUIRED = (element, path) -> REQUIRED.apply(element, path) && HEX_COLOR.apply(element, path);
+    }
+
+    /**
+     * Used to get {@link Validator#HEX_COLOR} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#HEX_COLOR} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getHexColorValidation(boolean array) {
+       return (element, path) -> HEX_COLOR.apply(element, path) && (Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) );
+    }
+
+    /**
+     * Used to get {@link Validator#HEX_COLOR_REQUIRED} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#HEX_COLOR_REQUIRED} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredHexColorValidation(boolean array) {
+        return (element, path) -> HEX_COLOR_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
+    }
+
+    /**
+     * Used to get {@link Validator#RESOURCE_ID} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#RESOURCE_ID} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getResourceIDValidation(boolean array) {
+        return (element, path) -> RESOURCE_ID.apply(element, path) && (Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)));
+    }
+
+    /**
+     * Used to get {@link Validator#RESOURCE_ID_REQUIRED} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#RESOURCE_ID_REQUIRED} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredResourceIDValidation(boolean array) {
+        return (element, path) -> RESOURCE_ID_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
+    }
+
+    /**
+     * Used to get {@link Validator#NON_EMPTY} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#NON_EMPTY} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getNonEmptyValidation(boolean array) {
+        return (element, path) -> NON_EMPTY.apply(element, path) && (Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)));
+    }
+
+    /**
+     * Used to get {@link Validator#NON_EMPTY_REQUIRED} with an array policy wrapper.
+     * @param array True -> Require / False Prohibit arrays.
+     * @return Validator used as a wrapper of basic {@link Validator#NON_EMPTY_REQUIRED} validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getRequiredNonEmptyValidation(boolean array) {
+        return (element, path) -> NON_EMPTY_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
     }
 
     /**
@@ -615,6 +668,7 @@ public class Validator {
      * Parent object will be added under the "TEMP" field of the object
      * (or for all entries in the array) and validation will be launched as normal.
      * @param validators Map with validators.
+     * @param required Determines if the value is required or not.
      * @return BiFunction used as validator.
      * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
      * @implSpec Map of validators is required to be modifiable. Otherwise, an exception will be thrown, causing the game crash.
@@ -628,9 +682,32 @@ public class Validator {
     }
 
     /**
+     * Used to pass the parent object to the validators.
+     * Suffix _rg is required.
+     * Parent object will be added under the "TEMP" field of the object
+     * (or for all entries in the array) and validation will be launched as normal.
+     * @param validators Map with validators.
+     * @param required Determines if the value is required or not.
+     * @param array Determines if the value is meant to be an array or not.
+     * @return BiFunction used as validator.
+     * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
+     * @implSpec Map of validators is required to be modifiable. Otherwise, an exception will be thrown, causing the game crash.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getPassParentToValidators(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required, boolean array) {
+        return (parent, path) -> {
+            if (!assertParentObject(parent, path)) return false;
+            JsonObject parentObj = parent.getAsJsonObject();
+            JsonElement child = parentObj.get(name);
+            if (Objects.nonNull(child) && (array? !assertArray(child, path): !assertNotArray(child, path))) return false;
+            return passTempToValidators(parentObj, child, path, validators, required);
+        };
+    }
+
+    /**
      * Used to pass a provided object to the validators by adding it to the TEMP field of the object
      * (or for all entries in the array) and validation will be launched as normal.
      * @param validators Map with validators.
+     * @param required Determines if the value is required or not.
      * @return BiFunction used as validator.
      * @apiNote Does not support arrays of arrays. Only Array of objects is supported.
      * @implSpec Map of validators is required to be modifiable. Otherwise, an exception will be thrown, causing the game crash.

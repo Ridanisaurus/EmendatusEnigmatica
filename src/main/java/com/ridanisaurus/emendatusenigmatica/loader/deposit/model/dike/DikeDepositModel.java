@@ -58,7 +58,7 @@ public class DikeDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getSize() {
-		// TODO: Check the Dike Size parameters
+		// See loader/deposit/model/dike/DikeDepositConfigModel.javaDikeDepositConfigModel for validation of the size.
 //		if (config.size < 1 || config.size > 16) throw new IllegalArgumentException("Size for " + name + " is out of Range [1 - 16]");
 		return config.size;
 	}
