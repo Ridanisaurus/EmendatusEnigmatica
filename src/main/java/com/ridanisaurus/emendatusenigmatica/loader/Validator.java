@@ -3,6 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
@@ -161,7 +162,6 @@ public class Validator {
         REQUIRES_FLOAT_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && REQUIRES_INT.apply(data, jsonPath);
 
         RESOURCE_ID = (data, jsonPath) -> validateArray(data, jsonPath, (element, path) -> {
-            //TODO: Probably replace this with ResourceLocation#isValidResourceLocation
             if (Objects.isNull(element)) return true;
             if (!NON_EMPTY.apply(element, path)) return false;
 
@@ -179,6 +179,10 @@ public class Validator {
             if (values[1].isBlank()) {
                 LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the id! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
                 validation = false;
+            }
+            if (!ResourceLocation.isValidResourceLocation(value)) {
+                LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" contains non [a-z0-9/._-] character, got \"%s\".".formatted(name, obfuscatePath(path), value));
+                return false;
             }
             return validation;
         });
@@ -447,9 +451,15 @@ public class Validator {
         return (element, path) -> {
             if (!assertNotArray(element, path) || !NON_EMPTY_REQUIRED.apply(element, path)) return false;
             String value = element.getAsString();
-            boolean isIllegal = values.contains(value);
-            if (isIllegal) LOGGER.error("\"%s\" (%s) found in file \"%s\" is already registered!".formatted(name, value, obfuscatePath(path)));
-            return !isIllegal;
+            if (values.contains(value)) {
+                LOGGER.error("\"%s\" (%s) found in file \"%s\" is already registered!".formatted(name, value, obfuscatePath(path)));
+                return false;
+            }
+            if (!ResourceLocation.isValidPath(value)) {
+                LOGGER.error("\"%s\" (%s) found in file \"%s\" contains non [a-z0-9/._-] character!".formatted(name, value, obfuscatePath(path)));
+                return false;
+            }
+            return true;
         };
     }
 
