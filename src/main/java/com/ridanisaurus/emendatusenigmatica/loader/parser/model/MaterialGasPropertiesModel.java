@@ -124,7 +124,7 @@ public class MaterialGasPropertiesModel {
 
 		Validator radioactivityValidator = new Validator("radioactivity");
 		validators.put(radioactivityValidator.getName() + "_rg", (element_rg, path) ->
-			isFieldSetValidator.apply(new Pair<>(radioactivityValidator, radioactivityValidator.REQUIRES_INT), "isRadioactive", element_rg, path)
+			isFieldSetValidator.apply(new Pair<>(radioactivityValidator, radioactivityValidator.REQUIRES_FLOAT), "isRadioactive", element_rg, path)
 		);
 
 		Validator coolantTypeValidator = new Validator("coolantType");
