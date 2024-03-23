@@ -39,6 +39,16 @@ public class Validator {
      */
     public final BiFunction<JsonElement, Path, Boolean> NON_EMPTY_REQUIRED;
     /**
+     * Array has to contain at least one element, but it's not required (can be null).
+     * @apiNote Returns False if non-array is passed. Effectively works as non-required {@link Validator#assertArray(JsonElement, Path)}.
+     */
+    public BiFunction<JsonElement, Path, Boolean> NON_EMPTY_ARRAY;
+    /**
+     * Array has to contain least one element and is required (can't be null).
+     * @apiNote Returns False if non-array is passed. Effectively works as {@link Validator#assertArray(JsonElement, Path)}.
+     */
+    public BiFunction<JsonElement, Path, Boolean> NON_EMPTY_ARRAY_REQUIRED;
+    /**
      * The Field has to be boolean, but it's not required (can be null).
      */
     public final BiFunction<JsonElement, Path, Boolean> REQUIRES_BOOLEAN;
@@ -116,6 +126,18 @@ public class Validator {
 
         NON_EMPTY_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && NON_EMPTY.apply(data, jsonPath);
 
+        NON_EMPTY_ARRAY = (data, jsonPath) -> {
+            if (Objects.isNull(data)) return true;
+            if (!assertArray(data, jsonPath)) return false;
+            if (data.getAsJsonArray().isEmpty()) {
+                LOGGER.error("\"%s\" array in file \"%s\" can't be empty!".formatted(name, obfuscatePath(jsonPath)));
+                return false;
+            }
+            return true;
+        };
+
+        NON_EMPTY_ARRAY_REQUIRED = (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && NON_EMPTY_ARRAY.apply(data, jsonPath);
+
         REQUIRES_BOOLEAN = (data, jsonPath) -> {
             if (Objects.isNull(data)) return true;
             try {
@@ -180,9 +202,11 @@ public class Validator {
                 LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" is missing the id! Expected: \"namespace:id\", got: \"%s\".".formatted(name, obfuscatePath(path), value));
                 validation = false;
             }
-            if (!ResourceLocation.isValidResourceLocation(value)) {
+            // Only check if the resource location is valid if any above didn't catch issues.
+            // Otherwise, this would trigger false errors that might confuse end user.
+            if (validation && !ResourceLocation.isValidResourceLocation(value)) {
                 LOGGER.error("Provided Resource ID in \"%s\" in file \"%s\" contains non [a-z0-9/._-] character, got \"%s\".".formatted(name, obfuscatePath(path), value));
-                return false;
+                validation = false;
             }
             return validation;
         });
@@ -238,7 +262,7 @@ public class Validator {
      * @return Validator used as a wrapper of basic {@link Validator#HEX_COLOR_REQUIRED} validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredHexColorValidation(boolean array) {
-        return (element, path) -> HEX_COLOR_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
+        return (element, path) -> HEX_COLOR_REQUIRED.apply(element, path) && (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path));
     }
 
     /**
@@ -256,7 +280,7 @@ public class Validator {
      * @return Validator used as a wrapper of basic {@link Validator#RESOURCE_ID_REQUIRED} validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredResourceIDValidation(boolean array) {
-        return (element, path) -> RESOURCE_ID_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
+        return (element, path) -> RESOURCE_ID_REQUIRED.apply(element, path) && (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path));
     }
 
     /**
@@ -274,7 +298,7 @@ public class Validator {
      * @return Validator used as a wrapper of basic {@link Validator#NON_EMPTY_REQUIRED} validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredNonEmptyValidation(boolean array) {
-        return (element, path) -> NON_EMPTY_REQUIRED.apply(element, path) && (array? assertArray(element, path): assertNotArray(element, path));
+        return (element, path) -> NON_EMPTY_REQUIRED.apply(element, path) && (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path));
     }
 
     /**
@@ -309,8 +333,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRange(double min, double max, boolean array) {
-        return (jsonElement, path) ->
-            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getRange(min, max).apply(jsonElement, path);
+        return (element, path) ->
+            Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) && getRange(min, max).apply(element, path);
     }
 
     /**
@@ -320,7 +344,7 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredRange(double min, double max) {
-        return (data, jsonPath) -> REQUIRED.apply(data, jsonPath) && getRange(min, max).apply(data, jsonPath);
+        return (element, path) -> REQUIRED.apply(element, path) && getRange(min, max).apply(element, path);
     }
 
     /**
@@ -331,7 +355,7 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredRange(double min, double max, boolean array) {
-        return (jsonElement, path) -> REQUIRED.apply(jsonElement, path) && getRange(min, max, array).apply(jsonElement, path);
+        return (element, path) -> (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && getRange(min, max).apply(element, path);
     }
 
     /**
@@ -395,7 +419,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredIntRange(long min, long max, boolean array) {
-        return (element, path) -> REQUIRED.apply(element, path) && getIntRange(min, max, array).apply(element, path);
+        return (element, path) ->
+            (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && getIntRange(min, max).apply(element, path);
     }
 
     /**
@@ -437,7 +462,7 @@ public class Validator {
      * @apiNote This is a wrapper of {@link Validator#validateObject(JsonElement, Path, Map)}. See JavaDoc for that method for full documentation.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredObjectValidation(Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean array) {
-        return (element, path) -> (array? assertArray(element, path): assertNotArray(element, path)) && validateObject(element, path, validators);
+        return (element, path) -> (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && validateObject(element, path, validators);
     }
 
     /**
@@ -521,7 +546,8 @@ public class Validator {
      * {@code "FIELD_NAME" (VALUE) found in file "PATH" isn't registered in "registryType"!}
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredRegisteredIDValidation(List<String> values, String registryType, boolean array) {
-        return (element, path) -> REQUIRED.apply(element, path) && getRegisteredIDValidation(values, registryType, array).apply(element, path);
+        return (element, path) ->
+            (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && getRegisteredIDValidation(values, registryType).apply(element, path);
     }
 
     /**
@@ -552,8 +578,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getIllegalValuesValidation(List<String> values, boolean array) {
-        return (jsonElement, path) ->
-            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getIllegalValuesValidation(values).apply(jsonElement, path);
+        return (element, path) ->
+            Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) && getIllegalValuesValidation(values).apply(element, path);
     }
 
     /**
@@ -572,7 +598,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredIllegalValuesValidation(List<String> values, boolean array) {
-        return (element, path) -> REQUIRED.apply(element, path) && getIllegalValuesValidation(values, array).apply(element, path);
+        return (element, path) ->
+            (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && getIllegalValuesValidation(values).apply(element, path);
     }
 
     /**
@@ -603,8 +630,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getAcceptsOnlyValidation(List<String> values, boolean array) {
-        return (jsonElement, path) ->
-            Objects.isNull(jsonElement) || (array? assertArray(jsonElement, path): assertNotArray(jsonElement, path)) && getAcceptsOnlyValidation(values).apply(jsonElement, path);
+        return (element, path) ->
+            Objects.isNull(element) || (array? assertArray(element, path): assertNotArray(element, path)) && getAcceptsOnlyValidation(values).apply(element, path);
     }
 
     /**
@@ -623,7 +650,8 @@ public class Validator {
      * @return BiFunction used as validator.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredAcceptsOnlyValidation(List<String> values, boolean array) {
-        return (jsonElement, path) -> REQUIRED.apply(jsonElement, path) && getAcceptsOnlyValidation(values, array).apply(jsonElement, path);
+        return (element, path) ->
+            (array? NON_EMPTY_ARRAY_REQUIRED.apply(element, path): assertNotArray(element, path)) && getAcceptsOnlyValidation(values).apply(element, path);
     }
 
     /**
@@ -669,7 +697,7 @@ public class Validator {
      * @apiNote This uses NON_EMPTY_REQUIRED instead of REQUIRED, so if you want to allow empty string, use {@link Validator#getIllegalPairsValidation(List)} instead.
      */
     public BiFunction<JsonElement, Path, Boolean> getRequiredIllegalPairsValidation(List<Pair<String,String>> pairs) {
-        return (element, path) -> NON_EMPTY_REQUIRED.apply(element, path) && getIllegalPairsValidation(pairs).apply(element, path);
+        return (element, path) -> NON_EMPTY_ARRAY_REQUIRED.apply(element, path) && getIllegalPairsValidation(pairs).apply(element, path);
     }
 
     /**
