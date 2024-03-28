@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class DenseDepositProcessor implements IDepositProcessor {
 
-	private JsonObject object;
+	private final JsonObject object;
 	private DenseDepositModel model;
 
 	public DenseDepositProcessor(JsonObject object) {
@@ -24,9 +24,7 @@ public class DenseDepositProcessor implements IDepositProcessor {
 	@Override
 	public void load() {
 		Optional<Pair<DenseDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(DenseDepositModel.CODEC).apply(object).result();
-		if (!result.isPresent()) {
-			return;
-		}
+		if (result.isEmpty()) return;
 		model = result.get().getFirst();
 	}
 

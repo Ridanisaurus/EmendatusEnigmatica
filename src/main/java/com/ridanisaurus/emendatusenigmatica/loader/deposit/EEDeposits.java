@@ -3,13 +3,18 @@ package com.ridanisaurus.emendatusenigmatica.loader.deposit;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonDepositModelBase;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.ridanisaurus.emendatusenigmatica.loader.ValidatorLogger;
+import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.DepositValidators;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.processsors.*;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.*;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.*;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DenseOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DikeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.GeodeOreFeatureConfig;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.SphereOreFeatureConfig;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -33,7 +38,9 @@ import java.util.function.Function;
 
 public class EEDeposits {
 	public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
+	public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
 	public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
+	public static final List<String> DEPOSIT_IDS = new ArrayList<>();
 
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(Registry.FEATURE_REGISTRY, Reference.MOD_ID);
 	public static final DeferredRegister<ConfiguredFeature<?,?>> ORE_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.MOD_ID);
@@ -53,8 +60,11 @@ public class EEDeposits {
 		DEPOSIT_PROCESSORS.put(DepositType.TEST.getType(), TestDepositProcessor::new);
 	}
 	public void load() {
-		if (DEPOSIT_PROCESSORS.isEmpty()) {
-			initProcessors();
+		if (DEPOSIT_PROCESSORS.isEmpty()) initProcessors();
+
+		if (DEPOSIT_TYPES.size() != DEPOSIT_PROCESSORS.size()) {
+			DEPOSIT_TYPES.clear();
+			DEPOSIT_TYPES.addAll(DEPOSIT_PROCESSORS.keySet());
 		}
 
 		Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
@@ -69,23 +79,33 @@ public class EEDeposits {
 			EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/deposit/");
 		}
 
-		ArrayList<JsonObject> depositJsonDefinitions = FileHelper.loadFilesAsJsonObjects(depositDir);
+		Map<Path, JsonObject> depositJsonDefinitionsMap = FileHelper.loadJsonsWithPaths(depositDir.toPath());
+		Validator validator = new Validator("type");
+		ValidatorLogger LOGGER = Validator.LOGGER;
 
-		for (JsonObject depositJsonDefinition : depositJsonDefinitions) {
-			if (!depositJsonDefinition.has("type")) {
-				continue;
+		LOGGER.restartSpacer();
+		LOGGER.info("Validating and registering data for: Deposits");
+		depositJsonDefinitionsMap.forEach((path, element) -> {
+			LOGGER.restartSpacer();
+			if (!validator.validateObject(element, path, DepositValidators.get(element.get(validator.getName())))) {
+				LOGGER.printSpacer(2);
+				LOGGER.error("File \"%s\" is not going to be registered due to errors in it's validation.".formatted(path));
+				return;
 			}
-			String type = depositJsonDefinition.get("type").getAsString();
-			Function<JsonObject, IDepositProcessor> processor = DEPOSIT_PROCESSORS.getOrDefault(type, null);
-			if (processor == null) {
-				continue;
-			}
-			ACTIVE_PROCESSORS.add(processor.apply(depositJsonDefinition));
-		}
 
-		for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
-			activeProcessor.load();
+			ACTIVE_PROCESSORS.add(DEPOSIT_PROCESSORS.get(element.get(validator.getName()).getAsString()).apply(element));
+			DEPOSIT_IDS.add(element.get("registryName").getAsString());
+		});
+
+		LOGGER.restartSpacer();
+		if (LOGGER.shouldLog)  {
+			LOGGER.info("Finished validation and registration of data files.");
+		} else {
+			LOGGER.info("Finished registration of data files. Any validation errors that occurred, if any, have been hidden due to your current configuration file.");
 		}
+		LOGGER.printSpacer(0);
+
+		ACTIVE_PROCESSORS.forEach(IDepositProcessor::load);
 	}
 
 	public void setup() {

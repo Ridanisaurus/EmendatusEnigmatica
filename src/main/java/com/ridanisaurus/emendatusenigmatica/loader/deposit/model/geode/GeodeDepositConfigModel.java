@@ -1,11 +1,18 @@
 package com.ridanisaurus.emendatusenigmatica.loader.deposit.model.geode;
 
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 
+import java.nio.file.Path;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 public class GeodeDepositConfigModel {
 	public static final Codec<GeodeDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -39,6 +46,31 @@ public class GeodeDepositConfigModel {
 	public final String rarity;
 	public final boolean generateSamples;
 	public final List<SampleBlockDefinitionModel> sampleBlocks;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
+
+	static {
+		validators.put("outerShellBlocks", 	new Validator("outerShellBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("innerShellBlocks",	new Validator("innerShellBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("innerBlocks", 		new Validator("innerBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("fillBlocks", 		new Validator("fillBlocks").getRequiredObjectValidation(CommonBlockDefinitionModel.validators, true));
+		validators.put("fillerTypes", 		new Validator("fillerTypes").getRequiredRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", true));
+		validators.put("clusters", 			new Validator("clusters").getResourceIDValidation(true));
+		validators.put("chance", 			new Validator("chance").getRequiredIntRange(1, 100, false));
+		validators.put("crackChance", 		new Validator("crackChance").getRequiredRange(0, 1, false));
+		validators.put("minYLevel", 		new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
+		validators.put("maxYLevel_rg", 		new Validator("maxYLevel").getMaxYLevelValidation("minYLevel"));
+		validators.put("placement", 		new Validator("placement").getAcceptsOnlyValidation(List.of("uniform", "triangle"), false));
+		validators.put("rarity", 			new Validator("rarity").getAcceptsOnlyValidation(List.of("common", "rare"), false));
+		validators.put("generateSamples",	new Validator("generateSamples").REQUIRES_BOOLEAN);
+		Validator sampleValidator = new Validator("sampleBlocks");
+		validators.put("sampleBlocks_rg", sampleValidator.getIfOtherFieldSet("generateSamples", sampleValidator.getRequiredObjectValidation(SampleBlockDefinitionModel.validators, true)));
+	}
 
 	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;

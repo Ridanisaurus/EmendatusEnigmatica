@@ -24,10 +24,19 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import net.minecraft.data.models.blockstates.PropertyDispatch;
 
-import java.util.Optional;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.function.BiFunction;
+
+import static com.ridanisaurus.emendatusenigmatica.loader.Validator.LOGGER;
 
 public class MaterialGasPropertiesModel {
 	public static final Codec<MaterialGasPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -61,6 +70,78 @@ public class MaterialGasPropertiesModel {
 	private final String coolantType;
 	private final double thermalEnthalpy;
 	private final double conductivity;
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new LinkedHashMap<>();
+
+	static {
+		validators.put("isBurnable", new Validator("isBurnable").REQUIRES_BOOLEAN);
+		validators.put("energyDensity", new Validator("energyDensity").REQUIRES_INT);
+		validators.put("isRadioactive", new Validator("isRadioactive").REQUIRES_BOOLEAN);
+		validators.put("isCoolant", new Validator("isCoolant").REQUIRES_BOOLEAN);
+
+		PropertyDispatch.QuadFunction<Pair<Validator, BiFunction<JsonElement, Path, Boolean>>, String, JsonElement, Path, Boolean> isFieldSetValidator = (validatorDetails, fieldName, element_rg, path) -> {
+			Validator validator = validatorDetails.getFirst();
+			if (!validator.assertParentObject(element_rg, path)) return false;
+
+			JsonObject obj = element_rg.getAsJsonObject();
+			JsonElement jsonBoolean = obj.get(fieldName);
+			JsonElement jsonValue = obj.get(validator.getName());
+
+			if (LOGGER.shouldLog) {
+				if (Objects.isNull(jsonBoolean)) {
+					if (Objects.nonNull(jsonValue)) {
+						LOGGER.warn(
+							"\"%s\" should not be present when \"%s\" is not present in file \"%s\"."
+								.formatted(validator.getName(), fieldName, Validator.obfuscatePath(path))
+						);
+					}
+				} else {
+					try {
+						boolean bol = jsonBoolean.getAsBoolean();
+						if (bol && Objects.isNull(jsonValue)) {
+							LOGGER.warn("\"%s\" should be specified if \"%s\" is true in file \"%s\".".formatted(validator.getName(), fieldName, Validator.obfuscatePath(path)));
+						} else if (!bol && Objects.nonNull(jsonValue)) {
+							LOGGER.warn("\"%s\" should not be present when \"%s\" is false in file \"%s\".".formatted(validator.getName(), fieldName, Validator.obfuscatePath(path)));
+						}
+					} catch (Exception e) {
+						LOGGER.error("\"%s\" is not boolean! Can't accurately verify value of \"%s\" in file \"%s\".".formatted(fieldName, validator.getName(), Validator.obfuscatePath(path)));
+					}
+				}
+			}
+
+			return validatorDetails.getSecond().apply(jsonValue, path);
+		};
+
+		Validator burnTimeValidator = new Validator("burnTime");
+		validators.put(burnTimeValidator.getName() + "_rg", (element_rg, path) ->
+			isFieldSetValidator.apply(new Pair<>(burnTimeValidator, burnTimeValidator.REQUIRES_INT), "isBurnable", element_rg, path)
+		);
+
+		Validator radioactivityValidator = new Validator("radioactivity");
+		validators.put(radioactivityValidator.getName() + "_rg", (element_rg, path) ->
+			isFieldSetValidator.apply(new Pair<>(radioactivityValidator, radioactivityValidator.REQUIRES_FLOAT), "isRadioactive", element_rg, path)
+		);
+
+		Validator coolantTypeValidator = new Validator("coolantType");
+		validators.put(coolantTypeValidator.getName() + "_rg", (element_rg, path) ->
+			isFieldSetValidator.apply(new Pair<>(coolantTypeValidator, coolantTypeValidator.getAcceptsOnlyValidation(List.of("cooled", "heated"), false)), "isCoolant", element_rg, path)
+		);
+
+		Validator thermalValidator = new Validator("thermalEnthalpy");
+		validators.put(thermalValidator.getName() + "_rg", (element, path) ->
+			isFieldSetValidator.apply(new Pair<>(thermalValidator, thermalValidator.REQUIRES_FLOAT), "isCoolant", element, path)
+		);
+
+		Validator conductivityValidator = new Validator("conductivity");
+		validators.put(conductivityValidator.getName() + "_rg", (element, path) ->
+			isFieldSetValidator.apply(new Pair<>(conductivityValidator, conductivityValidator.REQUIRES_FLOAT), "isCoolant", element, path)
+		);
+	}
 
 	public MaterialGasPropertiesModel(boolean isBurnable, int burnTime, long energyDensity, boolean isRadioactive, double radioactivity,
 	                                  boolean isCoolant, String coolantType, double thermalEnthalpy, double conductivity) {

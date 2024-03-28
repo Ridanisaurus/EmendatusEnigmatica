@@ -24,11 +24,19 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader.parser.model;
 
+import com.ridanisaurus.emendatusenigmatica.loader.Validator;
+import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import net.minecraft.resources.ResourceLocation;
 
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 public class StrataModel {
 	public static final Codec<StrataModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -52,6 +60,29 @@ public class StrataModel {
 			f2.orElse(3f),
 			b.orElse(false)
 	)));
+
+	/**
+	 * Holds verifying functions for each field.
+	 * Function returns true if verification was successful, false otherwise to stop registration of the json.
+	 * Adding suffix _rg will request the original object instead of just the value of the field.
+	 */
+	public static final Map<String, BiFunction<JsonElement, Path, Boolean>> validators = new HashMap<>();
+	static {
+		validators.put("id", 			new Validator("id").getIDValidation(DefaultConfigPlugin.STRATA_IDS));
+		validators.put("baseTexture", 	new Validator("baseTexture").getRequiredResourceIDValidation(false));
+		validators.put("suffix", 		new Validator("suffix").getRequiredNonEmptyValidation(false));
+		validators.put("fillerType", 	new Validator("fillerType").getRequiredResourceIDValidation(false));
+		validators.put("localizedName", new Validator("localizedName").getRequiredNonEmptyValidation(false));
+		validators.put("hardness", 		new Validator("hardness").getRange(0, Integer.MAX_VALUE, false));
+		validators.put("resistance", 	new Validator("resistance").getRange(0, Integer.MAX_VALUE, false));
+		validators.put("sampleStrata", 	new Validator("sampleStrata").REQUIRES_BOOLEAN);
+		validators.put("harvestTool", 	new Validator("harvestTool").getAcceptsOnlyValidation(List.of(
+				"pickaxe",
+				"axe",
+				"hoe",
+				"shovel"
+		), false));
+	}
 
 	private final String id;
 	private final ResourceLocation baseTexture;

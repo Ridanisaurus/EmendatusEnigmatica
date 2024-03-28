@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class VanillaDepositProcessor implements IDepositProcessor {
 
-    private JsonObject object;
+    private final JsonObject object;
     private VanillaDepositModel model;
 
     public VanillaDepositProcessor(JsonObject object) {
@@ -24,9 +24,7 @@ public class VanillaDepositProcessor implements IDepositProcessor {
     @Override
     public void load() {
         Optional<Pair<VanillaDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(VanillaDepositModel.CODEC).apply(object).result();
-        if (!result.isPresent()) {
-            return;
-        }
+        if (result.isEmpty()) return;
         model = result.get().getFirst();
     }
 

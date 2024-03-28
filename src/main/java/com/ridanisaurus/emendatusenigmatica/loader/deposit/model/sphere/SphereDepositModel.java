@@ -29,7 +29,7 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getChance() {
-		if (config.chance < 1 || config.chance > 100) throw new IllegalArgumentException("Chance for " + name + " is out of Range [1 - 100]");
+//		if (config.chance < 1 || config.chance > 100) throw new IllegalArgumentException("Chance for " + name + " is out of Range [1 - 100]");
 		return config.chance;
 	}
 
@@ -38,37 +38,37 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	}
 
 	public int getMaxYLevel() {
-		if (config.maxYLevel < -64 || config.maxYLevel > 320) throw new IllegalArgumentException("Max Y for " + name + " is out of Range [-64 - 320]");
+//		if (config.maxYLevel < -64 || config.maxYLevel > 320) throw new IllegalArgumentException("Max Y for " + name + " is out of Range [-64 - 320]");
 		return config.maxYLevel;
 	}
 
 	public int getMinYLevel() {
-		if (config.minYLevel < -64 || config.minYLevel > 320) throw new IllegalArgumentException("Min Y for " + name + " is out of Range [-64 - 320]");
+//		if (config.minYLevel < -64 || config.minYLevel > 320) throw new IllegalArgumentException("Min Y for " + name + " is out of Range [-64 - 320]");
 		return config.minYLevel;
 	}
 
 	public List<CommonBlockDefinitionModel> getBlocks() {
-		if (config.blocks.isEmpty()) throw new IllegalArgumentException("Blocks for " + name + " cannot be empty.");
+//		if (config.blocks.isEmpty()) throw new IllegalArgumentException("Blocks for " + name + " cannot be empty.");
 		return config.blocks;
 	}
 
 	public List<String> getFillerTypes() {
-		if (config.fillerTypes.isEmpty()) throw new IllegalArgumentException("Filler Types for " + name + " cannot be empty.");
+//		if (config.fillerTypes.isEmpty()) throw new IllegalArgumentException("Filler Types for " + name + " cannot be empty.");
 		return config.fillerTypes;
 	}
 
 	public int getRadius() {
-		if (config.radius < 1 || config.radius > 16) throw new IllegalArgumentException("Radius for " + name + " is out of Range [1 - 16]");
+//		if (config.radius < 1 || config.radius > 16) throw new IllegalArgumentException("Radius for " + name + " is out of Range [1 - 16]");
 		return config.radius;
 	}
 
 	public String getPlacement() {
-		if (!config.placement.equals("uniform") && !config.placement.equals("triangle")) throw new IllegalArgumentException("Placement for " + name + " is invalid.");
+//		if (!config.placement.equals("uniform") && !config.placement.equals("triangle")) throw new IllegalArgumentException("Placement for " + name + " is invalid.");
 		return config.placement;
 	}
 
 	public String getRarity() {
-		if (!config.rarity.equals("common") && !config.rarity.equals("rare")) throw new IllegalArgumentException("Rarity for " + name + " is invalid.");
+//		if (!config.rarity.equals("common") && !config.rarity.equals("rare")) throw new IllegalArgumentException("Rarity for " + name + " is invalid.");
 		return config.rarity;
 	}
 
@@ -77,7 +77,7 @@ public class SphereDepositModel extends CommonDepositModelBase {
 	}
 
 	public List<SampleBlockDefinitionModel> getSampleBlocks() {
-		if (hasSamples() && config.sampleBlocks.isEmpty()) throw new IllegalArgumentException("Sample Blocks for " + name + " cannot be empty if generateSamples is set to true.");
+//		if (hasSamples() && config.sampleBlocks.isEmpty()) throw new IllegalArgumentException("Sample Blocks for " + name + " cannot be empty if generateSamples is set to true.");
 		return config.sampleBlocks;
 	}
 }

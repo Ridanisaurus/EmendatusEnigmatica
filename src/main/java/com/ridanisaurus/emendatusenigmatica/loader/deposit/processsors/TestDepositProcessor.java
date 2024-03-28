@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class TestDepositProcessor implements IDepositProcessor {
 
-	private JsonObject object;
+	private final JsonObject object;
 	private TestDepositModel model;
 
 	public TestDepositProcessor(JsonObject object) {
@@ -24,9 +24,7 @@ public class TestDepositProcessor implements IDepositProcessor {
 	@Override
 	public void load() {
 		Optional<Pair<TestDepositModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(TestDepositModel.CODEC).apply(object).result();
-		if (!result.isPresent()) {
-			return;
-		}
+		if (result.isEmpty()) return;
 		model = result.get().getFirst();
 	}
 

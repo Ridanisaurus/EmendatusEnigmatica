@@ -1,7 +1,8 @@
 package com.ridanisaurus.emendatusenigmatica.core.mixin;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
@@ -12,6 +13,8 @@ import net.minecraft.world.level.levelgen.OreVeinifier;
 import net.minecraft.world.level.levelgen.PositionalRandomFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+
+import java.util.Objects;
 
 @Mixin(OreVeinifier.class)
 public class OreVeinifierMixin {
@@ -48,16 +51,19 @@ public class OreVeinifierMixin {
                         if ((double)randomsource.nextFloat() < d3 && dFunction3.compute(filler) > (double)-0.3F) {
                             BlockState mixinRawOreBlock = oreveinifier$veintype.rawOreBlock;
                             BlockState mixinOreBlock = oreveinifier$veintype.ore;
-                            for (MaterialModel material : DefaultConfigPlugin.MATERIALS) {
-                                if (oreveinifier$veintype == OreVeinifier.VeinType.COPPER && material.getId().equals("copper") && material.getDisableDefaultOre()) {
-                                    mixinRawOreBlock = Blocks.STONE.defaultBlockState();
-                                    mixinOreBlock = Blocks.STONE.defaultBlockState();
-                                }
-                                if (oreveinifier$veintype == OreVeinifier.VeinType.IRON && material.getId().equals("iron") && material.getDisableDefaultOre()) {
-                                    mixinRawOreBlock = Blocks.DEEPSLATE.defaultBlockState();
-                                    mixinOreBlock = Blocks.DEEPSLATE.defaultBlockState();
-                                }
+
+                            EmendatusDataRegistry registry = EmendatusEnigmatica.getInstance().getLoader().getDataRegistry();
+                            MaterialModel copper = registry.getMaterialByID("copper");
+                            MaterialModel iron = registry.getMaterialByID("iron");
+
+                            if (oreveinifier$veintype == OreVeinifier.VeinType.COPPER && Objects.nonNull(copper) && copper.getDisableDefaultOre()) {
+                                mixinRawOreBlock = Blocks.STONE.defaultBlockState();
+                                mixinOreBlock = Blocks.STONE.defaultBlockState();
+                            } else if (oreveinifier$veintype == OreVeinifier.VeinType.IRON && Objects.nonNull(iron) && iron.getDisableDefaultOre()) {
+                                mixinRawOreBlock = Blocks.DEEPSLATE.defaultBlockState();
+                                mixinOreBlock = Blocks.DEEPSLATE.defaultBlockState();
                             }
+
                             return randomsource.nextFloat() < 0.02F ? mixinRawOreBlock : mixinOreBlock;
                         } else {
                             return oreveinifier$veintype.filler;
