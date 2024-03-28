@@ -28,7 +28,6 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.loader.Validator;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.DepositValidators;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.sample.SampleBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
@@ -77,11 +76,12 @@ public class DenseDepositConfigModel {
 		validators.put("chance", 		new Validator("chance").getRequiredIntRange(1, 100, false));
 		validators.put("size", 			new Validator("size").getRequiredIntRange(1, 48, false));
 		validators.put("minYLevel", 	new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
-		validators.put("maxYLevel_rg", 	DepositValidators.getMaxYLevelValidation(new Validator("maxYLevel"), "minYLevel"));
+		validators.put("maxYLevel_rg", 	new Validator("maxYLevel").getMaxYLevelValidation("minYLevel"));
 		validators.put("placement", 	new Validator("placement").getAcceptsOnlyValidation(List.of("uniform", "triangle"), false));
 		validators.put("rarity", 		new Validator("rarity").getAcceptsOnlyValidation(List.of("common", "rare"), false));
 		validators.put("generateSamples",new Validator("generateSamples").REQUIRES_BOOLEAN);
-		validators.put("sampleBlocks", 	new Validator("sampleBlocks").getObjectValidation(SampleBlockDefinitionModel.validators, true));
+		Validator sampleValidator = new Validator("sampleBlocks");
+		validators.put("sampleBlocks_rg", sampleValidator.getIfOtherFieldSet("generateSamples", sampleValidator.getRequiredObjectValidation(SampleBlockDefinitionModel.validators, true)));
 	}
 
 	public DenseDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {

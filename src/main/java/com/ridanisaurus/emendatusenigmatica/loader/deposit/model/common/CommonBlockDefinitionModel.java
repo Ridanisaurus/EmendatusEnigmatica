@@ -80,7 +80,7 @@ public class CommonBlockDefinitionModel {
 				);
 			}
 
-			return DepositValidators.getMaxYLevelValidation(maxValidator, "min").apply(parent, path);
+			return maxValidator.getMaxYLevelValidation("min").apply(parent, path);
 		});
 	}
 

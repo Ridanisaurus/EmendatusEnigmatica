@@ -424,6 +424,40 @@ public class Validator {
     }
 
     /**
+     * Used to get validator of Max Y Level range. Automatically changes the Int Range depending on the value of min field.
+     * @param minName Name of the min y level field.
+     * @return BiFunction used as validator.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getMaxYLevelValidation(String minName) {
+        return (element, path) -> {
+            if (!assertParentObject(element, path)) return false;
+            JsonObject parent = element.getAsJsonObject();
+            JsonElement value = parent.get(name);
+            JsonElement min = parent.get(minName);
+            int minValue = -64;
+
+            if (!REQUIRED.apply(value, path)) return false;
+
+            if (Objects.isNull(min)) {
+                LOGGER.warn("Field \"%s\" is missing! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, name, Validator.obfuscatePath(path)));
+            } else {
+                try {
+                    if (!min.isJsonPrimitive()) throw new ClassCastException();
+                    minValue = min.getAsInt();
+                    if (minValue > 320) {
+                        LOGGER.error("Field \"%s\" is above max 320! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, name, Validator.obfuscatePath(path)));
+                        minValue = -64;
+                    }
+                } catch (ClassCastException e) {
+                    LOGGER.error("Field \"%s\" requires a Numeric value! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, name, Validator.obfuscatePath(path)));
+                }
+            }
+
+            return getIntRange(minValue, 320, false).apply(value, path);
+        };
+    }
+
+    /**
      * Used to get validator of another JsonObject.
      * @param validators Map with validators for JsonObject to verify.
      * @return BiFunction used as validator.
@@ -736,14 +770,78 @@ public class Validator {
             if (!assertParentObject(parent, path)) return false;
             JsonObject parentObj = parent.getAsJsonObject();
             JsonElement child = parentObj.get(name);
-            if (Objects.nonNull(child) && (array? !assertArray(child, path): !assertNotArray(child, path))) return false;
+            if (Objects.nonNull(child) && (array? !NON_EMPTY_ARRAY_REQUIRED.apply(child, path) : !assertNotArray(child, path))) return false;
             return passTempToValidators(parentObj, child, path, validators, required);
         };
     }
 
     /**
+     * Used to execute the specified validator only if the specified fieldName is set. Requires the specified field to be a boolean.
+     * Prints "Field x should not be present when x field is not set" if fieldName doesn't exist.
+     * @param fieldName Name of the Field which should be set.
+     * @param validator Validator to execute if fieldName is present.
+     * @return BiFunction used as a validator.
+     * @apiNote Requires use of _rg suffix.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIfOtherFieldSet(String fieldName, BiFunction<JsonElement, Path, Boolean> validator) {
+        return (element, path) -> {
+            if (!assertParentObject(element, path)) return false;
+            JsonObject parent = element.getAsJsonObject();
+            JsonElement validatedField = parent.get(name);
+
+            if (isOtherFieldSet(fieldName, parent)) return validator.apply(validatedField, path);
+            if (Objects.nonNull(validatedField)) LOGGER.warn("\"%s\" should not be present when \"%s\" is not set in file \"%s\"".formatted(name, fieldName, Validator.obfuscatePath(path)));
+            return true;
+        };
+    }
+
+    /**
+     * Used to execute the specified validator only if the specified fieldName is present.
+     * Prints "Field x should not be present when x field is not present" if fieldName doesn't exist.
+     * @param fieldName Name of the Field which should be set.
+     * @param validator Validator to execute if fieldName is present.
+     * @return BiFunction used as a validator.
+     * @apiNote Requires use of _rg suffix.
+     */
+    public BiFunction<JsonElement, Path, Boolean> getIfOtherFieldPresent(String fieldName, BiFunction<JsonElement, Path, Boolean> validator) {
+        return (element, path) -> {
+            if (!assertParentObject(element, path)) return false;
+            JsonObject parent = element.getAsJsonObject();
+            JsonElement validatedField = parent.get(name);
+
+            if (isOtherFieldPresent(fieldName, parent)) return validator.apply(validatedField, path);
+            if (Objects.nonNull(validatedField)) LOGGER.warn("\"%s\" should not be present when \"%s\" is not present in file \"%s\"".formatted(name, fieldName, Validator.obfuscatePath(path)));
+            return true;
+        };
+    }
+
+    /**
+     * Utility method for custom validators. Used to check if specified field is set in the provided object.
+     * @param fieldName Name of the field to check.
+     * @param object JsonObject to check if the specified field is set.
+     * @return Returns false if the value is not a boolean, otherwise returns set value of the field.
+     */
+    public static boolean isOtherFieldSet(String fieldName, JsonObject object) {
+        JsonElement field = object.get(fieldName);
+        return Objects.nonNull(field) && field.isJsonPrimitive() && field.getAsJsonPrimitive().isBoolean() && field.getAsJsonPrimitive().getAsBoolean();
+    }
+
+    /**
+     * Utility method for custom validators. Used to check if specified field is present in the provided object.
+     * @param fieldName Name of the field to check.
+     * @param object JsonObject to check if the specified field is set.
+     * @return True if field exists, otherwise false.
+     * @apiNote If you need to also check if the boolean value of this field is true/false, use {@link Validator#isOtherFieldSet(String, JsonObject)} instead.
+     */
+    public static boolean isOtherFieldPresent(String fieldName, JsonObject object) {
+        return Objects.nonNull(object.get(fieldName));
+    }
+
+    /**
      * Used to pass a provided object to the validators by adding it to the TEMP field of the object
      * (or for all entries in the array) and validation will be launched as normal.
+     * @param tempObject Object to pass in the TEMP field.
+     * @param element JsonObject or JsonArray of JsonObject, to which TEMP field should be added.
      * @param validators Map with validators.
      * @param required Determines if the value is required or not.
      * @return BiFunction used as validator.
@@ -752,7 +850,7 @@ public class Validator {
      */
     public boolean passTempToValidators(JsonObject tempObject, @Nullable JsonElement element, Path path, Map<String, BiFunction<JsonElement, Path, Boolean>> validators, boolean required) {
         if (Objects.isNull(element)) return (required? REQUIRED.apply(null, path): true);
-        if (element.isJsonPrimitive() || element.isJsonNull()) {
+        if (!element.isJsonObject() && !element.isJsonArray()) {
             LOGGER.error("Expected array or object for \"%s\" in file \"%s\".".formatted(name, obfuscatePath(path)));
             return false;
         }

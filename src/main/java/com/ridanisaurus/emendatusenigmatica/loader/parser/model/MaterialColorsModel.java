@@ -83,22 +83,23 @@ public class MaterialColorsModel {
 			if (!gasValidator.assertParentObject(element, path)) return false;
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(gasValidator.getName());
-
-			if (!LOGGER.shouldLog || !Validator.checkForTEMP(obj, path, false)) {
-				LOGGER.warn(
-					"Parent data is missing while verifying \"%s\" in file \"%s\", something is not right."
+			Runnable warnValidation = () -> {
+				if (!Validator.checkForTEMP(obj, path, false)) {
+					LOGGER.warn(
+						"Parent data is missing while verifying \"%s\" in file \"%s\", something is not right."
 						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
-				);
-			} else {
+					);
+					return;
+				}
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("processedTypes");
 				if (Objects.isNull(requiredJson)) {
-                    LOGGER.warn("\"processedTypes\" are missing from file \"%s\". Can't accurately verify values of \"%s\"."
-                            .formatted(Validator.obfuscatePath(path), gasValidator.getName())
-                    );
-                } else if (!requiredJson.isJsonArray()) {
-                    LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+					LOGGER.warn("\"processedTypes\" are missing from file \"%s\". Can't accurately verify values of \"%s\".".formatted(Validator.obfuscatePath(path), gasValidator.getName()));
+					return;
 				}
-
+				if (!requiredJson.isJsonArray()) {
+					LOGGER.warn("Expected \"processedTypes\" to be an array! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(gasValidator.getName(), Validator.obfuscatePath(path)));
+					return;
+				}
 				JsonArray types = requiredJson.getAsJsonArray();
 				boolean infuse = types.contains(new JsonPrimitive("infuse_type"));
 				boolean slurry = types.contains(new JsonPrimitive("slurry"));
@@ -112,7 +113,9 @@ public class MaterialColorsModel {
 						.formatted(gasValidator.getName(), Validator.obfuscatePath(path))
 					);
 				}
-			}
+			};
+
+			if (LOGGER.shouldLog) warnValidation.run();
 
 			return gasValidator.getHexColorValidation(false).apply(obj.get(gasValidator.getName()), path);
 		});
@@ -121,40 +124,38 @@ public class MaterialColorsModel {
 			if (!validator.assertParentObject(element, path)) return false;
 			JsonObject obj = element.getAsJsonObject();
 			JsonElement valueJson = obj.get(validator.getName());
+			Runnable warnValidation = () -> {
+				if (!Validator.checkForTEMP(obj, path, false)) {
+					LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
+					return;
+				}
 
-			if (!LOGGER.shouldLog || !Validator.checkForTEMP(obj, path, false)) {
-				LOGGER.warn("Parent data is missing while verifying \"%s\" in file \"%s\", something is not right.".formatted(validator.getName(), Validator.obfuscatePath(path)));
-			} else {
 				JsonElement requiredJson = obj.get("TEMP").getAsJsonObject().get("properties");
-				if (Objects.nonNull(requiredJson)) {
-					if (!requiredJson.isJsonObject()) {
-						LOGGER.warn("Expected \"properties\" to be an object! Can't accurately verify values of \"%s\" in file \"%s\"."
-								.formatted(validator.getName(), Validator.obfuscatePath(path))
+				if (Objects.isNull(requiredJson)) return;
+				if (!requiredJson.isJsonObject()) {
+					LOGGER.warn("Expected \"properties\" to be an object! Can't accurately verify values of \"%s\" in file \"%s\".".formatted(validator.getName(), Validator.obfuscatePath(path)));
+					return;
+				}
+
+				JsonElement requiredValue = requiredJson.getAsJsonObject().get(fieldName);
+				boolean required = false;
+				if (Objects.nonNull(requiredValue)) {
+					try {
+						required = requiredValue.getAsBoolean();
+					} catch (Exception e) {
+						LOGGER.error("\"%s\" in Properties is not a boolean! Can't accurately verify values of \"%s\" in file \"%s\"."
+								.formatted(fieldName, validator.getName(), Validator.obfuscatePath(path))
 						);
-					} else {
-						JsonElement requiredValue = requiredJson.getAsJsonObject().get(fieldName);
-						boolean required = false;
-						if (Objects.nonNull(requiredValue)) {
-							try {
-								required = requiredValue.getAsBoolean();
-							} catch (Exception e) {
-								LOGGER.error("\"%s\" in Properties is not a boolean! Can't accurately verify values of \"%s\" in file \"%s\"."
-										.formatted(fieldName, validator.getName(), Validator.obfuscatePath(path))
-								);
-							}
-						}
-						if (Objects.nonNull(valueJson) && !required) {
-							LOGGER.warn("\"%s\" should not be present when \"%s\" is set to false in file \"%s\"."
-									.formatted(validator.getName(), fieldName, Validator.obfuscatePath(path))
-							);
-						} else if (Objects.isNull(valueJson) && required) {
-							LOGGER.warn("\"%s\" should be set when \"%s\" is set to true in file \"%s\"."
-									.formatted(validator.getName(), fieldName, Validator.obfuscatePath(path))
-							);
-						}
 					}
 				}
-			}
+				if (Objects.nonNull(valueJson) && !required) {
+					LOGGER.warn("\"%s\" should not be present when \"%s\" is set to false in file \"%s\".".formatted(validator.getName(), fieldName, Validator.obfuscatePath(path)));
+				} else if (Objects.isNull(valueJson) && required) {
+					LOGGER.warn("\"%s\" should be set when \"%s\" is set to true in file \"%s\".".formatted(validator.getName(), fieldName, Validator.obfuscatePath(path)));
+				}
+			};
+
+			if (LOGGER.shouldLog) warnValidation.run();
 
 			return validator.getHexColorValidation(false).apply(obj.get(gasValidator.getName()), path);
 		};

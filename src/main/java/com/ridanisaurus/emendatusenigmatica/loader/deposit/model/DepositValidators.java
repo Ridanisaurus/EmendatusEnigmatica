@@ -54,40 +54,6 @@ public class DepositValidators {
     }
 
     /**
-     * Provider of MaxYLevelValidation. Requires use of _rg suffix to work.
-     * @apiNote This is meant to be modified and moved to {@link Validator} class!
-     */
-    public static BiFunction<JsonElement, Path, Boolean> getMaxYLevelValidation(Validator validator, String minName) {
-        //TODO: Add additional configuration option and move it to validator
-        return (element, path) -> {
-            if (!validator.assertParentObject(element, path)) return false;
-            JsonObject parent = element.getAsJsonObject();
-            JsonElement value = parent.get(validator.getName());
-            JsonElement min = parent.get(minName);
-            int minValue = -64;
-
-            if (!validator.REQUIRED.apply(value, path)) return false;
-
-            if (Objects.isNull(min)) {
-                LOGGER.warn("Field \"%s\" is missing! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, validator.getName(), Validator.obfuscatePath(path)));
-            } else {
-                try {
-                    if (!min.isJsonPrimitive()) throw new ClassCastException();
-                    minValue = min.getAsInt();
-                    if (minValue > 320) {
-                        LOGGER.error("Field \"%s\" is above max 320! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, validator.getName(), Validator.obfuscatePath(path)));
-                        minValue = -64;
-                    }
-                } catch (ClassCastException e) {
-                    LOGGER.error("Field \"%s\" requires a Numeric value! Can't accurately verify \"%s\" in file \"%s\".".formatted(minName, validator.getName(), Validator.obfuscatePath(path)));
-                }
-            }
-
-            return validator.getIntRange(minValue, 320, false).apply(value, path);
-        };
-    }
-
-    /**
      * Used to get a validator for Material Field, when Block and Tag fields are as an alternatives.
      * Requires usage of _rg suffix.
      * @param validator Validator to use for the template.

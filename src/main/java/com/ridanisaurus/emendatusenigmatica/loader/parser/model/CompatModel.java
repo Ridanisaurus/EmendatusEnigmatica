@@ -121,7 +121,7 @@ public class CompatModel {
 			validators.put("values_rg", (element_rg, path_rg) -> {
 				if (!(
 					valuesValidator.assertParentObject(element_rg, path_rg) &&
-					valuesValidator.assertArray(element_rg.getAsJsonObject().get("values"), path_rg)
+					valuesValidator.NON_EMPTY_ARRAY_REQUIRED.apply(element_rg.getAsJsonObject().get("values"), path_rg)
 				)) return false;
 
 				JsonObject element = element_rg.getAsJsonObject();
@@ -248,36 +248,47 @@ public class CompatModel {
 				if (!inputValidator.assertParentObject(element_rg, path)) return false;
 
 				JsonObject element = element_rg.getAsJsonObject();
-				//TODO: Should this be required when the material is alloy -> Mod Thermal -> Machine Induction Smelter?
-				if (Objects.isNull(element.get("input"))) return true;
-				if (LOGGER.shouldLog) {
-					JsonObject temp = element.get("TEMP").getAsJsonObject();
-					String mod = temp.get("mod").getAsString();
-					String machine = temp.get("machine").getAsString();
-					String type = "NONE";
+				JsonObject temp = element.get("TEMP").getAsJsonObject();
+				String mod = temp.get("mod").getAsString();
+				String machine = temp.get("machine").getAsString();
+				String type = "NONE";
+				boolean required = true;
 
-					if (mod.equals("NONE")) LOGGER.warn("Mod is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
-					if (machine.equals("NONE")) LOGGER.warn("Machine is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+				if (mod.equals("NONE")) LOGGER.warn("Mod is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
+				if (machine.equals("NONE")) LOGGER.warn("Machine is none! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
 
-					try {
-						type = element.get("type").getAsString();
-					} catch (ClassCastException e) {
-						LOGGER.error("Type is not a string! Can't accurately verify values of input for \"%s\".".formatted(Validator.obfuscatePath(path)));
-					} catch (NullPointerException e) {
-						LOGGER.warn("Type is null! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
-					}
-
-
-					if (!mod.equals("thermal")) LOGGER.warn("Input should not be present when selected mod is different than thermal (Currently: %s). Found in file \"%s\".".formatted(mod, Validator.obfuscatePath(path)));
-					if (!machine.equals("induction_smelter")) LOGGER.warn("Input should not be present when selected machine is different than induction_smelter (Currently: %s). Found in file \"%s\".".formatted(machine, Validator.obfuscatePath(path)));
-					if (!type.equals("alloy")) LOGGER.warn("Input should not be present when selected type is different than alloy (Currently: %s). Found in file \"%s\".".formatted(type, Validator.obfuscatePath(path)));
-
-					element.get("input").getAsJsonArray().forEach(entry -> {
-						if (Objects.nonNull(entry.getAsJsonObject().get("chance"))) LOGGER.warn("Chance should not be present in input object! Found in file \"%s\".".formatted(Validator.obfuscatePath(path)));
-					});
+				try {
+					type = element.get("type").getAsString();
+				} catch (ClassCastException e) {
+					LOGGER.error("Type is not a string! Can't accurately verify values of input for \"%s\".".formatted(Validator.obfuscatePath(path)));
+				} catch (NullPointerException e) {
+					LOGGER.warn("Type is null! Can't accurately verify values of input for \"%s\"".formatted(Validator.obfuscatePath(path)));
 				}
 
-				return inputValidator.getObjectValidation(CompatIOModel.validators, true).apply(element.get("input"), path);
+
+				if (!mod.equals("thermal")) {
+					LOGGER.warn("Input should not be present when selected mod is different than thermal (Currently: %s). Found in file \"%s\".".formatted(mod, Validator.obfuscatePath(path)));
+					required = false;
+				}
+				if (!machine.equals("induction_smelter")) {
+					LOGGER.warn("Input should not be present when selected machine is different than induction_smelter (Currently: %s). Found in file \"%s\".".formatted(machine, Validator.obfuscatePath(path)));
+					required = false;
+				}
+				if (!type.equals("alloy")) {
+					LOGGER.warn("Input should not be present when selected type is different than alloy (Currently: %s). Found in file \"%s\".".formatted(type, Validator.obfuscatePath(path)));
+					required = false;
+				}
+
+				if (LOGGER.shouldLog) element.get("input").getAsJsonArray().forEach(entry -> {
+					if (Validator.isOtherFieldPresent("chance", entry.getAsJsonObject()))
+						LOGGER.warn("Chance should not be present in input object! Found in file \"%s\".".formatted(Validator.obfuscatePath(path)));
+				});
+
+				if (required) {
+					return inputValidator.getRequiredObjectValidation(CompatIOModel.validators, true).apply(element.get("input"), path);
+				} else {
+					return inputValidator.getObjectValidation(CompatIOModel.validators, true).apply(element.get("input"), path);
+				}
 			});
 
 			validators.put("output", outputValidator.getObjectValidation(CompatIOModel.validators, true));

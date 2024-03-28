@@ -68,7 +68,7 @@ public class TestDepositConfigModel {
 		validators.put("chance", 		new Validator("chance").getRequiredIntRange(1, 100, false));
 		validators.put("size", 			new Validator("size").getRequiredIntRange(1, Integer.MAX_VALUE, false));
 		validators.put("minYLevel", 	new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
-		validators.put("maxYLevel_rg", 	DepositValidators.getMaxYLevelValidation(new Validator("maxYLevel"), "minYLevel"));
+		validators.put("maxYLevel_rg", 	new Validator("maxYLevel").getMaxYLevelValidation("minYLevel"));
 	}
 
 	public TestDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel) {

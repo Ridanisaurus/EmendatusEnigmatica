@@ -159,9 +159,12 @@ public class MaterialPropertiesModel {
 			try {
 				if (!valueJson.isJsonPrimitive()) throw new ClassCastException();
 				double value = valueJson.getAsDouble();
-				if (LOGGER.shouldLog && Math.ceil(value) > value) {
-					LOGGER.warn("\"%s\" in file \"%s\" should be an integer. Floating-point values are not supported for this field.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
+
+				if (Math.ceil(value) > value) {
+					LOGGER.error("\"%s\" in file \"%s\" has to be an integer. Floating-point values are not supported for this field.".formatted(blockRecipeValidator.getName(), Validator.obfuscatePath(path)));
+					return false;
 				}
+
 				int val = Double.valueOf(value).intValue();
 				boolean validation = acceptedValues.contains(val);
 				if (!validation) {

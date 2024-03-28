@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -47,12 +46,14 @@ public class SampleBlockDefinitionModel {
 		validators.put("strata_rg", (element, path) -> {
 			if (!strataValidator.assertParentObject(element, path)) return false;
 			JsonObject parent = element.getAsJsonObject();
-			if (Objects.isNull(parent.get("material"))) {
-				Validator.LOGGER.warn(
-					"\"%s\" should not be present when specified sample is not material based in file \"%s\"."
-					.formatted(strataValidator.getName(), Validator.obfuscatePath(path))
-				);
-			}
+
+			if (Validator.isOtherFieldPresent("material", parent))
+				return strataValidator.getRequiredRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", false).apply(parent.get(strataValidator.getName()), path);
+
+			Validator.LOGGER.warn(
+				"\"%s\" should not be present when specified sample is not material based in file \"%s\"."
+				.formatted(strataValidator.getName(), Validator.obfuscatePath(path))
+			);
 			return strataValidator.getRegisteredIDValidation(DefaultConfigPlugin.STRATA_IDS, "Strata Registry", false).apply(parent.get(strataValidator.getName()), path);
 		});
 	}

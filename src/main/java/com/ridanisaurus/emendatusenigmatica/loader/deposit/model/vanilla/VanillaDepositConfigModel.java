@@ -52,7 +52,7 @@ public class VanillaDepositConfigModel {
 		validators.put("chance", 		new Validator("chance").getRequiredIntRange(1, 100, false));
 		validators.put("size", 			new Validator("size").getRequiredIntRange(1, 16, false));
 		validators.put("minYLevel", 	new Validator("minYLevel").getRequiredIntRange(-64, 320, false));
-		validators.put("maxYLevel_rg", 	DepositValidators.getMaxYLevelValidation(new Validator("maxYLevel"), "minYLevel"));
+		validators.put("maxYLevel_rg", 	new Validator("maxYLevel").getMaxYLevelValidation("minYLevel"));
 		validators.put("placement", 	new Validator("placement").getAcceptsOnlyValidation(List.of("uniform", "triangle"), false));
 		validators.put("rarity", 		new Validator("rarity").getAcceptsOnlyValidation(List.of("common", "rare"), false));
 	}
