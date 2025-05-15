@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.colors;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ColorValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 public class OxidizationColorValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new ColorValidator(false);

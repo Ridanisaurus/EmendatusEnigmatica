@@ -22,20 +22,31 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators;
+package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * A validator wrapper which handles the requirement and ArrayHandlingPolicy of a field,
+ * based on the presence of another field.
+ */
 public class FieldPresentValidator implements IValidationFunction {
     private final IValidationFunction validator;
     private final String path;
 
+    /**
+     * Constructs FieldPresentValidator.
+     *
+     * @param path Path to the field to check.
+     * @param validator Validator to run after check.
+     * @see FieldPresentValidator Documentation of the validator.
+     */
     public FieldPresentValidator(String path, IValidationFunction validator) {
         this.validator = validator;
         this.path = path;

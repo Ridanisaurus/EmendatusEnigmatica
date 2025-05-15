@@ -27,7 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.gas;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 public class CoolantValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);

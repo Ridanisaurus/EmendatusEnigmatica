@@ -36,9 +36,9 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class DenseDepositConfigModel {
 		.addValidator("placement",       new ValuesValidator(List.of("uniform", "triangle"), FilterMode.WHITELIST, false))
 		.addValidator("rarity",          new ValuesValidator(List.of("common", "rare"), FilterMode.WHITELIST, false))
 		.addValidator("generateSamples", new TypeValidator(Types.BOOLEAN, false))
-		.addValidator("sampleBlocks",    new FieldTrueValidator("generateSamples", SampleBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(false)), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
+		.addValidator("sampleBlocks",    new SampleBlocksValidator(), ArrayPolicy.REQUIRES_ARRAY);
 
 	public final List<CommonBlockDefinitionModel> blocks;
 	public final List<String> fillerTypes;

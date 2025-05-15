@@ -32,7 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredVa
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldPresentValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldPresentValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
 import org.jetbrains.annotations.Nullable;
 

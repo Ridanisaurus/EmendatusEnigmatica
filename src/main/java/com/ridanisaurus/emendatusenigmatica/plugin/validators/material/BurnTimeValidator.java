@@ -27,7 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 public class BurnTimeValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false);

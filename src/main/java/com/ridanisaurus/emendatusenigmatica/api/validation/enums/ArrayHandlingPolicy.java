@@ -24,4 +24,8 @@ public class ArrayHandlingPolicy {
     public boolean canBeEmpty() {
         return allowEmpty;
     }
+
+    public ArrayPolicy getLegacyArrayPolicy() {
+        return this.arrayPolicy;
+    }
 }

@@ -22,18 +22,23 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators;
+package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * A validator wrapper which handles the requirement and ArrayHandlingPolicy of a field,
+ * based on a value of a second string field.
+ * @see FieldSetValidator#FieldSetValidator(String, String, IValidationFunction, boolean) FieldSetValidator(...) for more details.
+ */
 public class FieldSetValidator implements IValidationFunction {
     private final IValidationFunction validator;
     private final boolean optional;
@@ -44,10 +49,15 @@ public class FieldSetValidator implements IValidationFunction {
      * Constructs FieldSetValidator.
      *
      * @param field     Name of the field to check.
-     * @param value     Value of the field.
+     * @param value     Required value of the field.
      * @param validator Validator to run after check.
-     * @param optional  Should the validator only issue warnings about field being unnecessary, or mark the field as required?
+     * @param optional  Determines if this field is optional.
      * @see FieldSetValidator Documentation of the validator.
+     * @apiNote
+     * <ul>
+     * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
+     * <li>If <code>optional</code> is set to <code>false</code>, this validator will update the {@link ArrayHandlingPolicy} to <code>allowEmpty</code> -> <code>false</code>.</li>
+     * </ul>
      */
     public FieldSetValidator(String field, String value, IValidationFunction validator, boolean optional) {
         this.validator = validator;
@@ -60,6 +70,7 @@ public class FieldSetValidator implements IValidationFunction {
      * Constructs FieldSetValidator.
      *
      * @param field     Name of the field to check.
+     * @param value     Required value of the field.
      * @param validator Validator to run after check.
      * @see FieldSetValidator Documentation of the validator.
      */
@@ -100,9 +111,25 @@ public class FieldSetValidator implements IValidationFunction {
         }
 
         if (Objects.isNull(stringField))
-            Analytics.warn("This field is unnecessary!", "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value), data);
+            Analytics.warn(
+                "This field is unnecessary!",
+                "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value),
+                data
+            );
         else if (!stringField.getAsString().equals(value))
-            Analytics.warn("This field is unnecessary!", "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value), data);
+            Analytics.warn(
+                "This field is unnecessary!",
+                "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value),
+                data
+            );
+        else if (!optional)
+            return validator.apply(new ValidationData(
+                data.validationElement(),
+                data.rootObject(),
+                data.currentPath(),
+                data.jsonFilePath(),
+                data.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
+            );
 
         return validator.apply(data);
     }

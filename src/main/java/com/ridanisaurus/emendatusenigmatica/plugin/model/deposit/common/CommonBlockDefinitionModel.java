@@ -32,7 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRang
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldSetValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldSetValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
 import org.jetbrains.annotations.Nullable;

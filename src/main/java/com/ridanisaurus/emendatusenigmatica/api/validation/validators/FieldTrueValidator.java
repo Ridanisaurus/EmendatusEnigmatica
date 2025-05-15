@@ -22,28 +22,40 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators;
+package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+/**
+ * A validator wrapper which handles the requirement and ArrayHandlingPolicy of a field,
+ * based on a value of a second boolean field.
+ * @see FieldTrueValidator#FieldTrueValidator(String, IValidationFunction, boolean) FieldTrueValidator(...) for more details.
+ */
 public class FieldTrueValidator implements IValidationFunction {
     private final IValidationFunction validator;
     private final String field;
     private final boolean optional;
+
     /**
      * Constructs FieldTrueValidator.
      *
      * @param field Name of the field to check.
      * @param validator Validator to run after check.
+     * @param optional Determines if this field is optional.
      * @see FieldTrueValidator Documentation of the validator.
+     * @apiNote
+     * <ul>
+     * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
+     * <li>If <code>optional</code> is set to <code>false</code>, this validator will update the {@link ArrayHandlingPolicy} to <code>allowEmpty</code> -> <code>false</code>.</li>
+     * </ul>
      */
     public FieldTrueValidator(String field, IValidationFunction validator, boolean optional) {
         this.validator = validator;
@@ -95,9 +107,25 @@ public class FieldTrueValidator implements IValidationFunction {
         }
 
         if (Objects.isNull(booleanField))
-            Analytics.warn("This field is unnecessary!", "Field <code>%s</code> needs to be present and set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath), data);
+            Analytics.warn(
+                "This field is unnecessary!",
+                "Field <code>%s</code> needs to be present and set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath),
+                data
+            );
         else if (!booleanField.getAsBoolean())
-            Analytics.warn("This field is unnecessary!", "Field <code>%s</code> needs to be set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath), data);
+            Analytics.warn(
+                "This field is unnecessary!",
+                "Field <code>%s</code> needs to be set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath),
+                data
+            );
+        else if (!optional)
+            return validator.apply(new ValidationData(
+                data.validationElement(),
+                data.rootObject(),
+                data.currentPath(),
+                data.jsonFilePath(),
+                data.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
+            );
 
         return validator.apply(data);
     }
