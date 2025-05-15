@@ -73,8 +73,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
         int yTop = model.getMaxYLevel();
         int yBottom = model.getMinYLevel();
 
-        int yPos = rand.nextInt(yTop);
-        yPos = Math.max(yPos, yBottom);
+        int yPos = yBottom + level.getRandom().nextInt(yTop - yBottom);
         // TODO: Fix the radius calculation
         int radius = model.getRadius();
 
@@ -165,7 +164,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             config.placed = true;
         } catch (Exception e) {
             JsonElement modelJson = JsonOps.INSTANCE.withEncoder(SphereDepositModel.CODEC).apply(config.model).result().get();
-            EmendatusEnigmatica.logger.error("index: " + index + ", model: " + new Gson().toJson(modelJson), e);
+            EmendatusEnigmatica.logger.error("index: {}, model: {}", index, new Gson().toJson(modelJson), e);
         }
     }
 
@@ -188,7 +187,7 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
             }
         } catch (Exception e) {
             JsonElement modelJson = JsonOps.INSTANCE.withEncoder(SphereDepositModel.CODEC).apply(config.model).result().get();
-            EmendatusEnigmatica.logger.error("model: " + new Gson().toJson(modelJson), e);
+            EmendatusEnigmatica.logger.error("model: {}", new Gson().toJson(modelJson), e);
         }
     }
 

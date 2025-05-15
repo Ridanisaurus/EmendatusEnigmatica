@@ -45,8 +45,8 @@ public class AnnotationUtil {
      * @param annotation The annotation class to search
      * @return A list of classes that have the annotation
      */
-    public static @NotNull List<Class> getAnnotatedClasses(Class<? extends Annotation> annotation) {
-        List<Class> classList = new ArrayList<>();
+    public static @NotNull List<Class<?>> getAnnotatedClasses(Class<? extends Annotation> annotation) {
+        List<Class<?>> classList = new ArrayList<>();
         Type type = Type.getType(annotation);
         for (ModFileScanData allScanDatum : ModList.get().getAllScanData()) {
             for (ModFileScanData.AnnotationData allScanDatumAnnotation : allScanDatum.getAnnotations()) {
