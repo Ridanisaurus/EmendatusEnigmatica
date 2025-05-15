@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialToolsModel;
 
 import java.util.List;

@@ -26,12 +26,12 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
 import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.RequiredValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.BlockRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;

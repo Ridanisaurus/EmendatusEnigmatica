@@ -25,9 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
 import com.google.gson.JsonElement;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.AbstractValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositConfigModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dike.DikeDepositConfigModel;

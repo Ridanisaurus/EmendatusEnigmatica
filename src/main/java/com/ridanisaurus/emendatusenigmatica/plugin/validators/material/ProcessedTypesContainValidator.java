@@ -24,11 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.AbstractBasicValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractBasicValidator;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.neoforged.jarjar.nio.util.Lazy;
 import org.jetbrains.annotations.NotNull;

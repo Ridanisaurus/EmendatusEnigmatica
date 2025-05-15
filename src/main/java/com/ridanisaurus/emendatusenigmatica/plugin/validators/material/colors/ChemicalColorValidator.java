@@ -24,8 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.colors;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ColorValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ColorValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 

@@ -27,7 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.util.analytics;
 import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;

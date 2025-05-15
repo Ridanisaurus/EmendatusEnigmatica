@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.material;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.ToolModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools.ToolValidator;
 

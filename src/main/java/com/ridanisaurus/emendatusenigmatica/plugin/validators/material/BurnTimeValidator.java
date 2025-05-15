@@ -24,9 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
 
 public class BurnTimeValidator extends FieldTrueValidator {

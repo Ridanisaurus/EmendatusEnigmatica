@@ -26,11 +26,11 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.RequiredValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.TypeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldSetValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;

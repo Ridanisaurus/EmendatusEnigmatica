@@ -24,9 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.gas;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.FilterMode;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.FieldTrueValidator;
 
 import java.util.List;

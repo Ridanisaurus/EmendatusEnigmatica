@@ -26,12 +26,12 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.material;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.ArrayPolicy;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.FilterMode;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;

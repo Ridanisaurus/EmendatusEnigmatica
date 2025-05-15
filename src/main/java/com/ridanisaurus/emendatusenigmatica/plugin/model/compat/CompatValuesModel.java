@@ -26,8 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.compat;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.ArrayPolicy;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatTypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatValueInputValidator;
 import java.util.*;

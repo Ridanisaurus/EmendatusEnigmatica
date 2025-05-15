@@ -82,7 +82,7 @@ public class EELoader {
             }
         }
         s.stop();
-        logger.info("Finished scanning for plugins, took " + s.elapsed(TimeUnit.MILLISECONDS) + "ms.");
+        logger.info("Finished scanning for plugins, took {}ms.", s.elapsed(TimeUnit.MILLISECONDS));
         Analytics.addPerformanceAnalytic("Scanning and registration of addons", s);
     }
 

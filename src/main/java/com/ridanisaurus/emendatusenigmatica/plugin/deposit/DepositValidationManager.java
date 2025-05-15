@@ -24,13 +24,13 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.deposit;
 
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.ArrayPolicy;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.FilterMode;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.BiomeRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.DimensionRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BiomeRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositConfigValidator;

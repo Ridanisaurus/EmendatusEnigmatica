@@ -26,11 +26,11 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.compat;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.ItemRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.ItemRegistryValidator;
 import java.util.Optional;
 
 public class CompatIOModel {

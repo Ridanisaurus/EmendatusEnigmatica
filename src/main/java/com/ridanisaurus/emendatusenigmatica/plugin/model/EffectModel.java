@@ -26,12 +26,12 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.EffectRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.EffectRegistryValidator;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

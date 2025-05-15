@@ -26,10 +26,10 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialOreDropModel;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 

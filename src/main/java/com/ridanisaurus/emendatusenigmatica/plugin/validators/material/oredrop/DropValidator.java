@@ -26,10 +26,10 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.oredrop;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.loader.validation.validators.registry.ItemRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.ItemRegistryValidator;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
