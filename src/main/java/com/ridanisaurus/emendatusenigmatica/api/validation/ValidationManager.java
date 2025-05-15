@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
@@ -78,7 +79,7 @@ public class ValidationManager {
             return false;
         }
 
-        // Enters automatic validator execution. After this point, stack-traces are a mess!
+        // Enters automatic validator execution. After this point, stack-traces are a slight mess!
         return this.rootValidator.apply(new ValidationData(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
     }
 
@@ -93,6 +94,26 @@ public class ValidationManager {
 
     /**
      * Used to add validator to this ValidationManager,
+     * under specified field, with specified ArrayHandlingPolicy.
+     * @param field Field to add validator for.
+     * @param validator - Validation Function.
+     * @param arrayPolicy ArrayPolicy of this field.
+     * @return {@code this} instance of the {@link ValidationManager}
+     */
+    @CanIgnoreReturnValue
+    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator, @NotNull ArrayHandlingPolicy arrayPolicy) {
+        this.validators.put(
+            Objects.requireNonNull(field, "Field name can't be null!"),
+            new ValidatorHolder(
+                Objects.requireNonNull(validator, "Validator can't be null!"),
+                Objects.requireNonNull(arrayPolicy, "Array Handling Policy can't be null!")
+            )
+        );
+        return this;
+    }
+
+    /**
+     * Used to add validator to this ValidationManager,
      * under specified field, with specified ArrayPolicy.
      * @param field Field to add validator for.
      * @param validator - Validation Function.
@@ -100,15 +121,9 @@ public class ValidationManager {
      * @return {@code this} instance of the {@link ValidationManager}
      */
     @CanIgnoreReturnValue
+    @Deprecated
     public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator, @NotNull ArrayPolicy arrayPolicy) {
-        this.validators.put(
-            Objects.requireNonNull(field, "Field name can't be null!"),
-            new ValidatorHolder(
-                Objects.requireNonNull(validator, "Validator can't be null!"),
-                Objects.requireNonNull(arrayPolicy, "Array Policy can't be null!")
-            )
-        );
-        return this;
+        return addValidator(field, validator, arrayPolicy.get());
     }
 
     /**
@@ -120,7 +135,7 @@ public class ValidationManager {
      */
     @CanIgnoreReturnValue
     public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator) {
-        return this.addValidator(field, validator, ArrayPolicy.DISALLOWS_ARRAYS);
+        return this.addValidator(field, validator, ArrayPolicy.DISALLOWS_ARRAYS.get());
     }
 
     /**

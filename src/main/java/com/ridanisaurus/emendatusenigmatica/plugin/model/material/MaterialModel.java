@@ -92,7 +92,7 @@ public class MaterialModel {
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
 		.addValidator("disableDefaultOre",	new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
-		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY)
+		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("tools",				new ToolsFieldValidator())
 		.addValidator("armor",				new ArmorFieldValidator())
 		.addValidator("oreDrop",				new OreDropValidator())

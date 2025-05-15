@@ -40,6 +40,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositCon
  */
 public class DepositValidationManager {
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
+        //TODO: Add custom biomes validator - required to check if contains biome list or a biome tag!
         .addValidator("biomes",       new ResourceLocationValidator(false, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY)
         .addValidator("registryName", new EERegistryValidator(DefaultLoader.DEPOSIT_IDS, EERegistryValidator.REGISTRATION, true))
         .addValidator("type",         new ValuesValidator(DefaultLoader.DEPOSIT_TYPES, FilterMode.WHITELIST, true))

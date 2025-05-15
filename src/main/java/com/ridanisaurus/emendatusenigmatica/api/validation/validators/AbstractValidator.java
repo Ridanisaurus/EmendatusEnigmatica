@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -37,7 +38,7 @@ import java.util.Objects;
  * AbstractValidator is a template class, which more advanced validators can extend,
  * to have the basic functions already implemented and ready-to-go.
  * <br><br>
- * This validator handles the field requirement and checks the compliance with the ArrayPolicy,
+ * This validator handles the field requirement and checks the compliance with the {@link ArrayHandlingPolicy},
  * and if the element passes, calls the abstract {@link AbstractValidator#validate(ValidationData)} method.
  * @implNote  Even tho this validator could be easily done to accept arrays of arrays... - the codecs are not created with such fields in mind!
  * Due to that limitation, this validator will issue errors if an array is found inside another array.<br>
@@ -72,7 +73,7 @@ public abstract class AbstractValidator implements IValidationFunction {
         }
 
         if (element.isJsonArray()) {
-            if (data.arrayPolicy() == ArrayPolicy.DISALLOWS_ARRAYS) {
+            if (!data.arrayPolicy().allowsArrays()) {
                 Analytics.error("Arrays are not allowed for this field!", data);
                 return false;
             }
@@ -84,10 +85,15 @@ public abstract class AbstractValidator implements IValidationFunction {
                     validation = false;
                 index++;
             }
+
+            if (index == 0 && !data.arrayPolicy().canBeEmpty()) {
+                Analytics.error("Array for this field can not be empty!", data);
+                return false;
+            }
             return validation;
         }
 
-        if (data.arrayPolicy() == ArrayPolicy.REQUIRES_ARRAY) {
+        if (data.arrayPolicy().requiresArray()) {
             Analytics.error("This field requires an array!", data);
             return false;
         }

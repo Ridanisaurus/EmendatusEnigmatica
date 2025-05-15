@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +36,7 @@ import java.util.Objects;
  * to have the basic functions already implemented and ready-to-go.
  * <br><br>
  * This validator handles the field requirement and if the element passes, calls the abstract {@link AbstractBasicValidator#validate(ValidationData)} method.
- * @apiNote This validator doesn't handle ArrayPolicy, and implementation of the {@link AbstractBasicValidator#validate(ValidationData)}
+ * @apiNote This validator doesn't handle {@link ArrayHandlingPolicy}, and implementation of the {@link AbstractBasicValidator#validate(ValidationData)}
  * method needs to handle it manually. If the element is an array, <i>the entire array</i> is passed to the method, instead of each entry individually.
  * If your use case doesn't require access to the entire array, use {@link AbstractValidator} instead.
  */

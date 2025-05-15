@@ -42,8 +42,8 @@ import java.util.Objects;
 
 /**
  * Heavily modified {@link ValuesValidator} for validation of Processed Types in {@link MaterialModel}.
- * @apiNote Supports only {@link ArrayPolicy#REQUIRES_ARRAY}.<br>
- * In practice, specified ArrayPolicy is ignored, and this validator acts as REQUIRES_ARRAY is always specified.
+ * @apiNote Supports only non-empty arrays!
+ * @implNote In practice, specified ArrayHandlingPolicy is ignored, and this validator acts as <code>REQUIRES_ARRAY</code> is always specified with <code>allowEmpty</code> set to <code>false</code>.
  */
 public class ProcessedTypesValidator extends ValuesValidator {
     /**

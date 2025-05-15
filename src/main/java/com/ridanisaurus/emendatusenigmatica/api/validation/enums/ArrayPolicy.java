@@ -24,8 +24,34 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.enums;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Determines the handling policy for Arrays of the validated field.
+ * @implNote Methods using this enum directly should be treated as "legacy".
+ * They have been updated for backwards compatibility to convert this enum to {@link ArrayHandlingPolicy} with use of {@link #get()}
+ * @see ArrayHandlingPolicy
+ */
 public enum ArrayPolicy {
     DISALLOWS_ARRAYS,
     ALLOWS_ARRAYS,
-    REQUIRES_ARRAY
+    REQUIRES_ARRAY;
+
+    // Create instances here, so we don't pollute the memory with instances of this "record".
+    private final ArrayHandlingPolicy empty = new ArrayHandlingPolicy(this, true);
+    private final ArrayHandlingPolicy nonEmpty = new ArrayHandlingPolicy(this, false);
+
+    /**
+     * @return {@link ArrayHandlingPolicy} with this policy set and <code>allowEmpty</code> set to <code>true</code>.
+     */
+    public @NotNull ArrayHandlingPolicy get() {
+        return empty;
+    }
+
+    /**
+     * @return {@link ArrayHandlingPolicy} with this policy set and <code>allowEmpty</code> set to <code>false</code>.
+     */
+    public @NotNull ArrayHandlingPolicy getNonEmpty() {
+        return nonEmpty;
+    }
 }

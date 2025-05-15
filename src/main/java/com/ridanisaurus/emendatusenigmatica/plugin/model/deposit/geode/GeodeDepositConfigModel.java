@@ -63,11 +63,11 @@ public class GeodeDepositConfigModel {
 	).apply(x, GeodeDepositConfigModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("outerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY)
-		.addValidator("innerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY)
-		.addValidator("innerBlocks",      CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY)
-		.addValidator("fillBlocks",       CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY)
-		.addValidator("fillerTypes",      new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY)
+		.addValidator("outerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("innerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("innerBlocks",      CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("fillBlocks",       CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("fillerTypes",      new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("clusters",         new ResourceLocationValidator(false, new BlockRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY)
 		.addValidator("chance",           new NumberRangeValidator(Types.INTEGER, 1, 100, true))
 		.addValidator("crackChance",      new NumberRangeValidator(Types.FLOAT, 0, 1, false))
@@ -76,7 +76,7 @@ public class GeodeDepositConfigModel {
 		.addValidator("placement",        new ValuesValidator(List.of("uniform", "triangle"), FilterMode.WHITELIST, false))
 		.addValidator("rarity",           new ValuesValidator(List.of("common", "rare"), FilterMode.WHITELIST, false))
 		.addValidator("generateSamples",  new TypeValidator(Types.BOOLEAN, false))
-		.addValidator("sampleBlocks",     new FieldTrueValidator("generateSamples", SampleBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(false)), ArrayPolicy.REQUIRES_ARRAY);
+		.addValidator("sampleBlocks",     new FieldTrueValidator("generateSamples", SampleBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(false)), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
 
 	public final List<CommonBlockDefinitionModel> outerShellBlocks;
 	public final List<CommonBlockDefinitionModel> innerShellBlocks;

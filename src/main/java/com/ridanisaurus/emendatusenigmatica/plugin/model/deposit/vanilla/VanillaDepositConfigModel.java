@@ -58,7 +58,7 @@ public class VanillaDepositConfigModel {
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("material",        new MaterialValidator(false, true))
 		.addValidator("block",           new RequiredValidator(false))
-		.addValidator("fillerTypes",     new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY)
+		.addValidator("fillerTypes",     new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
 		.addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 16, true))
 		.addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))

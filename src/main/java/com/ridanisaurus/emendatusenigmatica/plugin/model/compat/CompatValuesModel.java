@@ -41,8 +41,8 @@ public class CompatValuesModel {
 
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
         .addValidator("type", new CompatTypeValidator())
-        .addValidator("input", new CompatValueInputValidator(), ArrayPolicy.REQUIRES_ARRAY)
-        .addValidator("output", CompatIOModel.VALIDATION_MANAGER.getAsValidator(false), ArrayPolicy.REQUIRES_ARRAY);
+        .addValidator("input", new CompatValueInputValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+        .addValidator("output", CompatIOModel.VALIDATION_MANAGER.getAsValidator(false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
 
     private final String type;
     private final List<CompatIOModel> input;

@@ -193,7 +193,7 @@ public class ValidationHelper {
     }
 
     /**
-     * Used to cut off part of the path that is not in minecraft directory.<br>
+     * Used to cut off part of the path that is not in minecraft directory.
      * <h4>Input:</h4>
      * <blockquote>
      * C:/Minecraft/config/emendatusenigmatica/strata/stone.json

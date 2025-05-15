@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import org.apache.commons.lang3.StringUtils;
@@ -36,12 +37,40 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Used to hold all necessary information for the validator.
  * @param validationElement Element currently validated
- * @param rootObject Root Json Object (if other fields are necessary)
+ * @param rootObject Root Json Object (if other fields are necessary).
  * @param currentPath Current Path inside the JSON file.
  * @param jsonFilePath Path to the json file, obfuscated.
+ * @param arrayPolicy Field's {@link ArrayHandlingPolicy}.
  * @implSpec Please do not store any reference to this object outside the validation method.
  */
-public record ValidationData(JsonElement validationElement, JsonObject rootObject, String currentPath, String jsonFilePath, ArrayPolicy arrayPolicy) {
+public record ValidationData(
+    JsonElement validationElement,
+    @NotNull JsonObject rootObject,
+    @NotNull String currentPath,
+    @NotNull String jsonFilePath,
+    @NotNull ArrayHandlingPolicy arrayPolicy
+) {
+
+    /**
+     * Used to hold all necessary information for the validator.
+     * @param validationElement Element currently validated
+     * @param rootObject Root Json Object (if other fields are necessary).
+     * @param currentPath Current Path inside the JSON file.
+     * @param jsonFilePath Path to the json file, obfuscated.
+     * @param arrayPolicy Legacy reference to {@link ArrayPolicy}
+     * @implSpec Please do not store any reference to this object outside the validation method.
+     */
+    @Deprecated
+    public ValidationData(
+        JsonElement validationElement,
+        @NotNull JsonObject rootObject,
+        @NotNull String currentPath,
+        @NotNull String jsonFilePath,
+        @NotNull ArrayPolicy arrayPolicy
+    ) {
+        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy.get());
+    }
+
     /**
      * Utility method to get ValidationData from previous data, but with updated information for another field of the object.
      * @param field Field name to base the information update on.
@@ -50,7 +79,7 @@ public record ValidationData(JsonElement validationElement, JsonObject rootObjec
      * @throws IllegalArgumentException when validationElement of previous data is not a JsonObject!
      */
     @Contract("_, _ -> new")
-    public @NotNull ValidationData getWithField(String field, ArrayPolicy arrayPolicy) {
+    public @NotNull ValidationData getWithField(String field, ArrayHandlingPolicy arrayPolicy) {
         if (!this.validationElement.isJsonObject()) throw new IllegalArgumentException("ValidationElement is not a json object! Requested field: " + field + " | Old Data: " + this);
         return new ValidationData(
             this.validationElement.getAsJsonObject().get(field),

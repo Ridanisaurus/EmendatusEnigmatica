@@ -40,7 +40,7 @@ public class CompatModel {
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("id", new EERegistryValidator(DefaultLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", true))
-		.addValidator("recipes", CompatRecipesModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY);
+		.addValidator("recipes", CompatRecipesModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
 
 	private final String id;
 	private final List<CompatRecipesModel> recipes;
