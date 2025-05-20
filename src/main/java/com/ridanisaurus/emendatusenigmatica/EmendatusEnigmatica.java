@@ -76,7 +76,10 @@ public class EmendatusEnigmatica {
             .withTabsBefore(TOOLS_TAB.getId())
             // Fallback
             .icon(() -> EERegistrar.FELINIUM_JAMINITE.get().getDefaultInstance())
-            .displayItems((parameters, output) -> output.accept(EERegistrar.FELINIUM_JAMINITE))
+            .displayItems((parameters, output) -> {
+                output.accept(EERegistrar.FELINIUM_JAMINITE);
+                output.accept(EERegistrar.SHIELD_TEMPLATE);
+            })
     ));
 
     public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) {

@@ -84,6 +84,7 @@ public class EERegistrar
     // Existing items.
     public static final DeferredItem<Item> ENIGMATIC_HAMMER = ITEMS.register("enigmatic_hammer", HammerItem::new);
     public static final DeferredItem<Item> FELINIUM_JAMINITE = ITEMS.register("felinium_jaminite_ingot", FeliniumJaminiteIngot::new);
+    public static final DeferredItem<Item> SHIELD_TEMPLATE = ITEMS.register("shield_upgrade_template", ShieldTemplate::new);
 
     // Features
     public static final DeferredHolder<Feature<?>, VanillaOreFeature> VANILLA_ORE_FEATURE = FEATURES.register("vanilla_feature", VanillaOreFeature::new);
