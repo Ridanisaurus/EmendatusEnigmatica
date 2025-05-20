@@ -27,6 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 import com.google.common.base.Stopwatch;
 import com.mojang.logging.LogUtils;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import net.minecraft.Util;
 import net.minecraft.WorldVersion;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.HashCache;
@@ -35,6 +36,7 @@ import net.neoforged.fml.loading.ImmediateWindowHandler;
 import net.neoforged.fml.loading.progress.StartupNotificationManager;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,8 +102,17 @@ public class EEDataGenerator extends DataGenerator {
                 }
             }
 
-            cache.purgeStaleAndWrite();
             bar.complete();
+
+            CompletableFuture<Void> saveIO = CompletableFuture.runAsync(() -> {
+                try {
+                    cache.purgeStaleAndWrite();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }, Util.nonCriticalIoPool());
+            ModLoader.waitForTask("Emendatus Enigmatica: Saving generated data", ImmediateWindowHandler::renderTick, saveIO);
+
             String msg = "EE Data Generation finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
             StartupNotificationManager.addModMessage(msg);
             logger.info(msg);

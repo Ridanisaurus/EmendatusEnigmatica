@@ -39,7 +39,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -65,27 +67,34 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 
 	@Override
 	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
+		// Work-around for multiple files asking to disable the same ore causing a crash.
+		// Won't be required after vanilla material support rework, for now tho, it will prevent random issues to pop up.
+		List<String> disabledFeatures = new ArrayList<>();
 		for (MaterialModel material : registry.getMaterials()) {
             if (!material.isVanilla() || !material.getDisableDefaultOre()) continue;
 			String id = material.getId();
 
 			// Else If to skip other checks when match is found.
-            if (id.contains("coal")) {
+            if (id.contains("coal") && !disabledFeatures.contains("coal")) {
+				disabledFeatures.add("coal");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COAL_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_coal_ore"));
-			} else if (id.contains("copper")) {
+			} else if (id.contains("copper") && !disabledFeatures.contains("copper")) {
+				disabledFeatures.add("copper");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_COPPER_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_copper_ore"));
-			} else if (id.contains("iron")) {
+			} else if (id.contains("iron") && !disabledFeatures.contains("iron")) {
+				disabledFeatures.add("iron");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_IRON_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_iron_ore"));
-			} else if (id.contains("gold")) {
+			} else if (id.contains("gold") && !disabledFeatures.contains("gold")) {
+				disabledFeatures.add("gold");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_GOLD_ORE)
@@ -94,27 +103,32 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_NETHER_GOLD_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_nether_gold_ore"));
-			} else if (id.contains("redstone")) {
+			} else if (id.contains("redstone") && !disabledFeatures.contains("redstone")) {
+				disabledFeatures.add("redstone");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_REDSTONE_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_redstone_ore"));
-			} else if (id.contains("lapis")) {
+			} else if (id.contains("lapis") && !disabledFeatures.contains("lapis")) {
+				disabledFeatures.add("lapis");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_LAPIS_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_lapis_ore"));
-			} else if (id.contains("diamond")) {
+			} else if (id.contains("diamond") && !disabledFeatures.contains("diamond")) {
+				disabledFeatures.add("diamond");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_DIAMOND_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_diamond_ore"));
-			} else if (id.contains("emerald")) {
+			} else if (id.contains("emerald") && !disabledFeatures.contains("emerald")) {
+				disabledFeatures.add("emerald");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_overworld")
 						.features(DEFAULT_EMERALD_ORE)
 						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_emerald_ore"));
-			} else if (id.contains("quartz")) {
+			} else if (id.contains("quartz") && !disabledFeatures.contains("quartz")) {
+				disabledFeatures.add("quartz");
 				new FeatureBuilder("neoforge:remove_features", "underground_ores")
 						.biome("#minecraft:is_nether")
 						.features(DEFAULT_QUARTZ_ORE)

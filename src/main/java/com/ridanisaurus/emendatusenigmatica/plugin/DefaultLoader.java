@@ -84,6 +84,8 @@ public class DefaultLoader {
 
         Analytics.addPerformanceAnalytic("Loading and parsing JSON Files", s);
 
+        // This in theory was meant to be later on reworked to be parsed in parallel - which is an issue if we read registry in the validators.
+        // For now, a lot of stuff isn't thread-safe to make this work in the parallel. We leave this for the future Kanz / Maintainer to deal with!
         registerStrata(strataDefinition, registry);
         registerMaterials(materialDefinition, registry);
         registerCompat(compatDefinition, registry);

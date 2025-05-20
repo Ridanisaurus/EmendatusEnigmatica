@@ -22,23 +22,18 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
+package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialToolsModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialArmorModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
 import java.util.List;
 
-public class ToolsFieldValidator extends ProcessedTypesContainValidator {
-    private static final IValidationFunction validator = MaterialToolsModel.VALIDATION_MANAGER.getAsValidator(false);
-    public ToolsFieldValidator() {
-        super(List.of(
-            "sword",
-            "pickaxe",
-            "axe",
-            "shovel",
-            "hoe",
-            "paxel"
-        ), validator);
+public class ArmorFieldValidator extends ProcessedTypesContainValidator {
+    private static final IValidationFunction validator = MaterialArmorModel.VALIDATION_MANAGER.getAsValidator(false);
+    public ArmorFieldValidator() {
+		super(List.of("armor", "shield"), validator, PTCMode.REQUIRED_ONE_VALUE);
     }
 }
