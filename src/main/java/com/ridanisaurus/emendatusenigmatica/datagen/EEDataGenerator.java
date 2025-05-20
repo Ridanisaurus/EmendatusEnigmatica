@@ -36,6 +36,8 @@ import net.neoforged.fml.loading.progress.StartupNotificationManager;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class EEDataGenerator extends DataGenerator {
@@ -53,59 +55,70 @@ public class EEDataGenerator extends DataGenerator {
         if (executed) return;
         executed = true;
 
-        ExecutorService executor = Executors.newSingleThreadExecutor(r -> {
+        ExecutorService dataGenExecutor = Executors.newFixedThreadPool(8, r -> {
             final Thread thread = Executors.defaultThreadFactory().newThread(r);
             thread.setDaemon(true);
-            thread.setName("EmendatusEnigmatica-Data-Generation");
+            thread.setName("EmendatusEnigmatica-Data-Generation | " + thread.threadId());
             return thread;
         });
 
-        try (executor) {
-            executor.submit(this::execute);
-            executor.shutdown();
-            do {
-                ImmediateWindowHandler.renderTick();
-            } while (!executor.awaitTermination(50, TimeUnit.MILLISECONDS));
-        } catch (Exception ex) {
-            throw new RuntimeException("EE Data Generation was interrupted!", ex);
-        }
-    }
-
-    public boolean hasExecuted() {
-        return executed && !crashed;
-    }
-
-    private void execute() {
-        try {
-            // Run-Login reimplemented to add Custom Progress bar and own Analytics.
+        try (dataGenExecutor) {
+            // Run-Logic reimplemented to add Custom Progress bar and own Analytics.
             HashCache cache = new HashCache(this.rootOutputFolder, this.allProviderIds, this.version);
             Stopwatch sMain = Stopwatch.createStarted();
-            Stopwatch sPerTask = Stopwatch.createUnstarted();
             var bar = StartupNotificationManager.addProgressBar("Emendatus Enigmatica: Data Generation", this.providersToRun.size());
-            this.providersToRun.forEach((name, provider) -> {
-                logger.info("Starting provider: {}", name);
-                sPerTask.start();
-                cache.applyUpdate(cache.generateUpdate(name, provider::run).join());
+
+            logger.info("Executing Emendatus Enigmatica data generation ({} providers to execute)...", this.providersToRun.size());
+            List<Future<?>> futures = new ArrayList<>();
+            this.providersToRun.forEach((name, provider) -> futures.add(dataGenExecutor.submit(() -> {
+                Stopwatch sPerTask = Stopwatch.createStarted();
+                logger.debug("Starting provider: {}", name);
+                try {
+                    cache.applyUpdate(cache.generateUpdate(name, provider::run).join());
+                } catch (Exception e) {
+                    logger.error("Caught exception while executing provider \"{}\" after {}ms!", name, sPerTask.elapsed(TimeUnit.MILLISECONDS), e);
+                    throw e;
+                } finally {
+                    bar.increment();
+                }
                 sPerTask.stop();
-                logger.info("{} finished after {} ms", name, sPerTask.elapsed(TimeUnit.MILLISECONDS));
-                sPerTask.reset();
-                bar.increment();
-            });
+                logger.debug("{} finished after {} ms", name, sPerTask.elapsed(TimeUnit.MILLISECONDS));
+            })));
+
+            // Keep EarlyFMLWindow alive, so progress bar renders properly and the window doesn't freeze.
+            dataGenExecutor.shutdown();
+            do {
+                ImmediateWindowHandler.renderTick();
+            } while (!dataGenExecutor.awaitTermination(50, TimeUnit.MILLISECONDS));
+
+            for (Future<?> future : futures) {
+                switch (future.state()) {
+                    case RUNNING -> throw new IllegalStateException("Data Provider still running, after executor terminated!");
+                    case CANCELLED -> throw new IllegalStateException("Data Provider was canceled!");
+                    case FAILED -> throw future.exceptionNow();
+                    default -> {}
+                }
+            }
+
             cache.purgeStaleAndWrite();
             bar.complete();
             String msg = "EE Data Generation finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
             StartupNotificationManager.addModMessage(msg);
             logger.info(msg);
             Analytics.addPerformanceAnalytic("Data Generation", sMain);
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            crashed = true;
             if (ModLoader.hasErrors()) {
                 // If somehow there are errors, but minecraft will load, EE will crash on later stage.
                 logger.error("Exception caught while running EE Data Generation, however different mod loading errors are present!");
                 logger.error("This exception is most likely caused by another mod causing a crash earlier and is going to be suppressed.", e);
-                crashed = true;
                 return;
             }
-            throw new RuntimeException("Caught exception while running EE Data Generation!", e);
+            throw new RuntimeException("Caught exception while running Emendatus Enigmatica Data Generation! Check the latest log for more details.", e);
         }
+    }
+
+    public boolean hasExecuted() {
+        return executed && !crashed;
     }
 }

@@ -73,7 +73,19 @@ public class BlockLootGen extends BlockLootSubProvider {
 			List<String> processedType = material.getProcessedTypes();
 
 			// Storage Blocks
-			if (processedType.contains("storage_block")) this.selfDrop(EERegistrar.storageBlockMap.getValue(material));
+			if (processedType.contains("storage_block")) {
+				this.selfDrop(EERegistrar.storageBlockMap.getValue(material));
+				// Oxidized blocks
+				if (material.getProperties().hasOxidization()) {
+					this.selfDrop(EERegistrar.exposedBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.weatheredBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.oxidizedBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.waxedStorageBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.waxedExposedBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.waxedWeatheredBlockMap.getValue(material));
+					this.selfDrop(EERegistrar.waxedOxidizedBlockMap.getValue(material));
+				}
+			}
 
 			// Clusters
 			if (processedType.contains("cluster")) {
