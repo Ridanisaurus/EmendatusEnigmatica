@@ -31,6 +31,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueV
 public class OxidizationColorValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new ColorValidator(false);
     public OxidizationColorValidator() {
-        super("hasOxidization", validator, true);
+        super("root.properties.hasOxidization", validator, true);
     }
 }

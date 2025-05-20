@@ -31,6 +31,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueV
 public class ParticlesColorValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new ColorValidator(false);
     public ParticlesColorValidator() {
-        super("hasParticles", validator, true);
+        super("root.properties.hasParticles", validator, true);
     }
 }

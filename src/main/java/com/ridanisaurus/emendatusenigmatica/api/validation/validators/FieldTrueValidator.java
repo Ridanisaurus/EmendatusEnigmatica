@@ -85,10 +85,10 @@ public class FieldTrueValidator implements IValidationFunction {
         JsonElement booleanField;
         String booleanFieldPath;
         if (field.startsWith("root")) {
-            booleanField = ValidationHelper.getElementFromPathAs(data.rootObject(), field, Types.STRING);
+            booleanField = ValidationHelper.getElementFromPathAs(data.rootObject(), field, Types.BOOLEAN);
             booleanFieldPath = field;
         } else {
-            booleanField = data.getParentFieldAs(Types.STRING, field);
+            booleanField = data.getParentFieldAs(Types.BOOLEAN, field);
             booleanFieldPath = data.getParentFieldPath(field);
         }
 
