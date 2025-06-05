@@ -5,6 +5,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.widget.TextureWidget;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -13,7 +14,6 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +36,9 @@ public class BiomeWidget extends TextureWidget {
     );
 
     private final List<String> tags = new ArrayList<>();
+    private boolean includeDefault = false;
+    private long time = 0;
+    private int index = 0;
 
     public BiomeWidget(
         int x,
@@ -60,7 +63,7 @@ public class BiomeWidget extends TextureWidget {
 
         var biomes = processor.getCommonModel().getBiomes();
         BIOME_OFFSETS.forEach(biome -> {
-            if (biomes.contains(biome)) tags.add(biome);
+            if (biomes.contains(biome)) tags.add(biome); else includeDefault = true;
         });
 
         List<ClientTooltipComponent> tooltip = new ArrayList<>();
@@ -83,8 +86,19 @@ public class BiomeWidget extends TextureWidget {
 
         int v = BIOME_OFFSETS.size()*12;
         if (!tags.isEmpty()) {
-            //TODO: Impl delta after added support for multiple biome tags, if possible.
-            v = BIOME_OFFSETS.indexOf(tags.getFirst())*12;
+            if (System.currentTimeMillis() > time + 2000) {
+                index = index+1 > tags.size()? 0: index+1;
+                time = System.currentTimeMillis();
+            }
+
+            if (index == tags.size()) {
+                if (!includeDefault) {
+                    index = 0;
+                    v = BIOME_OFFSETS.indexOf(tags.get(index))*12;
+                }
+            } else {
+                v = BIOME_OFFSETS.indexOf(tags.get(index))*12;
+            }
         }
 
         draw.blit(texture, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
