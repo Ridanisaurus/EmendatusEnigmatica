@@ -33,24 +33,32 @@ import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.neoforged.neoforge.common.Tags;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class NeoFeatureGen extends EENeoFeatureProvider {
-
 	private final EmendatusDataRegistry registry;
 
-	public NeoFeatureGen(DataGenerator gen, EmendatusDataRegistry registry) {
-		super(gen);
+	public NeoFeatureGen(DataGenerator gen, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+		super(gen, providers);
 		this.registry = registry;
 	}
 
@@ -66,9 +74,10 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	private final List<String> DEFAULT_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
 
 	@Override
-	protected void buildFeatures(Consumer<IFinishedGenericJSON> consumer) {
+	protected void buildFeatures(HolderLookup.Provider provider, Consumer<IFinishedGenericJSON> consumer) {
 		// Work-around for multiple files asking to disable the same ore causing a crash.
 		// Won't be required after vanilla material support rework, for now tho, it will prevent random issues to pop up.
+		//TODO: Rework vanilla stuff here!
 		List<String> disabledFeatures = new ArrayList<>();
 		for (MaterialModel material : registry.getMaterials()) {
             if (!material.isVanilla() || !material.getDisableDefaultOre()) continue;
@@ -140,63 +149,32 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 			CommonDepositModelBase model = processor.getCommonModel();
 			List<String> biomes = new ArrayList<>();
 			List<String> features = new ArrayList<>();
-			if (model.getDimension().equals("minecraft:overworld")) {
-				if (!model.getBiomes().isEmpty()) {
-					biomes.addAll(model.getBiomes());
+
+			if (!model.getBiomes().isEmpty()) {
+				if (model.getBiomes().stream().anyMatch(it -> it.startsWith("#"))) {
+					biomes.add("#" + Reference.MOD_ID + ":biome/pack/" + processor.getCommonModel().getName());
 				} else {
-					biomes.add("#minecraft:is_overworld");
-				}
-				features.add(Reference.MOD_ID + ":" + model.getName());
-				new FeatureBuilder("neoforge:add_features", "underground_ores")
-						.biomes(biomes)
-						.features(features)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
-			}
-			if (model.getDimension().equals("minecraft:the_nether")) {
-				if (!model.getBiomes().isEmpty()) {
 					biomes.addAll(model.getBiomes());
-				} else {
-					biomes.add("#minecraft:is_nether");
 				}
-				features.add(Reference.MOD_ID + ":" + model.getName());
-				new FeatureBuilder("neoforge:add_features", "underground_ores")
-						.biomes(biomes)
-						.features(features)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
-			}
-			if (model.getDimension().equals("minecraft:the_end")) {
-				if (!model.getBiomes().isEmpty()) {
-					biomes.addAll(model.getBiomes());
+			} else {
+				var dim = model.getDimension();
+				if (!dim.startsWith("minecraft")) {
+					// Fallback for modded dimensions - most likely not correct as there is no real schema, but it's a good guess!
+					biomes.add("#" + StringUtils.substringBefore(dim, ":") + ":is_" + StringUtils.substringAfter(dim, ":"));
 				} else {
-					biomes.add("#minecraft:is_end");
+					biomes.add("#minecraft:is_" + StringUtils.substringAfter(dim, ":").replace("the_", ""));
 				}
-				features.add(Reference.MOD_ID + ":" + model.getName());
-				new FeatureBuilder("neoforge:add_features", "underground_ores")
-						.biomes(biomes)
-						.features(features)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
 			}
-			if (Stream.of("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end").noneMatch(s -> model.getDimension().equals(s))) {
-				if (!model.getBiomes().isEmpty()) {
-					biomes.addAll(model.getBiomes());
-				} else {
-					biomes.add("#" + getModdedDim(model.getDimension()) + ":is_" + getModdedDim(model.getDimension()));
-				}
-				features.add(Reference.MOD_ID + ":" + model.getName());
-				new FeatureBuilder("neoforge:add_features", "underground_ores")
-						.biomes(biomes)
-						.features(features)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
-			}
+			features.add(Reference.MOD_ID + ":" + model.getName());
+			new FeatureBuilder("neoforge:add_features", "underground_ores")
+				.biomes(biomes)
+				.features(features)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
 		}
 	}
 
 	@Override
 	public @NotNull String getName() {
 		return "Emendatus Enigmatica: Neo Features";
-	}
-
-	private String getModdedDim(String dim) {
-		return StringUtils.substringBefore(dim, ":");
 	}
 }

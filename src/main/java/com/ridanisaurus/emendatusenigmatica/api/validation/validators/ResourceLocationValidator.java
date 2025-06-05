@@ -45,6 +45,24 @@ import java.util.*;
  */
 public class ResourceLocationValidator extends TypeValidator {
     private final List<RegistryValidationData> resourceLocations;
+    private final boolean acceptTags;
+
+    /**
+     * Constructs ResourceLocationValidator.
+     *
+     * @param validator RegistryValidator to use and validate the resource locations.
+     * @param acceptTags Determines if this ResourceLocationValidator should accept tag values (starting with a '#').
+     * @param isRequired Determines if the field is required. If true, an error will be issued if the field is missing.
+     * @see ResourceLocationValidator Documentation of the validator.
+     * @implNote This validator accepts only {@link Types#STRING} values.
+     */
+    public ResourceLocationValidator(boolean isRequired, boolean acceptTags, @NotNull AbstractRegistryValidator validator) {
+        super(Types.STRING, isRequired);
+        this.acceptTags = acceptTags;
+        // Store the map reference, for faster access.
+        resourceLocations = new ArrayList<>();
+        RegistryValidationManager.addValidator(validator, resourceLocations);
+    }
 
     /**
      * Constructs ResourceLocationValidator.
@@ -55,10 +73,22 @@ public class ResourceLocationValidator extends TypeValidator {
      * @implNote This validator accepts only {@link Types#STRING} values.
      */
     public ResourceLocationValidator(boolean isRequired, @NotNull AbstractRegistryValidator validator) {
+        this(isRequired, false, validator);
+    }
+
+    /**
+     * Constructs ResourceLocationValidator, with no Post-Registration step.
+     *
+     * @param isRequired Determines if the field is required. If true, an error will be issued if the field is missing.
+     * @param acceptTags Determines if this ResourceLocationValidator should accept tag values (starting with a '#').
+     * @see ResourceLocationValidator Documentation of the validator.
+     * @see ResourceLocationValidator#ResourceLocationValidator(boolean, AbstractRegistryValidator)
+     * @implNote This validator accepts only {@link Types#STRING} values.
+     */
+    public ResourceLocationValidator(boolean isRequired, boolean acceptTags) {
         super(Types.STRING, isRequired);
-        // Store the map reference, for faster access.
-        resourceLocations = new ArrayList<>();
-        RegistryValidationManager.addValidator(validator, resourceLocations);
+        this.acceptTags = acceptTags;
+        resourceLocations = null;
     }
 
     /**
@@ -70,8 +100,7 @@ public class ResourceLocationValidator extends TypeValidator {
      * @implNote This validator accepts only {@link Types#STRING} values.
      */
     public ResourceLocationValidator(boolean isRequired) {
-        super(Types.STRING, isRequired);
-        resourceLocations = null;
+        this(isRequired, false);
     }
 
     /**
@@ -89,6 +118,9 @@ public class ResourceLocationValidator extends TypeValidator {
         // Decided to simplify this validator to just check the format and character set.
         // Even tho neat, there is no sense in providing which part of the Resource Location is missing!
         String value = data.validationElement().getAsString();
+        // Cut "#" from the value if we accept tags, to pass the actual validation below.
+        if (acceptTags && value.startsWith("#")) value = value.substring(1);
+        
         List<String> values = List.of(value.split(":"));
         if (values.size() != 2) {
             Analytics.error("Provided Resource Location (ID) doesn't comply to the format!", "Expected: <code>namespace:id</code>, got: <code>%s</code>".formatted(value), data);

@@ -35,6 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.fluid.FluidModelsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.fluid.FluidTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.item.ItemModelsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.item.ItemTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.BiomeTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -127,8 +128,9 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
         generator.addProvider(true, new LangGen(generator, registry));
         generator.addProvider(true, new RecipesGen(generator, registry, providers));
         generator.addProvider(true, new LootGen(generator, registry, providers));
-        generator.addProvider(true, new NeoFeatureGen(generator, registry));
+        generator.addProvider(true, new NeoFeatureGen(generator, registry, providers));
         generator.addProvider(true, new OreFeatureGen(generator, providers));
+        generator.addProvider(true, new BiomeTagsGen(generator));
     }
 
     @Override

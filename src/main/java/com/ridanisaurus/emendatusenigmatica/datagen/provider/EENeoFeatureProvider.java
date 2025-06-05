@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.provider;
 
 import com.google.common.collect.Sets;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
@@ -40,10 +41,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public abstract class EENeoFeatureProvider implements DataProvider {
+	private final CompletableFuture<HolderLookup.Provider> registries;
 	protected final DataGenerator generator;
 
-	public EENeoFeatureProvider(DataGenerator gen) {
+	public EENeoFeatureProvider(DataGenerator gen, CompletableFuture<HolderLookup.Provider> providers) {
 		this.generator = gen;
+		this.registries = providers;
 	}
 
 	@Override
@@ -52,18 +55,20 @@ public abstract class EENeoFeatureProvider implements DataProvider {
 		Set<ResourceLocation> set = Sets.newHashSet();
 		List<CompletableFuture<?>> cs = new ArrayList<>();
 
-		buildFeatures((consumer) -> {
-			if (!set.add(consumer.getId())) throw new IllegalStateException("Duplicate JSON " + consumer.getId());
-			cs.add(DataProvider.saveStable(
-				directoryCache,
-				consumer.serializeJSON(),
-				path.resolve("data/" + consumer.getId().getNamespace() + "/neoforge/biome_modifier/" + consumer.getId().getPath() + ".json")
-			));
+		return registries.thenCompose((lookup) -> {
+			buildFeatures(lookup, (consumer) -> {
+				if (!set.add(consumer.getId())) throw new IllegalStateException("Duplicate JSON " + consumer.getId());
+				cs.add(DataProvider.saveStable(
+					directoryCache,
+					consumer.serializeJSON(),
+					path.resolve("data/" + consumer.getId().getNamespace() + "/neoforge/biome_modifier/" + consumer.getId().getPath() + ".json")
+				));
+			});
+			return CompletableFuture.allOf(cs.toArray(new CompletableFuture<?>[]{}));
 		});
-		return CompletableFuture.allOf(cs.toArray(new CompletableFuture<?>[]{}));
 	}
 
-	protected abstract void buildFeatures(Consumer<IFinishedGenericJSON> consumer);
+	protected abstract void buildFeatures(HolderLookup.Provider provider, Consumer<IFinishedGenericJSON> consumer);
 
 	@Override
 	public abstract @NotNull String getName();
