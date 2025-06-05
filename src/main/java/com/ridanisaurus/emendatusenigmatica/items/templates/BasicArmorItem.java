@@ -31,8 +31,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.RomanNumberHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,6 +40,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,45 +69,44 @@ public class BasicArmorItem extends ArmorItem {
         this.shadow2 = material.getColors().getShadowColor(2);
     }
 
-    private int ticker = 0;
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
-        if (!(slotId >= Inventory.INVENTORY_SIZE && slotId < Inventory.INVENTORY_SIZE + 4 && entity instanceof Player player)) return;
-        if (isSet) {
-            if (ticker < 20) {
-                ticker++;
-                return;
-            }
-            ticker = 0;
-            if (isSetActive(player)) {
-                for (EffectModel effect : effects) {
-                    player.addEffect(new MobEffectInstance(effect.getEffect(), 600, effect.getLevel(), true, effect.isShowParticles(), effect.isShowIcon()));
-                }
+        if (!isSet || !(slotId >= Inventory.INVENTORY_SIZE && slotId < Inventory.INVENTORY_SIZE + 4 && entity instanceof Player player) || level.getGameTime() % 20 != 0) return;
+        if (isSetActive(player)) {
+            for (EffectModel effect : effects) {
+                player.addEffect(new MobEffectInstance(effect.getEffect(), 600, effect.getLevel(), true, effect.isShowParticles(), effect.isShowIcon()));
             }
         }
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag) {
-        //TODO: Add possibility to translate this.
         super.appendHoverText(stack, context, components, tooltipFlag);
-        Player player = Minecraft.getInstance().player;
+        Player player = net.minecraft.client.Minecraft.getInstance().player;
         if (player != null && isSet) {
             ItemStack[] setPieces = getSet();
-            components.add(Component.literal(this.material.getArmor().getSetName()).append(" (" + getPiecesEquipped(player) + "/" + setPieces.length + ") ").withStyle(ChatFormatting.AQUA));
-            if (!Screen.hasShiftDown()) {
-                components.add(Component.literal("Press [SHIFT] for more info").withStyle(ChatFormatting.DARK_GRAY));
+            //TODO: Add possibility to translate this.
+            components.add(Component
+                .literal(this.material.getArmor().getSetName()).append(" (" + getPiecesEquipped(player) + "/" + setPieces.length + ") ")
+                .withStyle(ChatFormatting.AQUA)
+            );
+
+            if (!tooltipFlag.hasShiftDown()) {
+                components.add(Component.translatable("tooltip.emendatusenigmatica.press_shift").withStyle(ChatFormatting.DARK_GRAY));
                 return;
             }
-            components.add(setPieces[0].getHoverName().plainCopy().withStyle((hasSetPiece(player, EquipmentSlot.HEAD) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)));
-            components.add(setPieces[1].getHoverName().plainCopy().withStyle((hasSetPiece(player, EquipmentSlot.CHEST) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)));
-            components.add(setPieces[2].getHoverName().plainCopy().withStyle((hasSetPiece(player, EquipmentSlot.LEGS) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)));
-            components.add(setPieces[3].getHoverName().plainCopy().withStyle((hasSetPiece(player, EquipmentSlot.FEET) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY)));
+
+            components.add(getPieceComponent(setPieces[0], player, EquipmentSlot.HEAD));
+            components.add(getPieceComponent(setPieces[1], player, EquipmentSlot.CHEST));
+            components.add(getPieceComponent(setPieces[2], player, EquipmentSlot.LEGS));
+            components.add(getPieceComponent(setPieces[3], player, EquipmentSlot.FEET));
             components.add(Component.literal(" "));
+            //TODO: Add possibility to translate this.
             components.add(Component.literal(this.material.getArmor().getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
             components.add(Component.literal(" "));
-            components.add(Component.literal("Effect" + (this.effects.size() > 1? "s:" : ":")).withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("tooltip.emendatusenigmatica.armor_effect").withStyle(ChatFormatting.GRAY));
             for (EffectModel effect : this.effects) {
                 components.add(Component.literal(
                     "- " +
@@ -142,6 +141,10 @@ public class BasicArmorItem extends ArmorItem {
             case FEET -> player.getItemBySlot(slot).getItem() == EERegistrar.bootsMap.getValue(this.material);
             default -> false;
         };
+    }
+
+    private Component getPieceComponent(ItemStack stack, Player player, EquipmentSlot slot) {
+        return stack.getHoverName().plainCopy().withStyle(hasSetPiece(player, slot)? ChatFormatting.GOLD: ChatFormatting.DARK_GRAY);
     }
 
     private int getPiecesEquipped(Player player) {

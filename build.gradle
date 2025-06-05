@@ -62,12 +62,14 @@ neoForge {
 
         client {
             client()
+            gameDirectory = project.file("runs/client")
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
             server()
+            gameDirectory = project.file("runs/server")
             systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
             programArgument '--nogui'
         }

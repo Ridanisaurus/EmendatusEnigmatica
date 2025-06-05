@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.mojang.logging.LogUtils;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.config.ConfigMenu;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
@@ -45,10 +44,12 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.progress.StartupNotificationManager;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.registries.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -106,11 +107,10 @@ public class EmendatusEnigmatica {
         // Virtual ResourcePack
         modEventBus.addListener(this::addPackFinder);
         // Generator check, we can't launch the game if the generator wasn't executed!
-        modEventBus.addListener(this::dataGenCheck);
+        modEventBus.addListener(this::clientDataGenCheck);
+        NeoForge.EVENT_BUS.addListener(this::serverDataGenCheck);
         // Registry Validation
         modEventBus.addListener(this::commonSetup);
-        // Config screen
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, (client, last) -> new ConfigMenu(last));
     }
 
     public static EmendatusEnigmatica getInstance() {
@@ -145,9 +145,14 @@ public class EmendatusEnigmatica {
             throw new IllegalStateException("Registry validation failed! %s Validation Summary for more details.".formatted(EEConfig.startup.generateSummary.get()? "Check the": "Enable"));
     }
 
-    private void dataGenCheck(FMLLoadCompleteEvent event) {
-        if (this.generator.hasExecuted()) return;
+    private void clientDataGenCheck(FMLLoadCompleteEvent event) {
+        // AddPackFindersEvent is executed after FMLLoadCompleteEvent on the server side.
+        if (FMLEnvironment.dist.isDedicatedServer() || generator.hasExecuted()) return;
         StartupNotificationManager.addModMessage("Emendatus Enigmatica - Missing Data Generation!");
         throw new IllegalStateException("Mod loading finished, but Data Generation wasn't executed!");
+    }
+
+    private void serverDataGenCheck(ServerStartedEvent event) {
+        if (!generator.hasExecuted()) throw new IllegalStateException("Server has started, but Data Generation wasn't executed!");
     }
 }

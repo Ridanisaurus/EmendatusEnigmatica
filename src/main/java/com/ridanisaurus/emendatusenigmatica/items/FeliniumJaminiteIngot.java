@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -35,21 +34,21 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class FeliniumJaminiteIngot extends Item
-{
+public class FeliniumJaminiteIngot extends Item {
     public FeliniumJaminiteIngot(ResourceLocation key) {
         super(new Properties());
     }
 
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
-        if(Screen.hasShiftDown()) {
-            tooltipComponents.add(Component.literal("This item is cosmetic, and rewarded as a render on your player's model if you are one of my Patreons.").withStyle(ChatFormatting.DARK_AQUA));
-            tooltipComponents.add(Component.literal("You can show/hide this reward from the config file without needing to restart the game.").withStyle(ChatFormatting.DARK_AQUA));
-        } else {
-            tooltipComponents.add(Component.literal("This is a token of appreciation, and is not craftable.").withStyle(ChatFormatting.GOLD));
-            tooltipComponents.add(Component.literal("Press [SHIFT] for more info").withStyle(ChatFormatting.DARK_GRAY));
-        }
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+        if (tooltipFlag.hasShiftDown()) {
+            tooltipComponents.add(Component.translatable("tooltip.emendatusenigmatica.patreon_reward_desc_long").withStyle(ChatFormatting.DARK_AQUA));
+            tooltipComponents.add(Component.translatable("tooltip.emendatusenigmatica.patreon_reward_hiding").withStyle(ChatFormatting.DARK_AQUA));
+            return;
+        }
+
+        tooltipComponents.add(Component.translatable("tooltip.emendatusenigmatica.patreon_reward_desc_short").withStyle(ChatFormatting.GOLD));
+        tooltipComponents.add(Component.translatable("tooltip.emendatusenigmatica.press_shift").withStyle(ChatFormatting.DARK_GRAY));
     }
 }
