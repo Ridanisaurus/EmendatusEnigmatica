@@ -72,6 +72,11 @@ public class TestDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
+	public List<String> getFillerTypes() {
+		return List.of();
+	}
+
+	@Override
 	public int getChance() {
 		return 0;
 	}

@@ -85,6 +85,14 @@ public class EETags {
             .map(Pair::getFirst).findFirst().orElse(BuiltInRegistries.BLOCK.getOrCreateTag(TagKey.create(Registries.BLOCK, resourceLocation)).key());
     }
 
+    public static TagKey<Item> getItemTag(String resourceLocation) {
+        return getItemTag(ResourceLocation.parse(resourceLocation));
+    }
+
+    public static TagKey<Block> getBlockTag(String resourceLocation) {
+        return getBlockTag(ResourceLocation.parse(resourceLocation));
+    }
+
     public static TagKey<Block> create(String location) {
         return BlockTags.create(ResourceLocation.fromNamespaceAndPath(Reference.COMMON, location));
     }

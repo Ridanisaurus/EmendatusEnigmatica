@@ -35,4 +35,8 @@ public class Reference
     public static final String COMMON = "c";
     public static final String C_TAG = "#" + COMMON;
     public static final ResourceLocation AIR_RS = ResourceLocation.parse("minecraft:air");
+
+    public static ResourceLocation getPath(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 }

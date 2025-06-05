@@ -30,5 +30,6 @@
   "screen.emendatusenigmatica.config.validation.summary.text": "Generate config loading summary",
   "screen.emendatusenigmatica.config.validation.summary.tip": "When enabled, will generate a MarkDown formatted document on boot, with the summary from the loading and validation stage of the configs.",
   "screen.emendatusenigmatica.config.validation.empty_files.text": "Skip empty Json Files",
-  "screen.emendatusenigmatica.config.validation.empty_files.tip": "When enabled, will cause EE to silently skip empty JSON files on loading, removing errors generated in the summary."
+  "screen.emendatusenigmatica.config.validation.empty_files.tip": "When enabled, will cause EE to silently skip empty JSON files on loading, removing errors generated in the summary.",
+  "emi.category.emendatusenigmatica.compat.emi.worldgen": "World Generation Info"
 }

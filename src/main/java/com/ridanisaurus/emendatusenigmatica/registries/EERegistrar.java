@@ -95,11 +95,35 @@ public class EERegistrar
 
     // Ore Blocks
     // QoL changes for tables are not possible without AT or custom table impl - Thanks google!
+    /**
+     * Table structure:<br>
+     * - Row: Strata ID<br>
+     * - Column: Material ID<br>
+     * - Cell: Holder of the specified type.
+     */
     public static Table<String, String, DeferredBlock<Block>> oreBlockTable = HashBasedTable.create();
+    /**
+     * Table structure:<br>
+     * - Row: Strata ID<br>
+     * - Column: Material ID<br>
+     * - Cell: Holder of the specified type.
+     */
     public static Table<String, String, DeferredItem<Item>> oreBlockItemTable = HashBasedTable.create();
 
     // Ore Sample Blocks
+    /**
+     * Table structure:<br>
+     * - Row: Strata ID<br>
+     * - Column: Material ID<br>
+     * - Cell: Holder of the specified type.
+     */
     public static Table<String, String, DeferredBlock<Block>> oreSampleBlockTable = HashBasedTable.create();
+    /**
+     * Table structure:<br>
+     * - Row: Strata ID<br>
+     * - Column: Material ID<br>
+     * - Cell: Holder of the specified type.
+     */
     public static Table<String, String, DeferredItem<Item>> oreSampleBlockItemTable = HashBasedTable.create();
 
     // Storage Blocks

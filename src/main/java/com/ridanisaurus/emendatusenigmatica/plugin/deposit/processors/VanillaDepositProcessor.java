@@ -68,7 +68,12 @@ public class VanillaDepositProcessor implements IDepositProcessor {
 
     @Override
     public List<CommonBlockDefinitionModel> getBlocks() {
-        return List.of();
+        return List.of(new CommonBlockDefinitionModel(model.getBlock(), null, model.getMaterial(), 0, 0, 0));
+    }
+
+    @Override
+    public List<String> getFillerTypes() {
+        return model.getFillerTypes();
     }
 
     @Override

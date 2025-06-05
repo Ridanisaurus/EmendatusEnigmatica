@@ -31,15 +31,23 @@ import java.util.List;
 
 public interface IDepositProcessor {
 	void load();
+
 	String getType();
+
 	CommonDepositModelBase getCommonModel();
 
 	List<CommonBlockDefinitionModel> getBlocks();
 
+	List<String> getFillerTypes();
+
 	int getChance();
+
 	int getSize();
+
 	int getMaxY();
+
 	int getMinY();
+
 	boolean hasSurfaceSample();
 
 	String getPlacement();

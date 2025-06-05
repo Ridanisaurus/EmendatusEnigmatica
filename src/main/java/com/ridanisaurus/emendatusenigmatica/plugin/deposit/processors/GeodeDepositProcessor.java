@@ -85,6 +85,11 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
+	public List<String> getFillerTypes() {
+		return model.getFillerTypes();
+	}
+
+	@Override
 	public int getChance() {
 		return model.getChance();
 	}
