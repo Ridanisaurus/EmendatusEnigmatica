@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.blocks.handlers;
 
 import com.ridanisaurus.emendatusenigmatica.blocks.templates.BasicWaxedBlock;
 import com.ridanisaurus.emendatusenigmatica.blocks.templates.BasicWeatheringBlock;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;

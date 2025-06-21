@@ -22,10 +22,9 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.blocks.handlers;
+package com.ridanisaurus.emendatusenigmatica.util;
 
-public interface IColorable
-{
+public interface IColorable {
     int getHighlight2();
     int getHighlight1();
     int getBase();

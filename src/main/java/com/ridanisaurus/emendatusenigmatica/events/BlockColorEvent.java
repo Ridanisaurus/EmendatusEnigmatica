@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.events;
 
 import com.ridanisaurus.emendatusenigmatica.blocks.handlers.BlockColorHandler;
-import com.ridanisaurus.emendatusenigmatica.blocks.handlers.IColorable;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.world.level.block.Block;

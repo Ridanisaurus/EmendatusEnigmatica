@@ -44,21 +44,11 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Consumer;
 
 public class BasicShieldItem extends ShieldItem {
-    public final int highlight2;
-    public final int highlight1;
-    public final int base;
-    public final int shadow1;
-    public final int shadow2;
     public final TagKey<Item> repairItem;
     public final MaterialModel material;
 
     public BasicShieldItem(@NotNull MaterialModel material, TagKey<Item> repairItem) {
         super(new Properties().durability(material.getArmor().getShield().getDurability()));
-        this.highlight2 = material.getColors().getHighlightColor(3);
-        this.highlight1 = material.getColors().getHighlightColor(1);
-        this.base = material.getColors().getMaterialColor();
-        this.shadow1 = material.getColors().getShadowColor(1);
-        this.shadow2 = material.getColors().getShadowColor(2);
         this.repairItem = repairItem;
         this.material = material;
     }

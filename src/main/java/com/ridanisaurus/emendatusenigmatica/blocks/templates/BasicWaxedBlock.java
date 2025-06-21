@@ -27,7 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.blocks.templates;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
-import com.ridanisaurus.emendatusenigmatica.blocks.handlers.IColorable;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.items.PaxelItem;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.core.BlockPos;

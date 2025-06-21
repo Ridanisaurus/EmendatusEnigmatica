@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.blocks;
 
-import com.ridanisaurus.emendatusenigmatica.blocks.handlers.IColorable;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import net.minecraft.network.chat.Component;

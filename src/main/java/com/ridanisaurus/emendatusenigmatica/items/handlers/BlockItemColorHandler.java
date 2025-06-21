@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.items.handlers;
 
-import com.ridanisaurus.emendatusenigmatica.blocks.handlers.IColorable;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.blocks.templates.*;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.BlockItem;

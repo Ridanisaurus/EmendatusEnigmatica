@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.util.RomanNumberHelper;
 import net.minecraft.ChatFormatting;
@@ -47,15 +48,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BasicArmorItem extends ArmorItem {
+public class BasicArmorItem extends ArmorItem implements IColorable {
     private final MaterialModel material;
     public final boolean isSet;
     public final List<EffectModel> effects;
-    public final int highlight2;
-    public final int highlight1;
-    public final int base;
-    public final int shadow1;
-    public final int shadow2;
+    private final int highlight2;
+    private final int highlight1;
+    private final int base;
+    private final int shadow1;
+    private final int shadow2;
 
     public BasicArmorItem(@NotNull MaterialModel material, Type type, @NotNull ArmorModel armor) {
         super(EERegistrar.armorMaterialsMap.get(material.getId()), type, new Properties().durability(armor.getDurability()));
@@ -180,5 +181,30 @@ public class BasicArmorItem extends ArmorItem {
             default: material.getColors().getMaterialColor();
         }
         return material.getColors().getMaterialColor();
+    }
+
+    @Override
+    public int getHighlight2() {
+        return highlight2;
+    }
+
+    @Override
+    public int getHighlight1() {
+        return highlight1;
+    }
+
+    @Override
+    public int getBase() {
+        return base;
+    }
+
+    @Override
+    public int getShadow1() {
+        return shadow1;
+    }
+
+    @Override
+    public int getShadow2() {
+        return shadow2;
     }
 }

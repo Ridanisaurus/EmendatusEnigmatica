@@ -28,16 +28,17 @@ import com.ridanisaurus.emendatusenigmatica.items.PaxelItem;
 import com.ridanisaurus.emendatusenigmatica.items.ToolTier;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
+import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tier;
 import org.jetbrains.annotations.NotNull;
 
-public class BasicPaxelItem extends PaxelItem {
-	public final int highlight2;
-	public final int highlight1;
-	public final int base;
-	public final int shadow1;
+public class BasicPaxelItem extends PaxelItem implements IColorable {
+	private final int highlight2;
+	private final int highlight1;
+	private final int base;
+	private final int shadow1;
 
 	public BasicPaxelItem(@NotNull MaterialModel material, TagKey<Item> repairItem) {
 		this(material, new ToolTier(material, material.getTools().getPaxel().getDurability(), repairItem));
@@ -49,5 +50,30 @@ public class BasicPaxelItem extends PaxelItem {
 		this.highlight1 = material.getColors().getHighlightColor(1);
 		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+	}
+
+	@Override
+	public int getHighlight2() {
+		return highlight2;
+	}
+
+	@Override
+	public int getHighlight1() {
+		return highlight1;
+	}
+
+	@Override
+	public int getBase() {
+		return base;
+	}
+
+	@Override
+	public int getShadow1() {
+		return shadow1;
+	}
+
+	@Override
+	public int getShadow2() {
+		return -1;
 	}
 }
