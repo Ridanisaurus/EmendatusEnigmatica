@@ -44,8 +44,9 @@ import java.util.Objects;
 /**
  * MaterialValidator is a custom validator,
  * that wraps around {@link ResourceLocationValidator} and {@link EERegistryValidator},
- * and is used to validate <code>material</code>, <code>block</code> and <code>tag</code> fields in the Deposit files.
- * @implSpec <code>block</code> and <code>tag</code> fields should be set to {@link RequiredValidator} as optional field!
+ * and is used to validate <code>material</code>, <code>block</code> and <code>tag</code> fields in the Deposit files.<br>
+ * It also validates strata-per-material for each material specified in the deposit.
+ * @implSpec <code>block</code> and <code>tag</code> fields should be set to {@link RequiredValidator} as optional fields!
  */
 public class MaterialValidator implements IValidationFunction {
     private static final IValidationFunction materialValidator = new EERegistryValidator(DefaultLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", false);

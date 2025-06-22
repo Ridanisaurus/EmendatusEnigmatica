@@ -71,10 +71,9 @@ public class BlockHarvestLevelTagsGen extends EETagProvider {
                     harvestLevelSwitch(material, EERegistrar.waxedWeatheredBlockMap.getId(material));
                     harvestLevelSwitch(material, EERegistrar.waxedOxidizedBlockMap.getId(material));
                 }
+                if (processedType.contains("raw"))
+                    harvestLevelSwitch(material, EERegistrar.rawBlockMap.getId(material));
             }
-
-            if (processedType.contains("raw"))
-                harvestLevelSwitch(material, EERegistrar.rawBlockMap.getId(material));
 
             if (processedType.contains("cluster")) {
                 harvestLevelSwitch(material, EERegistrar.buddingBlockMap.getId(material));

@@ -52,8 +52,21 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
+				// Raw Storage Blocks
+				if (processedType.contains("raw")) {
+					if (!material.getColors().hasMaterialColor()) {
+						storageBlock(consumer, "blocks/raw_" + material.getId() + "_block", "raw_" + material.getId() + "_block");
+					} else {
+						storageTintBlock(consumer,
+							"block/templates/raw_block/00",
+							"block/templates/raw_block/01",
+							"block/templates/raw_block/02",
+							"block/templates/raw_block/03",
+							"block/templates/raw_block/04",
+							"raw_" + material.getId() + "_block");
+					}
+				}
 				if (!material.getColors().hasMaterialColor()) {
-
 					if (material.getProperties().hasOxidization()) {
 						if (material.getProperties().getMaterialType().equals("gem")) {
 							oxidizationBlock(consumer, "blocks/" + material.getId() + "_block", "exposed", "gem", "exposed_" + material.getId());
@@ -284,20 +297,6 @@ public class BlockModelsGen extends EEBlockModelProvider {
 							"block/templates/clusters/cluster/04",
 							material.getId() + "_cluster"
 					);
-				}
-			}
-			// Raw Storage Blocks
-			if (processedType.contains("raw")) {
-				if (!material.getColors().hasMaterialColor()) {
-					storageBlock(consumer, "blocks/raw_" + material.getId() + "_block", "raw_" + material.getId() + "_block");
-				} else {
-					storageTintBlock(consumer,
-							"block/templates/raw_block/00",
-							"block/templates/raw_block/01",
-							"block/templates/raw_block/02",
-							"block/templates/raw_block/03",
-							"block/templates/raw_block/04",
-							"raw_" + material.getId() + "_block");
 				}
 			}
 			// Ores

@@ -101,6 +101,25 @@ public class RecipesGen extends RecipeProvider {
 		if (processedType.contains("ingot")) {
 			TagKey<Item> baseIngotTag = EETags.MATERIAL_INGOT.apply(model.getId());
 			if (processedType.contains("storage_block")) {
+				if (processedType.contains("raw")) {
+					// Raw Block from Raw Material
+					ShapedRecipeBuilder.shaped(RecipeCategory.MISC, EERegistrar.rawBlockItemMap.getValue(model))
+						.define('#', EETags.MATERIAL_RAW.apply(model.getId()))
+						.pattern("###")
+						.pattern("###")
+						.pattern("###")
+						.unlockedBy(model.getId() + "_unlock", has(baseIngotTag))
+						.group(Reference.MOD_ID)
+						.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/block/from_material/" + model.getId()));
+
+					// Raw Material from Raw Block
+					ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, EERegistrar.rawMap.getValue(model), 9)
+						.requires(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(model.getId()))
+						.unlockedBy(model.getId() + "_unlock", has(baseIngotTag))
+						.group(Reference.MOD_ID)
+						.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/material/from_block/" + model.getId()));
+				}
+
 				// Ingot from Block
 				ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, EERegistrar.ingotMap.getValue(model), 9)
 					.requires(EETags.MATERIAL_STORAGE_BLOCK.apply(model.getId()))
@@ -382,6 +401,25 @@ public class RecipesGen extends RecipeProvider {
 		if (processedType.contains("gem")) {
 			TagKey<Item> baseGemTag = EETags.MATERIAL_GEM.apply(model.getId());
 			if (processedType.contains("storage_block")) {
+				if (processedType.contains("raw")) {
+					// Raw Block from Raw Material
+					ShapedRecipeBuilder.shaped(RecipeCategory.MISC, EERegistrar.rawBlockItemMap.getValue(model))
+						.define('#', EETags.MATERIAL_RAW.apply(model.getId()))
+						.pattern("###")
+						.pattern("###")
+						.pattern("###")
+						.unlockedBy(model.getId() + "_unlock", has(baseGemTag))
+						.group(Reference.MOD_ID)
+						.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/block/from_material/" + model.getId()));
+
+					// Raw Material from Raw Block
+					ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, EERegistrar.rawMap.getValue(model), 9)
+						.requires(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(model.getId()))
+						.unlockedBy(model.getId() + "_unlock", has(baseGemTag))
+						.group(Reference.MOD_ID)
+						.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/material/from_block/" + model.getId()));
+				}
+
 				if (model.getProperties().getBlockRecipeType() == 4) {
 					// Block from Gem x4
 					ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, EERegistrar.storageBlockItemMap.getValue(model))
@@ -610,25 +648,6 @@ public class RecipesGen extends RecipeProvider {
 					.unlockedBy(model.getId() + "_unlock", has(baseGemTag))
 					.group(Reference.MOD_ID)
 					.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "paxel/from_gem/" + model.getId()));
-			}
-
-			if (processedType.contains("raw")) {
-				// Raw Block from Raw Material
-				ShapedRecipeBuilder.shaped(RecipeCategory.MISC, EERegistrar.rawBlockItemMap.getValue(model))
-					.define('#', EETags.MATERIAL_RAW.apply(model.getId()))
-					.pattern("###")
-					.pattern("###")
-					.pattern("###")
-					.unlockedBy(model.getId() + "_unlock", has(baseGemTag))
-					.group(Reference.MOD_ID)
-					.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/block/from_material/" + model.getId()));
-
-				// Raw Material from Raw Block
-				ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, EERegistrar.rawMap.getValue(model), 9)
-					.requires(EETags.MATERIAL_RAW_STORAGE_BLOCK.apply(model.getId()))
-					.unlockedBy(model.getId() + "_unlock", has(baseGemTag))
-					.group(Reference.MOD_ID)
-					.save(out, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw/material/from_block/" + model.getId()));
 			}
 
 			if (processedType.contains("dust")) {

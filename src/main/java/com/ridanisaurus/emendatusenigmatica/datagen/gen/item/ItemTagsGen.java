@@ -79,7 +79,13 @@ public class ItemTagsGen extends EETagProvider {
 
         if (types.contains("raw")) {
             addMaterialSpecificTag(COMMON, "raw_materials", EERegistrar.rawMap, material);
-            addMaterialSpecificTag(COMMON, "storage_blocks", EERegistrar.rawBlockItemMap.getIdAsString(material), "raw_" + material.getId());
+            if (types.contains("storage_block"))
+                addMaterialSpecificTag(
+                    COMMON,
+                    "storage_blocks",
+                    EERegistrar.rawBlockItemMap.getIdAsString(material),
+                    "raw_" + material.getId()
+                );
         }
 
         if (types.contains("cluster")) {

@@ -53,6 +53,14 @@ public class BlockStatesGen extends EEBlockStateProvider {
 
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
+				// Raw Blocks
+				if (processedType.contains("raw")) {
+					new BlockStateBuilder()
+						.variant(new BlockStateBuilder.VariantBuilder("")
+							.setModel(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
+						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
+				}
+
 				new BlockStateBuilder()
 					.variant(new BlockStateBuilder.VariantBuilder("")
 						.setModel(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/" + material.getId() + "_block").toString())
@@ -187,13 +195,6 @@ public class BlockStatesGen extends EEBlockStateProvider {
 					.variant(new BlockStateBuilder.VariantBuilder("")
 						.setModel(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/budding_" + material.getId()).toString()))
 					.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "budding_" + material.getId()));
-			}
-			// Raw Blocks
-			if (processedType.contains("raw")) {
-				new BlockStateBuilder()
-					.variant(new BlockStateBuilder.VariantBuilder("")
-						.setModel(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/raw_" + material.getId() + "_block").toString()))
-					.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "raw_" + material.getId() + "_block"));
 			}
 			// Fluids
 			if (processedType.contains("fluid")) {

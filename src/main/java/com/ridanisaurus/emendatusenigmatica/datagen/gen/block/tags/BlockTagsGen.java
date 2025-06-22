@@ -58,8 +58,11 @@ public class BlockTagsGen extends EETagProvider {
 		for (MaterialModel material : registry.getMaterials()) {
 			List<String> types = material.getProcessedTypes();
 
-			if (types.contains("storage_block")) addMaterialSpecificTag(COMMON, "storage_blocks", EERegistrar.storageBlockMap, material);
-			if (types.contains("raw")) addMaterialSpecificTag(COMMON, "storage_blocks", EERegistrar.rawBlockMap.getIdAsString(material), "raw_" + material.getId());
+			if (types.contains("storage_block")) {
+				addMaterialSpecificTag(COMMON, "storage_blocks", EERegistrar.storageBlockMap, material);
+				if (types.contains("raw"))
+					addMaterialSpecificTag(COMMON, "storage_blocks", EERegistrar.rawBlockMap.getIdAsString(material), "raw_" + material.getId());
+			}
 
 			// Buds
 			if (types.contains("cluster")) {

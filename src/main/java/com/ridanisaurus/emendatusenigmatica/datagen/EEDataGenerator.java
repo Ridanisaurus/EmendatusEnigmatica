@@ -111,6 +111,7 @@ public class EEDataGenerator extends DataGenerator {
                     throw new RuntimeException(e);
                 }
             }, Util.nonCriticalIoPool());
+            //TODO: Replace this with our own loop, apparently this doesn't actually work?
             ModLoader.waitForTask("Emendatus Enigmatica: Saving generated data", ImmediateWindowHandler::renderTick, saveIO);
 
             String msg = "EE Data Generation finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));

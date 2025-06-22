@@ -71,10 +71,9 @@ public class BlockHarvestToolTagsGen extends EETagProvider {
                     pickaxe.add(EERegistrar.waxedWeatheredBlockMap.getIdAsString(material));
                     pickaxe.add(EERegistrar.waxedOxidizedBlockMap.getIdAsString(material));
                 }
+                if (processedType.contains("raw"))
+                    pickaxe.add(EERegistrar.rawBlockMap.getIdAsString(material));
             }
-
-            if (processedType.contains("raw"))
-                pickaxe.add(EERegistrar.rawBlockMap.getIdAsString(material));
 
             if (processedType.contains("cluster")) {
                 pickaxe.add(EERegistrar.buddingBlockMap.getIdAsString(material));

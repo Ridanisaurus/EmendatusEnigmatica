@@ -85,6 +85,9 @@ public class BlockLootGen extends BlockLootSubProvider {
 					this.selfDrop(EERegistrar.waxedWeatheredBlockMap.getValue(material));
 					this.selfDrop(EERegistrar.waxedOxidizedBlockMap.getValue(material));
 				}
+
+				// Raw Storage Blocks
+				if (processedType.contains("raw")) selfDrop(EERegistrar.rawBlockMap.getValue(material));
 			}
 
 			// Clusters
@@ -102,9 +105,6 @@ public class BlockLootGen extends BlockLootSubProvider {
 				// Budding
 				this.add(EERegistrar.buddingBlockMap.getValue(material), noDrop());
 			}
-
-			// Raw Storage Blocks
-			if (processedType.contains("raw")) selfDrop(EERegistrar.rawBlockMap.getValue(material));
 
 			// Ores
 			if (!processedType.contains("ore")) continue;

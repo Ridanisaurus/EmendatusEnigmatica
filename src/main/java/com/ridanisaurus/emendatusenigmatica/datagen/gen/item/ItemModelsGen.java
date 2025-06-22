@@ -256,7 +256,8 @@ public class ItemModelsGen extends EEItemModelProvider {
 				}
 				rawBuilder.save(consumer, Reference.MOD_ID, "raw_" + material.getId());
 
-				new ItemModelBuilder(Reference.MOD_ID, "block/raw_" + material.getId() + "_block")
+				if (processedType.contains("storage_blocks"))
+					new ItemModelBuilder(Reference.MOD_ID, "block/raw_" + material.getId() + "_block")
 						.save(consumer, Reference.MOD_ID, "raw_" + material.getId() + "_block");
 			}
 

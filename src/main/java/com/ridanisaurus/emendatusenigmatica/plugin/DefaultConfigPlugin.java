@@ -86,7 +86,7 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
 
             if (types.contains("raw")) {
                 EERegistrar.registerRaw(material);
-                EERegistrar.registerRawBlocks(material);
+                if (types.contains("storage_block")) EERegistrar.registerRawBlocks(material);
             }
 
             if (types.contains("cluster")) {
