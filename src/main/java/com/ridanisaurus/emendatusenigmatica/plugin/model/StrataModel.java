@@ -37,6 +37,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.B
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.TextureRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.strata.SuffixValidator;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
@@ -69,7 +70,7 @@ public class StrataModel {
 		.addValidator("id",				new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REGISTRATION, true))
 		.addValidator("baseTexture",		new ResourceLocationValidator(true, new TextureRegistryValidator()))
 		.addValidator("fillerType",		new ResourceLocationValidator(true, new BlockRegistryValidator()))
-		.addValidator("suffix",			new TypeValidator(Types.STRING, true))
+		.addValidator("suffix",			new SuffixValidator())
 		.addValidator("localizedName",	new TypeValidator(Types.STRING, true))
 		.addValidator("sampleStrata",		new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("hardness",			new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))

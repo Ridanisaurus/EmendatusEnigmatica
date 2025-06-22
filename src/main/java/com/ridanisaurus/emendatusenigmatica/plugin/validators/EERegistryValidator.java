@@ -29,12 +29,14 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 /**
  * Custom implementation of {@link ValuesValidator}, used to validate ID fields, that point to the EE Registries.
+ * @apiNote IDs are required to be compliant with [a-z0-9/._-] rule of ResourceLocations.
  */
 public class EERegistryValidator extends TypeValidator {
     /**
@@ -74,7 +76,7 @@ public class EERegistryValidator extends TypeValidator {
      */
     public EERegistryValidator(List<String> ids, Mode mode, String registryName, boolean isRequired) {
         super(Types.STRING, isRequired);
-        this.name = registryName;
+        this.name = " " + registryName;
         this.values = ids;
         this.mode = mode;
     }
@@ -90,10 +92,14 @@ public class EERegistryValidator extends TypeValidator {
     public Boolean validate(@NotNull ValidationData data) {
         if (!super.validate(data)) return false;
         String value = data.validationElement().getAsString();
+        if (!ResourceLocation.isValidNamespace(value)) {
+            Analytics.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), data);
+            return false;
+        }
         boolean contains = values.contains(value);
         if (mode == Mode.REFERENCE) {
             if (contains) return true;
-            Analytics.error("Specified ID <code>%s</code> is missing from the %s registry!".formatted(value, name), data);
+            Analytics.error("Specified ID <code>%s</code> is missing from the%s registry!".formatted(value, name), data);
             return false;
         }
         if (!contains) return true;

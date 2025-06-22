@@ -50,10 +50,11 @@ import java.util.function.Function;
 public class DefaultLoader {
     public static final List<String> MATERIAL_IDS = new ArrayList<>();
     public static final List<String> STRATA_IDS = new ArrayList<>();
-    public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
+    public static final List<String> DEPOSIT_IDS = new ArrayList<>();
+    public static final List<String> STRATA_SUFFIXES = new ArrayList<>();
     public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
     public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
-    public static final List<String> DEPOSIT_IDS = new ArrayList<>();
+    public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
 
     protected static void load(EmendatusDataRegistry registry) {
         // Analytics.
@@ -103,6 +104,7 @@ public class DefaultLoader {
             StrataModel strataModel = result.get().getFirst();
             registry.registerStrata(strataModel);
             STRATA_IDS.add(strataModel.getId());
+            STRATA_SUFFIXES.add(strataModel.getSuffix());
         });
         Analytics.addPerformanceAnalytic("Validation: Strata", s);
     }
