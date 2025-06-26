@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ridanisaurus
+ * Copyright (c) 2024. Ridanisaurus
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,129 +24,135 @@
 
 package com.ridanisaurus.emendatusenigmatica;
 
+import com.mojang.logging.LogUtils;
+import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.DataGeneratorFactory;
-import com.ridanisaurus.emendatusenigmatica.datagen.base.EEPackFinder;
+import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEPackFinder;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.EEDeposits;
+import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
+import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.tabs.EECreativeTab;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
-import net.minecraft.client.Minecraft;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoader;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.progress.StartupNotificationManager;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
+import net.neoforged.neoforge.registries.*;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod(Reference.MOD_ID)
 public class EmendatusEnigmatica {
-    // Directly reference a log4j logger.
-    public static final Logger LOGGER = LogManager.getLogger();
-    private static DataGenerator generator;
-    private static boolean hasGenerated = false;
-
+    public static final Logger logger = LogUtils.getLogger();
+    public static String VERSION = "0.0.0";
     private static EmendatusEnigmatica instance;
+    private final EELoader loader;
+    private final EEDataGenerator generator;
+
+    // Creative Tabs Registration
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.MOD_ID);
+    public static final DeferredHolder<CreativeModeTab, EECreativeTab> TOOLS_TAB = CREATIVE_MODE_TABS.register("ee_tools_tab", () -> new EECreativeTab(
+        CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.emendatusenigmatica.tools"))
+            // Fallback
+            .icon(() -> EERegistrar.ENIGMATIC_HAMMER.get().getDefaultInstance())
+            .displayItems((parameters, output) -> output.accept(EERegistrar.ENIGMATIC_HAMMER))
+    ));
+    public static final DeferredHolder<CreativeModeTab, EECreativeTab> RESOURCES_TAB = CREATIVE_MODE_TABS.register("ee_resources_tab", () -> new EECreativeTab(
+        CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.emendatusenigmatica.resources"))
+            .withTabsBefore(TOOLS_TAB.getId())
+            // Fallback
+            .icon(() -> EERegistrar.FELINIUM_JAMINITE.get().getDefaultInstance())
+            .displayItems((parameters, output) -> {
+                output.accept(EERegistrar.FELINIUM_JAMINITE);
+                output.accept(EERegistrar.SHIELD_TEMPLATE);
+            })
+    ));
+
+    public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) {
+        instance = this;
+        VERSION = modContainer.getModInfo().getVersion().toString();
+        EEConfig.registerClient(modContainer);
+        EEConfig.setupStartup(modContainer);
+        Analytics.setup();
+
+        DataGeneratorFactory.init();
+        this.generator = DataGeneratorFactory.createEEDataGenerator();
+
+        this.loader = new EELoader();
+        this.loader.loadData();
+
+        EERegistrar.finalize(modEventBus);
+        CREATIVE_MODE_TABS.register(modEventBus);
+
+        this.loader.registerDatagen(this.generator);
+        this.loader.finish();
+
+        // Creative Tab Item Registration.
+        modEventBus.addListener(this::populateCreativeTab);
+        // Virtual ResourcePack
+        modEventBus.addListener(this::addPackFinder);
+        // Generator check, we can't launch the game if the generator wasn't executed!
+        modEventBus.addListener(this::clientDataGenCheck);
+        NeoForge.EVENT_BUS.addListener(this::serverDataGenCheck);
+        // Registry Validation
+        modEventBus.addListener(this::commonSetup);
+    }
 
     public static EmendatusEnigmatica getInstance() {
         return instance;
     }
 
-    private final EELoader loader;
-    private final EEDeposits deposits;
-
-    public EmendatusEnigmatica() {
-        EmendatusEnigmatica.instance = this;
-        EEConfig.registerClient();
-        EEConfig.setupCommon();
-
-        // Register Deferred Registers and populate their tables once the mod is done constructing
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
-
-        DataGeneratorFactory.init();
-
-        this.loader = new EELoader();
-        this.loader.load();
-
-        EERegistrar.finalize(modEventBus);
-//        if (BLOODMAGIC_LOADED) EEBloodMagicRegistrar.finalize(modEventBus);
-
-        this.deposits = new EEDeposits(this.loader);
-        this.deposits.load();
-        this.deposits.setup();
-        this.deposits.finalize(modEventBus);
-
-        modEventBus.addListener(this::commonEvents);
-
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> Minecraft.getInstance().getResourcePackRepository().addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES)));
-
-        this.loader.finish();
-    }
-
-    private void commonEvents(FMLCommonSetupEvent event) {
-        MultiStrataRuleTest.register();
-    }
-
-    public static final CreativeModeTab TAB = new CreativeModeTab("emendatusenigmatica") {
-        @Override
-        public @NotNull ItemStack makeIcon() {
-            return new ItemStack(EERegistrar.ENIGMATIC_HAMMER.get());
-        }
-    };
-
-    private static void registerDataGen() {
-        generator = DataGeneratorFactory.createEEDataGenerator();
-
-        EmendatusEnigmatica.getInstance().getLoader().datagen(generator);
-    }
-
-    public static void generate()  {
-        if (!hasGenerated) {
-            try {
-                if(generator == null) registerDataGen();
-                if (!ModLoader.isLoadingStateValid()) {
-                    LOGGER.error("Loading state is invalid! Aborting running Data Generation to avoid even more issues.");
-                    return;
-                }
-                generator.run();
-            } catch (Throwable e) {
-                LOGGER.error("Exception caught while running data generation!", e);
-                if (ModLoader.isLoadingStateValid()) throw new RuntimeException(e);
-                LOGGER.error("It was probably caused by another mod crashing before Data Generation, as LoadingState is already invalid!");
-                return;
-            }
-            hasGenerated = true;
-        }
-    }
-
-    public static void injectDatapackFinder(PackRepository resourcePacks) {
-       DistExecutor.<Boolean>unsafeRunForDist(() -> () -> {
-            if (resourcePacks != Minecraft.getInstance().getResourcePackRepository()) {
-                resourcePacks.addPackFinder(new EEPackFinder(PackType.CLIENT_RESOURCES));
-                EmendatusEnigmatica.LOGGER.info("Injecting data pack finder.");
-            }
-            return false;
-        }, () -> () -> {
-            resourcePacks.addPackFinder(new EEPackFinder(PackType.SERVER_DATA));
-            EmendatusEnigmatica.LOGGER.info("Injecting server data pack finder.");
-            return false;
-        });
-    }
-
     public EELoader getLoader() {
         return loader;
+    }
+
+    public EmendatusDataRegistry getDataRegistry() {
+        return loader.getDataRegistry();
+    }
+
+    private void populateCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        EERegistrar.registerToCreativeTabs(event);
+    }
+
+    private void addPackFinder(@NotNull AddPackFindersEvent event) {
+        event.addRepositorySource(new EEPackFinder(event.getPackType()));
+        if (!loader.isFinished()) {
+            logger.error("Something is populating Pack Repository too early! Skipping running Data Generation.");
+            return;
+        }
+        generator.run();
+    }
+
+    private void commonSetup(FMLCommonSetupEvent event) {
+        boolean result = RegistryValidationManager.validate();
+        Analytics.finalizeAnalytics();
+        if (!result)
+            throw new IllegalStateException("Registry validation failed! %s Validation Summary for more details.".formatted(EEConfig.startup.generateSummary.get()? "Check the": "Enable"));
+    }
+
+    private void clientDataGenCheck(FMLLoadCompleteEvent event) {
+        // AddPackFindersEvent is executed after FMLLoadCompleteEvent on the server side.
+        if (FMLEnvironment.dist.isDedicatedServer() || generator.hasExecuted()) return;
+        StartupNotificationManager.addModMessage("Emendatus Enigmatica - Missing Data Generation!");
+        throw new IllegalStateException("Mod loading finished, but Data Generation wasn't executed!");
+    }
+
+    private void serverDataGenCheck(ServerStartedEvent event) {
+        if (!generator.hasExecuted()) throw new IllegalStateException("Server has started, but Data Generation wasn't executed!");
     }
 }

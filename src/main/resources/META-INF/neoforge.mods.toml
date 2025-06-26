@@ -1,0 +1,49 @@
+modLoader="javafml" #mandatory
+loaderVersion="${loader_version_range}" #mandatory
+license="MIT License"
+issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues"
+
+[[mods]] #mandatory
+modId="${mod_id}" #mandatory
+version="${mod_version}" #mandatory
+displayName="Emendatus Enigmatica" #mandatory
+displayURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica" #optional
+logoFile= "ee_logo.png"
+credits='''
+Thanks to Buuz135, MaxNeedsSnacks, Ellpeck, Mikey, and Darkere for their guidance and help on the development process.
+
+Special thanks to all the people on Enigmatica Discord and NillerMedDild for their feedback, encouragement, and continues support on this journey.
+'''
+
+authors="Ridanisaurus, Kanzaji" #optional
+description='''
+This mod is a Data-Driven solution created for Modpack Developers to create their own materials, unify the look and feel of modded Minecraft, and provides them with a handful of feature generation options.
+
+All blocks, and items have been properly tagged, and have all the basic recipes included upon their material's registration.
+
+Additional information on how to setup new Materials, configure new Strata Blocks to be used for dynamic ores, and generating Deposit features can be found on the Wiki.
+'''
+
+[[mixins]]
+config="emendatusenigmatica.mixins.json"
+
+# The [[accessTransformers]] block allows you to declare where your AT file is.
+# If this block is omitted, a fallback attempt will be made to load an AT from META-INF/accesstransformer.cfg
+#[[accessTransformers]]
+#file="META-INF/accesstransformer.cfg"
+
+# The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
+
+[[dependencies."${mod_id}"]] #optional
+modId="neoforge" #mandatory
+type="required" #mandatory
+versionRange="${neo_version_range}" #mandatory
+ordering="NONE"
+side="BOTH"
+
+[[dependencies."${mod_id}"]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"

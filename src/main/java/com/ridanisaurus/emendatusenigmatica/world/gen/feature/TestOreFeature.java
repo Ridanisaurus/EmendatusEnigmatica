@@ -1,54 +1,59 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024. Ridanisaurus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
-import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.loader.deposit.model.test.TestDepositModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.test.TestDepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.TestOreFeatureConfig;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Mth;
+import net.minecraft.core.registries.BuiltInRegistries;import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.valueproviders.IntProvider;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.BuddingAmethystBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.synth.NormalNoise;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITag;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Predicate;
 
 // Credit: Geolysis
 public class TestOreFeature extends Feature<TestOreFeatureConfig> {
-    private TestDepositModel model;
+    private final TestDepositModel model;
     private final EmendatusDataRegistry registry;
-    private ArrayList<CommonBlockDefinitionModel> blocks;
+    private final ArrayList<CommonBlockDefinitionModel> blocks;
 
     public TestOreFeature(Codec<TestOreFeatureConfig> codec, TestDepositModel model, EmendatusDataRegistry registry) {
         super(codec);
@@ -386,27 +391,23 @@ public class TestOreFeature extends Feature<TestOreFeatureConfig> {
         try {
             CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
             if (commonBlockDefinitionModel.getBlock() != null) {
-                Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(commonBlockDefinitionModel.getBlock()));
+                Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(commonBlockDefinitionModel.getBlock()));
                 reader.setBlock(pos, block.defaultBlockState(), 2);
             } else if (commonBlockDefinitionModel.getTag() != null) {
-                ITag<Block> blockITag = ForgeRegistries.BLOCKS.tags().getTag(EETags.getBlockTag(new ResourceLocation(commonBlockDefinitionModel.getTag())));
+                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(commonBlockDefinitionModel.getTag()))).get();
                 blockITag.getRandomElement(rand).ifPresent(block -> {
-                    reader.setBlock(pos, block.defaultBlockState(), 2);
+                    reader.setBlock(pos, block.value().defaultBlockState(), 2);
                 });
             } else if (commonBlockDefinitionModel.getMaterial() != null) {
-                BlockState currentFiller = reader.getBlockState(pos);
-                String fillerId = ForgeRegistries.BLOCKS.getKey(currentFiller.getBlock()).toString();
-                Integer strataIndex = registry.getStrataByIndex().getOrDefault(fillerId, null);
-                if (strataIndex != null) {
-                    StrataModel stratum = registry.getStrata().get(strataIndex);
-                    Block block = EERegistrar.oreBlockTable.get(stratum.getId(), commonBlockDefinitionModel.getMaterial()).get();
+                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
+                if (strata != null) {
+                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), commonBlockDefinitionModel.getMaterial()).get();
                     reader.setBlock(pos, block.defaultBlockState(), 2);
                 }
             }
         } catch (Exception e) {
             JsonElement modelJson = JsonOps.INSTANCE.withEncoder(TestDepositModel.CODEC).apply(model).result().get();
-            EmendatusEnigmatica.LOGGER.error("index: " + index + ", model: " + new Gson().toJson(modelJson));
-            e.printStackTrace();
+            EmendatusEnigmatica.logger.error("index: " + index + ", model: " + new Gson().toJson(modelJson), e);
         }
     }
 }

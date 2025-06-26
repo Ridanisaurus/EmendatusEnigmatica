@@ -1,293 +1,239 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url 'https://modmaven.dev/' }
-        maven {
-            name "Sponge"
-            url "https://repo.spongepowered.org/repository/maven-public/"
-        }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-    }
-}
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024. Ridanisaurus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+// Special thanks to Gim for help with gradle setup!
 
 plugins {
-    id "maven-publish"
-    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id 'maven-publish'
+    id 'net.neoforged.moddev'
+//    id 'org.spongepowered.mixin'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
-apply plugin: 'org.spongepowered.mixin'
+version = mod_version
+group = mod_group_id
 
-def ENV = System.getenv()
+base {
+    archivesName = mod_id
+}
 
-version = "${mod_version}-build.${ENV.GITHUB_RUN_NUMBER ?: 9999}+mc${mc_version}"
-group = 'com.ridanisaurus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'EmendatusEnigmatica'
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+neoForge {
+    version = neo_version
 
-minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: mcp_version
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mods {
+        emendatusenmigmatica {
+            modSourceSets = [sourceSets.main]
+        }
 
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+        // Create a mod grouping the sources of each subproject such that when the IDE includes them it works
+        subprojects.forEach { subproject ->
+            create(subproject.name) {
+                modSourceSets = [subproject.sourceSets.main]
+            }
+        }
+    }
+
     runs {
+        // applies to all the run configs below
+        configureEach {
+        }
+
         client {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            arg '-mixin.config=emendatusenigmatica.mixins.json'
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
-//            properties 'mixin.env.disableRefMap': 'true'
-            source sourceSets.main
+            client()
+            gameDirectory = project.file("runs/client")
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         }
 
         server {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            arg '-mixin.config=emendatusenigmatica.mixins.json'
+            server()
+            gameDirectory = project.file("runs/server")
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+            programArgument '--nogui'
+        }
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
-//            properties 'mixin.env.disableRefMap': 'true'
-            source sourceSets.main
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            type = "gameTestServer"
+            gameDirectory = project.file("build/gametest")
+            systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
         }
 
         data {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            arg '-mixin.config=emendatusenigmatica.mixins.json'
+            data()
+            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+            // workingDirectory project.file('run-data')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'info'
-//            properties 'mixin.env.disableRefMap': 'true'
-
-            args '--mod', 'emendatusenigmatica', '--all', '--output', '"' + rootProject.file('src/generated/resources/') + '"', '--existing', '"' + sourceSets.main.resources.srcDirs[0] + '"'
-            source sourceSets.main
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
         }
     }
 }
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-    // JEI
-    maven { name = "Progwml6 maven"; url = "https://dvs1.progwml6.com/files/maven/" }
-    maven {
-        url 'https://repo.spongepowered.org/maven/'
+def dependencyMap = [
+    ArsNoveau: ["curse.maven:ars-nouveau-401955:${an_version}"],
+    Create: ["curse.maven:create-328085:${create_version}"],
+    Mekanism: ["curse.maven:mekanism-268560:${mekanism_version}"],
+    Occultism: [
+        "curse.maven:occultism-361026:${occultism_version}",
+        "curse.maven:geckolib-388172:${geckolib_version}",
+        "curse.maven:modonomicon-538392:${modonomicon_version}",
+        "curse.maven:smartbrainlib-661293:${smartbrainlib_version}",
+        "curse.maven:curios-1037991:${curios_version}"
+    ],
+    Thermal: [
+        "curse.maven:thermal-expansion-69163:${thermal_expansion_version}",
+        "curse.maven:thermal-foundation-222880:${thermal_foundation_version}",
+        "curse.maven:cofh-core-69162:${cofh_core_version}"
+    ]
+]
+
+subprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'net.neoforged.moddev'
+
+    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+    dependencies {
+        // EMI for NeoForge
+        compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
+        runtimeOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1"
+
+        dependencyMap[project.name.substring(0, project.name.indexOf(" "))].forEach {
+            implementation it
+        }
+
+        implementation rootProject
     }
-    maven { url 'https://modmaven.dev/' }
-    maven {
-        url = "https://www.cursemaven.com"
+
+    neoForge {
+        version = neo_version
     }
-    maven { url 'https://maven.blamejared.com' }
-    // LOCAL MAVEN
-    mavenLocal()
-    // SAPS
-    maven {
-        url "https://maven.saps.dev/releases/"
+
+    sourceSets {
+        main {
+            java {
+                srcDir("src/java")
+            }
+            resources {
+                srcDir("src/resources")
+            }
+        }
     }
 }
 
 dependencies {
-//    implementation 'org.jetbrains:annotations:20.1.0'
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+    // EMI for NeoForge
+    compileOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1:api"
+    runtimeOnly "dev.emi:emi-neoforge:${emi_version}+1.21.1"
 
-    implementation 'org.spongepowered:mixin:0.8-SNAPSHOT'
+    // Utilities and other mods
+    if (jade_version != "null")             runtimeOnly "curse.maven:jade-324717:${jade_version}"
+    if (tool_kit_version != "null")         runtimeOnly "curse.maven:tool-kit-324888:${tool_kit_version}"
+    if (architectury_version != "null")     runtimeOnly "curse.maven:architectury-api-419699:${architectury_version}"
+    if (world_stripper_version != "null")   runtimeOnly "curse.maven:world-stripper-250603:${world_stripper_version}"
+    if (the_undergarden_version != "null")  runtimeOnly "curse.maven:the-undergarden-379849:${the_undergarden_version}"
+    if (kubejs_version != "null" && rhino_version != "null") {
+        runtimeOnly "curse.maven:kubejs-238086:${kubejs_version}"
+        runtimeOnly "curse.maven:rhino-416294:${rhino_version}"
+    }
 
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
+    //TODO: Add to proper mods and remove when necessary.
+//    runtimeOnly "curse.maven:curios-309927:${curios_version}"
+//    runtimeOnly "curse.maven:patchouli-306770:${patchouli_version}"
+//    runtimeOnly "curse.maven:immersive-engineering-231951:3963698"
 
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+    // Mixin
+    implementation 'org.spongepowered:mixin:0.8.5'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    // Addons
+    subprojects.forEach { runtimeOnly it }
 
-    // These dependencies get remapped to your current MCP mappings
-    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    // Examples from the default build.gradle for NeoForge
+    // Example mod dependency using a mod jar from ./libs with a flat dir repository
+    // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
+    // The group id is ignored when searching -- in this case, it is "blank"
+    // implementation "blank:coolmod-${mc_version}:${coolmod_version}"
 
-    // For more info...
+    // Example mod dependency using a file as dependency
+    // implementation files("libs/coolmod-${mc_version}-${coolmod_version}.jar")
+
+    // Example project dependency using a sister or child project:
+    // implementation project(":myproject")
+
+    // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
-    // compile against the JEI API but do not include it at runtime
-    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
-    compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
-    // at runtime, use the full JEI jar for Forge
-    runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
-
-    runtimeOnly fg.deobf("curse.maven:tool-kit-324888:3933949")
-    runtimeOnly fg.deobf("curse.maven:world-stripper-250603:3921630")
-    runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:3965693")
-    runtimeOnly fg.deobf("curse.maven:the-undergarden-379849:4057184")
-
-    runtimeOnly fg.deobf("curse.maven:mekanism-268560:${mekanism_version}")
-    runtimeOnly fg.deobf("curse.maven:geckolib-388172:${geckolib_version}")
-    runtimeOnly fg.deobf("curse.maven:occultism-361026:${occultism_version}")
-    runtimeOnly fg.deobf("curse.maven:modonomicon-538392:${modonomicon_version}")
-    runtimeOnly fg.deobf("curse.maven:curios-309927:${curios_version}")
-    runtimeOnly fg.deobf("curse.maven:patchouli-306770:${patchouli_version}")
-    runtimeOnly fg.deobf("curse.maven:ars-nouveau-401955:${an_version}")
-    runtimeOnly fg.deobf("curse.maven:create-328085:${create_version}")
-    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:${thermal_expansion_version}")
-    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:${thermal_foundation_version}")
-    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:${cofh_core_version}")
-
-    runtimeOnly fg.deobf("curse.maven:immersive-engineering-231951:3963698")
-
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_create_addon:${ee_create}+mc${mc_version}")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_thermal_addon:${ee_thermal}+mc${mc_version}")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_mekanism_addon:${ee_mekanism}+mc${mc_version}")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_occultism_addon:${ee_occultism}+mc${mc_version}")
-//    runtimeOnly fg.deobf("com.ridanisaurus:ee_ars_nouveau_addon:${ee_ars_nouveau}+mc${mc_version}")
-
-    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
-//    implementation "org.spongepowered:noise:2.0.0-SNAPSHOT"
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
-jar {
-    manifest {
-        attributes([
-                "MixinConfigs"            : "emendatusenigmatica.mixins.json",
-                "Specification-Title"     : "emendatusenigmatica",
-                "Specification-Vendor"    : "Ridanisaurus",
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "Ridanisaurus",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+// When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
+// See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version       : minecraft_version,
+            minecraft_version_range : minecraft_version_range,
+            neo_version             : neo_version,
+            neo_version_range       : neo_version_range,
+            loader_version_range    : loader_version_range,
+            mod_id                  : mod_id,
+            mod_version             : mod_version,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
     }
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
-
-// Creates a source jar (a jar with sources)
-task sourcesJar(type: Jar) {
-    classifier = "sources"
-    from sourceSets.main.allJava
-}
-
-artifacts {
-    archives sourcesJar
-}
-
+// Example configuration to allow publishing using the maven-publish plugin
+//TODO: Add Publishing configuration. Going to skip this one for now.
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            // Lowercase the name so we're not looking funny on the maven
-            artifactId = archivesBaseName.toLowerCase()
-            artifact(jar) {
-                classifier null
-            }
-
-            // Include the sourcejar
-            artifact(sourcesJar) {
-                builtBy sourcesJar
-            }
+        register('mavenJava', MavenPublication) {
+            from components.java
         }
     }
-// Push to nanite https://vers.nanite.dev/ https://maven.nanite.dev/
-//    repositories {
-//        if (ENV.NANITE_DEPLOY) {
-//            maven {
-//                url "https://maven.nanite.dev/"
-//                credentials {
-//                    username = "rid"
-//                    password = "${ENV.NANITE_DEPLOY}"
-//                }
-//            }
-//        }
-//    }
-
     repositories {
-        if (ENV.SAPS_DEPLOY) {
-            maven {
-                url "https://maven.saps.dev/releases/"
-                credentials {
-                    username = "rid"
-                    password = "${ENV.SAPS_DEPLOY}"
-                }
-            }
+        maven {
+            url "file://${project.projectDir}/repo"
         }
     }
 }
 
-if (ENV.CURSE_DEPLOY) {
-    curseforge {
-        apiKey = ENV.CURSE_DEPLOY
-        project {
-            id = project.curseforge_id // the project id of the Curse project
-            releaseType = "release" // Make it an alpha on curseforge
-            addGameVersion "Forge"  // Made for forge
-            addGameVersion "Java 17" // Targeting java 17
-            addGameVersion "${mc_version}" // Minecraft :pog:
-            mainArtifact(jar) {
-                displayName = "EmendatusEnigmatica-${mc_version}-${mod_version}"
-                relations {
-                    optionalDependency "emendatus-enigmatica-thermal-addon"
-                    optionalDependency "emendatus-enigmatica-create-addon"
-                    optionalDependency "emendatus-enigmatica-occultism-addon"
-                    optionalDependency "emendatus-enigmatica-mekanism-addon"
-                    optionalDependency "emendatus-enigmatica-ars-nouveau-addon"
-                }
-            }
-            changelog = file("changelog.md") // pull the contents of the changelog.md
-            changelogType = 'markdown' // It's a markdown file so handle it as one
-        }
-    }
-}
-
-mixin {
-    add sourceSets.main, "emendatusenigmatica.refmap.json"
-}
-
-// Prevent Mixin annotation processor from getting into IDEA's annotation processor settings
-// Copied from Botania
-if (System.getProperty("idea.sync.active") == "true") {
-    afterEvaluate {
-        tasks.withType(JavaCompile).all {
-            it.options.annotationProcessorPath = files()
-        }
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

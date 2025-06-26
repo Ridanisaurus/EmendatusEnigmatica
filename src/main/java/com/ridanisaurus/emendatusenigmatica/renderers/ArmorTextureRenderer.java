@@ -1,10 +1,34 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024. Ridanisaurus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.ridanisaurus.emendatusenigmatica.renderers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.events.ArmorTextureEvent;
-import com.ridanisaurus.emendatusenigmatica.items.BasicArmorItem;
-import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
+import com.ridanisaurus.emendatusenigmatica.items.templates.BasicArmorItem;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -19,63 +43,50 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.ForgeHooksClient;
+import net.neoforged.neoforge.client.ClientHooks;
+import org.jetbrains.annotations.NotNull;
 
-// Credit: PNC:R
 public class ArmorTextureRenderer<E extends LivingEntity, M extends HumanoidModel<E>> extends RenderLayer<E, M> {
 
-    private HumanoidModel<E> body;
-    private HumanoidModel<E> legs;
+    private final HumanoidModel<E> body;
+    private final HumanoidModel<E> legs;
 
-    public ArmorTextureRenderer(RenderLayerParent<E, M> renderLayerParent, EntityModelSet entityModelSet) {
+    public ArmorTextureRenderer(RenderLayerParent<E, M> renderLayerParent, @NotNull EntityModelSet entityModelSet) {
         super(renderLayerParent);
         this.body = new HumanoidModel<>(entityModelSet.bakeLayer(ArmorTextureEvent.ARMOR));
         this.legs = new HumanoidModel<>(entityModelSet.bakeLayer(ArmorTextureEvent.LEGS));
     }
 
     @Override
-    public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, E entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack matrixStackIn, @NotNull MultiBufferSource bufferIn, int packedLightIn, @NotNull E entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         for (int i = 0; i < 5; i++) {
-            var rl = new ResourceLocation(Reference.MOD_ID, "textures/armor/layer_2/0"+i+ ".png");
-            var renderType = RenderType.armorCutoutNoCull(rl);
-            renderSlot(matrixStackIn, bufferIn, entity, EquipmentSlot.LEGS, packedLightIn, legs,
-                    partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, renderType, i);
-        }
-        for (int i = 0; i < 5; i++) {
-            var rl = new ResourceLocation(Reference.MOD_ID, "textures/armor/layer_1/0"+i+ ".png");
-            var renderType = RenderType.armorCutoutNoCull(rl);
-            renderSlot(matrixStackIn, bufferIn, entity, EquipmentSlot.CHEST, packedLightIn, body,
-                    partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, renderType, i);
-            renderSlot(matrixStackIn, bufferIn, entity, EquipmentSlot.FEET, packedLightIn, body,
-                    partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, renderType, i);
-            renderSlot(matrixStackIn, bufferIn, entity, EquipmentSlot.HEAD, packedLightIn, body,
-                    partialTicks, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, renderType, i);
+            var renderType = RenderType.armorCutoutNoCull(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/armor/layer_1/0" + i + ".png"));
+            renderArmorPiece(matrixStackIn, bufferIn, entity, EquipmentSlot.CHEST, packedLightIn, body, renderType, i);
+            renderArmorPiece(matrixStackIn, bufferIn, entity, EquipmentSlot.FEET, packedLightIn, body, renderType, i);
+            renderArmorPiece(matrixStackIn, bufferIn, entity, EquipmentSlot.HEAD, packedLightIn, body, renderType, i);
+            renderArmorPiece(matrixStackIn, bufferIn, entity, EquipmentSlot.LEGS, packedLightIn, legs,
+                RenderType.armorCutoutNoCull(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/armor/layer_2/0" + i + ".png")), i);
         }
     }
 
-    private void renderSlot(PoseStack matrixStack, MultiBufferSource buffer, E entity, EquipmentSlot slot, int light, HumanoidModel<E> model, float partialTicks, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, RenderType renderType, int colorIndex) {
+    private void renderArmorPiece(PoseStack matrixStack, MultiBufferSource buffer, @NotNull E entity, EquipmentSlot slot, int light, HumanoidModel<E> p_model, RenderType renderType, int colorIndex) {
         ItemStack stack = entity.getItemBySlot(slot);
-        if (stack.getItem() instanceof BasicArmorItem armor && armor.getSlot() == slot && armor.getMaterialModel().getColors().getMaterialColor() != -1) {
-            this.getParentModel().copyPropertiesTo(model);
-            model.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
-            model.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            this.setModelSlotVisible(model, slot);
-            Model model1 = ForgeHooksClient.getArmorModel(entity, stack, slot, model);
-            boolean glint = stack.hasFoil();
+        if (stack.getItem() instanceof BasicArmorItem armorItem && armorItem.getEquipmentSlot() == slot && armorItem.getMaterialModel().getColors().getMaterialColor() != -1) {
+            this.getParentModel().copyPropertiesTo(p_model);
+            this.setModelSlotVisible(p_model, slot);
+            Model model = ClientHooks.getArmorModel(entity, stack, slot, p_model);
+            boolean glint = EEConfig.client.oldSchoolGlint.get() && stack.hasFoil();
 
-            // secondary texture layer in all slots
-//            float[] secondary = decomposeColorF(armor.getColorForIndex(colorIndex));
-            float[] secondary = ColorHelper.INTtoRGB(armor.getColorForIndex(colorIndex));
-            this.doRender(matrixStack, buffer, light, glint, model1, secondary[1], secondary[2], secondary[3], slot, renderType);
+            this.doRender(matrixStack, buffer, light, glint, model, armorItem.getColorForIndex(colorIndex), renderType);
         }
     }
 
-    private void doRender(PoseStack matrixStack, MultiBufferSource buffer, int light, boolean glint, Model model, float r, float g, float b, EquipmentSlot slot, RenderType renderType) {
-        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(buffer, renderType, false, glint);
-        model.renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, r, g, b, 1.0F);
+    private void doRender(PoseStack matrixStack, MultiBufferSource buffer, int light, boolean glint, @NotNull Model model, int color, RenderType renderType) {
+        VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(buffer, renderType, glint);
+        model.renderToBuffer(matrixStack, vertexConsumer, light, OverlayTexture.NO_OVERLAY, color);
     }
 
-    protected void setModelSlotVisible(HumanoidModel<E> model, EquipmentSlot slotIn) {
+    protected void setModelSlotVisible(@NotNull HumanoidModel<E> model, @NotNull EquipmentSlot slotIn) {
         model.setAllVisible(false);
         switch (slotIn) {
             case HEAD -> {

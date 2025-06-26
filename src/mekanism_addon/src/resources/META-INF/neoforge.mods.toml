@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="ee_mekanism_addon"
+version="1.0.1"
+displayName="EE:Mekanism"
+logoFile="ee_meknism_logo.png"
+authors="Ridanisaurus"
+description='''
+This is an Addon for Emendatus Enigmatica which handles all Mekanism related compat from registry of processed types, and data-gen.
+'''
+
+[[dependencies.ee_mekanism_addon]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.21,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.ee_mekanism_addon]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[21.0,)"
+ordering = "AFTER"
+side = "BOTH"

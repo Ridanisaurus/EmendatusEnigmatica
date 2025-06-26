@@ -1,0 +1,13 @@
+package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
+
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
+
+/**
+ * Utility class, which extends {@link FieldTrueValidator}, preconfigured for validation of <code>root.config.sampleBlocks</code> field of deposits.
+ */
+public class SampleBlocksValidator extends FieldTrueValidator {
+    public SampleBlocksValidator() {
+		super("generateSamples", SampleBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(false));
+    }
+}

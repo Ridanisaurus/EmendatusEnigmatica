@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ridanisaurus
+ * Copyright (c) 2020-2024. Ridanisaurus
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,19 @@
 
 package com.ridanisaurus.emendatusenigmatica.util;
 
-public class Reference {
-	public static final String MOD_ID = "emendatusenigmatica";
-	public static final String MOD_NAME = "Emendatus Enigmatica";
-	public static final String FORGE = "forge";
-	public static final String MINECRAFT = "minecraft";
+import net.minecraft.resources.ResourceLocation;
 
-//	public static final String BLOODMAGIC = "bloodmagic";
+public class Reference
+{
+    public static final String NEOFORGE = "neoforge";
+    public static final String MOD_ID = "emendatusenigmatica";
+    public static final String NAME = "Emendatus Enigmatica";
+    public static final String MINECRAFT = "minecraft";
+    public static final String COMMON = "c";
+    public static final String C_TAG = "#" + COMMON;
+    public static final ResourceLocation AIR_RS = ResourceLocation.parse("minecraft:air");
+
+    public static ResourceLocation getPath(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 }
