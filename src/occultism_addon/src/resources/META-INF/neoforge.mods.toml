@@ -1,0 +1,36 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}" #mandatory
+license="MIT License"
+issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues"
+
+[[mods]]
+modId="ee_occultism_addon"
+version="1.0.0"
+displayName="EE: Occultism Addon"
+logoFile="ee_occultism_logo.png"
+authors="Ridanisaurus"
+description='''
+This is an Addon for Emendatus Enigmatica which handles all Occultism related compat from registry of processed types, and data-gen.
+'''
+
+[[dependencies.ee_occultism_addon]]
+modId="neoforge" #mandatory
+type="required" #mandatory
+versionRange="${neo_version_range}" #mandatory
+ordering="AFTER"
+side="BOTH"
+
+
+[[dependencies.ee_occultism_addon]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.ee_occultism_addon]]
+modId="emendatusenigmatica"
+type="required"
+versionRange="1.21.0-2.1.7"
+ordering="AFTER"
+side="BOTH"

@@ -1,118 +1,95 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024. Ridanisaurus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.JsonOps;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.datagen.*;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.CompatModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.loader.parser.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestLevelTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestToolTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.fluid.FluidModelsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.fluid.FluidTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.item.ItemModelsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.item.ItemTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.BiomeTagsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.fml.loading.FMLPaths;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.*;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "config")
 public class DefaultConfigPlugin implements IEmendatusPlugin {
-    public static final List<MaterialModel> MATERIALS = new ArrayList<>();
-    public static final List<StrataModel> STRATA = new ArrayList<>();
 
+    /**
+     * Used to trigger loading of config directory.
+     * @param registry The registry used to register the materials, strata and compat
+     */
     @Override
     public void load(EmendatusDataRegistry registry) {
-        // Set the path to the defined folder
-        Path configDir = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
-
-        // Check if the folder exists
-        if (!configDir.toFile().exists() && configDir.toFile().mkdirs()) {
-            EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/");
-        }
-
-        File strataDir = configDir.resolve("strata/").toFile();
-        if (!strataDir.exists() && strataDir.mkdirs()) {
-            EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/strata/");
-        }
-
-        File materialDir = configDir.resolve("material/").toFile();
-        if (!materialDir.exists() && materialDir.mkdirs()) {
-            EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/material/");
-        }
-
-        File compatDir = configDir.resolve("compat/").toFile();
-        if (!compatDir.exists() && compatDir.mkdirs()) {
-            EmendatusEnigmatica.LOGGER.info("Created /config/emendatusenigmatica/compat/");
-        }
-
-        ArrayList<JsonObject> strataDefinition = FileHelper.loadFilesAsJsonObjects(strataDir);
-        ArrayList<JsonObject> materialDefinition = FileHelper.loadFilesAsJsonObjects(materialDir);
-        ArrayList<JsonObject> compatDefinition = FileHelper.loadFilesAsJsonObjects(compatDir);
-
-        for (JsonObject jsonObject : strataDefinition) {
-            Optional<Pair<StrataModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(StrataModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
-            }
-            StrataModel strataModel = result.get().getFirst();
-            registry.registerStrata(strataModel);
-            STRATA.add(strataModel);
-        }
-
-        for (JsonObject jsonObject : materialDefinition) {
-            Optional<Pair<MaterialModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(MaterialModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
-            }
-            MaterialModel materialModel = result.get().getFirst();
-            registry.getMaterialOrRegister(materialModel.getId(), materialModel);
-            MATERIALS.add(materialModel);
-        }
-
-        ArrayList<CompatModel> compatModels = new ArrayList<>();
-        for (JsonObject jsonObject : compatDefinition) {
-            Optional<Pair<CompatModel, JsonElement>> result = JsonOps.INSTANCE.withDecoder(CompatModel.CODEC).apply(jsonObject).result();
-            if (!result.isPresent()) {
-                continue;
-            }
-            CompatModel compatModel = result.get().getFirst();
-            compatModels.add(compatModel);
-            registry.registerCompat(compatModel);
-        }
+        DefaultLoader.load(registry);
     }
 
     @Override
     public void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {
-        for (StrataModel strata : strataModels) {
-            for (MaterialModel material : materialModels) {
-                if (material.getProcessedTypes().contains("ore")) {
-                    EERegistrar.registerOre(strata, material);
-                }
-                if (material.getProcessedTypes().contains("ore") && strata.getSampleStrata()) {
-                    EERegistrar.registerOreSample(strata, material);
-                }
-            }
-        }
-
         for (MaterialModel material : materialModels) {
-            if (material.getProcessedTypes().contains("storage_block")) {
-                EERegistrar.registerStorageBlocks(material);
+            List<String> types = material.getProcessedTypes();
+            if (types.contains("storage_block")) EERegistrar.registerStorageBlocks(material);
+            if (types.contains("ingot"))    EERegistrar.registerIngots(material);
+            if (types.contains("nugget"))   EERegistrar.registerNuggets(material);
+            if (types.contains("gem"))      EERegistrar.registerGems(material);
+            if (types.contains("dust"))     EERegistrar.registerDusts(material);
+            if (types.contains("plate"))    EERegistrar.registerPlates(material);
+            if (types.contains("gear"))     EERegistrar.registerGears(material);
+            if (types.contains("rod"))      EERegistrar.registerRods(material);
+            if (types.contains("sword"))    EERegistrar.registerSwords(material);
+            if (types.contains("pickaxe"))  EERegistrar.registerPickaxes(material);
+            if (types.contains("axe"))      EERegistrar.registerAxes(material);
+            if (types.contains("shovel"))   EERegistrar.registerShovels(material);
+            if (types.contains("hoe"))      EERegistrar.registerHoes(material);
+            if (types.contains("paxel"))    EERegistrar.registerPaxels(material);
+            if (types.contains("armor"))    EERegistrar.registerArmor(material);
+            if (types.contains("shield"))   EERegistrar.registerShields(material);
+            if (types.contains("fluid"))    EERegistrar.registerFluids(material);
+
+            if (types.contains("raw")) {
+                EERegistrar.registerRaw(material);
+                if (types.contains("storage_block")) EERegistrar.registerRawBlocks(material);
             }
-            if (material.getProcessedTypes().contains("raw")) {
-                EERegistrar.registerRaws(material);
-                EERegistrar.registerRawBlocks(material);
-            }
-            if (material.getProcessedTypes().contains("cluster")) {
+
+            if (types.contains("cluster")) {
                 EERegistrar.registerSmallBudBlocks(material);
                 EERegistrar.registerMediumBudBlocks(material);
                 EERegistrar.registerLargeBudBlocks(material);
@@ -121,96 +98,39 @@ public class DefaultConfigPlugin implements IEmendatusPlugin {
                 EERegistrar.registerClusterShardBlocks(material);
                 EERegistrar.registerClusterShards(material);
             }
-            if (material.getProcessedTypes().contains("ingot")) {
-                EERegistrar.registerIngots(material);
+
+            for (StrataModel strata : strataModels) {
+                if (types.contains("ore")) {
+                    if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) EERegistrar.registerOre(strata, material);
+
+                    //TODO: Rework Sample System.
+//                    if (types.contains("sample")) {
+//                        if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+//                            EERegistrar.registerSample(strata, material);
+//                        }
+//                    }
+                }
             }
-            if (material.getProcessedTypes().contains("nugget")) {
-                EERegistrar.registerNuggets(material);
-            }
-            if (material.getProcessedTypes().contains("gem")) {
-                EERegistrar.registerGems(material);
-            }
-            if (material.getProcessedTypes().contains("dust")) {
-                EERegistrar.registerDusts(material);
-            }
-            if (material.getProcessedTypes().contains("plate")) {
-                EERegistrar.registerPlates(material);
-            }
-            if (material.getProcessedTypes().contains("gear")) {
-                EERegistrar.registerGears(material);
-            }
-            if (material.getProcessedTypes().contains("rod")) {
-                EERegistrar.registerRods(material);
-            }
-            if (material.getProcessedTypes().contains("sword")) {
-                EERegistrar.registerSwords(material);
-            }
-            if (material.getProcessedTypes().contains("pickaxe")) {
-                EERegistrar.registerPickaxes(material);
-            }
-            if (material.getProcessedTypes().contains("axe")) {
-                EERegistrar.registerAxes(material);
-            }
-            if (material.getProcessedTypes().contains("shovel")) {
-                EERegistrar.registerShovels(material);
-            }
-            if (material.getProcessedTypes().contains("hoe")) {
-                EERegistrar.registerHoes(material);
-            }
-            if (material.getProcessedTypes().contains("paxel")) {
-                EERegistrar.registerPaxels(material);
-            }
-            if (material.getProcessedTypes().contains("helmet")) {
-                EERegistrar.registerHelmets(material);
-            }
-            if (material.getProcessedTypes().contains("chestplate")) {
-                EERegistrar.registerChestplates(material);
-            }
-            if (material.getProcessedTypes().contains("leggings")) {
-                EERegistrar.registerLeggings(material);
-            }
-            if (material.getProcessedTypes().contains("boots")) {
-                EERegistrar.registerBoots(material);
-            }
-            if (material.getProcessedTypes().contains("shield")) {
-                EERegistrar.registerShields(material);
-            }
-            if (material.getProcessedTypes().contains("fluid")) {
-                EERegistrar.registerFluids(material);
-            }
-//            if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-//                if (material.getProcessedTypes().contains("fragment")) {
-//                    EEBloodMagicRegistrar.registerFragments(material);
-//                }
-//                if (material.getProcessedTypes().contains("gravel")) {
-//                    EEBloodMagicRegistrar.registerGravels(material);
-//                }
-//            }
         }
     }
 
     @Override
-    public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry) {
+    public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
         generator.addProvider(true, new BlockStatesGen(generator, registry));
         generator.addProvider(true, new BlockModelsGen(generator, registry));
-        generator.addProvider(true, new ItemModelsGen(generator, registry));
-        generator.addProvider(true, new FluidModelsGen(generator, registry));
-        generator.addProvider(true, new LangGen(generator, registry));
-//        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemModels(generator, registry));
-
         generator.addProvider(true, new BlockTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestLevelTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestToolTagsGen(generator, registry));
+        generator.addProvider(true, new ItemModelsGen(generator, registry));
         generator.addProvider(true, new ItemTagsGen(generator, registry));
+        generator.addProvider(true, new FluidModelsGen(generator, registry));
         generator.addProvider(true, new FluidTagsGen(generator, registry));
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestLevelTagsGen(generator, registry));
-        generator.addProvider(true, new BlockHarvestTagsGen.BlockHarvestToolTagsGen(generator, registry));
-        generator.addProvider(true, new RecipesGen(generator, registry));
-        generator.addProvider(true, new LootTablesGen(generator, registry));
-        generator.addProvider(true, new OreFeatureDataGen(generator, registry));
-
-//        if (EmendatusEnigmatica.BLOODMAGIC_LOADED) {
-//            generator.addProvider(true, new BloodMagicDataGen.BloodMagicItemTags(generator, registry));
-//            generator.addProvider(true, new BloodMagicDataGen.BloodMagicRecipes(generator, registry));
-//        }
+        generator.addProvider(true, new LangGen(generator, registry));
+        generator.addProvider(true, new RecipesGen(generator, registry, providers));
+        generator.addProvider(true, new LootGen(generator, registry, providers));
+        generator.addProvider(true, new NeoFeatureGen(generator, registry, providers));
+        generator.addProvider(true, new OreFeatureGen(generator, providers));
+        generator.addProvider(true, new BiomeTagsGen(generator));
     }
 
     @Override

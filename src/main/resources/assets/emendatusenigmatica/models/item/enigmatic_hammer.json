@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "emendatusenigmatica:items/enigmatic_hammer"
+    "layer0": "emendatusenigmatica:item/enigmatic_hammer"
   }
 }

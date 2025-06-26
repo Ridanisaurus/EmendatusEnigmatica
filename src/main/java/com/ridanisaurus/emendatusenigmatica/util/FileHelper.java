@@ -1,43 +1,117 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024. Ridanisaurus
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.ridanisaurus.emendatusenigmatica.util;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
+import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class FileHelper {
-	public static ArrayList<JsonObject> loadFilesAsJsonObjects(File dir) {
-		ArrayList<JsonObject> results = new ArrayList<>();
-		File[] files = dir.listFiles(
-//				(FileFilter) FileFilterUtils.suffixFileFilter(".json")
-		);
 
-		if (files == null || files.length <= 0) {
-			return new ArrayList<>();
+	/**
+	 * Used to get only values from the files in specified directory.
+	 * @param dir File representing the directory to load from. Subdirectories will also be loaded.
+	 * @return ArrayList with JsonObjects parsed from found .json files.
+	 * @apiNote It is recommended to use {@link FileHelper#loadJsons(Path)} instead.
+	 */
+	@Contract("_ -> new")
+	public static @NotNull ArrayList<JsonObject> loadFilesAsJsonObjects(@NotNull File dir) {
+		return loadJsons(Path.of(dir.toURI()));
+	}
+
+	/**
+	 * Used to get only values from the files in specified directory.
+	 * @param dir Path to the directory to load. Subdirectories will also be loaded.
+	 * @return ArrayList with JsonObjects parsed from found .json files.
+	 */
+	@Contract("_ -> new")
+	public static @NotNull ArrayList<JsonObject> loadJsons(Path dir) {
+		return new ArrayList<>(loadJsonsWithPaths(dir).values());
+	}
+
+	/**
+	 * Used to get a map of Paths and values from the files in the specified directory.
+	 * @param dir Path to the directory to load. Subdirectories will also be loaded.
+	 * @return Map with Path -> JsonObject from the provided path.
+	 * @apiNote Will generate errors to {@link Analytics} on exceptions.
+	 */
+	public static @NotNull Map<Path, JsonObject> loadJsonsWithPaths(Path dir) {
+		Map<Path, JsonObject> results = new HashMap<>();
+		dir = dir.toAbsolutePath();
+		if (Files.notExists(dir) || !Files.isDirectory(dir)) {
+			Analytics.error(
+				"Provided path doesn't exist!",
+				"Tried loading JSON files from non-existing directory. This is most likely a bug in the mod or one of the addons.",
+				"None",
+				ValidationHelper.obfuscatePath(dir)
+			);
+			return results;
 		}
-		for (File file : files) {
-			if (file.isDirectory()) {
-				results.addAll(loadFilesAsJsonObjects(file));
-			} else if (file.getName().endsWith(".json")) {
-				JsonObject resultEntry;
-				FileReader reader = null;
+
+		try (Stream<Path> files = Files.list(dir)) {
+			files.forEach(file -> {
 				try {
-					JsonParser parser = new JsonParser();
-					reader = new FileReader(file);
-					resultEntry = parser.parse(reader).getAsJsonObject();
-					results.add(resultEntry);
+					if (Files.isDirectory(file)) {
+						results.putAll(loadJsonsWithPaths(file));
+						return;
+					}
+					if (EEConfig.startup.skipEmptyJsons.get() && Files.size(file) == 0) return;
+					if (file.getFileName().toString().endsWith(".json")) results.put(file, JsonParser.parseReader(Files.newBufferedReader(file)).getAsJsonObject());
 				} catch (Exception e) {
-					EmendatusEnigmatica.LOGGER.error("Failed to load configuration from " + dir + " in file " + file.getName());
-				} finally {
-					IOUtils.closeQuietly(reader);
+					Analytics.error(
+						"Failed parsing JSON file!",
+						ExceptionHelper.getAsString(e),
+						"None",
+						ValidationHelper.obfuscatePath(file)
+					);
+					// Log additionally full exception.
+					EmendatusEnigmatica.logger.debug("Failed parsing json file at {}.", file.toAbsolutePath(), e);
 				}
-			}
+			});
+		} catch (Exception ex) {
+			Analytics.error(
+				"Failed reading directory, from which JSON files were meant to be loaded!",
+				ExceptionHelper.getAsString(ex),
+				"None",
+				ValidationHelper.obfuscatePath(dir)
+			);
+			// Log additionally full exception.
+			EmendatusEnigmatica.logger.error("Failed reading directory ({}), from which JSON files were meant to be loaded.", dir, ex);
 		}
 		return results;
 	}

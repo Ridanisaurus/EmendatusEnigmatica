@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#c:ingots/iron",
+    "#c:ingots/copper",
+    "#c:ingots/gold",
+    "#c:ingots/netherite",
+    "#c:dusts/redstone",
+    "#c:gems/lapis",
+    "#c:gems/emerald",
+    "#c:gems/diamond",
+    "#c:gems/quartz",
+    "#c:gems/amethyst"
+  ]
+}

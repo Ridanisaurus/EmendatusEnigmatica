@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[43,)"
+license="MIT"
+
+[[mods]]
+modId="ee_thermal_addon"
+version="1.0.0"
+displayName="EE:Thermal"
+logoFile="ee_thermal_logo.png"
+authors="Ridanisaurus"
+description='''
+This is an Addon for Emendatus Enigmatica which handles all Thermal Series related compat from registry of processed types, and data-gen.
+'''
+
+[[dependencies.ee_thermal_addon]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.19,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.ee_thermal_addon]]
+modId = "forge"
+mandatory = true
+versionRange = "[43,)"
+ordering = "AFTER"
+side = "BOTH"
