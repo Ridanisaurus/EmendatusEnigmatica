@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:the_nether",
+  "biomes": [
+  ],
+  "registryName": "vanilla_nether_general_gold_ore_deposit",
+  "config": {
+    "material": "gold",
+    "fillerTypes": [
+      "minecraft_netherrack"
+    ],
+    "chance": 10,
+    "size": 10,
+    "minYLevel": 10,
+    "maxYLevel": 118,
+    "placement": "uniform",
+    "rarity": "common"
+  }
+}

@@ -43,6 +43,7 @@ import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
@@ -60,28 +61,10 @@ public class DefaultLoader {
         // Analytics.
         Stopwatch s = Stopwatch.createStarted();
 
-        // Set the path to the defined folder
-        Path configDir = Analytics.CONFIG_DIR;
-
-        // Check if the folder exists
-        if (!configDir.toFile().exists() && configDir.toFile().mkdirs()) EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/");
-
-        File strataDir = configDir.resolve("strata/").toFile();
-        if (!strataDir.exists() && strataDir.mkdirs()) EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/strata/");
-
-        File materialDir = configDir.resolve("material/").toFile();
-        if (!materialDir.exists() && materialDir.mkdirs()) EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/material/");
-
-        File compatDir = configDir.resolve("compat/").toFile();
-        if (!compatDir.exists() && compatDir.mkdirs()) EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/compat/");
-
-        File depositDir = configDir.resolve("deposit/").toFile();
-        if (!depositDir.exists() && depositDir.mkdirs()) EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/deposit/");
-
-        Map<Path, JsonObject> strataDefinition = FileHelper.loadJsonsWithPaths(strataDir.toPath());
-        Map<Path, JsonObject> materialDefinition = FileHelper.loadJsonsWithPaths(materialDir.toPath());
-        Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(compatDir.toPath());
-        Map<Path, JsonObject> depositJsonDefinitionsMap = FileHelper.loadJsonsWithPaths(depositDir.toPath());
+        Map<Path, JsonObject> strataDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("strata/"));
+        Map<Path, JsonObject> materialDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("material/"));
+        Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("compat/"));
+        Map<Path, JsonObject> depositJsonDefinitionsMap = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("deposit/"));
 
         Analytics.addPerformanceAnalytic("Loading and parsing JSON Files", s);
 

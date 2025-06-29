@@ -5,7 +5,6 @@ import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.widget.TextureWidget;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.GameRenderer;

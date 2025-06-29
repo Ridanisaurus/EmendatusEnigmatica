@@ -58,14 +58,14 @@ public class EmendatusDataRegistry {
     }
 
     /**
-     * Used to register new Material model, returning passed defaultModel or previous value under that id.
+     * Used to register new Material model, returning passed model or previous value under that id.
      * @param material ID of the material.
-     * @param defaultModel MaterialModel to register under that id.
+     * @param model MaterialModel to register under that id.
      * @return MaterialModel passed to the argument or previous MaterialModel that was registered under that id.
      */
     @CanIgnoreReturnValue
-    public MaterialModel getMaterialOrRegister(String material, MaterialModel defaultModel){
-        return this.materials.computeIfAbsent(material, s -> defaultModel);
+    public MaterialModel getMaterialOrRegister(String material, MaterialModel model){
+        return this.materials.computeIfAbsent(material, s -> model);
     }
 
     /**

@@ -25,22 +25,29 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.google.common.base.Stopwatch;
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.AnnotationUtil;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
+import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.Util;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.registries.VanillaRegistries;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class EELoader {
@@ -59,7 +66,7 @@ public class EELoader {
      * Scans for classes that have the annotation {@link EmendatusPluginReference} and implements the class {@link IEmendatusPlugin} and
      * creates an instance for those classes.
      * <p>
-     * If the class is {@link DefaultConfigPlugin} goes at the start of the list as it has priority.
+     * If the class is {@link VanillaPlugin} goes at the start of the list as it has priority.
      */
     private void scanForClasses(){
         Stopwatch s = Stopwatch.createStarted();
@@ -68,7 +75,7 @@ public class EELoader {
                 var annotation = (EmendatusPluginReference) annotatedClass.getAnnotation(EmendatusPluginReference.class);
                 logger.info("Registered plugin {}:{}", annotation.modid(), annotation.name());
                 try {
-                    if (annotatedClass.equals(DefaultConfigPlugin.class)) {
+                    if (annotatedClass.equals(VanillaPlugin.class)) {
                         this.plugins.addFirst((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
                     } else {
                         plugins.add((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
@@ -86,6 +93,42 @@ public class EELoader {
         Analytics.addPerformanceAnalytic("Scanning and registration of addons", s);
     }
 
+    public void setup() throws ExecutionException, InterruptedException {
+        if (EEConfig.startup.generateDefaultConfigs.get() || EEConfig.startup.regenerateDefaults.get()) {
+            if (EEConfig.startup.regenerateDefaults.get()) {
+                EmendatusEnigmatica.logger.warn("Regeneration of default configurations triggered! This will wipe your EE Config directory.");
+                try {
+                    FileUtils.deleteDirectory(Analytics.CONFIG_DIR.toFile());
+                } catch (IOException e) {
+                    throw new RuntimeException("IO Exception while trying to delete EE Configuration directory.", e);
+                }
+                EEConfig.startup.regenerateDefaults.set(false);
+                EEConfig.saveStartup();
+            }
+            // We only generate defaults if the Config Dir is not existent.
+            if (Files.exists(Analytics.CONFIG_DIR)) return;
+            EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
+            var reg = new DefaultConfigRegistry();
+            this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.provideDefaultConfiguration(reg));
+
+            CompletableFuture<Void> future = CompletableFuture.allOf(
+                reg.getEntries()
+                    .stream()
+                    .map(it -> it.save(Util.ioPool()))
+                    .toList()
+                    .toArray(new CompletableFuture[] {})
+            );
+
+            future.get();
+
+            EmendatusEnigmatica.logger.info("Defaults generated.");
+        }
+
+        // Call Setup after generation of the default configuration files.
+        // Vanilla Plugin setups the EE Config folder, which we use to check if we should generate defaults.
+        this.plugins.forEach(IEmendatusPlugin::setup);
+    }
+
     public void loadData() {
 		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.load(this.dataRegistry));
 
@@ -99,7 +142,6 @@ public class EELoader {
     }
 
     public void finish() {
-        this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.finish(this.dataRegistry));
         this.finished = true;
     }
 

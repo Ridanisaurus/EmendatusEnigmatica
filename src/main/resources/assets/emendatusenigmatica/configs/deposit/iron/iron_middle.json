@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_iron_ore_middle_deposit",
+  "config": {
+    "material": "iron",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 10,
+    "size": 9,
+    "minYLevel": -24,
+    "maxYLevel": 56,
+    "placement": "triangle",
+    "rarity": "common"
+  }
+}
