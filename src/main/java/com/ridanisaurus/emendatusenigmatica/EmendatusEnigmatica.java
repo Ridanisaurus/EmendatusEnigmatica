@@ -54,6 +54,8 @@ import net.neoforged.neoforge.registries.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
+import java.util.concurrent.ExecutionException;
+
 @Mod(Reference.MOD_ID)
 public class EmendatusEnigmatica {
     public static final Logger logger = LogUtils.getLogger();
@@ -83,7 +85,7 @@ public class EmendatusEnigmatica {
             })
     ));
 
-    public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) {
+    public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) throws ExecutionException, InterruptedException {
         instance = this;
         VERSION = modContainer.getModInfo().getVersion().toString();
         EEConfig.registerClient(modContainer);
@@ -94,6 +96,7 @@ public class EmendatusEnigmatica {
         this.generator = DataGeneratorFactory.createEEDataGenerator();
 
         this.loader = new EELoader();
+        this.loader.setup();
         this.loader.loadData();
 
         EERegistrar.finalize(modEventBus);

@@ -55,19 +55,40 @@ public class EEConfig {
 		EmendatusEnigmatica.logger.info("Emendatus Enigmatica Startup Config has been registered.");
 	}
 
+	public static void saveClient() {
+		clientSpec.save();
+	}
+
+	public static void saveStartup() {
+		startupSpec.save();
+	}
+
 	public static class StartupConfig {
 		public final ModConfigSpec.BooleanValue generateSummary;
 		public final ModConfigSpec.BooleanValue skipEmptyJsons;
+		public final ModConfigSpec.BooleanValue generateDefaultConfigs;
+		public final ModConfigSpec.BooleanValue regenerateDefaults;
+
 		StartupConfig(ModConfigSpec.@NotNull Builder builder) {
+			builder.push("Configuration");
+			skipEmptyJsons = builder
+				.comment("Whether Emendatus Enigmatica should silently skip empty JSON files (Either 0 Bytes or empty root object) instead of including them on the summary.")
+				.translation(Reference.MOD_ID + ".config.startup.skip_empty")
+				.define("skipEmptyJsons", false);
+			generateDefaultConfigs = builder
+				.comment("Whether Emendatus Enigmatica should generate default configuration files, whenever configuration folder is missing.")
+				.translation(Reference.MOD_ID + ".config.startup.generate_defaults")
+				.define("generateDefaults", true);
+			regenerateDefaults = builder
+				.comment("Whether Emendatus Enigmatica should regenerate default configuration.\nBeware: This WILL delete the content of your Emendatus Enigmatica configuration folder!")
+				.translation(Reference.MOD_ID + ".config.startup.regenerate_defaults")
+				.define("regenerateDefaults", false);
+			builder.pop();
 			builder.push("Debug");
 			generateSummary = builder
 				.comment("Whether Emendatus Enigmatica should generate a Validation Summary in the configuration directory.")
 				.translation(Reference.MOD_ID + ".config.startup.generate_summary")
 				.define("generateSummary", true);
-			skipEmptyJsons = builder
-				.comment("Whether Emendatus Enigmatica should silently skip empty JSON files (Either 0 Bytes or empty root object) instead of including them on the summary.")
-				.translation(Reference.MOD_ID + ".config.startup.skip_empty")
-				.define("skipEmptyJsons", false);
 			builder.pop();
 		}
 	}
@@ -75,6 +96,7 @@ public class EEConfig {
 	public static class ClientConfig {
 		public final ModConfigSpec.BooleanValue showPatreonReward;
 		public final ModConfigSpec.BooleanValue oldSchoolGlint;
+
 		ClientConfig(ModConfigSpec.@NotNull Builder builder) {
 			builder.push("Patreon Reward");
 			showPatreonReward = builder

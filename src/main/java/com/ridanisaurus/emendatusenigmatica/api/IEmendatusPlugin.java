@@ -24,6 +24,9 @@
 
 package com.ridanisaurus.emendatusenigmatica.api;
 
+import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import net.minecraft.core.HolderLookup;
@@ -33,37 +36,55 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Plugin implementation to register things to the API at proper times, see {@link com.ridanisaurus.emendatusenigmatica.plugin.DefaultConfigPlugin} for examples
+ * IEmendatusPlugin is an interface required to be implemented by EmendatusEnigmatica plugins.
+ * All methods defined by it are optional in implementation, and per-method documentation explains their usage.
+ * @see VanillaPlugin for example implementation.
  */
 public interface IEmendatusPlugin {
 
     /**
-     * Method used to register materials, strata and compat.
-     * @param registry The registry used to register the materials, strata and compat
+     * Method executed right after registration of the plugins.
+     * Used to set up necessary changes to the default EE behavior or initial configuration of the plugin.
      */
-    void load(EmendatusDataRegistry registry);
+    default void setup() {}
+
+    /**
+     * Method used to load and register materials, strata, compat, or your custom data.
+     * @param registry The EmendatusDataRegistry used to store data used by EE.
+     */
+    default void load(EmendatusDataRegistry registry) {}
 
     /**
      * Method used to register minecraft objects like items or blocks.
-     * <p>
-     * You will only need to register objects if you are adding new types that Emendatus Enigmatica doesn't support.
      * @param materialModels A list of all the available materials
+     * @implNote You will only need to register objects if you are adding new types that Emendatus Enigmatica doesn't support.
      */
-    void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels);
+    default void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {}
 
     /**
      * Method used to register dynamic data generators.
-     * <p>
-     * This will not run at your typical data generation time, it will be executed at runtime and automatically injected into the game, but they function the same as normal data generation.
      * @param generator DataGenerator to register data providers to.
      * @param registry Emendatus Enigmatica registry with all data parsed from the configuration files.
      * @param providers Vanilla Registry Lookup for use with vanilla generators that require it.
+     * @implSpec This will not run at your typical data generation time,
+     * it will be executed at runtime and automatically injected into the game,
+     * but they function the same as normal data generation.
      */
-    void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers);
+    default void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {}
+
+    /**
+     * Method used to provide default configuration data for the mod it supports, whenever necessary.
+     * @param registry DefaultConfigRegistry used to register configs and check for compatibility.
+     * @implNote Will be executed right before {@link IEmendatusPlugin#setup()}.
+     */
+    default void provideDefaultConfiguration(DefaultConfigRegistry registry) {}
 
     /**
      * Method called at the end of all the steps where is safe to store an instance of the {@link EmendatusDataRegistry} in case its needed
      * @param registry A safe instance of the {@link EmendatusDataRegistry}
+     * @deprecated Will be removed in 2.2.1 and is currently not called.
+     * Use {@link EmendatusEnigmatica#getDataRegistry()} to get the instance of the default EDR.
      */
-    void finish(EmendatusDataRegistry registry);
+    @Deprecated(since = "2.2.0", forRemoval = true)
+    default void finish(EmendatusDataRegistry registry) {}
 }

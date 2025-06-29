@@ -35,7 +35,7 @@ import net.minecraft.data.DataGenerator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@EmendatusPluginReference(modid = EEOccultismAddon.MOD_ID, name = "config")
+@EmendatusPluginReference(modid = EEOccultismAddon.MOD_ID, name = "occultism-plugin")
 public class EEOccultismPlugin implements IEmendatusPlugin {
 	@Override
 	public void load(EmendatusDataRegistry emendatusDataRegistry) {
@@ -50,10 +50,5 @@ public class EEOccultismPlugin implements IEmendatusPlugin {
 	@Override
 	public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
 //		generator.addProvider(true, new EEOccultismDataGen.Recipes(generator, registry));
-	}
-
-	@Override
-	public void finish(EmendatusDataRegistry emendatusDataRegistry) {
-
 	}
 }

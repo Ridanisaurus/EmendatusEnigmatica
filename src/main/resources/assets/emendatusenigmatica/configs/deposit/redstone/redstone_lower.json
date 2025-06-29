@@ -1,0 +1,19 @@
+{
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "vanilla_overworld_redstone_ore_lower_deposit",
+  "config": {
+    "material": "redstone",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 8,
+    "size": 8,
+    "minYLevel": -32,
+    "maxYLevel": 32,
+    "placement": "triangle",
+    "rarity": "common"
+  }
+}
