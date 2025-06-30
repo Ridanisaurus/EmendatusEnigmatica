@@ -104,7 +104,7 @@ public class MaterialModel {
 		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "ADD_COMMIT_URL_HERE"));
+		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "https://github.com/Ridanisaurus/EmendatusEnigmatica/commit/a782b78a1b2c87ec679ee42235cad0e8b1658679"));
 
 	public MaterialModel(
 		String id,
