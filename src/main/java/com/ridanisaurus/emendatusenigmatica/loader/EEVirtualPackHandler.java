@@ -78,7 +78,6 @@ public class EEVirtualPackHandler implements PackResources {
 
     @Override
     public IoSupplier<InputStream> getRootResource(String @NotNull ... fileName) {
-        //FIXME No idea how this is supposed to work? For some reason now it accepts multiple inputs but single output? Just ignore all except first element?
         if (fileName.length == 0) return null;
         Path file = path.resolve(fileName[0]);
         if (Files.notExists(file)) return null;

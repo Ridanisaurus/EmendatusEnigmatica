@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.mixin;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -76,14 +77,10 @@ public class OreVeinifierMixin {
                             BlockState mixinRawOreBlock = oreveinifier$veintype.rawOreBlock;
                             BlockState mixinOreBlock = oreveinifier$veintype.ore;
 
-                            EmendatusDataRegistry registry = EmendatusEnigmatica.getInstance().getLoader().getDataRegistry();
-                            MaterialModel copper = registry.getMaterial("copper");
-                            MaterialModel iron = registry.getMaterial("iron");
-
-                            if (oreveinifier$veintype == OreVeinifier.VeinType.COPPER && Objects.nonNull(copper) && copper.getDisableDefaultOre()) {
+                            if (oreveinifier$veintype == OreVeinifier.VeinType.COPPER && NeoFeatureGen.disableCopper.get()) {
                                 mixinRawOreBlock = Blocks.STONE.defaultBlockState();
                                 mixinOreBlock = Blocks.STONE.defaultBlockState();
-                            } else if (oreveinifier$veintype == OreVeinifier.VeinType.IRON && Objects.nonNull(iron) && iron.getDisableDefaultOre()) {
+                            } else if (oreveinifier$veintype == OreVeinifier.VeinType.IRON && NeoFeatureGen.disableIron.get()) {
                                 mixinRawOreBlock = Blocks.DEEPSLATE.defaultBlockState();
                                 mixinOreBlock = Blocks.DEEPSLATE.defaultBlockState();
                             }
