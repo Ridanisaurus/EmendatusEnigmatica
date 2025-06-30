@@ -1,0 +1,23 @@
+{
+  "id": "silver",
+  "source": "modded",
+  "localizedName": "Silver",
+  "processedTypes": [
+    "ore",
+    "raw",
+    "ingot",
+    "storage_block",
+    "nugget",
+    "dust",
+    "plate",
+    "gear",
+    "rod"
+  ],
+  "properties": {
+    "materialType": "metal",
+    "harvestLevel": 2
+  },
+  "colors": {
+    "materialColor": "e4f4fc"
+  }
+}

@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/Ridanisaurus/Emendatus-Enigmatica/issues"
 
 [[mods]]
 modId="ee_occultism_addon"
-version="1.0.0"
+version="1.0.1"
 displayName="EE: Occultism Addon"
 logoFile="ee_occultism_logo.png"
 authors="Ridanisaurus"
@@ -31,6 +31,6 @@ side="BOTH"
 [[dependencies.ee_occultism_addon]]
 modId="emendatusenigmatica"
 type="required"
-versionRange="1.21.0-2.1.7"
+versionRange="1.21.1-2.2.0"
 ordering="AFTER"
 side="BOTH"

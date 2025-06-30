@@ -24,31 +24,49 @@
 
 package com.ridanisaurus.eeoccultismaddon;
 
+import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
+import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@EmendatusPluginReference(modid = EEOccultismAddon.MOD_ID, name = "occultism-plugin")
+@EmendatusPluginReference(modid = EEOccultismPlugin.MOD_ID, name = "occultism-plugin")
+@Mod(EEOccultismPlugin.MOD_ID)
 public class EEOccultismPlugin implements IEmendatusPlugin {
+	public static final String MOD_ID = "ee_occultism_addon";
+	public static ModConfigSpec.BooleanValue disableSilver = null;
+	public static ModConfigSpec.BooleanValue disableIesnium = null;
+
 	@Override
-	public void load(EmendatusDataRegistry emendatusDataRegistry) {
-
-	}
-
-	@Override
-	public void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {
-
+	public void extendConfig(ConfigCreationContext ctx) {
+		if (!ctx.isStartup()) return;
+		disableSilver = ctx.getBuilder()
+			.comment("Determines if Occultism Silver ore generation should be disabled.")
+			.translation("ee_occultism.config.disable_silver_ore")
+			.define("disableSilverOre",true);
+		disableIesnium = ctx.getBuilder()
+			.comment("Determines if Occultism Iesnium ore generation should be disabled.")
+			.translation("ee_occultism.config.disable_iesnium_ore")
+			.define("disableIesniumOre",true);
 	}
 
 	@Override
 	public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
-//		generator.addProvider(true, new EEOccultismDataGen.Recipes(generator, registry));
+		generator.addProvider(true, new OccultismRecipeGen(generator, registry, providers));
+		generator.addProvider(true, new OccultismWorldGen(generator, providers));
+	}
+
+	//TODO: Add default configs
+	@Override
+	public void provideDefaultConfiguration(DefaultConfigRegistry registry) {
+		
 	}
 }
