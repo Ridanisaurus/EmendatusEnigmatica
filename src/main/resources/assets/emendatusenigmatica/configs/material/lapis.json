@@ -2,7 +2,6 @@
   "id": "lapis",
   "source": "vanilla",
   "localizedName": "Lapis Lazuli",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust"

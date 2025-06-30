@@ -74,11 +74,11 @@ public class EEConfig {
 				.translation(Reference.MOD_ID + ".config.startup.skip_empty")
 				.define("skipEmptyJsons", false);
 			generateDefaultConfigs = builder
-				.comment("Whether Emendatus Enigmatica should generate default configuration files, whenever configuration folder is missing.")
+				.comment("Whether Emendatus Enigmatica should generate default configuration files, whenever the configuration folder is missing.")
 				.translation(Reference.MOD_ID + ".config.startup.generate_defaults")
 				.define("generateDefaults", true);
 			regenerateDefaults = builder
-				.comment("Whether Emendatus Enigmatica should regenerate default configuration.\nBeware: This WILL delete the content of your Emendatus Enigmatica configuration folder!")
+				.comment("Whether Emendatus Enigmatica should regenerate the default configuration.\nBeware: This WILL delete the content of your Emendatus Enigmatica configuration folder!")
 				.translation(Reference.MOD_ID + ".config.startup.regenerate_defaults")
 				.define("regenerateDefaults", false);
 			builder.pop();

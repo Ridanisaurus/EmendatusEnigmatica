@@ -35,6 +35,7 @@ import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.resources.ResourceLocation;
 
+//TODO: Add an option to hide all expect one ore based on Strata, so even tho there is like 20 different Stratas, only one is visible in EMI.
 @EmiEntrypoint
 public class EMIPlugin implements EmiPlugin {
 	public static final ResourceLocation GUI_ASSETS = Reference.getPath("textures/gui/world_gen.png");

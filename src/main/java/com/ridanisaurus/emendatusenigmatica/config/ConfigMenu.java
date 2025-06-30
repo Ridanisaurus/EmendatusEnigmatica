@@ -37,24 +37,25 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.NotNull;
 
+//TODO: Replace with dynamically created NeoForge configuration screen. Now that addons can extend the configuration files, this is not enough to handle it!
 public class ConfigMenu extends Screen {
     private static final ResourceLocation LOGO = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "ee_logo.png");
     // Buttons
-    private static final Component ENABLED  = Component.translatable("screen.emendatusenigmatica.config.enabled").withStyle(ChatFormatting.GREEN);
-    private static final Component DISABLED = Component.translatable("screen.emendatusenigmatica.config.disabled").withStyle(ChatFormatting.RED);
+    private static final Component ENABLED  = Component.translatable("emendatusenigmatica.screen.config.enabled").withStyle(ChatFormatting.GREEN);
+    private static final Component DISABLED = Component.translatable("emendatusenigmatica.screen.config.disabled").withStyle(ChatFormatting.RED);
     // Titles
-    private static final Component TITLE    = Component.translatable("screen.emendatusenigmatica.config.title");
-    private static final Component C_TITLE  = Component.translatable("screen.emendatusenigmatica.config.client.title");
-    private static final Component V_TITLE  = Component.translatable("screen.emendatusenigmatica.config.validation.title");
+    private static final Component TITLE    = Component.translatable("emendatusenigmatica.screen.config.title");
+    private static final Component C_TITLE  = Component.translatable("emendatusenigmatica.screen.config.client.title");
+    private static final Component V_TITLE  = Component.translatable("emendatusenigmatica.screen.config.validation.title");
     // Options
-    private static final Component PATREON      = Component.translatable("screen.emendatusenigmatica.config.client.patreon.text");
-    private static final Component PATREON_TIP  = Component.translatable("screen.emendatusenigmatica.config.client.patreon.tip");
-    private static final Component GLINT        = Component.translatable("screen.emendatusenigmatica.config.client.glint.text");
-    private static final Component GLINT_TIP    = Component.translatable("screen.emendatusenigmatica.config.client.glint.tip");
-    private static final Component SUMMARY      = Component.translatable("screen.emendatusenigmatica.config.validation.summary.text");
-    private static final Component SUMMARY_TIP  = Component.translatable("screen.emendatusenigmatica.config.validation.summary.tip");
-    private static final Component SKIP         = Component.translatable("screen.emendatusenigmatica.config.validation.empty_files.text");
-    private static final Component SKIP_TIP     = Component.translatable("screen.emendatusenigmatica.config.validation.empty_files.tip");
+    private static final Component PATREON      = Component.translatable("emendatusenigmatica.screen.config.client.patreon.text");
+    private static final Component PATREON_TIP  = Component.translatable("emendatusenigmatica.screen.config.client.patreon.tip");
+    private static final Component GLINT        = Component.translatable("emendatusenigmatica.screen.config.client.glint.text");
+    private static final Component GLINT_TIP    = Component.translatable("emendatusenigmatica.screen.config.client.glint.tip");
+    private static final Component SUMMARY      = Component.translatable("emendatusenigmatica.screen.config.validation.summary.text");
+    private static final Component SUMMARY_TIP  = Component.translatable("emendatusenigmatica.screen.config.validation.summary.tip");
+    private static final Component SKIP         = Component.translatable("emendatusenigmatica.screen.config.validation.empty_files.text");
+    private static final Component SKIP_TIP     = Component.translatable("emendatusenigmatica.screen.config.validation.empty_files.tip");
     // Other
     private final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this, 61, 33);
     private final Screen last;

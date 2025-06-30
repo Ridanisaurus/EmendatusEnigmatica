@@ -2,7 +2,6 @@
   "id": "emerald",
   "source": "vanilla",
   "localizedName": "Emerald",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust"

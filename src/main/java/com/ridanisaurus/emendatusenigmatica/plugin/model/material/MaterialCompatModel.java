@@ -32,6 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValida
 
 import java.util.Optional;
 
+//TODO: Figure out how to create the CODEC dynamically, to allow for adding custom addons here.
 public class MaterialCompatModel {
 	public static final Codec<MaterialCompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.BOOL.optionalFieldOf("create").forGetter(i -> Optional.of(i.create)),

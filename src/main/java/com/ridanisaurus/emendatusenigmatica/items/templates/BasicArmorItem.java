@@ -95,7 +95,7 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
             );
 
             if (!tooltipFlag.hasShiftDown()) {
-                components.add(Component.translatable("tooltip.emendatusenigmatica.press_shift").withStyle(ChatFormatting.DARK_GRAY));
+                components.add(Component.translatable("emendatusenigmatica.tooltip.press_shift").withStyle(ChatFormatting.DARK_GRAY));
                 return;
             }
 
@@ -107,7 +107,7 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
             //TODO: Add possibility to translate this.
             components.add(Component.literal(this.material.getArmor().getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
             components.add(Component.literal(" "));
-            components.add(Component.translatable("tooltip.emendatusenigmatica.armor_effect").withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("emendatusenigmatica.tooltip.armor_effect").withStyle(ChatFormatting.GRAY));
             for (EffectModel effect : this.effects) {
                 components.add(Component.literal(
                     "- " +

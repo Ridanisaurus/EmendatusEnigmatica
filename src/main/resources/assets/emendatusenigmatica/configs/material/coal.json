@@ -2,7 +2,6 @@
   "id": "coal",
   "source": "vanilla",
   "localizedName": "Coal",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust"

@@ -24,126 +24,53 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeSource;
-import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class NeoFeatureGen extends EENeoFeatureProvider {
-	private final EmendatusDataRegistry registry;
+	private static final List<String> DEFAULT_COAL_ORE = List.of("minecraft:ore_coal_upper", "minecraft:ore_coal_lower");
+	private static final List<String> DEFAULT_COPPER_ORE = List.of("minecraft:ore_copper", "minecraft:ore_copper_large");
+	private static final List<String> DEFAULT_IRON_ORE = List.of("minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small");
+	private static final List<String> DEFAULT_GOLD_ORE = List.of("minecraft:ore_gold_extra", "minecraft:ore_gold", "minecraft:ore_gold_lower");
+	private static final List<String> DEFAULT_NETHER_GOLD_ORE = List.of("minecraft:ore_gold_nether", "minecraft:ore_gold_deltas");
+	private static final List<String> DEFAULT_REDSTONE_ORE = List.of("minecraft:ore_redstone", "minecraft:ore_redstone_lower");
+	private static final List<String> DEFAULT_LAPIS_ORE = List.of("minecraft:ore_lapis", "minecraft:ore_lapis_buried");
+	private static final List<String> DEFAULT_DIAMOND_ORE = List.of("minecraft:ore_diamond", "minecraft:ore_diamond_large", "minecraft:ore_diamond_buried");
+	private static final List<String> DEFAULT_EMERALD_ORE = List.of("minecraft:ore_emerald");
+	private static final List<String> DEFAULT_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
+	public static ModConfigSpec.BooleanValue disableCoal = null;
+	public static ModConfigSpec.BooleanValue disableCopper = null;
+	public static ModConfigSpec.BooleanValue disableIron = null;
+	public static ModConfigSpec.BooleanValue disableGold = null;
+	public static ModConfigSpec.BooleanValue disableRedstone = null;
+	public static ModConfigSpec.BooleanValue disableLapis = null;
+	public static ModConfigSpec.BooleanValue disableDiamond = null;
+	public static ModConfigSpec.BooleanValue disableEmerald = null;
+	public static ModConfigSpec.BooleanValue disableQuartz = null;
 
-	public NeoFeatureGen(DataGenerator gen, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+	public NeoFeatureGen(DataGenerator gen, CompletableFuture<HolderLookup.Provider> providers) {
 		super(gen, providers);
-		this.registry = registry;
 	}
-
-	private final List<String> DEFAULT_COAL_ORE = List.of("minecraft:ore_coal_upper", "minecraft:ore_coal_lower");
-	private final List<String> DEFAULT_COPPER_ORE = List.of("minecraft:ore_copper", "minecraft:ore_copper_large");
-	private final List<String> DEFAULT_IRON_ORE = List.of("minecraft:ore_iron_upper", "minecraft:ore_iron_middle", "minecraft:ore_iron_small");
-	private final List<String> DEFAULT_GOLD_ORE = List.of("minecraft:ore_gold_extra", "minecraft:ore_gold", "minecraft:ore_gold_lower");
-	private final List<String> DEFAULT_NETHER_GOLD_ORE = List.of("minecraft:ore_gold_nether", "minecraft:ore_gold_deltas");
-	private final List<String> DEFAULT_REDSTONE_ORE = List.of("minecraft:ore_redstone", "minecraft:ore_redstone_lower");
-	private final List<String> DEFAULT_LAPIS_ORE = List.of("minecraft:ore_lapis", "minecraft:ore_lapis_buried");
-	private final List<String> DEFAULT_DIAMOND_ORE = List.of("minecraft:ore_diamond", "minecraft:ore_diamond_large", "minecraft:ore_diamond_buried");
-	private final List<String> DEFAULT_EMERALD_ORE = List.of("minecraft:ore_emerald");
-	private final List<String> DEFAULT_QUARTZ_ORE = List.of("minecraft:ore_quartz_nether", "minecraft:ore_quartz_deltas");
 
 	@Override
 	protected void buildFeatures(HolderLookup.Provider provider, Consumer<IFinishedGenericJSON> consumer) {
-		// Work-around for multiple files asking to disable the same ore causing a crash.
-		// Won't be required after vanilla material support rework, for now tho, it will prevent random issues to pop up.
-		//TODO: Rework vanilla stuff here!
-		List<String> disabledFeatures = new ArrayList<>();
-		for (MaterialModel material : registry.getMaterials()) {
-            if (!material.isVanilla() || !material.getDisableDefaultOre()) continue;
-			String id = material.getId();
-
-			// Else If to skip other checks when match is found.
-            if (id.contains("coal") && !disabledFeatures.contains("coal")) {
-				disabledFeatures.add("coal");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_COAL_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_coal_ore"));
-			} else if (id.contains("copper") && !disabledFeatures.contains("copper")) {
-				disabledFeatures.add("copper");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_COPPER_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_copper_ore"));
-			} else if (id.contains("iron") && !disabledFeatures.contains("iron")) {
-				disabledFeatures.add("iron");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_IRON_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_iron_ore"));
-			} else if (id.contains("gold") && !disabledFeatures.contains("gold")) {
-				disabledFeatures.add("gold");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_GOLD_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_gold_ore"));
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_nether")
-						.features(DEFAULT_NETHER_GOLD_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_nether_gold_ore"));
-			} else if (id.contains("redstone") && !disabledFeatures.contains("redstone")) {
-				disabledFeatures.add("redstone");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_REDSTONE_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_redstone_ore"));
-			} else if (id.contains("lapis") && !disabledFeatures.contains("lapis")) {
-				disabledFeatures.add("lapis");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_LAPIS_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_lapis_ore"));
-			} else if (id.contains("diamond") && !disabledFeatures.contains("diamond")) {
-				disabledFeatures.add("diamond");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_DIAMOND_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_diamond_ore"));
-			} else if (id.contains("emerald") && !disabledFeatures.contains("emerald")) {
-				disabledFeatures.add("emerald");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_overworld")
-						.features(DEFAULT_EMERALD_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_emerald_ore"));
-			} else if (id.contains("quartz") && !disabledFeatures.contains("quartz")) {
-				disabledFeatures.add("quartz");
-				new FeatureBuilder("neoforge:remove_features", "underground_ores")
-						.biome("#minecraft:is_nether")
-						.features(DEFAULT_QUARTZ_ORE)
-						.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_nether_quartz_ore"));
-			}
-		}
+		handleVanillaOres(consumer);
 
 		for (IDepositProcessor processor : DefaultLoader.ACTIVE_PROCESSORS) {
 			CommonDepositModelBase model = processor.getCommonModel();
@@ -176,5 +103,115 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	@Override
 	public @NotNull String getName() {
 		return "Emendatus Enigmatica: Neo Features";
+	}
+
+
+	public static void setupConfig(ConfigCreationContext ctx) {
+		disableCoal = ctx.getBuilder()
+			.comment("Determines if Coal ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_coal_ore")
+			.define("disableCoalOre",true);
+
+		disableCopper = ctx.getBuilder()
+			.comment("Determines if Copper ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_copper_ore")
+			.define("disableCopperOre",true);
+
+		disableIron = ctx.getBuilder()
+			.comment("Determines if Iron ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_iron_ore")
+			.define("disableIronOre",true);
+
+		disableGold = ctx.getBuilder()
+			.comment("Determines if Gold ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_gold_ore")
+			.define("disableGoldOre",true);
+
+		disableRedstone = ctx.getBuilder()
+			.comment("Determines if Redstone ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_redstone_ore")
+			.define("disableRedstoneOre",true);
+
+		disableLapis = ctx.getBuilder()
+			.comment("Determines if Lapis ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_lapis_ore")
+			.define("disableLapisOre",true);
+
+		disableDiamond = ctx.getBuilder()
+			.comment("Determines if Diamond ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_diamond_ore")
+			.define("disableDiamondOre",true);
+
+		disableEmerald = ctx.getBuilder()
+			.comment("Determines if Emerald ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_emerald_ore")
+			.define("disableEmeraldOre",true);
+
+		disableQuartz = ctx.getBuilder()
+			.comment("Determines if Quartz ore generation should be disabled.")
+			.translation("emendatusenigmatica.config.disable_quartz_ore")
+			.define("disableQuartzOre",true);
+	}
+
+	private void handleVanillaOres(Consumer<IFinishedGenericJSON> consumer) {
+		if (disableCoal.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_COAL_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_coal_ore"));
+
+		if (disableCopper.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_COPPER_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_copper_ore"));
+
+		if (disableIron.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_IRON_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_iron_ore"));
+
+		if (disableGold.get()) {
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_GOLD_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_gold_ore"));
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_nether")
+				.features(DEFAULT_NETHER_GOLD_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_nether_gold_ore"));
+		}
+
+		if (disableRedstone.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_REDSTONE_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_redstone_ore"));
+
+		if (disableLapis.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_LAPIS_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_lapis_ore"));
+
+		if (disableDiamond.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_DIAMOND_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_diamond_ore"));
+
+		if (disableEmerald.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_overworld")
+				.features(DEFAULT_EMERALD_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_emerald_ore"));
+
+		if (disableQuartz.get())
+			new FeatureBuilder("neoforge:remove_features", "underground_ores")
+				.biome("#minecraft:is_nether")
+				.features(DEFAULT_QUARTZ_ORE)
+				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "remove_default_nether_quartz_ore"));
+
 	}
 }

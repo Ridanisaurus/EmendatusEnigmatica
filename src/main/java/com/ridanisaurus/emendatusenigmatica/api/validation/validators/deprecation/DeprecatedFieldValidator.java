@@ -68,7 +68,11 @@ public class DeprecatedFieldValidator extends AbstractBasicValidator {
         if (Analytics.isEnabled()) {
             String msg = null;
             if (Objects.nonNull(url)) msg = "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
-            Analytics.error("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg, data);
+            if (Objects.isNull(replace)) {
+                Analytics.error("This field was deprecated and is no longer in use.", msg, data);
+            } else {
+                Analytics.error("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg, data);
+            }
         }
         return true;
     }

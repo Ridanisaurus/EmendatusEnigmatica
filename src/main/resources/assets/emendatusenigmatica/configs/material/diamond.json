@@ -2,7 +2,6 @@
   "id": "diamond",
   "source": "vanilla",
   "localizedName": "Diamond",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust"

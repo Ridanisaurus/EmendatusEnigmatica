@@ -32,6 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
@@ -48,7 +49,6 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("id").forGetter(i -> i.id),
 			Codec.STRING.fieldOf("source").forGetter(i -> i.source),
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
-			Codec.BOOL.optionalFieldOf("disableDefaultOre").forGetter(i -> Optional.of(i.disableDefaultOre)),
 			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
 			Codec.list(Codec.STRING).optionalFieldOf("strata").forGetter(i -> Optional.of(i.strata)),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
@@ -58,11 +58,10 @@ public class MaterialModel {
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
 			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
 			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
-	).apply(x, (id, source, localizedName, disableDefaultOre, processedTypes, strata, properties, gas, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, processedTypes, strata, properties, gas, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
-			disableDefaultOre.orElse(false),
 			processedTypes,
 			strata.orElse(List.of()),
 			properties.orElse(new MaterialPropertiesModel()),
@@ -77,7 +76,11 @@ public class MaterialModel {
 	private final String id;
 	private final String source;
 	private final String localizedName;
-	private final boolean disableDefaultOre;
+	/**
+	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
+	 */
+	@Deprecated(forRemoval = true, since = "2.2.0")
+	private final boolean disableDefaultOre = false;
 	private final List<String> processedTypes;
 	private final List<String> strata;
 	private final MaterialPropertiesModel properties;
@@ -92,7 +95,6 @@ public class MaterialModel {
 		.addValidator("strata",				new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY)
 		.addValidator("id",					new EERegistryValidator(DefaultLoader.MATERIAL_IDS, EERegistryValidator.REGISTRATION, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
-		.addValidator("disableDefaultOre",	new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
 		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("tools",				new ToolsFieldValidator())
@@ -101,14 +103,26 @@ public class MaterialModel {
 		.addValidator("gas",					new ProcessedTypesContainValidator("gas", MaterialGasPropertiesModel.VALIDATION_MANAGER.getAsValidator(false)))
 		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false));
+		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "ADD_COMMIT_URL_HERE"));
 
-	public MaterialModel(String id, String source, String localizedName, boolean disableDefaultOre, List<String> processedTypes, List<String> strata,
-	                     MaterialPropertiesModel properties, MaterialGasPropertiesModel gas, MaterialOreDropModel oreDrop, MaterialCompatModel compat, MaterialColorsModel colors, MaterialToolsModel tools, MaterialArmorModel armor) {
+	public MaterialModel(
+		String id,
+		String source,
+		String localizedName,
+		List<String> processedTypes,
+		List<String> strata,
+		MaterialPropertiesModel properties,
+		MaterialGasPropertiesModel gas,
+		MaterialOreDropModel oreDrop,
+		MaterialCompatModel compat,
+		MaterialColorsModel colors,
+		MaterialToolsModel tools,
+		MaterialArmorModel armor
+	) {
 		this.id = id;
 		this.source = source;
 		this.localizedName = localizedName;
-		this.disableDefaultOre = disableDefaultOre;
 		this.processedTypes = processedTypes;
 		this.strata = strata;
 		this.properties = properties;
@@ -140,6 +154,10 @@ public class MaterialModel {
 		return localizedName;
 	}
 
+	/**
+	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
+	 */
+	@Deprecated(forRemoval = true, since = "2.2.0")
 	public boolean getDisableDefaultOre() {
 		return disableDefaultOre;
 	}

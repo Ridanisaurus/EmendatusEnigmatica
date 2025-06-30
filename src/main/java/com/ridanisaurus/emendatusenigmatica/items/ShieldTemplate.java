@@ -12,11 +12,11 @@ import java.util.List;
 public class ShieldTemplate extends SmithingTemplateItem {
     public ShieldTemplate() {
         super(
-            Component.translatable("smithing_template.emendatusenigmatica.shield_upgrade.applies_to"),
-            Component.translatable("smithing_template.emendatusenigmatica.shield_upgrade.ingredients"),
-            Component.translatable("smithing_template.emendatusenigmatica.shield_upgrade.upgrade_desc"),
-            Component.translatable("smithing_template.emendatusenigmatica.shield_upgrade.base_slot_desc"),
-            Component.translatable("smithing_template.emendatusenigmatica.shield_upgrade.addition_slot_desc"),
+            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.applies_to"),
+            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.ingredients"),
+            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.upgrade_desc"),
+            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.base_slot_desc"),
+            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.additional_slot_desc"),
             List.of(ResourceLocation.withDefaultNamespace("item/empty_armor_slot_shield")),
             List.of(
                 ResourceLocation.withDefaultNamespace("item/empty_slot_ingot"),

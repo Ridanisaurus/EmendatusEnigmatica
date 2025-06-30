@@ -68,14 +68,14 @@ public class EmendatusEnigmatica {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.MOD_ID);
     public static final DeferredHolder<CreativeModeTab, EECreativeTab> TOOLS_TAB = CREATIVE_MODE_TABS.register("ee_tools_tab", () -> new EECreativeTab(
         CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.emendatusenigmatica.tools"))
+            .title(Component.translatable("emendatusenigmatica.itemgroup.tools"))
             // Fallback
             .icon(() -> EERegistrar.ENIGMATIC_HAMMER.get().getDefaultInstance())
             .displayItems((parameters, output) -> output.accept(EERegistrar.ENIGMATIC_HAMMER))
     ));
     public static final DeferredHolder<CreativeModeTab, EECreativeTab> RESOURCES_TAB = CREATIVE_MODE_TABS.register("ee_resources_tab", () -> new EECreativeTab(
         CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.emendatusenigmatica.resources"))
+            .title(Component.translatable("emendatusenigmatica.itemgroup.resources"))
             .withTabsBefore(TOOLS_TAB.getId())
             // Fallback
             .icon(() -> EERegistrar.FELINIUM_JAMINITE.get().getDefaultInstance())

@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigurationData;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
@@ -59,7 +60,6 @@ import java.util.concurrent.CompletableFuture;
 //This plugin will be always first
 @EmendatusPluginReference(modid = Reference.MOD_ID, name = "vanilla-plugin")
 public class VanillaPlugin implements IEmendatusPlugin {
-
     @Override
     public void setup() {
         try {
@@ -146,6 +146,14 @@ public class VanillaPlugin implements IEmendatusPlugin {
         }
     }
 
+    // Even tho it's shipped with EE by default, and could be put into EEConfig class
+    // We are doing it here for consistency.
+    @Override
+    public void extendConfig(ConfigCreationContext ctx) {
+        if (!ctx.isStartup()) return;
+        NeoFeatureGen.setupConfig(ctx);
+    }
+
     @Override
     public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
         generator.addProvider(true, new BlockStatesGen(generator, registry));
@@ -160,7 +168,7 @@ public class VanillaPlugin implements IEmendatusPlugin {
         generator.addProvider(true, new LangGen(generator, registry));
         generator.addProvider(true, new RecipesGen(generator, registry, providers));
         generator.addProvider(true, new LootGen(generator, registry, providers));
-        generator.addProvider(true, new NeoFeatureGen(generator, registry, providers));
+        generator.addProvider(true, new NeoFeatureGen(generator, providers));
         generator.addProvider(true, new OreFeatureGen(generator, providers));
         generator.addProvider(true, new BiomeTagsGen(generator));
     }

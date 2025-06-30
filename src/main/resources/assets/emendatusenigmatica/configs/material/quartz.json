@@ -2,7 +2,6 @@
   "id": "quartz",
   "source": "vanilla",
   "localizedName": "Nether Quartz",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust"

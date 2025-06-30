@@ -57,14 +57,14 @@ public class EEVirtualPackHandler implements PackResources {
         if (type == PackType.CLIENT_RESOURCES) {
             this.locationInfo = new PackLocationInfo(
                 "EE Virtual Resource Pack",
-                Component.translatable("resourcepack.emendatusenigmatica.client.title"),
+                Component.translatable("emendatusenigmatica.resourcepack.client.title"),
                 PackSource.DEFAULT,
                 Optional.empty()
             );
         } else {
             this.locationInfo = new PackLocationInfo(
                 "EE Virtual Data Pack",
-                Component.translatable("resourcepack.emendatusenigmatica.server.title"),
+                Component.translatable("emendatusenigmatica.resourcepack.server.title"),
                 PackSource.DEFAULT,
                 Optional.empty()
             );

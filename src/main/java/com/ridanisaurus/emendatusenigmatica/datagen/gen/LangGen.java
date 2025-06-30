@@ -45,8 +45,6 @@ public class LangGen extends EELangProvider {
 
 	@Override
 	protected void addTranslations() {
-		// Item Group
-
         for (MaterialModel material : registry.getMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Ingots

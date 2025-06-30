@@ -2,7 +2,6 @@
   "id": "iron",
   "source": "vanilla",
   "localizedName": "Iron",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust",

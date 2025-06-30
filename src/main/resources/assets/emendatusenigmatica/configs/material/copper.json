@@ -2,7 +2,6 @@
   "id": "copper",
   "source": "vanilla",
   "localizedName": "Copper",
-  "disableDefaultOre": true,
   "processedTypes": [
     "ore",
     "dust",
