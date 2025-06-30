@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -47,6 +48,15 @@ public interface IEmendatusPlugin {
      * Used to set up necessary changes to the default EE behavior or initial configuration of the plugin.
      */
     default void setup() {}
+
+    /**
+     * Method executed for each EE Configuration file,
+     * allowing addons to extend the configuration files with their own options.
+     * @param ctx Config Creation Context
+     * @apiNote Please make sure you are extending the correct type of the configuration file.
+     * This method is executed for Client / Startup configs.
+     */
+    default void extendConfig(ConfigCreationContext ctx) {}
 
     /**
      * Method used to load and register materials, strata, compat, or your custom data.

@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.config;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -32,23 +33,20 @@ import net.neoforged.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-
 public class EEConfig {
 	public static ClientConfig client;
 	private static ModConfigSpec clientSpec;
 	public static StartupConfig startup;
 	private static ModConfigSpec startupSpec;
 
-	public static void registerClient(@NotNull ModContainer container) {
-		Pair<ClientConfig, ModConfigSpec> clientSpecPair = new ModConfigSpec.Builder().configure(ClientConfig::new);
+	public static void setupConfigs(@NotNull ModContainer container, @NotNull EELoader loader) {
+		Pair<ClientConfig, ModConfigSpec> clientSpecPair = new ModConfigSpec.Builder().configure(it -> new ClientConfig(it, loader));
 		client = clientSpecPair.getLeft();
 		clientSpec = clientSpecPair.getRight();
 		container.registerConfig(ModConfig.Type.CLIENT, clientSpec);
 		EmendatusEnigmatica.logger.info("Emendatus Enigmatica Client Config has been registered.");
-	}
 
-	public static void setupStartup(@NotNull ModContainer container) {
-		Pair<StartupConfig, ModConfigSpec> startupSpecPair = new ModConfigSpec.Builder().configure(StartupConfig::new);
+		Pair<StartupConfig, ModConfigSpec> startupSpecPair = new ModConfigSpec.Builder().configure(it -> new StartupConfig(it, loader));
 		startup = startupSpecPair.getLeft();
 		startupSpec = startupSpecPair.getRight();
 		container.registerConfig(ModConfig.Type.STARTUP, startupSpec);
@@ -69,7 +67,7 @@ public class EEConfig {
 		public final ModConfigSpec.BooleanValue generateDefaultConfigs;
 		public final ModConfigSpec.BooleanValue regenerateDefaults;
 
-		StartupConfig(ModConfigSpec.@NotNull Builder builder) {
+		StartupConfig(ModConfigSpec.@NotNull Builder builder, EELoader loader) {
 			builder.push("Configuration");
 			skipEmptyJsons = builder
 				.comment("Whether Emendatus Enigmatica should silently skip empty JSON files (Either 0 Bytes or empty root object) instead of including them on the summary.")
@@ -84,11 +82,16 @@ public class EEConfig {
 				.translation(Reference.MOD_ID + ".config.startup.regenerate_defaults")
 				.define("regenerateDefaults", false);
 			builder.pop();
+
 			builder.push("Debug");
 			generateSummary = builder
 				.comment("Whether Emendatus Enigmatica should generate a Validation Summary in the configuration directory.")
 				.translation(Reference.MOD_ID + ".config.startup.generate_summary")
 				.define("generateSummary", true);
+			builder.pop();
+
+			builder.push("Addons");
+			loader.setupConfig(builder, ModConfig.Type.STARTUP);
 			builder.pop();
 		}
 	}
@@ -97,18 +100,23 @@ public class EEConfig {
 		public final ModConfigSpec.BooleanValue showPatreonReward;
 		public final ModConfigSpec.BooleanValue oldSchoolGlint;
 
-		ClientConfig(ModConfigSpec.@NotNull Builder builder) {
+		ClientConfig(ModConfigSpec.@NotNull Builder builder, EELoader loader) {
 			builder.push("Patreon Reward");
 			showPatreonReward = builder
 					.comment("Whether the Patreon Reward should appear floating over the player's head")
 					.translation(Reference.MOD_ID + ".config.client.show_reward")
 					.define("showReward", true);
 			builder.pop();
+
 			builder.push("Rendering");
 			oldSchoolGlint = builder
 				.comment("Allows for bringing back the old strength of glint for the Emendatus Enigmatica armor.\nNote that this option doesn't affect vanilla armor rendering!")
 				.translation(Reference.MOD_ID + ".config.client.old_glint")
 				.define("oldSchoolGlint", false);
+			builder.pop();
+
+			builder.push("Addons");
+			loader.setupConfig(builder, ModConfig.Type.CLIENT);
 			builder.pop();
 		}
 	}

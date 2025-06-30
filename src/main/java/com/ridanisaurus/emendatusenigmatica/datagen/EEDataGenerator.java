@@ -75,6 +75,7 @@ public class EEDataGenerator extends DataGenerator {
             this.providersToRun.forEach((name, provider) -> futures.add(dataGenExecutor.submit(() -> {
                 Stopwatch sPerTask = Stopwatch.createStarted();
                 logger.debug("Starting provider: {}", name);
+                StartupNotificationManager.addModMessage("Executing " + name);
                 try {
                     cache.applyUpdate(cache.generateUpdate(name, provider::run).join());
                 } catch (Exception e) {
@@ -110,10 +111,8 @@ public class EEDataGenerator extends DataGenerator {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }, Util.nonCriticalIoPool());
-            //TODO: Replace this with our own loop, apparently this doesn't actually work?
+            }, Util.ioPool());
             ModLoader.waitForTask("Emendatus Enigmatica: Saving generated data", ImmediateWindowHandler::renderTick, saveIO);
-
             String msg = "EE Data Generation finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
             StartupNotificationManager.addModMessage(msg);
             logger.info(msg);

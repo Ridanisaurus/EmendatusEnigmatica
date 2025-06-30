@@ -88,14 +88,13 @@ public class EmendatusEnigmatica {
     public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) throws ExecutionException, InterruptedException {
         instance = this;
         VERSION = modContainer.getModInfo().getVersion().toString();
-        EEConfig.registerClient(modContainer);
-        EEConfig.setupStartup(modContainer);
         Analytics.setup();
 
         DataGeneratorFactory.init();
         this.generator = DataGeneratorFactory.createEEDataGenerator();
 
         this.loader = new EELoader();
+        EEConfig.setupConfigs(modContainer, loader);
         this.loader.setup();
         this.loader.loadData();
 

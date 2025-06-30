@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.api.AnnotationUtil;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
@@ -37,6 +38,8 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.Util;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.registries.VanillaRegistries;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 public class EELoader {
     public static final Logger logger = LogManager.getLogger(EELoader.class);
     private final EmendatusDataRegistry dataRegistry;
-    private final List<IEmendatusPlugin> plugins;
+    private final List<EEPlugin> plugins;
     private boolean finished = false;
 
     public EELoader() {
@@ -75,13 +78,13 @@ public class EELoader {
                 var annotation = (EmendatusPluginReference) annotatedClass.getAnnotation(EmendatusPluginReference.class);
                 logger.info("Registered plugin {}:{}", annotation.modid(), annotation.name());
                 try {
+                    var plugin = new EEPlugin((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance(), annotation);
                     if (annotatedClass.equals(VanillaPlugin.class)) {
-                        this.plugins.addFirst((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
+                        this.plugins.addFirst(plugin);
                     } else {
-                        plugins.add((IEmendatusPlugin) annotatedClass.getDeclaredConstructor().newInstance());
+                        plugins.add(plugin);
                     }
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                         NoSuchMethodException e) {
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     logger.error(e);
                 }
             } else {
@@ -91,6 +94,13 @@ public class EELoader {
         s.stop();
         logger.info("Finished scanning for plugins, took {}ms.", s.elapsed(TimeUnit.MILLISECONDS));
         Analytics.addPerformanceAnalytic("Scanning and registration of addons", s);
+    }
+
+    public void setupConfig(ModConfigSpec.Builder builder, ModConfig.Type type) {
+        var ctx = new ConfigCreationContext(builder, type);
+        this.plugins.forEach(it -> it.plugin.extendConfig(ctx.setAddon(it.annotation.name())));
+        // Pop out of the last addon category.
+        builder.pop();
     }
 
     public void setup() throws ExecutionException, InterruptedException {
@@ -109,7 +119,7 @@ public class EELoader {
             if (Files.exists(Analytics.CONFIG_DIR)) return;
             EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
             var reg = new DefaultConfigRegistry();
-            this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.provideDefaultConfiguration(reg));
+            this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(reg));
 
             CompletableFuture<Void> future = CompletableFuture.allOf(
                 reg.getEntries()
@@ -126,18 +136,18 @@ public class EELoader {
 
         // Call Setup after generation of the default configuration files.
         // Vanilla Plugin setups the EE Config folder, which we use to check if we should generate defaults.
-        this.plugins.forEach(IEmendatusPlugin::setup);
+        this.plugins.forEach(it -> it.plugin.setup());
     }
 
     public void loadData() {
-		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.load(this.dataRegistry));
+		this.plugins.forEach(it -> it.plugin.load(this.dataRegistry));
 
-		this.plugins.forEach(iEmendatusPlugin -> iEmendatusPlugin.registerMinecraft(this.dataRegistry.getMaterials(), this.dataRegistry.getStrata()));
+		this.plugins.forEach(it -> it.plugin.registerMinecraft(this.dataRegistry.getMaterials(), this.dataRegistry.getStrata()));
     }
 
     public void registerDatagen(DataGenerator dataGenerator) {
-        this.plugins.forEach(iEmendatusPlugin ->
-            iEmendatusPlugin.registerDynamicDataGen(dataGenerator, this.dataRegistry, CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor()))
+        this.plugins.forEach(it ->
+            it.plugin.registerDynamicDataGen(dataGenerator, this.dataRegistry, CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor()))
         );
     }
 
@@ -152,4 +162,6 @@ public class EELoader {
     public boolean isFinished() {
         return this.finished;
     }
+
+    private record EEPlugin(IEmendatusPlugin plugin, EmendatusPluginReference annotation) {}
 }
