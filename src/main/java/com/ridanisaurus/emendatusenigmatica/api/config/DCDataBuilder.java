@@ -116,7 +116,7 @@ public class DCDataBuilder {
      * @param ctx DefaultConfigurationCreationContext
      */
     public DCData finish(@NotNull DCCreationContext ctx) {
-        var data = new DCData(object, name, type);
+        var data = new DCData(object, name, type, ctx.getOrigin());
         ctx.register(data);
         return data;
     }
@@ -126,6 +126,6 @@ public class DCDataBuilder {
      * @return Constructed, unregistered DCData
      */
     public DCData build() {
-        return new DCData(object, name, type);
+        return new DCData(object, name, type, "unregistered");
     }
 }

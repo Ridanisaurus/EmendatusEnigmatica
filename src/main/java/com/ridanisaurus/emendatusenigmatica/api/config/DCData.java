@@ -39,7 +39,8 @@ public class DCData {
      * @param type Type of this configuration.
      * @throws IllegalArgumentException when Path points outside EE Configuration directory.
      */
-    public DCData(@NotNull JsonObject object, @NotNull String name, AbstractDCType type) {
+    public DCData(@NotNull JsonObject object, @NotNull String name, AbstractDCType type, String origin) {
+        this.origin = Objects.requireNonNull(name, "Origin can't be null!");
         this.object = Objects.requireNonNull(object, "JsonObject for default configuration can't be null!");
         if (!Objects.requireNonNull(name, "Name for default configuration can't be null!").endsWith(".json")) name += ".json";
         this.type = Objects.requireNonNull(type);
@@ -47,12 +48,12 @@ public class DCData {
         try {
             type.validate(this);
         } catch (Exception e) {
-            throw new RuntimeException("Failed validation of default configuration at \"%s\"!".formatted(path), e);
+            throw new RuntimeException("Failed validation of default configuration at \"%s\" from \"%s\"!".formatted(path, origin), e);
         }
     }
 
     protected void setOrigin(String name) {
-        this.origin = Objects.requireNonNull(name);
+        this.origin = Objects.requireNonNull(name, "Origin can't be null!");
     }
 
     public String getOrigin() {

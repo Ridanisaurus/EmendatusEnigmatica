@@ -1,3 +1,19 @@
 {
-
+  "type": "emendatusenigmatica:vanilla_deposit",
+  "dimension": "minecraft:overworld",
+  "biomes": [],
+  "registryName": "silver_ore_vanilla_deposit",
+  "config": {
+    "material": "silver",
+    "fillerTypes": [
+      "minecraft_stone",
+      "minecraft_deepslate"
+    ],
+    "chance": 12,
+    "size": 8,
+    "minYLevel": 50,
+    "maxYLevel": 200,
+    "placement": "uniform",
+    "rarity": "common"
+  }
 }

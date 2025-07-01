@@ -45,6 +45,10 @@ public class DCCreationContext {
         data.setOrigin(currentAddon);
     }
 
+    public String getOrigin() {
+        return this.currentAddon;
+    }
+
     /**
      * @param path Path to check.
      * @return True if a provided path is already registered, false otherwise.

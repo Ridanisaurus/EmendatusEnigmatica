@@ -87,10 +87,9 @@ public class EEOccultismPlugin implements IEmendatusPlugin {
 		MaterialType.addTypesOrRegister(ctx, getInternalPath("silver"), "common");
 		MaterialType.addTypesOrRegister(ctx, getInternalPath("iesnium"), "occultism");
 
-		//TODO: Add Iesnium and Silver deposits.
-//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("iesnium_ore")).markAsDeposit().finish(ctx);
-//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("silver_ore")).markAsDeposit().finish(ctx);
-//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("silver_deepslate_ore")).markAsDeposit().finish(ctx);
+		DepositType.registerIfAvailable(ctx, getInternalPath("iesnium_ore"), "occultism");
+		DepositType.registerIfAvailable(ctx, getInternalPath("silver_ore"), "common/silver");
+		DepositType.registerIfAvailable(ctx, getInternalPath("silver_deepslate_ore"), "common/silver");
 	}
 
 	@Contract(pure = true)
