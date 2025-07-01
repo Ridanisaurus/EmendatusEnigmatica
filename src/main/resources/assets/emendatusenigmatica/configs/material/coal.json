@@ -3,8 +3,7 @@
   "source": "vanilla",
   "localizedName": "Coal",
   "processedTypes": [
-    "ore",
-    "dust"
+    "ore"
   ],
   "properties": {
     "materialType": "gem",

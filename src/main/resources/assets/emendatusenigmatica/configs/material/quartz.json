@@ -3,8 +3,7 @@
   "source": "vanilla",
   "localizedName": "Nether Quartz",
   "processedTypes": [
-    "ore",
-    "dust"
+    "ore"
   ],
   "properties": {
     "materialType": "gem",

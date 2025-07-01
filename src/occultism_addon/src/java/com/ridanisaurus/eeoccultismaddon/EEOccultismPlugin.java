@@ -24,18 +24,26 @@
 
 package com.ridanisaurus.eeoccultismaddon;
 
+import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCData;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
+import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
+import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modid = EEOccultismPlugin.MOD_ID, name = "occultism-plugin")
@@ -64,9 +72,29 @@ public class EEOccultismPlugin implements IEmendatusPlugin {
 		generator.addProvider(true, new OccultismWorldGen(generator, providers));
 	}
 
-	//TODO: Add default configs
 	@Override
-	public void provideDefaultConfiguration(DefaultConfigRegistry registry) {
-		
+	public void provideDefaultConfiguration(DCCreationContext ctx) {
+		// Add Dust type to default vanilla models.
+		MaterialType.getVanillaMaterials(ctx).forEach(data -> {
+			var obj = data.getWrappedObject();
+			// If it's not JsonArray, something is corrupted, as we should be working here with EE Vanilla Plugin data.
+			var types = obj.get("processedTypes").getAsJsonArray();
+			if (types.contains(new JsonPrimitive("dust"))) return;
+			types.add("dust");
+			data.updateWrappedObject(obj);
+		});
+
+		MaterialType.addTypesOrRegister(ctx, getInternalPath("silver"), "common");
+		MaterialType.addTypesOrRegister(ctx, getInternalPath("iesnium"), "occultism");
+
+		//TODO: Add Iesnium and Silver deposits.
+//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("iesnium_ore")).markAsDeposit().finish(ctx);
+//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("silver_ore")).markAsDeposit().finish(ctx);
+//		if (!DepositType.isIdRegistered(ctx, "ID_TO_ADD")) DCDataBuilder.fromInternalFile(getInternalPath("silver_deepslate_ore")).markAsDeposit().finish(ctx);
+	}
+
+	@Contract(pure = true)
+	private @NotNull String getInternalPath(String path) {
+		return "assets/%s/configs/%s".formatted(MOD_ID, path);
 	}
 }

@@ -31,7 +31,7 @@ import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -118,11 +118,11 @@ public class EELoader {
             // We only generate defaults if the Config Dir is not existent.
             if (Files.exists(Analytics.CONFIG_DIR)) return;
             EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
-            var reg = new DefaultConfigRegistry();
-            this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(reg));
+            var ctx = new DCCreationContext();
+            this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation.name())));
 
             CompletableFuture<Void> future = CompletableFuture.allOf(
-                reg.getEntries()
+                ctx.getEntries()
                     .stream()
                     .map(it -> it.save(Util.ioPool()))
                     .toList()

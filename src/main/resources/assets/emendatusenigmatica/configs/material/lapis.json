@@ -3,8 +3,7 @@
   "source": "vanilla",
   "localizedName": "Lapis Lazuli",
   "processedTypes": [
-    "ore",
-    "dust"
+    "ore"
   ],
   "properties": {
     "materialType": "gem",

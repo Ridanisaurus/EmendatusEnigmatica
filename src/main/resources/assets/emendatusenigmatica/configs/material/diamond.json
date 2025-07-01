@@ -3,8 +3,7 @@
   "source": "vanilla",
   "localizedName": "Diamond",
   "processedTypes": [
-    "ore",
-    "dust"
+    "ore"
   ],
   "properties": {
     "materialType": "gem",

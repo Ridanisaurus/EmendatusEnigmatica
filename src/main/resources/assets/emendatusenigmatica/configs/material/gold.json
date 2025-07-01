@@ -3,11 +3,7 @@
   "source": "vanilla",
   "localizedName": "Gold",
   "processedTypes": [
-    "ore",
-    "dust",
-    "plate",
-    "gear",
-    "rod"
+    "ore"
   ],
   "properties": {
     "materialType": "metal",

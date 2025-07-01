@@ -3,8 +3,7 @@
   "source": "vanilla",
   "localizedName": "Emerald",
   "processedTypes": [
-    "ore",
-    "dust"
+    "ore"
   ],
   "properties": {
     "materialType": "gem",

@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
@@ -84,10 +84,10 @@ public interface IEmendatusPlugin {
 
     /**
      * Method used to provide default configuration data for the mod it supports, whenever necessary.
-     * @param registry DefaultConfigRegistry used to register configs and check for compatibility.
+     * @param registry DCCreationContext used to register configs and check for compatibility.
      * @implNote Will be executed right before {@link IEmendatusPlugin#setup()}.
      */
-    default void provideDefaultConfiguration(DefaultConfigRegistry registry) {}
+    default void provideDefaultConfiguration(DCCreationContext registry) {}
 
     /**
      * Method called at the end of all the steps where is safe to store an instance of the {@link EmendatusDataRegistry} in case its needed

@@ -8,10 +8,7 @@
     "ingot",
     "storage_block",
     "nugget",
-    "dust",
-    "plate",
-    "gear",
-    "rod"
+    "dust"
   ],
   "properties": {
     "materialType": "metal",

@@ -26,11 +26,11 @@ package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigRegistry;
-import com.ridanisaurus.emendatusenigmatica.api.config.DefaultConfigurationData;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.*;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestLevelTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestToolTagsGen;
@@ -50,8 +50,9 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -174,46 +175,63 @@ public class VanillaPlugin implements IEmendatusPlugin {
     }
 
     @Override
-    public void provideDefaultConfiguration(DefaultConfigRegistry registry) {
+    public void provideDefaultConfiguration(DCCreationContext ctx) {
         //TODO: Add to the defaults replacements for the textures,
         // as we don't actually replace vanilla items by default (causes issues).
-        String path = "assets/" + Reference.MOD_ID + "/configs/";
+
         // We don't need to check for compatibility while adding vanilla materials, no other addon should add those, and we will be executed first!
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "coal"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "copper"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "iron"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "gold"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "diamond"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "emerald"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "lapis"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "redstone"));
-        registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "quartz"));
-//      registry.register(new DefaultConfigurationData(path + "material", "material/vanilla", "netherite"));
-        registry.register(new DefaultConfigurationData(path + "strata", "strata/vanilla", "stone"));
-        registry.register(new DefaultConfigurationData(path + "strata", "strata/vanilla", "deepslate"));
-        registry.register(new DefaultConfigurationData(path + "strata", "strata/vanilla", "netherrack"));
-        registry.register(new DefaultConfigurationData(path + "deposit/coal", "deposit/vanilla/coal", "coal_lower"));
-        registry.register(new DefaultConfigurationData(path + "deposit/coal", "deposit/vanilla/coal", "coal_upper"));
-        registry.register(new DefaultConfigurationData(path + "deposit/copper", "deposit/vanilla/copper", "copper_normal"));
-        registry.register(new DefaultConfigurationData(path + "deposit/copper", "deposit/vanilla/copper", "copper_large"));
-        registry.register(new DefaultConfigurationData(path + "deposit/iron", "deposit/vanilla/iron", "iron_small"));
-        registry.register(new DefaultConfigurationData(path + "deposit/iron", "deposit/vanilla/iron", "iron_middle"));
-        registry.register(new DefaultConfigurationData(path + "deposit/iron", "deposit/vanilla/iron", "iron_upper"));
-        registry.register(new DefaultConfigurationData(path + "deposit/gold", "deposit/vanilla/gold", "gold_extra"));
-        registry.register(new DefaultConfigurationData(path + "deposit/gold", "deposit/vanilla/gold", "gold_lower"));
-        registry.register(new DefaultConfigurationData(path + "deposit/gold", "deposit/vanilla/gold", "gold_normal"));
-        registry.register(new DefaultConfigurationData(path + "deposit/gold", "deposit/vanilla/gold", "gold_nether"));
-        registry.register(new DefaultConfigurationData(path + "deposit/gold", "deposit/vanilla/gold", "gold_nether_delta"));
-        registry.register(new DefaultConfigurationData(path + "deposit/diamond", "deposit/vanilla/diamond", "diamond"));
-        registry.register(new DefaultConfigurationData(path + "deposit/diamond", "deposit/vanilla/diamond", "diamond_small"));
-        registry.register(new DefaultConfigurationData(path + "deposit/diamond", "deposit/vanilla/diamond", "diamond_medium"));
-        registry.register(new DefaultConfigurationData(path + "deposit/diamond", "deposit/vanilla/diamond", "diamond_large"));
-        registry.register(new DefaultConfigurationData(path + "deposit/emerald", "deposit/vanilla/emerald", "emerald"));
-        registry.register(new DefaultConfigurationData(path + "deposit/lapis", "deposit/vanilla/lapis", "lapis_lower"));
-        registry.register(new DefaultConfigurationData(path + "deposit/lapis", "deposit/vanilla/lapis", "lapis_normal"));
-        registry.register(new DefaultConfigurationData(path + "deposit/redstone", "deposit/vanilla/redstone", "redstone_lower"));
-        registry.register(new DefaultConfigurationData(path + "deposit/redstone", "deposit/vanilla/redstone", "redstone_normal"));
-        registry.register(new DefaultConfigurationData(path + "deposit/quartz", "deposit/vanilla/quartz", "quartz"));
-        registry.register(new DefaultConfigurationData(path + "deposit/quartz", "deposit/vanilla/quartz", "quartz_delta"));
+        // Materials
+        getBuilder("material/coal", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/copper", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/iron", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/gold", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/diamond", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/emerald", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/lapis", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/redstone", "vanilla").markAsMaterial().finish(ctx);
+        getBuilder("material/quartz", "vanilla").markAsMaterial().finish(ctx);
+//        getBuilder("material/netherite", "vanilla").markAsMaterial().finish(ctx);
+
+        // Strata
+        getBuilder("strata/stone", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/deepslate", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/netherrack", "vanilla").markAsStrata().finish(ctx);
+
+        // Deposits
+        getBuilder("deposit/coal/coal_lower", "vanilla/coal").markAsDeposit().finish(ctx);
+        getBuilder("deposit/coal/coal_upper", "vanilla/coal").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/copper/copper_normal", "vanilla/copper").markAsDeposit().finish(ctx);
+        getBuilder("deposit/copper/copper_large", "vanilla/copper").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/iron/iron_small", "vanilla/iron").markAsDeposit().finish(ctx);
+        getBuilder("deposit/iron/iron_middle", "vanilla/iron").markAsDeposit().finish(ctx);
+        getBuilder("deposit/iron/iron_upper", "vanilla/iron").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/gold/gold_extra", "vanilla/gold").markAsDeposit().finish(ctx);
+        getBuilder("deposit/gold/gold_lower", "vanilla/gold").markAsDeposit().finish(ctx);
+        getBuilder("deposit/gold/gold_normal", "vanilla/gold").markAsDeposit().finish(ctx);
+        getBuilder("deposit/gold/gold_nether", "vanilla/gold").markAsDeposit().finish(ctx);
+        getBuilder("deposit/gold/gold_nether_delta", "vanilla/gold").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/diamond/diamond", "vanilla/diamond").markAsDeposit().finish(ctx);
+        getBuilder("deposit/diamond/diamond_small", "vanilla/diamond").markAsDeposit().finish(ctx);
+        getBuilder("deposit/diamond/diamond_medium", "vanilla/diamond").markAsDeposit().finish(ctx);
+        getBuilder("deposit/diamond/diamond_large", "vanilla/diamond").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/emerald/emerald", "vanilla/emerald").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/lapis/lapis_lower", "vanilla/lapis").markAsDeposit().finish(ctx);
+        getBuilder("deposit/lapis/lapis_normal", "vanilla/lapis").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/redstone/redstone_lower", "vanilla/redstone").markAsDeposit().finish(ctx);
+        getBuilder("deposit/redstone/redstone_normal", "vanilla/redstone").markAsDeposit().finish(ctx);
+
+        getBuilder("deposit/quartz/quartz", "vanilla/quartz").markAsDeposit().finish(ctx);
+        getBuilder("deposit/quartz/quartz_delta", "vanilla/quartz").markAsDeposit().finish(ctx);
+    }
+
+    private DCDataBuilder getBuilder(String internal, String external) {
+        return DCDataBuilder.fromInternalFile("assets/%s/configs/%s".formatted(Reference.MOD_ID, internal), external);
     }
 }
