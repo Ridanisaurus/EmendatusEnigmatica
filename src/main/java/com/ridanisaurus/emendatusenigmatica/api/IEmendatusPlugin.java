@@ -28,20 +28,19 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
  * IEmendatusPlugin is an interface required to be implemented by EmendatusEnigmatica plugins.
  * All methods defined by it are optional in implementation, and per-method documentation explains their usage.
- * @see VanillaPlugin for example implementation.
+ * @see EmendatusPluginReference
+ * @see VanillaPlugin
+ * @implSpec The <code>T</code> parameter is an optional custom registry type, which will be passed to the load/register methods by the EELoader.
  */
-public interface IEmendatusPlugin {
+public interface IEmendatusPlugin<T> {
 
     /**
      * Method executed right after registration of the plugins.
@@ -62,14 +61,14 @@ public interface IEmendatusPlugin {
      * Method used to load and register materials, strata, compat, or your custom data.
      * @param registry The EmendatusDataRegistry used to store data used by EE.
      */
-    default void load(EmendatusDataRegistry registry) {}
+    default void load(EmendatusDataRegistry registry, T customRegistry) {}
 
     /**
      * Method used to register minecraft objects like items or blocks.
-     * @param materialModels A list of all the available materials
+     * @param registry The EmendatusDataRegistry used to store data used by EE.
      * @implNote You will only need to register objects if you are adding new types that Emendatus Enigmatica doesn't support.
      */
-    default void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {}
+    default void registerMinecraft(EmendatusDataRegistry registry, T customRegistry) {}
 
     /**
      * Method used to register dynamic data generators.
@@ -80,7 +79,7 @@ public interface IEmendatusPlugin {
      * it will be executed at runtime and automatically injected into the game,
      * but they function the same as normal data generation.
      */
-    default void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {}
+    default void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry, T customRegistry) {}
 
     /**
      * Method used to provide default configuration data for the mod it supports, whenever necessary.

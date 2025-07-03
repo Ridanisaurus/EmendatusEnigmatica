@@ -31,13 +31,30 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation used to register {@link com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin}
+ * @see EmendatusPluginReference#modId() ModId Requirements
+ * @see EmendatusPluginReference#name() Name Requirements
+ * @see EmendatusPluginReference#registry() Registry Constructor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface EmendatusPluginReference {
 
-    String modid();
+    /**
+     * A valid {@link net.minecraft.resources.ResourceLocation} namespace for your addon's ModId.
+     */
+    String modId();
 
+    /**
+     * A valid {@link net.minecraft.resources.ResourceLocation} path for your addon's name.
+     */
     String name();
 
+    /**
+     * A class reference of your custom registry,
+     * which will be constructed with a no-argument constructor on the plugin registration,
+     * and passed by the EELoader to yours plugin Load/Register methods.
+     * @apiNote Default Value: {@link Class<Void> Class&lt;Void&gt;}<br>
+     * Will result in <code>null</code> value being passed as CustomRegistry object.
+     */
+    Class<?> registry() default Void.class;
 }

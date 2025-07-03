@@ -101,7 +101,7 @@ public class EmendatusEnigmatica {
         EERegistrar.finalize(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        this.loader.registerDatagen(this.generator);
+        this.loader.registerDataGen(this.generator);
         this.loader.finish();
 
         // Creative Tab Item Registration.

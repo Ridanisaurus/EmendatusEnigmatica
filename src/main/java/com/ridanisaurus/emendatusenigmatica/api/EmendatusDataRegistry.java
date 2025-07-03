@@ -26,10 +26,12 @@ package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,66 +46,126 @@ import java.util.Map;
  * Here are stored all the materials, strata and compat.
  */
 public class EmendatusDataRegistry {
-
     private final Map<String, MaterialModel> materials;
     private final Map<String, StrataModel> strata;
     private final Map<String, String> strataByFiller;
+    /**
+     * Temporary storage of raw JsonObjects for {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)} step,
+     * so addons can parse custom data.
+     */
+    private final Map<String, JsonObject> rawJsons;
+
+    @Deprecated(since = "2.2.0", forRemoval = true)
+    @SuppressWarnings("removal")
     private final List<CompatModel> compat;
 
     public EmendatusDataRegistry() {
         this.strataByFiller = new HashMap<>();
         this.materials = new HashMap<>();
         this.strata = new HashMap<>();
+        this.rawJsons = new HashMap<>();
         this.compat = new ArrayList<>();
     }
 
     /**
-     * Used to register new Material model, returning passed model or previous value under that id.
-     * @param material ID of the material.
-     * @param model MaterialModel to register under that id.
-     * @return MaterialModel passed to the argument or previous MaterialModel that was registered under that id.
+     * Used to register a new Material model.
+     * @param model MaterialModel to register.
+     * @param rawJson Raw JsonObject of this material.
+     * @apiNote rawJson should be a direct object parsed from the file, for addons to be able to parse custom fields.
      */
-    @CanIgnoreReturnValue
-    public MaterialModel getMaterialOrRegister(String material, MaterialModel model){
-        return this.materials.computeIfAbsent(material, s -> model);
+    public void registerMaterial(MaterialModel model, JsonObject rawJson) {
+        this.materials.put(model.getId(), model);
+        this.rawJsons.put("material/" + model.getId(), rawJson);
     }
 
     /**
      * Used to get MaterialModel by its ID.
-     * @param materialID MaterialID to get model of.
+     * @param id ID to get model of.
      * @return MaterialModel under that ID, or null if not registered.
      */
-    public @Nullable MaterialModel getMaterial(String materialID) {
-        return this.materials.get(materialID);
+    public @Nullable MaterialModel getMaterial(String id) {
+        return this.materials.get(id);
     }
 
+    /**
+     * @return An immutable list with all registered materials.
+     */
     public List<MaterialModel> getMaterials(){
         return ImmutableList.copyOf(materials.values());
     }
 
-    public void registerStrata(@NotNull StrataModel strataModel){
-        this.strataByFiller.put(strataModel.getFillerType().toString(), strataModel.getId());
-        this.strata.put(strataModel.getId(), strataModel);
+    /**
+     * Used to register a new Strata model.
+     * @param model MaterialModel to register.
+     * @param rawJson Raw JsonObject of this strata.
+     * @apiNote rawJson should be a direct object parsed from the file, for addons to be able to parse custom fields.
+     */
+    public void registerStrata(@NotNull StrataModel model, @NotNull JsonObject rawJson){
+        this.strataByFiller.put(model.getFillerType().toString(), model.getId());
+        this.strata.put(model.getId(), model);
+        this.rawJsons.put("strata/" + model.getId(), rawJson);
     }
 
-    public @Nullable StrataModel getStrata(String strataID) {
-        return this.strata.get(strataID);
+    /**
+     * Used to get StrataModel by its ID.
+     * @param id ID to get model of.
+     * @return StrataModel under that ID, or null if not registered.
+     */
+    public @Nullable StrataModel getStrata(String id) {
+        return this.strata.get(id);
     }
 
+    /**
+     * @return An immutable list with all registered strata.
+     */
     public List<StrataModel> getStrata(){
         return ImmutableList.copyOf(strata.values());
     }
 
+    /**
+     * Used to get StrataModel by the fillerType.
+     * @param filler ResourceLocation of the filler.
+     * @return StrataModel
+     */
     public @Nullable StrataModel getStrataFromFiller(@NotNull ResourceLocation filler) {
         String id = this.strataByFiller.get(filler.toString());
         if (id == null) return null;
         return this.strata.get(id);
     }
 
+    /**
+     * Used to get a raw JsonObject of strata under specified id.
+     * @param id Id of Strata to get.
+     * @return Raw JsonObject of the StrataModel under that id, or null if not present.
+     * @apiNote RawJson map will get cleared after execution of {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)};
+     */
+    public JsonObject getRawStrata(String id) {
+        return rawJsons.get("strata/" + id);
+    }
+
+    /**
+     * Used to get a raw JsonObject of material under specified id.
+     * @param id Id of Material to get.
+     * @return Raw JsonObject of the MaterialModel under that id, or null if not present.
+     * @apiNote RawJson map will get cleared after execution of {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)};
+     */
+    public JsonObject getRawMaterial(String id) {
+        return rawJsons.get("material/" + id);
+    }
+
+    @ApiStatus.Internal
+    public void clean() {
+        this.rawJsons.clear();
+    }
+
+    @Deprecated(since = "2.2.0", forRemoval = true)
+    @SuppressWarnings("removal")
     public void registerCompat(CompatModel compatModel){
         this.compat.add(compatModel);
     }
 
+    @Deprecated(since = "2.2.0", forRemoval = true)
+    @SuppressWarnings("removal")
     public List<CompatModel> getCompat() {
         return ImmutableList.copyOf(compat);
     }

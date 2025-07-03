@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
@@ -50,8 +51,6 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.*;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -59,8 +58,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 //This plugin will be always first
-@EmendatusPluginReference(modid = Reference.MOD_ID, name = "vanilla-plugin")
-public class VanillaPlugin implements IEmendatusPlugin {
+@EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")
+public class VanillaPlugin extends BasicEmendatusPlugin {
     @Override
     public void setup() {
         try {
@@ -74,11 +73,11 @@ public class VanillaPlugin implements IEmendatusPlugin {
                 Files.createDirectories(materialDir);
                 EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/material/");
             }
-            Path compatDir = Analytics.CONFIG_DIR.resolve("compat/");
-            if (Files.notExists(compatDir)) {
-                Files.createDirectories(compatDir);
-                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/compat/");
-            }
+//            Path compatDir = Analytics.CONFIG_DIR.resolve("compat/");
+//            if (Files.notExists(compatDir)) {
+//                Files.createDirectories(compatDir);
+//                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/compat/");
+//            }
             Path depositDir = Analytics.CONFIG_DIR.resolve("deposit/");
             if (Files.notExists(depositDir)) {
                 Files.createDirectories(depositDir);
@@ -96,8 +95,8 @@ public class VanillaPlugin implements IEmendatusPlugin {
     }
 
     @Override
-    public void registerMinecraft(List<MaterialModel> materialModels, List<StrataModel> strataModels) {
-        for (MaterialModel material : materialModels) {
+    public void registerMinecraft(EmendatusDataRegistry registry) {
+        for (MaterialModel material : registry.getMaterials()) {
             List<String> types = material.getProcessedTypes();
             if (types.contains("storage_block")) EERegistrar.registerStorageBlocks(material);
             if (types.contains("ingot"))    EERegistrar.registerIngots(material);
@@ -132,7 +131,7 @@ public class VanillaPlugin implements IEmendatusPlugin {
                 EERegistrar.registerClusterShards(material);
             }
 
-            for (StrataModel strata : strataModels) {
+            for (StrataModel strata : registry.getStrata()) {
                 if (types.contains("ore")) {
                     if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) EERegistrar.registerOre(strata, material);
 
@@ -156,7 +155,7 @@ public class VanillaPlugin implements IEmendatusPlugin {
     }
 
     @Override
-    public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {
         generator.addProvider(true, new BlockStatesGen(generator, registry));
         generator.addProvider(true, new BlockModelsGen(generator, registry));
         generator.addProvider(true, new BlockTagsGen(generator, registry));

@@ -27,13 +27,12 @@ package com.ridanisaurus.eeoccultismaddon;
 import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
+import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCData;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
 import net.minecraft.core.HolderLookup;
@@ -43,12 +42,11 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-@EmendatusPluginReference(modid = EEOccultismPlugin.MOD_ID, name = "occultism-plugin")
+@EmendatusPluginReference(modId = EEOccultismPlugin.MOD_ID, name = "occultism-plugin")
 @Mod(EEOccultismPlugin.MOD_ID)
-public class EEOccultismPlugin implements IEmendatusPlugin {
+public class EEOccultismPlugin extends BasicEmendatusPlugin {
 	public static final String MOD_ID = "ee_occultism_addon";
 	public static ModConfigSpec.BooleanValue disableSilver = null;
 	public static ModConfigSpec.BooleanValue disableIesnium = null;
@@ -67,7 +65,7 @@ public class EEOccultismPlugin implements IEmendatusPlugin {
 	}
 
 	@Override
-	public void registerDynamicDataGen(DataGenerator generator, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+	public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {
 		generator.addProvider(true, new OccultismRecipeGen(generator, registry, providers));
 		generator.addProvider(true, new OccultismWorldGen(generator, providers));
 	}

@@ -63,8 +63,8 @@ public class DefaultLoader {
 
         Map<Path, JsonObject> strataDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("strata/"));
         Map<Path, JsonObject> materialDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("material/"));
-        Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("compat/"));
         Map<Path, JsonObject> depositJsonDefinitionsMap = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("deposit/"));
+//        Map<Path, JsonObject> compatDefinition = FileHelper.loadJsonsWithPaths(Analytics.CONFIG_DIR.resolve("compat/"));
 
         Analytics.addPerformanceAnalytic("Loading and parsing JSON Files", s);
 
@@ -72,8 +72,8 @@ public class DefaultLoader {
         // For now, a lot of stuff isn't thread-safe to make this work in the parallel. We leave this for the future Kanz / Maintainer to deal with!
         registerStrata(strataDefinition, registry);
         registerMaterials(materialDefinition, registry);
-        registerCompat(compatDefinition, registry);
         registerDeposits(depositJsonDefinitionsMap, registry);
+//        registerCompat(compatDefinition, registry);
     }
 
     private static void registerStrata(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
@@ -85,7 +85,7 @@ public class DefaultLoader {
             if (result.isEmpty()) return;
 
             StrataModel strataModel = result.get().getFirst();
-            registry.registerStrata(strataModel);
+            registry.registerStrata(strataModel, object);
             STRATA_IDS.add(strataModel.getId());
             STRATA_SUFFIXES.add(strataModel.getSuffix());
         });
@@ -101,12 +101,14 @@ public class DefaultLoader {
             if (result.isEmpty()) return;
 
             MaterialModel materialModel = result.get().getFirst();
-            registry.getMaterialOrRegister(materialModel.getId(), materialModel);
+            registry.registerMaterial(materialModel, object);
             MATERIAL_IDS.add(materialModel.getId());
         });
         Analytics.addPerformanceAnalytic("Validation: Material", s);
     }
 
+    @Deprecated(since = "2.2.0", forRemoval = true)
+    @SuppressWarnings("removal")
     private static void registerCompat(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();
         definitions.forEach((path, object) -> {

@@ -71,7 +71,7 @@ dependencyResolutionManagement {
 def addons = [
 //    "ArsNoveau", //TODO: Enable when ars ports
 //    "Create", //TODO: Enable when create ports
-//   "Mekanism", //TODO: Enable when mek updates to NF 21.0.37 (Currently supports max 21.0.30)
+    "Mekanism",
     "Occultism",
 //    "Thermal" //TODO: Enable when thermal ports
 ]
