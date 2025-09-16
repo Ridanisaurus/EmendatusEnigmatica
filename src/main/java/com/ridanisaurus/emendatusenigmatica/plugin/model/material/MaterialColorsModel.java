@@ -40,36 +40,29 @@ import java.util.*;
 public class MaterialColorsModel {
 	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
-			Codec.STRING.optionalFieldOf("chemicalColor").forGetter(i -> Optional.of(i.chemicalColor)),
 			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> Optional.of(i.particlesColor)),
 			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor)),
 			Codec.STRING.optionalFieldOf("oxidizationColor").forGetter(i -> Optional.of(i.oxidizationColor))
-	).apply(x, (fluidColor, gasColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
+	).apply(x, (fluidColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
 			fluidColor.orElse(null),
-			gasColor.orElse(null),
 			particlesColor.orElse(null),
 			materialColor.orElse(null),
 			oxidizationColor.orElse(null)
 	)));
 
-	//TODO: Move GasColor and ChemicalColor validators to the addon.
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("fluidColor",		new ColorValidator(false))
 		.addValidator("materialColor",	new ColorValidator(false))
 		.addValidator("particlesColor",	new ParticlesColorValidator())
-		.addValidator("oxidizationColor",	new OxidizationColorValidator())
-		.addValidator("chemicalColor",	new ChemicalColorValidator())
-		.addValidator("gasColor", 		new DeprecatedFieldValidator("chemicalColor"));
+		.addValidator("oxidizationColor",	new OxidizationColorValidator());
 
 	private final String fluidColor;
-	private final String chemicalColor;
 	private final String particlesColor;
 	private final String materialColor;
 	private final String oxidizationColor;
 
-	public MaterialColorsModel(@Nullable String fluidColor, @Nullable String chemicalColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
+	public MaterialColorsModel(@Nullable String fluidColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
 		this.fluidColor = fluidColor;
-		this.chemicalColor = chemicalColor;
 		this.particlesColor = particlesColor;
 		this.materialColor = materialColor;
 		this.oxidizationColor = oxidizationColor;
@@ -77,7 +70,6 @@ public class MaterialColorsModel {
 
 	public MaterialColorsModel() {
 		this.fluidColor = null;
-		this.chemicalColor = null;
 		this.particlesColor = null;
 		this.materialColor = null;
 		this.oxidizationColor = null;
@@ -103,10 +95,6 @@ public class MaterialColorsModel {
 		return hasFluidColor() ? ColorHelper.HEXtoDEC(fluidColor) : -1;
 	}
 
-	public int getChemicalColor() {
-		return hasGasColor() ? ColorHelper.HEXtoDEC(chemicalColor) : -1;
-	}
-
 	public int getParticlesColor() {
 		return hasParticlesColor() ? ColorHelper.HEXtoDEC(particlesColor) : -1;
 	}
@@ -121,10 +109,6 @@ public class MaterialColorsModel {
 
 	public boolean hasFluidColor() {
 		return fluidColor != null;
-	}
-
-	public boolean hasGasColor() {
-		return chemicalColor != null;
 	}
 
 	public boolean hasParticlesColor() {

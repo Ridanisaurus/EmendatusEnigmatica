@@ -100,7 +100,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 def dependencyMap = [
     ArsNoveau: ["curse.maven:ars-nouveau-401955:${an_version}"],
     Create: ["curse.maven:create-328085:${create_version}"],
-    Mekanism: ["curse.maven:mekanism-268560:${mekanism_version}"],
+    Mekanism: ["mekanism:Mekanism:${mekanism_version}"],
     Occultism: [
         "curse.maven:occultism-361026:${occultism_version}",
         "curse.maven:geckolib-388172:${geckolib_version}",

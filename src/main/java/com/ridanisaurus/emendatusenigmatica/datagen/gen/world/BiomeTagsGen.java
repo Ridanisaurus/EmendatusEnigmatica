@@ -3,7 +3,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EETagProvider;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
@@ -19,7 +19,7 @@ public class BiomeTagsGen extends EETagProvider {
 
     @Override
     protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-        for (IDepositProcessor processor : DefaultLoader.ACTIVE_PROCESSORS) {
+        for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
             var biomes = processor.getCommonModel().getBiomes();
 
             // Generate packed tags for deposits which contain more than a single tag in the biome array.

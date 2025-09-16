@@ -29,12 +29,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.processors.*;
+import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtension;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -42,13 +43,12 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 
-public class DefaultLoader {
+public class ModelLoader {
+    private static final Map<ModelExtensionType, List<ModelExtension<?,?>>> EXTENSIONS = new HashMap<>();
     public static final List<String> MATERIAL_IDS = new ArrayList<>();
     public static final List<String> STRATA_IDS = new ArrayList<>();
     public static final List<String> DEPOSIT_IDS = new ArrayList<>();
@@ -56,6 +56,17 @@ public class DefaultLoader {
     public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
     public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
     public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
+
+    public static void registerExtension(ModelExtension<?,?> extension) {
+        EXTENSIONS.computeIfAbsent(
+            Objects.requireNonNull(extension, "Can't register null extension!").getType(),
+            it -> new ArrayList<>()
+        ).add(extension);
+    }
+
+    public static List<ModelExtension<?, ?>> getExtensions(ModelExtensionType type) {
+        return EXTENSIONS.computeIfAbsent(type, it -> new ArrayList<>());
+    }
 
     protected static void load(EmendatusDataRegistry registry) {
         // Analytics.
@@ -85,9 +96,21 @@ public class DefaultLoader {
             if (result.isEmpty()) return;
 
             StrataModel strataModel = result.get().getFirst();
-            registry.registerStrata(strataModel, object);
+            registry.registerStrata(strataModel);
             STRATA_IDS.add(strataModel.getId());
             STRATA_SUFFIXES.add(strataModel.getSuffix());
+
+            for (ModelExtension<?, ?> extension : getExtensions(ModelExtensionType.STRATA)) {
+                try {
+                    var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
+                    if (extended.isEmpty()) continue;
+                    @SuppressWarnings("unchecked")
+                    var model = (ModelExtensionData<StrataModel>) extended.get().getFirst();
+                    registry.registerExtension(extension.getPlugin(), model.setOriginalModel(strataModel).setType(ModelExtensionType.STRATA));
+                } catch (Exception e) {
+                    Analytics.error("Failed parsing extension: %d", e.getMessage(), "root", ValidationHelper.obfuscatePath(path));
+                }
+            }
         });
         Analytics.addPerformanceAnalytic("Validation: Strata", s);
     }
@@ -101,8 +124,20 @@ public class DefaultLoader {
             if (result.isEmpty()) return;
 
             MaterialModel materialModel = result.get().getFirst();
-            registry.registerMaterial(materialModel, object);
+            registry.registerMaterial(materialModel);
             MATERIAL_IDS.add(materialModel.getId());
+
+            for (ModelExtension<?, ?> extension : getExtensions(ModelExtensionType.MATERIAL)) {
+                try {
+                    var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
+                    if (extended.isEmpty()) continue;
+                    @SuppressWarnings("unchecked")
+                    var model = (ModelExtensionData<MaterialModel>) extended.get().getFirst();
+                    registry.registerExtension(extension.getPlugin(), model.setOriginalModel(materialModel).setType(ModelExtensionType.MATERIAL));
+                } catch (Exception e) {
+                    Analytics.error("Failed parsing extension: %d", e.getMessage(), "root", ValidationHelper.obfuscatePath(path));
+                }
+            }
         });
         Analytics.addPerformanceAnalytic("Validation: Material", s);
     }

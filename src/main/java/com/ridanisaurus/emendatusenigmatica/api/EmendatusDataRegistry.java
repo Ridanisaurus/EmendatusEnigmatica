@@ -25,20 +25,16 @@
 package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.google.common.collect.ImmutableList;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionData;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Registry of all the data loaded from the plugins in {@link com.ridanisaurus.emendatusenigmatica.loader.EELoader} using {@link IEmendatusPlugin}
@@ -46,14 +42,11 @@ import java.util.Map;
  * Here are stored all the materials, strata and compat.
  */
 public class EmendatusDataRegistry {
+    private final Map<Class<? extends IEmendatusPlugin<?>>, List<ModelExtensionData<?>>> extensions;
     private final Map<String, MaterialModel> materials;
-    private final Map<String, StrataModel> strata;
     private final Map<String, String> strataByFiller;
-    /**
-     * Temporary storage of raw JsonObjects for {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)} step,
-     * so addons can parse custom data.
-     */
-    private final Map<String, JsonObject> rawJsons;
+    private final Map<String, StrataModel> strata;
+
 
     @Deprecated(since = "2.2.0", forRemoval = true)
     @SuppressWarnings("removal")
@@ -63,19 +56,48 @@ public class EmendatusDataRegistry {
         this.strataByFiller = new HashMap<>();
         this.materials = new HashMap<>();
         this.strata = new HashMap<>();
-        this.rawJsons = new HashMap<>();
         this.compat = new ArrayList<>();
+        this.extensions = new HashMap<>();
+    }
+
+    public void registerExtension(Class<? extends IEmendatusPlugin<?>> plugin, ModelExtensionData<?> data) {
+        this.extensions.computeIfAbsent(Objects.requireNonNull(plugin), it -> new ArrayList<>()).add(Objects.requireNonNull(data));
+    }
+
+    public List<ModelExtensionData<?>> getExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
+        return this.extensions.computeIfAbsent(Objects.requireNonNull(plugin), it -> new ArrayList<>());
+    }
+
+    /**
+     * @implNote Use default cast if your plugin provides more than a single Strata Extension!
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends ModelExtensionData<StrataModel>> List<T> getStrataExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
+        var ext = getExtensions(plugin);
+        return ext.stream()
+            .filter(it -> it.getType() == ModelExtensionType.STRATA)
+            .map(it -> (T) it)
+            .toList();
+    }
+
+    /**
+     * @implNote Use default cast if your plugin provides more than a single Material Extension!
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends ModelExtensionData<MaterialModel>> List<T> getMaterialExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
+        var ext = getExtensions(plugin);
+        return ext.stream()
+            .filter(it -> it.getType() == ModelExtensionType.MATERIAL)
+            .map(it -> (T) it)
+            .toList();
     }
 
     /**
      * Used to register a new Material model.
      * @param model MaterialModel to register.
-     * @param rawJson Raw JsonObject of this material.
-     * @apiNote rawJson should be a direct object parsed from the file, for addons to be able to parse custom fields.
      */
-    public void registerMaterial(MaterialModel model, JsonObject rawJson) {
+    public void registerMaterial(MaterialModel model) {
         this.materials.put(model.getId(), model);
-        this.rawJsons.put("material/" + model.getId(), rawJson);
     }
 
     /**
@@ -97,13 +119,10 @@ public class EmendatusDataRegistry {
     /**
      * Used to register a new Strata model.
      * @param model MaterialModel to register.
-     * @param rawJson Raw JsonObject of this strata.
-     * @apiNote rawJson should be a direct object parsed from the file, for addons to be able to parse custom fields.
      */
-    public void registerStrata(@NotNull StrataModel model, @NotNull JsonObject rawJson){
+    public void registerStrata(@NotNull StrataModel model) {
         this.strataByFiller.put(model.getFillerType().toString(), model.getId());
         this.strata.put(model.getId(), model);
-        this.rawJsons.put("strata/" + model.getId(), rawJson);
     }
 
     /**
@@ -131,31 +150,6 @@ public class EmendatusDataRegistry {
         String id = this.strataByFiller.get(filler.toString());
         if (id == null) return null;
         return this.strata.get(id);
-    }
-
-    /**
-     * Used to get a raw JsonObject of strata under specified id.
-     * @param id Id of Strata to get.
-     * @return Raw JsonObject of the StrataModel under that id, or null if not present.
-     * @apiNote RawJson map will get cleared after execution of {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)};
-     */
-    public JsonObject getRawStrata(String id) {
-        return rawJsons.get("strata/" + id);
-    }
-
-    /**
-     * Used to get a raw JsonObject of material under specified id.
-     * @param id Id of Material to get.
-     * @return Raw JsonObject of the MaterialModel under that id, or null if not present.
-     * @apiNote RawJson map will get cleared after execution of {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)};
-     */
-    public JsonObject getRawMaterial(String id) {
-        return rawJsons.get("material/" + id);
-    }
-
-    @ApiStatus.Internal
-    public void clean() {
-        this.rawJsons.clear();
     }
 
     @Deprecated(since = "2.2.0", forRemoval = true)

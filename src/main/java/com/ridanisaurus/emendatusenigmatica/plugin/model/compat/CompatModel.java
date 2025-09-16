@@ -28,7 +28,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import java.util.*;
 
@@ -40,7 +40,7 @@ public class CompatModel {
 	).apply(x, CompatModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("id", new EERegistryValidator(DefaultLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", true))
+		.addValidator("id", new EERegistryValidator(ModelLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", true))
 		.addValidator("recipes", CompatRecipesModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
 
 	private final String id;

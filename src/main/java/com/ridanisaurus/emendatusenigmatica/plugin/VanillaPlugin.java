@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.*;
@@ -91,7 +90,7 @@ public class VanillaPlugin extends BasicEmendatusPlugin {
 
     @Override
     public void load(EmendatusDataRegistry registry) {
-        DefaultLoader.load(registry);
+        ModelLoader.load(registry);
     }
 
     @Override

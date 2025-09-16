@@ -35,7 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLo
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
@@ -67,7 +67,7 @@ public class GeodeDepositConfigModel {
 		.addValidator("innerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("innerBlocks",      CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("fillBlocks",       CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("fillerTypes",      new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("fillerTypes",      new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("clusters",         new ResourceLocationValidator(false, new BlockRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY)
 		.addValidator("chance",           new NumberRangeValidator(Types.INTEGER, 1, 100, true))
 		.addValidator("crackChance",      new NumberRangeValidator(Types.FLOAT, 0, 1, false))

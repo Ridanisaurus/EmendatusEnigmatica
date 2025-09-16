@@ -25,19 +25,14 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.strata;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 /**
  * Custom implementation of {@link ValuesValidator}, used to validate Suffix Field of the Strata.
@@ -68,7 +63,7 @@ public class SuffixValidator extends TypeValidator {
             Analytics.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), data);
             return false;
         }
-        if (!DefaultLoader.STRATA_SUFFIXES.contains(value)) return true;
+        if (!ModelLoader.STRATA_SUFFIXES.contains(value)) return true;
         String ogId = EmendatusEnigmatica.getInstance()
             .getDataRegistry().getStrata()
             .stream().filter(it -> it.getSuffix().equals(value))

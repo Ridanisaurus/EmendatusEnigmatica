@@ -37,6 +37,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,6 +47,37 @@ import java.util.Objects;
  * @implNote In practice, specified ArrayHandlingPolicy is ignored, and this validator acts as <code>REQUIRES_ARRAY</code> is always specified with <code>allowEmpty</code> set to <code>false</code>.
  */
 public class ProcessedTypesValidator extends ValuesValidator {
+    public static final List<String> TYPES = new ArrayList<>(List.of(
+        "storage_block",
+        "ingot",
+        "gem",
+        "ore",
+        "raw",
+        "nugget",
+        "dust",
+        "plate",
+        "gear",
+        "rod",
+        "fluid",
+        "cluster",
+        "sword",
+        "pickaxe",
+        "axe",
+        "shovel",
+        "hoe",
+        "paxel",
+        "shield",
+        "armor",
+        //TODO: Remove next breaking update. Left here so errors are not generated for deprecated values
+        "helmet",
+        "chestplate",
+        "leggings",
+        "boots",
+        //TODO: Move to the addons. Somehow
+        "dirty_dust",
+        "crushed_ore"
+    ));
+
     /**
      * @deprecated This field is temporary and will be removed next breaking update.
      */
@@ -63,42 +95,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
      * @see ProcessedTypesValidator Documentation of the validator.
      */
     public ProcessedTypesValidator() {
-        super(List.of(
-            "storage_block",
-            "ingot",
-            "gem",
-            "ore",
-            "raw",
-            "nugget",
-            "dust",
-            "plate",
-            "gear",
-            "rod",
-            "fluid",
-            "cluster",
-            "sword",
-            "pickaxe",
-            "axe",
-            "shovel",
-            "hoe",
-            "paxel",
-            "shield",
-            "armor",
-            //TODO: Remove next breaking update. Left here so errors are not generated for deprecated values
-            "helmet",
-            "chestplate",
-            "leggings",
-            "boots",
-            //TODO: Move to the addons. Somehow
-            "infuse_type",
-            "gas",
-            "slurry",
-            "crystal",
-            "shard",
-            "clump",
-            "dirty_dust",
-            "crushed_ore"
-        ), FilterMode.WHITELIST, true);
+        super(TYPES, FilterMode.WHITELIST, true);
     }
 
     /**

@@ -30,7 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldPresentValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
@@ -59,7 +59,7 @@ public class SampleBlockDefinitionModel {
 		.addValidator("weight",   new TypeValidator(Types.INTEGER, false))
 		.addValidator("strata",   new FieldPresentValidator(
 			"material",
-			new EERegistryValidator(DefaultLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", false))
+			new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", false))
 		);
 
 	public SampleBlockDefinitionModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, @Nullable String strata) {

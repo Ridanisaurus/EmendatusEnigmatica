@@ -49,9 +49,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -163,22 +160,23 @@ public class EELoader {
             }
 
             // We only generate defaults if the Config Dir is not existent.
-            if (Files.exists(Analytics.CONFIG_DIR)) return;
-            EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
-            var ctx = new DCCreationContext();
-            this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation.name())));
+            if (Files.notExists(Analytics.CONFIG_DIR)) {
+                EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
+                var ctx = new DCCreationContext();
+                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation.name())));
 
-            CompletableFuture<Void> future = CompletableFuture.allOf(
-                ctx.getEntries()
-                    .stream()
-                    .map(it -> it.save(Util.ioPool()))
-                    .toList()
-                    .toArray(new CompletableFuture[] {})
-            );
+                CompletableFuture<Void> future = CompletableFuture.allOf(
+                    ctx.getEntries()
+                        .stream()
+                        .map(it -> it.save(Util.ioPool()))
+                        .toList()
+                        .toArray(new CompletableFuture[] {})
+                );
 
-            future.get();
+                future.get();
 
-            EmendatusEnigmatica.logger.info("Defaults generated.");
+                EmendatusEnigmatica.logger.info("Defaults generated.");
+            };
         }
 
         // Call Setup after generation of the default configuration files.
@@ -191,7 +189,6 @@ public class EELoader {
      */
     public void loadData() {
 		this.plugins.forEach(it -> it.plugin.load(this.dataRegistry, it.registry));
-        dataRegistry.clean();
 		this.plugins.forEach(it -> it.plugin.registerMinecraft(this.dataRegistry, it.registry));
     }
 

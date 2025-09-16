@@ -24,14 +24,13 @@
 
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.resources.ResourceLocation;
 
@@ -49,6 +48,6 @@ public class EMIPlugin implements EmiPlugin {
 	public void register(EmiRegistry registry) {
 		registry.addCategory(WORLD_GEN_CATEGORY);
 
-		DefaultLoader.ACTIVE_PROCESSORS.forEach(it -> registry.addRecipe(new WorldGenRecipe(it)));
+		ModelLoader.ACTIVE_PROCESSORS.forEach(it -> registry.addRecipe(new WorldGenRecipe(it)));
 	}
 }

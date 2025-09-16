@@ -32,7 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidatio
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -49,7 +49,7 @@ import java.util.Objects;
  * @implSpec <code>block</code> and <code>tag</code> fields should be set to {@link RequiredValidator} as optional fields!
  */
 public class MaterialValidator implements IValidationFunction {
-    private static final IValidationFunction materialValidator = new EERegistryValidator(DefaultLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", false);
+    private static final IValidationFunction materialValidator = new EERegistryValidator(ModelLoader.MATERIAL_IDS, EERegistryValidator.REFERENCE, "Material", false);
     private static final IValidationFunction blockValidator = new ResourceLocationValidator(false, new BlockRegistryValidator());
     private static final IValidationFunction tagValidator = new ResourceLocationValidator(false);
     private final boolean includeTag;

@@ -66,6 +66,7 @@ public interface IEmendatusPlugin<T> {
     /**
      * Method used to register minecraft objects like items or blocks.
      * @param registry The EmendatusDataRegistry used to store data used by EE.
+     * @param customRegistry CustomRegistry object specified in the annotation, or null if {@link Void}
      * @implNote You will only need to register objects if you are adding new types that Emendatus Enigmatica doesn't support.
      */
     default void registerMinecraft(EmendatusDataRegistry registry, T customRegistry) {}
@@ -75,6 +76,7 @@ public interface IEmendatusPlugin<T> {
      * @param generator DataGenerator to register data providers to.
      * @param registry Emendatus Enigmatica registry with all data parsed from the configuration files.
      * @param providers Vanilla Registry Lookup for use with vanilla generators that require it.
+     * @param customRegistry CustomRegistry object specified in the annotation, or null if {@link Void}
      * @implSpec This will not run at your typical data generation time,
      * it will be executed at runtime and automatically injected into the game,
      * but they function the same as normal data generation.

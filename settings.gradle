@@ -46,7 +46,13 @@ dependencyResolutionManagement {
         // EMI
         maven { name = "TerraformersMC"; url = "https://maven.terraformersmc.com/" }
         // Mod Maven
-        maven { url 'https://modmaven.dev/' }
+        maven {
+            url 'https://modmaven.dev/'
+            content {
+                includeGroup "mekanism"
+                includeGroup "dev.emi"
+            }
+        }
         // Curse Maven
         maven {
             url = "https://www.cursemaven.com"

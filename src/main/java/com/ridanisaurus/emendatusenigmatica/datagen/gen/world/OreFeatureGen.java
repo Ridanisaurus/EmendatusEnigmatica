@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import static com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader.ACTIVE_PROCESSORS;
+import static com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader.ACTIVE_PROCESSORS;
 
 public class OreFeatureGen implements DataProvider {
     private final PackOutput output;

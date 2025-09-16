@@ -5,7 +5,7 @@ license="MIT"
 [[mods]]
 modId="ee_mekanism_addon"
 version="1.0.1"
-displayName="EE:Mekanism"
+displayName="EE: Mekanism Addon"
 logoFile="ee_meknism_logo.png"
 authors="Ridanisaurus"
 description='''
@@ -23,5 +23,12 @@ side = "BOTH"
 modId = "neoforge"
 mandatory = true
 versionRange = "[21.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.ee_mekanism_addon]]
+modId = "mekanism"
+mandatory = true
+versionRange = "[1.21.1-10.7.9.72,)"
 ordering = "AFTER"
 side = "BOTH"

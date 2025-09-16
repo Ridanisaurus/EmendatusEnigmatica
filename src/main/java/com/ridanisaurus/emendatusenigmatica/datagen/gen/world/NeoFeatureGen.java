@@ -28,7 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.DefaultLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -72,7 +72,7 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	protected void buildFeatures(HolderLookup.Provider provider, Consumer<IFinishedGenericJSON> consumer) {
 		handleVanillaOres(consumer);
 
-		for (IDepositProcessor processor : DefaultLoader.ACTIVE_PROCESSORS) {
+		for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
 			CommonDepositModelBase model = processor.getCommonModel();
 			List<String> biomes = new ArrayList<>();
 			List<String> features = new ArrayList<>();
