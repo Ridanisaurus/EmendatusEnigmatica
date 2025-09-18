@@ -68,7 +68,6 @@ public class OreFeatureGen implements DataProvider {
         List<Pair<ResourceKey<PlacedFeature>, PlacedFeature>> PLACED_FEATURES = new ArrayList<>();
 
         //TODO:
-        // Add rest of the generation types
         // Test this a bit more.
         builder.add(Registries.CONFIGURED_FEATURE, bt -> {
             for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {

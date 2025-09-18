@@ -1,7 +1,9 @@
 package com.ridanisaurus.emendatusenigmatica.api.config;
 
 import com.mojang.datafixers.util.Pair;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
@@ -19,10 +21,13 @@ import java.util.function.Predicate;
 public class DCCreationContext {
     private final Map<AbstractDCType, List<DCData>> dataByType = new HashMap<>();
     private String currentAddon = null;
+    private String currentId = null;
 
     @ApiStatus.Internal
-    public DCCreationContext setCurrentAddon(String name) {
-        this.currentAddon = name;
+    public DCCreationContext setCurrentAddon(@NotNull EmendatusPluginReference annotation) {
+        Objects.requireNonNull(annotation, "Plugin Annotation can't be null!");
+        this.currentAddon = annotation.name();
+        this.currentId = annotation.modId();
         return this;
     }
 
@@ -88,5 +93,17 @@ public class DCCreationContext {
         List<DCData> ar = new ArrayList<>();
         dataByType.values().forEach(ar::addAll);
         return ar;
+    }
+
+    /**
+     * Utility method to get the internal path for config files.
+     * @param path Path to the file.
+     * @return A path to the file in the assets folder.
+     * @apiNote The format is <code>assets/ADDON_ID/configs/PATH</code>.
+     */
+    @Contract(pure = true)
+    @NotNull
+    public String getInternalPath(String path) {
+        return "assets/%s/configs/%s".formatted(currentId, path);
     }
 }

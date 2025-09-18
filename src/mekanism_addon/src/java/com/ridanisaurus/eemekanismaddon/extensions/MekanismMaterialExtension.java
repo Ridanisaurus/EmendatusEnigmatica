@@ -9,26 +9,26 @@ import java.util.Optional;
 
 public class MekanismMaterialExtension extends MaterialExtensionData {
     public static final Codec<MekanismMaterialExtension> CODEC = RecordCodecBuilder.create(x -> x.group(
-        ColorWrapper.CODEC.optionalFieldOf("color").forGetter(i -> Optional.of(new ColorWrapper(i.chemicalColor)))
-    ).apply(x, (gasColor) -> new MekanismMaterialExtension(
-        gasColor.orElse(new ColorWrapper(null)).color
+        ColorExtension.CODEC.optionalFieldOf("color").forGetter(i -> Optional.of(new ColorExtension(i.chemicalColor))),
+        GasExtension.CODEC.optionalFieldOf("gas").forGetter(i -> Optional.of(i.gas))
+    ).apply(x, (gasColor, gas) -> new MekanismMaterialExtension(
+        gasColor.orElse(new ColorExtension(null)).color(),
+        gas.orElse(new GasExtension())
     )));
 
     private final String chemicalColor;
+    private final GasExtension gas;
 
-    public MekanismMaterialExtension(String chemicalColor) {
+    public MekanismMaterialExtension(String chemicalColor, GasExtension gas) {
         this.chemicalColor = chemicalColor;
+        this.gas = gas;
     }
 
     public int getChemicalColor() {
         return chemicalColor != null ? ColorHelper.HEXtoDEC(chemicalColor) : -1;
     }
 
-    private record ColorWrapper(String color) {
-        private static final Codec<ColorWrapper> CODEC = RecordCodecBuilder.create(x -> x.group(
-            Codec.STRING.optionalFieldOf("chemicalColor").forGetter(i -> Optional.of(i.color))
-        ).apply(x, (color) -> new ColorWrapper(
-            color.orElse(null)
-        )));
+    public GasExtension getGasData() {
+        return this.gas;
     }
 }

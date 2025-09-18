@@ -163,7 +163,7 @@ public class EELoader {
             if (Files.notExists(Analytics.CONFIG_DIR)) {
                 EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
                 var ctx = new DCCreationContext();
-                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation.name())));
+                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation)));
 
                 CompletableFuture<Void> future = CompletableFuture.allOf(
                     ctx.getEntries()

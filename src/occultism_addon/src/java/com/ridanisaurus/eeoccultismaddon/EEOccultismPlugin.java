@@ -82,16 +82,11 @@ public class EEOccultismPlugin extends BasicEmendatusPlugin {
 			data.updateWrappedObject(obj);
 		});
 
-		MaterialType.addTypesOrRegister(ctx, getInternalPath("silver"), "common");
-		MaterialType.addTypesOrRegister(ctx, getInternalPath("iesnium"), "occultism");
+		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("silver"), "common");
+		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("iesnium"), "occultism");
 
-		DepositType.registerIfAvailable(ctx, getInternalPath("iesnium_ore"), "occultism");
-		DepositType.registerIfAvailable(ctx, getInternalPath("silver_ore"), "common/silver");
-		DepositType.registerIfAvailable(ctx, getInternalPath("silver_deepslate_ore"), "common/silver");
-	}
-
-	@Contract(pure = true)
-	private @NotNull String getInternalPath(String path) {
-		return "assets/%s/configs/%s".formatted(MOD_ID, path);
+		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("iesnium_ore"), "occultism");
+		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_ore"), "common/silver");
+		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_deepslate_ore"), "common/silver");
 	}
 }

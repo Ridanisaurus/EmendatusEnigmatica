@@ -50,6 +50,7 @@ public class EEPackFinder implements RepositorySource {
 	}
 
 	//TODO: Test if this implementation doesn't cause memory / performance issues.
+	// Add Texture-loading from the config directory.
 	@Override
 	public void loadPacks(@NotNull Consumer<Pack> onLoad) {
 		Path rootPath = DataGeneratorFactory.ROOT_PATH;

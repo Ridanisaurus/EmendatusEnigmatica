@@ -14,6 +14,9 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 //import mekanism.api.chemical.slurry.SlurryBuilder;
 //import mekanism.api.math.FloatingLong;
 import mekanism.api.chemical.Chemical;
+import mekanism.api.chemical.ChemicalBuilder;
+import mekanism.api.chemical.attribute.ChemicalAttribute;
+import mekanism.api.chemical.attribute.ChemicalAttributes;
 import mekanism.common.registration.impl.ChemicalDeferredRegister;
 import mekanism.common.registration.impl.DeferredChemical;
 import mekanism.common.registration.impl.SlurryRegistryObject;
@@ -31,8 +34,6 @@ public class EEMekanismRegistrar {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Reference.MOD_ID);
 
 	// Mekanism Compat
-	public static Map<String, DeferredChemical<Chemical>> dirtySlurryMap = new HashMap<>();
-	public static Map<String, DeferredChemical<Chemical>> cleanSlurryMap = new HashMap<>();
     public static Map<String, SlurryRegistryObject<Chemical, Chemical>> slurryMap = new HashMap<>();
     public static Map<String, DeferredChemical<Chemical>> infuseMap = new HashMap<>();
     public static Map<String, DeferredChemical<Chemical>> gasMap = new HashMap<>();
@@ -65,38 +66,31 @@ public class EEMekanismRegistrar {
 	}
 
     public static void registerSlurries(MekanismMaterialExtension material) {
-        String itemNameDirty = "dirty_" + material.getId();
-        String itemNameClean = "clean_" + material.getId();
-
         ResourceLocation ore = ResourceLocation.fromNamespaceAndPath(Reference.COMMON, "ores/" + material.getId());
-
         slurryMap.put(material.getId(), CHEMICALS.registerSlurry(material.getId(), it -> it.tint(material.getChemicalColor()).ore(ore)));
-
-//        dirtySlurryMap.put(material.getId(), SLURRIES.register(itemNameDirty, () -> new Slurry(SlurryBuilder.dirty().ore(ore).color(material.getColors().getGasColor()))));
-//        cleanSlurryMap.put(material.getId(), SLURRIES.register(itemNameClean, () -> new Slurry(SlurryBuilder.clean().ore(ore).color(material.getColors().getGasColor()))));
     }
 
     public static void registerGases(MekanismMaterialExtension material) {
-//        String itemName = "gaseous_" + material.getId();
-//        GasBuilder builder = GasBuilder.builder();
-//        builder.color(material.getChemicalColor());
-//
-//        if (material.getGas().isBurnable()) {
-//            builder.with(new GasAttributes.Fuel(()-> material.getGas().getBurnTime(), ()-> FloatingLong.create(material.getGas().getEnergyDensity())));
-//        }
-//        if (material.getGas().isRadioactive()) {
-//            builder.with(new GasAttributes.Radiation(material.getGas().getRadioactivity()));
-//        }
-//        if (material.getGas().isCoolant()) {
+        var og = material.getOriginalModel();
+        var gas = material.getGasData();
+
+        String itemName = "gaseous_" + material.getId();
+        ChemicalBuilder builder = ChemicalBuilder.builder().tint(material.getChemicalColor()).gaseous();
+
+        if (gas.isBurnable()) builder.with(new ChemicalAttributes.Fuel(gas.getBurnTime(), gas.getEnergyDensity()));
+        if (gas.isRadioactive()) builder.with(new ChemicalAttributes.Radiation(gas.getRadioactivity()));
+        //TODO: Replace with DataGeneration. Apparently it's datapacks now and attributes are deprecated.
+        // Why it's not marked as deprecated?
+        if (gas.isCoolant()) {
 //             TODO: Check if BOTH needs to be created
-//            if (material.getGas().getCoolantType().equals("cooled")) {
+            if (gas.getCoolantType().equals("cooled")) {
 //                builder.with(new GasAttributes.CooledCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
-//            } else {
+            } else {
 //                builder.with(new GasAttributes.HeatedCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
-//            }
-//        }
-//
-//        gasMap.put(material.getId(), GASES.register(itemName, () -> new Gas(builder)));
+            }
+        }
+
+        gasMap.put(material.getId(), CHEMICALS.register(itemName, () -> new Chemical(builder)));
     }
 
 

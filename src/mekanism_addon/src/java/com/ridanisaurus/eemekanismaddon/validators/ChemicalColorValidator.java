@@ -22,21 +22,18 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.gas;
+package com.ridanisaurus.eemekanismaddon.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ColorValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
-public class RadioactivityValidator extends FieldTrueValidator {
-    private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);
-    /**
-     * Constructs RadioactivityValidator.
-     *
-     * @see RadioactivityValidator Documentation of the validator.
-     */
-    public RadioactivityValidator() {
-        super("isRadioactive", validator);
+import java.util.List;
+
+public class ChemicalColorValidator extends ProcessedTypesContainValidator {
+    private static final IValidationFunction validator = new ColorValidator(false);
+    public ChemicalColorValidator() {
+        super(List.of("infuse_type", "slurry", "gas"), validator, PTCMode.OPTIONAL_ONE_VALUE);
     }
 }

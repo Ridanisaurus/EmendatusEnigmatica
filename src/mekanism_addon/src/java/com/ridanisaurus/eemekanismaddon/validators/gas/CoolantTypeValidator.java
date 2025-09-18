@@ -22,19 +22,23 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.colors;
+package com.ridanisaurus.eemekanismaddon.validators.gas;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ColorValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 import java.util.List;
 
-//TODO: Move to mek addon.
-public class ChemicalColorValidator extends ProcessedTypesContainValidator {
-    private static final IValidationFunction validator = new ColorValidator(false);
-    public ChemicalColorValidator() {
-        super(List.of("infuse_type", "slurry", "gas"), validator, PTCMode.OPTIONAL_ONE_VALUE);
+public class CoolantTypeValidator extends FieldTrueValidator {
+    private static final IValidationFunction validator = new ValuesValidator(List.of("cooled", "heated"), FilterMode.WHITELIST, false);
+    /**
+     * Constructs CoolantTypeValidator.
+     *
+     * @see CoolantTypeValidator Documentation of the validator.
+     */
+    public CoolantTypeValidator() {
+        super("isCoolant", validator);
     }
 }

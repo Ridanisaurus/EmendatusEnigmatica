@@ -52,20 +52,18 @@ public class MaterialModel {
 			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
 			Codec.list(Codec.STRING).optionalFieldOf("strata").forGetter(i -> Optional.of(i.strata)),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
-			MaterialGasPropertiesModel.CODEC.optionalFieldOf("gas").forGetter(i -> Optional.of(i.gas)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
 			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
 			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
 			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
-	).apply(x, (id, source, localizedName, processedTypes, strata, properties, gas, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, processedTypes, strata, properties, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
 			processedTypes,
 			strata.orElse(List.of()),
 			properties.orElse(new MaterialPropertiesModel()),
-			gas.orElse(new MaterialGasPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
 			compat.orElse(new MaterialCompatModel()),
 			colors.orElse(new MaterialColorsModel()),
@@ -84,7 +82,6 @@ public class MaterialModel {
 	private final List<String> processedTypes;
 	private final List<String> strata;
 	private final MaterialPropertiesModel properties;
-	private final MaterialGasPropertiesModel gas;
 	private final MaterialOreDropModel oreDrop;
 	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
@@ -100,7 +97,6 @@ public class MaterialModel {
 		.addValidator("tools",				new ToolsFieldValidator())
 		.addValidator("armor",				new ArmorFieldValidator())
 		.addValidator("oreDrop",				new OreDropValidator())
-		.addValidator("gas",					new ProcessedTypesContainValidator("gas", MaterialGasPropertiesModel.VALIDATION_MANAGER.getAsValidator(false)))
 		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
@@ -113,7 +109,6 @@ public class MaterialModel {
 		List<String> processedTypes,
 		List<String> strata,
 		MaterialPropertiesModel properties,
-		MaterialGasPropertiesModel gas,
 		MaterialOreDropModel oreDrop,
 		MaterialCompatModel compat,
 		MaterialColorsModel colors,
@@ -126,7 +121,6 @@ public class MaterialModel {
 		this.processedTypes = processedTypes;
 		this.strata = strata;
 		this.properties = properties;
-		this.gas = gas;
 		this.oreDrop = oreDrop;
 		this.compat = compat;
 		this.colors = colors;
@@ -172,10 +166,6 @@ public class MaterialModel {
 
 	public MaterialPropertiesModel getProperties() {
 		return properties;
-	}
-
-	public MaterialGasPropertiesModel getGas() {
-		return gas;
 	}
 
 	public MaterialOreDropModel getOreDrop() {

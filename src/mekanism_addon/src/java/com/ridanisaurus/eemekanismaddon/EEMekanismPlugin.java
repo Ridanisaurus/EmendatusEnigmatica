@@ -1,5 +1,6 @@
 package com.ridanisaurus.eemekanismaddon;
 
+import com.ridanisaurus.eemekanismaddon.extensions.GasExtension;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
@@ -8,13 +9,13 @@ import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginRefere
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionData;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtension;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialColorsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.colors.ChemicalColorValidator;
+import com.ridanisaurus.eemekanismaddon.validators.ChemicalColorValidator;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -39,8 +40,11 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
         ));
 
         MaterialColorsModel.VALIDATION_MANAGER
-            .addValidator("chemicalColor",	new ChemicalColorValidator())
-            .addValidator("gasColor", 		new DeprecatedFieldValidator("chemicalColor"));
+            .addValidator("chemicalColor", new ChemicalColorValidator())
+            .addValidator("gasColor", 	 new DeprecatedFieldValidator("chemicalColor"));
+
+        MaterialModel.VALIDATION_MANAGER
+            .addValidator("gas", new ProcessedTypesContainValidator("gas", GasExtension.VALIDATION_MANAGER.getAsValidator(false)));
 
         ModelLoader.registerExtension(new ModelExtension<>(MekanismMaterialExtension.CODEC, MaterialModel.class, EEMekanismPlugin.class));
     }

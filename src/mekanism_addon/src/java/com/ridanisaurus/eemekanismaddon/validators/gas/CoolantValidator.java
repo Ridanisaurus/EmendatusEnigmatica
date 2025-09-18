@@ -22,23 +22,21 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.gas;
+package com.ridanisaurus.eemekanismaddon.validators.gas;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
-import java.util.List;
-
-public class CoolantTypeValidator extends FieldTrueValidator {
-    private static final IValidationFunction validator = new ValuesValidator(List.of("cooled", "heated"), FilterMode.WHITELIST, false);
+public class CoolantValidator extends FieldTrueValidator {
+    private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);
     /**
-     * Constructs CoolantTypeValidator.
+     * Constructs CoolantValidator.
      *
-     * @see CoolantTypeValidator Documentation of the validator.
+     * @see CoolantValidator Documentation of the validator.
      */
-    public CoolantTypeValidator() {
+    public CoolantValidator() {
         super("isCoolant", validator);
     }
 }

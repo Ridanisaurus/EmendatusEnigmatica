@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CompatModData {
-    //TODO: Move addition of entries to addons.
     /**
      * This map holds possible values for {@link CompatValuesModel#type} based on the {@link CompatRecipesModel#mod} value.
      */
