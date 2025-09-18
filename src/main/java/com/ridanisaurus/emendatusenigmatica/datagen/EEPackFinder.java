@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEVirtualPackHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -73,8 +74,8 @@ public class EEPackFinder implements RepositorySource {
 			},
 			new Pack.Metadata(
 				(type == PackType.CLIENT_RESOURCES)?
-					Component.translatable("emendatusenigmatica.resourcepack.client.desc"):
-					Component.translatable("emendatusenigmatica.resourcepack.server.desc"),
+					LangGen.get("resourcepack", "client.desc"):
+					LangGen.get("resourcepack", "server.desc"),
 				PackCompatibility.COMPATIBLE,
 				FeatureFlagSet.of(),
 				List.of(),

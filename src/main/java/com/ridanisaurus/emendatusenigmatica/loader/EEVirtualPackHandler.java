@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
@@ -57,14 +58,14 @@ public class EEVirtualPackHandler implements PackResources {
         if (type == PackType.CLIENT_RESOURCES) {
             this.locationInfo = new PackLocationInfo(
                 "EE Virtual Resource Pack",
-                Component.translatable("emendatusenigmatica.resourcepack.client.title"),
+                LangGen.get("resourcepack", "client.title"),
                 PackSource.DEFAULT,
                 Optional.empty()
             );
         } else {
             this.locationInfo = new PackLocationInfo(
                 "EE Virtual Data Pack",
-                Component.translatable("emendatusenigmatica.resourcepack.server.title"),
+                LangGen.get("resourcepack", "server.title"),
                 PackSource.DEFAULT,
                 Optional.empty()
             );

@@ -1,4 +1,7 @@
 {
   "ee_occultism.config.disable_silver_ore": "Disable Occultism Silver Ore",
-  "ee_occultism.config.disable_iesnium_ore": "Disable Occultism Iesnium Ore"
+  "ee_occultism.config.disable_iesnium_ore": "Disable Occultism Iesnium Ore",
+  "emendatusenigmatica.configuration.occultism-plugin": "Occultism Plugin Options",
+  "emendatusenigmatica.configuration.occultism-plugin.tooltip": "Options provided by EE Occultism plugin.",
+  "emendatusenigmatica.configuration.occultism-plugin.button": "Occultism"
 }

@@ -5,17 +5,8 @@ import com.ridanisaurus.emendatusenigmatica.items.templates.BasicItem;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-//import mekanism.api.chemical.gas.Gas;
-//import mekanism.api.chemical.gas.GasBuilder;
-//import mekanism.api.chemical.gas.attribute.GasAttributes;
-//import mekanism.api.chemical.infuse.InfuseType;
-//import mekanism.api.chemical.infuse.InfuseTypeBuilder;
-//import mekanism.api.chemical.slurry.Slurry;
-//import mekanism.api.chemical.slurry.SlurryBuilder;
-//import mekanism.api.math.FloatingLong;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalBuilder;
-import mekanism.api.chemical.attribute.ChemicalAttribute;
 import mekanism.api.chemical.attribute.ChemicalAttributes;
 import mekanism.common.registration.impl.ChemicalDeferredRegister;
 import mekanism.common.registration.impl.DeferredChemical;
@@ -71,7 +62,6 @@ public class EEMekanismRegistrar {
     }
 
     public static void registerGases(MekanismMaterialExtension material) {
-        var og = material.getOriginalModel();
         var gas = material.getGasData();
 
         String itemName = "gaseous_" + material.getId();
@@ -80,7 +70,6 @@ public class EEMekanismRegistrar {
         if (gas.isBurnable()) builder.with(new ChemicalAttributes.Fuel(gas.getBurnTime(), gas.getEnergyDensity()));
         if (gas.isRadioactive()) builder.with(new ChemicalAttributes.Radiation(gas.getRadioactivity()));
         //TODO: Replace with DataGeneration. Apparently it's datapacks now and attributes are deprecated.
-        // Why it's not marked as deprecated?
         if (gas.isCoolant()) {
 //             TODO: Check if BOTH needs to be created
             if (gas.getCoolantType().equals("cooled")) {

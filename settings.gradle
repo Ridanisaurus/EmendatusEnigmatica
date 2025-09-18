@@ -75,8 +75,8 @@ dependencyResolutionManagement {
 }
 
 def addons = [
-//    "ArsNoveau", //TODO: Enable when ars ports
-//    "Create", //TODO: Enable when create ports
+//    "ArsNoveau",
+//    "Create",
     "Mekanism",
     "Occultism",
 //    "Thermal" //TODO: Enable when thermal ports

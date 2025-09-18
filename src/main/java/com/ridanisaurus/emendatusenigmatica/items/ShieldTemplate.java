@@ -1,5 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.items;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.SmithingTemplateItem;
@@ -12,11 +13,11 @@ import java.util.List;
 public class ShieldTemplate extends SmithingTemplateItem {
     public ShieldTemplate() {
         super(
-            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.applies_to"),
-            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.ingredients"),
-            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.upgrade_desc"),
-            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.base_slot_desc"),
-            Component.translatable("emendatusenigmatica.smithing_template.shield_upgrade.additional_slot_desc"),
+            LangGen.get("smithing_template", "shield_upgrade.applies_to"),
+            LangGen.get("smithing_template", "shield_upgrade.ingredients"),
+            LangGen.get("smithing_template", "shield_upgrade.upgrade_desc"),
+            LangGen.get("smithing_template", "shield_upgrade.base_slot_desc"),
+            LangGen.get("smithing_template", "shield_upgrade.additional_slot_desc"),
             List.of(ResourceLocation.withDefaultNamespace("item/empty_armor_slot_shield")),
             List.of(
                 ResourceLocation.withDefaultNamespace("item/empty_slot_ingot"),

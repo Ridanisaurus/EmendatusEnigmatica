@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.items;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -43,12 +44,12 @@ public class FeliniumJaminiteIngot extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         if (tooltipFlag.hasShiftDown()) {
-            tooltipComponents.add(Component.translatable("emendatusenigmatica.tooltip_patreon_reward_desc_long").withStyle(ChatFormatting.DARK_AQUA));
-            tooltipComponents.add(Component.translatable("emendatusenigmatica.tooltip.patreon_reward_hiding").withStyle(ChatFormatting.DARK_AQUA));
+            tooltipComponents.add(LangGen.get("tooltip", "patreon_reward.desc_long").withStyle(ChatFormatting.DARK_AQUA));
+            tooltipComponents.add(LangGen.get("tooltip","patreon_reward.hiding").withStyle(ChatFormatting.DARK_AQUA));
             return;
         }
 
-        tooltipComponents.add(Component.translatable("emendatusenigmatica.tooltip_patreon_reward_desc_short").withStyle(ChatFormatting.GOLD));
-        tooltipComponents.add(Component.translatable("emendatusenigmatica.tooltip.press_shift").withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(LangGen.get("tooltip", "patreon_reward.desc_short").withStyle(ChatFormatting.GOLD));
+        tooltipComponents.add(LangGen.get("tooltip", "press_shift").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

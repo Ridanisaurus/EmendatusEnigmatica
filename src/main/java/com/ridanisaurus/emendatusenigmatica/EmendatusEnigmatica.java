@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEPackFinder;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -68,14 +69,14 @@ public class EmendatusEnigmatica {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Reference.MOD_ID);
     public static final DeferredHolder<CreativeModeTab, EECreativeTab> TOOLS_TAB = CREATIVE_MODE_TABS.register("ee_tools_tab", () -> new EECreativeTab(
         CreativeModeTab.builder()
-            .title(Component.translatable("emendatusenigmatica.itemgroup.tools"))
+            .title(LangGen.get("itemgroup", "tools"))
             // Fallback
             .icon(() -> EERegistrar.ENIGMATIC_HAMMER.get().getDefaultInstance())
             .displayItems((parameters, output) -> output.accept(EERegistrar.ENIGMATIC_HAMMER))
     ));
     public static final DeferredHolder<CreativeModeTab, EECreativeTab> RESOURCES_TAB = CREATIVE_MODE_TABS.register("ee_resources_tab", () -> new EECreativeTab(
         CreativeModeTab.builder()
-            .title(Component.translatable("emendatusenigmatica.itemgroup.resources"))
+            .title(LangGen.get("itemgroup", "resources"))
             .withTabsBefore(TOOLS_TAB.getId())
             // Fallback
             .icon(() -> EERegistrar.FELINIUM_JAMINITE.get().getDefaultInstance())

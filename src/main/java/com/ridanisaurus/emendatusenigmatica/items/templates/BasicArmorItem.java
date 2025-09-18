@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.items.templates;
 
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -95,7 +96,7 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
             );
 
             if (!tooltipFlag.hasShiftDown()) {
-                components.add(Component.translatable("emendatusenigmatica.tooltip.press_shift").withStyle(ChatFormatting.DARK_GRAY));
+                components.add(LangGen.get("tooltip", "press_shift").withStyle(ChatFormatting.DARK_GRAY));
                 return;
             }
 
@@ -107,7 +108,7 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
             //TODO: Add possibility to translate this.
             components.add(Component.literal(this.material.getArmor().getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
             components.add(Component.literal(" "));
-            components.add(Component.translatable("emendatusenigmatica.tooltip.armor_effect").withStyle(ChatFormatting.GRAY));
+            components.add(LangGen.get("tooltip", "armor_effect").withStyle(ChatFormatting.GRAY));
             for (EffectModel effect : this.effects) {
                 components.add(Component.literal(
                     "- " +

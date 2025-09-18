@@ -101,14 +101,11 @@ public class EEConfig {
 		public final ModConfigSpec.BooleanValue oldSchoolGlint;
 
 		ClientConfig(ModConfigSpec.@NotNull Builder builder, EELoader loader) {
-			builder.push("Patreon Reward");
+			builder.push("Rendering");
 			showPatreonReward = builder
 					.comment("Whether the Patreon Reward should appear floating over the player's head")
 					.translation(Reference.MOD_ID + ".config.client.show_reward")
 					.define("showReward", true);
-			builder.pop();
-
-			builder.push("Rendering");
 			oldSchoolGlint = builder
 				.comment("Allows for bringing back the old strength of glint for the Emendatus Enigmatica armor.\nNote that this option doesn't affect vanilla armor rendering!")
 				.translation(Reference.MOD_ID + ".config.client.old_glint")
