@@ -3,6 +3,7 @@ package com.ridanisaurus.eemekanismaddon;
 import com.ridanisaurus.eemekanismaddon.extensions.GasExtension;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
+import com.ridanisaurus.eemekanismaddon.validators.CoolantColorValidator;
 import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
@@ -40,8 +41,9 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
         ));
 
         MaterialColorsModel.VALIDATION_MANAGER
-            .addValidator("chemicalColor", new ChemicalColorValidator())
-            .addValidator("gasColor", 	 new DeprecatedFieldValidator("chemicalColor"));
+            .addValidator("chemicalColor",      new ChemicalColorValidator())
+            .addValidator("hotCoolantColor",    new CoolantColorValidator())
+            .addValidator("gasColor",           new DeprecatedFieldValidator("chemicalColor"));
 
         MaterialModel.VALIDATION_MANAGER
             .addValidator("gas", new ProcessedTypesContainValidator("gas", GasExtension.VALIDATION_MANAGER.getAsValidator(false)));

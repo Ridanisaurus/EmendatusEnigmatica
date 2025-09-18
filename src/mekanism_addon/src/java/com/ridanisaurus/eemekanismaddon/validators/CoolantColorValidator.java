@@ -22,21 +22,19 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.eemekanismaddon.validators.gas;
+package com.ridanisaurus.eemekanismaddon.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ColorValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
-public class CoolantValidator extends FieldTrueValidator {
-    private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);
-    /**
-     * Constructs CoolantValidator.
-     *
-     * @see CoolantValidator Documentation of the validator.
-     */
-    public CoolantValidator() {
-        super("isCoolant", validator);
+import java.util.List;
+
+public class CoolantColorValidator extends FieldTrueValidator {
+    private static final IValidationFunction validator = new ProcessedTypesContainValidator(List.of("gas"), new ColorValidator(false), PTCMode.REQUIRED_ALL_VALUE);
+    public CoolantColorValidator() {
+        super("root.gas.isCoolant", validator, false);
     }
 }

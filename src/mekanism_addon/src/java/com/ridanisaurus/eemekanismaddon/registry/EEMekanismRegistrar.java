@@ -7,7 +7,6 @@ import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalBuilder;
-import mekanism.api.chemical.attribute.ChemicalAttributes;
 import mekanism.common.registration.impl.ChemicalDeferredRegister;
 import mekanism.common.registration.impl.DeferredChemical;
 import mekanism.common.registration.impl.SlurryRegistryObject;
@@ -15,10 +14,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class EEMekanismRegistrar {
     public static final ChemicalDeferredRegister CHEMICALS = new ChemicalDeferredRegister(Reference.MOD_ID);
@@ -50,36 +51,50 @@ public class EEMekanismRegistrar {
         registerBurnableItem(dirtyDustMap, material, material.getId() + "_dirty_dust");
     }
 
-	public static void registerInfuseTypes(MekanismMaterialExtension material) {
-        infuseMap.put(material.getId(), CHEMICALS.registerInfuse(material.getId(), material.getChemicalColor()));
+	public static void registerInfuseTypes(@NotNull MekanismMaterialExtension material) {
+        infuseMap.put(material.getId(), CHEMICALS.registerInfuse(material.getId(), material.getColorData().getChemicalColor()));
         registerBurnableItem(enrichedMap, material, "enriched" + material.getId());
 		// TODO: Add Enriched textures + data gen
 	}
 
-    public static void registerSlurries(MekanismMaterialExtension material) {
+    public static void registerSlurries(@NotNull MekanismMaterialExtension material) {
         ResourceLocation ore = ResourceLocation.fromNamespaceAndPath(Reference.COMMON, "ores/" + material.getId());
-        slurryMap.put(material.getId(), CHEMICALS.registerSlurry(material.getId(), it -> it.tint(material.getChemicalColor()).ore(ore)));
+        //TODO: Add Ore tag in DataGen. Hopefully registerSlurry is still safe...
+        slurryMap.put(material.getId(), CHEMICALS.registerSlurry(material.getId(), it -> it.tint(material.getColorData().getChemicalColor())));
     }
 
-    public static void registerGases(MekanismMaterialExtension material) {
+    public static void registerGases(@NotNull MekanismMaterialExtension material) {
         var gas = material.getGasData();
+        var color = material.getColorData();
+        var id = material.getId();
+        Supplier<Chemical> gasBuilder = () -> new Chemical(ChemicalBuilder.builder().tint(color.getChemicalColor()));
 
-        String itemName = "gaseous_" + material.getId();
-        ChemicalBuilder builder = ChemicalBuilder.builder().tint(material.getChemicalColor()).gaseous();
-
-        if (gas.isBurnable()) builder.with(new ChemicalAttributes.Fuel(gas.getBurnTime(), gas.getEnergyDensity()));
-        if (gas.isRadioactive()) builder.with(new ChemicalAttributes.Radiation(gas.getRadioactivity()));
-        //TODO: Replace with DataGeneration. Apparently it's datapacks now and attributes are deprecated.
         if (gas.isCoolant()) {
-//             TODO: Check if BOTH needs to be created
-            if (gas.getCoolantType().equals("cooled")) {
-//                builder.with(new GasAttributes.CooledCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
-            } else {
-//                builder.with(new GasAttributes.HeatedCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
-            }
+            gasMap.put("hot_" + id, CHEMICALS.register("hot_" + id, () -> new Chemical(ChemicalBuilder.builder().tint(color.getHotCoolantColor()))));
+            gasMap.put("cool" + id, CHEMICALS.register("cool_" + id, gasBuilder));
+        } else {
+            gasMap.put("gaseous_" + id, CHEMICALS.register("gaseous_" + id, CHEMICALS.register("gaseous_" + id, gasBuilder)));
         }
 
-        gasMap.put(material.getId(), CHEMICALS.register(itemName, () -> new Chemical(builder)));
+        //TODO: Add Attributes of a gas in DataGen.
+
+//        String itemName = "gaseous_" + material.getId();
+//        ChemicalBuilder builder = ChemicalBuilder.builder().tint(material.getColorData().getChemicalColor());
+//        ChemicalBuilder builder = ChemicalBuilder.builder().tint(material.getChemicalColor()).gaseous();
+
+//        if (gas.isBurnable()) builder.with(new ChemicalAttributes.Fuel(gas.getBurnTime(), gas.getEnergyDensity()));
+//        if (gas.isRadioactive()) builder.with(new ChemicalAttributes.Radiation(gas.getRadioactivity()));
+        //TODO: Replace with DataGeneration. Apparently it's datapacks now and attributes are deprecated.
+//        if (gas.isCoolant()) {
+//             TODO: Check if BOTH needs to be created
+//            if (gas.getCoolantType().equals("cooled")) {
+//                builder.with(new GasAttributes.CooledCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
+//            } else {
+//                builder.with(new GasAttributes.HeatedCoolant(()-> gasMap.get(material.getId()).get(), material.getGas().getThermalEnthalpy(), material.getGas().getConductivity()));
+//            }
+//        }
+
+//        gasMap.put(material.getId(), CHEMICALS.register(itemName, () -> new Chemical(builder)));
     }
 
 

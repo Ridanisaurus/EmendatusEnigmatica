@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.eemekanismaddon.validators.gas;
+package com.ridanisaurus.eemekanismaddon.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
-public class RadioactivityValidator extends FieldTrueValidator {
+public class CoolantValidator extends FieldTrueValidator {
     private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);
     /**
-     * Constructs RadioactivityValidator.
+     * Constructs CoolantValidator.
      *
-     * @see RadioactivityValidator Documentation of the validator.
+     * @see CoolantValidator Documentation of the validator.
      */
-    public RadioactivityValidator() {
-        super("isRadioactive", validator);
+    public CoolantValidator() {
+        super("isCoolant", validator);
     }
 }

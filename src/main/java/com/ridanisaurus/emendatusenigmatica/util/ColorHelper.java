@@ -194,22 +194,22 @@ public class ColorHelper
     }
 
     public static String hueShift(String hex, int factor, boolean isHighlight) {
-//		Color color = Color.decode("#" + hex);
-//		int r = color.getRed();
-//		int g = color.getGreen();
-//		int b = color.getBlue();
+//		Color chemicalColor = Color.decode("#" + hex);
+//		int r = chemicalColor.getRed();
+//		int g = chemicalColor.getGreen();
+//		int b = chemicalColor.getBlue();
 //
 //		float[] hsb = Color.RGBtoHSB(r, g, b, null);
 //		float hueShift = (hsb[0] >= 0.1f && hsb[0] <= 0.16f) ? 0.02f : (hsb[0] >= 0.33f && hsb[0] <= 0.66f) ? 0.04f : 0.06f;
 //		if (isHighlight) {
-//			// Shift the hue, saturation, and brightness of the color to create the highlight
+//			// Shift the hue, saturation, and brightness of the chemicalColor to create the highlight
 //			hsb[0] = (hsb[0] - hueShift * factor) % 1.0f;
 //			hsb[1] = Math.min(1.0f, hsb[1] * (factor * 2));
 //			hsb[2] = Math.min(1.0f, hsb[2] * (factor * 3));
 //			Color highlight = Color.getHSBColor(hsb[0], hsb[1], hsb[2]);
 //			return String.format("%02x%02x%02x", highlight.getRed(), highlight.getGreen(), highlight.getBlue());
 //		} else {
-//			// Shift the hue, saturation, and brightness of the color to create the shadow
+//			// Shift the hue, saturation, and brightness of the chemicalColor to create the shadow
 //			hsb[0] = (hsb[0] + hueShift * factor + 1.0f) % 1.0f;
 //			hsb[1] = Math.max(0.0f, hsb[1] / (factor * 2));
 //			hsb[2] = Math.max(0.0f, hsb[2] / (factor * 3));

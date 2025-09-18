@@ -22,23 +22,21 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.eemekanismaddon.validators.gas;
+package com.ridanisaurus.eemekanismaddon.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
-import java.util.List;
-
-public class CoolantTypeValidator extends FieldTrueValidator {
-    private static final IValidationFunction validator = new ValuesValidator(List.of("cooled", "heated"), FilterMode.WHITELIST, false);
+public class RadioactivityValidator extends FieldTrueValidator {
+    private static final IValidationFunction validator = new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false);
     /**
-     * Constructs CoolantTypeValidator.
+     * Constructs RadioactivityValidator.
      *
-     * @see CoolantTypeValidator Documentation of the validator.
+     * @see RadioactivityValidator Documentation of the validator.
      */
-    public CoolantTypeValidator() {
-        super("isCoolant", validator);
+    public RadioactivityValidator() {
+        super("isRadioactive", validator);
     }
 }

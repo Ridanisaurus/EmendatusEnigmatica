@@ -29,10 +29,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.BurnTimeValidator;
-import com.ridanisaurus.eemekanismaddon.validators.gas.CoolantTypeValidator;
-import com.ridanisaurus.eemekanismaddon.validators.gas.CoolantValidator;
-import com.ridanisaurus.eemekanismaddon.validators.gas.RadioactivityValidator;
+import com.ridanisaurus.eemekanismaddon.validators.CoolantValidator;
+import com.ridanisaurus.eemekanismaddon.validators.RadioactivityValidator;
 
 import java.util.*;
 
@@ -44,7 +44,6 @@ public record GasExtension(
 	boolean isRadioactive,
 	double getRadioactivity,
 	boolean isCoolant,
-	String getCoolantType,
 	double getThermalEnthalpy,
 	double getConductivity
 ) {
@@ -55,17 +54,15 @@ public record GasExtension(
 			Codec.BOOL.optionalFieldOf("isRadioactive").forGetter(i -> Optional.of(i.isRadioactive)),
 			Codec.DOUBLE.optionalFieldOf("radioactivity").forGetter(i -> Optional.of(i.getRadioactivity)),
 			Codec.BOOL.optionalFieldOf("isCoolant").forGetter(i -> Optional.of(i.isCoolant)),
-			Codec.STRING.optionalFieldOf("coolantType").forGetter(i -> Optional.of(i.getCoolantType)),
 			Codec.DOUBLE.optionalFieldOf("thermalEnthalpy").forGetter(i -> Optional.of(i.getThermalEnthalpy)),
 			Codec.DOUBLE.optionalFieldOf("conductivity").forGetter(i -> Optional.of(i.getConductivity))
-	).apply(x, (isBurnable, burnTime, energyDensity, isRadioactive, radioactivity, isCoolant, coolantType, thermalEnthalpy, conductivity) -> new GasExtension(
+	).apply(x, (isBurnable, burnTime, energyDensity, isRadioactive, radioactivity, isCoolant, thermalEnthalpy, conductivity) -> new GasExtension(
 			isBurnable.orElse(false),
 			burnTime.orElse(0),
 			energyDensity.orElse(0L),
 			isRadioactive.orElse(false),
 			radioactivity.orElse(0.0D),
 			isCoolant.orElse(false),
-			coolantType.orElse("cooled"),
 			thermalEnthalpy.orElse(0.0D),
 			conductivity.orElse(0.0D)
 	)));
@@ -76,12 +73,13 @@ public record GasExtension(
 		.addValidator("isCoolant",		new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("energyDensity",	new TypeValidator(Types.INTEGER, false))
 		.addValidator("radioactivity",	new RadioactivityValidator())
-		.addValidator("coolantType",		new CoolantTypeValidator())
 		.addValidator("thermalEnthalpy",	new CoolantValidator())
 		.addValidator("conductivity",		new CoolantValidator())
-		.addValidator("burnTime",			new BurnTimeValidator());
+		.addValidator("burnTime",			new BurnTimeValidator())
+		//TODO: Remove next breaking update.
+		.addValidator("coolantType",		new DeprecatedFieldValidator());
 
 	public GasExtension() {
-		this(false, 0, 0, false, 0, false, "cooled", 0, 0);
+		this(false, 0, 0, false, 0, false, 0, 0);
 	}
 }

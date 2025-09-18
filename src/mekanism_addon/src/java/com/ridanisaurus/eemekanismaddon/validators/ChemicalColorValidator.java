@@ -34,6 +34,6 @@ import java.util.List;
 public class ChemicalColorValidator extends ProcessedTypesContainValidator {
     private static final IValidationFunction validator = new ColorValidator(false);
     public ChemicalColorValidator() {
-        super(List.of("infuse_type", "slurry", "gas"), validator, PTCMode.OPTIONAL_ONE_VALUE);
+        super(List.of("infuse_type", "slurry", "gas"), validator, PTCMode.REQUIRED_ONE_VALUE);
     }
 }

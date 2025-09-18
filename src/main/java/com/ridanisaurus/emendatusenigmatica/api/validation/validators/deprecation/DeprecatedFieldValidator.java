@@ -54,6 +54,10 @@ public class DeprecatedFieldValidator extends AbstractBasicValidator {
         this(replacement, null);
     }
 
+    public DeprecatedFieldValidator() {
+        this(null, null);
+    }
+
     /**
      * Validate method, used to validate passed in object.
      *
