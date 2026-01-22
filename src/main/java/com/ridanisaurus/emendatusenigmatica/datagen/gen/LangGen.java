@@ -194,7 +194,7 @@ public class LangGen extends EELangProvider {
 			// Raw
 			if (processedType.contains("raw")) {
 				add(EERegistrar.rawMap.getValue(material), "Raw " + material.getLocalizedName());
-				if (processedType.contains("storage_blocks"))
+				if (processedType.contains("storage_block"))
 					add(EERegistrar.rawBlockMap.getValue(material), "Block of Raw " + material.getLocalizedName());
 			}
 

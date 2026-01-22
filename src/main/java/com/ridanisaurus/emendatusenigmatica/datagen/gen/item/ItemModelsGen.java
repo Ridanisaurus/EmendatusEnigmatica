@@ -70,6 +70,11 @@ public class ItemModelsGen extends EEItemModelProvider {
 					new ItemModelBuilder(Reference.MOD_ID, "block/waxed_oxidized_" + material.getId())
 						.save(consumer, Reference.MOD_ID, "waxed_oxidized_" + material.getId());
 				}
+
+				if (processedType.contains("raw"))
+					new ItemModelBuilder(Reference.MOD_ID, "block/raw_" + material.getId() + "_block")
+						.save(consumer, Reference.MOD_ID, "raw_" + material.getId() + "_block");
+
 				new ItemModelBuilder(Reference.MOD_ID, "block/" + material.getId() + "_block")
 						.save(consumer, Reference.MOD_ID, material.getId() + "_block");
 			}
@@ -80,6 +85,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 						.save(consumer, Reference.MOD_ID, material.getId() + "_cluster_shard_block");
 				new ItemModelBuilder(Reference.MOD_ID, "block/budding_" + material.getId())
 						.save(consumer, Reference.MOD_ID, "budding_" + material.getId());
+
 				ItemModelBuilder smallBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (!material.getColors().hasMaterialColor()) {
 					smallBudBuilder.texture("layer0", Reference.MOD_ID, "blocks/small_" + material.getId() + "_bud");
@@ -91,6 +97,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", Reference.MOD_ID, "block/templates/clusters/small_bud/04");
 				}
 				smallBudBuilder.save(consumer, Reference.MOD_ID, "small_" + material.getId() + "_bud");
+
 				ItemModelBuilder mediumBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (!material.getColors().hasMaterialColor()) {
 					mediumBudBuilder.texture("layer0", Reference.MOD_ID, "blocks/medium_" + material.getId() + "_bud");
@@ -102,6 +109,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", Reference.MOD_ID, "block/templates/clusters/medium_bud/04");
 				}
 				mediumBudBuilder.save(consumer, Reference.MOD_ID, "medium_" + material.getId() + "_bud");
+
 				ItemModelBuilder largeBudBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (!material.getColors().hasMaterialColor()) {
 					largeBudBuilder.texture("layer0", Reference.MOD_ID, "blocks/large_" + material.getId() + "_bud");
@@ -113,6 +121,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", Reference.MOD_ID, "block/templates/clusters/large_bud/04");
 				}
 				largeBudBuilder.save(consumer, Reference.MOD_ID, "large_" + material.getId() + "_bud");
+
 				ItemModelBuilder clusterBuilder = new ItemModelBuilder("emendatusenigmatica:item/bud");
 				if (!material.getColors().hasMaterialColor()) {
 					clusterBuilder.texture("layer0", Reference.MOD_ID, "blocks/" + material.getId() + "_cluster");
@@ -124,6 +133,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", Reference.MOD_ID, "block/templates/clusters/cluster/04");
 				}
 				clusterBuilder.save(consumer, Reference.MOD_ID, material.getId() + "_cluster");
+
 				ItemModelBuilder clusterShardBuilder = new ItemModelBuilder("minecraft:item/generated");
 				if (!material.getColors().hasMaterialColor()) {
 					clusterShardBuilder.texture("layer0", Reference.MOD_ID, "item/" + material.getId() + "_cluster_shard");
@@ -255,10 +265,6 @@ public class ItemModelsGen extends EEItemModelProvider {
 							.texture("layer4", Reference.MOD_ID, "item/templates/raw/04");
 				}
 				rawBuilder.save(consumer, Reference.MOD_ID, "raw_" + material.getId());
-
-				if (processedType.contains("storage_blocks"))
-					new ItemModelBuilder(Reference.MOD_ID, "block/raw_" + material.getId() + "_block")
-						.save(consumer, Reference.MOD_ID, "raw_" + material.getId() + "_block");
 			}
 
 			// Swords
