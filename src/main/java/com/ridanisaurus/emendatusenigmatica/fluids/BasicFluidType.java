@@ -38,8 +38,7 @@ import org.joml.Vector3f;
 
 import java.util.function.Consumer;
 
-public class BasicFluidType extends FluidType
-{
+public class BasicFluidType extends FluidType {
     private final ResourceLocation stillTexture;
     private final ResourceLocation flowingTexture;
     private final ResourceLocation overlayTexture;
@@ -56,9 +55,9 @@ public class BasicFluidType extends FluidType
     }
 
     @Override
+    @SuppressWarnings("deprecated")
     public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-        consumer.accept(new IClientFluidTypeExtensions()
-        {
+        consumer.accept(new IClientFluidTypeExtensions() {
             @Override
             public @NotNull ResourceLocation getStillTexture() {
                 return stillTexture;

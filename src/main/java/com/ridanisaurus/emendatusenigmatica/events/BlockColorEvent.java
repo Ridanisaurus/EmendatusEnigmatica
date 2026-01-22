@@ -35,7 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reference.MOD_ID)
 public class BlockColorEvent {
 	@SubscribeEvent
 	public static void blockColorEvent(RegisterColorHandlersEvent.Block event) {

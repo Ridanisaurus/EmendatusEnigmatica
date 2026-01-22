@@ -45,7 +45,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import org.jetbrains.annotations.NotNull;
 
-@EventBusSubscriber(modid = Reference.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Reference.MOD_ID)
 public class ArmorTextureEvent {
     public static final ModelLayerLocation ARMOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "layer_1"), "main");
     public static final ModelLayerLocation LEGS = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "layer_2"), "main");

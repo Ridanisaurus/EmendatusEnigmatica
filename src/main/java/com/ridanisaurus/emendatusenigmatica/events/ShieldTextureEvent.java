@@ -41,7 +41,7 @@ import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 // Credit: Mekanism
-@EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Reference.MOD_ID, value = Dist.CLIENT)
 public class ShieldTextureEvent {
 	@SubscribeEvent
 	public static void init(FMLClientSetupEvent event) {

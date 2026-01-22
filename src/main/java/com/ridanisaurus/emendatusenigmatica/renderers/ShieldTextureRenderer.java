@@ -44,8 +44,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 // Credit: Mekanism
-public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer
-{
+public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer {
     public static final ShieldTextureRenderer RENDERER = new ShieldTextureRenderer();
     private ShieldModel shieldModel;
 
@@ -89,7 +88,7 @@ public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer
         matrix.popPose();
     }
 
-private void doRender(@NotNull ItemStack stack, PoseStack matrix, MultiBufferSource renderer, int light, int overlayLight, ShieldModel model, int color, RenderType renderType) {
+    private void doRender(@NotNull ItemStack stack, PoseStack matrix, MultiBufferSource renderer, int light, int overlayLight, ShieldModel model, int color, RenderType renderType) {
         VertexConsumer vertexConsumer = ItemRenderer.getFoilBufferDirect(renderer, renderType, false, stack.hasFoil());
         if (stack.get(DataComponents.BLOCK_ENTITY_DATA) != null) {
             model.handle().render(matrix, vertexConsumer, light, overlayLight, color);
