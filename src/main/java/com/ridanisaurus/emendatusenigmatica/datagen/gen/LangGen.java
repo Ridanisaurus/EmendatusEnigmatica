@@ -118,11 +118,6 @@ public class LangGen extends EELangProvider {
 		add("emendatusenigmatica.config.client.old_glint.tooltip", "Should EE Armor and Tools have increased (old style) Glint Strength.");
 		add("emendatusenigmatica.config.client.show_reward", "Show Patreon Reward");
 		add("emendatusenigmatica.config.client.show_reward.tooltip", "Should EE render a Felinium Jeminite, the token of appreciation, above Patreons' heads.");
-		//TODO: Move from here. It's here temporarily.
-		add("emendatusenigmatica.configuration.mekanism-plugin", "Mekanism Plugin Options");
-		add("emendatusenigmatica.configuration.mekanism-plugin.tooltip", "Options provided by EE Mekanism plugin.");
-		add("emendatusenigmatica.configuration.mekanism-plugin.button", "Mekanism");
-		add("ee_mekanism.config.disable_osmium_ore", "Disable Osmium Ore");
 		//TODO: Remove when old config screen gets fully removed.
 		add("emendatusenigmatica.screen.config.title", "Emendatus Enigmatica Configuration");
 		add("emendatusenigmatica.screen.config.enabled", "Enabled");

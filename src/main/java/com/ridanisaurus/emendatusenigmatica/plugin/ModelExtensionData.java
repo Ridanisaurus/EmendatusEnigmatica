@@ -1,5 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
+import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtensionType;
+
 import java.util.Objects;
 
 public abstract class ModelExtensionData<O> {

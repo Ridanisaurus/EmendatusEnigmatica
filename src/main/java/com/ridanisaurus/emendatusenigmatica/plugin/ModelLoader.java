@@ -36,6 +36,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositValidationMana
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.processors.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtension;
+import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtensionType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -89,6 +90,7 @@ public class ModelLoader {
 
     private static void registerStrata(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();
+        var extensions = getExtensions(ModelExtensionType.STRATA);
         definitions.forEach((path, object) -> {
             if (!StrataModel.VALIDATION_MANAGER.validate(object, path)) return;
 
@@ -100,7 +102,7 @@ public class ModelLoader {
             STRATA_IDS.add(strataModel.getId());
             STRATA_SUFFIXES.add(strataModel.getSuffix());
 
-            for (ModelExtension<?, ?> extension : getExtensions(ModelExtensionType.STRATA)) {
+            for (ModelExtension<?, ?> extension : extensions) {
                 try {
                     var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
                     if (extended.isEmpty()) continue;
@@ -117,6 +119,7 @@ public class ModelLoader {
 
     private static void registerMaterials(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();
+        var extensions = getExtensions(ModelExtensionType.MATERIAL);
         definitions.forEach((path, object) -> {
             if (!MaterialModel.VALIDATION_MANAGER.validate(object, path)) return;
 
@@ -127,7 +130,7 @@ public class ModelLoader {
             registry.registerMaterial(materialModel);
             MATERIAL_IDS.add(materialModel.getId());
 
-            for (ModelExtension<?, ?> extension : getExtensions(ModelExtensionType.MATERIAL)) {
+            for (ModelExtension<?, ?> extension : extensions) {
                 try {
                     var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
                     if (extended.isEmpty()) continue;

@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica;
 
-import com.ridanisaurus.emendatusenigmatica.config.ConfigMenu;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;

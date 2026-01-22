@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.google.common.collect.ImmutableList;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionData;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionType;
+import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtensionType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;

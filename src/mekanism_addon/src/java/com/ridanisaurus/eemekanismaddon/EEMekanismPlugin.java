@@ -1,5 +1,6 @@
 package com.ridanisaurus.eemekanismaddon;
 
+import com.ridanisaurus.eemekanismaddon.datagen.LangGen;
 import com.ridanisaurus.eemekanismaddon.extensions.GasExtension;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
@@ -98,6 +99,7 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
      */
     @Override
     public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry, Void customRegistry) {
+        generator.addProvider(true, new LangGen(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.ItemModels(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.Lang(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.ItemTags(generator, registry));

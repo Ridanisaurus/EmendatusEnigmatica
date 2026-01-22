@@ -4,7 +4,6 @@ import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionData;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 
@@ -44,17 +43,9 @@ public class ModelExtension<O, E extends ModelExtensionData<O>> {
         this.pluginClass = Objects.requireNonNull(pluginClass);
         this.codec = Objects.requireNonNull(codec);
 
-        if (modelClass == MaterialModel.class) {
-            type = ModelExtensionType.MATERIAL;
-            return;
-        }
-
-        if (modelClass == StrataModel.class) {
-            type = ModelExtensionType.STRATA;
-            return;
-        }
-
-        throw new IllegalArgumentException("Invalid class provided for extension. Required: MaterialModel | StrataModel - got: %s".formatted(modelClass));
+        var extension = ModelExtensionType.getExtension(modelClass);
+        if (extension == null) throw new IllegalArgumentException("No extension type available for model \"%s\"!".formatted(modelClass));
+        type = extension;
     }
 
     public ModelExtensionType getType() {
