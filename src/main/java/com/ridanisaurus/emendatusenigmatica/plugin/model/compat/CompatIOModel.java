@@ -33,7 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLo
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.ItemRegistryValidator;
 import java.util.Optional;
 
-@Deprecated(forRemoval = true, since = "2.2.0")
+@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 public class CompatIOModel {
     public static final Codec<CompatIOModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.STRING.optionalFieldOf("item").forGetter(i -> Optional.ofNullable(i.item)),

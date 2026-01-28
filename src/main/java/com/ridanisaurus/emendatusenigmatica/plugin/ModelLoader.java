@@ -30,13 +30,10 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.processors.*;
-import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtension;
-import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtensionType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -48,8 +45,8 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 
+@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 public class ModelLoader {
-    private static final Map<ModelExtensionType, List<ModelExtension<?,?>>> EXTENSIONS = new HashMap<>();
     public static final List<String> MATERIAL_IDS = new ArrayList<>();
     public static final List<String> STRATA_IDS = new ArrayList<>();
     public static final List<String> DEPOSIT_IDS = new ArrayList<>();
@@ -57,17 +54,6 @@ public class ModelLoader {
     public static final List<String> DEPOSIT_TYPES = new ArrayList<>();
     public static final List<IDepositProcessor> ACTIVE_PROCESSORS = new ArrayList<>();
     public static final Map<String, Function<JsonObject, IDepositProcessor>> DEPOSIT_PROCESSORS = new HashMap<>();
-
-    public static void registerExtension(ModelExtension<?,?> extension) {
-        EXTENSIONS.computeIfAbsent(
-            Objects.requireNonNull(extension, "Can't register null extension!").getType(),
-            it -> new ArrayList<>()
-        ).add(extension);
-    }
-
-    public static List<ModelExtension<?, ?>> getExtensions(ModelExtensionType type) {
-        return EXTENSIONS.computeIfAbsent(type, it -> new ArrayList<>());
-    }
 
     protected static void load(EmendatusDataRegistry registry) {
         // Analytics.
@@ -90,7 +76,6 @@ public class ModelLoader {
 
     private static void registerStrata(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();
-        var extensions = getExtensions(ModelExtensionType.STRATA);
         definitions.forEach((path, object) -> {
             if (!StrataModel.VALIDATION_MANAGER.validate(object, path)) return;
 
@@ -101,25 +86,12 @@ public class ModelLoader {
             registry.registerStrata(strataModel);
             STRATA_IDS.add(strataModel.getId());
             STRATA_SUFFIXES.add(strataModel.getSuffix());
-
-            for (ModelExtension<?, ?> extension : extensions) {
-                try {
-                    var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
-                    if (extended.isEmpty()) continue;
-                    @SuppressWarnings("unchecked")
-                    var model = (ModelExtensionData<StrataModel>) extended.get().getFirst();
-                    registry.registerExtension(extension.getPlugin(), model.setOriginalModel(strataModel).setType(ModelExtensionType.STRATA));
-                } catch (Exception e) {
-                    Analytics.error("Failed parsing extension: %d", e.getMessage(), "root", ValidationHelper.obfuscatePath(path));
-                }
-            }
         });
         Analytics.addPerformanceAnalytic("Validation: Strata", s);
     }
 
     private static void registerMaterials(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();
-        var extensions = getExtensions(ModelExtensionType.MATERIAL);
         definitions.forEach((path, object) -> {
             if (!MaterialModel.VALIDATION_MANAGER.validate(object, path)) return;
 
@@ -129,23 +101,11 @@ public class ModelLoader {
             MaterialModel materialModel = result.get().getFirst();
             registry.registerMaterial(materialModel);
             MATERIAL_IDS.add(materialModel.getId());
-
-            for (ModelExtension<?, ?> extension : extensions) {
-                try {
-                    var extended = JsonOps.INSTANCE.withDecoder(extension.getCodec()).apply(object).result();
-                    if (extended.isEmpty()) continue;
-                    @SuppressWarnings("unchecked")
-                    var model = (ModelExtensionData<MaterialModel>) extended.get().getFirst();
-                    registry.registerExtension(extension.getPlugin(), model.setOriginalModel(materialModel).setType(ModelExtensionType.MATERIAL));
-                } catch (Exception e) {
-                    Analytics.error("Failed parsing extension: %d", e.getMessage(), "root", ValidationHelper.obfuscatePath(path));
-                }
-            }
         });
         Analytics.addPerformanceAnalytic("Validation: Material", s);
     }
 
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     @SuppressWarnings("removal")
     private static void registerCompat(@NotNull Map<Path, JsonObject> definitions, EmendatusDataRegistry registry) {
         Stopwatch s = Stopwatch.createStarted();

@@ -1,7 +1,7 @@
 package com.ridanisaurus.eeoccultismaddon.datagen;
 
 import com.klikli_dev.occultism.datagen.recipe.builders.CrushingRecipeBuilder;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class OccultismRecipeGen extends RecipeProvider {
-    private final EmendatusDataRegistry registry;
-    public OccultismRecipeGen(@NotNull DataGenerator gen, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+    private final DataRegistry registry;
+    public OccultismRecipeGen(@NotNull DataGenerator gen, DataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
         super(gen.getPackOutput(), providers);
         this.registry = registry;
     }
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
-        for (MaterialModel material : registry.getMaterials()) {
+        for (MaterialModel material : registry.getRegisteredMaterials()) {
             List<String> processedType = material.getProcessedTypes();
             if (material.getCompat().getOccultismCompat()) {
                 if (!processedType.contains("dust")) continue;

@@ -33,6 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
@@ -77,7 +78,7 @@ public class MaterialModel {
 	/**
 	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
 	 */
-	@Deprecated(forRemoval = true, since = "2.2.0")
+	@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 	private final boolean disableDefaultOre = false;
 	private final List<String> processedTypes;
 	private final List<String> strata;
@@ -151,7 +152,7 @@ public class MaterialModel {
 	/**
 	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
 	 */
-	@Deprecated(forRemoval = true, since = "2.2.0")
+	@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 	public boolean getDisableDefaultOre() {
 		return disableDefaultOre;
 	}
@@ -198,5 +199,9 @@ public class MaterialModel {
 		} else {
 			return BuiltInRegistries.ITEM.get(Reference.AIR_RS);
 		}
+	}
+
+	public void register(DataRegistry registry) {
+		registry.registerMaterial(this);
 	}
 }

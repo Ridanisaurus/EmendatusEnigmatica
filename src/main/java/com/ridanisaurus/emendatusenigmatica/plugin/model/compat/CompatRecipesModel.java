@@ -33,7 +33,8 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatMachi
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatModData;
 import java.util.*;
 
-@Deprecated(forRemoval = true, since = "2.2.0")
+@SuppressWarnings("deprecated removal")
+@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 public class CompatRecipesModel {
     public static final Codec<CompatRecipesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.STRING.fieldOf("mod").forGetter(i -> i.mod),

@@ -5,6 +5,8 @@ import net.minecraft.data.DataGenerator;
 
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings("deprecated removal")
+@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 public abstract class BasicEmendatusPlugin implements IEmendatusPlugin<Void> {
 
     /**

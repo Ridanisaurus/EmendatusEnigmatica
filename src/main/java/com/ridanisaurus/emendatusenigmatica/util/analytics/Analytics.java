@@ -87,7 +87,7 @@ public class Analytics {
      * Used to set up the Analytics paths.
      */
     public static void setup() {
-        CONFIG_DIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/");
+        CONFIG_DIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/").toAbsolutePath().normalize();
         summaryFile = CONFIG_DIR.resolve("Validation Results.md");
         dirSeparator = FileSystems.getDefault().getSeparator();
     }
@@ -273,6 +273,7 @@ public class Analytics {
             cx.writeLine("File generated at: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS").format(new Date()));
             cx.writeSpacer();
 
+            //TODO: Reimplement using Model Definitions.
             addNewCategory("Strata", "strata");
             addNewCategory("Materials", "material");
             addNewCategory("Compatibility", "compat");

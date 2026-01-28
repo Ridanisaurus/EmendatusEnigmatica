@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.block;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialOreDropModel;
@@ -60,16 +60,16 @@ import java.util.List;
 import java.util.Set;
 
 public class BlockLootGen extends BlockLootSubProvider {
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public BlockLootGen(HolderLookup.Provider providers, EmendatusDataRegistry registry) {
+	public BlockLootGen(HolderLookup.Provider providers, DataRegistry registry) {
 		super(Set.of(), FeatureFlags.REGISTRY.allFlags(), providers);
 		this.registry = registry;
 	}
 
 	@Override
 	protected void generate() {
-		for (MaterialModel material : registry.getMaterials()) {
+		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 
 			// Storage Blocks
@@ -110,7 +110,7 @@ public class BlockLootGen extends BlockLootSubProvider {
 			if (!processedType.contains("ore")) continue;
 			MaterialOreDropModel oreDrop = material.getOreDrop();
 
-			for (StrataModel strata : registry.getStrata()) {
+			for (StrataModel strata : registry.getRegisteredStrata()) {
 				if (!(material.getStrata().isEmpty() || material.getStrata().contains(strata.getId()))) continue;
 
 				Block block = EERegistrar.oreBlockTable.get(strata.getId(), material.getId()).get();

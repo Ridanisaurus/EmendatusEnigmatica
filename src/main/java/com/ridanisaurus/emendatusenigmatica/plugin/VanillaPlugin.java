@@ -1,37 +1,16 @@
-/*
- * MIT License
- *
- * Copyright (c) 2024. Ridanisaurus
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
-import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.*;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.LootGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.RecipesGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.BlockModelsGen;
+import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.BlockStatesGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestLevelTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockHarvestToolTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags.BlockTagsGen;
@@ -42,136 +21,81 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.item.ItemTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.BiomeTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
+import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
-import com.ridanisaurus.emendatusenigmatica.datagen.gen.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-//This plugin will be always first
 @EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")
-public class VanillaPlugin extends BasicEmendatusPlugin {
-    @Override
-    public void setup() {
-        try {
-            Path strataDir = Analytics.CONFIG_DIR.resolve("strata/");
-            if (Files.notExists(strataDir)) {
-                Files.createDirectories(strataDir);
-                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/strata/");
-            }
-            Path materialDir = Analytics.CONFIG_DIR.resolve("material/");
-            if (Files.notExists(materialDir)) {
-                Files.createDirectories(materialDir);
-                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/material/");
-            }
-//            Path compatDir = Analytics.CONFIG_DIR.resolve("compat/");
-//            if (Files.notExists(compatDir)) {
-//                Files.createDirectories(compatDir);
-//                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/compat/");
-//            }
-            Path depositDir = Analytics.CONFIG_DIR.resolve("deposit/");
-            if (Files.notExists(depositDir)) {
-                Files.createDirectories(depositDir);
-                EmendatusEnigmatica.logger.info("Created /config/emendatusenigmatica/deposit/");
-            }
+public class VanillaPlugin implements IEEPlugin<DataRegistry> {
+    public static final EEModelDefinition<MaterialModel, DataRegistry> MATERIAL_DEFINITION = new EEModelDefinition<>(
+        VanillaPlugin.class,
+        "material",
+        "material",
+        MaterialModel.CODEC,
+        MaterialModel.VALIDATION_MANAGER,
+        MaterialModel::register
+    );
 
-        } catch (Exception e) {
-            throw new RuntimeException("IOException occurred when setting up EE Config Directory!", e);
-        }
+    public static final EEModelDefinition<StrataModel, DataRegistry> STRATA_DEFINITION = new EEModelDefinition<>(
+        VanillaPlugin.class,
+        "strata",
+        "strata",
+        StrataModel.CODEC,
+        StrataModel.VALIDATION_MANAGER,
+        StrataModel::register
+    );
+
+    //TODO: Update deposits to use ModelExtensions.
+    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = null;
+
+//    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = new EEModelDefinition<>(
+//        VanillaPlugin.class,
+//        "deposit",
+//        "deposit",
+//        DepositModel.CODEC,
+//        DepositModel.VALIDATION_MANAGER,
+//        DepositModel::register
+//    );
+
+    /**
+     * This method is used to make any necessary changes to other plugins,
+     * register your models and anything else your plugin requires before EE itself starts.
+     */
+    @Override
+    public void setup(SetupContext ctx) {
+        var loader = ctx.modelLoader();
+        loader.registerDefinition(MATERIAL_DEFINITION);
+        loader.registerDefinition(STRATA_DEFINITION);
+//        loader.registerDefinition(DEPOSIT_DEFINITION);
     }
 
-    @Override
-    public void load(EmendatusDataRegistry registry) {
-        ModelLoader.load(registry);
-    }
-
-    @Override
-    public void registerMinecraft(EmendatusDataRegistry registry) {
-        for (MaterialModel material : registry.getMaterials()) {
-            List<String> types = material.getProcessedTypes();
-            if (types.contains("storage_block")) EERegistrar.registerStorageBlocks(material);
-            if (types.contains("ingot"))    EERegistrar.registerIngots(material);
-            if (types.contains("nugget"))   EERegistrar.registerNuggets(material);
-            if (types.contains("gem"))      EERegistrar.registerGems(material);
-            if (types.contains("dust"))     EERegistrar.registerDusts(material);
-            if (types.contains("plate"))    EERegistrar.registerPlates(material);
-            if (types.contains("gear"))     EERegistrar.registerGears(material);
-            if (types.contains("rod"))      EERegistrar.registerRods(material);
-            if (types.contains("sword"))    EERegistrar.registerSwords(material);
-            if (types.contains("pickaxe"))  EERegistrar.registerPickaxes(material);
-            if (types.contains("axe"))      EERegistrar.registerAxes(material);
-            if (types.contains("shovel"))   EERegistrar.registerShovels(material);
-            if (types.contains("hoe"))      EERegistrar.registerHoes(material);
-            if (types.contains("paxel"))    EERegistrar.registerPaxels(material);
-            if (types.contains("armor"))    EERegistrar.registerArmor(material);
-            if (types.contains("shield"))   EERegistrar.registerShields(material);
-            if (types.contains("fluid"))    EERegistrar.registerFluids(material);
-
-            if (types.contains("raw")) {
-                EERegistrar.registerRaw(material);
-                if (types.contains("storage_block")) EERegistrar.registerRawBlocks(material);
-            }
-
-            if (types.contains("cluster")) {
-                EERegistrar.registerSmallBudBlocks(material);
-                EERegistrar.registerMediumBudBlocks(material);
-                EERegistrar.registerLargeBudBlocks(material);
-                EERegistrar.registerClusterBlocks(material);
-                EERegistrar.registerBuddingBlocks(material);
-                EERegistrar.registerClusterShardBlocks(material);
-                EERegistrar.registerClusterShards(material);
-            }
-
-            for (StrataModel strata : registry.getStrata()) {
-                if (types.contains("ore")) {
-                    if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) EERegistrar.registerOre(strata, material);
-
-                    //TODO: Rework Sample System.
-//                    if (types.contains("sample")) {
-//                        if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
-//                            EERegistrar.registerSample(strata, material);
-//                        }
-//                    }
-                }
-            }
-        }
-    }
-
-    // Even tho it's shipped with EE by default, and could be put into EEConfig class
-    // We are doing it here for consistency.
+    /**
+     * Method executed for each EE Configuration file,
+     * allowing addons to extend the configuration files with their own options.
+     *
+     * @param ctx Config Creation Context
+     * @apiNote Please make sure you are extending the correct type of the configuration file.
+     * This method is executed for Client / Startup configs.
+     */
     @Override
     public void extendConfig(ConfigCreationContext ctx) {
         if (!ctx.isStartup()) return;
         NeoFeatureGen.setupConfig(ctx);
     }
 
-    @Override
-    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {
-        generator.addProvider(true, new BlockStatesGen(generator, registry));
-        generator.addProvider(true, new BlockModelsGen(generator, registry));
-        generator.addProvider(true, new BlockTagsGen(generator, registry));
-        generator.addProvider(true, new BlockHarvestLevelTagsGen(generator, registry));
-        generator.addProvider(true, new BlockHarvestToolTagsGen(generator, registry));
-        generator.addProvider(true, new ItemModelsGen(generator, registry));
-        generator.addProvider(true, new ItemTagsGen(generator, registry));
-        generator.addProvider(true, new FluidModelsGen(generator, registry));
-        generator.addProvider(true, new FluidTagsGen(generator, registry));
-        generator.addProvider(true, new LangGen(generator, registry));
-        generator.addProvider(true, new RecipesGen(generator, registry, providers));
-        generator.addProvider(true, new LootGen(generator, registry, providers));
-        generator.addProvider(true, new NeoFeatureGen(generator, providers));
-        generator.addProvider(true, new OreFeatureGen(generator, providers));
-        generator.addProvider(true, new BiomeTagsGen(generator));
-    }
-
+    /**
+     * Method used to provide default configuration data for the mod it supports, if necessary.
+     *
+     * @param ctx DCCreationContext used to register configs and check for compatibility.
+     */
     @Override
     public void provideDefaultConfiguration(DCCreationContext ctx) {
         //TODO: Add to the defaults replacements for the textures,
@@ -227,6 +151,92 @@ public class VanillaPlugin extends BasicEmendatusPlugin {
 
         getBuilder("deposit/quartz/quartz", "vanilla/quartz").markAsDeposit().finish(ctx);
         getBuilder("deposit/quartz/quartz_delta", "vanilla/quartz").markAsDeposit().finish(ctx);
+    }
+
+    /**
+     * Method called after EEDataGenerator is created and ready for registration of providers.
+     *
+     * @param generator EEDataGenerator instance.
+     * @param providers Vanilla Registry Lookup for use with vanilla generators that require it.
+     * @param registry  The registry class specified in the R parameter of your plugin.
+     */
+    @Override
+    public void registerDynamicDataGen(EEDataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, DataRegistry registry) {
+        //TODO: Rework data generators to use the new registry (ouch)
+        generator.addProvider(true, new BlockStatesGen(generator, registry));
+        generator.addProvider(true, new BlockModelsGen(generator, registry));
+        generator.addProvider(true, new BlockTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestLevelTagsGen(generator, registry));
+        generator.addProvider(true, new BlockHarvestToolTagsGen(generator, registry));
+        generator.addProvider(true, new ItemModelsGen(generator, registry));
+        generator.addProvider(true, new ItemTagsGen(generator, registry));
+        generator.addProvider(true, new FluidModelsGen(generator, registry));
+        generator.addProvider(true, new FluidTagsGen(generator, registry));
+        generator.addProvider(true, new LangGen(generator, registry));
+        generator.addProvider(true, new RecipesGen(generator, registry, providers));
+        generator.addProvider(true, new LootGen(generator, registry, providers));
+        generator.addProvider(true, new NeoFeatureGen(generator, providers));
+        generator.addProvider(true, new OreFeatureGen(generator, providers));
+        generator.addProvider(true, new BiomeTagsGen(generator));
+    }
+
+    /**
+     * Method called after validation and serialization of the models defined by the plugins.
+     *
+     * @param registry The registry class specified in the R parameter of your plugin.
+     * @apiNote This method is called when it's safe to register objects to Minecraft/Mods registries.
+     */
+    @Override
+    public void register(DataRegistry registry) {
+        for (MaterialModel material : registry.getRegisteredMaterials()) {
+            List<String> types = material.getProcessedTypes();
+            if (types.contains("storage_block")) EERegistrar.registerStorageBlocks(material);
+            if (types.contains("ingot")) EERegistrar.registerIngots(material);
+            if (types.contains("nugget")) EERegistrar.registerNuggets(material);
+            if (types.contains("gem")) EERegistrar.registerGems(material);
+            if (types.contains("dust")) EERegistrar.registerDusts(material);
+            if (types.contains("plate")) EERegistrar.registerPlates(material);
+            if (types.contains("gear")) EERegistrar.registerGears(material);
+            if (types.contains("rod")) EERegistrar.registerRods(material);
+            if (types.contains("sword")) EERegistrar.registerSwords(material);
+            if (types.contains("pickaxe")) EERegistrar.registerPickaxes(material);
+            if (types.contains("axe")) EERegistrar.registerAxes(material);
+            if (types.contains("shovel")) EERegistrar.registerShovels(material);
+            if (types.contains("hoe")) EERegistrar.registerHoes(material);
+            if (types.contains("paxel")) EERegistrar.registerPaxels(material);
+            if (types.contains("armor")) EERegistrar.registerArmor(material);
+            if (types.contains("shield")) EERegistrar.registerShields(material);
+            if (types.contains("fluid")) EERegistrar.registerFluids(material);
+
+            if (types.contains("raw")) {
+                EERegistrar.registerRaw(material);
+                if (types.contains("storage_block")) EERegistrar.registerRawBlocks(material);
+            }
+
+            if (types.contains("cluster")) {
+                EERegistrar.registerSmallBudBlocks(material);
+                EERegistrar.registerMediumBudBlocks(material);
+                EERegistrar.registerLargeBudBlocks(material);
+                EERegistrar.registerClusterBlocks(material);
+                EERegistrar.registerBuddingBlocks(material);
+                EERegistrar.registerClusterShardBlocks(material);
+                EERegistrar.registerClusterShards(material);
+            }
+
+            for (StrataModel strata : registry.getRegisteredStrata()) {
+                if (types.contains("ore")) {
+                    if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId()))
+                        EERegistrar.registerOre(strata, material);
+
+                    //TODO: Rework Sample System.
+//                    if (types.contains("sample")) {
+//                        if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId())) {
+//                            EERegistrar.registerSample(strata, material);
+//                        }
+//                    }
+                }
+            }
+        }
     }
 
     private DCDataBuilder getBuilder(String internal, String external) {

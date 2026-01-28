@@ -2,11 +2,10 @@ package com.ridanisaurus.eemekanismaddon.extensions;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.extensions.MaterialExtensionData;
 
 import java.util.Optional;
 
-public class MekanismMaterialExtension extends MaterialExtensionData {
+public class MekanismMaterialExtension  {
     public static final Codec<MekanismMaterialExtension> CODEC = RecordCodecBuilder.create(x -> x.group(
         ColorExtension.CODEC.optionalFieldOf("chemicalColor").forGetter(i -> Optional.of(i.color)),
         GasExtension.CODEC.optionalFieldOf("gas").forGetter(i -> Optional.of(i.gas))

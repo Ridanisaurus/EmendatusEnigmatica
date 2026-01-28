@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EELangProvider;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
@@ -39,9 +39,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class LangGen extends EELangProvider {
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public LangGen(DataGenerator gen, EmendatusDataRegistry registry) {
+	public LangGen(DataGenerator gen, DataRegistry registry) {
 		super(gen, Reference.MOD_ID, "en_us");
 		this.registry = registry;
 	}
@@ -133,7 +133,7 @@ public class LangGen extends EELangProvider {
 		add("emendatusenigmatica.screen.config.validation.empty_files.text", "Skip empty Json Files");
 		add("emendatusenigmatica.screen.config.validation.empty_files.tip", "When enabled, will cause EE to silently skip empty JSON files on loading, removing errors generated in the summary.");
 
-		for (MaterialModel material : registry.getMaterials()) {
+		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Ingots
 			if (processedType.contains("ingot"))
@@ -243,7 +243,7 @@ public class LangGen extends EELangProvider {
 
 			// Ores
 			if (processedType.contains("ore")) {
-				for (StrataModel strata : registry.getStrata()) {
+				for (StrataModel strata : registry.getRegisteredStrata()) {
 					if (!material.getStrata().isEmpty() && !material.getStrata().contains(strata.getId())) continue;
 
 					StringBuilder sb = new StringBuilder();

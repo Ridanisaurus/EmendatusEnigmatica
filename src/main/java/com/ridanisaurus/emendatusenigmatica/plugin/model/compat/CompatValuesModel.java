@@ -32,7 +32,8 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatTypeV
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.compat.CompatValueInputValidator;
 import java.util.*;
 
-@Deprecated(forRemoval = true, since = "2.2.0")
+@SuppressWarnings("deprecated removal")
+@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 public class CompatValuesModel {
     public static final Codec<CompatValuesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
             Codec.STRING.fieldOf("type").forGetter(i -> i.type),

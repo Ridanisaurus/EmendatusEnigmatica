@@ -25,8 +25,8 @@
 package com.ridanisaurus.emendatusenigmatica.api;
 
 import com.google.common.collect.ImmutableList;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelExtensionData;
-import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtensionType;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
@@ -37,18 +37,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 /**
- * Registry of all the data loaded from the plugins in {@link com.ridanisaurus.emendatusenigmatica.loader.EELoader} using {@link IEmendatusPlugin}
+ * Registry of all the data loaded from the plugins in {@link EEPluginLoader} using {@link IEmendatusPlugin}
  *
  * Here are stored all the materials, strata and compat.
+ * @deprecated EmendatusDataRegistry was deprecated due to plugin system rework.
+ * This class is no longer in use, please use {@link DataRegistry} instead for vanilla data.
  */
+@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 public class EmendatusDataRegistry {
-    private final Map<Class<? extends IEmendatusPlugin<?>>, List<ModelExtensionData<?>>> extensions;
     private final Map<String, MaterialModel> materials;
     private final Map<String, String> strataByFiller;
     private final Map<String, StrataModel> strata;
 
 
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     @SuppressWarnings("removal")
     private final List<CompatModel> compat;
 
@@ -57,39 +59,6 @@ public class EmendatusDataRegistry {
         this.materials = new HashMap<>();
         this.strata = new HashMap<>();
         this.compat = new ArrayList<>();
-        this.extensions = new HashMap<>();
-    }
-
-    public void registerExtension(Class<? extends IEmendatusPlugin<?>> plugin, ModelExtensionData<?> data) {
-        this.extensions.computeIfAbsent(Objects.requireNonNull(plugin), it -> new ArrayList<>()).add(Objects.requireNonNull(data));
-    }
-
-    public List<ModelExtensionData<?>> getExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
-        return this.extensions.computeIfAbsent(Objects.requireNonNull(plugin), it -> new ArrayList<>());
-    }
-
-    /**
-     * @implNote Use default cast if your plugin provides more than a single Strata Extension!
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends ModelExtensionData<StrataModel>> List<T> getStrataExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
-        var ext = getExtensions(plugin);
-        return ext.stream()
-            .filter(it -> it.getType() == ModelExtensionType.STRATA)
-            .map(it -> (T) it)
-            .toList();
-    }
-
-    /**
-     * @implNote Use default cast if your plugin provides more than a single Material Extension!
-     */
-    @SuppressWarnings("unchecked")
-    public <T extends ModelExtensionData<MaterialModel>> List<T> getMaterialExtensions(Class<? extends IEmendatusPlugin<?>> plugin) {
-        var ext = getExtensions(plugin);
-        return ext.stream()
-            .filter(it -> it.getType() == ModelExtensionType.MATERIAL)
-            .map(it -> (T) it)
-            .toList();
     }
 
     /**
@@ -152,13 +121,13 @@ public class EmendatusDataRegistry {
         return this.strata.get(id);
     }
 
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     @SuppressWarnings("removal")
     public void registerCompat(CompatModel compatModel){
         this.compat.add(compatModel);
     }
 
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     @SuppressWarnings("removal")
     public List<CompatModel> getCompat() {
         return ImmutableList.copyOf(compat);

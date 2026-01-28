@@ -27,6 +27,7 @@ package com.ridanisaurus.eeoccultismaddon;
 import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
+import com.ridanisaurus.emendatusenigmatica.api.BasicEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
@@ -35,6 +36,10 @@ import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
+import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.neoforged.fml.common.Mod;
@@ -46,10 +51,22 @@ import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = EEOccultismPlugin.MOD_ID, name = "occultism-plugin")
 @Mod(EEOccultismPlugin.MOD_ID)
-public class EEOccultismPlugin extends BasicEmendatusPlugin {
+public class EEOccultismPlugin extends BasicEEPlugin {
 	public static final String MOD_ID = "ee_occultism_addon";
 	public static ModConfigSpec.BooleanValue disableSilver = null;
 	public static ModConfigSpec.BooleanValue disableIesnium = null;
+	private EEPluginLoader pluginLoader = null;
+
+	/**
+	 * This method is used to make any necessary changes to other plugins,
+	 * register your models and anything else your plugin requires before EE itself starts.
+	 *
+	 * @param ctx Setup context, containing references to instances of EE loaders.
+	 */
+	@Override
+	public void setup(SetupContext ctx) {
+		pluginLoader = ctx.pluginLoader();
+	}
 
 	@Override
 	public void extendConfig(ConfigCreationContext ctx) {
@@ -62,12 +79,6 @@ public class EEOccultismPlugin extends BasicEmendatusPlugin {
 			.comment("Determines if Occultism Iesnium ore generation should be disabled.")
 			.translation("ee_occultism.config.disable_iesnium_ore")
 			.define("disableIesniumOre",true);
-	}
-
-	@Override
-	public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {
-		generator.addProvider(true, new OccultismRecipeGen(generator, registry, providers));
-		generator.addProvider(true, new OccultismWorldGen(generator, providers));
 	}
 
 	@Override
@@ -88,5 +99,28 @@ public class EEOccultismPlugin extends BasicEmendatusPlugin {
 		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("iesnium_ore"), "occultism");
 		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_ore"), "common/silver");
 		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_deepslate_ore"), "common/silver");
+	}
+
+	/**
+	 * Method called after EEDataGenerator is created and ready for registration of providers.
+	 *
+	 * @param generator EEDataGenerator instance.
+	 * @param providers Vanilla Registry Lookup for use with vanilla generators that require it.
+	 */
+	@Override
+	public void registerDynamicDataGen(EEDataGenerator generator, CompletableFuture<HolderLookup.Provider> providers) {
+		var vanillaRegistry = pluginLoader.getRegistry(VanillaPlugin.class);
+		generator.addProvider(true, new OccultismRecipeGen(generator, vanillaRegistry, providers));
+		generator.addProvider(true, new OccultismWorldGen(generator, providers));
+	}
+
+	/**
+	 * Method called after validation and serialization of the models defined by the plugins.
+	 *
+	 * @apiNote This method is called when it's safe to register objects to Minecraft/Mods registries.
+	 */
+	@Override
+	public void register() {
+
 	}
 }

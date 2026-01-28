@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+//TODO: Rework this to work based on EEMaterialDefinition.
 public class DCDataBuilder {
     private static final Gson gson = new Gson();
     private final JsonObject object;

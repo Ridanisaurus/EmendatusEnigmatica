@@ -50,6 +50,7 @@ public class FileHelper {
 	 * @apiNote It is recommended to use {@link FileHelper#loadJsons(Path)} instead.
 	 */
 	@Contract("_ -> new")
+	@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 	public static @NotNull ArrayList<JsonObject> loadFilesAsJsonObjects(@NotNull File dir) {
 		return loadJsons(Path.of(dir.toURI()));
 	}
@@ -100,18 +101,18 @@ public class FileHelper {
 						ValidationHelper.obfuscatePath(file)
 					);
 					// Log additionally full exception.
-					EmendatusEnigmatica.logger.debug("Failed parsing json file at {}.", file.toAbsolutePath(), e);
+					EmendatusEnigmatica.logger.debug("Failed parsing JSON file at {}.", file.toAbsolutePath(), e);
 				}
 			});
 		} catch (Exception ex) {
 			Analytics.error(
-				"Failed reading directory, from which JSON files were meant to be loaded!",
+				"Failed reading directory containing JSON files!",
 				ExceptionHelper.getAsString(ex),
 				"None",
 				ValidationHelper.obfuscatePath(dir)
 			);
 			// Log additionally full exception.
-			EmendatusEnigmatica.logger.error("Failed reading directory ({}), from which JSON files were meant to be loaded.", dir, ex);
+			EmendatusEnigmatica.logger.error("Failed reading directory ({}) containing JSON files.", dir, ex);
 		}
 		return results;
 	}

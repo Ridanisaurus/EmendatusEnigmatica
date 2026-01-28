@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.block.BlockLootGen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.WritableRegistry;
@@ -43,11 +43,11 @@ import java.util.function.Function;
 
 // Credits: AE2 Impl.
 public class LootGen extends LootTableProvider {
-	private static final Function<EmendatusDataRegistry, List<SubProviderEntry>> SUB_PROVIDERS = (registry) -> List.of(
+	private static final Function<DataRegistry, List<SubProviderEntry>> SUB_PROVIDERS = (registry) -> List.of(
 		new SubProviderEntry((provider) -> new BlockLootGen(provider, registry), LootContextParamSets.BLOCK)
 	);
 
-	public LootGen(@NotNull DataGenerator gen, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> provider) {
+	public LootGen(@NotNull DataGenerator gen, DataRegistry registry, CompletableFuture<HolderLookup.Provider> provider) {
 		super(gen.getPackOutput(), Set.of(), SUB_PROVIDERS.apply(registry), provider);
 	}
 

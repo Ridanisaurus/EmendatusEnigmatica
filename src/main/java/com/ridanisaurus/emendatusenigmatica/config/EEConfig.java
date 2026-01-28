@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.config;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -39,7 +39,7 @@ public class EEConfig {
 	public static StartupConfig startup;
 	private static ModConfigSpec startupSpec;
 
-	public static void setupConfigs(@NotNull ModContainer container, @NotNull EELoader loader) {
+	public static void setupConfigs(@NotNull ModContainer container, @NotNull EEPluginLoader loader) {
 		Pair<ClientConfig, ModConfigSpec> clientSpecPair = new ModConfigSpec.Builder().configure(it -> new ClientConfig(it, loader));
 		client = clientSpecPair.getLeft();
 		clientSpec = clientSpecPair.getRight();
@@ -67,7 +67,7 @@ public class EEConfig {
 		public final ModConfigSpec.BooleanValue generateDefaultConfigs;
 		public final ModConfigSpec.BooleanValue regenerateDefaults;
 
-		StartupConfig(ModConfigSpec.@NotNull Builder builder, EELoader loader) {
+		StartupConfig(ModConfigSpec.@NotNull Builder builder, EEPluginLoader loader) {
 			builder.push("Configuration");
 			skipEmptyJsons = builder
 				.comment("Whether Emendatus Enigmatica should silently skip empty JSON files (Either 0 Bytes or empty root object) instead of including them on the summary.")
@@ -100,7 +100,7 @@ public class EEConfig {
 		public final ModConfigSpec.BooleanValue showPatreonReward;
 		public final ModConfigSpec.BooleanValue oldSchoolGlint;
 
-		ClientConfig(ModConfigSpec.@NotNull Builder builder, EELoader loader) {
+		ClientConfig(ModConfigSpec.@NotNull Builder builder, EEPluginLoader loader) {
 			builder.push("Rendering");
 			showPatreonReward = builder
 					.comment("Whether the Patreon Reward should appear floating over the player's head")

@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.fluid;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FluidModelBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EEBlockModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
@@ -38,16 +38,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class FluidModelsGen extends EEBlockModelProvider {
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public FluidModelsGen(DataGenerator gen, EmendatusDataRegistry registry) {
+	public FluidModelsGen(DataGenerator gen, DataRegistry registry) {
 		super(gen);
 		this.registry = registry;
 	}
 
 	@Override
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : registry.getMaterials()) {
+		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Fluids
 			if (processedType.contains("fluid")) {

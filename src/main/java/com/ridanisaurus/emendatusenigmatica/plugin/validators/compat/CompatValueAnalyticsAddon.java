@@ -28,6 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.AnalyticsAddon;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.AnalyticsWriteContext;
 
+@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 public class CompatValueAnalyticsAddon implements AnalyticsAddon {
     private static boolean shouldRun = false;
 

@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.item;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EEItemModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.ItemModelBuilder;
@@ -40,16 +40,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ItemModelsGen extends EEItemModelProvider {
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public ItemModelsGen(DataGenerator gen, EmendatusDataRegistry registry) {
+	public ItemModelsGen(DataGenerator gen, DataRegistry registry) {
 		super(gen);
 		this.registry = registry;
 	}
 
 	@Override
 	protected void buildItemModels(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : registry.getMaterials()) {
+		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 
 			// Storage Blocks
@@ -425,7 +425,7 @@ public class ItemModelsGen extends EEItemModelProvider {
 
 			// Ores
 			if (processedType.contains("ore")) {
-				for (StrataModel stratum : registry.getStrata()) {
+				for (StrataModel stratum : registry.getRegisteredStrata()) {
 					if (!material.getStrata().isEmpty() && !material.getStrata().contains(stratum.getId())) continue;
 					new ItemModelBuilder(Reference.MOD_ID, "block/" + getOreModelName(stratum, material))
 						.save(consumer, Reference.MOD_ID, getOreModelName(stratum, material));

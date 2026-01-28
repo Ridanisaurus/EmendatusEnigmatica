@@ -81,7 +81,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
     /**
      * @deprecated This field is temporary and will be removed next breaking update.
      */
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     private static final IValidationFunction deprecatedValidator = new DeprecatedValueValidator(List.of(
         new DeprecatedValueValidator.ValueHolder("helmet",      "armor", ""),
         new DeprecatedValueValidator.ValueHolder("chestplate",  "armor", ""),

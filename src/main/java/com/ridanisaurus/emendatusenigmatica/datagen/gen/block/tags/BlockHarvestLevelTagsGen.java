@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.block.tags;
 
 import com.google.common.collect.Lists;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EETagProvider;
@@ -42,9 +42,9 @@ import java.util.function.Consumer;
 import static com.ridanisaurus.emendatusenigmatica.util.Reference.MINECRAFT;
 
 public class BlockHarvestLevelTagsGen extends EETagProvider {
-    private final EmendatusDataRegistry registry;
+    private final DataRegistry registry;
 
-    public BlockHarvestLevelTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
+    public BlockHarvestLevelTagsGen(DataGenerator gen, DataRegistry registry) {
         super(gen);
         this.registry = registry;
     }
@@ -57,7 +57,7 @@ public class BlockHarvestLevelTagsGen extends EETagProvider {
 
     @Override
     protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-        for (MaterialModel material : registry.getMaterials()) {
+        for (MaterialModel material : registry.getRegisteredMaterials()) {
             List<String> processedType = material.getProcessedTypes();
 
             if (processedType.contains("storage_block")) {
@@ -85,7 +85,7 @@ public class BlockHarvestLevelTagsGen extends EETagProvider {
             }
 
             if (processedType.contains("ore")) {
-                for (StrataModel strata : registry.getStrata()) {
+                for (StrataModel strata : registry.getRegisteredStrata()) {
                     if (!material.getStrata().isEmpty() && !material.getStrata().contains(strata.getId())) continue;
                     harvestLevelSwitch(material, EERegistrar.oreBlockTable.get(strata.getId(), material.getId()).getId());
 

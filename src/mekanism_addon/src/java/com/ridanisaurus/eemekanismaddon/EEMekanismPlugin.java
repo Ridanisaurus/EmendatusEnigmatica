@@ -3,16 +3,18 @@ package com.ridanisaurus.eemekanismaddon;
 import com.ridanisaurus.eemekanismaddon.datagen.LangGen;
 import com.ridanisaurus.eemekanismaddon.extensions.GasExtension;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
+import com.ridanisaurus.eemekanismaddon.registry.EEMekanismDataRegistry;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
 import com.ridanisaurus.eemekanismaddon.validators.CoolantColorValidator;
-import com.ridanisaurus.emendatusenigmatica.api.BasicEmendatusPlugin;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
+import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
-import com.ridanisaurus.emendatusenigmatica.plugin.extensions.ModelExtension;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialColorsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
@@ -26,11 +28,11 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = EEMekanismAddon.MOD_ID, name = "mekanism-plugin")
-public class EEMekanismPlugin extends BasicEmendatusPlugin {
+public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
     public static ModConfigSpec.BooleanValue disableOsmium = null;
 
     @Override
-    public void setup() {
+    public void setup(SetupContext ctx) {
         ProcessedTypesValidator.TYPES.addAll(List.of(
             "infuse_type",
             "gas",
@@ -49,7 +51,13 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
         MaterialModel.VALIDATION_MANAGER
             .addValidator("gas", new ProcessedTypesContainValidator("gas", GasExtension.VALIDATION_MANAGER.getAsValidator(false)));
 
-        ModelLoader.registerExtension(new ModelExtension<>(MekanismMaterialExtension.CODEC, MaterialModel.class, EEMekanismPlugin.class));
+        ctx.modelLoader().registerModelExtension(new EEModelExtension<>(
+            VanillaPlugin.MATERIAL_DEFINITION,
+            MekanismMaterialExtension.CODEC,
+            (model, extended, oRegistry, registry) -> {
+
+            }
+        ));
     }
 
     /**
@@ -65,7 +73,7 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
     }
 
 	@Override
-	public void registerMinecraft(EmendatusDataRegistry registry) {
+	public void register(EEMekanismDataRegistry registry) {
         for (MekanismMaterialExtension material : registry.<MekanismMaterialExtension>getMaterialExtensions(EEMekanismPlugin.class)) {
             var types = material.getOriginalModel().getProcessedTypes();
             if (types.contains("slurry"))
@@ -91,14 +99,8 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
         }
 	}
 
-    /**
-     * @param generator      DataGenerator to register data providers to.
-     * @param providers      Vanilla Registry Lookup for use with vanilla generators that require it.
-     * @param registry       Emendatus Enigmatica registry with all data parsed from the configuration files.
-     * @param customRegistry CustomRegistry object specified in the annotation, or null if {@link Void}
-     */
     @Override
-    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry, Void customRegistry) {
+    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EEMekanismDataRegistry registry) {
         generator.addProvider(true, new LangGen(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.ItemModels(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.Lang(generator, registry));
@@ -107,11 +109,6 @@ public class EEMekanismPlugin extends BasicEmendatusPlugin {
 //        generator.addProvider(true, new EEMekanismDataGen.Recipes(generator, registry));;
     }
 
-    /**
-     * @param registry DCCreationContext used to register configs and check for compatibility.
-     */
     @Override
-    public void provideDefaultConfiguration(DCCreationContext registry) {
-        super.provideDefaultConfiguration(registry);
-    }
+    public void provideDefaultConfiguration(DCCreationContext registry) {}
 }

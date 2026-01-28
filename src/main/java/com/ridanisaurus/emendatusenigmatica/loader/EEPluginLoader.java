@@ -26,17 +26,16 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.util.ClassHelper;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.Util;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.config.ModConfig;
@@ -44,31 +43,33 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.lang.reflect.Constructor;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class EELoader {
-    public static final Logger logger = LogManager.getLogger(EELoader.class);
-    private final EmendatusDataRegistry dataRegistry;
+public class EEPluginLoader {
+    public static final Logger logger = LogManager.getLogger(EEPluginLoader.class);
     private final List<EEPlugin> plugins;
     private boolean finished = false;
 
-    public EELoader() {
-        this.dataRegistry = new EmendatusDataRegistry();
+    public EEPluginLoader() {
         this.plugins = new ArrayList<>();
         this.scanForClasses();
     }
 
     /**
-     * Scans for classes that have the annotation {@link EmendatusPluginReference} and implements the class {@link IEmendatusPlugin} and
+     * Scans for classes that have the annotation {@link EmendatusPluginReference} and implements the class {@link IEEPlugin} and
      * creates an instance for those classes.
      * <p>
      * If the class is {@link VanillaPlugin} goes at the start of the list as it has priority.
@@ -77,8 +78,8 @@ public class EELoader {
     private void scanForClasses(){
         Stopwatch s = Stopwatch.createStarted();
         for (Class<?> annotatedClass : ClassHelper.getAnnotatedClasses(EmendatusPluginReference.class)) {
-            if (!IEmendatusPlugin.class.isAssignableFrom(annotatedClass)) {
-                logger.error("{} has an annotation but it doesn't implement IEmendatusPlugin", annotatedClass.getName());
+            if (!IEEPlugin.class.isAssignableFrom(annotatedClass)) {
+                logger.error("\"{}\" has an annotation but it doesn't implement IEEPlugin.", annotatedClass.getName());
                 continue;
             }
 
@@ -95,19 +96,16 @@ public class EELoader {
                 if (Objects.isNull(pluginConstructor))
                     throw new IllegalStateException("Class of the plugin \"%s\" doesn't have a no-arg constructor.".formatted(name));
 
-                Constructor<?> registryConstructor = ClassHelper.getNoArgConstructor(annotation.registry());
-                if (!annotation.registry().equals(Void.class) && Objects.isNull(registryConstructor))
-                    throw new IllegalStateException("Registry of the plugin \"%s\" doesn't have a no-arg constructor.".formatted(name));
-
-                var generic = ClassHelper.getGenericInterfaceType(annotatedClass, IEmendatusPlugin.class);
+                var generic = ClassHelper.getGenericInterfaceType(annotatedClass, IEEPlugin.class);
                 if (Objects.isNull(generic))
-                    throw new InvalidClassException("Class of the plugin \"%s\" implements IEmendatusPlugin interface as a raw type.".formatted(name));
-                if (!generic.equals(annotation.registry()))
-                    throw new InvalidClassException("Class of the plugin \"%s\" implements IEmendatusPlugin with incorrect registry generic.".formatted(name));
+                    throw new InvalidClassException("Class of the plugin \"%s\" implements IEEPlugin interface as a raw type.".formatted(name));
+                Constructor<?> registryConstructor = ClassHelper.getNoArgConstructor(generic);
+                if (!generic.equals(Void.class) && Objects.isNull(registryConstructor))
+                    throw new IllegalStateException("Registry of the plugin \"%s\" doesn't have a no-arg constructor.".formatted(name));
 
                 // Construction of the plugin
                 var plugin = new EEPlugin(
-                    (IEmendatusPlugin<Object>) pluginConstructor.newInstance(),
+                    (IEEPlugin<Object>) pluginConstructor.newInstance(),
                     annotation,
                     Objects.nonNull(registryConstructor)? registryConstructor.newInstance(): null
                 );
@@ -130,7 +128,8 @@ public class EELoader {
     }
 
     /**
-     * Executes {@link IEmendatusPlugin#extendConfig(ConfigCreationContext)} for each addon, with the context created based on the arguments.
+     * Executes {@link IEEPlugin#extendConfig(ConfigCreationContext)} for each addon,
+     * with the context created based on the arguments.
      * @param builder Builder of the configuration.
      * @param type Type of the configuration.
      */
@@ -138,15 +137,16 @@ public class EELoader {
         var ctx = new ConfigCreationContext(builder, type);
         this.plugins.forEach(it -> it.plugin.extendConfig(ctx.setAddon(it.annotation.name())));
         // Pop out of the last addon category.
-        builder.pop();
+        if (!plugins.isEmpty()) builder.pop();
     }
 
     /**
-     * Executes {@link IEmendatusPlugin#provideDefaultConfiguration(DCCreationContext)} and {@link IEmendatusPlugin#setup()} of each plugin.
+     * Executes {@link IEEPlugin#provideDefaultConfiguration(DCCreationContext)} and {@link IEEPlugin#setup(SetupContext)} of each plugin.
+     * @param ctx SetupContext to pass to the addons;
      * @throws ExecutionException When ExecutionException while saving configuration data occurs.
      * @throws InterruptedException When the saving operation was interrupted.
      */
-    public void setup() throws ExecutionException, InterruptedException {
+    public void setup(SetupContext ctx) throws ExecutionException, InterruptedException {
         if (EEConfig.startup.generateDefaultConfigs.get() || EEConfig.startup.regenerateDefaults.get()) {
             if (EEConfig.startup.regenerateDefaults.get()) {
                 EmendatusEnigmatica.logger.warn("Regeneration of default configurations triggered! This will wipe your EE Config directory.");
@@ -162,11 +162,11 @@ public class EELoader {
             // We only generate defaults if the Config Dir is not existent.
             if (Files.notExists(Analytics.CONFIG_DIR)) {
                 EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
-                var ctx = new DCCreationContext();
-                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(ctx.setCurrentAddon(it.annotation)));
+                var context = new DCCreationContext();
+                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(context.setCurrentAddon(it.annotation)));
 
                 CompletableFuture<Void> future = CompletableFuture.allOf(
-                    ctx.getEntries()
+                    context.getEntries()
                         .stream()
                         .map(it -> it.save(Util.ioPool()))
                         .toList()
@@ -179,53 +179,56 @@ public class EELoader {
             };
         }
 
-        // Call Setup after generation of the default configuration files.
-        // Vanilla Plugin setups the EE Config folder, which we use to check if we should generate defaults.
-        this.plugins.forEach(it -> it.plugin.setup());
+        ctx.modelLoader().startRegistration();
+        this.plugins.forEach(it -> {
+            ctx.modelLoader().setCurrentPlugin(it.annotation);
+            it.plugin.setup(ctx);
+        });
+        ctx.modelLoader().finishRegistration();
     }
 
     /**
-     * Executes {@link IEmendatusPlugin#load(EmendatusDataRegistry, Object)} and {@link IEmendatusPlugin#registerMinecraft(EmendatusDataRegistry, Object)} of each plugin.
+     * Executes {@link EEModelLoader#load(EEPluginLoader)} and {@link IEEPlugin#register(Object)} of each plugin.
      */
-    public void loadData() {
-		this.plugins.forEach(it -> it.plugin.load(this.dataRegistry, it.registry));
-		this.plugins.forEach(it -> it.plugin.registerMinecraft(this.dataRegistry, it.registry));
+    public void load(@NotNull EEModelLoader loader) {
+        loader.load(this);
+		this.plugins.forEach(it -> it.plugin.register(it.registry));
     }
 
     /**
-     * Executes {@link IEmendatusPlugin#registerDynamicDataGen(DataGenerator, CompletableFuture, EmendatusDataRegistry, Object)} of each plugin, for provided DataGenerator.
+     * Executes {@link IEEPlugin#registerDynamicDataGen(EEDataGenerator, CompletableFuture, Object)} of each plugin, for provided DataGenerator.
      * @param dataGenerator DataGenerator used to run the registered providers.
      */
-    public void registerDataGen(DataGenerator dataGenerator) {
+    public void registerDataGen(EEDataGenerator dataGenerator) {
         this.plugins.forEach(it ->
             it.plugin.registerDynamicDataGen(
                 dataGenerator,
                 CompletableFuture.supplyAsync(VanillaRegistries::createLookup, Util.backgroundExecutor()),
-                this.dataRegistry,
                 it.registry
             )
         );
     }
 
     /**
-     * Mark the EELoader as finished.
+     * Mark the EEPluginLoader as finished.
      */
     public void finish() {
         this.finished = true;
     }
 
     /**
-     * @return EmendatusDataRegistry created on setup.
-     */
-    public EmendatusDataRegistry getDataRegistry() {
-        return dataRegistry;
-    }
-
-    /**
-     * @return True if EELoader was marked as finished, false otherwise.
+     * @return True if EEPluginLoader was marked as finished, false otherwise.
      */
     public boolean isFinished() {
         return this.finished;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <R> R getRegistry(Class<? extends IEEPlugin<R>> plugin) {
+        for (EEPlugin eePlugin : plugins) {
+            if (eePlugin.plugin.getClass().equals(plugin)) return (R) eePlugin.registry;
+        }
+        return null;
     }
 
     /**
@@ -234,5 +237,5 @@ public class EELoader {
      * @param annotation Plugin Annotation object
      * @param registry Plugin Registry object (Nullable)
      */
-    private record EEPlugin(IEmendatusPlugin<Object> plugin, EmendatusPluginReference annotation, @Nullable Object registry) {}
+    private record EEPlugin(IEEPlugin<Object> plugin, EmendatusPluginReference annotation, @Nullable Object registry) {}
 }

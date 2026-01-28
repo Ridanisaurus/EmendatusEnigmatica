@@ -57,11 +57,12 @@ public class MultiStrataRuleTest extends RuleTest {
 	}
 
 	private void setup() {
-		for (StrataModel stratum : EmendatusEnigmatica.getInstance().getLoader().getDataRegistry().getStrata()) {
-			if (this.fillerList.contains(stratum.getId())) {
-				this.blockFillerList.add(BuiltInRegistries.BLOCK.get(stratum.getFillerType()));
-			}
-		}
+		//TODO: Fix
+//		for (StrataModel stratum : EmendatusEnigmatica.getInstance().getPluginLoader().getDataRegistry().getStrata()) {
+//			if (this.fillerList.contains(stratum.getId())) {
+//				this.blockFillerList.add(BuiltInRegistries.BLOCK.get(stratum.getFillerType()));
+//			}
+//		}
 	}
 
 	@Override

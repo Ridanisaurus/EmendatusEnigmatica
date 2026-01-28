@@ -23,7 +23,7 @@
  */
 package com.ridanisaurus.emendatusenigmatica.datagen.gen;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -49,9 +49,9 @@ import java.util.concurrent.CompletableFuture;
 
 public class RecipesGen extends RecipeProvider {
 
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public RecipesGen(@NotNull DataGenerator gen, EmendatusDataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
+	public RecipesGen(@NotNull DataGenerator gen, DataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
 		super(gen.getPackOutput(), providers);
 		this.registry = registry;
 	}
@@ -87,7 +87,7 @@ public class RecipesGen extends RecipeProvider {
 			.unlockedBy("template_unlock", has(ingotTag))
 			.save(out);
 
-		for(MaterialModel material : registry.getMaterials()) {
+		for(MaterialModel material : registry.getRegisteredMaterials()) {
 			if (material.isModded()) {
                 generateModdedMaterial(material, out);
             } else {

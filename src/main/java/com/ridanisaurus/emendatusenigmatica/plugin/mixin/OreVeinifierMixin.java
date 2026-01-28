@@ -22,12 +22,9 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.mixin;
+package com.ridanisaurus.emendatusenigmatica.plugin.mixin;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
@@ -38,8 +35,6 @@ import net.minecraft.world.level.levelgen.OreVeinifier;
 import net.minecraft.world.level.levelgen.PositionalRandomFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-
-import java.util.Objects;
 
 @Mixin(OreVeinifier.class)
 public class OreVeinifierMixin {

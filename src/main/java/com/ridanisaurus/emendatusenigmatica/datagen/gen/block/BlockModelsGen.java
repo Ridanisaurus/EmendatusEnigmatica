@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.block;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.BlockModelBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EEBlockModelProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
@@ -39,16 +39,16 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class BlockModelsGen extends EEBlockModelProvider {
-	private final EmendatusDataRegistry registry;
+	private final DataRegistry registry;
 
-	public BlockModelsGen(DataGenerator gen, EmendatusDataRegistry registry) {
+	public BlockModelsGen(DataGenerator gen, DataRegistry registry) {
 		super(gen);
 		this.registry = registry;
 	}
 
 	@Override
 	protected void buildBlockModel(Consumer<IFinishedGenericJSON> consumer) {
-		for (MaterialModel material : registry.getMaterials()) {
+		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();
 			// Storage Blocks
 			if (processedType.contains("storage_block")) {
@@ -301,7 +301,7 @@ public class BlockModelsGen extends EEBlockModelProvider {
 			}
 			// Ores
 			if (processedType.contains("ore")) {
-				for (StrataModel stratum : registry.getStrata()) {
+				for (StrataModel stratum : registry.getRegisteredStrata()) {
 					if (!material.getStrata().isEmpty() && !material.getStrata().contains(stratum.getId())) continue;
 					if (!material.getColors().hasMaterialColor()) {
 						if (material.getProperties().isEmissive()) {

@@ -38,8 +38,11 @@ import java.util.concurrent.CompletableFuture;
  * All methods defined by it are optional in implementation, and per-method documentation explains their usage.
  * @see EmendatusPluginReference
  * @see VanillaPlugin
- * @implSpec The <code>T</code> parameter is an optional custom registry type, which will be passed to the load/register methods by the EELoader.
+ * @implSpec The <code>T</code> parameter is an optional custom registry type, which will be passed to the load/register methods by the EEPluginLoader.
+ * @deprecated This interface was deprecated and replaced by {@link IEEPlugin}, please port your addon to the new interface before full release of 2.2.0.
  */
+@SuppressWarnings("deprecated removal")
+@Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
 public interface IEmendatusPlugin<T> {
 
     /**
@@ -93,9 +96,9 @@ public interface IEmendatusPlugin<T> {
     /**
      * Method called at the end of all the steps where is safe to store an instance of the {@link EmendatusDataRegistry} in case its needed
      * @param registry A safe instance of the {@link EmendatusDataRegistry}
-     * @deprecated Will be removed in 2.2.1 and is currently not called.
+     * @deprecated Will be removed in 2.2.0 and is currently not called.
      * Use {@link EmendatusEnigmatica#getDataRegistry()} to get the instance of the default EDR.
      */
-    @Deprecated(since = "2.2.0", forRemoval = true)
+    @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
     default void finish(EmendatusDataRegistry registry) {}
 }

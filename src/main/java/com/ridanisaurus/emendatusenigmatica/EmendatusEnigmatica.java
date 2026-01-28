@@ -31,14 +31,15 @@ import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEPackFinder;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
-import com.ridanisaurus.emendatusenigmatica.loader.EELoader;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
+import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.tabs.EECreativeTab;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -62,7 +63,8 @@ public class EmendatusEnigmatica {
     public static final Logger logger = LogUtils.getLogger();
     public static String VERSION = "0.0.0";
     private static EmendatusEnigmatica instance;
-    private final EELoader loader;
+    private final EEModelLoader modelLoader;
+    private final EEPluginLoader pluginLoader;
     private final EEDataGenerator generator;
 
     // Creative Tabs Registration
@@ -94,16 +96,17 @@ public class EmendatusEnigmatica {
         DataGeneratorFactory.init();
         this.generator = DataGeneratorFactory.createEEDataGenerator();
 
-        this.loader = new EELoader();
-        EEConfig.setupConfigs(modContainer, loader);
-        this.loader.setup();
-        this.loader.loadData();
+        this.pluginLoader = new EEPluginLoader();
+        this.modelLoader = new EEModelLoader();
+        EEConfig.setupConfigs(modContainer, pluginLoader);
+        this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
+        this.pluginLoader.load(modelLoader);
 
         EERegistrar.finalize(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
-        this.loader.registerDataGen(this.generator);
-        this.loader.finish();
+        this.pluginLoader.registerDataGen(this.generator);
+        this.pluginLoader.finish();
 
         // Creative Tab Item Registration.
         modEventBus.addListener(this::populateCreativeTab);
@@ -120,12 +123,18 @@ public class EmendatusEnigmatica {
         return instance;
     }
 
-    public EELoader getLoader() {
-        return loader;
+    public EEPluginLoader getPluginLoader() {
+        return pluginLoader;
     }
 
+    public EEModelLoader getModelLoader() {
+        return modelLoader;
+    }
+
+    @Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
+    @SuppressWarnings("deprecated removal")
     public EmendatusDataRegistry getDataRegistry() {
-        return loader.getDataRegistry();
+        return null;
     }
 
     private void populateCreativeTab(BuildCreativeModeTabContentsEvent event) {
@@ -134,7 +143,7 @@ public class EmendatusEnigmatica {
 
     private void addPackFinder(@NotNull AddPackFindersEvent event) {
         event.addRepositorySource(new EEPackFinder(event.getPackType()));
-        if (!loader.isFinished()) {
+        if (!pluginLoader.isFinished()) {
             logger.error("Something is populating Pack Repository too early! Skipping running Data Generation.");
             return;
         }

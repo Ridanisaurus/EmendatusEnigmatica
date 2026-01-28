@@ -35,6 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.TextureRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.strata.SuffixValidator;
@@ -138,5 +139,9 @@ public class StrataModel {
 
 	public boolean getSampleStrata() {
 		return sampleStrata;
+	}
+
+	public void register(DataRegistry registry) {
+		registry.registerStrata(this);
 	}
 }

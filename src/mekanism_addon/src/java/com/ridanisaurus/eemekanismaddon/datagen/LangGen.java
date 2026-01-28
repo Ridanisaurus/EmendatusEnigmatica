@@ -2,17 +2,16 @@ package com.ridanisaurus.eemekanismaddon.datagen;
 
 import com.ridanisaurus.eemekanismaddon.EEMekanismAddon;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EELangProvider;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
 import org.jetbrains.annotations.NotNull;
 
 public class LangGen extends EELangProvider {
-    private final EmendatusDataRegistry registry;
+    private final DataRegistry registry;
 
-    public LangGen(DataGenerator gen, EmendatusDataRegistry registry) {
+    public LangGen(DataGenerator gen, DataRegistry registry) {
         super(gen, EEMekanismAddon.MOD_ID, "en_us");
         this.registry = registry;
     }
@@ -25,7 +24,7 @@ public class LangGen extends EELangProvider {
         add("emendatusenigmatica.configuration.mekanism-plugin.button", "Mekanism");
         add("ee_mekanism.config.disable_osmium_ore", "Disable Osmium Ore");
 
-        for (MaterialModel material : registry.getMaterials()) {
+        for (MaterialModel material : registry.getRegisteredMaterials()) {
             var types = material.getProcessedTypes();
             var name = material.getLocalizedName();
             if (types.contains("slurry")) {

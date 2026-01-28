@@ -24,7 +24,7 @@
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-package com.ridanisaurus.emendatusenigmatica.mixin;
+package com.ridanisaurus.emendatusenigmatica.plugin.mixin;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

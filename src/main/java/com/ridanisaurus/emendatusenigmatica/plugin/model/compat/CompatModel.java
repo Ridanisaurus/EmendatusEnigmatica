@@ -32,7 +32,8 @@ import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import java.util.*;
 
-@Deprecated(forRemoval = true, since = "2.2.0")
+@SuppressWarnings("deprecated removal")
+@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
 public class CompatModel {
 	public static final Codec<CompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("id").forGetter(i -> i.id),

@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.item;
 
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EETagProvider;
@@ -45,17 +45,17 @@ import java.util.function.Consumer;
 import static com.ridanisaurus.emendatusenigmatica.util.Reference.*;
 
 public class ItemTagsGen extends EETagProvider {
-    private final EmendatusDataRegistry registry;
+    private final DataRegistry registry;
     private final Map<ResourceLocation, List<String>> tags = new HashMap<>();
 
-    public ItemTagsGen(DataGenerator gen, EmendatusDataRegistry registry) {
+    public ItemTagsGen(DataGenerator gen, DataRegistry registry) {
         super(gen);
         this.registry = registry;
     }
 
     @Override
     protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-        registry.getMaterials().forEach(material -> {
+        registry.getRegisteredMaterials().forEach(material -> {
             var types = material.getProcessedTypes();
             resourceTags(material, types);
             toolTags(material, types);
@@ -101,7 +101,7 @@ public class ItemTagsGen extends EETagProvider {
         // Ores
         if (!types.contains("ore")) return;
         List<String> strataList = material.getStrata();
-        for (StrataModel strata : registry.getStrata()) {
+        for (StrataModel strata : registry.getRegisteredStrata()) {
             if (!strataList.isEmpty() && !strataList.contains(strata.getId())) continue;
             String id = EERegistrar.oreBlockItemTable.get(strata.getId(), material.getId()).getId().toString();
             addMaterialSpecificTag(COMMON, "ores", id, material);

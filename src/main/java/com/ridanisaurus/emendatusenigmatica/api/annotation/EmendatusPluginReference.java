@@ -30,10 +30,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation used to register {@link com.ridanisaurus.emendatusenigmatica.api.IEmendatusPlugin}
+ * Annotation used to register {@link com.ridanisaurus.emendatusenigmatica.api.IEEPlugin}
  * @see EmendatusPluginReference#modId() ModId Requirements
  * @see EmendatusPluginReference#name() Name Requirements
- * @see EmendatusPluginReference#registry() Registry Constructor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
@@ -48,13 +47,4 @@ public @interface EmendatusPluginReference {
      * A valid {@link net.minecraft.resources.ResourceLocation} path for your addon's name.
      */
     String name();
-
-    /**
-     * A class reference of your custom registry,
-     * which will be constructed with a no-argument constructor on the plugin registration,
-     * and passed by the EELoader to yours plugin Load/Register methods.
-     * @apiNote Default Value: {@link Class<Void> Class&lt;Void&gt;}<br>
-     * Will result in <code>null</code> value being passed as CustomRegistry object.
-     */
-    Class<?> registry() default Void.class;
 }
