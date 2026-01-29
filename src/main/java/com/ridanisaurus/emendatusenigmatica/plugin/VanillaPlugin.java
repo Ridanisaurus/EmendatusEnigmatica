@@ -37,7 +37,7 @@ import java.util.concurrent.CompletableFuture;
 public class VanillaPlugin implements IEEPlugin<DataRegistry> {
     public static final EEModelDefinition<MaterialModel, DataRegistry> MATERIAL_DEFINITION = new EEModelDefinition<>(
         VanillaPlugin.class,
-        "material",
+        "Material",
         "material",
         MaterialModel.CODEC,
         MaterialModel.VALIDATION_MANAGER,
@@ -46,7 +46,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
     public static final EEModelDefinition<StrataModel, DataRegistry> STRATA_DEFINITION = new EEModelDefinition<>(
         VanillaPlugin.class,
-        "strata",
+        "Strata",
         "strata",
         StrataModel.CODEC,
         StrataModel.VALIDATION_MANAGER,
@@ -58,7 +58,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
 //    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = new EEModelDefinition<>(
 //        VanillaPlugin.class,
-//        "deposit",
+//        "Deposit",
 //        "deposit",
 //        DepositModel.CODEC,
 //        DepositModel.VALIDATION_MANAGER,

@@ -99,6 +99,14 @@ public class EEModelLoader {
         );
     }
 
+    public @NotNull Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> getRegistryCopy() {
+        return Map.copyOf(registry);
+    }
+
+    public @NotNull List<EEModelDefinition<?,?>> getRegisteredDefinitions() {
+        return List.copyOf(registry.keySet());
+    }
+
     public @NotNull Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> getPluginDefinitionsPairs(Class<? extends IEEPlugin<?>> plugin) {
         List<EEModelDefinition<?,?>> definitions = getPluginDefinitions(plugin);
         Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> ret = new LinkedHashMap<>();

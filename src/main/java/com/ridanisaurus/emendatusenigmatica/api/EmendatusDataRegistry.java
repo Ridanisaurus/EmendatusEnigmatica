@@ -44,6 +44,7 @@ import java.util.*;
  * This class is no longer in use, please use {@link DataRegistry} instead for vanilla data.
  */
 @Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
+@SuppressWarnings("deprecated removal")
 public class EmendatusDataRegistry {
     private final Map<String, MaterialModel> materials;
     private final Map<String, String> strataByFiller;

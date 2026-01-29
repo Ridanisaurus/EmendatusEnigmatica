@@ -28,6 +28,7 @@ import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
@@ -273,11 +274,10 @@ public class Analytics {
             cx.writeLine("File generated at: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS").format(new Date()));
             cx.writeSpacer();
 
-            //TODO: Reimplement using Model Definitions.
-            addNewCategory("Strata", "strata");
-            addNewCategory("Materials", "material");
-            addNewCategory("Compatibility", "compat");
-            addNewCategory("Deposits", "deposit");
+            var definitions = EmendatusEnigmatica.getInstance().getModelLoader().getRegisteredDefinitions();
+            for (EEModelDefinition<?, ?> definition : definitions) {
+                addNewCategory("%s (%s)".formatted(definition.getRegistryName(), definition.getOwningAnnotation().name()), CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
+            }
 
             messageCategories.forEach((header, type) -> {
                 cx.writeHeader(header, 2);
