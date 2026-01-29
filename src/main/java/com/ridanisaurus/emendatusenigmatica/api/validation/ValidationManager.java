@@ -42,7 +42,60 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 /**
- * ValidationManager is a class that stores and manages Validation Functions - Validators for JSON files.
+ * <h1>Validation API</h1>
+ * ValidationManager is a root class of the JSON validation system used by EmendatusEnigmatica.
+ * It manages the {@link com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction IValidationFunctions}
+ * specified for it's {@link com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition Model Definition}.
+ *
+ * <h2>Usage of the API</h2>
+ * The Root of the JSON object is represented by this class, with other validators being fields starting from the root.
+ * You can get the instance of ValidationManager with use of {@link ValidationManager#create()} method.
+ * <br><br>
+ * By using the {@link ValidationManager#addValidator(String, Function)} method,
+ * you can define fields of the JSON object, with the assigned validation function of that field.
+ * Nested JSON objects are supported with use of {@link #getAsValidator(boolean)} method from the inner-object's ValidationManager.
+ * <br><br>
+ * Universal validators are available in {@link com.ridanisaurus.emendatusenigmatica.api.validation.validators Validators} package of this API.
+ *
+ * <h2>Example of usage</h2>
+ * Let's create a ValidationManager for this {@link com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel JSON model}:
+ * <pre>
+ * {
+ *   "id": "minecraft_stone",
+ *   "baseTexture": "minecraft:block/stone",
+ *   "suffix": "stone",
+ *   "fillerType": "minecraft:stone",
+ *   "localizedName": "Stone"
+ * }
+ * </pre>
+ *
+ * Ignoring implementation specifics (ex. Registry Validation),
+ * we are required to validate 3 fields of type {@link String},
+ * and 2 fields of type {@link net.minecraft.resources.ResourceLocation ResourceLocation}.
+ * This can be achieved with usage of {@link com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator TypeValidator}
+ * and {@link com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator ResourceLocationValidator} from the API package.
+ * <pre>
+ * public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
+ *     .addValidator("id",            new TypeValidator(Types.STRING, true))
+ *     .addValidator("baseTexture",   new ResourceLocationValidator(true))
+ *     .addValidator("fillerType",    new ResourceLocationValidator(true))
+ *     .addValidator("suffix",        new TypeValidator(Types.STRING, true))
+ *     .addValidator("localizedName", new TypeValidator(Types.STRING, true))
+ * </pre>
+ *
+ * This ValidationManager will now only allow JSON objects with this specific structure.<br>
+ * Take note that most of the Validators have some configuration arguments,
+ * like Type (TypeValidator) and requirement of the field in this case.
+ *
+ * <h2>Creation of custom validators</h2>
+ * You might have realized by now that validation of types and some basic schema for the fields is not enough.<br>
+ * You can create your own validators with use of the {@link AbstractValidator},
+ * which handles the basics for you,
+ * or {@link com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction IValidationFunction} for fully custom implementation.
+ * Utility methods are available for you in {@link ValidationHelper} class.
+ * <br>
+ * You can find examples of custom validators in the {@link com.ridanisaurus.emendatusenigmatica.plugin.validators Vanilla Plugin Validators} package.
+ * @see ValidationHelper Validation Utility class.
  */
 public class ValidationManager {
     private final Map<String, ValidatorHolder> validators = new HashMap<>();

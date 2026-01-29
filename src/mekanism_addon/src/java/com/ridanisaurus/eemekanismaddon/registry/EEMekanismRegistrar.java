@@ -1,8 +1,9 @@
 package com.ridanisaurus.eemekanismaddon.registry;
 
+import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.emendatusenigmatica.items.templates.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.templates.BasicItem;
-import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import mekanism.api.chemical.Chemical;
@@ -35,38 +36,38 @@ public class EEMekanismRegistrar {
 	public static EEItemMap<Item> dirtyDustMap = new EEItemMap<>();
     public static EEItemMap<Item> enrichedMap = new EEItemMap<>();
 
-    public static void registerCrystals(MekanismMaterialExtension material) {
+    public static void registerCrystals(MaterialModel material) {
         registerBurnableItem(crystalMap, material, material.getId() + "_crystal");
     }
 
-    public static void registerShards(MekanismMaterialExtension material) {
+    public static void registerShards(MaterialModel material) {
         registerBurnableItem(shardMap, material, material.getId() + "_shard");
     }
 
-    public static void registerClumps(MekanismMaterialExtension material) {
+    public static void registerClumps(MaterialModel material) {
         registerBurnableItem(clumpMap, material, material.getId() + "_clump");
     }
 
-    public static void registerDirtyDusts(MekanismMaterialExtension material) {
+    public static void registerDirtyDusts(MaterialModel material) {
         registerBurnableItem(dirtyDustMap, material, material.getId() + "_dirty_dust");
     }
 
-	public static void registerInfuseTypes(@NotNull MekanismMaterialExtension material) {
-        infuseMap.put(material.getId(), CHEMICALS.registerInfuse(material.getId(), material.getColorData().getChemicalColor()));
+	public static void registerInfuseTypes(@NotNull MaterialModel material, @NotNull MekanismMaterialExtension extension) {
+        infuseMap.put(material.getId(), CHEMICALS.registerInfuse(material.getId(), extension.getColorData().getChemicalColor()));
         registerBurnableItem(enrichedMap, material, "enriched" + material.getId());
 		// TODO: Add Enriched textures + data gen
 	}
 
-    public static void registerSlurries(@NotNull MekanismMaterialExtension material) {
+    public static void registerSlurries(@NotNull MaterialModel material, @NotNull MekanismMaterialExtension extension) {
         ResourceLocation ore = ResourceLocation.fromNamespaceAndPath(Reference.COMMON, "ores/" + material.getId());
         //TODO: Add Ore tag in DataGen. Hopefully registerSlurry is still safe...
-        slurryMap.put(material.getId(), CHEMICALS.registerSlurry(material.getId(), it -> it.tint(material.getColorData().getChemicalColor())));
+        slurryMap.put(material.getId(), CHEMICALS.registerSlurry(material.getId(), it -> it.tint(extension.getColorData().getChemicalColor())));
     }
 
-    public static void registerGases(@NotNull MekanismMaterialExtension material) {
-        var gas = material.getGasData();
-        var color = material.getColorData();
-        var id = material.getId();
+    public static void registerGases(@NotNull MaterialModel model, @NotNull MekanismMaterialExtension extension) {
+        var gas = extension.getGasData();
+        var color = extension.getColorData();
+        var id = model.getId();
         Supplier<Chemical> gasBuilder = () -> new Chemical(ChemicalBuilder.builder().tint(color.getChemicalColor()));
 
         if (gas.isCoolant()) {
@@ -98,24 +99,23 @@ public class EEMekanismRegistrar {
     }
 
 
-    private static void registerBurnableItem(EEItemMap<Item> map, MekanismMaterialExtension material, String name) {
+    private static void registerBurnableItem(EEItemMap<Item> map, MaterialModel material, String name) {
         registerBurnableItem(map, material, name, it -> it);
     }
 
-    private static void registerBurnableItem(EEItemMap<Item> map, MekanismMaterialExtension material, String name, Function<Integer, Integer> modifier) {
-        if (material.getOriginalModel().getProperties().isBurnable()) {
-            map.put(material.getId(), ITEMS.register(name, () -> new BasicBurnableItem(material.getOriginalModel(), getBurnTime(material, modifier))));
+    private static void registerBurnableItem(EEItemMap<Item> map, MaterialModel material, String name, Function<Integer, Integer> modifier) {
+        if (material.getProperties().isBurnable()) {
+            map.put(material.getId(), ITEMS.register(name, () -> new BasicBurnableItem(material, getBurnTime(material, modifier))));
         } else {
-            map.put(material.getId(), ITEMS.register(name, () -> new BasicItem(material.getOriginalModel())));
+            map.put(material.getId(), ITEMS.register(name, () -> new BasicItem(material)));
         }
     }
 
-    private static int getBurnTime(MekanismMaterialExtension model, Function<Integer, Integer> modifier) {
-        var og = model.getOriginalModel();
-        return og.getProperties().isBurnable()? modifier.apply(og.getProperties().getBurnTime()): 0;
+    private static int getBurnTime(MaterialModel model, Function<Integer, Integer> modifier) {
+        return model.getProperties().isBurnable()? modifier.apply(model.getProperties().getBurnTime()): 0;
     }
 
-    private static int getBurnTime(MekanismMaterialExtension model) {
+    private static int getBurnTime(MaterialModel model) {
         return getBurnTime(model, it -> it);
     }
 

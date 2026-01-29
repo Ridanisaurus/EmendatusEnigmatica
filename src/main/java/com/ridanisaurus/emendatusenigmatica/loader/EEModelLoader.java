@@ -13,7 +13,6 @@ import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -21,23 +20,31 @@ import java.util.*;
  * <h1>EEModelLoader</h1>
  * EEModelLoader is a class that manages parsing, validation and decoding of JSON files, used to configure Emendatus Enigmatica.
  *
- * <h3>Registration of the models</h3>
- * TODO: Fill the docs
+ * <h3>Model definitions and extensions.</h3>
+ * {@link EEModelDefinition}s and {@link EEModelExtension}s are used to define and modify models for JSON files used by the addons.
+ * Refer to the documentation in both of these classes for additional details.
  *
  * <h3>Order of Operation</h3>
  * Provided order of operations is executed in registration order, starting from EE provided models.
  * <ul>
- * <li> Load a list of all JSON files of the model to memory.</li>
- * <li> Iterate over the list of JSON files:</li>
- * <li> Load the file and decode the JSON object.</li>
- * <li> Run {@link ValidationManager} of the model.</li>
+ * <li> Load all JSON files of the model to memory.</li>
+ * <li> Run {@link ValidationManager} of the model for each file.</li>
  * <li> Instantiate Java Object of the model based on JSON object.</li>
  * <li> Run model registration.</li>
+ * <li> Run {@link ValidationManager} of the extensions, if present.</li>
+ * <li> Instantiate Java Object of the model extension.</li>
+ * <li> Run model extension registration.</li>
  * </ul>
+ * @see EEModelDefinition EEModelDefinition documentation.
+ * @see EEModelExtension EEModelExtension documentation.
+ * @see EEPluginLoader EEPluginLoader for handling plugin registries.
+ * @see ValidationManager Validation System documentation.
+ * @see #registerDefinition(EEModelDefinition)
+ * @see #registerModelExtension(EEModelExtension)
  */
 public class EEModelLoader {
     private static final Logger logger = LogUtils.getLogger();
-    private final Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?>>> registry = new HashMap<>();
+    private final Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> registry = new HashMap<>();
     private EmendatusPluginReference currentPlugin;
     private boolean canRegister = false;
 
@@ -45,15 +52,19 @@ public class EEModelLoader {
         if (!canRegister) throw new IllegalStateException("Can't register definitions outside of the addon setup phase!");
         if (
             registry.containsKey(Objects.requireNonNull(definition, "Can't register a null definition!")) ||
-            getPluginDefinitions(definition.pluginClass()).stream().anyMatch(it -> it.registryName().equals(definition.registryName()))
+            getPluginDefinitions(definition.getOwningPlugin()).stream().anyMatch(it -> it.getRegistryName().equals(definition.getRegistryName()))
         ) {
-            throw new IllegalArgumentException("Definition under name \"%s\" for plugin \"%s\" is already registered.".formatted(definition.registryName(), currentPlugin.name()));
+            throw new IllegalArgumentException("Definition under name \"%s\" for plugin \"%s\" is already registered.".formatted(definition.getRegistryName(), currentPlugin.name()));
         }
+
+        if (!definition.getOwningAnnotation().equals(currentPlugin))
+            throw new SecurityException("Plugin \"%s\" tried registering definition under different addon's ownership (\"%s\")."
+                .formatted(currentPlugin.name(), definition.getOwningAnnotation().name()));
 
         var path = definition.folderPath().updatePath(Analytics.CONFIG_DIR).normalize();
         if (!path.startsWith(Analytics.CONFIG_DIR))
             throw new SecurityException("Requested path by plugin \"%s\" (%s) points outside of EE Configuration directory! (%s)"
-                .formatted(currentPlugin.name(), definition.pluginClass(), path));
+                .formatted(currentPlugin.name(), definition.getOwningPlugin(), path));
 
         registry.keySet().stream().filter(it -> it.folderPath().getRequestedPath().equals(definition.folderPath().getRequestedPath()))
             .forEach(it -> logger.warn(
@@ -62,39 +73,43 @@ public class EEModelLoader {
                 - "{}" > "{}" --> "{}"
                 - "{}" > "{}" --> "{}"
                 """,
-                currentPlugin.name(), it.getPluginDetails().name(),
+                currentPlugin.name(), it.getOwningAnnotation().name(),
                 currentPlugin.name(), path, definition.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s)".formatted(currentPlugin.name())),
-                it.getPluginDetails().name(), it.folderPath().getPath(), it.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s)".formatted(it.getPluginDetails().name()))
+                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s)".formatted(it.getOwningAnnotation().name()))
         ));
 
         registry.put(definition, new ArrayList<>());
-        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\" ({}).", definition.registryName(), currentPlugin.name(), definition.pluginClass());
+        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\" ({}).", definition.getRegistryName(), currentPlugin.name(), definition.getOwningPlugin());
     }
 
-    public void registerModelExtension(EEModelExtension<?,?,?> extension) {
+    public void registerModelExtension(EEModelExtension<?,?,?,?> extension) {
         if (!canRegister) throw new IllegalStateException("Can't register definitions extensions outside of the addon setup phase!");
         if (!registry.containsKey(Objects.requireNonNull(extension).getExtendedDefinition()))
             throw new IllegalArgumentException("Extension \"%s\" tries to extend not registered Model Definition (%s)."
-                .formatted(extension.getClass(), extension.getExtendedDefinition().registryName()));
+                .formatted(extension.getClass(), extension.getExtendedDefinition().getRegistryName()));
+
+        if (!extension.getOwningAnnotation().equals(currentPlugin))
+            throw new SecurityException("Plugin \"%s\" tried registering definition under different addon's ownership (\"%s\")."
+                .formatted(currentPlugin.name(), extension.getOwningAnnotation().name()));
 
         registry.get(extension.getExtendedDefinition()).add(extension);
         logger.info(
             "Registered new Model Definition Extension \"{}\" from plugin \"{}\" for model \"{}\" .",
-            extension.getClass(), currentPlugin.name(), extension.getExtendedDefinition().registryName()
+            extension.getClass(), currentPlugin.name(), extension.getExtendedDefinition().getRegistryName()
         );
     }
 
-    private @NotNull Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?>>> getPluginDefinitionsPairs(Class<? extends IEEPlugin<?>> plugin) {
+    public @NotNull Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> getPluginDefinitionsPairs(Class<? extends IEEPlugin<?>> plugin) {
         List<EEModelDefinition<?,?>> definitions = getPluginDefinitions(plugin);
-        Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?>>> ret = new LinkedHashMap<>();
+        Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> ret = new LinkedHashMap<>();
         for (EEModelDefinition<?, ?> definition : definitions) {
             ret.put(definition, registry.get(definition));
         }
         return ret;
     }
 
-    private @NotNull List<EEModelDefinition<?,?>> getPluginDefinitions(Class<? extends IEEPlugin<?>> plugin) {
-        return registry.keySet().stream().filter(it -> it.pluginClass().equals(plugin)).toList();
+    public @NotNull List<EEModelDefinition<?,?>> getPluginDefinitions(Class<? extends IEEPlugin<?>> plugin) {
+        return registry.keySet().stream().filter(it -> it.getOwningPlugin().equals(plugin)).toList();
     }
 
     protected void startRegistration() {
@@ -116,12 +131,12 @@ public class EEModelLoader {
         try {
             for (EEModelDefinition<?, ?> definition : registry.keySet()) {
                 Stopwatch s = Stopwatch.createStarted();
-                logger.debug("Loading {}#{}...", definition.pluginClass(), definition.registryName());
+                logger.debug("Loading {}#{}...", definition.getOwningPlugin(), definition.getRegistryName());
                 var path = definition.folderPath().getPath();
                 if (Files.notExists(path)) {
                     logger.debug("Creating missing config directory \"{}\".", path);
                     Files.createDirectories(path);
-                    Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.registryName(), s);
+                    Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
                     continue;
                 }
 
@@ -134,22 +149,22 @@ public class EEModelLoader {
                     if (result.isEmpty()) return;
 
                     var model = result.get().getFirst();
-                    var pluginRegistry = pluginLoader.getRegistry(definition.pluginClass());
-                    definition.genericRegister(model, pluginRegistry);
+                    var definitionRegistry = pluginLoader.getRegistry(definition.getOwningPlugin());
+                    definition.genericRegister(model, definitionRegistry);
 
-                    for (EEModelExtension<?,?,?> extension : registry.get(definition)) {
+                    for (EEModelExtension<?,?,?,?> extension : registry.get(definition)) {
                         try {
                             if (!extension.validate(object, jsonPath)) continue;
                             var extensionModel = extension.serialize(object);
                             if (Objects.isNull(extensionModel)) continue;
-                            extension.genericRegister(model, extensionModel, pluginRegistry);
+                            extension.genericRegister(model, extensionModel, definitionRegistry, pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
                             Analytics.error("Failed parsing extension: %s", ExceptionHelper.getAsString(e), "root", ValidationHelper.obfuscatePath(jsonPath));
-                            logger.debug("Failed parsing extensions {}#{} from file {}.", definition.getPluginDetails().name(), extension.getClass(), jsonPath, e);
+                            logger.debug("Failed parsing extensions {}#{} from file {}.", definition.getOwningAnnotation().name(), extension.getClass(), jsonPath, e);
                         }
                     }
                 });
-                Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.registryName(), s);
+                Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
             }
         } catch (Exception e) {
             throw new RuntimeException("Critical exception caught while loading EEModelDefinitions!", e);

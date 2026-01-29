@@ -4,33 +4,87 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.Objects;
 
-//TODO: Docs;
 /**
  * <h1>Model Extensions</h1>
- * {@link EEModelExtension ModelExtensions} are used to extend models provided by EmendatusEnigmatica and other plugins.
+ * ModelExtensions are used to extend models provided by EmendatusEnigmatica and other plugins.
+ *
+ * <h3>Extension Configuration</h3>
+ * Extensions are required to provide correctly configured:
+ * <ul>
+ *     <li>{@link Class}{@code <? extends IEEPlugin<R>>} Owning plugin class.</li>
+ *     <li>{@link EEModelDefinition}{@code <OM,OR>} Model Definition to extend.</li>
+ *     <li>{@link Codec}{@code <M>} Codec of your extended model.</li>
+ *     <li>{@link RegisterFunction RegisterFunction}{@code <OM, M, OR, R>} Register Function of your extended model.</li>
+ * </ul>
+ * Additionally, you can provide a {@link ValidationManager} to be executed on root of the extended model,
+ * if your changes collide with the validators of the extended model.
+ * If omitted, you should modify the original validator.
+ * @see EEModelDefinition Model Definition documentation.
+ * @see EEModelLoader Model loader definition.
+ * @param <OM> Class of the original model.
+ * @param <M> Class of the extension model.
+ * @param <OR> Class of the original registry.
+ * @param <R> Class of your plugin registry.
  */
-//TODO: Figure out the registry situation with the extensions. Technically I have the plugin that added the extension so I can give it it's own registry, but how the heck do I force the usage of it?
 public class EEModelExtension<OM, M, OR, R> {
+    private final Class<? extends IEEPlugin<R>> pluginClass;
     private final EEModelDefinition<OM, OR> definition;
     private final Codec<M> codec;
     private final ValidationManager rootValidator;
     private final RegisterFunction<OM, M, OR, R> registerFunction;
 
-    public EEModelExtension(EEModelDefinition<OM, OR> definition, Codec<M> codec, @Nullable ValidationManager rootValidator, RegisterFunction<OM, M, OR, R> registerFunction) {
+    /**
+     * Constructor of EEModelExtension.
+     * @param plugin Owning plugin class.
+     * @param definition Model Definition to extend.
+     * @param codec Codec of your extended model.
+     * @param rootValidator Optional validator of your extended model.
+     * @param registerFunction Register Function of your extended model.
+     */
+    public EEModelExtension(
+        Class<? extends IEEPlugin<R>> plugin,
+        EEModelDefinition<OM, OR> definition,
+        Codec<M> codec,
+        @Nullable ValidationManager rootValidator,
+        RegisterFunction<OM, M, OR, R> registerFunction
+    ) {
+        this.pluginClass = Objects.requireNonNull(plugin, "Owning plugin class can't be null.");
         this.definition = Objects.requireNonNull(definition, "Definition model to extend can't be null.");
         this.codec = Objects.requireNonNull(codec, "Codec can't be null.");
         this.rootValidator = rootValidator;
         this.registerFunction = Objects.requireNonNull(registerFunction, "Register function can't be null.");
     }
 
-    public EEModelExtension(EEModelDefinition<OM, OR> definition, Codec<M> codec, RegisterFunction<OM, M, OR, R> registerFunction) {
-        this(definition, codec, null, registerFunction);
+    /**
+     * Constructor of EEModelExtension.
+     * @param plugin Owning plugin class.
+     * @param definition Model Definition to extend.
+     * @param codec Codec of your extended model.
+     * @param registerFunction Register Function of your extended model.
+     */
+    public EEModelExtension(
+        Class<? extends IEEPlugin<R>> plugin,
+        EEModelDefinition<OM, OR> definition,
+        Codec<M> codec,
+        RegisterFunction<OM, M, OR, R> registerFunction
+    ) {
+        this(plugin, definition, codec, null, registerFunction);
+    }
+
+    protected Class<? extends IEEPlugin<R>> getOwningPlugin() {
+        return this.pluginClass;
+    }
+
+    protected EmendatusPluginReference getOwningAnnotation() {
+        return this.pluginClass.getAnnotation(EmendatusPluginReference.class);
     }
 
     protected EEModelDefinition<OM, OR> getExtendedDefinition() {

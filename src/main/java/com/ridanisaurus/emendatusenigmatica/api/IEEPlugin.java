@@ -42,6 +42,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @param <R> Registry class of your plugin.
  * @see EmendatusPluginReference
+ * @see com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader EEPluginLoader
  */
 public interface IEEPlugin<R> {
 

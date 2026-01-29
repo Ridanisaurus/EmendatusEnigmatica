@@ -58,6 +58,24 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * <h1>Plugin loader</h1>
+ * EEPluginLoader is a class responsible for discovery, validation,
+ * construction and management of plugins and their corresponding registries.
+ *
+ * <h3>Plugin registration</h3>
+ * Plugins are discovered in a classpath by scanning classes for {@link EmendatusPluginReference} annotation,
+ * and validating their implementation of {@link IEEPlugin} interface.
+ *
+ * <h3>Registry handling</h3>
+ * Registry class defined in generic type of {@link IEEPlugin} will be constructed for each plugin from their public no-arg constructor,
+ * and stored alongside the plugin for later use.
+ * Usage of {@link Void} class will result with no registry being constructed for your plugin.
+ *
+ * @see IEEPlugin IEEPlugin interface documentation.
+ * @see EEModelLoader ModelLoader documentation.
+ * @see #getRegistry(Class) Accessing registries of different plugins.
+ */
 public class EEPluginLoader {
     public static final Logger logger = LogManager.getLogger(EEPluginLoader.class);
     private final List<EEPlugin> plugins;
@@ -223,6 +241,12 @@ public class EEPluginLoader {
         return this.finished;
     }
 
+    /**
+     * Used for getting access to other plugins' registry.
+     * @param plugin Class of the plugin to get registry.
+     * @return Registry object of the plugin requested, or null if R is Void.
+     * @param <R> Class of the registry of the plugin.
+     */
     @SuppressWarnings("unchecked")
     public <R> R getRegistry(Class<? extends IEEPlugin<R>> plugin) {
         for (EEPlugin eePlugin : plugins) {

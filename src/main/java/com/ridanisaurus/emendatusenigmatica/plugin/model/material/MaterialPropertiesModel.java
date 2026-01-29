@@ -50,7 +50,7 @@ public class MaterialPropertiesModel {
 			Codec.BOOL.optionalFieldOf("hasOxidization").forGetter(i -> Optional.of(i.hasOxidization)),
 			Codec.BOOL.optionalFieldOf("isEmissive").forGetter(i -> Optional.of(i.isEmissive)),
 			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
-			Codec.INT.optionalFieldOf("getBurnTime").forGetter(i -> Optional.of(i.burnTime))
+			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime))
 	).apply(x, (materialType, harvestLevel, blockRecipeType, gemTexture, hasParticles, hasOxidization, isEmissive, isBurnable, burnTime) -> new MaterialPropertiesModel(
 			materialType,
 			harvestLevel.orElse(0),
@@ -70,7 +70,7 @@ public class MaterialPropertiesModel {
 		.addValidator("hasOxidization",	new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("isEmissive",		new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("isBurnable",		new TypeValidator(Types.BOOLEAN, false))
-		.addValidator("getBurnTime",			new BurnTimeValidator())
+		.addValidator("burnTime",			new BurnTimeValidator())
 		.addValidator("gemTexture",		new GemTextureValidator())
 		.addValidator("blockRecipeType",	new ProcessedTypesContainValidator(
 			List.of("gem", "storage_block"),

@@ -11,9 +11,10 @@ import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginRefere
 import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
+import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialColorsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
@@ -21,7 +22,6 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.Processed
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesValidator;
 import com.ridanisaurus.eemekanismaddon.validators.ChemicalColorValidator;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.List;
@@ -30,9 +30,12 @@ import java.util.concurrent.CompletableFuture;
 @EmendatusPluginReference(modId = EEMekanismAddon.MOD_ID, name = "mekanism-plugin")
 public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
     public static ModConfigSpec.BooleanValue disableOsmium = null;
+    private EEPluginLoader loader = null;
 
     @Override
     public void setup(SetupContext ctx) {
+        loader = ctx.pluginLoader();
+
         ProcessedTypesValidator.TYPES.addAll(List.of(
             "infuse_type",
             "gas",
@@ -52,10 +55,11 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
             .addValidator("gas", new ProcessedTypesContainValidator("gas", GasExtension.VALIDATION_MANAGER.getAsValidator(false)));
 
         ctx.modelLoader().registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
             VanillaPlugin.MATERIAL_DEFINITION,
             MekanismMaterialExtension.CODEC,
             (model, extended, oRegistry, registry) -> {
-
+                registry.registerExtendedMaterial(model.getId(), extended);
             }
         ));
     }
@@ -74,10 +78,9 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
 
 	@Override
 	public void register(EEMekanismDataRegistry registry) {
-        for (MekanismMaterialExtension material : registry.<MekanismMaterialExtension>getMaterialExtensions(EEMekanismPlugin.class)) {
-            var types = material.getOriginalModel().getProcessedTypes();
-            if (types.contains("slurry"))
-                EEMekanismRegistrar.registerSlurries(material);
+        for (MaterialModel material : loader.getRegistry(VanillaPlugin.class).getRegisteredMaterials()) {
+            var types = material.getProcessedTypes();
+            var extension = registry.getExtensionFromID(material.getId());
 
             if (types.contains("crystal"))
                 EEMekanismRegistrar.registerCrystals(material);
@@ -91,17 +94,23 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
             if (types.contains("dirty_dust"))
                 EEMekanismRegistrar.registerDirtyDusts(material);
 
+            // If those types are present, ValidationSystem should make sure extension is available.
+            if (types.contains("slurry"))
+                EEMekanismRegistrar.registerSlurries(material, extension);
+
             if (types.contains("gas"))
-                EEMekanismRegistrar.registerGases(material);
+                EEMekanismRegistrar.registerGases(material, extension);
 
             if (types.contains("infuse_type"))
-                EEMekanismRegistrar.registerInfuseTypes(material);
+                EEMekanismRegistrar.registerInfuseTypes(material, extension);
         }
 	}
 
     @Override
-    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EEMekanismDataRegistry registry) {
-        generator.addProvider(true, new LangGen(generator, registry));
+    public void registerDynamicDataGen(EEDataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EEMekanismDataRegistry registry) {
+        var vanillaRegistry = loader.getRegistry(VanillaPlugin.class);
+        generator.addProvider(true, new LangGen(generator, vanillaRegistry));
+        //TODO: Reimplement generators
 //        generator.addProvider(true, new EEMekanismDataGen.ItemModels(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.Lang(generator, registry));
 //        generator.addProvider(true, new EEMekanismDataGen.ItemTags(generator, registry));
@@ -110,5 +119,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
     }
 
     @Override
-    public void provideDefaultConfiguration(DCCreationContext registry) {}
+    public void provideDefaultConfiguration(DCCreationContext registry) {
+        //TODO: Implement DefaultConfigs
+    }
 }

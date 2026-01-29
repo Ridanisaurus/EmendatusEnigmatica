@@ -16,6 +16,7 @@ import java.util.function.BiConsumer;
  * EEModelDefinition is a class holding the required information for EE to parse, validate and decode a JSON model from the configuration file for the plugins to use.
  *
  * <h3>Implementation requirements</h3>
+ * EEModelDefinition usage is required to comply with the following:
  * <ul>
  *  <li>Registry name has to be unique between models registered by your plugin.</li>
  *  <li>Folder path <b>mustn't</b> point to a location outside of EE configuration folder.</li>
@@ -25,43 +26,44 @@ import java.util.function.BiConsumer;
  *
  * When a folder conflict is detected, the conflicting paths get a suffix name, specified in {@link EmendatusPluginReference#name()} of your plugin.
  * <br><br>
- * You should keep the instance of this model definition as a public static field in your plugin class, to allow other plugins to extend your models.
+ * You should keep the instance of this model definition as a public static field in your plugin class, to allow other plugins to easily extend your models.
  *
- * @param pluginClass Plugin owning the model.
- * @param registryName Registry name of the model (Unique per plugin)
+ * @param getOwningPlugin Plugin owning the model.
+ * @param getRegistryName Registry name of the model (Unique per plugin)
  * @param folderPath Folder path in the config
  * @param codec Codec for the JSON schema.
  * @param validator Validator of the model.
  * @param registerFunction Post-Decoding ingest method.
  * @param <M> Class of the model to serialize.
  * @param <R> The registry class of your plugin.
- * @see EEModelExtension How to extend EEModelDefinition.
+ * @see EEModelLoader Model loader documentation.
+ * @see EEModelExtension Model extensions documentation.
  * @see ValidationManager Validation System documentation.
  */
 public record EEModelDefinition<M, R>(
-    Class<? extends IEEPlugin<R>> pluginClass,
-    String registryName,
+    Class<? extends IEEPlugin<R>> getOwningPlugin,
+    String getRegistryName,
     PathHolder folderPath,
     Codec<M> codec,
     ValidationManager validator,
     BiConsumer<M, R> registerFunction
 ) {
     public EEModelDefinition(
-        @NotNull Class<? extends IEEPlugin<R>> pluginClass,
-        @NotNull String registryName,
+        @NotNull Class<? extends IEEPlugin<R>> getOwningPlugin,
+        @NotNull String getRegistryName,
         @NotNull PathHolder folderPath,
         @NotNull Codec<M> codec,
         @NotNull ValidationManager validator,
         @NotNull BiConsumer<M, R> registerFunction
     ) {
-        this.pluginClass = Objects.requireNonNull(pluginClass, "Plugin class can't be null.");
-        this.registryName = Objects.requireNonNull(registryName, "Registry name can't be null.");
+        this.getOwningPlugin = Objects.requireNonNull(getOwningPlugin, "Plugin class can't be null.");
+        this.getRegistryName = Objects.requireNonNull(getRegistryName, "Registry name can't be null.");
         this.folderPath = Objects.requireNonNull(folderPath, "PathHolder can't be .");
         this.codec = Objects.requireNonNull(codec, "Coded can't be null.");
         this.validator = Objects.requireNonNull(validator, "ValidationManager can't be null.");
         this.registerFunction = Objects.requireNonNull(registerFunction, "Register consumer can't be null.");
 
-        Objects.requireNonNull(pluginClass.getAnnotation(EmendatusPluginReference.class), "Plugin annotation not present on the Plugin class.");
+        Objects.requireNonNull(getOwningPlugin.getAnnotation(EmendatusPluginReference.class), "Plugin annotation not present on the Plugin class.");
     }
 
     public EEModelDefinition(
@@ -75,8 +77,8 @@ public record EEModelDefinition<M, R>(
         this(pluginClass, registryName, new PathHolder(folderPath), codec, validator, registerFunction);
     }
 
-    public EmendatusPluginReference getPluginDetails() {
-        return pluginClass.getAnnotation(EmendatusPluginReference.class);
+    public EmendatusPluginReference getOwningAnnotation() {
+        return getOwningPlugin.getAnnotation(EmendatusPluginReference.class);
     }
 
     @SuppressWarnings("unchecked")

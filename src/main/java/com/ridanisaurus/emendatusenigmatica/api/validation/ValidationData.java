@@ -59,6 +59,7 @@ public record ValidationData(
      * @param jsonFilePath Path to the json file, obfuscated.
      * @param arrayPolicy Legacy reference to {@link ArrayPolicy}
      * @implSpec Please do not store any reference to this object outside the validation method.
+     * @deprecated Legacy ArrayPolicy method. Consider using updated {@link ValidationData ArrayHandlingPolicy constructor}.
      */
     @Deprecated
     public ValidationData(
