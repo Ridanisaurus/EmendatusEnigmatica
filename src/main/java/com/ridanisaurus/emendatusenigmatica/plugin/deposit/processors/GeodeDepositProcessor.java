@@ -29,7 +29,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode.GeodeDepositModel;
 
@@ -69,13 +69,13 @@ public class GeodeDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
-	public List<CommonBlockDefinitionModel> getBlocks() {
-		List<CommonBlockDefinitionModel> innerBlocks = model.getInnerBlocks();
-		List<CommonBlockDefinitionModel> fillBlocks = model.getFillBlocks();
-		List<CommonBlockDefinitionModel> innerShellBlocks = model.getInnerShellBlocks();
-		List<CommonBlockDefinitionModel> outerShellBlocks = model.getOuterShellBlocks();
+	public List<DepositBlockModel> getBlocks() {
+		List<DepositBlockModel> innerBlocks = model.getInnerBlocks();
+		List<DepositBlockModel> fillBlocks = model.getFillBlocks();
+		List<DepositBlockModel> innerShellBlocks = model.getInnerShellBlocks();
+		List<DepositBlockModel> outerShellBlocks = model.getOuterShellBlocks();
 
-		List<CommonBlockDefinitionModel> mergedList = new ArrayList<>();
+		List<DepositBlockModel> mergedList = new ArrayList<>();
 		mergedList.addAll(innerBlocks);
 		mergedList.addAll(fillBlocks);
 		mergedList.addAll(innerShellBlocks);

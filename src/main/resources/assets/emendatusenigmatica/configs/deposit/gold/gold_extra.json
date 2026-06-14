@@ -1,4 +1,5 @@
 {
+  "registryName": "vanilla_overworld_gold_ore_extra_deposit",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:overworld",
   "biomes": [
@@ -6,18 +7,15 @@
     "minecraft:eroded_badlands",
     "minecraft:wooded_badlands"
   ],
-  "registryName": "vanilla_overworld_gold_ore_extra_deposit",
-  "config": {
-    "material": "gold",
-    "fillerTypes": [
-      "minecraft_stone",
-      "minecraft_deepslate"
-    ],
-    "chance": 50,
-    "size": 9,
-    "minYLevel": 32,
-    "maxYLevel": 256,
-    "placement": "uniform",
-    "rarity": "common"
-  }
+  "material": "gold",
+  "fillerTypes": [
+    "minecraft_stone",
+    "minecraft_deepslate"
+  ],
+  "chance": 50,
+  "size": 9,
+  "minYLevel": 32,
+  "maxYLevel": 256,
+  "placement": "uniform",
+  "rarity": "common"
 }

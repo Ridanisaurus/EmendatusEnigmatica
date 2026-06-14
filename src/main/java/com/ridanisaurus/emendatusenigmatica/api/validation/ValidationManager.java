@@ -36,6 +36,7 @@ import com.google.gson.JsonObject;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -98,9 +99,9 @@ import java.util.function.Function;
  * @see ValidationHelper Validation Utility class.
  */
 public class ValidationManager {
-    private final Map<String, ValidatorHolder> validators = new HashMap<>();
-    private final ObjectValidator rootValidator = new ObjectValidator( this, true, true);
-    private ValidationManager() {}
+    protected final Map<String, ValidatorHolder> validators = new HashMap<>();
+    protected final ObjectValidator rootValidator = new ObjectValidator( this, true, true);
+    protected ValidationManager() {}
 
     /**
      * Used to create new instance of the ValidationManager.
@@ -134,6 +135,13 @@ public class ValidationManager {
 
         // Enters automatic validator execution. After this point, stack-traces are a slight mess!
         return this.rootValidator.apply(new ValidationData(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
+    }
+
+    /**
+     * @return List of fields with a registered validator.
+     */
+    public List<String> getRegisteredFields() {
+        return List.copyOf(this.validators.keySet());
     }
 
     /**
@@ -197,11 +205,10 @@ public class ValidationManager {
      * It's main purpose is to determine which fields are unknown,
      * and to call all known validators,
      * which are stored in the ValidationManager this validator is acquired from.
-     *
      */
-    public static final class ObjectValidator extends AbstractValidator {
-        private final ValidationManager vManager;
-        private final boolean isRootValidator;
+    public static class ObjectValidator extends AbstractValidator {
+        protected final ValidationManager vManager;
+        protected final boolean isRootValidator;
 
         /**
          * Constructs ObjectValidator.
@@ -210,7 +217,7 @@ public class ValidationManager {
          * @param objectVManager ValidationManager of the object stored in this field.
          * @see ObjectValidator Documentation of the validator.
          */
-        ObjectValidator(ValidationManager objectVManager, boolean isRequired, boolean isRoot) {
+        protected ObjectValidator(ValidationManager objectVManager, boolean isRequired, boolean isRoot) {
             super(isRequired);
             this.vManager = objectVManager;
             this.isRootValidator = isRoot;

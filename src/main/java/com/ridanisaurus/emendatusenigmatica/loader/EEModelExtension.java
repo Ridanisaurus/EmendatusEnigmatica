@@ -91,6 +91,10 @@ public class EEModelExtension<OM, M, OR, R> {
         return this.definition;
     }
 
+    protected ValidationManager getRootValidator() {
+        return this.rootValidator;
+    }
+
     protected boolean validate(JsonObject object, Path path) {
         if (Objects.isNull(rootValidator)) return true;
         return rootValidator.validate(object, path);

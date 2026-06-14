@@ -34,17 +34,17 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRang
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
 
 import java.util.List;
 
 public class DenseDepositConfigModel {
 	public static final Codec<DenseDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
 			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
 			Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
@@ -53,11 +53,11 @@ public class DenseDepositConfigModel {
 			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
 			Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
+			Codec.list(DepositSampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, DenseDepositConfigModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("blocks",          CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("blocks",          DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("fillerTypes",     new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
 		.addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 48, true))
@@ -68,7 +68,7 @@ public class DenseDepositConfigModel {
 		.addValidator("generateSamples", new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("sampleBlocks",    new SampleBlocksValidator(), ArrayPolicy.REQUIRES_ARRAY);
 
-	public final List<CommonBlockDefinitionModel> blocks;
+	public final List<DepositBlockModel> blocks;
 	public final List<String> fillerTypes;
 	public final int chance;
 	public final int size;
@@ -77,9 +77,9 @@ public class DenseDepositConfigModel {
 	public final String placement;
 	public final String rarity;
 	public final boolean generateSamples;
-	public final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<DepositSampleBlockModel> sampleBlocks;
 
-	public DenseDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
+	public DenseDepositConfigModel(List<DepositBlockModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<DepositSampleBlockModel> sampleBlocks) {
 		this.blocks = blocks;
 		this.chance = chance;
 		this.size = size;

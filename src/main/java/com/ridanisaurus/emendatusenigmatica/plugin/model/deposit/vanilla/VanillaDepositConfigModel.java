@@ -53,7 +53,8 @@ public class VanillaDepositConfigModel {
 			Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
 			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
 			Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity)
-	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4) -> new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3, s4)));
+	).apply(x, (s, s2, l, i, i2, i3, i4, s3, s4) ->
+		new VanillaDepositConfigModel(s.orElse(null), s2.orElse(null), l, i, i2, i3, i4, s3, s4)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("material",        new MaterialValidator(false, true))

@@ -29,7 +29,7 @@ import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositModel;
 
@@ -67,7 +67,7 @@ public class DenseDepositProcessor implements IDepositProcessor {
 	}
 
 	@Override
-	public List<CommonBlockDefinitionModel> getBlocks() {
+	public List<DepositBlockModel> getBlocks() {
 		return model.getBlocks();
 	}
 

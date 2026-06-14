@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.deposit;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public interface IDepositProcessor {
 
 	CommonDepositModelBase getCommonModel();
 
-	List<CommonBlockDefinitionModel> getBlocks();
+	List<DepositBlockModel> getBlocks();
 
 	List<String> getFillerTypes();
 

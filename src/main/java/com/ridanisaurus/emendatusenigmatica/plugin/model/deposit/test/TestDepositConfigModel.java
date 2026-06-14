@@ -31,7 +31,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 
@@ -39,7 +39,7 @@ import java.util.List;
 
 public class TestDepositConfigModel {
 	public static final Codec<TestDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("blocks").forGetter(it -> it.blocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").forGetter(it -> it.fillerTypes),
 			Codec.INT.fieldOf("chance").forGetter(it -> it.chance),
 			Codec.INT.fieldOf("size").forGetter(it -> it.size),
@@ -48,21 +48,21 @@ public class TestDepositConfigModel {
 	).apply(x, TestDepositConfigModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("blocks",          CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("blocks",          DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("fillerTypes",     new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
 		.addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 48, true))
 		.addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))
 		.addValidator("maxYLevel",       new MaxValidator(Types.INTEGER, "minYLevel", -64, 320, true));
 
-	private final List<CommonBlockDefinitionModel> blocks;
+	private final List<DepositBlockModel> blocks;
 	private final List<String> fillerTypes;
 	private final int chance;
 	private final int size;
 	private final int minYLevel;
 	private final int maxYLevel;
 
-	public TestDepositConfigModel(List<CommonBlockDefinitionModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel) {
+	public TestDepositConfigModel(List<DepositBlockModel> blocks, List<String> fillerTypes, int chance, int size, int minYLevel, int maxYLevel) {
 
 		this.blocks = blocks;
 		this.chance = chance;
@@ -84,7 +84,7 @@ public class TestDepositConfigModel {
 		return minYLevel;
 	}
 
-	public List<CommonBlockDefinitionModel> getBlocks() {
+	public List<DepositBlockModel> getBlocks() {
 		return blocks;
 	}
 

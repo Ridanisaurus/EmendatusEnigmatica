@@ -1,7 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -35,7 +35,7 @@ public class WorldGenRecipe implements EmiRecipe {
     public WorldGenRecipe(IDepositProcessor depositProcessor) {
         processor = Objects.requireNonNull(depositProcessor);
         var blocks = depositProcessor.getBlocks();
-        for (CommonBlockDefinitionModel block : blocks) {
+        for (DepositBlockModel block : blocks) {
             if (Objects.nonNull(block.getBlock())) {
                 addBlock(block.getBlock());
                 continue;

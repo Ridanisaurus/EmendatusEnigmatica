@@ -39,15 +39,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class CommonBlockDefinitionModel {
-	public static final Codec<CommonBlockDefinitionModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class DepositBlockModel {
+	public static final Codec<DepositBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.block)),
 			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.tag)),
 			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
 			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight),
 			Codec.INT.fieldOf("min").orElse(-500).forGetter(it -> it.min),
 			Codec.INT.fieldOf("max").orElse(500).forGetter(it -> it.max)
-	).apply(x, (s, s2, s3, i, i2, i3) -> new CommonBlockDefinitionModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, i2, i3)));
+	).apply(x, (s, s2, s3, i, i2, i3) -> new DepositBlockModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, i2, i3)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("block",    new RequiredValidator(false))
@@ -71,7 +71,7 @@ public class CommonBlockDefinitionModel {
 	protected final int min;
 	protected final int max;
 
-	public CommonBlockDefinitionModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, int min, int max) {
+	public DepositBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, int min, int max) {
 		this.block = block;
 		this.tag = tag;
 		this.material = material;

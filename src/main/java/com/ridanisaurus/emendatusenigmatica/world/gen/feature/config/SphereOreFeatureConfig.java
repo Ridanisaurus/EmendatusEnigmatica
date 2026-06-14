@@ -26,8 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sphere.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.NonNullList;
@@ -45,8 +45,8 @@ public class SphereOreFeatureConfig implements FeatureConfiguration {
 
 	public final RuleTest target;
 	public final SphereDepositModel model;
-	public final List<CommonBlockDefinitionModel> blocks;
-	public final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<DepositBlockModel> blocks;
+	public final List<DepositSampleBlockModel> sampleBlocks;
 	public boolean placed = false;
 
 	public SphereOreFeatureConfig(SphereDepositModel model, RuleTest target) {
@@ -54,14 +54,14 @@ public class SphereOreFeatureConfig implements FeatureConfiguration {
 		this.model = model;
 
 		blocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel block : model.getBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+		for (DepositBlockModel block : model.getBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(block.getWeight(), block);
 			blocks.addAll(filled);
 		}
 		
 		sampleBlocks = new ArrayList<>();
-		for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
-			NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
+		for (DepositSampleBlockModel sampleBlock : model.getSampleBlocks()) {
+			NonNullList<DepositSampleBlockModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
 			sampleBlocks.addAll(filled);
 		}
 	}

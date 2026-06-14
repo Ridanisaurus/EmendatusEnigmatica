@@ -36,8 +36,8 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValida
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
@@ -46,10 +46,10 @@ import java.util.List;
 
 public class GeodeDepositConfigModel {
 	public static final Codec<GeodeDepositConfigModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("outerShellBlocks").orElse(List.of()).forGetter(i -> i.outerShellBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerShellBlocks").orElse(List.of()).forGetter(i -> i.innerShellBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("innerBlocks").orElse(List.of()).forGetter(i -> i.innerBlocks),
-			Codec.list(CommonBlockDefinitionModel.CODEC).fieldOf("fillBlocks").orElse(List.of()).forGetter(i -> i.fillBlocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("outerShellBlocks").orElse(List.of()).forGetter(i -> i.outerShellBlocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("innerShellBlocks").orElse(List.of()).forGetter(i -> i.innerShellBlocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("innerBlocks").orElse(List.of()).forGetter(i -> i.innerBlocks),
+			Codec.list(DepositBlockModel.CODEC).fieldOf("fillBlocks").orElse(List.of()).forGetter(i -> i.fillBlocks),
 			Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
 			Codec.list(Codec.STRING).fieldOf("clusters").orElse(List.of()).forGetter(i -> i.clusters),
 			Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
@@ -59,14 +59,14 @@ public class GeodeDepositConfigModel {
 			Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
 			Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
 			Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-			Codec.list(SampleBlockDefinitionModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
+			Codec.list(DepositSampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
 	).apply(x, GeodeDepositConfigModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("outerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("innerShellBlocks", CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("innerBlocks",      CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("fillBlocks",       CommonBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("outerShellBlocks", DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("innerShellBlocks", DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("innerBlocks",      DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("fillBlocks",       DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("fillerTypes",      new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("clusters",         new ResourceLocationValidator(false, new BlockRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY)
 		.addValidator("chance",           new NumberRangeValidator(Types.INTEGER, 1, 100, true))
@@ -78,10 +78,10 @@ public class GeodeDepositConfigModel {
 		.addValidator("generateSamples",  new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("sampleBlocks",    	new SampleBlocksValidator(), ArrayPolicy.REQUIRES_ARRAY);
 
-	public final List<CommonBlockDefinitionModel> outerShellBlocks;
-	public final List<CommonBlockDefinitionModel> innerShellBlocks;
-	public final List<CommonBlockDefinitionModel> innerBlocks;
-	public final List<CommonBlockDefinitionModel> fillBlocks;
+	public final List<DepositBlockModel> outerShellBlocks;
+	public final List<DepositBlockModel> innerShellBlocks;
+	public final List<DepositBlockModel> innerBlocks;
+	public final List<DepositBlockModel> fillBlocks;
 	public final List<String> fillerTypes;
 	public final List<String> clusters;
 	public final int chance;
@@ -91,9 +91,9 @@ public class GeodeDepositConfigModel {
 	public final String placement;
 	public final String rarity;
 	public final boolean generateSamples;
-	public final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<DepositSampleBlockModel> sampleBlocks;
 
-	public GeodeDepositConfigModel(List<CommonBlockDefinitionModel> outerShellBlocks, List<CommonBlockDefinitionModel> innerShellBlocks, List<CommonBlockDefinitionModel> innerBlocks, List<CommonBlockDefinitionModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<SampleBlockDefinitionModel> sampleBlocks) {
+	public GeodeDepositConfigModel(List<DepositBlockModel> outerShellBlocks, List<DepositBlockModel> innerShellBlocks, List<DepositBlockModel> innerBlocks, List<DepositBlockModel> fillBlocks, List<String> fillerTypes, List<String> clusters, int chance, double crackChance, int minYLevel, int maxYLevel, String placement, String rarity, boolean generateSamples, List<DepositSampleBlockModel> sampleBlocks) {
 		this.outerShellBlocks = outerShellBlocks;
 		this.innerShellBlocks = innerShellBlocks;
 		this.innerBlocks = innerBlocks;

@@ -29,9 +29,9 @@ import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dike.DikeDepositModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -117,24 +117,24 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
 
         int index = rand.nextInt(config.blocks.size());
         try {
-            CommonBlockDefinitionModel commonBlockDefinitionModel = config.blocks.get(index);
-            if (commonBlockDefinitionModel.getBlock() != null) {
-                Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(commonBlockDefinitionModel.getBlock()));
-                if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+            DepositBlockModel depositBlockModel = config.blocks.get(index);
+            if (depositBlockModel.getBlock() != null) {
+                Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositBlockModel.getBlock()));
+                if (pos.getY() >= depositBlockModel.getMin() && pos.getY() <= depositBlockModel.getMax() ) {
                     level.setBlock(pos, block.defaultBlockState(), 2);
                 }
-            } else if (commonBlockDefinitionModel.getTag() != null) {
-                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(commonBlockDefinitionModel.getTag()))).get();
+            } else if (depositBlockModel.getTag() != null) {
+                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositBlockModel.getTag()))).get();
                 blockITag.getRandomElement(rand).ifPresent(block -> {
-                    if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+                    if (pos.getY() >= depositBlockModel.getMin() && pos.getY() <= depositBlockModel.getMax() ) {
                         level.setBlock(pos, block.value().defaultBlockState(), 2);
                     }
                 });
-            } else if (commonBlockDefinitionModel.getMaterial() != null) {
+            } else if (depositBlockModel.getMaterial() != null) {
                 StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()));
                 if (strata != null) {
-                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), commonBlockDefinitionModel.getMaterial()).get();
-                    if (pos.getY() >= commonBlockDefinitionModel.getMin() && pos.getY() <= commonBlockDefinitionModel.getMax() ) {
+                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
+                    if (pos.getY() >= depositBlockModel.getMin() && pos.getY() <= depositBlockModel.getMax() ) {
                         level.setBlock(pos, block.defaultBlockState(), 2);
                     }
                 }
@@ -149,18 +149,18 @@ public class DikeOreFeature extends Feature<DikeOreFeatureConfig> {
     private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos, DikeOreFeatureConfig config) {
         try {
             int index = rand.nextInt(config.sampleBlocks.size());
-            SampleBlockDefinitionModel sampleBlockDefinitionModel = config.sampleBlocks.get(index);
+            DepositSampleBlockModel depositSampleBlockModel = config.sampleBlocks.get(index);
 
-            if (sampleBlockDefinitionModel.getBlock() != null) {
-                Block sampleBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(sampleBlockDefinitionModel.getBlock()));
+            if (depositSampleBlockModel.getBlock() != null) {
+                Block sampleBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositSampleBlockModel.getBlock()));
                 level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
-            } else if (sampleBlockDefinitionModel.getTag() != null) {
-                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(sampleBlockDefinitionModel.getTag()))).get();
+            } else if (depositSampleBlockModel.getTag() != null) {
+                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositSampleBlockModel.getTag()))).get();
                 blockITag.getRandomElement(rand).ifPresent(block -> {
                     level.setBlock(samplePos, block.value().defaultBlockState(), 2);
                 });
-            } else if (sampleBlockDefinitionModel.getMaterial() != null) {
-                Block sampleBlock = EERegistrar.oreSampleBlockTable.get(sampleBlockDefinitionModel.getStrata(), sampleBlockDefinitionModel.getMaterial()).get();
+            } else if (depositSampleBlockModel.getMaterial() != null) {
+                Block sampleBlock = EERegistrar.oreSampleBlockTable.get(depositSampleBlockModel.getStrata(), depositSampleBlockModel.getMaterial()).get();
                 level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
             }
         } catch (Exception e) {

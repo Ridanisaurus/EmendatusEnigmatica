@@ -1,19 +1,17 @@
 {
+  "registryName": "vanilla_overworld_coal_ore_lower_deposit",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:overworld",
   "biomes": [],
-  "registryName": "vanilla_overworld_coal_ore_lower_deposit",
-  "config": {
-    "material": "coal",
-    "fillerTypes": [
-      "minecraft_stone",
-      "minecraft_deepslate"
-    ],
-    "chance": 20,
-    "size": 16,
-    "minYLevel": 0,
-    "maxYLevel": 192,
-    "placement": "uniform",
-    "rarity": "common"
-  }
+  "material": "coal",
+  "fillerTypes": [
+    "minecraft_stone",
+    "minecraft_deepslate"
+  ],
+  "chance": 20,
+  "size": 16,
+  "minYLevel": 0,
+  "maxYLevel": 192,
+  "placement": "uniform",
+  "rarity": "common"
 }

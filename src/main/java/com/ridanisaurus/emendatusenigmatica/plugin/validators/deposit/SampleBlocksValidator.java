@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 /**
@@ -8,6 +8,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueV
  */
 public class SampleBlocksValidator extends FieldTrueValidator {
     public SampleBlocksValidator() {
-		super("generateSamples", SampleBlockDefinitionModel.VALIDATION_MANAGER.getAsValidator(false));
+		super("generateSamples", DepositSampleBlockModel.VALIDATION_MANAGER.getAsValidator(false));
     }
 }

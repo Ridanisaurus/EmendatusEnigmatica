@@ -38,9 +38,9 @@ public abstract class BasicEmendatusPlugin implements IEmendatusPlugin<Void> {
         this.registerDynamicDataGen(generator, providers, registry);
     }
 
-    public void load(EmendatusDataRegistry registry) {};
+    public void load(EmendatusDataRegistry registry) {}
 
-    public void registerMinecraft(EmendatusDataRegistry registry) {};
+    public void registerMinecraft(EmendatusDataRegistry registry) {}
 
-    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {};
+    public void registerDynamicDataGen(DataGenerator generator, CompletableFuture<HolderLookup.Provider> providers, EmendatusDataRegistry registry) {}
 }

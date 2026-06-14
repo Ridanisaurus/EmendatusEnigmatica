@@ -35,6 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor.ArmorFieldValidator;
@@ -72,6 +73,23 @@ public class MaterialModel {
 			armor.orElse(new MaterialArmorModel())
 	)));
 
+	public static final List<String> REGISTERED_IDS = new ArrayList<>();
+
+	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
+		.addValidator("strata",				new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY)
+		.addValidator("id",					new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.REGISTRATION, true))
+		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
+		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
+		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("tools",				new ToolsFieldValidator())
+		.addValidator("armor",				new ArmorFieldValidator())
+		.addValidator("oreDrop",				new OreDropValidator())
+		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "https://github.com/Ridanisaurus/EmendatusEnigmatica/commit/a782b78a1b2c87ec679ee42235cad0e8b1658679"));
+
+
 	private final String id;
 	private final String source;
 	private final String localizedName;
@@ -88,20 +106,6 @@ public class MaterialModel {
 	private final MaterialColorsModel colors;
 	private final MaterialToolsModel tools;
 	private final MaterialArmorModel armor;
-
-	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("strata",				new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY)
-		.addValidator("id",					new EERegistryValidator(ModelLoader.MATERIAL_IDS, EERegistryValidator.REGISTRATION, true))
-		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
-		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
-		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("tools",				new ToolsFieldValidator())
-		.addValidator("armor",				new ArmorFieldValidator())
-		.addValidator("oreDrop",				new OreDropValidator())
-		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "https://github.com/Ridanisaurus/EmendatusEnigmatica/commit/a782b78a1b2c87ec679ee42235cad0e8b1658679"));
 
 	public MaterialModel(
 		String id,

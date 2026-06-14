@@ -30,7 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldPresentValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
@@ -38,14 +38,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SampleBlockDefinitionModel {
-	public static final Codec<SampleBlockDefinitionModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class DepositSampleBlockModel {
+	public static final Codec<DepositSampleBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.block)),
 			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.tag)),
 			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
 			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight),
 			Codec.STRING.optionalFieldOf("strata").forGetter(it -> Optional.ofNullable(it.strata))
-	).apply(x, (s, s2, s3, i, s4) -> new SampleBlockDefinitionModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, s4.orElse(null))));
+	).apply(x, (s, s2, s3, i, s4) -> new DepositSampleBlockModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, s4.orElse(null))));
 	protected final String block;
 	protected final String tag;
 	private final String material;
@@ -59,10 +59,10 @@ public class SampleBlockDefinitionModel {
 		.addValidator("weight",   new TypeValidator(Types.INTEGER, false))
 		.addValidator("strata",   new FieldPresentValidator(
 			"material",
-			new EERegistryValidator(ModelLoader.STRATA_IDS, EERegistryValidator.REFERENCE, "Strata", false))
+			new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false))
 		);
 
-	public SampleBlockDefinitionModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, @Nullable String strata) {
+	public DepositSampleBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, @Nullable String strata) {
 		this.block = block;
 		this.tag = tag;
 		this.weight = weight;

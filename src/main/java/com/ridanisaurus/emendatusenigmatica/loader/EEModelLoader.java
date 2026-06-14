@@ -7,6 +7,7 @@ import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AcceptsAllValidator;
 import com.ridanisaurus.emendatusenigmatica.util.ExceptionHelper;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -44,7 +45,7 @@ import java.util.*;
  */
 public class EEModelLoader {
     private static final Logger logger = LogUtils.getLogger();
-    private final Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> registry = new HashMap<>();
+    private final Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> registry = new LinkedHashMap<>();
     private EmendatusPluginReference currentPlugin;
     private boolean canRegister = false;
 
@@ -63,8 +64,8 @@ public class EEModelLoader {
 
         var path = definition.folderPath().updatePath(Analytics.CONFIG_DIR).normalize();
         if (!path.startsWith(Analytics.CONFIG_DIR))
-            throw new SecurityException("Requested path by plugin \"%s\" (%s) points outside of EE Configuration directory! (%s)"
-                .formatted(currentPlugin.name(), definition.getOwningPlugin(), path));
+            throw new SecurityException("Requested path by plugin \"%s\" (\"%s\") points outside of EE Configuration directory! (\"%s\")"
+                .formatted(currentPlugin.name(), definition.getOwningPlugin().getName(), path));
 
         registry.keySet().stream().filter(it -> it.folderPath().getRequestedPath().equals(definition.folderPath().getRequestedPath()))
             .forEach(it -> logger.warn(
@@ -79,23 +80,33 @@ public class EEModelLoader {
         ));
 
         registry.put(definition, new ArrayList<>());
-        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\" ({}).", definition.getRegistryName(), currentPlugin.name(), definition.getOwningPlugin());
+        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\".", definition.getRegistryName(), currentPlugin.name());
     }
 
     public void registerModelExtension(EEModelExtension<?,?,?,?> extension) {
         if (!canRegister) throw new IllegalStateException("Can't register definitions extensions outside of the addon setup phase!");
         if (!registry.containsKey(Objects.requireNonNull(extension).getExtendedDefinition()))
-            throw new IllegalArgumentException("Extension \"%s\" tries to extend not registered Model Definition (%s)."
+            throw new IllegalArgumentException("Extension \"%s\" tries to extend not registered Model Definition (\"%s\")."
                 .formatted(extension.getClass(), extension.getExtendedDefinition().getRegistryName()));
 
         if (!extension.getOwningAnnotation().equals(currentPlugin))
-            throw new SecurityException("Plugin \"%s\" tried registering definition under different addon's ownership (\"%s\")."
+            throw new SecurityException("Plugin \"%s\" tried registering definition extension under different addon's ownership (\"%s\")."
                 .formatted(currentPlugin.name(), extension.getOwningAnnotation().name()));
 
         registry.get(extension.getExtendedDefinition()).add(extension);
+        if (Objects.nonNull(extension.getRootValidator())) {
+            var validator = extension.getExtendedDefinition().validator();
+            var fields = validator.getRegisteredFields();
+
+            for (String field : extension.getRootValidator().getRegisteredFields()) {
+                if (fields.contains(field)) continue;
+                validator.addValidator(field, new AcceptsAllValidator());
+            }
+        }
+
         logger.info(
-            "Registered new Model Definition Extension \"{}\" from plugin \"{}\" for model \"{}\" .",
-            extension.getClass(), currentPlugin.name(), extension.getExtendedDefinition().getRegistryName()
+            "Registered new Model Definition Extension from plugin \"{}\" for model \"{}\".",
+            currentPlugin.name(), extension.getExtendedDefinition().getRegistryName()
         );
     }
 
@@ -135,14 +146,14 @@ public class EEModelLoader {
     }
 
     protected void load(EEPluginLoader pluginLoader) {
-        logger.debug("Loading EEModelDefinitions ({})", registry.size());
+        logger.info("Loading EEModelDefinitions ({})", registry.size());
         try {
             for (EEModelDefinition<?, ?> definition : registry.keySet()) {
                 Stopwatch s = Stopwatch.createStarted();
-                logger.debug("Loading {}#{}...", definition.getOwningPlugin(), definition.getRegistryName());
+                logger.info("Loading {}#{}...", definition.getOwningPlugin().getName(), definition.getRegistryName());
                 var path = definition.folderPath().getPath();
                 if (Files.notExists(path)) {
-                    logger.debug("Creating missing config directory \"{}\".", path);
+                    logger.info("Creating missing config directory \"{}\".", path);
                     Files.createDirectories(path);
                     Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
                     continue;
@@ -168,7 +179,7 @@ public class EEModelLoader {
                             extension.genericRegister(model, extensionModel, definitionRegistry, pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
                             Analytics.error("Failed parsing extension: %s", ExceptionHelper.getAsString(e), "root", ValidationHelper.obfuscatePath(jsonPath));
-                            logger.debug("Failed parsing extensions {}#{} from file {}.", definition.getOwningAnnotation().name(), extension.getClass(), jsonPath, e);
+                            logger.info("Failed parsing extensions {}#{} from file {}.", definition.getOwningAnnotation().name(), extension.getClass(), jsonPath, e);
                         }
                     }
                 });

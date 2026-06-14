@@ -22,8 +22,9 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.BiomeTagsGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -53,17 +54,14 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         StrataModel::register
     );
 
-    //TODO: Update deposits to use ModelExtensions.
-    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = null;
-
-//    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = new EEModelDefinition<>(
-//        VanillaPlugin.class,
-//        "Deposit",
-//        "deposit",
-//        DepositModel.CODEC,
-//        DepositModel.VALIDATION_MANAGER,
-//        DepositModel::register
-//    );
+    public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = new EEModelDefinition<>(
+        VanillaPlugin.class,
+        "Deposit",
+        "deposit",
+        DepositModel.CODEC,
+        DepositModel.VALIDATION_MANAGER,
+        DepositModel::register
+    );
 
     /**
      * This method is used to make any necessary changes to other plugins,
@@ -74,7 +72,57 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         var loader = ctx.modelLoader();
         loader.registerDefinition(MATERIAL_DEFINITION);
         loader.registerDefinition(STRATA_DEFINITION);
-//        loader.registerDefinition(DEPOSIT_DEFINITION);
+        loader.registerDefinition(DEPOSIT_DEFINITION);
+
+        loader.registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
+            DEPOSIT_DEFINITION,
+            VanillaDepositModel.CODEC,
+            VanillaDepositModel.VALIDATION_MANAGER,
+            (model, extModel, reg, __) -> {
+                reg.registerDeposit(model);
+            }
+        ));
+
+        loader.registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
+            DEPOSIT_DEFINITION,
+            SphereDepositModel.CODEC,
+            SphereDepositModel.VALIDATION_MANAGER,
+            (model, extModel, reg, __) -> {
+                reg.registerDeposit(model);
+            }
+        ));
+
+        loader.registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
+            DEPOSIT_DEFINITION,
+            GeodeDepositModel.CODEC,
+            GeodeDepositModel.VALIDATION_MANAGER,
+            (model, extModel, reg, __) -> {
+                reg.registerDeposit(model);
+            }
+        ));
+
+        loader.registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
+            DEPOSIT_DEFINITION,
+            DikeDepositModel.CODEC,
+            DikeDepositModel.VALIDATION_MANAGER,
+            (model, extModel, reg, __) -> {
+                reg.registerDeposit(model);
+            }
+        ));
+
+        loader.registerModelExtension(new EEModelExtension<>(
+            this.getClass(),
+            DEPOSIT_DEFINITION,
+            DenseDepositModel.CODEC,
+            DenseDepositModel.VALIDATION_MANAGER,
+            (model, extModel, reg, __) -> {
+                reg.registerDeposit(model);
+            }
+        ));
     }
 
     /**

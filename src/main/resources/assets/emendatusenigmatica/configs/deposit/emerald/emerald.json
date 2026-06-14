@@ -1,4 +1,5 @@
 {
+  "registryName": "vanilla_overworld_emerald_ore_normal_deposit",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:overworld",
   "biomes": [
@@ -12,18 +13,15 @@
     "minecraft:snowy_slopes",
     "minecraft:grove"
   ],
-  "registryName": "vanilla_overworld_emerald_ore_normal_deposit",
-  "config": {
-    "material": "emerald",
-    "fillerTypes": [
-      "minecraft_stone",
-      "minecraft_deepslate"
-    ],
-    "chance": 100,
-    "size": 3,
-    "minYLevel": -16,
-    "maxYLevel": 320,
-    "placement": "triangle",
-    "rarity": "common"
-  }
+  "material": "emerald",
+  "fillerTypes": [
+    "minecraft_stone",
+    "minecraft_deepslate"
+  ],
+  "chance": 100,
+  "size": 3,
+  "minYLevel": -16,
+  "maxYLevel": 320,
+  "placement": "triangle",
+  "rarity": "common"
 }

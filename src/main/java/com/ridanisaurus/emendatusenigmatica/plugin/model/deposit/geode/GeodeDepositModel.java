@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 
 import java.util.List;
 
@@ -80,19 +80,19 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 		return config.crackChance;
 	}
 
-	public List<CommonBlockDefinitionModel> getOuterShellBlocks() {
+	public List<DepositBlockModel> getOuterShellBlocks() {
 		return config.outerShellBlocks;
 	}
 
-	public List<CommonBlockDefinitionModel> getInnerShellBlocks() {
+	public List<DepositBlockModel> getInnerShellBlocks() {
 		return config.innerShellBlocks;
 	}
 
-	public List<CommonBlockDefinitionModel> getInnerBlocks() {
+	public List<DepositBlockModel> getInnerBlocks() {
 		return config.innerBlocks;
 	}
 
-	public List<CommonBlockDefinitionModel> getFillBlocks() {
+	public List<DepositBlockModel> getFillBlocks() {
 		// TODO: Check to see if this can be empty
 		// NOTE: Currently checked if not empty in the validation step. See #218 *Kanzaji
 		return config.fillBlocks;
@@ -110,7 +110,7 @@ public class GeodeDepositModel extends CommonDepositModelBase {
 		return config.generateSamples;
 	}
 
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
+	public List<DepositSampleBlockModel> getSampleBlocks() {
 		return config.sampleBlocks;
 	}
 }

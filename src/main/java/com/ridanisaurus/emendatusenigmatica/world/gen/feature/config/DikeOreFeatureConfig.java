@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dike.DikeDepositModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -44,8 +44,8 @@ public class DikeOreFeatureConfig implements FeatureConfiguration {
 
 	public final RuleTest target;
 	public final DikeDepositModel model;
-	public final ArrayList<CommonBlockDefinitionModel> blocks;
-	public final ArrayList<SampleBlockDefinitionModel> sampleBlocks;
+	public final ArrayList<DepositBlockModel> blocks;
+	public final ArrayList<DepositSampleBlockModel> sampleBlocks;
 	public boolean placed = false;
 
 	public DikeOreFeatureConfig(DikeDepositModel model, RuleTest target) {
@@ -53,14 +53,14 @@ public class DikeOreFeatureConfig implements FeatureConfiguration {
 		this.model = model;
 
 		blocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel block : model.getBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+		for (DepositBlockModel block : model.getBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(block.getWeight(), block);
 			blocks.addAll(filled);
 		}
 
 		sampleBlocks = new ArrayList<>();
-		for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
-			NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
+		for (DepositSampleBlockModel sampleBlock : model.getSampleBlocks()) {
+			NonNullList<DepositSampleBlockModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
 			sampleBlocks.addAll(filled);
 		}
 	}

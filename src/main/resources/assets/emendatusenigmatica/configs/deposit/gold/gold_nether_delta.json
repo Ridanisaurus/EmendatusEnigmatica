@@ -1,20 +1,18 @@
 {
+  "registryName": "vanilla_nether_delta_gold_ore_deposit",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:the_nether",
   "biomes": [
     "minecraft:basalt_deltas"
   ],
-  "registryName": "vanilla_nether_delta_gold_ore_deposit",
-  "config": {
-    "material": "quartz",
-    "fillerTypes": [
-      "minecraft_netherrack"
-    ],
-    "chance": 20,
-    "size": 10,
-    "minYLevel": 10,
-    "maxYLevel": 118,
-    "placement": "uniform",
-    "rarity": "common"
-  }
+  "material": "quartz",
+  "fillerTypes": [
+    "minecraft_netherrack"
+  ],
+  "chance": 20,
+  "size": 10,
+  "minYLevel": 10,
+  "maxYLevel": 118,
+  "placement": "uniform",
+  "rarity": "common"
 }

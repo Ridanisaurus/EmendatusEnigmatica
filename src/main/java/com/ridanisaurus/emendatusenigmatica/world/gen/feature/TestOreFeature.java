@@ -30,7 +30,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.test.TestDepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -53,15 +53,15 @@ import java.util.ArrayList;
 public class TestOreFeature extends Feature<TestOreFeatureConfig> {
     private final TestDepositModel model;
     private final EmendatusDataRegistry registry;
-    private final ArrayList<CommonBlockDefinitionModel> blocks;
+    private final ArrayList<DepositBlockModel> blocks;
 
     public TestOreFeature(Codec<TestOreFeatureConfig> codec, TestDepositModel model, EmendatusDataRegistry registry) {
         super(codec);
         this.model = model;
         this.registry = registry;
         blocks = new ArrayList<>();
-        for (CommonBlockDefinitionModel block : model.getConfig().getBlocks()) {
-            NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(block.getWeight(), block);
+        for (DepositBlockModel block : model.getConfig().getBlocks()) {
+            NonNullList<DepositBlockModel> filled = NonNullList.withSize(block.getWeight(), block);
             blocks.addAll(filled);
         }
     }
@@ -389,19 +389,19 @@ public class TestOreFeature extends Feature<TestOreFeatureConfig> {
 
         int index = rand.nextInt(blocks.size());
         try {
-            CommonBlockDefinitionModel commonBlockDefinitionModel = blocks.get(index);
-            if (commonBlockDefinitionModel.getBlock() != null) {
-                Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(commonBlockDefinitionModel.getBlock()));
+            DepositBlockModel depositBlockModel = blocks.get(index);
+            if (depositBlockModel.getBlock() != null) {
+                Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositBlockModel.getBlock()));
                 reader.setBlock(pos, block.defaultBlockState(), 2);
-            } else if (commonBlockDefinitionModel.getTag() != null) {
-                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(commonBlockDefinitionModel.getTag()))).get();
+            } else if (depositBlockModel.getTag() != null) {
+                HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositBlockModel.getTag()))).get();
                 blockITag.getRandomElement(rand).ifPresent(block -> {
                     reader.setBlock(pos, block.value().defaultBlockState(), 2);
                 });
-            } else if (commonBlockDefinitionModel.getMaterial() != null) {
+            } else if (depositBlockModel.getMaterial() != null) {
                 StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
                 if (strata != null) {
-                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), commonBlockDefinitionModel.getMaterial()).get();
+                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
                     reader.setBlock(pos, block.defaultBlockState(), 2);
                 }
             }

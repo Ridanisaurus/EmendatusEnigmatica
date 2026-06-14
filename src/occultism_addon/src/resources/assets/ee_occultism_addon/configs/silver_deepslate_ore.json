@@ -1,19 +1,17 @@
 {
+  "registryName": "silver_ore_deepslate_vanilla_deposit",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:overworld",
   "biomes": [],
-  "registryName": "silver_ore_deepslate_vanilla_deposit",
-  "config": {
-    "material": "iron",
-    "fillerTypes": [
-      "minecraft_stone",
-      "minecraft_deepslate"
-    ],
-    "chance": 12,
-    "size": 12,
-    "minYLevel": -64,
-    "maxYLevel":  50,
-    "placement": "uniform",
-    "rarity": "common"
-  }
+  "material": "iron",
+  "fillerTypes": [
+    "minecraft_stone",
+    "minecraft_deepslate"
+  ],
+  "chance": 12,
+  "size": 12,
+  "minYLevel": -64,
+  "maxYLevel":  50,
+  "placement": "uniform",
+  "rarity": "common"
 }

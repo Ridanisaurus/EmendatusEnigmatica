@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode.GeodeDepositModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule.MultiStrataRuleTest;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -49,11 +49,11 @@ public class GeodeOreFeatureConfig implements FeatureConfiguration {
 
 	public final RuleTest target;
 	public final GeodeDepositModel model;
-	public final List<CommonBlockDefinitionModel> outerShellBlocks;
-	public final List<CommonBlockDefinitionModel> innerShellBlocks;
-	public final List<CommonBlockDefinitionModel> innerBlocks;
-	public final List<CommonBlockDefinitionModel> fillBlocks;
-	public final List<SampleBlockDefinitionModel> sampleBlocks;
+	public final List<DepositBlockModel> outerShellBlocks;
+	public final List<DepositBlockModel> innerShellBlocks;
+	public final List<DepositBlockModel> innerBlocks;
+	public final List<DepositBlockModel> fillBlocks;
+	public final List<DepositSampleBlockModel> sampleBlocks;
 	public final List<BlockState> clusters;
 	public boolean placed = false;
 
@@ -62,26 +62,26 @@ public class GeodeOreFeatureConfig implements FeatureConfiguration {
 		this.model = model;
 
 		outerShellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel outerShellBlock : model.getOuterShellBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(outerShellBlock.getWeight(), outerShellBlock);
+		for (DepositBlockModel outerShellBlock : model.getOuterShellBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(outerShellBlock.getWeight(), outerShellBlock);
 			outerShellBlocks.addAll(filled);
 		}
 
 		innerShellBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel innerShellBlock : model.getInnerShellBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(innerShellBlock.getWeight(), innerShellBlock);
+		for (DepositBlockModel innerShellBlock : model.getInnerShellBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(innerShellBlock.getWeight(), innerShellBlock);
 			innerShellBlocks.addAll(filled);
 		}
 
 		innerBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel innerBlock : model.getInnerBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(innerBlock.getWeight(), innerBlock);
+		for (DepositBlockModel innerBlock : model.getInnerBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(innerBlock.getWeight(), innerBlock);
 			innerBlocks.addAll(filled);
 		}
 
 		fillBlocks = new ArrayList<>();
-		for (CommonBlockDefinitionModel fillBlock : model.getFillBlocks()) {
-			NonNullList<CommonBlockDefinitionModel> filled = NonNullList.withSize(fillBlock.getWeight(), fillBlock);
+		for (DepositBlockModel fillBlock : model.getFillBlocks()) {
+			NonNullList<DepositBlockModel> filled = NonNullList.withSize(fillBlock.getWeight(), fillBlock);
 			fillBlocks.addAll(filled);
 		}
 
@@ -93,8 +93,8 @@ public class GeodeOreFeatureConfig implements FeatureConfiguration {
 		}
 
 		sampleBlocks = new ArrayList<>();
-		for (SampleBlockDefinitionModel sampleBlock : model.getSampleBlocks()) {
-			NonNullList<SampleBlockDefinitionModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
+		for (DepositSampleBlockModel sampleBlock : model.getSampleBlocks()) {
+			NonNullList<DepositSampleBlockModel> filled = NonNullList.withSize(sampleBlock.getWeight(), sampleBlock);
 			sampleBlocks.addAll(filled);
 		}
 	}

@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.resources.ResourceLocation;

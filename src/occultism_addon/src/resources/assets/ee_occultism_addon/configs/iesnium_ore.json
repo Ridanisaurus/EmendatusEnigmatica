@@ -1,18 +1,16 @@
 {
+  "registryName": "occultism_iesnium_ore_nether",
   "type": "emendatusenigmatica:vanilla_deposit",
   "dimension": "minecraft:the_nether",
   "biomes": [],
-  "registryName": "occultism_iesnium_ore_nether",
-  "config": {
-    "block": "occultism:iesnium_ore_natural",
-    "fillerTypes": [
-      "minecraft_netherrack"
-    ],
-    "chance": 10,
-    "size": 6,
-    "minYLevel": 0,
-    "maxYLevel": 128,
-    "placement": "triangle",
-    "rarity": "common"
-  }
+  "block": "occultism:iesnium_ore_natural",
+  "fillerTypes": [
+    "minecraft_netherrack"
+  ],
+  "chance": 10,
+  "size": 6,
+  "minYLevel": 0,
+  "maxYLevel": 128,
+  "placement": "triangle",
+  "rarity": "common"
 }

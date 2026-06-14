@@ -194,7 +194,7 @@ public class EEPluginLoader {
                 future.get();
 
                 EmendatusEnigmatica.logger.info("Defaults generated.");
-            };
+            }
         }
 
         ctx.modelLoader().startRegistration();

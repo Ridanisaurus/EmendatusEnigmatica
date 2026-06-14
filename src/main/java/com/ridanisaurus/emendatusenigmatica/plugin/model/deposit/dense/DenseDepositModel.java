@@ -26,9 +26,9 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleBlockDefinitionModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class DenseDepositModel extends CommonDepositModelBase {
 		return config.minYLevel;
 	}
 
-	public List<CommonBlockDefinitionModel> getBlocks() {
+	public List<DepositBlockModel> getBlocks() {
 		return config.blocks;
 	}
 
@@ -92,7 +92,7 @@ public class DenseDepositModel extends CommonDepositModelBase {
 		return config.generateSamples;
 	}
 
-	public List<SampleBlockDefinitionModel> getSampleBlocks() {
+	public List<DepositSampleBlockModel> getSampleBlocks() {
 		return config.sampleBlocks;
 	}
 }
