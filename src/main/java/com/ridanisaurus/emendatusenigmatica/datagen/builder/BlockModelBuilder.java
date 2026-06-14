@@ -416,11 +416,16 @@ public class BlockModelBuilder {
 					if (face.tintIndex != -1) {
 						faceObj.addProperty("tintindex", face.tintIndex);
 					}
-					if (face.emissivity > 0) {
-						faceObj.addProperty("emissivity", face.emissivity);
-					}
-					if (!face.hasAmbientOcclusion) {
-						faceObj.addProperty("ambientocclusion", face.hasAmbientOcclusion);
+					if (face.emissivity > 0 || !face.hasAmbientOcclusion) {
+						JsonObject extDataObj = new JsonObject();
+						faceObj.add("neoforge_data", extDataObj);
+						if (!face.hasAmbientOcclusion) {
+							extDataObj.addProperty("ambient_occlusion", face.hasAmbientOcclusion);
+						}
+						if (face.emissivity > 0) {
+							extDataObj.addProperty("block_light", face.emissivity);
+//							extDataObj.addProperty("sky_light", face.emissivity); // Works the same for our use case.
+						}
 					}
 					faces.add(dir.getSerializedName(), faceObj);
 				}
