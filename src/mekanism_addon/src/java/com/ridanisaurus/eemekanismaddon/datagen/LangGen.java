@@ -1,19 +1,23 @@
 package com.ridanisaurus.eemekanismaddon.datagen;
 
 import com.ridanisaurus.eemekanismaddon.EEMekanismAddon;
+import com.ridanisaurus.eemekanismaddon.registry.EEMekanismDataRegistry;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EELangProvider;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.data.DataGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class LangGen extends EELangProvider {
-    private final DataRegistry registry;
+import java.util.Objects;
 
-    public LangGen(DataGenerator gen, DataRegistry registry) {
+public class LangGen extends EELangProvider {
+    private final EEMekanismDataRegistry registry;
+    private final DataRegistry vanillaRegistry;
+
+    public LangGen(DataGenerator gen, EEMekanismDataRegistry registry, DataRegistry vanillaRegistry) {
         super(gen, EEMekanismAddon.MOD_ID, "en_us");
-        this.registry = registry;
+        this.vanillaRegistry = Objects.requireNonNull(vanillaRegistry);
+        this.registry = Objects.requireNonNull(registry);
     }
 
     @Override
@@ -24,7 +28,8 @@ public class LangGen extends EELangProvider {
         add("emendatusenigmatica.configuration.mekanism-plugin.button", "Mekanism");
         add("ee_mekanism.config.disable_osmium_ore", "Disable Osmium Ore");
 
-        for (MaterialModel material : registry.getRegisteredMaterials()) {
+        registry.getExtensions().forEach((id, extension) -> {
+            var material = vanillaRegistry.getMaterialModel(id);
             var types = material.getProcessedTypes();
             var name = material.getLocalizedName();
             if (types.contains("slurry")) {
@@ -49,7 +54,7 @@ public class LangGen extends EELangProvider {
 
             if (types.contains("infuse_type"))
                 add(EEMekanismRegistrar.infuseMap.get(material.getId()).getTranslationKey(), name);
-        }
+        });
     }
 
     @Override

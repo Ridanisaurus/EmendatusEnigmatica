@@ -6,7 +6,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,6 @@ public class DepositValidationManager extends ValidationManager {
 
     private DepositValidationManager(String type) {
         this.type = Objects.requireNonNull(type, "Deposit Type can't be null!");
-        if (!DepositModel.TYPES.contains(type)) throw new IllegalArgumentException("Invalid Deposit Type!");
     }
 
     @Contract("_ -> new")

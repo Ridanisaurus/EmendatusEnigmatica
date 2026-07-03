@@ -298,6 +298,7 @@ public class Analytics {
                 }
             }
 
+            cx.writeSpacer();
             cx.writeHeader("Additional Information", 2);
             executeAddons(cx);
             addPerformanceAnalytic("Generation of Analytics Summary", s);

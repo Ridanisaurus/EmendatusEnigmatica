@@ -34,7 +34,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValida
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
@@ -76,7 +75,7 @@ public class MaterialModel {
 	public static final List<String> REGISTERED_IDS = new ArrayList<>();
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("strata",				new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY)
+		.addValidator("strata",				new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		.addValidator("id",					new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.REGISTRATION, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
 		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
@@ -206,6 +205,7 @@ public class MaterialModel {
 	}
 
 	public void register(DataRegistry registry) {
+		REGISTERED_IDS.add(this.id);
 		registry.registerMaterial(this);
 	}
 }

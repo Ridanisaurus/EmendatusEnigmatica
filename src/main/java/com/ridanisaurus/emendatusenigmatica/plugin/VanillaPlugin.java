@@ -76,6 +76,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
         loader.registerModelExtension(new EEModelExtension<>(
             this.getClass(),
+            "vanilla",
             DEPOSIT_DEFINITION,
             VanillaDepositModel.CODEC,
             VanillaDepositModel.VALIDATION_MANAGER,
@@ -86,6 +87,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
         loader.registerModelExtension(new EEModelExtension<>(
             this.getClass(),
+            "sphere",
             DEPOSIT_DEFINITION,
             SphereDepositModel.CODEC,
             SphereDepositModel.VALIDATION_MANAGER,
@@ -96,6 +98,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
         loader.registerModelExtension(new EEModelExtension<>(
             this.getClass(),
+            "geode",
             DEPOSIT_DEFINITION,
             GeodeDepositModel.CODEC,
             GeodeDepositModel.VALIDATION_MANAGER,
@@ -106,6 +109,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
         loader.registerModelExtension(new EEModelExtension<>(
             this.getClass(),
+            "dike",
             DEPOSIT_DEFINITION,
             DikeDepositModel.CODEC,
             DikeDepositModel.VALIDATION_MANAGER,
@@ -116,6 +120,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
 
         loader.registerModelExtension(new EEModelExtension<>(
             this.getClass(),
+            "dense",
             DEPOSIT_DEFINITION,
             DenseDepositModel.CODEC,
             DenseDepositModel.VALIDATION_MANAGER,

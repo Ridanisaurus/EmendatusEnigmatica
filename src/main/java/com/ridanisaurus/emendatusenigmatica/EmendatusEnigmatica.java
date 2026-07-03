@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica;
 
 import com.mojang.logging.LogUtils;
 import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
@@ -34,6 +35,7 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader;
 import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
+import com.ridanisaurus.emendatusenigmatica.loader.AddonInfoAnalytics;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -98,6 +100,7 @@ public class EmendatusEnigmatica {
 
         this.pluginLoader = new EEPluginLoader();
         this.modelLoader = new EEModelLoader();
+        Analytics.registerAddon(new AddonInfoAnalytics(this.pluginLoader, this.modelLoader));
         EEConfig.setupConfigs(modContainer, pluginLoader);
         this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
         this.pluginLoader.load(modelLoader);
@@ -131,10 +134,25 @@ public class EmendatusEnigmatica {
         return modelLoader;
     }
 
+    /**
+     * @deprecated {@link EmendatusDataRegistry} is no longer in use and was replaced by per-addon registry.
+     * Use {@link EEPluginLoader#getRegistry(Class)} or {@link EmendatusEnigmatica#getPluginRegistry(Class)}to access per-addon registries as needed.<br>
+     * This method now always returns null.
+     */
     @Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
     @SuppressWarnings("deprecated removal")
     public EmendatusDataRegistry getDataRegistry() {
         return null;
+    }
+
+    /**
+     * Utility method to get access to plugin registry instance.
+     * @param plugin Plugin class the requested registry belongs to.
+     * @return Registry instance of the provided plugin, or null if the plugin doesn't have it's own registry.
+     * @param <R> Registry class.
+     */
+    public static <R> R getPluginRegistry(Class<? extends IEEPlugin<R>> plugin) {
+        return getInstance().getPluginLoader().getRegistry(plugin);
     }
 
     private void populateCreativeTab(BuildCreativeModeTabContentsEvent event) {

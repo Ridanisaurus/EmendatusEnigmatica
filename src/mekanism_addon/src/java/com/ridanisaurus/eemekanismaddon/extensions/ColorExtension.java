@@ -2,6 +2,10 @@ package com.ridanisaurus.eemekanismaddon.extensions;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.ridanisaurus.eemekanismaddon.validators.ChemicalColorValidator;
+import com.ridanisaurus.eemekanismaddon.validators.CoolantColorValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 
 import java.util.Optional;

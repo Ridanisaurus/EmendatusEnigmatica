@@ -3,6 +3,7 @@ package com.ridanisaurus.eemekanismaddon.registry;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -16,5 +17,9 @@ public class EEMekanismDataRegistry {
 
     public MekanismMaterialExtension getExtensionFromID(String id) {
         return extendedMaterials.get(Objects.requireNonNull(id, "ID can't be null."));
+    }
+
+    public Map<String, MekanismMaterialExtension> getExtensions() {
+        return Map.copyOf(extendedMaterials);
     }
 }

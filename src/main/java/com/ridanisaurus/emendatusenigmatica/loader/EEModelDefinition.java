@@ -13,7 +13,8 @@ import java.util.function.BiConsumer;
 
 /**
  * <h1>Model Definition</h1>
- * EEModelDefinition is a class holding the required information for EE to parse, validate and decode a JSON model from the configuration file for the plugins to use.
+ * EEModelDefinition is a class holding the required information for EE to parse,
+ * validate and decode a JSON model from the configuration file for the plugins to use.
  *
  * <h3>Implementation requirements</h3>
  * EEModelDefinition usage is required to comply with the following:
@@ -24,10 +25,17 @@ import java.util.function.BiConsumer;
  *  <li>Validator of the model has to be included and configured for the model.</li>
  * </ul>
  *
- * When a folder conflict is detected, the conflicting paths get a suffix name, specified in {@link EmendatusPluginReference#name()} of your plugin.
- * <br><br>
- * You should keep the instance of this model definition as a public static field in your plugin class, to allow other plugins to easily extend your models.
+ * <h3>Conflict Resolution</h3>
+ * <ul>
+ * <li>When a folder conflict is detected, the conflicting paths get a suffix name,
+ * specified in {@link EmendatusPluginReference#name()} of your plugin.</li>
+ * <li><code>extensionOverrides</code> is a reserved field for {@link EEModelExtension} conflict resolution system,
+ * allowing the end user to override data for specific extensions,
+ * and <b>mustn't</b> be included in any definition.</li>
+ * </ul>
  *
+ * @apiNote You should keep the instance of this model definition as a public static field in your plugin class,
+ * to allow other plugins to easily extend your models.
  * @param getOwningPlugin Plugin owning the model.
  * @param getRegistryName Registry name of the model (Unique per plugin)
  * @param folderPath Folder path in the config

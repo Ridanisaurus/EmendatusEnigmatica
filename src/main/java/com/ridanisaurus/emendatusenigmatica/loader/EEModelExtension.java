@@ -19,7 +19,8 @@ import java.util.Objects;
  * <h3>Extension Configuration</h3>
  * Extensions are required to provide correctly configured:
  * <ul>
- *     <li>{@link Class}{@code <? extends IEEPlugin<R>>} Owning plugin class.</li>
+ *     <li>{@link Class}{@code <? extends}{@link IEEPlugin &nbsp;IEEPLugin}{@code <R>>} Owning plugin class.</li>
+ *     <li>{@link String} Registry name, unique per plugin and extended model.</li>
  *     <li>{@link EEModelDefinition}{@code <OM,OR>} Model Definition to extend.</li>
  *     <li>{@link Codec}{@code <M>} Codec of your extended model.</li>
  *     <li>{@link RegisterFunction RegisterFunction}{@code <OM, M, OR, R>} Register Function of your extended model.</li>
@@ -40,6 +41,7 @@ public class EEModelExtension<OM, M, OR, R> {
     private final Codec<M> codec;
     private final ValidationManager rootValidator;
     private final RegisterFunction<OM, M, OR, R> registerFunction;
+    private final String registryName;
 
     /**
      * Constructor of EEModelExtension.
@@ -51,12 +53,14 @@ public class EEModelExtension<OM, M, OR, R> {
      */
     public EEModelExtension(
         Class<? extends IEEPlugin<R>> plugin,
+        String registryName,
         EEModelDefinition<OM, OR> definition,
         Codec<M> codec,
         @Nullable ValidationManager rootValidator,
         RegisterFunction<OM, M, OR, R> registerFunction
     ) {
         this.pluginClass = Objects.requireNonNull(plugin, "Owning plugin class can't be null.");
+        this.registryName = Objects.requireNonNull(registryName, "Model Extension ID can't be null!");
         this.definition = Objects.requireNonNull(definition, "Definition model to extend can't be null.");
         this.codec = Objects.requireNonNull(codec, "Codec can't be null.");
         this.rootValidator = rootValidator;
@@ -72,11 +76,20 @@ public class EEModelExtension<OM, M, OR, R> {
      */
     public EEModelExtension(
         Class<? extends IEEPlugin<R>> plugin,
+        String registryName,
         EEModelDefinition<OM, OR> definition,
         Codec<M> codec,
         RegisterFunction<OM, M, OR, R> registerFunction
     ) {
-        this(plugin, definition, codec, null, registerFunction);
+        this(plugin, registryName, definition, codec, null, registerFunction);
+    }
+
+    public String getExtensionOverrideField() {
+        return getOwningAnnotation().name() + "." + registryName;
+    }
+
+    protected String getRegistryName() {
+        return this.registryName;
     }
 
     protected Class<? extends IEEPlugin<R>> getOwningPlugin() {

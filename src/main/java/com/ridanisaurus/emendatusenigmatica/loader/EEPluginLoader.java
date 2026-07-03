@@ -255,6 +255,10 @@ public class EEPluginLoader {
         return null;
     }
 
+    protected List<EmendatusPluginReference> getRegisteredPlugins() {
+        return this.plugins.stream().map(it -> it.annotation).toList();
+    }
+
     /**
      * Private wrapper of the EEPlugin.
      * @param plugin Plugin object
