@@ -108,7 +108,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
     public Boolean apply(@NotNull ValidationContext ctx) {
         var element = ctx.validationElement();
         if (Objects.isNull(element)) {
-            SummaryHandler.error("This field is required!", getAdditional(ctx), ctx);
+            ctx.error("This field is required!", getAdditional(ctx));
             return false;
         }
 
@@ -127,10 +127,9 @@ public class ProcessedTypesValidator extends ValuesValidator {
 
             // Illegal pairs check.
             if (array.contains(new JsonPrimitive("ingot")) && array.contains(new JsonPrimitive("gem"))) {
-                SummaryHandler.error(
+                ctx.error(
                     "Illegal pair of values found!",
-                    "<code>ingot</code> and <code>gem</code> can't be present in the <code>%s</code> array at the same time!".formatted(ctx.currentPath()),
-                    ctx
+                    "<code>ingot</code> and <code>gem</code> can't be present in the <code>%s</code> array at the same time!".formatted(ctx.currentPath())
                 );
                 return false;
             }
@@ -138,7 +137,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
             return validation;
         }
 
-        SummaryHandler.error("This field requires an array!", ctx);
+        ctx.error("This field requires an array!");
         return false;
     }
 }

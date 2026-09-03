@@ -104,30 +104,27 @@ public class ProcessedTypesContainValidator implements IValidationFunction {
         if (Objects.isNull(ctx.validationElement())) {
             if (mode.isOptional() || !isRequired) return true;
 
-            SummaryHandler.error(
+            ctx.error(
                 "This field is required! Array <code>root.processedTypes</code> contains elements, which make this field necessary.",
                 mode.requiresAllValues() ?
                     "Values: <code>%s</code>".formatted(valuesAsString.get()) : """
                     Expected values: <code>%s</code><br>
-                    Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues)),
-                ctx
+                    Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues))
             );
 
             return false;
         } else if (!isRequired) {
             // For Optional modes - There will never be a non required situation with some value found!
             if (Objects.isNull(foundValues) || foundValues.isEmpty()) {
-                SummaryHandler.warn(
+                ctx.warn(
                     "This field is unnecessary. Array <code>root.processedTypes</code> doesn't contain any elements, which are required for this field to have any effect.",
-                    " Expected values: <code>%s</code>.".formatted(valuesAsString.get()),
-                    ctx
+                    " Expected values: <code>%s</code>.".formatted(valuesAsString.get())
                 );
             } else {
-                SummaryHandler.warn(
+                ctx.warn(
                     "This field is unnecessary. Array <code>root.processedTypes</code> doesn't contain some elements, which are required for this field to have any effect.", """
                         Expected values: <code>%s</code><br>
-                        Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues)),
-                    ctx
+                        Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues))
                 );
             }
         }

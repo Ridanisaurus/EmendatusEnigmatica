@@ -28,11 +28,11 @@ public class SimpleObjectValidator implements IValidationFunction {
         if (ctx.validationElement().isJsonObject()) return true;
 
         if (element.isJsonArray()) {
-            SummaryHandler.error("Arrays are not allowed for this field!", ctx);
+            ctx.error("Arrays are not allowed for this field!");
             return false;
         }
 
-        SummaryHandler.error("This field only accepts an object!", ctx);
+        ctx.error("This field only accepts an object!");
         return false;
     }
 }

@@ -93,17 +93,17 @@ public class EERegistryValidator extends TypeValidator {
         if (!super.validate(ctx)) return false;
         String value = ctx.validationElement().getAsString();
         if (!ResourceLocation.isValidNamespace(value)) {
-            SummaryHandler.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), ctx);
+            ctx.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value));
             return false;
         }
         boolean contains = values.contains(value);
         if (mode == Mode.REFERENCE) {
             if (contains) return true;
-            SummaryHandler.error("Specified ID <code>%s</code> is missing from the%s registry!".formatted(value, name), ctx);
+            ctx.error("Specified ID <code>%s</code> is missing from the%s registry!".formatted(value, name));
             return false;
         }
         if (!contains) return true;
-        SummaryHandler.error("Specified ID <code>%s</code> is already registered!".formatted(value), ctx);
+        ctx.error("Specified ID <code>%s</code> is already registered!".formatted(value));
         return false;
     }
 

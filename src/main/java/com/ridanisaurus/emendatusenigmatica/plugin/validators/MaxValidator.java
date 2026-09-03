@@ -94,7 +94,7 @@ public class MaxValidator extends TypeValidator {
         }
 
         if (maxFieldValue < minFieldValue || maxFieldValue > max) {
-            SummaryHandler.error("Number out of range!", "Expected number from %f to %f, got %f.%s".formatted(minFieldValue, max, maxFieldValue, additional), ctx);
+            ctx.error("Number out of range!", "Expected number from %f to %f, got %f.%s".formatted(minFieldValue, max, maxFieldValue, additional));
             return false;
         }
 

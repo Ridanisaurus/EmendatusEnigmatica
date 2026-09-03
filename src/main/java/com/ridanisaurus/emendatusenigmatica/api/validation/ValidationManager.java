@@ -33,6 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -118,20 +119,7 @@ public class ValidationManager {
      * @return True if validation passes, false otherwise.
      */
     public boolean validate(@NotNull JsonObject object, Path jsonPath) {
-        var path = ValidationHelper.obfuscatePath(jsonPath);
-
-        if (!object.isJsonObject()) {
-            SummaryHandler.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
-            return false;
-        }
-
-        if (object.isEmpty()) {
-            if (!EEConfig.startup.skipEmptyJsons.get()) SummaryHandler.error("Root object is empty!", null, "root", path);
-            return false;
-        }
-
-        // Enters automatic validator execution. After this point, stack-traces are a slight mess!
-        return this.rootValidator.apply(new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get()));
+        validate(object, jsonPath, null);
     }
 
     /**
@@ -141,28 +129,24 @@ public class ValidationManager {
      * @param logHandler Custom LogHandler for this validation run.
      * @return True if validation passes, false otherwise.
      */
-    public boolean validate(@NotNull JsonObject object, Path jsonPath, IValidationLogHandler logHandler) {
+    public boolean validate(@NotNull JsonObject object, Path jsonPath, @Nullable IValidationLogHandler logHandler) {
         var path = ValidationHelper.obfuscatePath(jsonPath);
+        var ctx = Objects.isNull(logHandler)?
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get()):
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), logHandler);
 
         if (!object.isJsonObject()) {
-            SummaryHandler.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
+            ctx.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
             return false;
         }
 
         if (object.isEmpty()) {
-            if (!EEConfig.startup.skipEmptyJsons.get()) SummaryHandler.error("Root object is empty!", null, "root", path);
+            if (!EEConfig.startup.skipEmptyJsons.get()) ctx.error("Root object is empty!", "root", path);
             return false;
         }
 
         // Enters automatic validator execution. After this point, stack-traces are a slight mess!
-        return this.rootValidator.apply(new ValidationContext(
-            object,
-            object,
-            "root",
-            path,
-            ArrayPolicy.DISALLOWS_ARRAYS.get(),
-            Objects.requireNonNull(logHandler, "Custom Log Handler can't be null!")
-        ));
+        return this.rootValidator.apply(ctx);
     }
 
     /**

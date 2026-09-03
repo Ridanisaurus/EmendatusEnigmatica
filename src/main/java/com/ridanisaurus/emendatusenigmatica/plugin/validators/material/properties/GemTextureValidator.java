@@ -62,10 +62,10 @@ public class GemTextureValidator extends NumberRangeValidator {
         if (hasGem && isColorBased) return false;
 
         if (!hasGem)
-            SummaryHandler.warn("This field is unnecessary when <code>gem</code> is missing from the <code>root.processedTypes</code> array.", ctx);
+            ctx.warn("This field is unnecessary when <code>gem</code> is missing from the <code>root.processedTypes</code> array.");
 
         if (!isColorBased)
-            SummaryHandler.warn("This field is unnecessary when the material isn't tint-based.", ctx);
+            ctx.warn("This field is unnecessary when the material isn't tint-based.");
 
         return false;
     }

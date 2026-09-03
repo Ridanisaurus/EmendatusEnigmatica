@@ -58,7 +58,7 @@ public class SuffixValidator extends TypeValidator {
         if (!super.validate(ctx)) return false;
         String value = ctx.validationElement().getAsString();
         if (!ResourceLocation.isValidNamespace(value)) {
-            SummaryHandler.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), ctx);
+            ctx.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value));
             return false;
         }
         //TODO: Rework for new deposit system
@@ -67,7 +67,7 @@ public class SuffixValidator extends TypeValidator {
 //            .getDataRegistry().getStrata()
 //            .stream().filter(it -> it.getSuffix().equals(value))
 //            .findFirst().orElseThrow().getId();
-//        SummaryHandler.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId), data);
+//        ctx.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId));
         return false;
     }
 }
