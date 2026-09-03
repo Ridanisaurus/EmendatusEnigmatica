@@ -76,12 +76,13 @@ public class MaterialModel {
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("strata",				new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		//TODO: Add validation for when source is "vanilla" to enforce vanilla-ids
 		.addValidator("id",					new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.REGISTRATION, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
-		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
+		.addValidator("localizedName",			new TypeValidator(Types.STRING, true))
 		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("tools",				new ToolsFieldValidator())
-		.addValidator("armor",				new ArmorFieldValidator())
+		.addValidator("tools",					new ToolsFieldValidator())
+		.addValidator("armor",					new ArmorFieldValidator())
 		.addValidator("oreDrop",				new OreDropValidator())
 		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))

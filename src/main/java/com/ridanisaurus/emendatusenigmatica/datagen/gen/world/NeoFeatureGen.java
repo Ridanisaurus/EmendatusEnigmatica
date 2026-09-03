@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
-import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;

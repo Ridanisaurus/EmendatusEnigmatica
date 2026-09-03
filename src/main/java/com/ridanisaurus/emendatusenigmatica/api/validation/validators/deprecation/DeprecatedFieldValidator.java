@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractBasicValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AcceptsAllValidator;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
@@ -61,13 +61,13 @@ public class DeprecatedFieldValidator extends AbstractBasicValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link DeprecatedFieldValidator#apply(ValidationData)} instead!
-     * @implSpec Take a note that the {@link ValidationData#validationElement()} will never return null.
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link DeprecatedFieldValidator#apply(ValidationContext)} instead!
+     * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         DeprecationAnalytics.increaseDeprecated();
         if (Analytics.isEnabled()) {
             String msg = null;

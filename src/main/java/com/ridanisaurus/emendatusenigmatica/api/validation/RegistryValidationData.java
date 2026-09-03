@@ -26,5 +26,5 @@ package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import net.minecraft.resources.ResourceLocation;
 
-public record RegistryValidationData(ResourceLocation location, ValidationData validationData) {
+public record RegistryValidationData(ResourceLocation location, ValidationContext validationContext) {
 }

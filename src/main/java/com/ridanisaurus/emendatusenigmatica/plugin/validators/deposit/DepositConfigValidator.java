@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
 import com.google.gson.JsonElement;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
@@ -60,13 +60,13 @@ public class DepositConfigValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationData)} instead!
-     * @implSpec Take a note that the {@link ValidationData#validationElement()} will never return null.
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationContext)} instead!
+     * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         JsonElement typeElement = data.getParentFieldAs(Types.STRING, "type");
         if (typeElement == null) return false;
         var validator = DEPOSIT_VALIDATORS.get(typeElement.getAsString());

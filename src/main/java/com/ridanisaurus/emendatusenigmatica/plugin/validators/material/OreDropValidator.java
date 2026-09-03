@@ -27,7 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialOreDropModel;
@@ -49,11 +49,11 @@ public class OreDropValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(ValidationData data) {
+    public Boolean apply(ValidationContext data) {
         JsonElement types = ValidationHelper.getElementFromPath(data.rootObject(), "root.processedTypes");
         boolean hasOre = false;
         boolean hasGem = false;

@@ -25,9 +25,8 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -39,17 +38,17 @@ import java.util.Objects;
  * to have the basic functions already implemented and ready-to-go.
  * <br><br>
  * This validator handles the field requirement and checks the compliance with the {@link ArrayHandlingPolicy},
- * and if the element passes, calls the abstract {@link AbstractValidator#validate(ValidationData)} method.
+ * and if the element passes, calls the abstract {@link AbstractValidator#validate(ValidationContext)} method.
  * @implNote  Even tho this validator could be easily done to accept arrays of arrays... - the codecs are not created with such fields in mind!
  * Due to that limitation, this validator will issue errors if an array is found inside another array.<br>
- * @apiNote  This validator doesn't pass an entire array to the {@link AbstractValidator#validate(ValidationData)} method, only elements found inside it.
+ * @apiNote  This validator doesn't pass an entire array to the {@link AbstractValidator#validate(ValidationContext)} method, only elements found inside it.
  * If your validator requires access to the entire array, use {@link AbstractBasicValidator} instead.
  */
 public abstract class AbstractValidator implements IValidationFunction {
     private final boolean isRequired;
 
     /**
-     * Constructs AbstractValidator, which requires implementation of {@link AbstractValidator#validate(ValidationData)} method.
+     * Constructs AbstractValidator, which requires implementation of {@link AbstractValidator#validate(ValidationContext)} method.
      * @param isRequired Determines if the field is required. If true, an error will be issued if the field is missing.
      * @see AbstractValidator Documentation of the validator.
      */
@@ -59,11 +58,11 @@ public abstract class AbstractValidator implements IValidationFunction {
 
     /**
      * Entry point of the validator.
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationData data) {
+    public Boolean apply(@NotNull ValidationContext data) {
         boolean requirement = isRequired(data);
         var element = data.validationElement();
         if (Objects.isNull(element)) {
@@ -81,7 +80,7 @@ public abstract class AbstractValidator implements IValidationFunction {
             int index = 0;
             boolean validation = true;
             for (JsonElement entry : element.getAsJsonArray()) {
-                if (!this.validate(new ValidationData(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
+                if (!this.validate(new ValidationContext(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
                     validation = false;
                 index++;
             }
@@ -102,11 +101,11 @@ public abstract class AbstractValidator implements IValidationFunction {
 
     /**
      * Method used to determine if the validator is required on runtime.
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
-    public boolean isRequired(@NotNull ValidationData data) {
+    public boolean isRequired(@NotNull ValidationContext data) {
         return isRequired;
     }
 
@@ -114,17 +113,17 @@ public abstract class AbstractValidator implements IValidationFunction {
      * Method used to provide additional field for the "This field is required!" error.
      * @return String with an additional message or null.
      */
-    public String getAdditional(@NotNull ValidationData data) {
+    public String getAdditional(@NotNull ValidationContext data) {
         return null;
     }
 
     /**
      * Validate method, used to validate passed in object.
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationData)} instead!
-     * @implSpec Take a note that the {@link ValidationData#validationElement()} will never return null.
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationContext)} instead!
+     * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @ApiStatus.Internal
-    public abstract Boolean validate(@NotNull ValidationData data);
+    public abstract Boolean validate(@NotNull ValidationContext data);
 }

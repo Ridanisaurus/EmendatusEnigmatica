@@ -29,7 +29,7 @@ import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
 import com.ridanisaurus.emendatusenigmatica.api.BasicEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
@@ -38,11 +38,8 @@ import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataGenerator;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 

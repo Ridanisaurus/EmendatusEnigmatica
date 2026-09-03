@@ -26,8 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
@@ -73,7 +72,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
         "chestplate",
         "leggings",
         "boots",
-        //TODO: Move to the addons. Somehow
+        //TODO: Move to the addons.
         "dirty_dust",
         "crushed_ore"
     ));
@@ -101,12 +100,12 @@ public class ProcessedTypesValidator extends ValuesValidator {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      * @implSpec Modified copy of {@link AbstractValidator} impl.
      */
     @Override
-    public Boolean apply(@NotNull ValidationData data) {
+    public Boolean apply(@NotNull ValidationContext data) {
         var element = data.validationElement();
         if (Objects.isNull(element)) {
             Analytics.error("This field is required!", getAdditional(data), data);
@@ -122,7 +121,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
             boolean validation = true;
             var array = element.getAsJsonArray();
             for (JsonElement entry : array) {
-                if (!this.validate(new ValidationData(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
+                if (!this.validate(new ValidationContext(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
                     validation = false;
             }
 

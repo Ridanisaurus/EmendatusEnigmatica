@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import org.jetbrains.annotations.ApiStatus.Experimental;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,15 +49,15 @@ public class RequiredValidator extends AbstractBasicValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly!
-     * Call {@link RequiredValidator#apply(ValidationData)} instead!
+     * Call {@link RequiredValidator#apply(ValidationContext)} instead!
      * @implNote This acts like {@link AcceptsAllValidator}, meaning it only returns {@code true}.
      */
     @Override
     @Experimental
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         return true;
     }
 }

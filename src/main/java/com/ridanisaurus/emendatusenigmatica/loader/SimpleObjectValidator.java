@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 
@@ -18,11 +18,11 @@ public class SimpleObjectValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(ValidationData data) {
+    public Boolean apply(ValidationContext data) {
         var element = data.validationElement();
         if (Objects.isNull(element)) return true;
         if (data.validationElement().isJsonObject()) return true;

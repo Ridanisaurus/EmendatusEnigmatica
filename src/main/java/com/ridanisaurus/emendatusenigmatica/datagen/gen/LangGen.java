@@ -118,20 +118,6 @@ public class LangGen extends EELangProvider {
 		add("emendatusenigmatica.config.client.old_glint.tooltip", "Should EE Armor and Tools have increased (old style) Glint Strength.");
 		add("emendatusenigmatica.config.client.show_reward", "Show Patreon Reward");
 		add("emendatusenigmatica.config.client.show_reward.tooltip", "Should EE render a Felinium Jeminite, the token of appreciation, above Patreons' heads.");
-		//TODO: Remove when old config screen gets fully removed.
-		add("emendatusenigmatica.screen.config.title", "Emendatus Enigmatica Configuration");
-		add("emendatusenigmatica.screen.config.enabled", "Enabled");
-		add("emendatusenigmatica.screen.config.disabled", "Disabled");
-		add("emendatusenigmatica.screen.config.client.title", "Client Configuration");
-		add("emendatusenigmatica.screen.config.client.patreon.text", "Show Patreon Reward");
-		add("emendatusenigmatica.screen.config.client.patreon.tip", "When enabled, renders the Token of Appreciation above heads of the EE Patreons.");
-		add("emendatusenigmatica.screen.config.client.glint.text", "Increase Armor Glint Strength");
-		add("emendatusenigmatica.screen.config.client.glint.tip", "When enabled, returns to the old strength of Glint on armor.");
-		add("emendatusenigmatica.screen.config.validation.title", "Validation Configuration");
-		add("emendatusenigmatica.screen.config.validation.summary.text", "Generate config loading summary");
-		add("emendatusenigmatica.screen.config.validation.summary.tip", "When enabled, will generate a MarkDown formatted document on boot, with the summary from the loading and validation stage of the configs.");
-		add("emendatusenigmatica.screen.config.validation.empty_files.text", "Skip empty Json Files");
-		add("emendatusenigmatica.screen.config.validation.empty_files.tip", "When enabled, will cause EE to silently skip empty JSON files on loading, removing errors generated in the summary.");
 
 		for (MaterialModel material : registry.getRegisteredMaterials()) {
 			List<String> processedType = material.getProcessedTypes();

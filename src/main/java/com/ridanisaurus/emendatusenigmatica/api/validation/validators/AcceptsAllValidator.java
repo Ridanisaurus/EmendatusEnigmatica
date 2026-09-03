@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 
 /**
  * This validator accepts *any value* in *any format*. Essentially it just returns true.
@@ -40,7 +40,7 @@ public class AcceptsAllValidator implements IValidationFunction {
     public AcceptsAllValidator() {}
 
     @Override
-    public Boolean apply(ValidationData validationData) {
+    public Boolean apply(ValidationContext validationContext) {
         return true;
     }
 }

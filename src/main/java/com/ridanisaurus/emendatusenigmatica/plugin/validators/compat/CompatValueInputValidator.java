@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.compat;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
@@ -50,25 +50,25 @@ public class CompatValueInputValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link CompatValueInputValidator#apply(ValidationData)} instead!
-     * @implSpec Take a note that the {@link ValidationData#validationElement()} will never return null.
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link CompatValueInputValidator#apply(ValidationContext)} instead!
+     * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         return VALIDATION_FUNCTION.validate(data);
     }
 
     /**
      * Method used to determine if the validator is required on runtime.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
     @Override
-    public boolean isRequired(@NotNull ValidationData data) {
+    public boolean isRequired(@NotNull ValidationContext data) {
         var mainPath = StringUtils.substringBeforeLast(data.getParentPath(), ".");
         var modElement = ValidationHelper.getElementFromPathAs(data.rootObject(), mainPath + ".mod", Types.STRING);
         var machineElement = ValidationHelper.getElementFromPathAs(data.rootObject(), mainPath + ".machine", Types.STRING);
@@ -96,7 +96,7 @@ public class CompatValueInputValidator extends AbstractValidator {
      * @return String with an additional message or null.
      */
     @Override
-    public String getAdditional(@NotNull ValidationData data) {
+    public String getAdditional(@NotNull ValidationContext data) {
         return "Scenarios when this field is required can be found at the end of this file.";
     }
 }

@@ -26,8 +26,8 @@ package com.ridanisaurus.emendatusenigmatica.util.analytics;
 
 import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.StringUtils;
@@ -122,11 +122,11 @@ public class Analytics {
     /**
      * Used to add warn messages for specified file.
      * @param msg Message to add
-     * @param data ValidationData, from which all necessary information will be taken.
+     * @param data ValidationContext, from which all necessary information will be taken.
      * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
      * @see Analytics#isFinalized()
      */
-    public static void warn(String msg, @NotNull ValidationData data) {
+    public static void warn(String msg, @NotNull ValidationContext data) {
         warn(msg, null, data.currentPath(), data.jsonFilePath());
     }
 
@@ -134,11 +134,11 @@ public class Analytics {
      * Used to add warn messages for specified file.
      * @param msg Message to add
      * @param additional Additional details to be printed after "message". This gets written directly into the file!
-     * @param data ValidationData, from which all necessary information will be taken.
+     * @param data ValidationContext, from which all necessary information will be taken.
      * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
      * @see Analytics#isFinalized()
      */
-    public static void warn(String msg, String additional, @NotNull ValidationData data) {
+    public static void warn(String msg, String additional, @NotNull ValidationContext data) {
         warn(msg, additional, data.currentPath(), data.jsonFilePath());
     }
 
@@ -172,11 +172,11 @@ public class Analytics {
     /**
      * Used to add error messages for specified file.
      * @param msg Message to add.
-     * @param data ValidationData, from which all necessary information will be taken.
+     * @param data ValidationContext, from which all necessary information will be taken.
      * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
      * @see Analytics#isFinalized()
      */
-    public static void error(String msg, @NotNull ValidationData data) {
+    public static void error(String msg, @NotNull ValidationContext data) {
         error(msg, null, data.currentPath(), data.jsonFilePath());
     }
 
@@ -184,11 +184,11 @@ public class Analytics {
      * Used to add error messages for specified file.
      * @param msg Message to add.
      * @param additional Additional details to be printed after "cause". This gets written directly into the file!
-     * @param data ValidationData, from which all necessary information will be taken.
+     * @param data ValidationContext, from which all necessary information will be taken.
      * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
      * @see Analytics#isFinalized()
      */
-    public static void error(String msg, @Nullable String additional, @NotNull ValidationData data) {
+    public static void error(String msg, @Nullable String additional, @NotNull ValidationContext data) {
         error(msg, additional, data.currentPath(), data.jsonFilePath());
     }
 

@@ -94,6 +94,8 @@ public class EEDataGenerator extends DataGenerator {
                 ImmediateWindowHandler.renderTick();
             } while (!dataGenExecutor.awaitTermination(50, TimeUnit.MILLISECONDS));
 
+            bar.complete();
+
             for (Future<?> future : futures) {
                 switch (future.state()) {
                     case RUNNING -> throw new IllegalStateException("Data Provider still running, after executor terminated!");
@@ -103,8 +105,6 @@ public class EEDataGenerator extends DataGenerator {
                 }
             }
 
-            bar.complete();
-
             CompletableFuture<Void> saveIO = CompletableFuture.runAsync(() -> {
                 try {
                     cache.purgeStaleAndWrite();
@@ -113,7 +113,8 @@ public class EEDataGenerator extends DataGenerator {
                 }
             }, Util.ioPool());
             ModLoader.waitForTask("Emendatus Enigmatica: Saving generated data", ImmediateWindowHandler::renderTick, saveIO);
-            String msg = "EE Data Generation finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
+            sMain.stop();
+            String msg = "Emendatus Enigmatica: Setup finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
             StartupNotificationManager.addModMessage(msg);
             logger.info(msg);
             Analytics.addPerformanceAnalytic("Data Generation", sMain);

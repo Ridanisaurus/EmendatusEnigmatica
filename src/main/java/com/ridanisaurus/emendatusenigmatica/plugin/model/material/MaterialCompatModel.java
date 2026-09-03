@@ -32,8 +32,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValida
 
 import java.util.Optional;
 
-//TODO: Figure out how to create the CODEC dynamically, to allow for adding custom addons here.
-// Figure out if this shouldn't be deprecated as well?
 @Deprecated(since = "2.2.0-Alpha-1", forRemoval = true)
 public class MaterialCompatModel {
 	public static final Codec<MaterialCompatModel> CODEC = RecordCodecBuilder.create(x -> x.group(

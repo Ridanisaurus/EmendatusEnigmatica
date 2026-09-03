@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.MultiValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
@@ -77,12 +77,12 @@ public class DeprecatedValueValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationData)} instead!
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         // Modified code of TypeValidator, so no duplicate-errors will be generated when this validator is used.
         var element = data.validationElement();
         if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isString()) return false;

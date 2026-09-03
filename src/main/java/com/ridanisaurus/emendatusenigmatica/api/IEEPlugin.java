@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api;
 
-import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;

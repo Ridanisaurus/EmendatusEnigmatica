@@ -41,14 +41,14 @@ public class RegistryValidationManager {
     /**
      * Used to execute Post-Registration validation, checking if specified Resource Locations point to valid registry objects.
      * @return False if at least one fatal error is found, true otherwise.
-     * @implNote This will clear references to the ValidationData objects after execution!
+     * @implNote This will clear references to the ValidationContext objects after execution!
      */
     public static boolean validate() {
         //TODO: Run in parallel.
         Stopwatch s = Stopwatch.createStarted();
         AtomicBoolean result = new AtomicBoolean(true);
         validators.forEach((validator, list) -> list.forEach(registryData -> {
-            var data = registryData.validationData();
+            var data = registryData.validationContext();
             switch (validator.validate(registryData)) {
                 case PASS -> {
                     // Nothing, it passed successfully.
@@ -60,7 +60,7 @@ public class RegistryValidationManager {
                 }
             }
         }));
-        // Clearing validator's map, which holds references to the ValidationData objects.
+        // Clearing validator's map, which holds references to the ValidationContext objects.
         validators.clear();
         Analytics.addPerformanceAnalytic("Validation: Registry", s);
         return result.get();

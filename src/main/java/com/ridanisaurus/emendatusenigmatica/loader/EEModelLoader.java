@@ -86,8 +86,8 @@ public class EEModelLoader {
                 - "{}" > "{}" --> "{}"
                 """,
                 currentPlugin.name(), it.getOwningAnnotation().name(),
-                currentPlugin.name(), path, definition.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s)".formatted(currentPlugin.name())),
-                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s)".formatted(it.getOwningAnnotation().name()))
+                currentPlugin.name(), path, definition.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s %s)".formatted(currentPlugin.name(), definition.getRegistryName())),
+                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s %s)".formatted(it.getOwningAnnotation().name(), it.getRegistryName()))
         ));
 
         if (definition.validator().getRegisteredFields().contains("extensionOverrides"))
@@ -120,14 +120,12 @@ public class EEModelLoader {
         ) throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" is already registered."
             .formatted(extension.getExtendedDefinition().getRegistryName(), extension.getRegistryName(), currentPlugin.name()));
 
-        if (extension.getRootValidator().getRegisteredFields().contains("extensionOverrides"))
-            throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!"
-                .formatted(extension.getExtendedDefinition().getRegistryName(), extension.getRegistryName(), currentPlugin.name()
+        if (Objects.nonNull(extension.getRootValidator())) {
+            if (extension.getRootValidator().getRegisteredFields().contains("extensionOverrides"))
+                throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!"
+                    .formatted(extension.getExtendedDefinition().getRegistryName(), extension.getRegistryName(), currentPlugin.name()
             ));
 
-        extensions.add(extension);
-
-        if (Objects.nonNull(extension.getRootValidator())) {
             var baseValidator = extension.getExtendedDefinition().validator();
             var baseFields = baseValidator.getRegisteredFields();
             var extValidator = extension.getRootValidator();
@@ -139,6 +137,8 @@ public class EEModelLoader {
             for (String field : baseFields)
                 if (!extFields.contains(field)) extValidator.addValidator(field, new AcceptsAllValidator());
         }
+
+        extensions.add(extension);
 
         logger.info(
             "Registered new Model Definition Extension \"{}\" from plugin \"{}\" for model \"{}\".",
@@ -199,7 +199,8 @@ public class EEModelLoader {
                 definition.validator().addValidator("extensionOverrides", overridesField.getAsValidator(false), ArrayPolicy.DISALLOWS_ARRAYS.getNonEmpty());
                 for (EEModelExtension<?,?,?,?> extension : registry.get(definition)) {
                     overridesField.addValidator(extension.getExtensionOverrideField(), SimpleObjectValidator.INSTANCE);
-                    extension.getRootValidator().addValidator("extensionOverrides", new AcceptsAllValidator());
+                    if (Objects.nonNull(extension.getRootValidator()))
+                        extension.getRootValidator().addValidator("extensionOverrides", new AcceptsAllValidator());
                 }
 
                 var jsons = FileHelper.loadJsonsWithPaths(path);
@@ -218,7 +219,7 @@ public class EEModelLoader {
                             var extObject = handleOverrides(extension, object, jsonPath);
                             if (Objects.isNull(extObject)) continue;
                             if (!extension.validate(extObject, jsonPath)) continue;
-                            var extensionModel = extension.serialize(object);
+                            var extensionModel = extension.serialize(extObject);
                             if (Objects.isNull(extensionModel)) continue;
                             extension.genericRegister(model, extensionModel, definitionRegistry, pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
@@ -252,7 +253,7 @@ public class EEModelLoader {
         if (!extension
             .getExtendedDefinition()
             .validator()
-            .validate(ret, jsonPath.getParent().resolve(jsonPath.getFileName() + " (%s)".formatted(extension.getExtensionOverrideField())))
+            .validate(ret, jsonPath.getParent().resolve("%s (%s)".formatted(jsonPath.getFileName(), extension.getExtensionOverrideField())))
         ) return null;
 
         return ret;

@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators;
 
 import com.google.gson.JsonElement;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
@@ -81,7 +81,7 @@ public class MaxValidator extends TypeValidator {
     }
 
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         if (!super.validate(data)) return false;
         double maxFieldValue = data.validationElement().getAsDouble();
         double minFieldValue = min;

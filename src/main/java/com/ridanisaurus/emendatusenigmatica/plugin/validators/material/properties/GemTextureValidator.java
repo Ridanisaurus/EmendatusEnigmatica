@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.properties;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
@@ -49,12 +49,12 @@ public class GemTextureValidator extends NumberRangeValidator {
     /**
      * Method used to determine if the validator is required on runtime.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
     @Override
-    public boolean isRequired(@NotNull ValidationData data) {
+    public boolean isRequired(@NotNull ValidationContext data) {
         if (Objects.isNull(data.validationElement()) || !Analytics.isEnabled()) return false;
         boolean hasGem = ValidationHelper.doesArrayContain(data.rootObject(), "root.processedTypes", value);
         boolean isColorBased = ValidationHelper.isOtherFieldPresent(data.rootObject(), "root.colors.materialColor");

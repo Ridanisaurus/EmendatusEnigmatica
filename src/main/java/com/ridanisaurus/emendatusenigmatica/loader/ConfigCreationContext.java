@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.api.config;
+package com.ridanisaurus.emendatusenigmatica.loader;
 
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -15,7 +15,7 @@ public class ConfigCreationContext {
         this.type = Objects.requireNonNull(type);
     }
 
-    public ConfigCreationContext setAddon(String name) {
+    ConfigCreationContext setAddon(String name) {
         if (Objects.nonNull(addonName)) builder.pop();
         addonName = Objects.requireNonNull(name, "Addon name can't be null!");
         builder.push(name);

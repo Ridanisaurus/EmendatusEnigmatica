@@ -25,12 +25,11 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 
-public record ValidatorHolder(Function<ValidationData, Boolean> validator, ArrayHandlingPolicy arrayPolicy) {
-    public boolean validate(@NotNull ValidationData dataHolder) {
+public record ValidatorHolder(Function<ValidationContext, Boolean> validator, ArrayHandlingPolicy arrayPolicy) {
+    public boolean validate(@NotNull ValidationContext dataHolder) {
         return this.validator.apply(dataHolder);
     }
 }

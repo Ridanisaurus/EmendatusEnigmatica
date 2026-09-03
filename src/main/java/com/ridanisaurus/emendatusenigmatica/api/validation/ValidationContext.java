@@ -43,7 +43,7 @@ import org.jetbrains.annotations.Nullable;
  * @param arrayPolicy Field's {@link ArrayHandlingPolicy}.
  * @implSpec Please do not store any reference to this object outside the validation method.
  */
-public record ValidationData(
+public record ValidationContext(
     JsonElement validationElement,
     @NotNull JsonObject rootObject,
     @NotNull String currentPath,
@@ -59,10 +59,10 @@ public record ValidationData(
      * @param jsonFilePath Path to the json file, obfuscated.
      * @param arrayPolicy Legacy reference to {@link ArrayPolicy}
      * @implSpec Please do not store any reference to this object outside the validation method.
-     * @deprecated Legacy ArrayPolicy method. Consider using updated {@link ValidationData ArrayHandlingPolicy constructor}.
+     * @deprecated Legacy ArrayPolicy method. Consider using updated {@link ValidationContext ArrayHandlingPolicy constructor}.
      */
     @Deprecated
-    public ValidationData(
+    public ValidationContext(
         JsonElement validationElement,
         @NotNull JsonObject rootObject,
         @NotNull String currentPath,
@@ -73,16 +73,16 @@ public record ValidationData(
     }
 
     /**
-     * Utility method to get ValidationData from previous data, but with updated information for another field of the object.
+     * Utility method to get ValidationContext from previous data, but with updated information for another field of the object.
      * @param field Field name to base the information update on.
      * @param arrayPolicy ArrayPolicy of that field.
-     * @return ValidationData with validationElement and currentPath updated.
+     * @return ValidationContext with validationElement and currentPath updated.
      * @throws IllegalArgumentException when validationElement of previous data is not a JsonObject!
      */
     @Contract("_, _ -> new")
-    public @NotNull ValidationData getWithField(String field, ArrayHandlingPolicy arrayPolicy) {
+    public @NotNull ValidationContext getWithField(String field, ArrayHandlingPolicy arrayPolicy) {
         if (!this.validationElement.isJsonObject()) throw new IllegalArgumentException("ValidationElement is not a json object! Requested field: " + field + " | Old Data: " + this);
-        return new ValidationData(
+        return new ValidationContext(
             this.validationElement.getAsJsonObject().get(field),
             this.rootObject,
             this.currentPath + "." + field,

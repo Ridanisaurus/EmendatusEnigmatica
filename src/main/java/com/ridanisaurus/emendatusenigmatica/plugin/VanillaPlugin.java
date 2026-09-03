@@ -2,7 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.api.config.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
 import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
@@ -32,6 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.HolderLookup;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")
@@ -70,8 +71,8 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
     @Override
     public void setup(SetupContext ctx) {
         var loader = ctx.modelLoader();
-        loader.registerDefinition(MATERIAL_DEFINITION);
         loader.registerDefinition(STRATA_DEFINITION);
+        loader.registerDefinition(MATERIAL_DEFINITION);
         loader.registerDefinition(DEPOSIT_DEFINITION);
 
         loader.registerModelExtension(new EEModelExtension<>(
@@ -276,10 +277,15 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
                 EERegistrar.registerClusterShards(material);
             }
 
-            for (StrataModel strata : registry.getRegisteredStrata()) {
-                if (types.contains("ore")) {
-                    if (material.getStrata().isEmpty() || material.getStrata().contains(strata.getId()))
-                        EERegistrar.registerOre(strata, material);
+            if (types.contains("ore")) {
+                List<StrataModel> stratas = material.getStrata().isEmpty()?
+                    registry.getRegisteredStrata():
+                    material.getStrata().stream()
+                        .map(registry::getStrataModel)
+                        .toList();
+                
+                for (StrataModel strata : stratas) {
+                    EERegistrar.registerOre(strata, material);
 
                     //TODO: Rework Sample System.
 //                    if (types.contains("sample")) {

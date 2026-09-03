@@ -1,7 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
 import com.google.gson.JsonObject;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
@@ -50,6 +50,6 @@ public class DepositValidationManager extends ValidationManager {
             return false;
         }
 
-        return this.rootValidator.apply(new ValidationData(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
+        return this.rootValidator.apply(new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
     }
 }

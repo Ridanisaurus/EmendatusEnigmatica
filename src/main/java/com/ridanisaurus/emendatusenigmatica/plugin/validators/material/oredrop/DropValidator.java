@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.oredrop;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.ItemRegistryValidator;
@@ -47,12 +47,12 @@ public class DropValidator extends ResourceLocationValidator {
     /**
      * Method used to determine if the validator is required on runtime.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
     @Override
-    public boolean isRequired(@NotNull ValidationData data) {
+    public boolean isRequired(@NotNull ValidationContext data) {
         JsonElement types = ValidationHelper.getElementFromPath(data.rootObject(), "root.processedTypes");
         boolean hasOre = false;
         boolean hasGem = false;
@@ -74,7 +74,7 @@ public class DropValidator extends ResourceLocationValidator {
      * @return String with an additional message or null.
      */
     @Override
-    public String getAdditional(@NotNull ValidationData data) {
+    public String getAdditional(@NotNull ValidationContext data) {
         return "Array <code>root.processedTypes</code> contains an element <code>ore</code> and misses <code>gem, raw</code>, which makes this field necessary.";
     }
 }

@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.AbstractRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationData;
@@ -106,12 +106,12 @@ public class ResourceLocationValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
-     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ResourceLocationValidator#apply(ValidationData)} instead!
+     * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ResourceLocationValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationData data) {
+    public Boolean validate(@NotNull ValidationContext data) {
         if (!super.validate(data)) return false;
 
         // Design note

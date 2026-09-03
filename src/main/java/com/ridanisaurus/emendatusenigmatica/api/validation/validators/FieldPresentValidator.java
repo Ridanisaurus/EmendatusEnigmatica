@@ -24,9 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,11 +54,11 @@ public class FieldPresentValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationData data) {
+    public Boolean apply(@NotNull ValidationContext data) {
         boolean isRequired = ValidationHelper.isOtherFieldPresent(data.rootObject(), path.startsWith("root")? path: data.getParentFieldPath(path));
         if (Objects.isNull(data.validationElement())) {
             if (!isRequired) return true;

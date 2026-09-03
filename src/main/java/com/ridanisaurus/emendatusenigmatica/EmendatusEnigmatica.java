@@ -91,35 +91,35 @@ public class EmendatusEnigmatica {
     ));
 
     public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) throws ExecutionException, InterruptedException {
-        instance = this;
-        VERSION = modContainer.getModInfo().getVersion().toString();
-        Analytics.setup();
+            instance = this;
+            VERSION = modContainer.getModInfo().getVersion().toString();
+            Analytics.setup();
 
-        DataGeneratorFactory.init();
-        this.generator = DataGeneratorFactory.createEEDataGenerator();
+            DataGeneratorFactory.init();
+            this.generator = DataGeneratorFactory.createEEDataGenerator();
+    
+            this.pluginLoader = new EEPluginLoader();
+            this.modelLoader = new EEModelLoader();
+            Analytics.registerAddon(new AddonInfoAnalytics(this.pluginLoader, this.modelLoader));
+            EEConfig.setupConfigs(modContainer, pluginLoader);
+            this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
+            this.pluginLoader.load(modelLoader);
 
-        this.pluginLoader = new EEPluginLoader();
-        this.modelLoader = new EEModelLoader();
-        Analytics.registerAddon(new AddonInfoAnalytics(this.pluginLoader, this.modelLoader));
-        EEConfig.setupConfigs(modContainer, pluginLoader);
-        this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
-        this.pluginLoader.load(modelLoader);
+            EERegistrar.finalize(modEventBus);
+            CREATIVE_MODE_TABS.register(modEventBus);
 
-        EERegistrar.finalize(modEventBus);
-        CREATIVE_MODE_TABS.register(modEventBus);
+            this.pluginLoader.registerDataGen(this.generator);
+            this.pluginLoader.finish();
 
-        this.pluginLoader.registerDataGen(this.generator);
-        this.pluginLoader.finish();
-
-        // Creative Tab Item Registration.
-        modEventBus.addListener(this::populateCreativeTab);
-        // Virtual ResourcePack
-        modEventBus.addListener(this::addPackFinder);
-        // Generator check, we can't launch the game if the generator wasn't executed!
-        modEventBus.addListener(this::clientDataGenCheck);
-        NeoForge.EVENT_BUS.addListener(this::serverDataGenCheck);
-        // Registry Validation
-        modEventBus.addListener(this::commonSetup);
+            // Creative Tab Item Registration.
+            modEventBus.addListener(this::populateCreativeTab);
+            // Virtual ResourcePack
+            modEventBus.addListener(this::addPackFinder);
+            // Generator check, we can't launch the game if the generator wasn't executed!
+            modEventBus.addListener(this::clientDataGenCheck);
+            NeoForge.EVENT_BUS.addListener(this::serverDataGenCheck);
+            // Registry Validation
+            modEventBus.addListener(this::commonSetup);
     }
 
     public static EmendatusEnigmatica getInstance() {

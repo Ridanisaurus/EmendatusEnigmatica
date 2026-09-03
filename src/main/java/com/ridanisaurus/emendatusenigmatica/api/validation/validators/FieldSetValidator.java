@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
@@ -81,11 +81,11 @@ public class FieldSetValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationData data) {
+    public Boolean apply(@NotNull ValidationContext data) {
         JsonElement stringField;
         String stringFieldPath;
         if (field.startsWith("root")) {
@@ -123,7 +123,7 @@ public class FieldSetValidator implements IValidationFunction {
                 data
             );
         else if (!optional)
-            return validator.apply(new ValidationData(
+            return validator.apply(new ValidationContext(
                 data.validationElement(),
                 data.rootObject(),
                 data.currentPath(),

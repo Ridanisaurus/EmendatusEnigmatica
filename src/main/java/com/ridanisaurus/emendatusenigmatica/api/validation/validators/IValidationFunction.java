@@ -24,18 +24,18 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.function.Function;
 
 @ApiStatus.Experimental
-public interface IValidationFunction extends Function<ValidationData, Boolean> {
+public interface IValidationFunction extends Function<ValidationContext, Boolean> {
     /**
      * Entry point of the validator.
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    Boolean apply(ValidationData data);
+    Boolean apply(ValidationContext data);
 }

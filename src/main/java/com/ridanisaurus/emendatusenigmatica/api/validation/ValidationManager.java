@@ -35,10 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import com.google.gson.JsonObject;
 
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
@@ -99,7 +96,7 @@ import java.util.function.Function;
  * @see ValidationHelper Validation Utility class.
  */
 public class ValidationManager {
-    protected final Map<String, ValidatorHolder> validators = new HashMap<>();
+    protected final Map<String, ValidatorHolder> validators = new LinkedHashMap<>();
     protected final ObjectValidator rootValidator = new ObjectValidator( this, true, true);
     protected ValidationManager() {}
 
@@ -134,7 +131,7 @@ public class ValidationManager {
         }
 
         // Enters automatic validator execution. After this point, stack-traces are a slight mess!
-        return this.rootValidator.apply(new ValidationData(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
+        return this.rootValidator.apply(new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS));
     }
 
     /**
@@ -162,7 +159,7 @@ public class ValidationManager {
      * @return {@code this} instance of the {@link ValidationManager}
      */
     @CanIgnoreReturnValue
-    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator, @NotNull ArrayHandlingPolicy arrayPolicy) {
+    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationContext, Boolean> validator, @NotNull ArrayHandlingPolicy arrayPolicy) {
         this.validators.put(
             Objects.requireNonNull(field, "Field name can't be null!"),
             new ValidatorHolder(
@@ -183,7 +180,7 @@ public class ValidationManager {
      */
     @CanIgnoreReturnValue
     @Deprecated
-    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator, @NotNull ArrayPolicy arrayPolicy) {
+    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationContext, Boolean> validator, @NotNull ArrayPolicy arrayPolicy) {
         return addValidator(field, validator, arrayPolicy.get());
     }
 
@@ -195,7 +192,7 @@ public class ValidationManager {
      * @return {@code this} instance of the {@link ValidationManager}
      */
     @CanIgnoreReturnValue
-    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationData, Boolean> validator) {
+    public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationContext, Boolean> validator) {
         return this.addValidator(field, validator, ArrayPolicy.DISALLOWS_ARRAYS.get());
     }
 
@@ -226,11 +223,11 @@ public class ValidationManager {
         /**
          * Entry point of the validator.
          *
-         * @param data ValidationData record with necessary information to validate the element.
+         * @param data ValidationContext record with necessary information to validate the element.
          * @return True if the validation passes, false otherwise.
          */
         @Override
-        public Boolean apply(@NotNull ValidationData data) {
+        public Boolean apply(@NotNull ValidationContext data) {
             // If we validate the root element, null checks and array checks are not required,
             // as those are handled by the manager.
             if (isRootValidator) return validate(data);
@@ -240,12 +237,12 @@ public class ValidationManager {
         /**
          * Validate method, used to validate passed in object.
          *
-         * @param data ValidationData record with necessary information to validate the element.
+         * @param data ValidationContext record with necessary information to validate the element.
          * @return True of the validation passes, false otherwise.
-         * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ObjectValidator#apply(ValidationData)} instead!
+         * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ObjectValidator#apply(ValidationContext)} instead!
          */
         @Override
-        public Boolean validate(@NotNull ValidationData data) {
+        public Boolean validate(@NotNull ValidationContext data) {
             var element = data.validationElement();
             var path = data.currentPath();
             var jsonPath = data.jsonFilePath();

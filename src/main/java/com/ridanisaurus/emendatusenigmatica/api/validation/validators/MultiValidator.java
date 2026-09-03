@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,28 +37,28 @@ import java.util.function.Function;
  * @apiNote Take a note that, while handy, this should not be used whenever possible.
  */
 public class MultiValidator implements IValidationFunction {
-    private final List<Function<ValidationData, Boolean>> validators = new ArrayList<>();
+    private final List<Function<ValidationContext, Boolean>> validators = new ArrayList<>();
 
     /**
      * Constructs MultiValidator, with validators specified.
      * @param validators Validators to execute for this field, in parallel.
      */
     @SafeVarargs
-    public MultiValidator(Function<ValidationData, Boolean>... validators) {
+    public MultiValidator(Function<ValidationContext, Boolean>... validators) {
         this.validators.addAll(List.of(validators));
     }
 
     @Override
-    public Boolean apply(ValidationData validationData) {
+    public Boolean apply(ValidationContext validationContext) {
         List<CompletableFuture<Boolean>> cs = new ArrayList<>();
-        validators.forEach(validator -> cs.add(CompletableFuture.supplyAsync(() -> validator.apply(validationData))));
+        validators.forEach(validator -> cs.add(CompletableFuture.supplyAsync(() -> validator.apply(validationContext))));
         try {
             CompletableFuture.allOf(cs.toArray(CompletableFuture[]::new)).get();
             for (CompletableFuture<Boolean> c : cs) {
                 if (!c.get()) return false;
             }
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(validationData.toString(), e);
+            throw new RuntimeException(validationContext.toString(), e);
         }
         return true;
     }

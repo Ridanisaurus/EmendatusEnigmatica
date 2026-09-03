@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationData;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import io.netty.util.internal.UnstableApi;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +50,7 @@ public class TextureRegistryValidator extends AbstractRegistryValidator {
     /**
      * This method is used to check if the resource location is present in the specified registry.
      *
-     * @param data Record with ResourceLocation to validate and {@link ValidationData} object from the original json file.
+     * @param data Record with ResourceLocation to validate and {@link ValidationContext} object from the original json file.
      * @return The result of the validation. See {@link Result} for more details.
      * @apiNote At this stage, all registries were constructed,
      */

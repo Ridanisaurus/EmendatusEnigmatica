@@ -25,7 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationData;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,7 @@ public class DimensionRegistryValidator extends AbstractRegistryValidator {
     /**
      * This method is used to check if the resource location is present in the specified registry.
      *
-     * @param data Record with ResourceLocation to validate and {@link ValidationData} object from the original json file.
+     * @param data Record with ResourceLocation to validate and {@link ValidationContext} object from the original json file.
      * @return The result of the validation. See {@link Result} for more details.
      * @apiNote At this stage, all registries were constructed,
      */

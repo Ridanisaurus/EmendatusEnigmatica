@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material;
 
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationData;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
@@ -93,11 +93,11 @@ public class ProcessedTypesContainValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationData record with necessary information to validate the element.
+     * @param data ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationData data) {
+    public Boolean apply(@NotNull ValidationContext data) {
         List<String> foundValues = ValidationHelper.getContainedInArray(data.rootObject(), "root.processedTypes", values);
         boolean isRequired = Objects.nonNull(foundValues) && (mode.requiresAllValues() ? foundValues.size() == values.size() : !foundValues.isEmpty());
 
