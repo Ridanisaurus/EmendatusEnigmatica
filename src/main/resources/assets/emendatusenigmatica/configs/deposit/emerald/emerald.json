@@ -16,6 +16,9 @@
   "material": "emerald",
   "fillerTypes": [
     "minecraft_stone",
+    "minecraft_diorite",
+    "minecraft_andesite",
+    "minecraft_granite",
     "minecraft_deepslate"
   ],
   "chance": 100,

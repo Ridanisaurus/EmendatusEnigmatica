@@ -172,6 +172,9 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         getBuilder("strata/stone", "vanilla").markAsStrata().finish(ctx);
         getBuilder("strata/deepslate", "vanilla").markAsStrata().finish(ctx);
         getBuilder("strata/netherrack", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/diorite", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/granite", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/andesite", "vanilla").markAsStrata().finish(ctx);
 
         // Deposits
         getBuilder("deposit/coal/coal_lower", "vanilla/coal").markAsDeposit().finish(ctx);
@@ -283,7 +286,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
                     material.getStrata().stream()
                         .map(registry::getStrataModel)
                         .toList();
-                
+
                 for (StrataModel strata : stratas) {
                     EERegistrar.registerOre(strata, material);
 
