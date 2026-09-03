@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica;
 
 import com.mojang.logging.LogUtils;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
@@ -132,17 +131,6 @@ public class EmendatusEnigmatica {
 
     public EEModelLoader getModelLoader() {
         return modelLoader;
-    }
-
-    /**
-     * @deprecated {@link EmendatusDataRegistry} is no longer in use and was replaced by per-addon registry.
-     * Use {@link EEPluginLoader#getRegistry(Class)} or {@link EmendatusEnigmatica#getPluginRegistry(Class)}to access per-addon registries as needed.<br>
-     * This method now always returns null.
-     */
-    @Deprecated(since = "2.2.0-Alpha-4", forRemoval = true)
-    @SuppressWarnings("deprecated removal")
-    public EmendatusDataRegistry getDataRegistry() {
-        return null;
     }
 
     /**

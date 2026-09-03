@@ -24,7 +24,6 @@
 
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.EmiEntrypoint;
@@ -47,7 +46,7 @@ public class EMIPlugin implements EmiPlugin {
 	@Override
 	public void register(EmiRegistry registry) {
 		registry.addCategory(WORLD_GEN_CATEGORY);
-
-		ModelLoader.ACTIVE_PROCESSORS.forEach(it -> registry.addRecipe(new WorldGenRecipe(it)));
+//TODO: Rework for new Deposit System
+//		ModelLoader.ACTIVE_PROCESSORS.forEach(it -> registry.addRecipe(new WorldGenRecipe(it)));
 	}
 }

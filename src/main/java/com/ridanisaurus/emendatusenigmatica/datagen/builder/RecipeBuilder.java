@@ -29,7 +29,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericRecipe;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.compat.CompatIOModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -226,40 +225,43 @@ public class RecipeBuilder {
 			);
 		}
 
-		public JsonItemBuilder stacks(@NotNull List<CompatIOModel> ioList) {
-			for (CompatIOModel io : ioList) {
-				String item = io.getItem();
-				int count = io.getCount();
-				float chance = io.getChance();
-				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
+		//TODO: Separate to addons. This is using old COMPAT model which was removed.
+		// Addon Integration *should not be* a part of the main mod!
 
-				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("count", count), Pair.of("chance", chance));
-			}
-			return this;
-		}
-
-		public JsonItemBuilder stacksWithCombinedChance(@NotNull List<CompatIOModel> ioList) {
-			for (CompatIOModel io : ioList) {
-				String item = io.getItem();
-				int count = io.getCount();
-				float chance = io.getChance();
-				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
-
-				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("chance", count + chance));
-			}
-			return this;
-		}
-
-		public JsonItemBuilder stacksWithCount(@NotNull List<CompatIOModel> ioList) {
-			for (CompatIOModel io : ioList) {
-				String item = io.getItem();
-				int count = io.getCount();
-				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
-
-				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("count", count));
-			}
-			return this;
-		}
+//		public JsonItemBuilder stacks(@NotNull List<CompatIOModel> ioList) {
+//			for (CompatIOModel io : ioList) {
+//				String item = io.getItem();
+//				int count = io.getCount();
+//				float chance = io.getChance();
+//				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
+//
+//				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("count", count), Pair.of("chance", chance));
+//			}
+//			return this;
+//		}
+//
+//		public JsonItemBuilder stacksWithCombinedChance(@NotNull List<CompatIOModel> ioList) {
+//			for (CompatIOModel io : ioList) {
+//				String item = io.getItem();
+//				int count = io.getCount();
+//				float chance = io.getChance();
+//				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
+//
+//				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("chance", count + chance));
+//			}
+//			return this;
+//		}
+//
+//		public JsonItemBuilder stacksWithCount(@NotNull List<CompatIOModel> ioList) {
+//			for (CompatIOModel io : ioList) {
+//				String item = io.getItem();
+//				int count = io.getCount();
+//				ItemLike itemLike = BuiltInRegistries.ITEM.get(ResourceLocation.parse(item));
+//
+//				addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemLike.asItem()).toString()), Pair.of("count", count));
+//			}
+//			return this;
+//		}
 
 		public JsonItemBuilder stack(@NotNull ItemLike itemProvider) {
 			return addOutput(Pair.of("item", BuiltInRegistries.ITEM.getKey(itemProvider.asItem()).toString()));

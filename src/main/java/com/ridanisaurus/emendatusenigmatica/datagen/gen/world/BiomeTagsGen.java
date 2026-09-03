@@ -3,7 +3,6 @@ package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EETagProvider;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
@@ -19,13 +18,14 @@ public class BiomeTagsGen extends EETagProvider {
 
     @Override
     protected void buildTags(Consumer<IFinishedGenericJSON> consumer) {
-        for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
-            var biomes = processor.getCommonModel().getBiomes();
-
-            // Generate packed tags for deposits which contain more than a single tag in the biome array.
-            if (biomes.size() > 1 && biomes.stream().anyMatch(it -> it.startsWith("#")))
-                new TagBuilder(biomes).save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "biome/pack/" + processor.getCommonModel().getName()));
-        }
+        //TODO: Rework for new deposit system
+//        for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
+//            var biomes = processor.getCommonModel().getBiomes();
+//
+//            // Generate packed tags for deposits which contain more than a single tag in the biome array.
+//            if (biomes.size() > 1 && biomes.stream().anyMatch(it -> it.startsWith("#")))
+//                new TagBuilder(biomes).save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "biome/pack/" + processor.getCommonModel().getName()));
+//        }
     }
 
     @Override

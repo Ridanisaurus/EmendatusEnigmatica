@@ -30,7 +30,6 @@ import com.google.gson.JsonElement;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode.GeodeDepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
@@ -66,11 +65,12 @@ import java.util.function.Predicate;
 
 public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 	private static final Direction[] DIRECTIONS = Direction.values();
-	private final EmendatusDataRegistry registry;
+	//    TODO: Rework for new Registry and Deposit System
+//	private final EmendatusDataRegistry registry;
 
 	public GeodeOreFeature() {
 		super(GeodeOreFeatureConfig.CODEC);
-		this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
+//		this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
 	}
 
 	@Override
@@ -230,11 +230,11 @@ public class GeodeOreFeature extends Feature<GeodeOreFeatureConfig> {
 				level.setBlock(pos, block.value().defaultBlockState(), 2);
 			});
 		} else if (depositBlockModel.getMaterial() != null) {
-			StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()));
-			if (strata != null) {
-				Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
-				level.setBlock(pos, block.defaultBlockState(), 2);
-			}
+//			StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()));
+//			if (strata != null) {
+//				Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
+//				level.setBlock(pos, block.defaultBlockState(), 2);
+//			}
 		}
 		config.placed = true;
 	}

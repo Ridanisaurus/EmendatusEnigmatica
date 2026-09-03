@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sphere.SphereDepositModel;
@@ -52,14 +51,15 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 
 public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
-    private final EmendatusDataRegistry registry;
+    //TODO: Rework for new registry and Deposit System
+//    private final EmendatusDataRegistry registry;
     //NOTE: Here was a placed boolean.
     // It was moved to the configuration object.
     // No idea what its purpose was, so it's config-dependent.
 
     public SphereOreFeature() {
         super(SphereOreFeatureConfig.CODEC);
-        this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
+//        this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
     }
 
     @Override
@@ -155,11 +155,11 @@ public class SphereOreFeature extends Feature<SphereOreFeatureConfig> {
                     level.setBlock(pos, block.value().defaultBlockState(), 2);
                 });
             } else if (depositBlockModel.getMaterial() != null) {
-                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()));
-                if (strata != null) {
-                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
-                    level.setBlock(pos, block.defaultBlockState(), 2);
-                }
+//                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(level.getBlockState(pos).getBlock()));
+//                if (strata != null) {
+//                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
+//                    level.setBlock(pos, block.defaultBlockState(), 2);
+//                }
             }
             config.placed = true;
         } catch (Exception e) {

@@ -26,7 +26,8 @@ public class OccultismRecipeGen extends RecipeProvider {
     protected void buildRecipes(@NotNull RecipeOutput output) {
         for (MaterialModel material : registry.getRegisteredMaterials()) {
             List<String> processedType = material.getProcessedTypes();
-            if (material.getCompat().getOccultismCompat()) {
+            //TODO: Think about this-
+//            if (material.getCompat().getOccultismCompat()) {
                 if (!processedType.contains("dust")) continue;
                 if (processedType.contains("ore")) {
                     // Dust from Ore - Crusher Spirit
@@ -67,7 +68,7 @@ public class OccultismRecipeGen extends RecipeProvider {
                         .save(output, Reference.getPath("dust/from_raw_crusher_spirit/" + material.getId()));
                 }
             }
-        }
+//        }
     }
 
     @Override

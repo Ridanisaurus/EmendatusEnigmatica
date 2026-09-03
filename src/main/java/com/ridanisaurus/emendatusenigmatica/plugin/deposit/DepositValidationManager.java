@@ -31,18 +31,18 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLo
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BiomeRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositConfigValidator;
 
 /**
  * This class is only used to hold the ValidationManager used for the Deposit JSON validation. Really. That's it.
  */
+@Deprecated
 public class DepositValidationManager {
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
         .addValidator("biomes",       new ResourceLocationValidator(false, true, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY)
-        .addValidator("registryName", new EERegistryValidator(ModelLoader.DEPOSIT_IDS, EERegistryValidator.REGISTRATION, true))
-        .addValidator("type",         new ValuesValidator(ModelLoader.DEPOSIT_TYPES, FilterMode.WHITELIST, true))
+//        .addValidator("registryName", new EERegistryValidator(ModelLoader.DEPOSIT_IDS, EERegistryValidator.REGISTRATION, true))
+//        .addValidator("type",         new ValuesValidator(ModelLoader.DEPOSIT_TYPES, FilterMode.WHITELIST, true))
         .addValidator("dimension",    new ResourceLocationValidator(true, new DimensionRegistryValidator()))
         .addValidator("config",       new DepositConfigValidator());
 

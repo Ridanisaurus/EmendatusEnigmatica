@@ -28,7 +28,6 @@ import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -71,33 +70,33 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	@Override
 	protected void buildFeatures(HolderLookup.Provider provider, Consumer<IFinishedGenericJSON> consumer) {
 		handleVanillaOres(consumer);
-
-		for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
-			CommonDepositModelBase model = processor.getCommonModel();
-			List<String> biomes = new ArrayList<>();
-			List<String> features = new ArrayList<>();
-
-			if (!model.getBiomes().isEmpty()) {
-				if (model.getBiomes().stream().anyMatch(it -> it.startsWith("#"))) {
-					biomes.add("#" + Reference.MOD_ID + ":biome/pack/" + processor.getCommonModel().getName());
-				} else {
-					biomes.addAll(model.getBiomes());
-				}
-			} else {
-				var dim = model.getDimension();
-				if (!dim.startsWith("minecraft")) {
-					// Fallback for modded dimensions - most likely not correct as there is no real schema, but it's a good guess!
-					biomes.add("#" + StringUtils.substringBefore(dim, ":") + ":is_" + StringUtils.substringAfter(dim, ":"));
-				} else {
-					biomes.add("#minecraft:is_" + StringUtils.substringAfter(dim, ":").replace("the_", ""));
-				}
-			}
-			features.add(Reference.MOD_ID + ":" + model.getName());
-			new FeatureBuilder("neoforge:add_features", "underground_ores")
-				.biomes(biomes)
-				.features(features)
-				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
-		}
+		//TODO: Rework for new Deposit System
+//		for (IDepositProcessor processor : ModelLoader.ACTIVE_PROCESSORS) {
+//			CommonDepositModelBase model = processor.getCommonModel();
+//			List<String> biomes = new ArrayList<>();
+//			List<String> features = new ArrayList<>();
+//
+//			if (!model.getBiomes().isEmpty()) {
+//				if (model.getBiomes().stream().anyMatch(it -> it.startsWith("#"))) {
+//					biomes.add("#" + Reference.MOD_ID + ":biome/pack/" + processor.getCommonModel().getName());
+//				} else {
+//					biomes.addAll(model.getBiomes());
+//				}
+//			} else {
+//				var dim = model.getDimension();
+//				if (!dim.startsWith("minecraft")) {
+//					// Fallback for modded dimensions - most likely not correct as there is no real schema, but it's a good guess!
+//					biomes.add("#" + StringUtils.substringBefore(dim, ":") + ":is_" + StringUtils.substringAfter(dim, ":"));
+//				} else {
+//					biomes.add("#minecraft:is_" + StringUtils.substringAfter(dim, ":").replace("the_", ""));
+//				}
+//			}
+//			features.add(Reference.MOD_ID + ":" + model.getName());
+//			new FeatureBuilder("neoforge:add_features", "underground_ores")
+//				.biomes(biomes)
+//				.features(features)
+//				.save(consumer, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, model.getName() + "_ore_features"));
+//		}
 	}
 
 	@Override

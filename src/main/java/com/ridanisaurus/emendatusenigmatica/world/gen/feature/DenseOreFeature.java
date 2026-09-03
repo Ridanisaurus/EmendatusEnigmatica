@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.EmendatusDataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
@@ -52,11 +51,12 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 // Credit: Geolysis
 public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
-    private final EmendatusDataRegistry registry;
+//    TODO: Rework for new Registry and Deposit System
+//    private final EmendatusDataRegistry registry;
 
     public DenseOreFeature() {
         super(DenseOreFeatureConfig.CODEC);
-        this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
+//        this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
     }
 
     @Override
@@ -140,11 +140,11 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
                     reader.setBlock(pos, block.value().defaultBlockState(), 2);
                 });
             } else if (depositBlockModel.getMaterial() != null) {
-                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
-                if (strata != null) {
-                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
-                    reader.setBlock(pos, block.defaultBlockState(), 2);
-                }
+//                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
+//                if (strata != null) {
+//                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
+//                    reader.setBlock(pos, block.defaultBlockState(), 2);
+//                }
             }
             config.placed = true;
         } catch (Exception e) {

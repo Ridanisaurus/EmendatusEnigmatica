@@ -54,11 +54,10 @@ public class MaterialModel {
 			Codec.list(Codec.STRING).optionalFieldOf("strata").forGetter(i -> Optional.of(i.strata)),
 			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
 			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
-			MaterialCompatModel.CODEC.optionalFieldOf("compat").forGetter(i -> Optional.of(i.compat)),
 			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
 			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
 			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
-	).apply(x, (id, source, localizedName, processedTypes, strata, properties, oreDrop, compat, colors, tools, armor) -> new MaterialModel(
+	).apply(x, (id, source, localizedName, processedTypes, strata, properties, oreDrop, colors, tools, armor) -> new MaterialModel(
 			id,
 			source,
 			localizedName,
@@ -66,7 +65,6 @@ public class MaterialModel {
 			strata.orElse(List.of()),
 			properties.orElse(new MaterialPropertiesModel()),
 			oreDrop.orElse(new MaterialOreDropModel()),
-			compat.orElse(new MaterialCompatModel()),
 			colors.orElse(new MaterialColorsModel()),
 			tools.orElse(new MaterialToolsModel()),
 			armor.orElse(new MaterialArmorModel())
@@ -86,23 +84,17 @@ public class MaterialModel {
 		.addValidator("oreDrop",				new OreDropValidator())
 		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("compat",				MaterialCompatModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("compat",				new DeprecatedFieldValidator())
 		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "https://github.com/Ridanisaurus/EmendatusEnigmatica/commit/a782b78a1b2c87ec679ee42235cad0e8b1658679"));
 
 
 	private final String id;
 	private final String source;
 	private final String localizedName;
-	/**
-	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
-	 */
-	@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
-	private final boolean disableDefaultOre = false;
 	private final List<String> processedTypes;
 	private final List<String> strata;
 	private final MaterialPropertiesModel properties;
 	private final MaterialOreDropModel oreDrop;
-	private final MaterialCompatModel compat;
 	private final MaterialColorsModel colors;
 	private final MaterialToolsModel tools;
 	private final MaterialArmorModel armor;
@@ -115,7 +107,6 @@ public class MaterialModel {
 		List<String> strata,
 		MaterialPropertiesModel properties,
 		MaterialOreDropModel oreDrop,
-		MaterialCompatModel compat,
 		MaterialColorsModel colors,
 		MaterialToolsModel tools,
 		MaterialArmorModel armor
@@ -127,7 +118,6 @@ public class MaterialModel {
 		this.strata = strata;
 		this.properties = properties;
 		this.oreDrop = oreDrop;
-		this.compat = compat;
 		this.colors = colors;
 		this.tools = tools;
 		this.armor = armor;
@@ -153,14 +143,6 @@ public class MaterialModel {
 		return localizedName;
 	}
 
-	/**
-	 * @deprecated Replaced by configuration option and meant for removal in 2.2.0 Release.
-	 */
-	@Deprecated(forRemoval = true, since = "2.2.0-Alpha-1")
-	public boolean getDisableDefaultOre() {
-		return disableDefaultOre;
-	}
-
 	public List<String> getProcessedTypes() {
 		return processedTypes;
 	}
@@ -175,10 +157,6 @@ public class MaterialModel {
 
 	public MaterialOreDropModel getOreDrop() {
 		return oreDrop;
-	}
-
-	public MaterialCompatModel getCompat() {
-		return compat;
 	}
 
 	public MaterialColorsModel getColors() {

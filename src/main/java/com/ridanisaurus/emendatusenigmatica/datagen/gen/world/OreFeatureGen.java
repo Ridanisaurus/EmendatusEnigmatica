@@ -51,8 +51,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import static com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader.ACTIVE_PROCESSORS;
-
 public class OreFeatureGen implements DataProvider {
     private final PackOutput output;
     private final CompletableFuture<HolderLookup.Provider> registries;
@@ -67,25 +65,24 @@ public class OreFeatureGen implements DataProvider {
         var builder = new RegistrySetBuilder();
         List<Pair<ResourceKey<PlacedFeature>, PlacedFeature>> PLACED_FEATURES = new ArrayList<>();
 
-        //TODO:
-        // Test this a bit more.
-        builder.add(Registries.CONFIGURED_FEATURE, bt -> {
-            for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
-                // If Type is not recognized - Skip. It's from an addon.
-                if (DepositType.typeOf(activeProcessor.getType()) == null) continue;
-
-                var configuredFeature = bt.register(ResourceKey.create(
-                        Registries.CONFIGURED_FEATURE,
-                        ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
-                    getConfiguredFeature(activeProcessor)
-                );
-
-                PLACED_FEATURES.add(new Pair<>(
-                    ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
-                    new PlacedFeature(configuredFeature, WorldGenHelper.getFullOrePlacement(activeProcessor)
-                )));
-            }
-        });
+        //TODO: Rework for new Deposit and test.
+//        builder.add(Registries.CONFIGURED_FEATURE, bt -> {
+//            for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
+//                // If Type is not recognized - Skip. It's from an addon.
+//                if (DepositType.typeOf(activeProcessor.getType()) == null) continue;
+//
+//                var configuredFeature = bt.register(ResourceKey.create(
+//                        Registries.CONFIGURED_FEATURE,
+//                        ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
+//                    getConfiguredFeature(activeProcessor)
+//                );
+//
+//                PLACED_FEATURES.add(new Pair<>(
+//                    ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
+//                    new PlacedFeature(configuredFeature, WorldGenHelper.getFullOrePlacement(activeProcessor)
+//                )));
+//            }
+//        });
 
         builder.add(Registries.PLACED_FEATURE, bt -> PLACED_FEATURES.forEach(pair -> bt.register(pair.getFirst(), pair.getSecond())));
 

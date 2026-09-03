@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.ModelLoader;
 import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -63,12 +62,13 @@ public class SuffixValidator extends TypeValidator {
             Analytics.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), data);
             return false;
         }
-        if (!ModelLoader.STRATA_SUFFIXES.contains(value)) return true;
-        String ogId = EmendatusEnigmatica.getInstance()
-            .getDataRegistry().getStrata()
-            .stream().filter(it -> it.getSuffix().equals(value))
-            .findFirst().orElseThrow().getId();
-        Analytics.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId), data);
+        //TODO: Rework for new deposit system
+//        if (!ModelLoader.STRATA_SUFFIXES.contains(value)) return true;
+//        String ogId = EmendatusEnigmatica.getInstance()
+//            .getDataRegistry().getStrata()
+//            .stream().filter(it -> it.getSuffix().equals(value))
+//            .findFirst().orElseThrow().getId();
+//        Analytics.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId), data);
         return false;
     }
 }
