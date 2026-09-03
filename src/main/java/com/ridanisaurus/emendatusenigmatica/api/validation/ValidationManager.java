@@ -119,7 +119,7 @@ public class ValidationManager {
      * @return True if validation passes, false otherwise.
      */
     public boolean validate(@NotNull JsonObject object, Path jsonPath) {
-        validate(object, jsonPath, null);
+        return validate(object, jsonPath, null);
     }
 
     /**
