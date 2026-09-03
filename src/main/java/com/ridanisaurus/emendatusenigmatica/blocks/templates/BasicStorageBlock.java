@@ -53,11 +53,6 @@ public class BasicStorageBlock extends Block implements IColorable {
 	}
 
 	@Override
-	public MutableComponent getName() {
-		return Component.translatable(localisedName);
-	}
-
-	@Override
 	public int getHighlight2() {
 		return highlight2;
 	}

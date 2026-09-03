@@ -28,14 +28,13 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Custom implementation of {@link ValuesValidator}, used to validate Suffix Field of the Strata.
  * @apiNote Suffixes are required to be compliant with [a-z0-9/._-] rule of ResourceLocations.
- * @implNote This is a stripped-down copy of {@link com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator}
  */
 public class SuffixValidator extends TypeValidator {
 
@@ -61,13 +60,12 @@ public class SuffixValidator extends TypeValidator {
             ctx.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value));
             return false;
         }
-        //TODO: Rework for new deposit system
-//        if (!ModelLoader.STRATA_SUFFIXES.contains(value)) return true;
-//        String ogId = EmendatusEnigmatica.getInstance()
-//            .getDataRegistry().getStrata()
-//            .stream().filter(it -> it.getSuffix().equals(value))
-//            .findFirst().orElseThrow().getId();
-//        ctx.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId));
+        var reg = ctx.getPluginRegistry(VanillaPlugin.class);
+        if (reg.isStrataSuffixUnique(value)) return true;
+        String ogId = reg.getRegisteredStrata()
+            .stream().filter(it -> it.getSuffix().equals(value))
+            .findFirst().orElseThrow().getId();
+        ctx.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId));
         return false;
     }
 }

@@ -26,13 +26,17 @@ package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * Used to hold all necessary information for the validator.
@@ -50,6 +54,7 @@ public record ValidationContext(
     @NotNull String currentPath,
     @NotNull String jsonFilePath,
     @NotNull ArrayHandlingPolicy arrayPolicy,
+    @NotNull EEPluginLoader pluginLoader,
     @NotNull IValidationLogHandler logHandler
 ) {
 
@@ -67,9 +72,10 @@ public record ValidationContext(
         @NotNull JsonObject rootObject,
         @NotNull String currentPath,
         @NotNull String jsonFilePath,
-        @NotNull ArrayHandlingPolicy arrayPolicy
+        @NotNull ArrayHandlingPolicy arrayPolicy,
+        @NotNull EEPluginLoader pluginLoader
     ) {
-        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy, new IValidationLogHandler() {});
+        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy, pluginLoader, new IValidationLogHandler() {});
     }
 
     /**
@@ -88,9 +94,10 @@ public record ValidationContext(
         @NotNull JsonObject rootObject,
         @NotNull String currentPath,
         @NotNull String jsonFilePath,
-        @NotNull ArrayPolicy arrayPolicy
+        @NotNull ArrayPolicy arrayPolicy,
+        @NotNull EEPluginLoader pluginLoader
     ) {
-        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy.get());
+        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy.get(), pluginLoader);
     }
 
     /**
@@ -108,7 +115,8 @@ public record ValidationContext(
             this.rootObject,
             this.currentPath + "." + field,
             this.jsonFilePath,
-            arrayPolicy
+            arrayPolicy,
+            pluginLoader
         );
     }
 
@@ -126,6 +134,16 @@ public record ValidationContext(
 
     public @Nullable JsonElement getParentFieldAs(Types type, String fieldName) {
         return ValidationHelper.getElementFromPathAs(this.rootObject, getParentFieldPath(fieldName), type);
+    }
+
+    /**
+     * Utility method to get provided plugin's registry.
+     * @param pluginClass Plugin owning the requested registry.
+     * @return Registry of the plugin, or null of {@link Void}.
+     * @param <R> Class of the registry.
+     */
+    public <R> R getPluginRegistry(Class<? extends IEEPlugin<R>> pluginClass) {
+        return pluginLoader.getRegistry(pluginClass);
     }
 
     /**

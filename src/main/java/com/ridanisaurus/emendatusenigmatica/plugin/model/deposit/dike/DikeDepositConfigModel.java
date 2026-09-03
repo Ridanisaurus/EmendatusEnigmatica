@@ -33,7 +33,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;

@@ -28,11 +28,11 @@ public class AddonInfoSummary implements SummaryExtension {
             cx.writeLine("- <code>%s</code> found in <code>%s</code>".formatted(plugin.name(), plugin.modId()));
         }
 
-        cx.writeHeader("Registered Extensions", 3);
+
+        cx.writeHeader("Registered Definitions and Extensions", 3);
         modelLoader.getRegistryCopy().forEach((def, ext) -> {
-            if (ext.isEmpty()) return;
-            cx.writeLine("%s (%s)".formatted(def.getRegistryName(), def.getOwningAnnotation().name()));
-            for (EEModelExtension<?, ?, ?, ?> extension : ext) {
+            cx.writeHeader("%s (%s)".formatted(def.getRegistryName(), def.getOwningAnnotation().name()), 5);
+            if (!ext.isEmpty()) for (EEModelExtension<?, ?, ?, ?> extension : ext) {
                 cx.writeLine("- <code>%s</code> registered by <code>%s</code>".formatted(extension.getRegistryName(), extension.getOwningAnnotation().name()));
             }
             cx.write("\n\n");

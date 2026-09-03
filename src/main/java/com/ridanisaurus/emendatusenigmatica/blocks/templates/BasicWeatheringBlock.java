@@ -49,6 +49,7 @@ import net.minecraft.world.level.block.ChangeOverTimeBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -83,7 +84,7 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 		this.oxidizationColor = material.getColors().getOxidizationColor();
 	}
 
-	public void randomTick(BlockState blockState, ServerLevel level, BlockPos pos, RandomSource rand) {
+	public void randomTick(@NotNull BlockState blockState, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource rand) {
 		this.changeOverTime(blockState, level, pos, rand);
 	}
 
@@ -92,7 +93,7 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	}
 
 	@Override
-	public WeatherState getAge() {
+	public @NotNull WeatherState getAge() {
 		return this.weatherState;
 	}
 
@@ -151,7 +152,7 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 	}
 
 	@Override
-	public Optional<BlockState> getNext(BlockState blockState) {
+	public @NotNull Optional<BlockState> getNext(BlockState blockState) {
 		return getNext(blockState.getBlock()).map((block) -> {
 			return block.withPropertiesOf(blockState);
 		});
@@ -165,11 +166,6 @@ public class BasicWeatheringBlock extends Block implements ChangeOverTimeBlock<B
 
 	public float getChanceModifier() {
 		return this.getAge() == WeatherState.UNAFFECTED ? 0.75F : 1.0F;
-	}
-
-	@Override
-	public MutableComponent getName() {
-		return Component.translatable(localisedName);
 	}
 
 	@Override

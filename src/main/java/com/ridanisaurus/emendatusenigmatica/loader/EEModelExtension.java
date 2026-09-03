@@ -108,9 +108,9 @@ public class EEModelExtension<OM, M, OR, R> {
         return this.rootValidator;
     }
 
-    protected boolean validate(JsonObject object, Path path) {
+    protected boolean validate(JsonObject object, Path path, EEPluginLoader pluginLoader) {
         if (Objects.isNull(rootValidator)) return true;
-        return rootValidator.validate(object, path);
+        return rootValidator.validate(object, path, pluginLoader);
     }
 
     protected M serialize(JsonObject object) {

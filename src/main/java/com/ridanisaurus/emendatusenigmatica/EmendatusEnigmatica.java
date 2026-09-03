@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica;
 
 import com.mojang.logging.LogUtils;
-import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.DataGeneratorFactory;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
@@ -63,8 +62,6 @@ import java.util.concurrent.ExecutionException;
 public class EmendatusEnigmatica {
     public static final Logger logger = LogUtils.getLogger();
     public static String VERSION = "0.0.0";
-    private static EmendatusEnigmatica instance;
-    private final EEModelLoader modelLoader;
     private final EEPluginLoader pluginLoader;
     private final EEDataGenerator generator;
 
@@ -90,16 +87,14 @@ public class EmendatusEnigmatica {
     ));
 
     public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) throws ExecutionException, InterruptedException {
-            instance = this;
             VERSION = modContainer.getModInfo().getVersion().toString();
-            SummaryHandler.setup();
+            this.pluginLoader = new EEPluginLoader();
+            var modelLoader = new EEModelLoader();
+            SummaryHandler.setup(modelLoader);
 
             DataGeneratorFactory.init();
             this.generator = DataGeneratorFactory.createEEDataGenerator();
-    
-            this.pluginLoader = new EEPluginLoader();
-            this.modelLoader = new EEModelLoader();
-            SummaryHandler.registerAddon(new AddonInfoSummary(this.pluginLoader, this.modelLoader));
+            SummaryHandler.registerAddon(new AddonInfoSummary(this.pluginLoader, modelLoader));
             EEConfig.setupConfigs(modContainer, pluginLoader);
             this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
             this.pluginLoader.load(modelLoader);
@@ -119,28 +114,6 @@ public class EmendatusEnigmatica {
             NeoForge.EVENT_BUS.addListener(this::serverDataGenCheck);
             // Registry Validation
             modEventBus.addListener(this::commonSetup);
-    }
-
-    public static EmendatusEnigmatica getInstance() {
-        return instance;
-    }
-
-    public EEPluginLoader getPluginLoader() {
-        return pluginLoader;
-    }
-
-    public EEModelLoader getModelLoader() {
-        return modelLoader;
-    }
-
-    /**
-     * Utility method to get access to plugin registry instance.
-     * @param plugin Plugin class the requested registry belongs to.
-     * @return Registry instance of the provided plugin, or null if the plugin doesn't have it's own registry.
-     * @param <R> Registry class.
-     */
-    public static <R> R getPluginRegistry(Class<? extends IEEPlugin<R>> plugin) {
-        return getInstance().getPluginLoader().getRegistry(plugin);
     }
 
     private void populateCreativeTab(BuildCreativeModeTabContentsEvent event) {

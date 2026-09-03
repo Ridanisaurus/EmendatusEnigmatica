@@ -67,11 +67,6 @@ public class GemOreBlock extends DropExperienceBlock implements IColorable {
 	}
 
 	@Override
-	public MutableComponent getName() {
-		return Component.translatable(localisedName);
-	}
-
-	@Override
 	public int getExpDrop(BlockState state, LevelAccessor level, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity breaker, ItemStack tool) {
 		//Apparently, vanilla calculates Block Experience bonus from Enchantments now.
 		return Mth.nextInt(level.getRandom(), minExp, maxExp);

@@ -28,19 +28,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.TextureRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.strata.SuffixValidator;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,10 +63,8 @@ public class StrataModel {
 			b.orElse(false)
 	)));
 
-	public static final List<String> REGISTERED_IDS = new ArrayList<>();
-
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("id",				new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.REGISTRATION, true))
+		.addValidator("id",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REGISTRATION, true))
 		.addValidator("baseTexture",		new ResourceLocationValidator(true, new TextureRegistryValidator()))
 		.addValidator("fillerType",		new ResourceLocationValidator(true, new BlockRegistryValidator()))
 		.addValidator("suffix",			new SuffixValidator())
@@ -144,7 +138,6 @@ public class StrataModel {
 	}
 
 	public void register(DataRegistry registry) {
-		REGISTERED_IDS.add(this.id);
 		registry.registerStrata(this);
 	}
 }

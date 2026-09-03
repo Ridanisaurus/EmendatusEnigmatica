@@ -63,11 +63,6 @@ public class MetalOreBlockWithParticles extends Block implements IColorable {
 	}
 
 	@Override
-	public MutableComponent getName() {
-		return Component.translatable(localisedName);
-	}
-
-	@Override
 	public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
 		super.animateTick(stateIn, worldIn, pos, rand);
 

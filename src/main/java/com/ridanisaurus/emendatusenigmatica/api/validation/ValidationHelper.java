@@ -224,7 +224,7 @@ public class ValidationHelper {
      * @param path Path to obfuscate.
      * @return String with an obfuscated path.
      */
-    public static @NotNull String obfuscatePath(Path path) {
-        return SummaryHandler.CONFIG_DIR.relativize(path).toString();
+    public static @NotNull String obfuscatePath(@NotNull Path path) {
+        return SummaryHandler.CONFIG_DIR.relativize(Objects.requireNonNull(path, "Path can't be null!")).toString();
     }
 }

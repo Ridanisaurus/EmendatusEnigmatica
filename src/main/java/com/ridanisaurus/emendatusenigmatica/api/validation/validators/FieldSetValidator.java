@@ -124,8 +124,9 @@ public class FieldSetValidator implements IValidationFunction {
                 ctx.rootObject(),
                 ctx.currentPath(),
                 ctx.jsonFilePath(),
-                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
-            );
+                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty(),
+                ctx.pluginLoader()
+            ));
 
         return validator.apply(ctx);
     }

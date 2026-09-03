@@ -30,12 +30,12 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor.ArmorFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools.ToolsFieldValidator;
@@ -70,12 +70,10 @@ public class MaterialModel {
 			armor.orElse(new MaterialArmorModel())
 	)));
 
-	public static final List<String> REGISTERED_IDS = new ArrayList<>();
-
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("strata",				new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("strata",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		//TODO: Add validation for when source is "vanilla" to enforce vanilla-ids
-		.addValidator("id",					new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.REGISTRATION, true))
+		.addValidator("id",					new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REGISTRATION, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
 		.addValidator("localizedName",			new TypeValidator(Types.STRING, true))
 		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
@@ -184,7 +182,6 @@ public class MaterialModel {
 	}
 
 	public void register(DataRegistry registry) {
-		REGISTERED_IDS.add(this.id);
 		registry.registerMaterial(this);
 	}
 }

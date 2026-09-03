@@ -79,7 +79,7 @@ public abstract class AbstractValidator implements IValidationFunction {
             int index = 0;
             boolean validation = true;
             for (JsonElement entry : element.getAsJsonArray()) {
-                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy())))
+                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader())))
                     validation = false;
                 index++;
             }

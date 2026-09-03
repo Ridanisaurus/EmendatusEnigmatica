@@ -7,13 +7,13 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
@@ -37,7 +37,7 @@ public class DenseDepositModel extends DepositModel {
 
     public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:dense_deposit")
         .addValidator("blocks",          DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-        .addValidator("fillerTypes",     new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+        .addValidator("fillerTypes",     new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
         .addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 48, true))
         .addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))

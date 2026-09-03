@@ -97,11 +97,6 @@ public class BasicBuddingBlock extends BuddingAmethystBlock implements IColorabl
 	}
 
 	@Override
-	public MutableComponent getName() {
-		return Component.translatable(localisedName);
-	}
-
-	@Override
 	public int getHighlight2() {
 		return highlight2;
 	}

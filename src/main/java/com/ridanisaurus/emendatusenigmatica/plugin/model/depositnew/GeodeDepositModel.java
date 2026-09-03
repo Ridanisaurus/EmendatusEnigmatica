@@ -6,16 +6,12 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
@@ -46,7 +42,7 @@ public class GeodeDepositModel extends DepositModel {
         .addValidator("innerShellBlocks", DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("innerBlocks",      DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("fillBlocks",       DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-        .addValidator("fillerTypes",      new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+        .addValidator("fillerTypes",      new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("clusters",         new ResourceLocationValidator(false, new BlockRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("chance",           new NumberRangeValidator(Types.INTEGER, 1, 100, true))
         .addValidator("crackChance",      new NumberRangeValidator(Types.FLOAT, 0, 1, false))

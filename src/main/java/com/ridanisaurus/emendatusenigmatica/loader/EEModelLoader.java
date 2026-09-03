@@ -56,6 +56,7 @@ public class EEModelLoader {
     private final Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> registry = new LinkedHashMap<>();
     private EmendatusPluginReference currentPlugin;
     private boolean canRegister = false;
+    private EEPluginLoader pluginLoader = null;
 
     /**
      * Used to register a Model Definition.
@@ -182,6 +183,7 @@ public class EEModelLoader {
     }
 
     protected void load(EEPluginLoader pluginLoader) {
+        this.pluginLoader = Objects.requireNonNull(pluginLoader, "Plugin Loader can't be null!");
         logger.info("Loading EEModelDefinitions ({})", registry.size());
         try {
             for (EEModelDefinition<?, ?> definition : registry.keySet()) {
@@ -206,22 +208,22 @@ public class EEModelLoader {
                 var jsons = FileHelper.loadJsonsWithPaths(path);
 
                 jsons.forEach((jsonPath, object) -> {
-                    if (!definition.validator().validate(object, jsonPath)) return;
+                    if (!definition.validator().validate(object, jsonPath, this.pluginLoader)) return;
 
                     var result = JsonOps.INSTANCE.withDecoder(definition.codec()).apply(object).result();
                     if (result.isEmpty()) return;
 
                     var model = result.get().getFirst();
-                    var definitionRegistry = pluginLoader.getRegistry(definition.getOwningPlugin());
+                    var definitionRegistry = this.pluginLoader.getRegistry(definition.getOwningPlugin());
 
                     for (EEModelExtension<?,?,?,?> extension : registry.get(definition)) {
                         try {
                             var extObject = handleOverrides(extension, object, jsonPath);
                             if (Objects.isNull(extObject)) continue;
-                            if (!extension.validate(extObject, jsonPath)) continue;
+                            if (!extension.validate(extObject, jsonPath, this.pluginLoader)) continue;
                             var extensionModel = extension.serialize(extObject);
                             if (Objects.isNull(extensionModel)) continue;
-                            extension.genericRegister(model, extensionModel, definitionRegistry, pluginLoader.getRegistry(extension.getOwningPlugin()));
+                            extension.genericRegister(model, extensionModel, definitionRegistry, this.pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
                             SummaryHandler.error(
                                 "Failed parsing extension: %s:%s"
@@ -253,7 +255,7 @@ public class EEModelLoader {
         if (!extension
             .getExtendedDefinition()
             .validator()
-            .validate(ret, jsonPath.getParent().resolve("%s (%s)".formatted(jsonPath.getFileName(), extension.getExtensionOverrideField())))
+            .validate(ret, jsonPath.getParent().resolve("%s (%s)".formatted(jsonPath.getFileName(), extension.getExtensionOverrideField())), pluginLoader)
         ) return null;
 
         return ret;

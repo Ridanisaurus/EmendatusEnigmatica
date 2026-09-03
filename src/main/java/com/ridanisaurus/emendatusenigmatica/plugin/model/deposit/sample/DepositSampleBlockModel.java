@@ -28,10 +28,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldPresentValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +60,7 @@ public class DepositSampleBlockModel {
 		.addValidator("weight",   new TypeValidator(Types.INTEGER, false))
 		.addValidator("strata",   new FieldPresentValidator(
 			"material",
-			new EERegistryValidator(StrataModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Strata", false))
+			new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", false))
 		);
 
 	public DepositSampleBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, @Nullable String strata) {

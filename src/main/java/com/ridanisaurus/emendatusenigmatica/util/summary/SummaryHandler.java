@@ -28,6 +28,8 @@ import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
@@ -73,6 +75,8 @@ public class SummaryHandler {
      */
     private static Path summaryFile;
 
+    private static EEModelLoader modelLoader;
+
     /**
      * Used as a cache of ConfigDir.
      */
@@ -86,10 +90,11 @@ public class SummaryHandler {
     /**
      * Used to set up the SummaryHandler paths.
      */
-    public static void setup() {
+    public static void setup(EEModelLoader loader) {
         CONFIG_DIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/").toAbsolutePath().normalize();
         summaryFile = CONFIG_DIR.resolve("Validation Results.md");
         dirSeparator = FileSystems.getDefault().getSeparator();
+        modelLoader = Objects.requireNonNull(loader);
     }
 
     /**
@@ -201,7 +206,7 @@ public class SummaryHandler {
             cx.writeLine("File generated at: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS").format(new Date()));
             cx.writeSpacer();
 
-            var definitions = EmendatusEnigmatica.getInstance().getModelLoader().getRegisteredDefinitions();
+            var definitions = modelLoader.getRegisteredDefinitions();
             for (EEModelDefinition<?, ?> definition : definitions) {
                 addNewCategory("%s (%s)".formatted(definition.getRegistryName(), definition.getOwningAnnotation().name()), CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
             }

@@ -4,6 +4,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,19 +58,35 @@ public class DataRegistry {
         return List.copyOf(deposits.values());
     }
 
-    public MaterialModel getMaterialModel(String id) {
+    public boolean isMaterialRegistered(String id) {
+        return materials.containsKey(id);
+    }
+
+    public boolean isStrataRegistered(String id) {
+        return strata.containsKey(id);
+    }
+
+    public boolean isDepositRegistered(String id) {
+        return deposits.containsKey(id);
+    }
+
+    public @Nullable MaterialModel getMaterialModel(String id) {
         return materials.get(Objects.requireNonNull(id, "ID can't be null."));
     }
 
-    public StrataModel getStrataModel(String id) {
+    public @Nullable StrataModel getStrataModel(String id) {
         return strata.get(Objects.requireNonNull(id, "ID can't be null."));
     }
 
-    public DepositModel getDepositModel(String id) {
+    public @Nullable DepositModel getDepositModel(String id) {
         return deposits.get(Objects.requireNonNull(id, "ID can't be null."));
     }
 
-    public StrataModel getStrataModelByFiller(ResourceLocation filler) {
+    public @Nullable StrataModel getStrataModelByFiller(ResourceLocation filler) {
         return strataByFiller.get(Objects.requireNonNull(filler, "Filler can't be null."));
+    }
+
+    public boolean isStrataSuffixUnique(String suffix) {
+        return strata.values().stream().noneMatch(it -> it.getSuffix().equals(suffix));
     }
 }

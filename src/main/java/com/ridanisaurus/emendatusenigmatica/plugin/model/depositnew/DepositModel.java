@@ -4,17 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BiomeRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -42,10 +41,9 @@ public class DepositModel {
         "emendatusenigmatica:dense_deposit"
     ));
 
-    public static final List<String> REGISTERED_IDS = new ArrayList<>();
 
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-        .addValidator("registryName", new EERegistryValidator(REGISTERED_IDS, EERegistryValidator.Mode.REGISTRATION, true))
+        .addValidator("registryName", new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isDepositRegistered, PluginRegistryValidator.REGISTRATION, true))
         .addValidator("type", new ValuesValidator(TYPES, FilterMode.WHITELIST, true))
         .addValidator("biomes", new ResourceLocationValidator(true, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.get())
         .addValidator("dimension", new ResourceLocationValidator(true, new DimensionRegistryValidator()))
@@ -67,7 +65,5 @@ public class DepositModel {
         this(base.id, base.type, base.biomes, base.dimension);
     }
 
-    public void register(DataRegistry dataRegistry) {
-        REGISTERED_IDS.add(this.id);
-    }
+    public void register(DataRegistry dataRegistry) {}
 }

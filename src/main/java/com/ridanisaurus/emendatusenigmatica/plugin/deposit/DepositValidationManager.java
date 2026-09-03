@@ -31,7 +31,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLo
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BiomeRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositConfigValidator;
 
 /**

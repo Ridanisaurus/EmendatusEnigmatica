@@ -29,12 +29,13 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +43,13 @@ import java.util.Objects;
 
 /**
  * MaterialValidator is a custom validator,
- * that wraps around {@link ResourceLocationValidator} and {@link EERegistryValidator},
+ * that wraps around {@link ResourceLocationValidator} and {@link PluginRegistryValidator},
  * and is used to validate <code>material</code>, <code>block</code> and <code>tag</code> fields in the Deposit files.<br>
  * It also validates strata-per-material for each material specified in the deposit.
  * @implSpec <code>block</code> and <code>tag</code> fields should be set to {@link RequiredValidator} as optional fields!
  */
 public class MaterialValidator implements IValidationFunction {
-    private static final IValidationFunction materialValidator = new EERegistryValidator(MaterialModel.REGISTERED_IDS, EERegistryValidator.REFERENCE, "Material", false);
+    private static final IValidationFunction materialValidator = new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REFERENCE, "Material", false);
     private static final IValidationFunction blockValidator = new ResourceLocationValidator(false, new BlockRegistryValidator());
     private static final IValidationFunction tagValidator = new ResourceLocationValidator(false);
     private final String fillerTypesPath;
@@ -132,13 +133,16 @@ public class MaterialValidator implements IValidationFunction {
             return false;
         }
 
-        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, ctx.rootObject(), blockPath, ctx.jsonFilePath(), ctx.arrayPolicy()));
-        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, ctx.rootObject(), tagPath, ctx.jsonFilePath(), ctx.arrayPolicy()));
+        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, ctx.rootObject(), blockPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader()));
+        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, ctx.rootObject(), tagPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader()));
 
         if (hasMaterial) {
             if (materialValidator.apply(ctx)) {
                 String id = ctx.validationElement().getAsString();
-                MaterialModel model = Objects.requireNonNull(EmendatusEnigmatica.getPluginRegistry(VanillaPlugin.class).getMaterialModel(id));
+                MaterialModel model = Objects.requireNonNull(
+                    ctx.getPluginRegistry(VanillaPlugin.class).getMaterialModel(id),
+                    "Material ID \"%s\" passed validation, but doesn't exist in the registry!".formatted(id)
+                );
                 if (!model.getProcessedTypes().contains("ore")) {
                     ctx.error(
                         "This material can't be used for ore generation!",

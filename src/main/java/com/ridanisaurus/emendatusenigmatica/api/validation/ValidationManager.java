@@ -29,6 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPo
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
+import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -118,8 +119,8 @@ public class ValidationManager {
      * @param jsonPath Path of the file.
      * @return True if validation passes, false otherwise.
      */
-    public boolean validate(@NotNull JsonObject object, Path jsonPath) {
-        return validate(object, jsonPath, null);
+    public boolean validate(@NotNull JsonObject object, Path jsonPath, EEPluginLoader pluginLoader) {
+        return validate(object, jsonPath, pluginLoader, null);
     }
 
     /**
@@ -129,11 +130,11 @@ public class ValidationManager {
      * @param logHandler Custom LogHandler for this validation run.
      * @return True if validation passes, false otherwise.
      */
-    public boolean validate(@NotNull JsonObject object, Path jsonPath, @Nullable IValidationLogHandler logHandler) {
+    public boolean validate(@NotNull JsonObject object, @NotNull Path jsonPath, @NotNull EEPluginLoader pluginLoader, @Nullable IValidationLogHandler logHandler) {
         var path = ValidationHelper.obfuscatePath(jsonPath);
         var ctx = Objects.isNull(logHandler)?
-            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get()):
-            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), logHandler);
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), pluginLoader):
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), pluginLoader, logHandler);
 
         if (!object.isJsonObject()) {
             ctx.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
