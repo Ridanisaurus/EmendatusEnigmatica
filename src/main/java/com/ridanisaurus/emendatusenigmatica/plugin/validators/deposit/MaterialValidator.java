@@ -35,7 +35,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.B
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.EERegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,27 +92,27 @@ public class MaterialValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(ValidationContext data) {
-        JsonElement tagElement = data.getParentField("tag");
-        JsonElement blockElement = data.getParentField("block");
-        String tagPath = data.getParentFieldPath("tag");
-        String blockPath = data.getParentFieldPath("block");
-        boolean hasMaterial = data.validationElement() != null;
+    public Boolean apply(ValidationContext ctx) {
+        JsonElement tagElement = ctx.getParentField("tag");
+        JsonElement blockElement = ctx.getParentField("block");
+        String tagPath = ctx.getParentFieldPath("tag");
+        String blockPath = ctx.getParentFieldPath("block");
+        boolean hasMaterial = ctx.validationElement() != null;
         boolean hasTag = tagElement != null;
         boolean hasBlock = blockElement != null;
 
         // If we don't validate tag/block, then act as those are "Unknown keys" and ignore them.
         if (!includeTag && hasTag) {
-            Analytics.warn("Unknown key!", tagPath, data.jsonFilePath());
+            ctx.warn("Unknown key!", tagPath, ctx.jsonFilePath());
             hasTag = false;
         }
 
         if (!includeBlock && hasBlock) {
-            Analytics.warn("Unknown key!", blockPath, data.jsonFilePath());
+            ctx.warn("Unknown key!", blockPath, ctx.jsonFilePath());
             hasBlock = false;
         }
 
@@ -122,29 +121,28 @@ public class MaterialValidator implements IValidationFunction {
             (hasMaterial && hasBlock) ||
             (hasTag && hasBlock)
         ) {
-            Analytics.error(
+            ctx.error(
                 "Multiple fields with the same effect found!",
                 """
                     Only one of the fields below can be present at the same time!
                     \t- <code>%s</code>%s%s"""
-                    .formatted(data.currentPath(), includeBlock? "\n\t- <code>%s</code>".formatted(blockPath): "", includeTag? "\n\t- <code>%s</code>".formatted(tagPath): ""),
-                data.getParentPath(), data.jsonFilePath()
+                    .formatted(ctx.currentPath(), includeBlock? "\n\t- <code>%s</code>".formatted(blockPath): "", includeTag? "\n\t- <code>%s</code>".formatted(tagPath): ""),
+                ctx.getParentPath(), ctx.jsonFilePath()
             );
             return false;
         }
 
-        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, data.rootObject(), blockPath, data.jsonFilePath(), data.arrayPolicy()));
-        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, data.rootObject(), tagPath, data.jsonFilePath(), data.arrayPolicy()));
+        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, ctx.rootObject(), blockPath, ctx.jsonFilePath(), ctx.arrayPolicy()));
+        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, ctx.rootObject(), tagPath, ctx.jsonFilePath(), ctx.arrayPolicy()));
 
         if (hasMaterial) {
-            if (materialValidator.apply(data)) {
-                String id = data.validationElement().getAsString();
+            if (materialValidator.apply(ctx)) {
+                String id = ctx.validationElement().getAsString();
                 MaterialModel model = Objects.requireNonNull(EmendatusEnigmatica.getPluginRegistry(VanillaPlugin.class).getMaterialModel(id));
                 if (!model.getProcessedTypes().contains("ore")) {
-                    Analytics.error(
+                    ctx.error(
                         "This material can't be used for ore generation!",
-                        "Material <code>%s</code> is missing an <code>ore</code> processed type, which is required for use in the deposits.".formatted(id),
-                        data
+                        "Material <code>%s</code> is missing an <code>ore</code> processed type, which is required for use in the deposits.".formatted(id)
                     );
                     return false;
                 }
@@ -152,7 +150,7 @@ public class MaterialValidator implements IValidationFunction {
                 // all strata are valid, no need to check if combos are valid.
                 if (model.getStrata().isEmpty()) return true;
 
-                var fillerTypes = ValidationHelper.getElementFromPath(data.rootObject(), fillerTypesPath);
+                var fillerTypes = ValidationHelper.getElementFromPath(ctx.rootObject(), fillerTypesPath);
                 if (fillerTypes == null || !fillerTypes.isJsonArray()) return false;
 
                 List<String> missingStratas = new ArrayList<>();
@@ -162,27 +160,26 @@ public class MaterialValidator implements IValidationFunction {
                     if (!model.getStrata().contains(strata)) missingStratas.add(strata);
                 }
                 if (missingStratas.isEmpty()) return true;
-                Analytics.error(
+                ctx.error(
                     "Missing Per-Material strata!",
                     """
                     Material <code>%s</code> is missing strata for ids: <code>%s</code>, which makes it illegal for this deposit.<br>
                     Consider adding specified IDs to the <code>%s</code> material, or removing them from <code>%s</code> array.
-                    """.formatted(id, String.join(", ", missingStratas), id, fillerTypesPath),
-                    data
+                    """.formatted(id, String.join(", ", missingStratas), id, fillerTypesPath)
                 );
                 return false;
             }
             return false;
         }
 
-        Analytics.error(
+        ctx.error(
             "Missing required fields!",
             """
                 One of the fields below is required to be present in this object.
                 \t- <code>%s</code>
                 \t- <code>%s</code>
-                \t- <code>%s</code>""".formatted(data.currentPath(), tagPath, blockPath),
-            data.getParentPath(), data.jsonFilePath()
+                \t- <code>%s</code>""".formatted(ctx.currentPath(), tagPath, blockPath),
+            ctx.getParentPath(), ctx.jsonFilePath()
         );
         return false;
     }

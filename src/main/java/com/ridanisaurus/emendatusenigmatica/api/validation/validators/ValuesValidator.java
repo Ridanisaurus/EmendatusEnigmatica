@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -58,22 +57,22 @@ public class ValuesValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ValuesValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        String value = data.validationElement().getAsString();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        String value = ctx.validationElement().getAsString();
         boolean contains = values.contains(value);
         if (mode == FilterMode.WHITELIST) {
             if (contains) return true;
-            Analytics.error("Field contains an illegal value <code>%s</code>!".formatted(value), "Accepted values: <code>%s</code>".formatted(valuesAsString), data);
+            ctx.error("Field contains an illegal value <code>%s</code>!".formatted(value), "Accepted values: <code>%s</code>".formatted(valuesAsString));
             return false;
         }
         if (!contains) return true;
-        Analytics.error("Field contains one of the illegal values!", "Provided: <code>%s</code> , Illegal values: <code>%s</code>".formatted(value, valuesAsString), data);
+        ctx.error("Field contains one of the illegal values!", "Provided: <code>%s</code> , Illegal values: <code>%s</code>".formatted(value, valuesAsString));
         return false;
     }
 }

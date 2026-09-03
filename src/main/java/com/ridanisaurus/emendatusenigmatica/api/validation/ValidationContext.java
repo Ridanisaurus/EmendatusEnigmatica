@@ -41,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
  * @param currentPath Current Path inside the JSON file.
  * @param jsonFilePath Path to the json file, obfuscated.
  * @param arrayPolicy Field's {@link ArrayHandlingPolicy}.
+ * @param logHandler Handler used to handle warn/error logging for this context.
  * @implSpec Please do not store any reference to this object outside the validation method.
  */
 public record ValidationContext(
@@ -48,8 +49,28 @@ public record ValidationContext(
     @NotNull JsonObject rootObject,
     @NotNull String currentPath,
     @NotNull String jsonFilePath,
-    @NotNull ArrayHandlingPolicy arrayPolicy
+    @NotNull ArrayHandlingPolicy arrayPolicy,
+    @NotNull IValidationLogHandler logHandler
 ) {
+
+    /**
+     * Used to hold all necessary information for the validator.
+     * @param validationElement Element currently validated
+     * @param rootObject Root Json Object (if other fields are necessary).
+     * @param currentPath Current Path inside the JSON file.
+     * @param jsonFilePath Path to the json file, obfuscated.
+     * @param arrayPolicy Legacy reference to {@link ArrayPolicy}
+     * @implSpec Please do not store any reference to this object outside the validation method.
+     */
+    public ValidationContext(
+        JsonElement validationElement,
+        @NotNull JsonObject rootObject,
+        @NotNull String currentPath,
+        @NotNull String jsonFilePath,
+        @NotNull ArrayHandlingPolicy arrayPolicy
+    ) {
+        this(validationElement, rootObject, currentPath, jsonFilePath, arrayPolicy, new IValidationLogHandler() {});
+    }
 
     /**
      * Used to hold all necessary information for the validator.
@@ -105,5 +126,81 @@ public record ValidationContext(
 
     public @Nullable JsonElement getParentFieldAs(Types type, String fieldName) {
         return ValidationHelper.getElementFromPathAs(this.rootObject, getParentFieldPath(fieldName), type);
+    }
+
+    /**
+     * Used to add warn messages for the current file.
+     * @param msg Message to add
+     */
+    public void warn(String msg) {
+        warn(msg, null, currentPath(), jsonFilePath());
+    }
+
+    /**
+     * Used to add warn messages for the current file.
+     * @param msg Message to add
+     * @param additional Additional details to be printed after "message". This gets written directly into the file!
+     */
+    public void warn(String msg, String additional) {
+        warn(msg, additional, currentPath(), jsonFilePath());
+    }
+
+    /**
+     * Used to add warn messages for the current file.
+     * @param msg Message to add
+     * @param elementPath Path to the element in question.
+     * @param jsonPath Path to the JSON file.
+     */
+    public void warn(String msg, String elementPath, String jsonPath) {
+        warn(msg, null, elementPath, jsonPath);
+    }
+
+    /**
+     * Used to add warn messages for the current file.
+     * @param msg Message to add
+     * @param additional Additional details to be printed after "message". This gets written directly into the file!
+     * @param elementPath Path to the element in question.
+     * @param jsonPath Path to the JSON file.
+     */
+    public void warn(String msg, String additional, String elementPath, String jsonPath) {
+        logHandler.warn(msg, additional, elementPath, jsonPath);
+    }
+
+    /**
+     * Used to add error messages for the current file.
+     * @param msg Message to add.
+     */
+    public void error(String msg) {
+        error(msg, null, currentPath(), jsonFilePath());
+    }
+
+    /**
+     * Used to add error messages for the current file.
+     * @param msg Message to add.
+     * @param additional Additional details to be printed after "cause". This gets written directly into the file!
+     */
+    public void error(String msg, @Nullable String additional) {
+        error(msg, additional, currentPath(), jsonFilePath());
+    }
+
+    /**
+     * Used to add error messages for the current file.
+     * @param msg Message to add.
+     * @param elementPath Path to the element in question.
+     * @param jsonPath Obfuscated path to the JSON file.
+     */
+    public void error(String msg, String elementPath, String jsonPath) {
+        error(msg, null, elementPath, jsonPath);
+    }
+
+    /**
+     * Used to add error messages for the current file.
+     * @param msg Message to add.
+     * @param additional Additional details to be printed after "cause". This gets written directly into the file!
+     * @param elementPath Path to the element in question.
+     * @param jsonPath Obfuscated path to the JSON file.
+     */
+    public void error(String msg, @Nullable String additional, String elementPath, String jsonPath) {
+        logHandler.error(msg, additional, elementPath, jsonPath);
     }
 }

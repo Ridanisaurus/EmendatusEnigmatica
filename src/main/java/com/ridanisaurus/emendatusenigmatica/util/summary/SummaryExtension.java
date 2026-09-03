@@ -22,10 +22,19 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.util.analytics;
+package com.ridanisaurus.emendatusenigmatica.util.summary;
 
-import java.util.List;
+import java.util.function.Consumer;
 
-public record Messages(List<Message> warnings, List<Message> errors) {
-    public record Message(String element, String message, String additionalInfo) {}
+/**
+ * Utility interface for {@link SummaryHandler} addons.
+ */
+public interface SummaryExtension extends Consumer<SummaryWriteContext> {
+    /**
+     * Method executed by the {@link SummaryHandler} with write context provided.
+     *
+     * @param cx Write Context for the file.
+     */
+    @Override
+    void accept(SummaryWriteContext cx);
 }

@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -77,29 +76,28 @@ public class FieldTrueValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
+    public Boolean apply(@NotNull ValidationContext ctx) {
         JsonElement booleanField;
         String booleanFieldPath;
         if (field.startsWith("root")) {
-            booleanField = ValidationHelper.getElementFromPathAs(data.rootObject(), field, Types.BOOLEAN);
+            booleanField = ValidationHelper.getElementFromPathAs(ctx.rootObject(), field, Types.BOOLEAN);
             booleanFieldPath = field;
         } else {
-            booleanField = data.getParentFieldAs(Types.BOOLEAN, field);
-            booleanFieldPath = data.getParentFieldPath(field);
+            booleanField = ctx.getParentFieldAs(Types.BOOLEAN, field);
+            booleanFieldPath = ctx.getParentFieldPath(field);
         }
 
-        JsonElement element = data.validationElement();
+        JsonElement element = ctx.validationElement();
 
         if (Objects.isNull(element)) {
             if (!optional && Objects.nonNull(booleanField) && booleanField.getAsBoolean()) {
-                Analytics.error(
+                ctx.error(
                     "This field is required!",
                     "Field <code>%s</code> is set to <code>true</code>, which makes this field necessary.".formatted(booleanFieldPath)
-                    , data
                 );
                 return false;
             }
@@ -107,26 +105,24 @@ public class FieldTrueValidator implements IValidationFunction {
         }
 
         if (Objects.isNull(booleanField))
-            Analytics.warn(
+            ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be present and set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath),
-                data
+                "Field <code>%s</code> needs to be present and set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath)
             );
         else if (!booleanField.getAsBoolean())
-            Analytics.warn(
+            ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath),
-                data
+                "Field <code>%s</code> needs to be set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath)
             );
         else if (!optional)
             return validator.apply(new ValidationContext(
-                data.validationElement(),
-                data.rootObject(),
-                data.currentPath(),
-                data.jsonFilePath(),
-                data.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
+                ctx.validationElement(),
+                ctx.rootObject(),
+                ctx.currentPath(),
+                ctx.jsonFilePath(),
+                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
             );
 
-        return validator.apply(data);
+        return validator.apply(ctx);
     }
 }

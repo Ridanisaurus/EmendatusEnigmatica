@@ -6,7 +6,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,12 +35,12 @@ public class DepositValidationManager extends ValidationManager {
         var path = ValidationHelper.obfuscatePath(jsonPath);
 
         if (!object.isJsonObject()) {
-            Analytics.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
+            SummaryHandler.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
             return false;
         }
 
         if (object.isEmpty()) {
-            if (!EEConfig.startup.skipEmptyJsons.get()) Analytics.error("Root object is empty!", "root", path);
+            if (!EEConfig.startup.skipEmptyJsons.get()) SummaryHandler.error("Root object is empty!", "root", path);
             return false;
         }
 

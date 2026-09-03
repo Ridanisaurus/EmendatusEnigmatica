@@ -12,7 +12,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AcceptsAllValidator;
 import com.ridanisaurus.emendatusenigmatica.util.ExceptionHelper;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -73,8 +73,8 @@ public class EEModelLoader {
             throw new SecurityException("Plugin \"%s\" tried registering definition under different addon's ownership (\"%s\")."
                 .formatted(currentPlugin.name(), definition.getOwningAnnotation().name()));
 
-        var path = definition.folderPath().updatePath(Analytics.CONFIG_DIR).normalize();
-        if (!path.startsWith(Analytics.CONFIG_DIR))
+        var path = definition.folderPath().updatePath(SummaryHandler.CONFIG_DIR).normalize();
+        if (!path.startsWith(SummaryHandler.CONFIG_DIR))
             throw new SecurityException("Requested path by plugin \"%s\" (\"%s\") points outside of EE Configuration directory! (\"%s\")"
                 .formatted(currentPlugin.name(), definition.getOwningPlugin().getName(), path));
 
@@ -86,8 +86,8 @@ public class EEModelLoader {
                 - "{}" > "{}" --> "{}"
                 """,
                 currentPlugin.name(), it.getOwningAnnotation().name(),
-                currentPlugin.name(), path, definition.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s %s)".formatted(currentPlugin.name(), definition.getRegistryName())),
-                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(Analytics.CONFIG_DIR, "(%s %s)".formatted(it.getOwningAnnotation().name(), it.getRegistryName()))
+                currentPlugin.name(), path, definition.folderPath().updatePath(SummaryHandler.CONFIG_DIR, "(%s %s)".formatted(currentPlugin.name(), definition.getRegistryName())),
+                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(SummaryHandler.CONFIG_DIR, "(%s %s)".formatted(it.getOwningAnnotation().name(), it.getRegistryName()))
         ));
 
         if (definition.validator().getRegisteredFields().contains("extensionOverrides"))
@@ -191,7 +191,7 @@ public class EEModelLoader {
                 if (Files.notExists(path)) {
                     logger.info("Creating missing config directory \"{}\".", path);
                     Files.createDirectories(path);
-                    Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
+                    SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
                     continue;
                 }
 
@@ -223,7 +223,7 @@ public class EEModelLoader {
                             if (Objects.isNull(extensionModel)) continue;
                             extension.genericRegister(model, extensionModel, definitionRegistry, pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
-                            Analytics.error(
+                            SummaryHandler.error(
                                 "Failed parsing extension: %s:%s"
                                     .formatted(extension.getOwningAnnotation().name(), extension.getRegistryName()),
                                 ExceptionHelper.getAsString(e),
@@ -236,7 +236,7 @@ public class EEModelLoader {
 
                     definition.genericRegister(model, definitionRegistry);
                 });
-                Analytics.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
+                SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
             }
         } catch (Exception e) {
             throw new RuntimeException("Critical exception caught while loading EEModelDefinitions!", e);

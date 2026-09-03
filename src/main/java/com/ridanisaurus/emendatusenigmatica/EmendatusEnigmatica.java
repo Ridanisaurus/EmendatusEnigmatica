@@ -34,9 +34,9 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader;
 import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationManager;
-import com.ridanisaurus.emendatusenigmatica.loader.AddonInfoAnalytics;
+import com.ridanisaurus.emendatusenigmatica.loader.AddonInfoSummary;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.tabs.EECreativeTab;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -92,14 +92,14 @@ public class EmendatusEnigmatica {
     public EmendatusEnigmatica(@NotNull IEventBus modEventBus, @NotNull ModContainer modContainer) throws ExecutionException, InterruptedException {
             instance = this;
             VERSION = modContainer.getModInfo().getVersion().toString();
-            Analytics.setup();
+            SummaryHandler.setup();
 
             DataGeneratorFactory.init();
             this.generator = DataGeneratorFactory.createEEDataGenerator();
     
             this.pluginLoader = new EEPluginLoader();
             this.modelLoader = new EEModelLoader();
-            Analytics.registerAddon(new AddonInfoAnalytics(this.pluginLoader, this.modelLoader));
+            SummaryHandler.registerAddon(new AddonInfoSummary(this.pluginLoader, this.modelLoader));
             EEConfig.setupConfigs(modContainer, pluginLoader);
             this.pluginLoader.setup(new SetupContext(pluginLoader, modelLoader, this));
             this.pluginLoader.load(modelLoader);
@@ -158,7 +158,7 @@ public class EmendatusEnigmatica {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         boolean result = RegistryValidationManager.validate();
-        Analytics.finalizeAnalytics();
+        SummaryHandler.finalizeSummary();
         if (!result)
             throw new IllegalStateException("Registry validation failed! %s Validation Summary for more details.".formatted(EEConfig.startup.generateSummary.get()? "Check the": "Enable"));
     }

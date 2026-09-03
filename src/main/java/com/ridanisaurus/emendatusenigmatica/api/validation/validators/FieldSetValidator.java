@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -81,29 +80,28 @@ public class FieldSetValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
+    public Boolean apply(@NotNull ValidationContext ctx) {
         JsonElement stringField;
         String stringFieldPath;
         if (field.startsWith("root")) {
-            stringField = ValidationHelper.getElementFromPathAs(data.rootObject(), field, Types.STRING);
+            stringField = ValidationHelper.getElementFromPathAs(ctx.rootObject(), field, Types.STRING);
             stringFieldPath = field;
         } else {
-            stringField = data.getParentFieldAs(Types.STRING, field);
-            stringFieldPath = data.getParentFieldPath(field);
+            stringField = ctx.getParentFieldAs(Types.STRING, field);
+            stringFieldPath = ctx.getParentFieldPath(field);
         }
 
-        JsonElement element = data.validationElement();
+        JsonElement element = ctx.validationElement();
 
         if (Objects.isNull(element)) {
             if (!optional && Objects.nonNull(stringField) && stringField.getAsString().equals(value)) {
-                Analytics.error(
+                ctx.error(
                     "This field is required!",
                     "Field <code>%s</code> is set to <code>%s</code>, which makes this field necessary.".formatted(stringFieldPath, value)
-                    , data
                 );
                 return false;
             }
@@ -111,26 +109,24 @@ public class FieldSetValidator implements IValidationFunction {
         }
 
         if (Objects.isNull(stringField))
-            Analytics.warn(
+            ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value),
-                data
+                "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value)
             );
         else if (!stringField.getAsString().equals(value))
-            Analytics.warn(
+            ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value),
-                data
+                "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value)
             );
         else if (!optional)
             return validator.apply(new ValidationContext(
-                data.validationElement(),
-                data.rootObject(),
-                data.currentPath(),
-                data.jsonFilePath(),
-                data.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
+                ctx.validationElement(),
+                ctx.rootObject(),
+                ctx.currentPath(),
+                ctx.jsonFilePath(),
+                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty())
             );
 
-        return validator.apply(data);
+        return validator.apply(ctx);
     }
 }

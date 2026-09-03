@@ -33,7 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.util.ClassHelper;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.minecraft.Util;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -138,7 +138,7 @@ public class EEPluginLoader {
 
         s.stop();
         logger.info("Finished scanning for plugins, took {}ms.", s.elapsed(TimeUnit.MILLISECONDS));
-        Analytics.addPerformanceAnalytic("Scanning and registration of addons", s);
+        SummaryHandler.addPerformanceAnalytic("Scanning and registration of addons", s);
     }
 
     /**
@@ -165,7 +165,7 @@ public class EEPluginLoader {
             if (EEConfig.startup.regenerateDefaults.get()) {
                 EmendatusEnigmatica.logger.warn("Regeneration of default configurations triggered! This will wipe your EE Config directory.");
                 try {
-                    FileUtils.deleteDirectory(Analytics.CONFIG_DIR.toFile());
+                    FileUtils.deleteDirectory(SummaryHandler.CONFIG_DIR.toFile());
                 } catch (IOException e) {
                     throw new RuntimeException("IO Exception while trying to delete EE Configuration directory.", e);
                 }
@@ -174,7 +174,7 @@ public class EEPluginLoader {
             }
 
             // We only generate defaults if the Config Dir is not existent.
-            if (Files.notExists(Analytics.CONFIG_DIR)) {
+            if (Files.notExists(SummaryHandler.CONFIG_DIR)) {
                 EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
                 var context = new DCCreationContext();
                 this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(context.setCurrentAddon(it.annotation)));

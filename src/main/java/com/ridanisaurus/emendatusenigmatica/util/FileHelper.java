@@ -29,7 +29,7 @@ import com.google.gson.JsonParser;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -69,13 +69,13 @@ public class FileHelper {
 	 * Used to get a map of Paths and values from the files in the specified directory.
 	 * @param dir Path to the directory to load. Subdirectories will also be loaded.
 	 * @return Map with Path -> JsonObject from the provided path.
-	 * @apiNote Will generate errors to {@link Analytics} on exceptions.
+	 * @apiNote Will generate errors to {@link SummaryHandler} on exceptions.
 	 */
 	public static @NotNull Map<Path, JsonObject> loadJsonsWithPaths(Path dir) {
 		Map<Path, JsonObject> results = new HashMap<>();
 		dir = dir.toAbsolutePath();
 		if (Files.notExists(dir) || !Files.isDirectory(dir)) {
-			Analytics.error(
+			SummaryHandler.error(
 				"Provided path doesn't exist!",
 				"Tried loading JSON files from non-existing directory. This is most likely a bug in the mod or one of the addons.",
 				"None",
@@ -94,7 +94,7 @@ public class FileHelper {
 					if (EEConfig.startup.skipEmptyJsons.get() && Files.size(file) == 0) return;
 					if (file.getFileName().toString().endsWith(".json")) results.put(file, JsonParser.parseReader(Files.newBufferedReader(file)).getAsJsonObject());
 				} catch (Exception e) {
-					Analytics.error(
+					SummaryHandler.error(
 						"Failed parsing JSON file!",
 						ExceptionHelper.getAsString(e),
 						"None",
@@ -105,7 +105,7 @@ public class FileHelper {
 				}
 			});
 		} catch (Exception ex) {
-			Analytics.error(
+			SummaryHandler.error(
 				"Failed reading directory containing JSON files!",
 				ExceptionHelper.getAsString(ex),
 				"None",

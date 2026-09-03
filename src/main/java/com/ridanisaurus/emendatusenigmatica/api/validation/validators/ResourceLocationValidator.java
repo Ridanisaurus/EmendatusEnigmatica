@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.AbstractRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.RegistryValidationData;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -106,32 +105,32 @@ public class ResourceLocationValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link ResourceLocationValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
 
         // Design note
         // Decided to simplify this validator to just check the format and character set.
         // Even tho neat, there is no sense in providing which part of the Resource Location is missing!
-        String value = data.validationElement().getAsString();
+        String value = ctx.validationElement().getAsString();
         // Cut "#" from the value if we accept tags, to pass the actual validation below.
         if (acceptTags && value.startsWith("#")) value = value.substring(1);
         
         List<String> values = List.of(value.split(":"));
         if (values.size() != 2) {
-            Analytics.error("Provided Resource Location (ID) doesn't comply to the format!", "Expected: <code>namespace:id</code>, got: <code>%s</code>".formatted(value), data);
+            ctx.error("Provided Resource Location (ID) doesn't comply to the format!", "Expected: <code>namespace:id</code>, got: <code>%s</code>".formatted(value));
             return false;
         }
         if (!ResourceLocation.isValidNamespace(values.get(0)) || !ResourceLocation.isValidPath(values.get(1))) {
-            Analytics.error("Provided Resource Location (ID) contains non [a-z0-9/._-] character!", "Provided value: <code>%s</code>".formatted(value), data);
+            ctx.error("Provided Resource Location (ID) contains non [a-z0-9/._-] character!", "Provided value: <code>%s</code>".formatted(value));
             return false;
         }
         // Add ResourceLocation for Post-Registration check.
-        if (Objects.nonNull(resourceLocations)) resourceLocations.add(new RegistryValidationData(ResourceLocation.parse(value), data));
+        if (Objects.nonNull(resourceLocations)) resourceLocations.add(new RegistryValidationData(ResourceLocation.parse(value), ctx));
         return true;
     }
 }

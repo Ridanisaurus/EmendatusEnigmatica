@@ -24,12 +24,11 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.strata;
 
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,16 +49,16 @@ public class SuffixValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        String value = data.validationElement().getAsString();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        String value = ctx.validationElement().getAsString();
         if (!ResourceLocation.isValidNamespace(value)) {
-            Analytics.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), data);
+            SummaryHandler.error("Provided suffix <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), ctx);
             return false;
         }
         //TODO: Rework for new deposit system
@@ -68,7 +67,7 @@ public class SuffixValidator extends TypeValidator {
 //            .getDataRegistry().getStrata()
 //            .stream().filter(it -> it.getSuffix().equals(value))
 //            .findFirst().orElseThrow().getId();
-//        Analytics.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId), data);
+//        SummaryHandler.error("Provided suffix <code>%s</code> is already specified in strata with ID <code>%s</code>!".formatted(value, ogId), data);
         return false;
     }
 }

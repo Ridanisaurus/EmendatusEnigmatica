@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -54,38 +53,38 @@ public class TypeValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        var element = data.validationElement();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        var element = ctx.validationElement();
         JsonPrimitive primitive = null;
         if (element.isJsonPrimitive()) primitive = element.getAsJsonPrimitive();
         return switch (this.type) {
             case INTEGER, FLOAT -> {
                 if (Objects.isNull(primitive) || !primitive.isNumber()) {
-                    Analytics.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()), data);
+                    ctx.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()));
                     yield false;
                 }
 
-                if (Analytics.isEnabled() && type == Types.INTEGER) {
+                if (type == Types.INTEGER) {
                     var value = primitive.getAsDouble();
                     var floor = Math.floor(value);
-                    if (value > floor) Analytics.warn("Floating-point value is not supported for this field, and will be rounded down to " + (int) floor, data);
+                    if (value > floor) ctx.warn("Floating-point value is not supported for this field, and will be rounded down to " + (int) floor);
                 }
 
                 yield true;
             }
             case STRING, STRING_EMPTY -> {
                 if (Objects.isNull(primitive) || !primitive.isString()) {
-                    Analytics.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()), data);
+                    ctx.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()));
                     yield false;
                 }
 
                 if (type == Types.STRING && primitive.getAsString().isBlank()) {
-                    Analytics.error("String for this field can't be empty!", data);
+                    ctx.error("String for this field can't be empty!");
                     yield false;
                 }
 
@@ -93,7 +92,7 @@ public class TypeValidator extends AbstractValidator {
             }
             case BOOLEAN -> {
                 if (Objects.isNull(primitive) || !primitive.isBoolean()) {
-                    Analytics.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()), data);
+                    ctx.error("Invalid type!", "Required type: <code>%s</code>, got: <code>%s</code>".formatted(type, element.toString()));
                     yield false;
                 }
                 yield true;

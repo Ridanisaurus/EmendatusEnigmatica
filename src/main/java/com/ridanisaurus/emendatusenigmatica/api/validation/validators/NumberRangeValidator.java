@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -57,17 +56,17 @@ public class NumberRangeValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly!
      * Call {@link NumberRangeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        double number = data.validationElement().getAsDouble();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        double number = ctx.validationElement().getAsDouble();
         if (number < min || number > max) {
-            Analytics.error("Number out of range!", "Expected number from %f to %f, got %f.".formatted(min, max, number), data);
+            ctx.error("Number out of range!", "Expected number from %f to %f, got %f.".formatted(min, max, number));
             return false;
         }
         return true;

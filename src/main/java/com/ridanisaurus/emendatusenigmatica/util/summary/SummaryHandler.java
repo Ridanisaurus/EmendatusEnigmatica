@@ -22,11 +22,10 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.util.analytics;
+package com.ridanisaurus.emendatusenigmatica.util.summary;
 
 import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import net.neoforged.fml.loading.FMLPaths;
@@ -44,7 +43,7 @@ import java.util.function.Consumer;
  * A static class, used to gather messages from the validation system and generate a summary.
  * @implSpec Please try to not generate more than a single message for each field. Each message is its own paragraph, with the field path.
  */
-public class Analytics {
+public class SummaryHandler {
     /**
      * Used to store messages and necessary data for each file.
      */
@@ -56,14 +55,14 @@ public class Analytics {
     private static final Map<String, String> messageCategories = new LinkedHashMap<>();
 
     /**
-     * Used to store Performance Analytics, which will get printed at the end of the Validation Summary file into the table.
+     * Used to store Performance SummaryHandler, which will get printed at the end of the Validation Summary file into the table.
      */
     private static final Map<String, String> performanceMap = new LinkedHashMap<>();
 
-    private static final List<Consumer<AnalyticsWriteContext>> addons = new ArrayList<>();
+    private static final List<Consumer<SummaryWriteContext>> addons = new ArrayList<>();
 
     /**
-     * Used to lock the analytics if they were already summarized on this launch of the game.
+     * Used to lock the summary if it was already generated on this launch of the game.
      */
     private static boolean finalized = false;
 
@@ -82,10 +81,10 @@ public class Analytics {
     /**
      * Private constructor. This class is static, and no instances of it should be created.
      */
-    private Analytics() {}
+    private SummaryHandler() {}
 
     /**
-     * Used to set up the Analytics paths.
+     * Used to set up the SummaryHandler paths.
      */
     public static void setup() {
         CONFIG_DIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/").toAbsolutePath().normalize();
@@ -102,17 +101,17 @@ public class Analytics {
     }
 
     /**
-     * Used to check if Analytics were finalized and saved to the file.<br>
+     * Used to check if the Summary was finalized and saved to the file.<br>
      * When {@code true}, any further calls to other methods will result in an exception.
-     * @return Status of the analytics.
+     * @return Status of the SummaryHandler.
      */
     public static boolean isFinalized() {
         return finalized;
     }
 
     /**
-     * Used to check if the Analytics are enabled.
-     * @return True if analytics summary is going to be generated, false otherwise.
+     * Used to check if the Summary generation is enabled.
+     * @return True if summary is going to be generated, false otherwise.
      * @apiNote This is mostly used to skip parts of the validation system, which are only meant to provide additional warnings for the end-user.
      */
     public static boolean isEnabled() {
@@ -122,49 +121,13 @@ public class Analytics {
     /**
      * Used to add warn messages for specified file.
      * @param msg Message to add
-     * @param data ValidationContext, from which all necessary information will be taken.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void warn(String msg, @NotNull ValidationContext data) {
-        warn(msg, null, data.currentPath(), data.jsonFilePath());
-    }
-
-    /**
-     * Used to add warn messages for specified file.
-     * @param msg Message to add
-     * @param additional Additional details to be printed after "message". This gets written directly into the file!
-     * @param data ValidationContext, from which all necessary information will be taken.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void warn(String msg, String additional, @NotNull ValidationContext data) {
-        warn(msg, additional, data.currentPath(), data.jsonFilePath());
-    }
-
-    /**
-     * Used to add warn messages for specified file.
-     * @param msg Message to add
-     * @param elementPath Path to the element in question.
-     * @param jsonPath Path to the json file.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void warn(String msg, String elementPath, String jsonPath) {
-        warn(msg, null, elementPath, jsonPath);
-    }
-
-    /**
-     * Used to add warn messages for specified file.
-     * @param msg Message to add
      * @param additional Additional details to be printed after "message". This gets written directly into the file!
      * @param elementPath Path to the element in question.
      * @param jsonPath Path to the json file.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
+     * @see SummaryHandler#isFinalized()
      */
     public static void warn(String msg, String additional, String elementPath, String jsonPath) {
-        if (finalized) throw new IllegalStateException("Analytics were already finalized!");
+        if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
         messages.computeIfAbsent(StringUtils.substringBefore(jsonPath, dirSeparator), it -> new HashMap<>())
             .computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).warnings().add(new Messages.Message(elementPath, msg, additional));
     }
@@ -172,49 +135,13 @@ public class Analytics {
     /**
      * Used to add error messages for specified file.
      * @param msg Message to add.
-     * @param data ValidationContext, from which all necessary information will be taken.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void error(String msg, @NotNull ValidationContext data) {
-        error(msg, null, data.currentPath(), data.jsonFilePath());
-    }
-
-    /**
-     * Used to add error messages for specified file.
-     * @param msg Message to add.
-     * @param additional Additional details to be printed after "cause". This gets written directly into the file!
-     * @param data ValidationContext, from which all necessary information will be taken.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void error(String msg, @Nullable String additional, @NotNull ValidationContext data) {
-        error(msg, additional, data.currentPath(), data.jsonFilePath());
-    }
-
-    /**
-     * Used to add error messages for specified file.
-     * @param msg Message to add.
-     * @param elementPath Path to the element in question.
-     * @param jsonPath Obfuscated path to the json file.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
-     */
-    public static void error(String msg, String elementPath, String jsonPath) {
-        error(msg, null, elementPath, jsonPath);
-    }
-
-    /**
-     * Used to add error messages for specified file.
-     * @param msg Message to add.
      * @param additional Additional details to be printed after "cause". This gets written directly into the file!
      * @param elementPath Path to the element in question.
      * @param jsonPath Obfuscated path to the json file.
-     * @apiNote The types are determined based on the jsonPath, using format {@code type/folder_if_any/file.json}.
-     * @see Analytics#isFinalized()
+     * @see SummaryHandler#isFinalized()
      */
     public static void error(String msg, @Nullable String additional, String elementPath, String jsonPath) {
-        if (finalized) throw new IllegalStateException("Analytics were already finalized!");
+        if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
         messages.computeIfAbsent(StringUtils.substringBefore(jsonPath, dirSeparator), it -> new HashMap<>())
             .computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).errors().add(new Messages.Message(elementPath, msg, additional));
     }
@@ -227,10 +154,10 @@ public class Analytics {
      * @param header The String to print as the Category Name
      * @param directory Directory / Type for messages to print under this category.
      * @apiNote Take a note that categories added by this method, unlike Custom Messages, will appear in the validation summary even if no messages are found for it!
-     * @see Analytics#isFinalized()
+     * @see SummaryHandler#isFinalized()
      */
     public static void addNewCategory(String header, String directory) {
-        if (finalized) throw new IllegalStateException("Analytics were already finalized!");
+        if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
         messageCategories.put(header, directory);
     }
 
@@ -246,18 +173,18 @@ public class Analytics {
         addPerformanceAnalytic(category, "%d.%ss".formatted(time.getSeconds(), milis));
     }
 
-    public static void registerAddon(Consumer<AnalyticsWriteContext> addon) {
+    public static void registerAddon(Consumer<SummaryWriteContext> addon) {
         addons.add(Objects.requireNonNull(addon, "Addon function can't be null!"));
     }
 
     /**
-     * Used to finalize the Validation Analytics and generate a summary file.<br>
-     * This method will also lock the analytics instance, and block any further calls to its methods.
-     * @see Analytics#isFinalized()
+     * Used to finalize and generate a summary file.<br>
+     * This method will also lock the SummaryHandler instance, and block any further calls to its methods.
+     * @see SummaryHandler#isFinalized()
      */
-    public static void finalizeAnalytics() {
-        if (finalized) throw new IllegalStateException("Analytics were already finalized!");
-        AnalyticsWriteContext cx = new AnalyticsWriteContext(summaryFile);
+    public static void finalizeSummary() {
+        if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
+        SummaryWriteContext cx = new SummaryWriteContext(summaryFile);
         Stopwatch s = Stopwatch.createStarted();
 
         try {
@@ -301,7 +228,7 @@ public class Analytics {
             cx.writeSpacer();
             cx.writeHeader("Additional Information", 2);
             executeAddons(cx);
-            addPerformanceAnalytic("Generation of Analytics Summary", s);
+            addPerformanceAnalytic("Generation of SummaryHandler Summary", s);
             printPerformance(cx);
             cx.writeComment("You can disable the generation of this summary and speed up the validation in the configuration file!");
 
@@ -311,11 +238,11 @@ public class Analytics {
         }
     }
 
-    private static void executeAddons(AnalyticsWriteContext cx) {
+    private static void executeAddons(SummaryWriteContext cx) {
         addons.forEach(it -> it.accept(cx));
     }
 
-    private static void printMessages(@NotNull String key, AnalyticsWriteContext cx) {
+    private static void printMessages(@NotNull String key, SummaryWriteContext cx) {
         messages.computeIfAbsent(key, it -> new HashMap<>()).forEach((file, messages) -> {
             cx.writeHeader("File <code>%s</code>".formatted(file), 3);
             if (!messages.warnings().isEmpty()) {
@@ -342,7 +269,7 @@ public class Analytics {
         if (messages.get(key).isEmpty()) cx.writeLine("All files were parsed and registered successfully!");
     }
 
-    private static void printPerformance(@NotNull AnalyticsWriteContext cx) {
+    private static void printPerformance(@NotNull SummaryWriteContext cx) {
         cx.writeHeader("Performance", 3);
         StringBuilder table = new StringBuilder();
         table.append("<table>");

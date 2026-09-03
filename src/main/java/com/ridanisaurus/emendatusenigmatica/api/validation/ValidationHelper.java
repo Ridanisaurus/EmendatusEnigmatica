@@ -28,7 +28,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -225,6 +225,6 @@ public class ValidationHelper {
      * @return String with an obfuscated path.
      */
     public static @NotNull String obfuscatePath(Path path) {
-        return Analytics.CONFIG_DIR.relativize(path).toString();
+        return SummaryHandler.CONFIG_DIR.relativize(path).toString();
     }
 }

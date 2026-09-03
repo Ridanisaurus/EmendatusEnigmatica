@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen;
 
 import com.google.common.base.Stopwatch;
 import com.mojang.logging.LogUtils;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.minecraft.Util;
 import net.minecraft.WorldVersion;
 import net.minecraft.data.DataGenerator;
@@ -65,7 +65,7 @@ public class EEDataGenerator extends DataGenerator {
         });
 
         try (dataGenExecutor) {
-            // Run-Logic reimplemented to add Custom Progress bar and own Analytics.
+            // Run-Logic reimplemented to add Custom Progress bar and own SummaryHandler.
             HashCache cache = new HashCache(this.rootOutputFolder, this.allProviderIds, this.version);
             Stopwatch sMain = Stopwatch.createStarted();
             var bar = StartupNotificationManager.addProgressBar("Emendatus Enigmatica: Data Generation", this.providersToRun.size());
@@ -117,7 +117,7 @@ public class EEDataGenerator extends DataGenerator {
             String msg = "Emendatus Enigmatica: Setup finished after %s ms.".formatted(sMain.elapsed(TimeUnit.MILLISECONDS));
             StartupNotificationManager.addModMessage(msg);
             logger.info(msg);
-            Analytics.addPerformanceAnalytic("Data Generation", sMain);
+            SummaryHandler.addPerformanceAnalytic("Data Generation", sMain);
         } catch (Throwable e) {
             crashed = true;
             if (ModLoader.hasErrors()) {

@@ -1,7 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.config;
 
 import com.ridanisaurus.emendatusenigmatica.api.config.exceptions.DCValidationException;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -19,8 +19,8 @@ public abstract class AbstractDCType {
      * @throws IllegalArgumentException if resulting path points outside the EE Config Directory.
      */
     public AbstractDCType(String basePath) {
-        this.basePath = Analytics.CONFIG_DIR.resolve(Objects.requireNonNull(basePath)).toAbsolutePath().normalize();
-        if (!this.basePath.startsWith(Analytics.CONFIG_DIR.toAbsolutePath())) throw new IllegalArgumentException("Provided path goes outside EmendatusEnigmatica config directory.");
+        this.basePath = SummaryHandler.CONFIG_DIR.resolve(Objects.requireNonNull(basePath)).toAbsolutePath().normalize();
+        if (!this.basePath.startsWith(SummaryHandler.CONFIG_DIR.toAbsolutePath())) throw new IllegalArgumentException("Provided path goes outside EmendatusEnigmatica config directory.");
     }
 
     /**

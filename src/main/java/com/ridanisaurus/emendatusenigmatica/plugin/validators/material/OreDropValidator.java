@@ -31,7 +31,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialOreDropModel;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 
 import java.util.Objects;
 
@@ -49,16 +49,16 @@ public class OreDropValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(ValidationContext data) {
-        JsonElement types = ValidationHelper.getElementFromPath(data.rootObject(), "root.processedTypes");
+    public Boolean apply(ValidationContext ctx) {
+        JsonElement types = ValidationHelper.getElementFromPath(ctx.rootObject(), "root.processedTypes");
         boolean hasOre = false;
         boolean hasGem = false;
         boolean hasRaw = false;
-        boolean hasVal = Objects.nonNull(data.validationElement());
+        boolean hasVal = Objects.nonNull(ctx.validationElement());
         if (Objects.nonNull(types) && types.isJsonArray()) {
             var array = types.getAsJsonArray();
             hasOre = array.contains(new JsonPrimitive("ore"));
@@ -67,20 +67,20 @@ public class OreDropValidator implements IValidationFunction {
         }
 
         if (hasVal) {
-            if (!hasOre) Analytics.warn(
+            if (!hasOre) SummaryHandler.warn(
                 "This field is unnecessary.",
                 "Array <code>root.processedTypes</code> is missing an element <code>ore</code>, which is required for this field to have an effect.",
-                data
+                ctx
             );
         } else if (!hasGem && !hasRaw && hasOre) {
-            Analytics.error(
+            SummaryHandler.error(
                 "This field is required!",
                 "Array <code>root.processedTypes</code> contains an element <code>ore</code> and misses <code>gem, raw</code>, which marks this field as required.",
-                data
+                ctx
             );
             return false;
         }
 
-        return validator.apply(data);
+        return validator.apply(ctx);
     }
 }

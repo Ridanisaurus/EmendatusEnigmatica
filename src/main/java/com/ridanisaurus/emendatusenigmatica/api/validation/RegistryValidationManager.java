@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.api.validation;
 
 import com.google.common.base.Stopwatch;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.AbstractRegistryValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,21 +48,21 @@ public class RegistryValidationManager {
         Stopwatch s = Stopwatch.createStarted();
         AtomicBoolean result = new AtomicBoolean(true);
         validators.forEach((validator, list) -> list.forEach(registryData -> {
-            var data = registryData.validationContext();
+            var ctx = registryData.ctx();
             switch (validator.validate(registryData)) {
                 case PASS -> {
                     // Nothing, it passed successfully.
                 }
-                case ERROR -> Analytics.warn(validator.getErrorMessage(), "Problematic location: <code>%s</code>".formatted(data.validationElement().getAsString()), data);
+                case ERROR -> ctx.warn(validator.getErrorMessage(), "Problematic location: <code>%s</code>".formatted(ctx.validationElement().getAsString()));
                 case FATAL -> {
-                    Analytics.error(validator.getErrorMessage(), "Problematic location: <code>%s</code>".formatted(data.validationElement().getAsString()), data);
+                    ctx.error(validator.getErrorMessage(), "Problematic location: <code>%s</code>".formatted(ctx.validationElement().getAsString()));
                     result.set(false);
                 }
             }
         }));
         // Clearing validator's map, which holds references to the ValidationContext objects.
         validators.clear();
-        Analytics.addPerformanceAnalytic("Validation: Registry", s);
+        SummaryHandler.addPerformanceAnalytic("Validation: Registry", s);
         return result.get();
     }
 

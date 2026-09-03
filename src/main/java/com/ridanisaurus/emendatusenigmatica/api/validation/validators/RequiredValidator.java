@@ -49,7 +49,7 @@ public class RequiredValidator extends AbstractBasicValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly!
      * Call {@link RequiredValidator#apply(ValidationContext)} instead!
@@ -57,7 +57,7 @@ public class RequiredValidator extends AbstractBasicValidator {
      */
     @Override
     @Experimental
-    public Boolean validate(@NotNull ValidationContext data) {
+    public Boolean validate(@NotNull ValidationContext ctx) {
         return true;
     }
 }

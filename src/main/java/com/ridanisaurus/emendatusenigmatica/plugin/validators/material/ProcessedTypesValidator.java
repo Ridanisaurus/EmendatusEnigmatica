@@ -33,7 +33,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidatio
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedValueValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -100,37 +100,37 @@ public class ProcessedTypesValidator extends ValuesValidator {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      * @implSpec Modified copy of {@link AbstractValidator} impl.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
-        var element = data.validationElement();
+    public Boolean apply(@NotNull ValidationContext ctx) {
+        var element = ctx.validationElement();
         if (Objects.isNull(element)) {
-            Analytics.error("This field is required!", getAdditional(data), data);
+            SummaryHandler.error("This field is required!", getAdditional(ctx), ctx);
             return false;
         }
 
         if (element.isJsonArray()) {
             // TODO: Remove next breaking update.
             // This is here because armor values are deprecated and replaced by "armor" value.
-            ProcessedTypesValidator.deprecatedValidator.apply(data);
+            ProcessedTypesValidator.deprecatedValidator.apply(ctx);
 
             int index = 0;
             boolean validation = true;
             var array = element.getAsJsonArray();
             for (JsonElement entry : array) {
-                if (!this.validate(new ValidationContext(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
+                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy())))
                     validation = false;
             }
 
             // Illegal pairs check.
             if (array.contains(new JsonPrimitive("ingot")) && array.contains(new JsonPrimitive("gem"))) {
-                Analytics.error(
+                SummaryHandler.error(
                     "Illegal pair of values found!",
-                    "<code>ingot</code> and <code>gem</code> can't be present in the <code>%s</code> array at the same time!".formatted(data.currentPath()),
-                    data
+                    "<code>ingot</code> and <code>gem</code> can't be present in the <code>%s</code> array at the same time!".formatted(ctx.currentPath()),
+                    ctx
                 );
                 return false;
             }
@@ -138,7 +138,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
             return validation;
         }
 
-        Analytics.error("This field requires an array!", data);
+        SummaryHandler.error("This field requires an array!", ctx);
         return false;
     }
 }

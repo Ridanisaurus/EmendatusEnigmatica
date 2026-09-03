@@ -49,16 +49,16 @@ public class MultiValidator implements IValidationFunction {
     }
 
     @Override
-    public Boolean apply(ValidationContext validationContext) {
+    public Boolean apply(ValidationContext ctx) {
         List<CompletableFuture<Boolean>> cs = new ArrayList<>();
-        validators.forEach(validator -> cs.add(CompletableFuture.supplyAsync(() -> validator.apply(validationContext))));
+        validators.forEach(validator -> cs.add(CompletableFuture.supplyAsync(() -> validator.apply(ctx))));
         try {
             CompletableFuture.allOf(cs.toArray(CompletableFuture[]::new)).get();
             for (CompletableFuture<Boolean> c : cs) {
                 if (!c.get()) return false;
             }
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(validationContext.toString(), e);
+            throw new RuntimeException(ctx.toString(), e);
         }
         return true;
     }

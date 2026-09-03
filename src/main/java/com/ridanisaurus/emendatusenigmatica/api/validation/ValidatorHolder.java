@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 
 public record ValidatorHolder(Function<ValidationContext, Boolean> validator, ArrayHandlingPolicy arrayPolicy) {
-    public boolean validate(@NotNull ValidationContext dataHolder) {
-        return this.validator.apply(dataHolder);
+    public boolean validate(@NotNull ValidationContext ctx) {
+        return this.validator.apply(ctx);
     }
 }

@@ -1,28 +1,28 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.AnalyticsAddon;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.AnalyticsWriteContext;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryExtension;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryWriteContext;
 
 import java.util.Objects;
 
-public class AddonInfoAnalytics implements AnalyticsAddon {
+public class AddonInfoSummary implements SummaryExtension {
     private final EEPluginLoader pluginLoader;
     private final EEModelLoader modelLoader;
 
-    public AddonInfoAnalytics(EEPluginLoader pluginLoader, EEModelLoader modelLoader) {
+    public AddonInfoSummary(EEPluginLoader pluginLoader, EEModelLoader modelLoader) {
         this.pluginLoader = Objects.requireNonNull(pluginLoader);
         this.modelLoader = Objects.requireNonNull(modelLoader);
     }
 
     /**
-     * Method executed by the {@link Analytics} with write context provided.
+     * Method executed by the {@link SummaryHandler} with write context provided.
      *
      * @param cx Write Context for the file.
      */
     @Override
-    public void accept(AnalyticsWriteContext cx) {
+    public void accept(SummaryWriteContext cx) {
         cx.writeHeader("Loaded addons", 3);
         for (EmendatusPluginReference plugin : pluginLoader.getRegisteredPlugins()) {
             cx.writeLine("- <code>%s</code> found in <code>%s</code>".formatted(plugin.name(), plugin.modId()));

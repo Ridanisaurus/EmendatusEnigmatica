@@ -3,8 +3,6 @@ package com.ridanisaurus.emendatusenigmatica.api.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.ridanisaurus.emendatusenigmatica.api.config.exceptions.DCValidationException;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Files;

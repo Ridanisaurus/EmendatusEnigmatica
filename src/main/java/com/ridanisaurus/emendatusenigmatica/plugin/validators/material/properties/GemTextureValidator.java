@@ -28,7 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -49,23 +49,23 @@ public class GemTextureValidator extends NumberRangeValidator {
     /**
      * Method used to determine if the validator is required on runtime.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
     @Override
-    public boolean isRequired(@NotNull ValidationContext data) {
-        if (Objects.isNull(data.validationElement()) || !Analytics.isEnabled()) return false;
-        boolean hasGem = ValidationHelper.doesArrayContain(data.rootObject(), "root.processedTypes", value);
-        boolean isColorBased = ValidationHelper.isOtherFieldPresent(data.rootObject(), "root.colors.materialColor");
+    public boolean isRequired(@NotNull ValidationContext ctx) {
+        if (Objects.isNull(ctx.validationElement()) || !SummaryHandler.isEnabled()) return false;
+        boolean hasGem = ValidationHelper.doesArrayContain(ctx.rootObject(), "root.processedTypes", value);
+        boolean isColorBased = ValidationHelper.isOtherFieldPresent(ctx.rootObject(), "root.colors.materialColor");
 
         if (hasGem && isColorBased) return false;
 
         if (!hasGem)
-            Analytics.warn("This field is unnecessary when <code>gem</code> is missing from the <code>root.processedTypes</code> array.", data);
+            SummaryHandler.warn("This field is unnecessary when <code>gem</code> is missing from the <code>root.processedTypes</code> array.", ctx);
 
         if (!isColorBased)
-            Analytics.warn("This field is unnecessary when the material isn't tint-based.", data);
+            SummaryHandler.warn("This field is unnecessary when the material isn't tint-based.", ctx);
 
         return false;
     }

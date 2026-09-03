@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -54,17 +53,17 @@ public class FieldPresentValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
-        boolean isRequired = ValidationHelper.isOtherFieldPresent(data.rootObject(), path.startsWith("root")? path: data.getParentFieldPath(path));
-        if (Objects.isNull(data.validationElement())) {
+    public Boolean apply(@NotNull ValidationContext ctx) {
+        boolean isRequired = ValidationHelper.isOtherFieldPresent(ctx.rootObject(), path.startsWith("root")? path: ctx.getParentFieldPath(path));
+        if (Objects.isNull(ctx.validationElement())) {
             if (!isRequired) return true;
-            Analytics.error("This field is required!", "Field <code>%s</code> is present, making this field necessary.".formatted(path), data);
+            ctx.error("This field is required!", "Field <code>%s</code> is present, making this field necessary.".formatted(path));
             return false;
         }
-        return validator.apply(data);
+        return validator.apply(ctx);
     }
 }

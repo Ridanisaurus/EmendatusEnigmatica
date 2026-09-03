@@ -33,9 +33,9 @@ import java.util.function.Function;
 public interface IValidationFunction extends Function<ValidationContext, Boolean> {
     /**
      * Entry point of the validator.
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    Boolean apply(ValidationContext data);
+    Boolean apply(ValidationContext ctx);
 }

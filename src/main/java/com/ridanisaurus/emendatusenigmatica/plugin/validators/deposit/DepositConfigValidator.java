@@ -60,17 +60,17 @@ public class DepositConfigValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationContext)} instead!
      * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        JsonElement typeElement = data.getParentFieldAs(Types.STRING, "type");
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        JsonElement typeElement = ctx.getParentFieldAs(Types.STRING, "type");
         if (typeElement == null) return false;
         var validator = DEPOSIT_VALIDATORS.get(typeElement.getAsString());
         if (validator == null) return false;
-        return validator.validate(data);
+        return validator.validate(ctx);
     }
 }

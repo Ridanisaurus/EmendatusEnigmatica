@@ -26,7 +26,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,24 +72,23 @@ public class ColorValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        String value = data.validationElement().getAsString();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        String value = ctx.validationElement().getAsString();
         if (value.startsWith("#")) {
-            Analytics.error(
+            ctx.error(
                 "Hexadecimal Color with <code>#</code> prefixes are not allowed!",
-                "Did you want to provide: <code>%s</code>?".formatted(StringUtils.substringAfter(value, "#")),
-                data
+                "Did you want to provide: <code>%s</code>?".formatted(StringUtils.substringAfter(value, "#"))
             );
             return false;
         }
         if (value.length() != 6) {
-            Analytics.error("Incorrect format for Hexadecimal Color value.", "Expected: <code>RRGGBB</code>, got: %s".formatted(value), data);
+            ctx.error("Incorrect format for Hexadecimal Color value.", "Expected: <code>RRGGBB</code>, got: %s".formatted(value));
             return false;
         }
         // Yoinked from the HexFormat class.
@@ -100,7 +98,7 @@ public class ColorValidator extends TypeValidator {
             additional.append((char) ch);
             if (!((ch >>> 8) == 0 && DIGITS[ch] >= 0)) {
                 additional.append(" << <code>").append((char) ch).append("</code> is not valid Hexadecimal digit.");
-                Analytics.error("Non-Hexadecimal digit found in the provided value.", additional.toString(), data);
+                ctx.error("Non-Hexadecimal digit found in the provided value.", additional.toString());
                 return false;
             }
         }

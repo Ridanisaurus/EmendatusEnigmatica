@@ -40,7 +40,7 @@ public class AcceptsAllValidator implements IValidationFunction {
     public AcceptsAllValidator() {}
 
     @Override
-    public Boolean apply(ValidationContext validationContext) {
+    public Boolean apply(ValidationContext ctx) {
         return true;
     }
 }

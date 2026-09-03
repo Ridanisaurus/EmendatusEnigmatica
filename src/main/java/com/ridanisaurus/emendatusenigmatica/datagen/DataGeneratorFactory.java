@@ -24,9 +24,8 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen;
 
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.minecraft.SharedConstants;
-import net.neoforged.fml.loading.FMLPaths;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +36,7 @@ public class DataGeneratorFactory {
     public static Path ROOT_PATH;
 
     public static void init() {
-        ROOT_PATH = Analytics.CONFIG_DIR.resolve("default");
+        ROOT_PATH = SummaryHandler.CONFIG_DIR.resolve("default");
     }
 
     @Contract(" -> new")

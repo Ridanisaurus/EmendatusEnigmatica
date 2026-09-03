@@ -29,7 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -81,20 +81,20 @@ public class MaxValidator extends TypeValidator {
     }
 
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        double maxFieldValue = data.validationElement().getAsDouble();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        double maxFieldValue = ctx.validationElement().getAsDouble();
         double minFieldValue = min;
-        JsonElement minField = data.getParentFieldAs(Types.FLOAT, name);
+        JsonElement minField = ctx.getParentFieldAs(Types.FLOAT, name);
         String additional = "";
 
         if (Objects.nonNull(minField) && minField.getAsDouble() <= max) {
             minFieldValue = minField.getAsDouble();
-            additional = "\n##### Minimum value is taken from the minimum field, at <code>%s</code>.".formatted(data.getParentFieldPath(name));
+            additional = "\n##### Minimum value is taken from the minimum field, at <code>%s</code>.".formatted(ctx.getParentFieldPath(name));
         }
 
         if (maxFieldValue < minFieldValue || maxFieldValue > max) {
-            Analytics.error("Number out of range!", "Expected number from %f to %f, got %f.%s".formatted(minFieldValue, max, maxFieldValue, additional), data);
+            SummaryHandler.error("Number out of range!", "Expected number from %f to %f, got %f.%s".formatted(minFieldValue, max, maxFieldValue, additional), ctx);
             return false;
         }
 

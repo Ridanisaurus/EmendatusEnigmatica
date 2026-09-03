@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,54 +57,54 @@ public abstract class AbstractValidator implements IValidationFunction {
 
     /**
      * Entry point of the validator.
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
-        boolean requirement = isRequired(data);
-        var element = data.validationElement();
+    public Boolean apply(@NotNull ValidationContext ctx) {
+        boolean requirement = isRequired(ctx);
+        var element = ctx.validationElement();
         if (Objects.isNull(element)) {
             if (!requirement) return true;
-            Analytics.error("This field is required!", getAdditional(data), data);
+            ctx.error("This field is required!", getAdditional(ctx));
             return false;
         }
 
         if (element.isJsonArray()) {
-            if (!data.arrayPolicy().allowsArrays()) {
-                Analytics.error("Arrays are not allowed for this field!", data);
+            if (!ctx.arrayPolicy().allowsArrays()) {
+                ctx.error("Arrays are not allowed for this field!");
                 return false;
             }
 
             int index = 0;
             boolean validation = true;
             for (JsonElement entry : element.getAsJsonArray()) {
-                if (!this.validate(new ValidationContext(entry, data.rootObject(), "%s[%d]".formatted(data.currentPath(), index), data.jsonFilePath(), data.arrayPolicy())))
+                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy())))
                     validation = false;
                 index++;
             }
 
-            if (index == 0 && !data.arrayPolicy().canBeEmpty()) {
-                Analytics.error("Array for this field can not be empty!", data);
+            if (index == 0 && !ctx.arrayPolicy().canBeEmpty()) {
+                ctx.error("Array for this field can not be empty!");
                 return false;
             }
             return validation;
         }
 
-        if (data.arrayPolicy().requiresArray()) {
-            Analytics.error("This field requires an array!", data);
+        if (ctx.arrayPolicy().requiresArray()) {
+            ctx.error("This field requires an array!");
             return false;
         }
-        return this.validate(data);
+        return this.validate(ctx);
     }
 
     /**
      * Method used to determine if the validator is required on runtime.
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
-    public boolean isRequired(@NotNull ValidationContext data) {
+    public boolean isRequired(@NotNull ValidationContext ctx) {
         return isRequired;
     }
 
@@ -113,17 +112,17 @@ public abstract class AbstractValidator implements IValidationFunction {
      * Method used to provide additional field for the "This field is required!" error.
      * @return String with an additional message or null.
      */
-    public String getAdditional(@NotNull ValidationContext data) {
+    public String getAdditional(@NotNull ValidationContext ctx) {
         return null;
     }
 
     /**
      * Validate method, used to validate passed in object.
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link AbstractValidator#apply(ValidationContext)} instead!
      * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @ApiStatus.Internal
-    public abstract Boolean validate(@NotNull ValidationContext data);
+    public abstract Boolean validate(@NotNull ValidationContext ctx);
 }

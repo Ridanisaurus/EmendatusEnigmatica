@@ -2,7 +2,7 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 
 import java.util.Objects;
 
@@ -18,21 +18,21 @@ public class SimpleObjectValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(ValidationContext data) {
-        var element = data.validationElement();
+    public Boolean apply(ValidationContext ctx) {
+        var element = ctx.validationElement();
         if (Objects.isNull(element)) return true;
-        if (data.validationElement().isJsonObject()) return true;
+        if (ctx.validationElement().isJsonObject()) return true;
 
         if (element.isJsonArray()) {
-            Analytics.error("Arrays are not allowed for this field!", data);
+            SummaryHandler.error("Arrays are not allowed for this field!", ctx);
             return false;
         }
 
-        Analytics.error("This field only accepts an object!", data);
+        SummaryHandler.error("This field only accepts an object!", ctx);
         return false;
     }
 }

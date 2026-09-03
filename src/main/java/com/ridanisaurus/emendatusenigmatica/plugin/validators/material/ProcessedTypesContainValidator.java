@@ -29,7 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractBasicValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.neoforged.jarjar.nio.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
@@ -93,45 +93,45 @@ public class ProcessedTypesContainValidator implements IValidationFunction {
     /**
      * Entry point of the validator.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if the validation passes, false otherwise.
      */
     @Override
-    public Boolean apply(@NotNull ValidationContext data) {
-        List<String> foundValues = ValidationHelper.getContainedInArray(data.rootObject(), "root.processedTypes", values);
+    public Boolean apply(@NotNull ValidationContext ctx) {
+        List<String> foundValues = ValidationHelper.getContainedInArray(ctx.rootObject(), "root.processedTypes", values);
         boolean isRequired = Objects.nonNull(foundValues) && (mode.requiresAllValues() ? foundValues.size() == values.size() : !foundValues.isEmpty());
 
-        if (Objects.isNull(data.validationElement())) {
+        if (Objects.isNull(ctx.validationElement())) {
             if (mode.isOptional() || !isRequired) return true;
 
-            Analytics.error(
+            SummaryHandler.error(
                 "This field is required! Array <code>root.processedTypes</code> contains elements, which make this field necessary.",
                 mode.requiresAllValues() ?
                     "Values: <code>%s</code>".formatted(valuesAsString.get()) : """
                     Expected values: <code>%s</code><br>
                     Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues)),
-                data
+                ctx
             );
 
             return false;
         } else if (!isRequired) {
             // For Optional modes - There will never be a non required situation with some value found!
             if (Objects.isNull(foundValues) || foundValues.isEmpty()) {
-                Analytics.warn(
+                SummaryHandler.warn(
                     "This field is unnecessary. Array <code>root.processedTypes</code> doesn't contain any elements, which are required for this field to have any effect.",
                     " Expected values: <code>%s</code>.".formatted(valuesAsString.get()),
-                    data
+                    ctx
                 );
             } else {
-                Analytics.warn(
+                SummaryHandler.warn(
                     "This field is unnecessary. Array <code>root.processedTypes</code> doesn't contain some elements, which are required for this field to have any effect.", """
                         Expected values: <code>%s</code><br>
                         Found values: <code>%s</code>""".formatted(valuesAsString.get(), String.join(", ", foundValues)),
-                    data
+                    ctx
                 );
             }
         }
 
-        return validator.apply(data);
+        return validator.apply(ctx);
     }
 }

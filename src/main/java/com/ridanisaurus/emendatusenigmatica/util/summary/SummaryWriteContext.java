@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.util.analytics;
+package com.ridanisaurus.emendatusenigmatica.util.summary;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import org.jetbrains.annotations.NotNull;
@@ -32,13 +32,13 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.stream.Collectors;
 
-public class AnalyticsWriteContext {
+public class SummaryWriteContext {
     /**
      * Path to the file where all messages will be written to.
      */
     private final Path summaryFile;
 
-    protected AnalyticsWriteContext(Path file) {
+    protected SummaryWriteContext(Path file) {
         this.summaryFile = file;
     }
 

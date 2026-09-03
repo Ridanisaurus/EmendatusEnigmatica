@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.MultiValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -77,22 +76,21 @@ public class DeprecatedValueValidator extends AbstractValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
+    public Boolean validate(@NotNull ValidationContext ctx) {
         // Modified code of TypeValidator, so no duplicate-errors will be generated when this validator is used.
-        var element = data.validationElement();
+        var element = ctx.validationElement();
         if (!element.isJsonPrimitive() || !element.getAsJsonPrimitive().isString()) return false;
-        String value = data.validationElement().getAsString();
+        String value = ctx.validationElement().getAsString();
         String replacement = valuesMap.get(value);
         if (Objects.nonNull(replacement)) {
             String url = urlMap.get(value);
             String additional = url == null? null: "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
-            Analytics.error("Specified value <code>%s</code> was deprecated and is replaced by <code>%s</code>.".formatted(value, replacement), additional, data);
-            DeprecationAnalytics.increaseDeprecated();
+            ctx.error("Specified value <code>%s</code> was deprecated and is replaced by <code>%s</code>.".formatted(value, replacement), additional);
         }
         return true;
     }

@@ -28,7 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
+import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,26 +84,26 @@ public class EERegistryValidator extends TypeValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link TypeValidator#apply(ValidationContext)} instead!
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        if (!super.validate(data)) return false;
-        String value = data.validationElement().getAsString();
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        if (!super.validate(ctx)) return false;
+        String value = ctx.validationElement().getAsString();
         if (!ResourceLocation.isValidNamespace(value)) {
-            Analytics.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), data);
+            SummaryHandler.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value), ctx);
             return false;
         }
         boolean contains = values.contains(value);
         if (mode == Mode.REFERENCE) {
             if (contains) return true;
-            Analytics.error("Specified ID <code>%s</code> is missing from the%s registry!".formatted(value, name), data);
+            SummaryHandler.error("Specified ID <code>%s</code> is missing from the%s registry!".formatted(value, name), ctx);
             return false;
         }
         if (!contains) return true;
-        Analytics.error("Specified ID <code>%s</code> is already registered!".formatted(value), data);
+        SummaryHandler.error("Specified ID <code>%s</code> is already registered!".formatted(value), ctx);
         return false;
     }
 

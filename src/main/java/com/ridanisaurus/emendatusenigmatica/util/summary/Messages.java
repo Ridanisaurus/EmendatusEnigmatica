@@ -22,19 +22,10 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.util.analytics;
+package com.ridanisaurus.emendatusenigmatica.util.summary;
 
-import java.util.function.Consumer;
+import java.util.List;
 
-/**
- * Utility interface for {@link Analytics} addons.
- */
-public interface AnalyticsAddon extends Consumer<AnalyticsWriteContext> {
-    /**
-     * Method executed by the {@link Analytics} with write context provided.
-     *
-     * @param cx Write Context for the file.
-     */
-    @Override
-    void accept(AnalyticsWriteContext cx);
+public record Messages(List<Message> warnings, List<Message> errors) {
+    public record Message(String element, String message, String additionalInfo) {}
 }

@@ -47,17 +47,17 @@ public class DropValidator extends ResourceLocationValidator {
     /**
      * Method used to determine if the validator is required on runtime.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True if current element is required, false if not.
      * @implNote By default, returns the value specified in the constructor.
      */
     @Override
-    public boolean isRequired(@NotNull ValidationContext data) {
-        JsonElement types = ValidationHelper.getElementFromPath(data.rootObject(), "root.processedTypes");
+    public boolean isRequired(@NotNull ValidationContext ctx) {
+        JsonElement types = ValidationHelper.getElementFromPath(ctx.rootObject(), "root.processedTypes");
         boolean hasOre = false;
         boolean hasGem = false;
         boolean hasRaw = false;
-        boolean hasVal = Objects.nonNull(data.validationElement());
+        boolean hasVal = Objects.nonNull(ctx.validationElement());
         if (Objects.nonNull(types) && types.isJsonArray()) {
             var array = types.getAsJsonArray();
             hasOre = array.contains(new JsonPrimitive("ore"));
@@ -74,7 +74,7 @@ public class DropValidator extends ResourceLocationValidator {
      * @return String with an additional message or null.
      */
     @Override
-    public String getAdditional(@NotNull ValidationContext data) {
+    public String getAdditional(@NotNull ValidationContext ctx) {
         return "Array <code>root.processedTypes</code> contains an element <code>ore</code> and misses <code>gem, raw</code>, which makes this field necessary.";
     }
 }

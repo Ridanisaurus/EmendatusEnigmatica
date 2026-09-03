@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecati
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractBasicValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AcceptsAllValidator;
-import com.ridanisaurus.emendatusenigmatica.util.analytics.Analytics;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -61,22 +60,19 @@ public class DeprecatedFieldValidator extends AbstractBasicValidator {
     /**
      * Validate method, used to validate passed in object.
      *
-     * @param data ValidationContext record with necessary information to validate the element.
+     * @param ctx ValidationContext record with necessary information to validate the element.
      * @return True of the validation passes, false otherwise.
      * @apiNote Even tho it's public, this method should <i>never</i> be called directly! Call {@link DeprecatedFieldValidator#apply(ValidationContext)} instead!
      * @implSpec Take a note that the {@link ValidationContext#validationElement()} will never return null.
      */
     @Override
-    public Boolean validate(@NotNull ValidationContext data) {
-        DeprecationAnalytics.increaseDeprecated();
-        if (Analytics.isEnabled()) {
-            String msg = null;
-            if (Objects.nonNull(url)) msg = "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
-            if (Objects.isNull(replace)) {
-                Analytics.error("This field was deprecated and is no longer in use.", msg, data);
-            } else {
-                Analytics.error("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg, data);
-            }
+    public Boolean validate(@NotNull ValidationContext ctx) {
+        String msg = null;
+        if (Objects.nonNull(url)) msg = "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
+        if (Objects.isNull(replace)) {
+            ctx.error("This field was deprecated and is no longer in use.", msg);
+        } else {
+            ctx.error("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg);
         }
         return true;
     }
