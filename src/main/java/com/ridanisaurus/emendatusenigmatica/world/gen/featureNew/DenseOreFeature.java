@@ -22,19 +22,18 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
+package com.ridanisaurus.emendatusenigmatica.world.gen.featureNew;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DenseDepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.DenseOreFeatureConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,29 +47,25 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import org.jetbrains.annotations.NotNull;
 
 // Credit: Geolysis
-public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
-//    TODO: Rework for new Registry and Deposit System
-//    private final EmendatusDataRegistry registry;
-
+public class DenseOreFeature extends Feature<DenseDepositModel> {
     public DenseOreFeature() {
-        super(DenseOreFeatureConfig.CODEC);
-//        this.registry = EmendatusEnigmatica.getInstance().getDataRegistry();
+        super(DenseDepositModel.getFeatureCodec(DenseDepositModel.CODEC));
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<DenseOreFeatureConfig> context) {
+    public boolean place(@NotNull FeaturePlaceContext<DenseDepositModel> context) {
         RandomSource rand = context.random();
         BlockPos pos = context.origin();
         WorldGenLevel level = context.level();
-        var config = context.config();
-        var model = config.model;
+        var model = context.config();
 
-        int yTop = model.getMaxYLevel();
-        int yBottom = model.getMinYLevel();
+        int yTop = model.maxYLevel;
+        int yBottom = model.minYLevel;
         // TODO: Fix the size calculation
-        int size = model.getSize();
+        int size = model.size;
 
         int randY = yBottom + level.getRandom().nextInt(yTop - yBottom);
 
@@ -108,7 +103,7 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
                                 double layerRadZ = ((double) z + 0.5D - zn) / (radius / 2.0D);
 
                                 if (layerRadX * layerRadX + layerRadY * layerRadY + layerRadZ * layerRadZ < 1.0D) {
-                                    placeBlock(level, rand, new BlockPos(x, y, z), config);
+                                    placeBlock(level, rand, new BlockPos(x, y, z), model);
                                 }
                             }
                         }
@@ -117,86 +112,93 @@ public class DenseOreFeature extends Feature<DenseOreFeatureConfig> {
             }
 
         }
-        if (rand.nextInt(100) < model.getChance() && !config.sampleBlocks.isEmpty()) {
-            placeSurfaceSample(rand, pos, level, config);
-        }
+
+        if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
+            placeSurfaceSample(rand, pos, level, model);
+
         return true;
     }
 
-    private void placeBlock(WorldGenLevel reader, RandomSource rand, BlockPos pos, DenseOreFeatureConfig config) {
-        if (!config.target.test(reader.getBlockState(pos), rand)) {
-            return;
-        }
+    private void placeBlock(@NotNull WorldGenLevel reader, RandomSource rand, BlockPos pos, @NotNull DenseDepositModel config) {
+        if (!config.target.test(reader.getBlockState(pos), rand)) return;
 
+        //TODO: Rework the weight system
         int index = rand.nextInt(config.blocks.size());
         try {
             DepositBlockModel depositBlockModel = config.blocks.get(index);
             if (depositBlockModel.getBlock() != null) {
+
                 Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositBlockModel.getBlock()));
                 reader.setBlock(pos, block.defaultBlockState(), 2);
+
             } else if (depositBlockModel.getTag() != null) {
+
                 HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositBlockModel.getTag()))).get();
-                blockITag.getRandomElement(rand).ifPresent(block -> {
-                    reader.setBlock(pos, block.value().defaultBlockState(), 2);
-                });
+                blockITag.getRandomElement(rand).ifPresent(block -> reader.setBlock(pos, block.value().defaultBlockState(), 2));
+
             } else if (depositBlockModel.getMaterial() != null) {
 //                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
-//                if (strata != null) {
-//                    Block block = EERegistrar.oreBlockTable.get(strata.getId(), depositBlockModel.getMaterial()).get();
-//                    reader.setBlock(pos, block.defaultBlockState(), 2);
-//                }
+                var strata = config.target.getStrataFromFiller(reader.getBlockState(pos), rand);
+                if (strata != null) {
+                    Block block = EERegistrar.oreBlockTable.get(strata, depositBlockModel.getMaterial()).get();
+                    reader.setBlock(pos, block.defaultBlockState(), 2);
+                }
             }
             config.placed = true;
         } catch (Exception e) {
-            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config.model).result().get();
-            EmendatusEnigmatica.logger.error("index: " + index + ", model: " + new Gson().toJson(modelJson), e);
+            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config).result().orElseGet(() -> new JsonPrimitive("Failed to serialize model!"));
+            EmendatusEnigmatica.logger.error("index: {}, model: {}", index, new Gson().toJson(modelJson), e);
         }
     }
 
-    private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos, DenseOreFeatureConfig config) {
+    private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos, DenseDepositModel config) {
         try {
             int index = rand.nextInt(config.sampleBlocks.size());
             DepositSampleBlockModel depositSampleBlockModel = config.sampleBlocks.get(index);
 
             if (depositSampleBlockModel.getBlock() != null) {
+
                 Block sampleBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositSampleBlockModel.getBlock()));
                 level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
+
             } else if (depositSampleBlockModel.getTag() != null) {
+
                 HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositSampleBlockModel.getTag()))).get();
-                blockITag.getRandomElement(rand).ifPresent(block -> {
-                    level.setBlock(samplePos, block.value().defaultBlockState(), 2);
-                });
+                blockITag.getRandomElement(rand).ifPresent(block -> level.setBlock(samplePos, block.value().defaultBlockState(), 2));
+
             } else if (depositSampleBlockModel.getMaterial() != null) {
+
                 Block sampleBlock = EERegistrar.oreSampleBlockTable.get(depositSampleBlockModel.getStrata(), depositSampleBlockModel.getMaterial()).get();
                 level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
+
             }
         } catch (Exception e) {
-            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config.model).result().get();
-            EmendatusEnigmatica.logger.error("model: " + new Gson().toJson(modelJson), e);
+            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config).result().get();
+            EmendatusEnigmatica.logger.error("model: {}", new Gson().toJson(modelJson), e);
         }
     }
 
-    private void placeSurfaceSample(RandomSource rand, BlockPos pos, WorldGenLevel level, DenseOreFeatureConfig config) {
+    private void placeSurfaceSample(RandomSource rand, @NotNull BlockPos pos, @NotNull WorldGenLevel level, DenseDepositModel config) {
         BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
-        if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER) {
+        if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER)
             sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
-        }
+
         if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).is(BlockTags.LEAVES)) {
-            for(int l = 0; l < 3; ++l) {
+            for (int l = 0; l < 3; ++l) {
                 int i = rand.nextInt(2);
                 int j = rand.nextInt(2);
                 int k = rand.nextInt(2);
                 float f = (float)(i + j + k) * 0.333F + 0.5F;
 
-                for(BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k))) {
-                    if (samplePos.distSqr(sample) <= (double)(f * f) && config.placed) {
+                for (BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k)))
+                    if (samplePos.distSqr(sample) <= (double)(f * f) && config.placed)
                         placeSampleBlock(level, rand, samplePos, config);
-                    }
-                }
+
                 sample = sample.offset(-1 + rand.nextInt(2), -rand.nextInt(2), -1 + rand.nextInt(2));
             }
 
         }
+
         config.placed = false;
     }
 }

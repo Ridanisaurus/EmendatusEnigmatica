@@ -27,7 +27,6 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +52,8 @@ public class FieldTrueValidator implements IValidationFunction {
      * @apiNote
      * <ul>
      * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
-     * <li>If <code>optional</code> is set to <code>false</code>, this validator will update the {@link ArrayHandlingPolicy} to <code>allowEmpty</code> -> <code>false</code>.</li>
+     * <li>ArrayHandlingPolicy is going to be set to allow empty arrays if <code>optional</code> is set to <code>false</code>,
+     * otherwise empty arrays are accepted. The Original policy is ignored.</li>
      * </ul>
      */
     public FieldTrueValidator(String field, IValidationFunction validator, boolean optional) {
@@ -68,6 +68,7 @@ public class FieldTrueValidator implements IValidationFunction {
      * @param field Name of the field to check.
      * @param validator Validator to run after check.
      * @see FieldTrueValidator Documentation of the validator.
+     * @apiNote This constructor sets <code>optional</code> argument to <code>false</code>, check documentation for details.
      */
     public FieldTrueValidator(String field, IValidationFunction validator) {
         this(field, validator, false);
@@ -124,6 +125,13 @@ public class FieldTrueValidator implements IValidationFunction {
                 ctx.pluginLoader()
             ));
 
-        return validator.apply(ctx);
+        return validator.apply(new ValidationContext(
+            ctx.validationElement(),
+            ctx.rootObject(),
+            ctx.currentPath(),
+            ctx.jsonFilePath(),
+            ctx.arrayPolicy().getLegacyArrayPolicy().get(),
+            ctx.pluginLoader()
+        ));
     }
 }

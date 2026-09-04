@@ -8,7 +8,7 @@ import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.StrataType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
@@ -83,12 +83,12 @@ public class DCDataBuilder {
         return builder;
     }
 
-    public static <T extends CommonDepositModelBase> @NotNull DCDataBuilder fromDepositModel(@NotNull T model, @NotNull Codec<T> codec) {
-        DCDataBuilder builder = new DCDataBuilder(JsonOps.INSTANCE.withEncoder(codec).apply(model).getOrThrow().getAsJsonObject());
-        builder.markAsDeposit();
-        builder.setName(model.getName());
-        return builder;
-    }
+//    public static <T extends CommonDepositModelBase> @NotNull DCDataBuilder fromDepositModel(@NotNull T model, @NotNull Codec<T> codec) {
+//        DCDataBuilder builder = new DCDataBuilder(JsonOps.INSTANCE.withEncoder(codec).apply(model).getOrThrow().getAsJsonObject());
+//        builder.markAsDeposit();
+//        builder.setName(model.getName());
+//        return builder;
+//    }
 
     public DCDataBuilder setType(@NotNull AbstractDCType type) {
         this.type = type;

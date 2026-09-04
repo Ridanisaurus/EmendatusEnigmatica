@@ -32,7 +32,6 @@ import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.HolderLookup;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")
@@ -59,7 +58,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         VanillaPlugin.class,
         "Deposit",
         "deposit",
-        DepositModel.CODEC,
+        DepositModel.MODEL_CODEC,
         DepositModel.VALIDATION_MANAGER,
         DepositModel::register
     );
@@ -81,9 +80,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
             DEPOSIT_DEFINITION,
             VanillaDepositModel.CODEC,
             VanillaDepositModel.VALIDATION_MANAGER,
-            (model, extModel, reg, __) -> {
-                reg.registerDeposit(model);
-            }
+            (model, extModel, reg, __) -> extModel.register(reg)
         ));
 
         loader.registerModelExtension(new EEModelExtension<>(
@@ -92,9 +89,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
             DEPOSIT_DEFINITION,
             SphereDepositModel.CODEC,
             SphereDepositModel.VALIDATION_MANAGER,
-            (model, extModel, reg, __) -> {
-                reg.registerDeposit(model);
-            }
+            (model, extModel, reg, __) -> extModel.register(reg)
         ));
 
         loader.registerModelExtension(new EEModelExtension<>(
@@ -103,9 +98,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
             DEPOSIT_DEFINITION,
             GeodeDepositModel.CODEC,
             GeodeDepositModel.VALIDATION_MANAGER,
-            (model, extModel, reg, __) -> {
-                reg.registerDeposit(model);
-            }
+            (model, extModel, reg, __) -> extModel.register(reg)
         ));
 
         loader.registerModelExtension(new EEModelExtension<>(
@@ -114,9 +107,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
             DEPOSIT_DEFINITION,
             DikeDepositModel.CODEC,
             DikeDepositModel.VALIDATION_MANAGER,
-            (model, extModel, reg, __) -> {
-                reg.registerDeposit(model);
-            }
+            (model, extModel, reg, __) -> extModel.register(reg)
         ));
 
         loader.registerModelExtension(new EEModelExtension<>(
@@ -125,9 +116,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
             DEPOSIT_DEFINITION,
             DenseDepositModel.CODEC,
             DenseDepositModel.VALIDATION_MANAGER,
-            (model, extModel, reg, __) -> {
-                reg.registerDeposit(model);
-            }
+            (model, extModel, reg, __) -> extModel.register(reg)
         ));
     }
 
@@ -232,8 +221,8 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         generator.addProvider(true, new LangGen(generator, registry));
         generator.addProvider(true, new RecipesGen(generator, registry, providers));
         generator.addProvider(true, new LootGen(generator, registry, providers));
-        generator.addProvider(true, new NeoFeatureGen(generator, providers));
-        generator.addProvider(true, new OreFeatureGen(generator, providers));
+        generator.addProvider(true, new OreFeatureGen(generator, registry, providers));
+        generator.addProvider(true, new NeoFeatureGen(generator, registry, providers));
         generator.addProvider(true, new BiomeTagsGen(generator));
     }
 

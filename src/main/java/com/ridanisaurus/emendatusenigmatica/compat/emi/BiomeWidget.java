@@ -59,23 +59,24 @@ public class BiomeWidget extends TextureWidget {
             256,
             256
         );
+//TODO: REWORK!
 
-        var biomes = processor.getCommonModel().getBiomes();
-        BIOME_OFFSETS.forEach(biome -> {
-            if (biomes.contains(biome)) tags.add(biome); else includeDefault = true;
-        });
-
-        List<ClientTooltipComponent> tooltip = new ArrayList<>();
-        tooltip.add(ClientTooltipComponent.create(Component.literal(ChatFormatting.GOLD + "Biomes:").getVisualOrderText()));
-
-        if (biomes.isEmpty()) {
-            tooltip.add(ClientTooltipComponent.create(Component.literal("- Any").getVisualOrderText()));
-        } else {
-            for (String biome : biomes)
-                tooltip.add(ClientTooltipComponent.create(Component.literal("- ").append(Component.literal(biome)).getVisualOrderText()));
-        }
-
-        tooltip(tooltip);
+//        var biomes = processor.getCommonModel().getBiomes();
+//        BIOME_OFFSETS.forEach(biome -> {
+//            if (biomes.contains(biome)) tags.add(biome); else includeDefault = true;
+//        });
+//
+//        List<ClientTooltipComponent> tooltip = new ArrayList<>();
+//        tooltip.add(ClientTooltipComponent.create(Component.literal(ChatFormatting.GOLD + "Biomes:").getVisualOrderText()));
+//
+//        if (biomes.isEmpty()) {
+//            tooltip.add(ClientTooltipComponent.create(Component.literal("- Any").getVisualOrderText()));
+//        } else {
+//            for (String biome : biomes)
+//                tooltip.add(ClientTooltipComponent.create(Component.literal("- ").append(Component.literal(biome)).getVisualOrderText()));
+//        }
+//
+//        tooltip(tooltip);
     }
 
     @Override

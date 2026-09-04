@@ -9,12 +9,11 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class GeodeDepositModel extends DepositModel {
         Codec.list(DepositBlockModel.CODEC).fieldOf("innerShellBlocks").orElse(List.of()).forGetter(i -> i.innerShellBlocks),
         Codec.list(DepositBlockModel.CODEC).fieldOf("innerBlocks").orElse(List.of()).forGetter(i -> i.innerBlocks),
         Codec.list(DepositBlockModel.CODEC).fieldOf("fillBlocks").orElse(List.of()).forGetter(i -> i.fillBlocks),
-        Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
         Codec.list(Codec.STRING).fieldOf("clusters").orElse(List.of()).forGetter(i -> i.clusters),
         Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
         Codec.DOUBLE.fieldOf("crackChance").orElse(0D).forGetter(it -> it.crackChance),
@@ -42,7 +40,6 @@ public class GeodeDepositModel extends DepositModel {
         .addValidator("innerShellBlocks", DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("innerBlocks",      DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("fillBlocks",       DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-        .addValidator("fillerTypes",      new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("clusters",         new ResourceLocationValidator(false, new BlockRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("chance",           new NumberRangeValidator(Types.INTEGER, 1, 100, true))
         .addValidator("crackChance",      new NumberRangeValidator(Types.FLOAT, 0, 1, false))
@@ -57,7 +54,6 @@ public class GeodeDepositModel extends DepositModel {
     public final List<DepositBlockModel> innerShellBlocks;
     public final List<DepositBlockModel> innerBlocks;
     public final List<DepositBlockModel> fillBlocks;
-    public final List<String> fillerTypes;
     public final List<String> clusters;
     public final int chance;
     public final double crackChance;
@@ -74,7 +70,6 @@ public class GeodeDepositModel extends DepositModel {
         List<DepositBlockModel> innerShellBlocks,
         List<DepositBlockModel> innerBlocks,
         List<DepositBlockModel> fillBlocks,
-        List<String> fillerTypes,
         List<String> clusters,
         int chance,
         double crackChance,
@@ -90,7 +85,6 @@ public class GeodeDepositModel extends DepositModel {
         this.innerShellBlocks = innerShellBlocks;
         this.innerBlocks = innerBlocks;
         this.fillBlocks = fillBlocks;
-        this.fillerTypes = fillerTypes;
         this.clusters = clusters;
         this.chance = chance;
         this.crackChance = crackChance;
@@ -102,8 +96,21 @@ public class GeodeDepositModel extends DepositModel {
         this.sampleBlocks = sampleBlocks;
     }
 
+    /**
+     * Used to provide a {@link ConfiguredFeature} for this model.
+     *
+     * @return ConfiguredFeature ready for registration.
+     */
     @Override
-    public void register(DataRegistry dataRegistry) {
-        super.register(dataRegistry);
+    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<PlacementModifier> getOrePlacement() {
+        return List.of();
     }
 }

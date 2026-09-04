@@ -3,18 +3,17 @@ package com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.PluginRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -25,22 +24,20 @@ public class VanillaDepositModel extends DepositModel {
         DepositModel.MAP_CODEC.forGetter(it -> it),
         Codec.STRING.optionalFieldOf("block").orElse(null).forGetter(it -> Optional.ofNullable(it.block)),
         Codec.STRING.optionalFieldOf("material").orElse(null).forGetter(it -> Optional.ofNullable(it.material)),
-        Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes),
         Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
         Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
         Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
         Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
         Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
         Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity)
-    ).apply(x,(base, block, material, fillerTypes,
+    ).apply(x,(base, block, material,
                chance, size, minYLevel, maxYLevel, placement, rarity) ->
-        new VanillaDepositModel(base, block.orElse(null), material.orElse(null), fillerTypes, chance, size, minYLevel, maxYLevel, placement, rarity))
+        new VanillaDepositModel(base, block.orElse(null), material.orElse(null), chance, size, minYLevel, maxYLevel, placement, rarity))
     );
 
     public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:vanilla_deposit")
         .addValidator("material",        new MaterialValidator(false, true))
         .addValidator("block",           new RequiredValidator(false))
-        .addValidator("fillerTypes",     new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
         .addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 16, true))
         .addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))
@@ -50,7 +47,6 @@ public class VanillaDepositModel extends DepositModel {
 
     public final String block;
     public final String material;
-    public final List<String> fillerTypes;
     public final int chance;
     public final int size;
     public final int minYLevel;
@@ -62,7 +58,6 @@ public class VanillaDepositModel extends DepositModel {
         DepositModel base,
         @Nullable String block,
         @Nullable String material,
-        List<String> fillerTypes,
         int chance,
         int size,
         int minYLevel,
@@ -73,7 +68,6 @@ public class VanillaDepositModel extends DepositModel {
         super(base);
         this.block = block;
         this.material = material;
-        this.fillerTypes = fillerTypes;
         this.chance = chance;
         this.size = size;
         this.minYLevel = minYLevel;
@@ -82,8 +76,21 @@ public class VanillaDepositModel extends DepositModel {
         this.rarity = rarity;
     }
 
+    /**
+     * Used to provide a {@link ConfiguredFeature} for this model.
+     *
+     * @return ConfiguredFeature ready for registration.
+     */
     @Override
-    public void register(DataRegistry dataRegistry) {
-        super.register(dataRegistry);
+    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List<PlacementModifier> getOrePlacement() {
+        return List.of();
     }
 }

@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.DepositSampleBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 
 /**

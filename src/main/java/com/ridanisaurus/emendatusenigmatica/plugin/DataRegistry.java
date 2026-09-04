@@ -3,13 +3,9 @@ package com.ridanisaurus.emendatusenigmatica.plugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * DataRegistry is a class that holds all the information for the Vanilla Plugin gathered from the {@link com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader}.
@@ -19,14 +15,10 @@ public class DataRegistry {
     private final Map<String, StrataModel> strata;
     private final Map<String, DepositModel> deposits;
 
-    // Utility indexes
-    private final Map<ResourceLocation, StrataModel> strataByFiller;
-
     public DataRegistry() {
         this.materials = new HashMap<>();
         this.strata = new HashMap<>();
         this.deposits = new HashMap<>();
-        this.strataByFiller = new HashMap<>();
     }
 
     public void registerMaterial(MaterialModel model) {
@@ -39,11 +31,12 @@ public class DataRegistry {
         if (strata.containsKey(Objects.requireNonNull(model,"Registered model can't be null!").getId()))
             throw new IllegalArgumentException("Duplicate strata ID \"%s\"!".formatted(model.getId()));
         strata.put(model.getId(), model);
-        strataByFiller.put(model.getFillerType(), model);
     }
 
     public void registerDeposit(DepositModel model) {
-        //TODO: Implement after deposit rework.
+        if (deposits.containsKey(model.id))
+            throw new IllegalArgumentException("Duplicate deposit ID \"%s\"!".formatted(model.id));
+        deposits.put(model.id, model);
     }
 
     public List<MaterialModel> getRegisteredMaterials() {
@@ -82,8 +75,8 @@ public class DataRegistry {
         return deposits.get(Objects.requireNonNull(id, "ID can't be null."));
     }
 
-    public @Nullable StrataModel getStrataModelByFiller(ResourceLocation filler) {
-        return strataByFiller.get(Objects.requireNonNull(filler, "Filler can't be null."));
+    public List<DepositModel> getDepositsByClass(Class<? extends DepositModel> modelClass) {
+        return new ArrayList<>(deposits.values().stream().filter(it -> it.getClass().equals(modelClass)).toList());
     }
 
     public boolean isStrataSuffixUnique(String suffix) {

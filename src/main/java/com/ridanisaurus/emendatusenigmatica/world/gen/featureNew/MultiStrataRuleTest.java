@@ -22,61 +22,66 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.world.gen.feature.rule;
+package com.ridanisaurus.emendatusenigmatica.world.gen.featureNew;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MultiStrataRuleTest extends RuleTest {
 	public static final MapCodec<MultiStrataRuleTest> CODEC = RecordCodecBuilder.mapCodec(x -> x.group(
-			Codec.list(Codec.STRING).fieldOf("fillerList").forGetter(it -> it.fillerList)
+		Codec.dispatchedMap(ResourceLocation.CODEC, (__) -> Codec.STRING.listOf()).fieldOf("fillers").forGetter(it -> it.strataByFiller)
 	).apply(x, MultiStrataRuleTest::new));
 
+	public static RuleTestType<MultiStrataRuleTest> TYPE;
+	private final Map<ResourceLocation, List<String>> strataByFiller;
+	private final Set<ResourceLocation> fillerIds;
+
+	public MultiStrataRuleTest(List<String> fillerList, DataRegistry reg) {
+		this.strataByFiller = new HashMap<>();
+		this.fillerIds = new HashSet<>();
+		for (String id : fillerList) {
+			var model = Objects.requireNonNull(reg.getStrataModel(id));
+			this.strataByFiller.computeIfAbsent(model.getFillerType(), it -> new ArrayList<>()).add(model.getId());
+			this.fillerIds.add(model.getFillerType());
+		}
+	}
+
+	public MultiStrataRuleTest(Map<ResourceLocation, List<String>> fillerList) {
+		this.strataByFiller = fillerList;
+		this.fillerIds = Set.copyOf(fillerList.keySet());
+	}
+
+	@Override
+	public boolean test(@NotNull BlockState state, @NotNull RandomSource rand) {
+		return fillerIds.contains(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
+	}
+
+	public String getStrataFromFiller(@NotNull BlockState state, @NotNull RandomSource rand) {
+		var fillerKey = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+		var ret = strataByFiller.getOrDefault(fillerKey, List.of());
+		if (ret.size() == 1) return ret.getFirst();
+		if (ret.isEmpty()) return null;
+		return ret.get(rand.nextInt(ret.size()));
+	}
+
+	// Where in the world was this used?
 	public static void register() {
 		TYPE = RuleTestType.register("multi_block_test", CODEC);
 	}
-	public static RuleTestType<MultiStrataRuleTest> TYPE;
-	private final List<Block> blockFillerList = new ArrayList<>();
-	private final List<String> fillerList;
-
-	public MultiStrataRuleTest(List<String> fillerList) {
-		this.fillerList = fillerList;
-		setup();
-	}
-
-	private void setup() {
-		//TODO: Fix
-//		for (StrataModel stratum : EmendatusEnigmatica.getInstance().getPluginLoader().getDataRegistry().getStrata()) {
-//			if (this.fillerList.contains(stratum.getId())) {
-//				this.blockFillerList.add(BuiltInRegistries.BLOCK.get(stratum.getFillerType()));
-//			}
-//		}
-	}
 
 	@Override
-	public boolean test(BlockState state, RandomSource rand) {
-		for (Block block : blockFillerList) {
-			if (BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString().equals(BuiltInRegistries.BLOCK.getKey(block).toString())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	protected RuleTestType<?> getType() {
+	protected @NotNull RuleTestType<?> getType() {
 		return TYPE;
 	}
 }

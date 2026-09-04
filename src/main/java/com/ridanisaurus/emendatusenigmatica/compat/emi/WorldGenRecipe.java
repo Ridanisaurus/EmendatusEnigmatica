@@ -1,7 +1,7 @@
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -141,15 +141,16 @@ public class WorldGenRecipe implements EmiRecipe {
                 Component.literal(processor.getRarity())
             )));
         // Dimension
-        widgets.addTexture(GUI_ASSETS, 74, 8, 12, 12, 134, switch (processor.getCommonModel().getDimension().toLowerCase(Locale.ROOT)) {
-            case "minecraft:overworld" -> 0;
-            case "minecraft:the_nether" -> 12;
-            case "minecraft:the_end" -> 24;
-            default -> 36;
-        }).tooltip(createTooltipList(List.of(
-            Component.literal(ChatFormatting.GOLD + "Dimension:"),
-            Component.literal(processor.getCommonModel().getDimension())
-        )));
+        //TODO: REWORK!
+//        widgets.addTexture(GUI_ASSETS, 74, 8, 12, 12, 134, switch (processor.getCommonModel().getDimension().toLowerCase(Locale.ROOT)) {
+//            case "minecraft:overworld" -> 0;
+//            case "minecraft:the_nether" -> 12;
+//            case "minecraft:the_end" -> 24;
+//            default -> 36;
+//        }).tooltip(createTooltipList(List.of(
+//            Component.literal(ChatFormatting.GOLD + "Dimension:"),
+//            Component.literal(processor.getCommonModel().getDimension())
+//        )));
         // Biome
         widgets.add(new BiomeWidget(91, 8, 12, 12, processor));
         //TODO: Add Sample widget

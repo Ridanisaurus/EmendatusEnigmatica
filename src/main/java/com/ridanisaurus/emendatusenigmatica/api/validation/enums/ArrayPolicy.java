@@ -37,6 +37,9 @@ public enum ArrayPolicy {
     ALLOWS_ARRAYS,
     REQUIRES_ARRAY;
 
+    //TODO: Remove ArrayPolicy, add "duplicateHandling" toggle, update relevant validators.
+    // Replace ArrayPolicy "utility" with ArrayPolicyBuilder - Refactor ArrayHandlingPolicy back to ArrayPolicy
+
     // Create instances here, so we don't pollute the memory with instances of this "record".
     private final ArrayHandlingPolicy empty = new ArrayHandlingPolicy(this, true);
     private final ArrayHandlingPolicy nonEmpty = new ArrayHandlingPolicy(this, false);

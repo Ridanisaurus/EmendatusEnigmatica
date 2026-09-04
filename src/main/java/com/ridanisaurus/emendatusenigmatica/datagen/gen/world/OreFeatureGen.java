@@ -25,13 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
 import com.mojang.datafixers.util.Pair;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.processors.*;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
-import com.ridanisaurus.emendatusenigmatica.world.gen.feature.config.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -40,8 +36,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import org.jetbrains.annotations.NotNull;
@@ -54,10 +48,12 @@ import java.util.concurrent.CompletableFuture;
 public class OreFeatureGen implements DataProvider {
     private final PackOutput output;
     private final CompletableFuture<HolderLookup.Provider> registries;
+    private final DataRegistry registry;
 
-    public OreFeatureGen(@NotNull DataGenerator generator, CompletableFuture<HolderLookup.Provider> registries) {
+    public OreFeatureGen(@NotNull DataGenerator generator, DataRegistry registry, CompletableFuture<HolderLookup.Provider> registries) {
         this.output = generator.getPackOutput();
         this.registries = registries;
+        this.registry = registry;
     }
 
     @Override
@@ -65,24 +61,16 @@ public class OreFeatureGen implements DataProvider {
         var builder = new RegistrySetBuilder();
         List<Pair<ResourceKey<PlacedFeature>, PlacedFeature>> PLACED_FEATURES = new ArrayList<>();
 
-        //TODO: Rework for new Deposit and test.
-//        builder.add(Registries.CONFIGURED_FEATURE, bt -> {
-//            for (IDepositProcessor activeProcessor : ACTIVE_PROCESSORS) {
-//                // If Type is not recognized - Skip. It's from an addon.
-//                if (DepositType.typeOf(activeProcessor.getType()) == null) continue;
-//
-//                var configuredFeature = bt.register(ResourceKey.create(
-//                        Registries.CONFIGURED_FEATURE,
-//                        ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
-//                    getConfiguredFeature(activeProcessor)
-//                );
-//
-//                PLACED_FEATURES.add(new Pair<>(
-//                    ResourceKey.create(Registries.PLACED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, activeProcessor.getName())),
-//                    new PlacedFeature(configuredFeature, WorldGenHelper.getFullOrePlacement(activeProcessor)
-//                )));
-//            }
-//        });
+        builder.add(Registries.CONFIGURED_FEATURE, ctx -> {
+            for (DepositModel model : registry.getRegisteredDeposits()) {
+                var key = Reference.getPath(model.id);
+                var configuredFeature = ctx.register(ResourceKey.create(Registries.CONFIGURED_FEATURE, key), model.getConfiguredFeature());
+                PLACED_FEATURES.add(new Pair<>(
+                    ResourceKey.create(Registries.PLACED_FEATURE, key),
+                    new PlacedFeature(configuredFeature, model.getOrePlacement())
+                ));
+            }
+        });
 
         builder.add(Registries.PLACED_FEATURE, bt -> PLACED_FEATURES.forEach(pair -> bt.register(pair.getFirst(), pair.getSecond())));
 
@@ -92,16 +80,5 @@ public class OreFeatureGen implements DataProvider {
     @Override
     public @NotNull String getName() {
         return "Emendatus Enigmatica: World Gen Features";
-    }
-
-    private static ConfiguredFeature<?, ?> getConfiguredFeature(IDepositProcessor processor) {
-        return switch (DepositType.typeOf(processor.getType())) {
-            case VANILLA -> new ConfiguredFeature<>(EERegistrar.VANILLA_ORE_FEATURE.get(), new VanillaOreFeatureConfig(((VanillaDepositProcessor) processor).getVanillaModel()));
-            case SPHERE ->  new ConfiguredFeature<>(EERegistrar.SPHERE_ORE_FEATURE.get(),  new SphereOreFeatureConfig(((SphereDepositProcessor) processor).getSphereModel()));
-            case GEODE ->   new ConfiguredFeature<>(EERegistrar.GEODE_ORE_FEATURE.get(),   new GeodeOreFeatureConfig(((GeodeDepositProcessor) processor).getGeodeModel()));
-            case DIKE ->    new ConfiguredFeature<>(EERegistrar.DIKE_ORE_FEATURE.get(),    new DikeOreFeatureConfig(((DikeDepositProcessor) processor).getDikeModel()));
-            case DENSE ->   new ConfiguredFeature<>(EERegistrar.DENSE_ORE_FEATURE.get(),   new DenseOreFeatureConfig(((DenseDepositProcessor) processor).getDenseModel()));
-            case null -> null;
-        };
     }
 }

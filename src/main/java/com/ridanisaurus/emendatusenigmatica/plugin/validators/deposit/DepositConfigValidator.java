@@ -29,11 +29,11 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositConfigModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dike.DikeDepositConfigModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode.GeodeDepositConfigModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sphere.SphereDepositConfigModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.vanilla.VanillaDepositConfigModel;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dense.DenseDepositConfigModel;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.dike.DikeDepositConfigModel;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.geode.GeodeDepositConfigModel;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sphere.SphereDepositConfigModel;
+//import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.vanilla.VanillaDepositConfigModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -41,11 +41,11 @@ import java.util.Map;
 
 public class DepositConfigValidator extends AbstractValidator {
     public static Map<String, AbstractValidator> DEPOSIT_VALIDATORS = new HashMap<>(Map.of(
-        DepositType.VANILLA.getType(), VanillaDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
-        DepositType.SPHERE.getType(), SphereDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
-        DepositType.DENSE.getType(), DenseDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
-        DepositType.GEODE.getType(), GeodeDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
-        DepositType.DIKE.getType(), DikeDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false)
+//        DepositType.VANILLA.getType(), VanillaDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
+//        DepositType.SPHERE.getType(), SphereDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
+//        DepositType.DENSE.getType(), DenseDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
+//        DepositType.GEODE.getType(), GeodeDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false),
+//        DepositType.DIKE.getType(), DikeDepositConfigModel.VALIDATION_MANAGER.getAsValidator(false)
     ));
 
     /**
