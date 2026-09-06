@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import org.jetbrains.annotations.Nullable;

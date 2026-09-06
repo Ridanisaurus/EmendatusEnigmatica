@@ -22,16 +22,17 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.world.gen.featureNew;
+package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DenseDepositModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositBlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositSampleBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DenseDepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositSampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import net.minecraft.core.BlockPos;
@@ -51,8 +52,10 @@ import org.jetbrains.annotations.NotNull;
 
 // Credit: Geolysis
 public class DenseOreFeature extends Feature<DenseDepositModel> {
+    private static final Codec<DenseDepositModel> CODEC = DenseDepositModel.getFeatureCodec(DenseDepositModel.CODEC);
+
     public DenseOreFeature() {
-        super(DenseDepositModel.getFeatureCodec(DenseDepositModel.CODEC));
+        super(CODEC);
     }
 
     @Override
@@ -119,34 +122,33 @@ public class DenseOreFeature extends Feature<DenseDepositModel> {
         return true;
     }
 
-    private void placeBlock(@NotNull WorldGenLevel reader, RandomSource rand, BlockPos pos, @NotNull DenseDepositModel config) {
-        if (!config.target.test(reader.getBlockState(pos), rand)) return;
+    private void placeBlock(@NotNull WorldGenLevel level, RandomSource rand, BlockPos pos, @NotNull DenseDepositModel model) {
+        if (!model.target.test(level.getBlockState(pos), rand)) return;
 
         //TODO: Rework the weight system
-        int index = rand.nextInt(config.blocks.size());
+        int index = rand.nextInt(model.blocks.size());
         try {
-            DepositBlockModel depositBlockModel = config.blocks.get(index);
+            DepositBlockModel depositBlockModel = model.blocks.get(index);
             if (depositBlockModel.getBlock() != null) {
 
                 Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositBlockModel.getBlock()));
-                reader.setBlock(pos, block.defaultBlockState(), 2);
+                level.setBlock(pos, block.defaultBlockState(), 2);
 
             } else if (depositBlockModel.getTag() != null) {
 
                 HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositBlockModel.getTag()))).get();
-                blockITag.getRandomElement(rand).ifPresent(block -> reader.setBlock(pos, block.value().defaultBlockState(), 2));
+                blockITag.getRandomElement(rand).ifPresent(block -> level.setBlock(pos, block.value().defaultBlockState(), 2));
 
             } else if (depositBlockModel.getMaterial() != null) {
-//                StrataModel strata = registry.getStrataFromFiller(BuiltInRegistries.BLOCK.getKey(reader.getBlockState(pos).getBlock()));
-                var strata = config.target.getStrataFromFiller(reader.getBlockState(pos), rand);
+                var strata = model.target.getStrataFromFiller(level.getBlockState(pos), rand);
                 if (strata != null) {
                     Block block = EERegistrar.oreBlockTable.get(strata, depositBlockModel.getMaterial()).get();
-                    reader.setBlock(pos, block.defaultBlockState(), 2);
+                    level.setBlock(pos, block.defaultBlockState(), 2);
                 }
             }
-            config.placed = true;
+            model.placed = true;
         } catch (Exception e) {
-            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config).result().orElseGet(() -> new JsonPrimitive("Failed to serialize model!"));
+            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(CODEC).apply(model).result().orElseGet(() -> new JsonPrimitive("Failed to serialize model!"));
             EmendatusEnigmatica.logger.error("index: {}, model: {}", index, new Gson().toJson(modelJson), e);
         }
     }
@@ -173,7 +175,7 @@ public class DenseOreFeature extends Feature<DenseDepositModel> {
 
             }
         } catch (Exception e) {
-            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(DenseDepositModel.CODEC).apply(config).result().get();
+            JsonElement modelJson = JsonOps.INSTANCE.withEncoder(CODEC).apply(config).result().orElseGet(() -> new JsonPrimitive("Failed to serialize model!"));
             EmendatusEnigmatica.logger.error("model: {}", new Gson().toJson(modelJson), e);
         }
     }

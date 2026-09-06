@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew;
+package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -9,33 +9,34 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
 import java.util.List;
 
-public class SphereDepositModel extends DepositModel {
-    public static final Codec<SphereDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class DenseDepositModel extends DepositModel {
+    public static final Codec<DenseDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
         DepositModel.MAP_CODEC.forGetter(it -> it),
         Codec.list(DepositBlockModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
         Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
-        Codec.INT.fieldOf("radius").orElse(0).forGetter(it -> it.radius),
+        Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
         Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
         Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
         Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
         Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
         Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
         Codec.list(DepositSampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
-    ).apply(x, SphereDepositModel::new));
+    ).apply(x, DenseDepositModel::new));
 
-    public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:sphere_deposit")
+    public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:dense_deposit")
         .addValidator("blocks",          DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
-        .addValidator("radius",          new NumberRangeValidator(Types.INTEGER, 1, 16, true))
+        .addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 48, true))
         .addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))
         .addValidator("maxYLevel",       new MaxValidator(Types.INTEGER, "minYLevel", -64, 320, true))
         .addValidator("placement",       new ValuesValidator(List.of("uniform", "triangle"), FilterMode.WHITELIST, false))
@@ -45,7 +46,7 @@ public class SphereDepositModel extends DepositModel {
 
     public final List<DepositBlockModel> blocks;
     public final int chance;
-    public final int radius;
+    public final int size;
     public final int minYLevel;
     public final int maxYLevel;
     public final String placement;
@@ -53,11 +54,11 @@ public class SphereDepositModel extends DepositModel {
     public final boolean generateSamples;
     public final List<DepositSampleBlockModel> sampleBlocks;
 
-    public SphereDepositModel(
+    public DenseDepositModel(
         DepositModel base,
         List<DepositBlockModel> blocks,
         int chance,
-        int radius,
+        int size,
         int minYLevel,
         int maxYLevel,
         String placement,
@@ -68,7 +69,7 @@ public class SphereDepositModel extends DepositModel {
         super(base);
         this.blocks = blocks;
         this.chance = chance;
-        this.radius = radius;
+        this.size = size;
         this.minYLevel = minYLevel;
         this.maxYLevel = maxYLevel;
         this.placement = placement;
@@ -77,21 +78,13 @@ public class SphereDepositModel extends DepositModel {
         this.sampleBlocks = sampleBlocks;
     }
 
-    /**
-     * Used to provide a {@link ConfiguredFeature} for this model.
-     *
-     * @return ConfiguredFeature ready for registration.
-     */
     @Override
     public ConfiguredFeature<?, ?> getConfiguredFeature() {
-        return null;
+        return new ConfiguredFeature<>(EERegistrar.DENSE_ORE_FEATURE.get(), this);
     }
 
-    /**
-     * @return
-     */
     @Override
     public List<PlacementModifier> getOrePlacement() {
-        return List.of();
+        return WorldGenHelper.getOrePlacement(this.rarity, this.chance, WorldGenHelper.getPlacementModifier(this.placement, this.minYLevel, this.maxYLevel));
     }
 }

@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.plugin.deposit;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.DepositBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositBlockModel;
 //import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
 
 import java.util.List;

@@ -19,7 +19,8 @@
     "minecraft_diorite",
     "minecraft_andesite",
     "minecraft_granite",
-    "minecraft_deepslate"
+    "minecraft_deepslate",
+    "minecraft_tuff"
   ],
   "chance": 100,
   "size": 3,

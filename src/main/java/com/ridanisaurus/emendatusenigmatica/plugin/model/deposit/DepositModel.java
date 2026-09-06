@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew;
+package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -14,10 +14,9 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.B
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
-import com.ridanisaurus.emendatusenigmatica.world.gen.featureNew.MultiStrataRuleTest;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.MultiStrataRuleTest;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import org.apache.commons.lang3.NotImplementedException;
@@ -67,10 +66,10 @@ public abstract class DepositModel implements FeatureConfiguration {
      * List of the acceptable Types by the {@link DepositModel#VALIDATION_MANAGER DepositModel#VALIDATION_MANAGER}.
      */
     public static final List<String> TYPES = new ArrayList<>(List.of(
-//        "emendatusenigmatica:vanilla_deposit",
-//        "emendatusenigmatica:sphere_deposit",
-//        "emendatusenigmatica:geode_deposit",
-//        "emendatusenigmatica:dike_deposit",
+        "emendatusenigmatica:vanilla_deposit",
+        "emendatusenigmatica:sphere_deposit",
+        "emendatusenigmatica:geode_deposit",
+        "emendatusenigmatica:dike_deposit",
         "emendatusenigmatica:dense_deposit"
     ));
 
@@ -132,6 +131,10 @@ public abstract class DepositModel implements FeatureConfiguration {
      */
     public abstract ConfiguredFeature<?,?> getConfiguredFeature();
 
+    /**
+     * Used to provide ore placement for this model.
+     * @return List of {@link PlacementModifier}
+     */
     public abstract List<PlacementModifier> getOrePlacement();
 
     /**

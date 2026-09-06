@@ -24,7 +24,7 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew.*;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
@@ -164,6 +164,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         getBuilder("strata/diorite", "vanilla").markAsStrata().finish(ctx);
         getBuilder("strata/granite", "vanilla").markAsStrata().finish(ctx);
         getBuilder("strata/andesite", "vanilla").markAsStrata().finish(ctx);
+        getBuilder("strata/tuff", "vanilla").markAsStrata().finish(ctx);
 
         // Deposits
         getBuilder("deposit/coal/coal_lower", "vanilla/coal").markAsDeposit().finish(ctx);

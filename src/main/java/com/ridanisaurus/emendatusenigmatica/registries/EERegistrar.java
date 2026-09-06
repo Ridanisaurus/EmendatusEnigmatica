@@ -41,7 +41,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.world.gen.featureNew.*;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -87,11 +87,11 @@ public class EERegistrar
     public static final DeferredItem<Item> SHIELD_TEMPLATE = ITEMS.register("shield_upgrade_template", ShieldTemplate::new);
 
     // Features
-//    public static final DeferredHolder<Feature<?>, VanillaOreFeature> VANILLA_ORE_FEATURE = FEATURES.register("vanilla_feature", VanillaOreFeature::new);
-//    public static final DeferredHolder<Feature<?>, SphereOreFeature> SPHERE_ORE_FEATURE = FEATURES.register("sphere_feature", SphereOreFeature::new);
+    public static final DeferredHolder<Feature<?>, VanillaOreFeature> VANILLA_ORE_FEATURE = FEATURES.register("vanilla_feature", VanillaOreFeature::new);
+    public static final DeferredHolder<Feature<?>, SphereOreFeature> SPHERE_ORE_FEATURE = FEATURES.register("sphere_feature", SphereOreFeature::new);
     public static final DeferredHolder<Feature<?>, DenseOreFeature> DENSE_ORE_FEATURE = FEATURES.register("dense_feature", DenseOreFeature::new);
-//    public static final DeferredHolder<Feature<?>, GeodeOreFeature> GEODE_ORE_FEATURE = FEATURES.register("geode_feature", GeodeOreFeature::new);
-//    public static final DeferredHolder<Feature<?>, DikeOreFeature> DIKE_ORE_FEATURE = FEATURES.register("dike_feature", DikeOreFeature::new);
+    public static final DeferredHolder<Feature<?>, GeodeOreFeature> GEODE_ORE_FEATURE = FEATURES.register("geode_feature", GeodeOreFeature::new);
+    public static final DeferredHolder<Feature<?>, DikeOreFeature> DIKE_ORE_FEATURE = FEATURES.register("dike_feature", DikeOreFeature::new);
 
     // Ore Blocks
     // QoL changes for tables are not possible without AT or custom table impl - Thanks google!

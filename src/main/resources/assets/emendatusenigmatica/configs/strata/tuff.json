@@ -1,0 +1,7 @@
+{
+  "id": "minecraft_tuff",
+  "baseTexture": "minecraft:block/tuff",
+  "suffix": "tuff",
+  "fillerType": "minecraft:tuff",
+  "localizedName": "Tuff"
+}

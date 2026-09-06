@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.plugin.model.depositnew;
+package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,6 +12,8 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
@@ -76,21 +78,13 @@ public class DikeDepositModel extends DepositModel {
         this.sampleBlocks = sampleBlocks;
     }
 
-    /**
-     * Used to provide a {@link ConfiguredFeature} for this model.
-     *
-     * @return ConfiguredFeature ready for registration.
-     */
     @Override
     public ConfiguredFeature<?, ?> getConfiguredFeature() {
-        return null;
+        return new ConfiguredFeature<>(EERegistrar.DIKE_ORE_FEATURE.get(), this);
     }
 
-    /**
-     * @return
-     */
     @Override
     public List<PlacementModifier> getOrePlacement() {
-        return List.of();
+        return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
     }
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.world.gen.featureNew;
+package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
