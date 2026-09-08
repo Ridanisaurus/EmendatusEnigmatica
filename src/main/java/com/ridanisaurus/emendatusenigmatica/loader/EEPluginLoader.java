@@ -199,6 +199,10 @@ public class EEPluginLoader {
             it.plugin.setup(ctx);
         });
         ctx.modelLoader().finishRegistration();
+
+        var definitions = ctx.modelLoader().getRegisteredDefinitions();
+        for (EEModelDefinition<?, ?> definition : definitions)
+            SummaryHandler.addNewCategory("%s (%s)".formatted(definition.registryName(), definition.getOwningAnnotation().name()), SummaryHandler.CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
     }
 
     /**

@@ -25,20 +25,11 @@
 package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.GeodeDepositModel;
-import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
-import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -46,22 +37,21 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import net.minecraft.world.level.material.FluidState;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Predicate;
+
+import static com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper.placeBlock;
 
 public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 	private static final Codec<GeodeDepositModel> CODEC = GeodeDepositModel.getFeatureCodec(GeodeDepositModel.CODEC);
@@ -77,6 +67,7 @@ public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 		BlockPos pos = context.origin();
 		WorldGenLevel level = context.level();
 		var model = context.config();
+		boolean placed = false;
 
 		//TODO: Add in the Geode Configuration.
 		UniformInt outerWallDistances = UniformInt.of(4, 6);
@@ -156,28 +147,27 @@ public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 				crackDistance += Mth.invSqrt(placePos.distSqr(point) + (double) 2) + noiseModifier; // Crack Point Offset
 			}
 
-			if (!(distance < outerShellDistance)) {
+			if (distance >= outerShellDistance) {
 				if (cracked && crackDistance >= crackPointDistance && distance < fillDistance) {
 					this.safeSetBlock(level, placePos, Blocks.AIR.defaultBlockState(), predicate); // Crack
 
 					for (Direction dir : DIRECTIONS) {
 						BlockPos updatePos = placePos.relative(dir);
 						FluidState fluid = level.getFluidState(updatePos);
-						if (!fluid.isEmpty()) {
+						if (!fluid.isEmpty())
 							level.scheduleTick(updatePos, fluid.getType(), 0);
-						}
 					}
 				} else if (distance >= fillDistance) {
-					placeBlock(level, rand, placePos, model.fillBlocks, predicate, model);
+					placed |= placeBlock(level, rand, placePos, model.fillBlocks, predicate, model.target);
 				} else if (distance >= innerDistance) {
-					placeBlock(level, rand, placePos, model.innerBlocks, predicate, model);
+					placed |= placeBlock(level, rand, placePos, model.innerBlocks, predicate, model.target);
 					if ((double) rand.nextFloat() < 0.35D) { // Potential Placement Chance
 						clusterPlacements.add(placePos.immutable());
 					}
 				} else if (distance >= innerShellDistance) {
-					placeBlock(level, rand, placePos, model.innerShellBlocks, predicate, model);
+					placed |= placeBlock(level, rand, placePos, model.innerShellBlocks, predicate, model.target);
 				} else if (distance >= outerShellDistance) {
-					placeBlock(level, rand, placePos, model.outerShellBlocks, predicate, model);
+					placed |= placeBlock(level, rand, placePos, model.outerShellBlocks, predicate, model.target);
 				}
 			}
 		}
@@ -204,82 +194,9 @@ public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 			}
 		}
 
-		if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
-			placeSurfaceSample(rand, pos, level, model);
+//		if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
+//			placeSurfaceSample(rand, pos, level, model);
 
-		return true;
-	}
-
-	private void placeBlock(@NotNull WorldGenLevel level, RandomSource rand, BlockPos pos, List<DepositBlockModel> blocks, @NotNull Predicate<BlockState> predicate, GeodeDepositModel model) {
-		if (!predicate.test(level.getBlockState(pos)) || !model.target.test(level.getBlockState(pos), rand)) return;
-
-		int index = rand.nextInt(blocks.size());
-		var depositBlockModel = blocks.get(index);
-
-		if (depositBlockModel.getBlock() != null) {
-			Block block = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositBlockModel.getBlock()));
-			level.setBlock(pos, block.defaultBlockState(), 2);
-		} else if (depositBlockModel.getTag() != null) {
-			HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositBlockModel.getTag()))).get();
-			blockITag.getRandomElement(rand).ifPresent(block -> {
-				level.setBlock(pos, block.value().defaultBlockState(), 2);
-			});
-		} else if (depositBlockModel.getMaterial() != null) {
-			var strata = model.target.getStrataFromFiller(level.getBlockState(pos), rand);
-			if (strata != null) {
-				Block block = EERegistrar.oreBlockTable.get(strata, depositBlockModel.getMaterial()).get();
-				level.setBlock(pos, block.defaultBlockState(), 2);
-			}
-		}
-
-		model.placed = true;
-	}
-
-	private void placeSampleBlock(WorldGenLevel level, RandomSource rand, BlockPos samplePos, GeodeDepositModel model) {
-		try {
-			int index = rand.nextInt(model.sampleBlocks.size());
-			var depositSampleBlockModel = model.sampleBlocks.get(index);
-
-			if (depositSampleBlockModel.getBlock() != null) {
-				Block sampleBlock = BuiltInRegistries.BLOCK.get(ResourceLocation.parse(depositSampleBlockModel.getBlock()));
-				level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
-			} else if (depositSampleBlockModel.getTag() != null) {
-				HolderSet.Named<Block> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(depositSampleBlockModel.getTag()))).get();
-				blockITag.getRandomElement(rand).ifPresent(block -> {
-					level.setBlock(samplePos, block.value().defaultBlockState(), 2);
-				});
-			} else if (depositSampleBlockModel.getMaterial() != null) {
-				Block sampleBlock = EERegistrar.oreSampleBlockTable.get(depositSampleBlockModel.getStrata(), depositSampleBlockModel.getMaterial()).get();
-				level.setBlock(samplePos, sampleBlock.defaultBlockState(), 2);
-			}
-		} catch (Exception e) {
-			JsonElement modelJson = JsonOps.INSTANCE.withEncoder(CODEC).apply(model).result().orElseGet(() -> new JsonPrimitive("Failed to serialize model!"));
-			EmendatusEnigmatica.logger.error("model: " + new Gson().toJson(modelJson), e);
-		}
-	}
-
-	private void placeSurfaceSample(RandomSource rand, @NotNull BlockPos pos, @NotNull WorldGenLevel level, GeodeDepositModel model) {
-		// TODO: Refactor this to be used as a helper method, and add a check if true to generate
-		BlockPos sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.WORLD_SURFACE, pos.getX(), pos.getZ()), pos.getZ());
-		if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER)
-			sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
-
-		if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).is(BlockTags.LEAVES)) {
-			for (int l = 0; l < 3; ++l) {
-				int i = rand.nextInt(2);
-				int j = rand.nextInt(2);
-				int k = rand.nextInt(2);
-				float f = (float)(i + j + k) * 0.333F + 0.5F;
-
-				for(BlockPos samplePos : BlockPos.betweenClosed(sample.offset(-i, -j, -k), sample.offset(i, j, k))) {
-					if (samplePos.distSqr(sample) <= (double)(f * f) && model.placed) {
-						placeSampleBlock(level, rand, samplePos, model);
-					}
-				}
-				sample = sample.offset(-1 + rand.nextInt(2), -rand.nextInt(2), -1 + rand.nextInt(2));
-			}
-		}
-
-		model.placed = false;
+		return placed;
 	}
 }

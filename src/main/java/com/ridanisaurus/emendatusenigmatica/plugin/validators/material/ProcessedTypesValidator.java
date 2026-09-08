@@ -121,7 +121,7 @@ public class ProcessedTypesValidator extends ValuesValidator {
             boolean validation = true;
             var array = element.getAsJsonArray();
             for (JsonElement entry : array) {
-                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader())))
+                if (!this.validate(new ValidationContext(entry, ctx.rootObject(), "%s[%d]".formatted(ctx.currentPath(), index), ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader(), ctx.logHandler())))
                     validation = false;
             }
 

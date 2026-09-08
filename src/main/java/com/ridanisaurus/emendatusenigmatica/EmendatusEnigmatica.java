@@ -90,7 +90,7 @@ public class EmendatusEnigmatica {
             VERSION = modContainer.getModInfo().getVersion().toString();
             this.pluginLoader = new EEPluginLoader();
             var modelLoader = new EEModelLoader();
-            SummaryHandler.setup(modelLoader);
+            SummaryHandler.setup();
 
             DataGeneratorFactory.init();
             this.generator = DataGeneratorFactory.createEEDataGenerator();

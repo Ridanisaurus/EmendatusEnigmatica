@@ -33,8 +33,17 @@ import org.jetbrains.annotations.NotNull;
  * @see ArrayHandlingPolicy
  */
 public enum ArrayPolicy {
-    DISALLOWS_ARRAYS,
-    ALLOWS_ARRAYS,
+    /**
+     * This field can't accept an array.
+     */
+    DISALLOW_ARRAY,
+    /**
+     * This field can accept an array.
+     */
+    ALLOW_ARRAY,
+    /**
+     * This field only accepts an array.
+     */
     REQUIRES_ARRAY;
 
     //TODO: Remove ArrayPolicy, add "duplicateHandling" toggle, update relevant validators.

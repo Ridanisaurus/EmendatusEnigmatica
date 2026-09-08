@@ -34,8 +34,8 @@ import java.util.function.BiConsumer;
  *
  * @apiNote You should keep the instance of this model definition as a public static field in your plugin class,
  * to allow other plugins to easily extend your models.
- * @param getOwningPlugin Plugin owning the model.
- * @param getRegistryName Registry name of the model (Unique per plugin)
+ * @param originPlugin Plugin owning the model.
+ * @param registryName Registry name of the model (Unique per plugin)
  * @param folderPath Folder path in the config
  * @param codec Codec for the JSON schema.
  * @param validator Validator of the model.
@@ -47,29 +47,29 @@ import java.util.function.BiConsumer;
  * @see ValidationManager Validation System documentation.
  */
 public record EEModelDefinition<M, R>(
-    Class<? extends IEEPlugin<R>> getOwningPlugin,
-    String getRegistryName,
+    Class<? extends IEEPlugin<R>> originPlugin,
+    String registryName,
     PathHolder folderPath,
     Codec<M> codec,
     ValidationManager validator,
     BiConsumer<M, R> registerFunction
 ) {
     public EEModelDefinition(
-        @NotNull Class<? extends IEEPlugin<R>> getOwningPlugin,
-        @NotNull String getRegistryName,
+        @NotNull Class<? extends IEEPlugin<R>> originPlugin,
+        @NotNull String registryName,
         @NotNull PathHolder folderPath,
         @NotNull Codec<M> codec,
         @NotNull ValidationManager validator,
         @NotNull BiConsumer<M, R> registerFunction
     ) {
-        this.getOwningPlugin = Objects.requireNonNull(getOwningPlugin, "Plugin class can't be null.");
-        this.getRegistryName = Objects.requireNonNull(getRegistryName, "Registry name can't be null.");
+        this.originPlugin = Objects.requireNonNull(originPlugin, "Plugin class can't be null.");
+        this.registryName = Objects.requireNonNull(registryName, "Registry name can't be null.");
         this.folderPath = Objects.requireNonNull(folderPath, "PathHolder can't be .");
         this.codec = Objects.requireNonNull(codec, "Coded can't be null.");
         this.validator = Objects.requireNonNull(validator, "ValidationManager can't be null.");
         this.registerFunction = Objects.requireNonNull(registerFunction, "Register consumer can't be null.");
 
-        Objects.requireNonNull(getOwningPlugin.getAnnotation(EmendatusPluginReference.class), "Plugin annotation not present on the Plugin class.");
+        Objects.requireNonNull(originPlugin.getAnnotation(EmendatusPluginReference.class), "Plugin annotation not present on the Plugin class.");
     }
 
     public EEModelDefinition(
@@ -83,8 +83,12 @@ public record EEModelDefinition<M, R>(
         this(pluginClass, registryName, new PathHolder(folderPath), codec, validator, registerFunction);
     }
 
+    public @NotNull String getFullName() {
+        return this.getOwningAnnotation().name() + "#" + this.registryName;
+    }
+
     public EmendatusPluginReference getOwningAnnotation() {
-        return getOwningPlugin.getAnnotation(EmendatusPluginReference.class);
+        return originPlugin.getAnnotation(EmendatusPluginReference.class);
     }
 
     @SuppressWarnings("unchecked")

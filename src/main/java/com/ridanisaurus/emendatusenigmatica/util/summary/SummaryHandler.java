@@ -29,7 +29,6 @@ import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelLoader;
-import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.ApiStatus;
@@ -49,7 +48,7 @@ public class SummaryHandler {
     /**
      * Used to store messages and necessary data for each file.
      */
-    private static final Map<String, Map<String, Messages>> messages = new HashMap<>();
+    private static final Map<String, Messages> messages = new HashMap<>();
 
     /**
      * Used to store Categories, which will be used to organize the Validation Summary file.
@@ -75,8 +74,6 @@ public class SummaryHandler {
      */
     private static Path summaryFile;
 
-    private static EEModelLoader modelLoader;
-
     /**
      * Used as a cache of ConfigDir.
      */
@@ -90,11 +87,10 @@ public class SummaryHandler {
     /**
      * Used to set up the SummaryHandler paths.
      */
-    public static void setup(EEModelLoader loader) {
+    public static void setup() {
         CONFIG_DIR = FMLPaths.CONFIGDIR.get().resolve("emendatusenigmatica/").toAbsolutePath().normalize();
         summaryFile = CONFIG_DIR.resolve("Validation Results.md");
         dirSeparator = FileSystems.getDefault().getSeparator();
-        modelLoader = Objects.requireNonNull(loader);
     }
 
     /**
@@ -133,8 +129,7 @@ public class SummaryHandler {
      */
     public static void warn(String msg, String additional, String elementPath, String jsonPath) {
         if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
-        messages.computeIfAbsent(StringUtils.substringBefore(jsonPath, dirSeparator), it -> new HashMap<>())
-            .computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).warnings().add(new Messages.Message(elementPath, msg, additional));
+        messages.computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).warnings().add(new Messages.Message(elementPath, msg, additional));
     }
 
     /**
@@ -147,8 +142,7 @@ public class SummaryHandler {
      */
     public static void error(String msg, @Nullable String additional, String elementPath, String jsonPath) {
         if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
-        messages.computeIfAbsent(StringUtils.substringBefore(jsonPath, dirSeparator), it -> new HashMap<>())
-            .computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).errors().add(new Messages.Message(elementPath, msg, additional));
+        messages.computeIfAbsent(jsonPath, it -> new Messages(new ArrayList<>(), new ArrayList<>())).errors().add(new Messages.Message(elementPath, msg, additional));
     }
 
     /**
@@ -189,7 +183,7 @@ public class SummaryHandler {
      */
     public static void finalizeSummary() {
         if (finalized) throw new IllegalStateException("SummaryHandler were already finalized!");
-        SummaryWriteContext cx = new SummaryWriteContext(summaryFile);
+        SummaryWriteContext ctx = new SummaryWriteContext(summaryFile);
         Stopwatch s = Stopwatch.createStarted();
 
         try {
@@ -200,42 +194,31 @@ public class SummaryHandler {
             // If somehow the config directory doesn't exist.
             Files.createDirectories(summaryFile.getParent());
             Files.createFile(summaryFile);
-            cx.writeSpacer();
-            cx.writeHeader("Emendatus Enigmatica Validation Results", 1);
-            cx.writeLine("Emendatus Enigmatica version: " + EmendatusEnigmatica.VERSION);
-            cx.writeLine("File generated at: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS").format(new Date()));
-            cx.writeSpacer();
+            ctx.writeSpacer();
+            ctx.writeHeader("Emendatus Enigmatica Validation Results", 1);
+            ctx.writeLine("Emendatus Enigmatica version: " + EmendatusEnigmatica.VERSION);
+            ctx.writeLine("File generated at: " + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS").format(new Date()));
+            ctx.writeSpacer();
 
-            var definitions = modelLoader.getRegisteredDefinitions();
-            for (EEModelDefinition<?, ?> definition : definitions) {
-                addNewCategory("%s (%s)".formatted(definition.getRegistryName(), definition.getOwningAnnotation().name()), CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
-            }
-
-            messageCategories.forEach((header, type) -> {
-                cx.writeHeader(header, 2);
-                printMessages(type, cx);
-                messages.remove(type);
-            });
+            printMessages(ctx);
 
             // Print Messages from any custom directories, which don't have their own category, if any.
             if (!messages.isEmpty()) {
-                cx.writeHeader("Custom Messages", 2);
-                // Clearing already-saved categories was meant to be handled by the printMessages;
-                // however, this was causing ConcurrentModificationExceptions
-                // when trying to print all messages.
-                var it = messages.keySet().iterator();
+                ctx.writeHeader("Custom Messages", 2);
+                var it = messages.entrySet().iterator();
                 while (it.hasNext()) {
-                    printMessages(it.next(), cx);
+                    var val = it.next();
+                    printMessage(val.getKey(), val.getValue(), ctx);
                     it.remove();
                 }
             }
 
-            cx.writeSpacer();
-            cx.writeHeader("Additional Information", 2);
-            executeAddons(cx);
+            ctx.writeSpacer();
+            ctx.writeHeader("Additional Information", 2);
+            executeAddons(ctx);
             addPerformanceAnalytic("Generation of SummaryHandler Summary", s);
-            printPerformance(cx);
-            cx.writeComment("You can disable the generation of this summary and speed up the validation in the configuration file!");
+            printPerformance(ctx);
+            ctx.writeComment("You can disable the generation of this summary and speed up the validation in the configuration file!");
 
             finalized = true;
         } catch (Exception e) {
@@ -243,39 +226,53 @@ public class SummaryHandler {
         }
     }
 
-    private static void executeAddons(SummaryWriteContext cx) {
-        addons.forEach(it -> it.accept(cx));
+    private static void executeAddons(SummaryWriteContext ctx) {
+        addons.forEach(it -> it.accept(ctx));
     }
 
-    private static void printMessages(@NotNull String key, SummaryWriteContext cx) {
-        messages.computeIfAbsent(key, it -> new HashMap<>()).forEach((file, messages) -> {
-            cx.writeHeader("File <code>%s</code>".formatted(file), 3);
-            if (!messages.warnings().isEmpty()) {
-                cx.writeLine("Warnings:");
-                messages.warnings().forEach(warning -> {
-                    cx.writeLine("- Element: <code>%s</code>".formatted(warning.element()));
-                    cx.writeLine("Message: " + warning.message());
-                    if (Objects.nonNull(warning.additionalInfo())) cx.writeLine(warning.additionalInfo());
-                    cx.write("\n"); // Additional line to make "space" between list elements.
-                });
+    private static void printMessages(@NotNull SummaryWriteContext ctx) {
+        messageCategories.forEach((header, dir) -> {
+            var iterator = messages.entrySet().iterator();
+            boolean isClean = true;
+            while (iterator.hasNext()) {
+                var entry = iterator.next();
+                if (!entry.getKey().startsWith(dir)) continue;
+                iterator.remove();
+                isClean = false;
+                var file = entry.getKey();
+                var messages = entry.getValue();
+                printMessage(file, messages, ctx);
             }
-
-            if (!messages.errors().isEmpty()) {
-                cx.writeLine("Errors:");
-                messages.errors().forEach(error -> {
-                    cx.writeLine("- Element: <code>%s</code>".formatted(error.element()));
-                    cx.writeLine("Cause: " + error.message());
-                    if (Objects.nonNull(error.additionalInfo())) cx.writeLine(error.additionalInfo());
-                    cx.write("\n"); // Additional line to make "space" between list elements.
-                });
-            }
+            if (isClean)
+                ctx.writeLine("All files were parsed and registered successfully!");
         });
-
-        if (messages.get(key).isEmpty()) cx.writeLine("All files were parsed and registered successfully!");
     }
 
-    private static void printPerformance(@NotNull SummaryWriteContext cx) {
-        cx.writeHeader("Performance", 3);
+    private static void printMessage(@NotNull String file, @NotNull Messages messages, SummaryWriteContext ctx) {
+        ctx.writeHeader("File <code>%s</code>".formatted(file), 3);
+        if (!messages.warnings().isEmpty()) {
+            ctx.writeLine("Warnings:");
+            messages.warnings().forEach(warning -> {
+                ctx.writeLine("- Element: <code>%s</code>".formatted(warning.element()));
+                ctx.writeLine("Message: " + warning.message());
+                if (Objects.nonNull(warning.additionalInfo())) ctx.writeLine(warning.additionalInfo());
+                ctx.write("\n"); // Additional line to make "space" between list elements.
+            });
+        }
+
+        if (!messages.errors().isEmpty()) {
+            ctx.writeLine("Errors:");
+            messages.errors().forEach(error -> {
+                ctx.writeLine("- Element: <code>%s</code>".formatted(error.element()));
+                ctx.writeLine("Cause: " + error.message());
+                if (Objects.nonNull(error.additionalInfo())) ctx.writeLine(error.additionalInfo());
+                ctx.write("\n"); // Additional line to make "space" between list elements.
+            });
+        }
+    }
+
+    private static void printPerformance(@NotNull SummaryWriteContext ctx) {
+        ctx.writeHeader("Performance", 3);
         StringBuilder table = new StringBuilder();
         table.append("<table>");
         performanceMap.forEach((category, time) -> table
@@ -288,8 +285,8 @@ public class SummaryHandler {
             .append("</td>")
             .append("</tr>"));
         table.append("</table>");
-        cx.write(table.toString());
-        cx.write("\n");
+        ctx.write(table.toString());
+        ctx.write("\n");
     }
 
     /**

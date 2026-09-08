@@ -9,11 +9,15 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.SampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.WeightedBlocksValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
@@ -22,7 +26,7 @@ import java.util.List;
 public class DenseDepositModel extends DepositModel {
     public static final Codec<DenseDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
         DepositModel.MAP_CODEC.forGetter(it -> it),
-        Codec.list(DepositBlockModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks),
+        Codec.list(BlockModel.CODEC).fieldOf("blocks").orElse(List.of()).forGetter(it -> it.blocks.unwrap()),
         Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
         Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
         Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
@@ -30,11 +34,11 @@ public class DenseDepositModel extends DepositModel {
         Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
         Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
         Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-        Codec.list(DepositSampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
+        Codec.list(SampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks.unwrap())
     ).apply(x, DenseDepositModel::new));
 
     public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:dense_deposit")
-        .addValidator("blocks",          DepositBlockModel.VALIDATION_MANAGER.getAsValidator(true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+        .addValidator("blocks",          new WeightedBlocksValidator())
         .addValidator("chance",          new NumberRangeValidator(Types.INTEGER, 1, 100, true))
         .addValidator("size",            new NumberRangeValidator(Types.INTEGER, 1, 48, true))
         .addValidator("minYLevel",       new NumberRangeValidator(Types.INTEGER, -64, 320, true))
@@ -44,7 +48,7 @@ public class DenseDepositModel extends DepositModel {
         .addValidator("generateSamples", new TypeValidator(Types.BOOLEAN, false))
         .addValidator("sampleBlocks",    new SampleBlocksValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
 
-    public final List<DepositBlockModel> blocks;
+    public final WeightedRandomList<BlockModel> blocks;
     public final int chance;
     public final int size;
     public final int minYLevel;
@@ -52,11 +56,11 @@ public class DenseDepositModel extends DepositModel {
     public final String placement;
     public final String rarity;
     public final boolean generateSamples;
-    public final List<DepositSampleBlockModel> sampleBlocks;
+    public final WeightedRandomList<SampleBlockModel> sampleBlocks;
 
     public DenseDepositModel(
         DepositModel base,
-        List<DepositBlockModel> blocks,
+        List<BlockModel> blocks,
         int chance,
         int size,
         int minYLevel,
@@ -64,10 +68,10 @@ public class DenseDepositModel extends DepositModel {
         String placement,
         String rarity,
         boolean generateSamples,
-        List<DepositSampleBlockModel> sampleBlocks
+        List<SampleBlockModel> sampleBlocks
     ) {
         super(base);
-        this.blocks = blocks;
+        this.blocks = WeightedRandomList.create(blocks);
         this.chance = chance;
         this.size = size;
         this.minYLevel = minYLevel;
@@ -75,7 +79,7 @@ public class DenseDepositModel extends DepositModel {
         this.placement = placement;
         this.rarity = rarity;
         this.generateSamples = generateSamples;
-        this.sampleBlocks = sampleBlocks;
+        this.sampleBlocks = WeightedRandomList.create(sampleBlocks);
     }
 
     @Override

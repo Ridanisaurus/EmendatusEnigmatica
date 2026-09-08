@@ -31,7 +31,7 @@ public class AddonInfoSummary implements SummaryExtension {
 
         cx.writeHeader("Registered Definitions and Extensions", 3);
         modelLoader.getRegistryCopy().forEach((def, ext) -> {
-            cx.writeHeader("%s (%s)".formatted(def.getRegistryName(), def.getOwningAnnotation().name()), 5);
+            cx.writeHeader("%s (%s)".formatted(def.registryName(), def.getOwningAnnotation().name()), 5);
             if (!ext.isEmpty()) for (EEModelExtension<?, ?, ?, ?> extension : ext) {
                 cx.writeLine("- <code>%s</code> registered by <code>%s</code>".formatted(extension.getRegistryName(), extension.getOwningAnnotation().name()));
             }

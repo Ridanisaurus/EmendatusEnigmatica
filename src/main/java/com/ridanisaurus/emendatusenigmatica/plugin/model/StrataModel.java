@@ -64,7 +64,7 @@ public class StrataModel {
 	)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("id",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REGISTRATION, true))
+		.addValidator("id",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
 		.addValidator("baseTexture",		new ResourceLocationValidator(true, new TextureRegistryValidator()))
 		.addValidator("fillerType",		new ResourceLocationValidator(true, new BlockRegistryValidator()))
 		.addValidator("suffix",			new SuffixValidator())

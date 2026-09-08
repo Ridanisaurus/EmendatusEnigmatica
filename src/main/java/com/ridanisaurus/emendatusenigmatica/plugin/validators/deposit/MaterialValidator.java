@@ -25,7 +25,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
 import com.google.gson.JsonElement;
-import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
@@ -49,7 +48,7 @@ import java.util.Objects;
  * @implSpec <code>block</code> and <code>tag</code> fields should be set to {@link RequiredValidator} as optional fields!
  */
 public class MaterialValidator implements IValidationFunction {
-    private static final IValidationFunction materialValidator = new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REFERENCE, "Material", false);
+    private static final IValidationFunction materialValidator = new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REFERENCE_MODE, "Material", false);
     private static final IValidationFunction blockValidator = new ResourceLocationValidator(false, new BlockRegistryValidator());
     private static final IValidationFunction tagValidator = new ResourceLocationValidator(false);
     private final String fillerTypesPath;
@@ -133,8 +132,8 @@ public class MaterialValidator implements IValidationFunction {
             return false;
         }
 
-        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, ctx.rootObject(), blockPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader()));
-        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, ctx.rootObject(), tagPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader()));
+        if (hasBlock) return blockValidator.apply(new ValidationContext(blockElement, ctx.rootObject(), blockPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader(), ctx.logHandler()));
+        if (hasTag) return tagValidator.apply(new ValidationContext(tagElement, ctx.rootObject(), tagPath, ctx.jsonFilePath(), ctx.arrayPolicy(), ctx.pluginLoader(), ctx.logHandler()));
 
         if (hasMaterial) {
             if (materialValidator.apply(ctx)) {

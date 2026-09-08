@@ -36,12 +36,12 @@ import java.util.*;
  * <li> Load all JSON files of the model to memory.</li>
  * <li> Run {@link ValidationManager} of the model for each file.</li>
  * <li> Instantiate Java Object of the model based on JSON object.</li>
- * <li> Run model registration.</li>
  * <li> Validate and parse registered {@link EEModelExtension Model Extensions}.</li>
  * <li> Override data for the specified extension, if present.</li>
  * <li> Run {@link ValidationManager} of the extensions, if present.</li>
  * <li> Instantiate Java Object of the model extension.</li>
  * <li> Run model extension registration.</li>
+ * <li> Run base model registration.</li>
  * </ul>
  *
  * @see EEModelDefinition EEModelDefinition documentation.
@@ -66,9 +66,9 @@ public class EEModelLoader {
         if (!canRegister) throw new IllegalStateException("Can't register definitions outside of the addon setup phase!");
         if (
             registry.containsKey(Objects.requireNonNull(definition, "Can't register a null definition!")) ||
-            getPluginDefinitions(definition.getOwningPlugin()).stream().anyMatch(it -> it.getRegistryName().equals(definition.getRegistryName()))
+            getPluginDefinitions(definition.originPlugin()).stream().anyMatch(it -> it.registryName().equals(definition.registryName()))
         ) throw new IllegalArgumentException("Definition under name \"%s\" from plugin \"%s\" is already registered."
-            .formatted(definition.getRegistryName(), currentPlugin.name()));
+            .formatted(definition.registryName(), currentPlugin.name()));
 
         if (!definition.getOwningAnnotation().equals(currentPlugin))
             throw new SecurityException("Plugin \"%s\" tried registering definition under different addon's ownership (\"%s\")."
@@ -77,27 +77,36 @@ public class EEModelLoader {
         var path = definition.folderPath().updatePath(SummaryHandler.CONFIG_DIR).normalize();
         if (!path.startsWith(SummaryHandler.CONFIG_DIR))
             throw new SecurityException("Requested path by plugin \"%s\" (\"%s\") points outside of EE Configuration directory! (\"%s\")"
-                .formatted(currentPlugin.name(), definition.getOwningPlugin().getName(), path));
+                .formatted(currentPlugin.name(), definition.originPlugin().getName(), path));
 
-        registry.keySet().stream().filter(it -> it.folderPath().getRequestedPath().equals(definition.folderPath().getRequestedPath()))
-            .forEach(it -> logger.warn(
-                """
-                Found path conflict between plugin "{}" and "{}", moving configuration paths to the respective addon folders.
-                - "{}" > "{}" --> "{}"
-                - "{}" > "{}" --> "{}"
-                """,
-                currentPlugin.name(), it.getOwningAnnotation().name(),
-                currentPlugin.name(), path, definition.folderPath().updatePath(SummaryHandler.CONFIG_DIR, "(%s %s)".formatted(currentPlugin.name(), definition.getRegistryName())),
-                it.getOwningAnnotation().name(), it.folderPath().getPath(), it.folderPath().updatePath(SummaryHandler.CONFIG_DIR, "(%s %s)".formatted(it.getOwningAnnotation().name(), it.getRegistryName()))
-        ));
+        var conflicts = registry.keySet().stream().filter(it -> checkPathConflict(it.folderPath().getPath(), path)).toList();
+
+        if (!conflicts.isEmpty()) {
+            logger.warn(
+                "Found path conflict between Model Definitions: \"{}\" - Moving configuration paths to the respective addon folders.",
+                String.join(", ", conflicts.stream().map(EEModelDefinition::getFullName).toList())
+            );
+
+            for (EEModelDefinition<?, ?> conflict : conflicts) {
+                logger.debug("Moving \"{}\" definition from \"{}\" to \"{}\".",
+                    conflict.getFullName(),
+                    conflict.folderPath().getPath(),
+                    conflict.folderPath().updatePath(SummaryHandler.CONFIG_DIR, "(%s)".formatted(conflict.getFullName()))
+                );
+            }
+        }
 
         if (definition.validator().getRegisteredFields().contains("extensionOverrides"))
             throw new IllegalArgumentException("Definition under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!".formatted(
-                definition.getRegistryName(), currentPlugin.name()
+                definition.registryName(), currentPlugin.name()
             ));
 
         registry.put(definition, new ArrayList<>());
-        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\".", definition.getRegistryName(), currentPlugin.name());
+        logger.info("Registered new Model Definition \"{}\" from plugin \"{}\".", definition.registryName(), currentPlugin.name());
+    }
+
+    private boolean checkPathConflict(@NotNull Path path1, Path path2) {
+        return path1.equals(path2) || path1.startsWith(path2) || path2.startsWith(path1);
     }
 
     /**
@@ -108,7 +117,7 @@ public class EEModelLoader {
         if (!canRegister) throw new IllegalStateException("Can't register definitions extensions outside of the addon setup phase!");
         if (!registry.containsKey(Objects.requireNonNull(extension, "Can't register a null definition extension!").getExtendedDefinition()))
             throw new IllegalArgumentException("Extension \"%s\" tries to extend not registered Model Definition (\"%s\")."
-                .formatted(extension.getClass(), extension.getExtendedDefinition().getRegistryName()));
+                .formatted(extension.getClass(), extension.getExtendedDefinition().registryName()));
 
         if (!extension.getOwningAnnotation().equals(currentPlugin))
             throw new SecurityException("Plugin \"%s\" tried registering definition extension under different addon's ownership (\"%s\")."
@@ -119,12 +128,12 @@ public class EEModelLoader {
             extensions.contains(extension) ||
             extensions.stream().anyMatch(it -> it.getRegistryName().equals(extension.getRegistryName()))
         ) throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" is already registered."
-            .formatted(extension.getExtendedDefinition().getRegistryName(), extension.getRegistryName(), currentPlugin.name()));
+            .formatted(extension.getExtendedDefinition().registryName(), extension.getRegistryName(), currentPlugin.name()));
 
         if (Objects.nonNull(extension.getRootValidator())) {
             if (extension.getRootValidator().getRegisteredFields().contains("extensionOverrides"))
                 throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!"
-                    .formatted(extension.getExtendedDefinition().getRegistryName(), extension.getRegistryName(), currentPlugin.name()
+                    .formatted(extension.getExtendedDefinition().registryName(), extension.getRegistryName(), currentPlugin.name()
             ));
 
             var baseValidator = extension.getExtendedDefinition().validator();
@@ -143,7 +152,7 @@ public class EEModelLoader {
 
         logger.info(
             "Registered new Model Definition Extension \"{}\" from plugin \"{}\" for model \"{}\".",
-            extension.getRegistryName(), currentPlugin.name(), extension.getExtendedDefinition().getRegistryName()
+            extension.getRegistryName(), currentPlugin.name(), extension.getExtendedDefinition().registryName()
         );
     }
 
@@ -165,7 +174,7 @@ public class EEModelLoader {
     }
 
     public @NotNull List<EEModelDefinition<?,?>> getPluginDefinitions(Class<? extends IEEPlugin<?>> plugin) {
-        return registry.keySet().stream().filter(it -> it.getOwningPlugin().equals(plugin)).toList();
+        return registry.keySet().stream().filter(it -> it.originPlugin().equals(plugin)).toList();
     }
 
     protected void startRegistration() {
@@ -188,17 +197,17 @@ public class EEModelLoader {
         try {
             for (EEModelDefinition<?, ?> definition : registry.keySet()) {
                 Stopwatch s = Stopwatch.createStarted();
-                logger.info("Loading {}#{}...", definition.getOwningPlugin().getName(), definition.getRegistryName());
+                logger.info("Loading {}#{}...", definition.originPlugin().getName(), definition.registryName());
                 var path = definition.folderPath().getPath();
                 if (Files.notExists(path)) {
                     logger.info("Creating missing config directory \"{}\".", path);
                     Files.createDirectories(path);
-                    SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
+                    SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.registryName(), s);
                     continue;
                 }
 
                 ValidationManager overridesField = ValidationManager.create();
-                definition.validator().addValidator("extensionOverrides", overridesField.getAsValidator(false), ArrayPolicy.DISALLOWS_ARRAYS.getNonEmpty());
+                definition.validator().addValidator("extensionOverrides", overridesField.getAsValidator(false), ArrayPolicy.DISALLOW_ARRAY.getNonEmpty());
                 for (EEModelExtension<?,?,?,?> extension : registry.get(definition)) {
                     overridesField.addValidator(extension.getExtensionOverrideField(), SimpleObjectValidator.INSTANCE);
                     if (Objects.nonNull(extension.getRootValidator()))
@@ -214,7 +223,7 @@ public class EEModelLoader {
                     if (result.isEmpty()) return;
 
                     var model = result.get().getFirst();
-                    var definitionRegistry = this.pluginLoader.getRegistry(definition.getOwningPlugin());
+                    var definitionRegistry = this.pluginLoader.getRegistry(definition.originPlugin());
 
                     for (EEModelExtension<?,?,?,?> extension : registry.get(definition)) {
                         try {
@@ -238,7 +247,7 @@ public class EEModelLoader {
 
                     definition.genericRegister(model, definitionRegistry);
                 });
-                SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.getRegistryName(), s);
+                SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.registryName(), s);
             }
         } catch (Exception e) {
             throw new RuntimeException("Critical exception caught while loading EEModelDefinitions!", e);
@@ -269,11 +278,14 @@ public class EEModelLoader {
             }
 
             if (value.isJsonObject()) {
-                if (object.get(field).isJsonObject()) {
-                    overrideFields(object.getAsJsonObject(field), value.getAsJsonObject());
+                var parentField = object.get(field);
+
+                if (Objects.nonNull(parentField) && parentField.isJsonObject()) {
+                    overrideFields(parentField.getAsJsonObject(), value.getAsJsonObject());
                 } else {
                     object.add(field, value);
                 }
+
                 return;
             }
 

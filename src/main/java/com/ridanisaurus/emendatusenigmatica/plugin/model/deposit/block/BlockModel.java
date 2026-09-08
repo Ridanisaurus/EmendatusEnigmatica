@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit;
+package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -31,54 +31,48 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.DepositType;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldSetValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
+import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
+import com.ridanisaurus.emendatusenigmatica.registries.EETags;
+import com.ridanisaurus.emendatusenigmatica.world.gen.feature.MultiStrataRuleTest;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.random.Weight;
+import net.minecraft.util.random.WeightedEntry;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 
-public class DepositBlockModel {
-	public static final Codec<DepositBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class BlockModel implements WeightedEntry {
+	public static final Codec<BlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.block)),
 			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.tag)),
 			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
-			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight),
-			Codec.INT.fieldOf("min").orElse(-500).forGetter(it -> it.min),
-			Codec.INT.fieldOf("max").orElse(500).forGetter(it -> it.max)
-	).apply(x, (s, s2, s3, i, i2, i3) -> new DepositBlockModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, i2, i3)));
+			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight.asInt())
+	).apply(x, (block, tag, material, weight) -> new BlockModel(block.orElse(null), tag.orElse(null), material.orElse(null), weight)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("block",    new RequiredValidator(false))
 		.addValidator("tag",      new RequiredValidator(false))
 		.addValidator("material", new MaterialValidator())
-		.addValidator("weight",   new TypeValidator(Types.INTEGER, false))
-		.addValidator("min",      new FieldSetValidator(
-			"root.type",
-			DepositType.DIKE.getType(),
-			new NumberRangeValidator(Types.INTEGER, -64, 320, false), true)
-		).addValidator("max",      new FieldSetValidator(
-			"root.type",
-			DepositType.DIKE.getType(),
-			new MaxValidator(Types.INTEGER, -64, 320, false), true)
-		);
+		.addValidator("weight",   new NumberRangeValidator(Types.INTEGER, 1, Integer.MAX_VALUE, false));
 
 	private final String material;
-	protected final String block;
-	protected final String tag;
-	protected final int weight;
-	protected final int min;
-	protected final int max;
+	private final String block;
+	private final String tag;
+	private final Weight weight;
 
-	//TODO: Move min/max to Dike-specific model lol
-	public DepositBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, int min, int max) {
+	public BlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight) {
 		this.block = block;
 		this.tag = tag;
 		this.material = material;
-		this.weight = weight;
-		this.min = min;
-		this.max = max;
+		this.weight = Weight.of(weight);
 	}
 
 	public @Nullable String getBlock() {
@@ -93,15 +87,24 @@ public class DepositBlockModel {
 		return material;
 	}
 
-	public int getWeight() {
+	public @NotNull Weight getWeight() {
 		return weight;
 	}
 
-	public int getMin() {
-		return min;
-	}
+	public Optional<BlockState> getBlockState(MultiStrataRuleTest target, BlockState targetState, RandomSource rand) {
+		if (Objects.nonNull(block))
+			return Optional.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(block)).defaultBlockState());
 
-	public int getMax() {
-		return max;
+		if (Objects.nonNull(tag)) {
+			Optional<HolderSet.Named<Block>> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(tag)));
+            return blockITag.flatMap(holders -> holders.getRandomElement(rand).map(blockHolder -> blockHolder.value().defaultBlockState()));
+        }
+
+		if (Objects.isNull(material)) return Optional.empty();
+		var strata = target.getStrataFromFiller(targetState, rand);
+		if (Objects.isNull(strata)) return Optional.empty();
+		var ret = EERegistrar.oreBlockTable.get(strata, material);
+		if (Objects.isNull(ret)) return Optional.empty();
+		return Optional.of(ret.get().defaultBlockState());
 	}
 }

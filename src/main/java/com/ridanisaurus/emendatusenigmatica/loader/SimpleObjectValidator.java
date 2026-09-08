@@ -2,13 +2,12 @@ package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 
 import java.util.Objects;
 
 /**
  * A simple validator used to check if the field is an object.
- * This validator doesn't respect ArrayPolicy and always acts like {@link com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy#DISALLOWS_ARRAYS} is provided.
+ * This validator doesn't respect ArrayPolicy and always acts like {@link com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy#DISALLOW_ARRAY} is provided.
  */
 public class SimpleObjectValidator implements IValidationFunction {
     public static SimpleObjectValidator INSTANCE = new SimpleObjectValidator();

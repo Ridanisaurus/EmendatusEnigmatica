@@ -1,12 +1,8 @@
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
-import com.ridanisaurus.emendatusenigmatica.datagen.builder.TagBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EETagProvider;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;

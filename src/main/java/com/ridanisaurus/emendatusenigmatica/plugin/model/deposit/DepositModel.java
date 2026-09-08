@@ -56,7 +56,6 @@ public abstract class DepositModel implements FeatureConfiguration {
             codec.fieldOf("model").forGetter(it -> it),
             MultiStrataRuleTest.CODEC.forGetter(it -> it.target)
         ).apply(x, (model, target) -> {
-            model.placed = false;
             model.target = target;
             return model;
         }));
@@ -74,11 +73,11 @@ public abstract class DepositModel implements FeatureConfiguration {
     ));
 
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-        .addValidator("registryName",   new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isDepositRegistered, PluginRegistryValidator.REGISTRATION, true))
+        .addValidator("registryName",   new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isDepositRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
         .addValidator("type",           new ValuesValidator(TYPES, FilterMode.WHITELIST, true))
         .addValidator("biomes",         new ResourceLocationValidator(true, true, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.get())
         .addValidator("dimension",      new ResourceLocationValidator(true, new DimensionRegistryValidator()))
-        .addValidator("fillerTypes",    new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+        .addValidator("fillerTypes",    new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE_MODE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("config",         new DeprecatedFieldValidator(null));
 
     public final String id;
@@ -90,7 +89,6 @@ public abstract class DepositModel implements FeatureConfiguration {
     // Feature Configuration related
     // No need to serialize MSRT as it can be reconstructed from model data.
     public MultiStrataRuleTest target = null;
-    public boolean placed = false;
 
     public DepositModel(
         String id,
@@ -111,7 +109,6 @@ public abstract class DepositModel implements FeatureConfiguration {
         this(base.id, base.type, base.biomes, base.dimension, base.fillerTypes);
         // Not serialized by default.
         this.target = base.target;
-        this.placed = base.placed;
     }
 
     /**

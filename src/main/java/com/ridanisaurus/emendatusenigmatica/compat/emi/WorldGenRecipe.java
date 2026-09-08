@@ -1,15 +1,11 @@
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositBlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
-import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import dev.emi.emi.api.widget.TextWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -29,23 +25,23 @@ import static com.ridanisaurus.emendatusenigmatica.compat.emi.EMIPlugin.GUI_ASSE
 
 public class WorldGenRecipe implements EmiRecipe {
     private final List<EmiStack> outputs = new ArrayList<>();
-    private final IDepositProcessor processor;
+//    private final IDepositProcessor processor;
 
-    public WorldGenRecipe(IDepositProcessor depositProcessor) {
-        processor = Objects.requireNonNull(depositProcessor);
-        var blocks = depositProcessor.getBlocks();
-        for (DepositBlockModel block : blocks) {
-            if (Objects.nonNull(block.getBlock())) {
-                addBlock(block.getBlock());
-                continue;
-            }
-            if (Objects.nonNull(block.getTag())) {
-                addBlockTag(block.getTag());
-                continue;
-            }
-            addMaterialOres(block.getMaterial(), depositProcessor.getFillerTypes());
-        }
-    }
+//    public WorldGenRecipe(IDepositProcessor depositProcessor) {
+//        processor = Objects.requireNonNull(depositProcessor);
+//        var blocks = depositProcessor.getBlocks();
+//        for (BlockModel block : blocks) {
+//            if (Objects.nonNull(block.getBlock())) {
+//                addBlock(block.getBlock());
+//                continue;
+//            }
+//            if (Objects.nonNull(block.getTag())) {
+//                addBlockTag(block.getTag());
+//                continue;
+//            }
+//            addMaterialOres(block.getMaterial(), depositProcessor.getFillerTypes());
+//        }
+//    }
 
     private void addBlock(String id) {
         outputs.add(EmiStack.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(Objects.requireNonNull(id)))));
@@ -67,7 +63,8 @@ public class WorldGenRecipe implements EmiRecipe {
 
     @Override
     public @Nullable ResourceLocation getId() {
-        return Reference.getPath("/emi/world_gen_recipes/" + processor.getName());
+//        return Reference.getPath("/emi/world_gen_recipes/" + processor.getName());
+        return null;
     }
 
     @Override
@@ -104,41 +101,41 @@ public class WorldGenRecipe implements EmiRecipe {
 
         // Deposit Data | Text
         //TODO: Translation
-        var yTooltip = createTooltipList(List.of(
-            Component.literal(ChatFormatting.GOLD + "Optimal Y:"),
-            Component.literal(String.valueOf((processor.getMinY() + processor.getMaxY()) / 2))
-        ));
+//        var yTooltip = createTooltipList(List.of(
+//            Component.literal(ChatFormatting.GOLD + "Optimal Y:"),
+//            Component.literal(String.valueOf((processor.getMinY() + processor.getMaxY()) / 2))
+//        ));
 
-        widgets.addText(getFormattedComponent("Type: ", formatType(processor)), 5,  30, 0, false);
-        widgets.addText(getFormattedComponent("Size: ", getSize(processor)),    5,  42, 0, false);
-        widgets.addText(getFormattedComponent("Chance: ", processor.getChance() + "%"), 5, 54, 0, false);
-        widgets.add(new TextWidget(getFormattedComponent("Min Y: ", processor.getMinY()),  75, 54, 0, false) {
-            public List<ClientTooltipComponent> getTooltip(int x, int y) {
-                return yTooltip;
-            }
-        });
-        widgets.add(new TextWidget(getFormattedComponent("Max Y: ", processor.getMaxY()),  75, 42, 0, false) {
-            public List<ClientTooltipComponent> getTooltip(int x, int y) {
-                return yTooltip;
-            }
-        });
+//        widgets.addText(getFormattedComponent("Type: ", formatType(processor)), 5,  30, 0, false);
+//        widgets.addText(getFormattedComponent("Size: ", getSize(processor)),    5,  42, 0, false);
+//        widgets.addText(getFormattedComponent("Chance: ", processor.getChance() + "%"), 5, 54, 0, false);
+//        widgets.add(new TextWidget(getFormattedComponent("Min Y: ", processor.getMinY()),  75, 54, 0, false) {
+//            public List<ClientTooltipComponent> getTooltip(int x, int y) {
+//                return yTooltip;
+//            }
+//        });
+//        widgets.add(new TextWidget(getFormattedComponent("Max Y: ", processor.getMaxY()),  75, 42, 0, false) {
+//            public List<ClientTooltipComponent> getTooltip(int x, int y) {
+//                return yTooltip;
+//            }
+//        });
 
         // Deposit Data | Icons
         // Placement
-        widgets.addTexture(GUI_ASSETS, 40, 8, 12, 12, 170, processor.getPlacement().equalsIgnoreCase("Uniform")? 0: 12)
-            .tooltip(createTooltipList(List.of(
-                Component.literal(ChatFormatting.GOLD + "Placement:"),
-                Component.literal(processor.getPlacement()),
-                processor.getPlacement().equalsIgnoreCase("Uniform")?
-                    Component.literal(ChatFormatting.GRAY + "Even distribution across the spawn range."):
-                    Component.literal(ChatFormatting.GRAY + "Higher distribution in the middle of the spawn range.")
-            )));
-        // Rarity
-        widgets.addTexture(GUI_ASSETS, 57, 8, 12, 12, 182, processor.getRarity().equalsIgnoreCase("Common")? 0: 12)
-            .tooltip(createTooltipList(List.of(
-                Component.literal(ChatFormatting.GOLD + "Rarity:"),
-                Component.literal(processor.getRarity())
-            )));
+//        widgets.addTexture(GUI_ASSETS, 40, 8, 12, 12, 170, processor.getPlacement().equalsIgnoreCase("Uniform")? 0: 12)
+//            .tooltip(createTooltipList(List.of(
+//                Component.literal(ChatFormatting.GOLD + "Placement:"),
+//                Component.literal(processor.getPlacement()),
+//                processor.getPlacement().equalsIgnoreCase("Uniform")?
+//                    Component.literal(ChatFormatting.GRAY + "Even distribution across the spawn range."):
+//                    Component.literal(ChatFormatting.GRAY + "Higher distribution in the middle of the spawn range.")
+//            )));
+//         Rarity
+//        widgets.addTexture(GUI_ASSETS, 57, 8, 12, 12, 182, processor.getRarity().equalsIgnoreCase("Common")? 0: 12)
+//            .tooltip(createTooltipList(List.of(
+//                Component.literal(ChatFormatting.GOLD + "Rarity:"),
+//                Component.literal(processor.getRarity())
+//            )));
         // Dimension
         //TODO: REWORK!
 //        widgets.addTexture(GUI_ASSETS, 74, 8, 12, 12, 134, switch (processor.getCommonModel().getDimension().toLowerCase(Locale.ROOT)) {
@@ -151,7 +148,7 @@ public class WorldGenRecipe implements EmiRecipe {
 //            Component.literal(processor.getCommonModel().getDimension())
 //        )));
         // Biome
-        widgets.add(new BiomeWidget(91, 8, 12, 12, processor));
+//        widgets.add(new BiomeWidget(91, 8, 12, 12, processor));
         //TODO: Add Sample widget
     }
 
@@ -159,14 +156,14 @@ public class WorldGenRecipe implements EmiRecipe {
         return Component.literal(ChatFormatting.DARK_AQUA + text1 +   ChatFormatting.DARK_GRAY + text2).getVisualOrderText();
     }
 
-    private String getSize(IDepositProcessor processor) {
-        return switch (processor.getSize()) {
-            case 0 -> "Small";
-            case 1 -> "Average";
-            case 2 -> "Large";
-            default -> "Unknown";
-        };
-    }
+//    private String getSize(IDepositProcessor processor) {
+//        return switch (processor.getSize()) {
+//            case 0 -> "Small";
+//            case 1 -> "Average";
+//            case 2 -> "Large";
+//            default -> "Unknown";
+//        };
+//    }
 
     private List<ClientTooltipComponent> createTooltipList(Supplier<List<Component>> supplier) {
         return createTooltipList(supplier.get());
@@ -176,23 +173,23 @@ public class WorldGenRecipe implements EmiRecipe {
         return Objects.requireNonNull(list).stream().map(it -> ClientTooltipComponent.create(it.getVisualOrderText())).toList();
     }
 
-    private String formatType(IDepositProcessor processor) {
-        String input = processor.getType();
-        //TODO: Replace with translation key generation?
-        int index = input.indexOf(":");
-        if (index != -1) {
-            input = input.substring(index + 1);
-        }
-        input = input.replaceAll("_", " ");
-        String[] words = input.split(" ");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            sb.append(Character.toUpperCase(word.charAt(0)));
-            sb.append(word.substring(1));
-            sb.append(" ");
-        }
-        return sb.toString().trim();
-    }
+//    private String formatType(IDepositProcessor processor) {
+//        String input = processor.getType();
+//        TODO: Replace with translation key generation?
+//        int index = input.indexOf(":");
+//        if (index != -1) {
+//            input = input.substring(index + 1);
+//        }
+//        input = input.replaceAll("_", " ");
+//        String[] words = input.split(" ");
+//        StringBuilder sb = new StringBuilder();
+//        for (String word : words) {
+//            sb.append(Character.toUpperCase(word.charAt(0)));
+//            sb.append(word.substring(1));
+//            sb.append(" ");
+//        }
+//        return sb.toString().trim();
+//    }
 
     @Override
     public boolean supportsRecipeTree() {

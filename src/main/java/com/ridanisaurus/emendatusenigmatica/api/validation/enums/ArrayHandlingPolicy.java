@@ -8,13 +8,13 @@ public class ArrayHandlingPolicy {
     private final ArrayPolicy arrayPolicy;
     private final boolean allowEmpty;
 
-    protected ArrayHandlingPolicy(ArrayPolicy arrayPolicy, boolean allowEmpty) {
+    public ArrayHandlingPolicy(ArrayPolicy arrayPolicy, boolean allowEmpty) {
         this.arrayPolicy = arrayPolicy;
         this.allowEmpty = allowEmpty;
     }
 
     public boolean allowsArrays() {
-        return this.arrayPolicy != ArrayPolicy.DISALLOWS_ARRAYS;
+        return this.arrayPolicy != ArrayPolicy.DISALLOW_ARRAY;
     }
 
     public boolean requiresArray() {

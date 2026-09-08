@@ -34,7 +34,7 @@ public class DataRegistry {
     }
 
     public void registerDeposit(DepositModel model) {
-        if (deposits.containsKey(model.id))
+        if (deposits.containsKey(Objects.requireNonNull(model, "Registered model can't be null!").id))
             throw new IllegalArgumentException("Duplicate deposit ID \"%s\"!".formatted(model.id));
         deposits.put(model.id, model);
     }

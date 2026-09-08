@@ -28,6 +28,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 
 import java.util.Optional;
@@ -44,9 +45,9 @@ public class ToolModel {
 	)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("damage", new TypeValidator(Types.FLOAT, false))
-		.addValidator("speed", new TypeValidator(Types.FLOAT, false))
-		.addValidator("durability", new TypeValidator(Types.INTEGER, false));
+		.addValidator("damage", 		new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
+		.addValidator("speed", 		new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
+		.addValidator("durability", 	new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false));
 
 	private final float damage;
 	private final float speed;

@@ -1,14 +1,10 @@
 package com.ridanisaurus.emendatusenigmatica.compat.emi;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.ridanisaurus.emendatusenigmatica.plugin.deposit.IDepositProcessor;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.widget.TextureWidget;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -43,8 +39,8 @@ public class BiomeWidget extends TextureWidget {
         int x,
         int y,
         int width,
-        int height,
-        IDepositProcessor processor
+        int height
+//        IDepositProcessor processor
     ) {
         super(
             Reference.getPath("textures/gui/world_gen.png"),

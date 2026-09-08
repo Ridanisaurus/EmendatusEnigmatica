@@ -44,6 +44,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.BitSet;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class VanillaOreFeature extends Feature<VanillaDepositModel> {
@@ -107,6 +108,7 @@ public class VanillaOreFeature extends Feature<VanillaDepositModel> {
 		BlockPos.MutableBlockPos blockPos = new BlockPos.MutableBlockPos();
 		int size = model.size;
 		double[] data = new double[size * 4];
+		boolean placed = false;
 
 		// Generate spheres based on the initial vein direction.
 		for (int index = 0; index < size; ++index) {
@@ -180,7 +182,7 @@ public class VanillaOreFeature extends Feature<VanillaDepositModel> {
 
 							if (canPlaceOre(blockState, bulkAccess::getBlockState, rand, model.target, blockPos)) {
 								chunkSection.setBlockState(posX, posY, posZ, getToPlaceBlockState(model, blockState, rand), false);
-								model.placed = true;
+								placed = true;
 							}
                         }
                     }
@@ -188,7 +190,7 @@ public class VanillaOreFeature extends Feature<VanillaDepositModel> {
             }
 		}
 
-		return model.placed;
+		return placed;
 	}
 
 	public static @NotNull BlockState getToPlaceBlockState(@NotNull VanillaDepositModel model, @NotNull BlockState strataState, @NotNull RandomSource rand) {
@@ -198,7 +200,7 @@ public class VanillaOreFeature extends Feature<VanillaDepositModel> {
 		if (model.material != null) {
 			var strata = model.target.getStrataFromFiller(strataState, rand);
 			if (strata != null)
-				return EERegistrar.oreBlockTable.get(strata, model.material).get().defaultBlockState();
+				return Objects.requireNonNull(EERegistrar.oreBlockTable.get(strata, model.material)).get().defaultBlockState();
 		}
 
 		throw new IllegalStateException("No valid block found for placing feature: " + model.id);
