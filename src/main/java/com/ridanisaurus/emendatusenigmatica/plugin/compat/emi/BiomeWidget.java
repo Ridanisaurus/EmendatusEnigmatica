@@ -1,13 +1,18 @@
-package com.ridanisaurus.emendatusenigmatica.compat.emi;
+package com.ridanisaurus.emendatusenigmatica.plugin.compat.emi;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.widget.TextureWidget;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +44,8 @@ public class BiomeWidget extends TextureWidget {
         int x,
         int y,
         int width,
-        int height
-//        IDepositProcessor processor
+        int height,
+        @NotNull List<String> biomes
     ) {
         super(
             Reference.getPath("textures/gui/world_gen.png"),
@@ -55,24 +60,22 @@ public class BiomeWidget extends TextureWidget {
             256,
             256
         );
-//TODO: REWORK!
+;
+        BIOME_OFFSETS.forEach(biome -> {
+            if (biomes.contains(biome)) tags.add(biome); else includeDefault = true;
+        });
 
-//        var biomes = processor.getCommonModel().getBiomes();
-//        BIOME_OFFSETS.forEach(biome -> {
-//            if (biomes.contains(biome)) tags.add(biome); else includeDefault = true;
-//        });
-//
-//        List<ClientTooltipComponent> tooltip = new ArrayList<>();
-//        tooltip.add(ClientTooltipComponent.create(Component.literal(ChatFormatting.GOLD + "Biomes:").getVisualOrderText()));
-//
-//        if (biomes.isEmpty()) {
-//            tooltip.add(ClientTooltipComponent.create(Component.literal("- Any").getVisualOrderText()));
-//        } else {
-//            for (String biome : biomes)
-//                tooltip.add(ClientTooltipComponent.create(Component.literal("- ").append(Component.literal(biome)).getVisualOrderText()));
-//        }
-//
-//        tooltip(tooltip);
+        List<ClientTooltipComponent> tooltip = new ArrayList<>();
+        tooltip.add(ClientTooltipComponent.create(Component.literal(ChatFormatting.GOLD + "Biomes:").getVisualOrderText()));
+
+        if (biomes.isEmpty()) {
+            tooltip.add(ClientTooltipComponent.create(Component.literal("- Any").getVisualOrderText()));
+        } else {
+            for (String biome : biomes)
+                tooltip.add(ClientTooltipComponent.create(Component.literal("- ").append(Component.literal(biome)).getVisualOrderText()));
+        }
+
+        tooltip(tooltip);
     }
 
     @Override

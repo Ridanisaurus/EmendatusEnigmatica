@@ -24,14 +24,17 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
+import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EEEMIPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
+import dev.emi.emi.api.EmiRegistry;
 import net.minecraft.core.HolderLookup;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")
@@ -63,12 +66,14 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         DepositModel::register
     );
 
+
     /**
      * This method is used to make any necessary changes to other plugins,
      * register your models and anything else your plugin requires before EE itself starts.
      */
     @Override
     public void setup(SetupContext ctx) {
+        EEEMIPlugin.provideDataRegistry(ctx.pluginLoader().getRegistry(getClass()));
         var loader = ctx.modelLoader();
         loader.registerDefinition(STRATA_DEFINITION);
         loader.registerDefinition(MATERIAL_DEFINITION);
@@ -224,7 +229,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         generator.addProvider(true, new LootGen(generator, registry, providers));
         generator.addProvider(true, new OreFeatureGen(generator, registry, providers));
         generator.addProvider(true, new NeoFeatureGen(generator, registry, providers));
-        generator.addProvider(true, new BiomeTagsGen(generator));
+        generator.addProvider(true, new BiomeTagsGen(generator, registry));
     }
 
     /**

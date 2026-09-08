@@ -8,16 +8,23 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EmiUtils;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class VanillaDepositModel extends DepositModel {
@@ -85,5 +92,38 @@ public class VanillaDepositModel extends DepositModel {
     @Override
     public List<PlacementModifier> getOrePlacement() {
         return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
+    }
+
+    @Override
+    public List<EmiStack> getEmiOutputs() {
+        if (Objects.nonNull(block))
+            return List.of(EmiStack.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(block))));
+        if (Objects.isNull(material) || fillerTypes.isEmpty()) throw new IllegalStateException("Invalid VanillaDepositModel was registered!");
+        return fillerTypes.stream().map(strata -> EmiStack.of(Objects.requireNonNull(EERegistrar.oreBlockItemTable.get(strata, material)))).toList();
+    }
+
+    @Override
+    public void createEmiWidget(WidgetHolder widgets) {
+        String size;
+        if (this.size <= 5)
+            size = "Small";
+        else if (this.size <= 10)
+            size = "Medium";
+        else
+            size = "Big";
+
+        EmiUtils.defaultWorldGenWidget(
+            widgets,
+            getEmiOutputs(),
+            biomes,
+            dimension,
+            type,
+            size,
+            placement,
+            rarity,
+            minYLevel,
+            maxYLevel,
+            chance
+        );
     }
 }

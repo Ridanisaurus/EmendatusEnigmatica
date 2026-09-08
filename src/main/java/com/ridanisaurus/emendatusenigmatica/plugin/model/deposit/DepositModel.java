@@ -12,14 +12,19 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BiomeRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.DimensionRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.MultiStrataRuleTest;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,8 +32,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>Deposits</h1>
- * Deposits are configurations for World Generation Features Emendatus Enigmatica provides.
+ * <h1>Emendatus Enigmatica Deposits</h1>
+ * <h2>Class description</h2>
+ * DepositModel is a base class for all deposit types.
+ * It contains the most basic information required for successful generation of placed/configured features for minecraft,
+ * and utility methods used by other systems, like EMI/JEI World generation plugin.<br><br>
+ * <b>All Deposit Types</b> have to extend this class and implement its utility methods.
+ *
+ * <h2>Creating a custom type</h2>
+ * To create a deposit type, few things are required:
+ * <ul>
+ * <li>Model class, extending DepositModel,
+ * properly registered as {@link EEModelExtension} of {@link VanillaPlugin#DEPOSIT_DEFINITION}.</li>
+ * <li>Registered implementation of minecraft's {@link Feature}</li>
+ * </ul>
  */
 public abstract class DepositModel implements FeatureConfiguration {
     /**
@@ -134,9 +151,23 @@ public abstract class DepositModel implements FeatureConfiguration {
      */
     public abstract List<PlacementModifier> getOrePlacement();
 
+    // Emi compat
+    /**
+     * Used to create Emi Widget of this specific deposit model.
+     */
+    public abstract void createEmiWidget(WidgetHolder widgets);
+
+    /**
+     * Used to provide EMI with the blocks this deposit can generate.
+     * @return List of blocks this deposit treats as "output".
+     */
+    public abstract List<EmiStack> getEmiOutputs();
+
+    // Private
     /**
      * Private Dummy used for serialization. <i>Can't be used for registration!</i>
      */
+    @ApiStatus.Internal
     private static class BaseDepositModel extends DepositModel {
         public BaseDepositModel(String id, String type, List<String> biomes, ResourceLocation dimension, List<String> fillerTypes) {
             super(id, type, biomes, dimension, fillerTypes);
@@ -150,6 +181,16 @@ public abstract class DepositModel implements FeatureConfiguration {
         @Override
         public List<PlacementModifier> getOrePlacement() {
             throw new NotImplementedException("Can't get OrePlacement for a base Deposit Model!");
+        }
+
+        @Override
+        public void createEmiWidget(WidgetHolder widgets) {
+            throw new NotImplementedException("Can't configure EMI Widget for base Deposit Model!");
+        }
+
+        @Override
+        public List<EmiStack> getEmiOutputs() {
+            throw new NotImplementedException("Can't provide EMI Outputs for base Deposit Model!");
         }
 
         @Override

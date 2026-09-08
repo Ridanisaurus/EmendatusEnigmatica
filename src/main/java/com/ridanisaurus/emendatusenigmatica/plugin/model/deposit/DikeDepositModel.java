@@ -9,6 +9,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EmiUtils;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.DikeBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.SampleBlockModel;
@@ -18,6 +19,8 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBloc
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.WeightedBlocksValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -110,5 +113,35 @@ public class DikeDepositModel extends DepositModel {
     @Override
     public List<PlacementModifier> getOrePlacement() {
         return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
+    }
+
+    @Override
+    public List<EmiStack> getEmiOutputs() {
+        return EmiUtils.getRecipeOutputs(blocks.unwrap(), fillerTypes);
+    }
+
+    @Override
+    public void createEmiWidget(WidgetHolder widgets) {
+        String size;
+        if (this.size <= 24)
+            size = "Small";
+        else if (this.size <= 48)
+            size = "Medium";
+        else
+            size = "Big";
+
+        EmiUtils.defaultWorldGenWidget(
+            widgets,
+            getEmiOutputs(),
+            biomes,
+            dimension,
+            type,
+            size,
+            placement,
+            rarity,
+            minYLevel,
+            maxYLevel,
+            chance
+        );
     }
 }

@@ -63,6 +63,16 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	public static ModConfigSpec.BooleanValue disableQuartz = null;
 	private final DataRegistry registry;
 
+	/**
+	 * A Dimension -> Tag map used by the NeoForge Feature Generation.<br>
+	 * Publicly available for modification by addons.
+	 */
+	public static final Map<ResourceLocation, String> DIMENSTION_TAG_MAP = new HashMap<>(Map.of(
+		ResourceLocation.withDefaultNamespace("overworld"), "#minecraft:is_overworld",
+		ResourceLocation.withDefaultNamespace("the_nether"), "#minecraft:is_nether",
+		ResourceLocation.withDefaultNamespace("the_end"), "#minecraft:is_end"
+	));
+
 	public NeoFeatureGen(DataGenerator gen, DataRegistry registry, CompletableFuture<HolderLookup.Provider> providers) {
 		super(gen, providers);
 		this.registry = registry;
@@ -77,20 +87,18 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 			List<String> features = new ArrayList<>();
 
 			if (!model.biomes.isEmpty()) {
-				if (model.biomes.stream().anyMatch(it -> it.startsWith("#"))) {
+				if (model.biomes.size() > 1 && model.biomes.stream().anyMatch(it -> it.startsWith("#"))) {
 					biomes.add("#" + Reference.MOD_ID + ":biome/pack/" + model.id);
 				} else {
 					biomes.addAll(model.biomes);
 				}
 			} else {
-				var dim = model.dimension;
-				if (!dim.getNamespace().equals("minecraft")) {
+				biomes.add(DIMENSTION_TAG_MAP.getOrDefault(
+					model.dimension,
 					// Fallback for modded dimensions - most likely not correct as there is no real schema, but it's a good guess!
 					// Modpack / Addon developer can provide a proper tag or list of biomes is this guess is wrong.
-					biomes.add("#" + dim.getNamespace() + ":is_" + dim.getPath());
-				} else {
-					biomes.add("#minecraft:is_" + dim.getPath().replace("the_", ""));
-				}
+					"#" + model.dimension.getNamespace() + ":is_" + model.dimension.getPath()
+				));
 			}
 
 			features.add(Reference.MOD_ID + ":" + model.id);
@@ -107,7 +115,8 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	}
 
 
-	public static void setupConfig(ConfigCreationContext ctx) {
+	public static void setupConfig(@NotNull ConfigCreationContext ctx) {
+		Objects.requireNonNull(ctx, "CCCtx can't be null!");
 		disableCoal = ctx.getBuilder()
 			.comment("Determines if Coal ore generation should be disabled.")
 			.translation("emendatusenigmatica.config.disable_coal_ore")

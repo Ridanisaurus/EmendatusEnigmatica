@@ -22,8 +22,10 @@
  *  SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.compat.emi;
+package com.ridanisaurus.emendatusenigmatica.plugin.compat.emi;
 
+import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.EmiEntrypoint;
@@ -31,22 +33,31 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
-import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.util.Lazy;
+import org.jetbrains.annotations.ApiStatus;
+
+import java.util.Objects;
 
 //TODO: Add an option to hide all expect one ore based on Strata, so even tho there is like 20 different Stratas, only one is visible in EMI.
 @EmiEntrypoint
-public class EMIPlugin implements EmiPlugin {
-	public static final ResourceLocation GUI_ASSETS = Reference.getPath("textures/gui/world_gen.png");
+public class EEEMIPlugin implements EmiPlugin {
 	//TODO: Add Switching icon like World-Gen Creative Tab has.
-	public static final EmiRecipeCategory WORLD_GEN_CATEGORY = new EmiRecipeCategory(
+	public static final Lazy<EmiRecipeCategory> WORLD_GEN_CATEGORY = Lazy.of(() -> new EmiRecipeCategory(
 		Reference.getPath("compat/emi/worldgen"),
 		EmiStack.of(EERegistrar.ENIGMATIC_HAMMER)
-	);
+	));
+
+	private static DataRegistry dataRegistry = null;
+
+	@ApiStatus.Internal
+	public static void provideDataRegistry(DataRegistry registry) {
+		EEEMIPlugin.dataRegistry = Objects.requireNonNull(registry, "Can't use null registry for Emi Plugin setup!");
+	}
 
 	@Override
 	public void register(EmiRegistry registry) {
-		registry.addCategory(WORLD_GEN_CATEGORY);
-//TODO: Rework for new Deposit System
-//		ModelLoader.ACTIVE_PROCESSORS.forEach(it -> registry.addRecipe(new WorldGenRecipe(it)));
+		registry.addCategory(WORLD_GEN_CATEGORY.get());
+		for (DepositModel deposit : dataRegistry.getRegisteredDeposits())
+			registry.addRecipe(new WorldGenRecipe(deposit));
 	}
 }

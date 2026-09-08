@@ -8,6 +8,8 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.BiomeWidget;
+import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EmiUtils;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.SampleBlockModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
@@ -16,10 +18,20 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBloc
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.WeightedBlocksValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
+import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.widget.TextWidget;
+import dev.emi.emi.api.widget.WidgetHolder;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeodeDepositModel extends DepositModel {
@@ -109,5 +121,81 @@ public class GeodeDepositModel extends DepositModel {
     @Override
     public List<PlacementModifier> getOrePlacement() {
         return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
+    }
+
+    @Override
+    public List<EmiStack> getEmiOutputs() {
+        List<EmiStack> outputs = new ArrayList<>();
+        outputs.addAll(EmiUtils.getRecipeOutputs(outerShellBlocks.unwrap(), fillerTypes));
+        outputs.addAll(EmiUtils.getRecipeOutputs(innerShellBlocks.unwrap(), fillerTypes));
+        outputs.addAll(EmiUtils.getRecipeOutputs(innerBlocks.unwrap(), fillerTypes));
+        outputs.addAll(EmiUtils.getRecipeOutputs(fillBlocks.unwrap(), fillerTypes));
+        for (String cluster : clusters)
+            outputs.add(EmiStack.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(cluster))));
+        return outputs;
+    }
+
+    @Override
+    public void createEmiWidget(WidgetHolder widgets) {
+        // Background
+        widgets.addTexture(EmiUtils.GUI_ASSETS, 0, 0, 134, 66, 0, 0);
+
+        // "Output" slot
+        widgets.addSlot(EmiIngredient.of(getEmiOutputs()), 5, 5);
+
+        // Deposit Data | Text
+        //TODO: Translation
+        //TODO: Is this really true for all possible rarities/placements :D?
+        var yTooltip = EmiUtils.createTooltipList(List.of(
+            Component.literal(ChatFormatting.GOLD + "Optimal Y:"),
+            Component.literal(String.valueOf((minYLevel + maxYLevel) / 2))
+        ));
+
+        widgets.addText(EmiUtils.getFormattedComponent("Type: ", EmiUtils.formatType(type)), 5,  30, 0, false);
+        widgets.addText(EmiUtils.getFormattedComponent("Chance: ", chance + "%"), 5, 42, 0, false);
+        widgets.addText(EmiUtils.getFormattedComponent("Cracked: ", crackChance + "%"), 5, 54, 0, false);
+        widgets.add(new TextWidget(EmiUtils.getFormattedComponent("Min Y: ", minYLevel),  75, 54, 0, false) {
+            public List<ClientTooltipComponent> getTooltip(int x, int y) {
+                return yTooltip;
+            }
+        });
+        widgets.add(new TextWidget(EmiUtils.getFormattedComponent("Max Y: ", maxYLevel),  75, 42, 0, false) {
+            public List<ClientTooltipComponent> getTooltip(int x, int y) {
+                return yTooltip;
+            }
+        });
+
+        // Deposit Data | Icons
+        // Placement
+        widgets.addTexture(EmiUtils.GUI_ASSETS, 40, 8, 12, 12, 170, placement.equalsIgnoreCase("Uniform")? 0: 12)
+            .tooltip(EmiUtils.createTooltipList(List.of(
+                Component.literal(ChatFormatting.GOLD + "Placement:"),
+                Component.literal(placement),
+                placement.equalsIgnoreCase("Uniform")?
+                    Component.literal(ChatFormatting.GRAY + "Even distribution across the spawn range."):
+                    Component.literal(ChatFormatting.GRAY + "Higher distribution in the middle of the spawn range.")
+            )));
+
+        // Rarity
+        widgets.addTexture(EmiUtils.GUI_ASSETS, 57, 8, 12, 12, 182, rarity.equalsIgnoreCase("Common")? 0: 12)
+            .tooltip(EmiUtils.createTooltipList(List.of(
+                Component.literal(ChatFormatting.GOLD + "Rarity:"),
+                Component.literal(rarity)
+            )));
+
+        // Dimension
+        // TODO: Figure out how to possibly extend this?
+        widgets.addTexture(EmiUtils.GUI_ASSETS, 74, 8, 12, 12, 134, switch (dimension.toString()) {
+            case "minecraft:overworld" -> 0;
+            case "minecraft:the_nether" -> 12;
+            case "minecraft:the_end" -> 24;
+            default -> 36;
+        }).tooltip(EmiUtils.createTooltipList(List.of(
+            Component.literal(ChatFormatting.GOLD + "Dimension:"),
+            Component.literal(dimension.toString())
+        )));
+//         Biome
+        widgets.add(new BiomeWidget(91, 8, 12, 12, biomes));
+        //TODO: Add Sample widget
     }
 }
