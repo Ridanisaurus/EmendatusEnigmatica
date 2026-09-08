@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,10 @@ import java.util.function.Function;
 
 /**
  * This validator takes in multiple validators, and validates all of them parallel for a single field.
- * @apiNote Take a note that, while handy, this should not be used whenever possible.
+ * @apiNote This feature is experimental and might cause issues, duplicate warnings/errors or even concurrency issues.
+ * If possible, custom validator implementation is preferred.
  */
+@ApiStatus.Experimental
 public class MultiValidator implements IValidationFunction {
     private final List<Function<ValidationContext, Boolean>> validators = new ArrayList<>();
 
@@ -50,6 +53,9 @@ public class MultiValidator implements IValidationFunction {
 
     @Override
     public Boolean apply(ValidationContext ctx) {
+        //TODO: Rework.
+        // Extend Abstract validator for array handling (don't leave that for the child validators)
+        // make ctx.error and ctx.warn actually thread-safe.
         List<CompletableFuture<Boolean>> cs = new ArrayList<>();
         validators.forEach(validator -> cs.add(CompletableFuture.supplyAsync(() -> validator.apply(ctx))));
         try {

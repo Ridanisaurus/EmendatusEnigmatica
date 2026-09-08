@@ -174,13 +174,17 @@ public class ValidationHelper {
                 continue;
             }
 
-            int index;
-            try {
-                index = Integer.parseInt(StringUtils.substringBetween(subPath, "[", "]"));
-            } catch (NumberFormatException ex) { return null; }
             currentElement = currentElement.getAsJsonObject().get(StringUtils.substringBefore(subPath, "["));
-            if (Objects.isNull(currentElement) || !currentElement.isJsonArray()) return null;
-            currentElement = currentElement.getAsJsonArray().get(index);
+
+            while (subPath.contains("[")) {
+                int index;
+                try {
+                    index = Integer.parseInt(StringUtils.substringBetween(subPath, "[", "]"));
+                } catch (NumberFormatException ex) { return null; }
+                if (Objects.isNull(currentElement) || !currentElement.isJsonArray()) return null;
+                currentElement = currentElement.getAsJsonArray().get(index);
+                subPath = StringUtils.substringAfter(subPath, "]");
+            }
         }
         return currentElement;
     }

@@ -55,7 +55,8 @@ public class FieldSetValidator implements IValidationFunction {
      * @apiNote
      * <ul>
      * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
-     * <li>If <code>optional</code> is set to <code>false</code>, this validator will update the {@link ArrayHandlingPolicy} to <code>allowEmpty</code> -> <code>false</code>.</li>
+     * <li>ArrayHandlingPolicy is going to be modified to disallow empty arrays if <code>optional</code> is set to <code>false</code>,
+     * otherwise empty arrays are accepted.</li>
      * </ul>
      */
     public FieldSetValidator(String field, String value, IValidationFunction validator, boolean optional) {
@@ -119,15 +120,8 @@ public class FieldSetValidator implements IValidationFunction {
                 "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value)
             );
         else if (!optional)
-            return validator.apply(new ValidationContext(
-                ctx.validationElement(),
-                ctx.rootObject(),
-                ctx.currentPath(),
-                ctx.jsonFilePath(),
-                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty(),
-                ctx.pluginLoader()
-            ));
+            return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty()));
 
-        return validator.apply(ctx);
+        return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().get()));
     }
 }

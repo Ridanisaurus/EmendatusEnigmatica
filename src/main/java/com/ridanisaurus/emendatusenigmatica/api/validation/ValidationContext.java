@@ -36,8 +36,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 /**
  * Used to hold all necessary information for the validator.
  * @param validationElement Element currently validated
@@ -116,9 +114,29 @@ public record ValidationContext(
             this.currentPath + "." + field,
             this.jsonFilePath,
             arrayPolicy,
-            pluginLoader
+            pluginLoader,
+            logHandler
         );
     }
+
+    /**
+     * Utility method to get ValidationContext from previous data, but with updated ArrayHandlingPolicy.
+     * @param arrayPolicy new ArrayHandlingPolicy.
+     * @return ValidationContext for the same object, with new ArrayHandlingPolicy.
+     */
+    @Contract("_ -> new")
+    public @NotNull ValidationContext getWithAHP(ArrayHandlingPolicy arrayPolicy) {
+        return new ValidationContext(
+            this.validationElement,
+            this.rootObject,
+            this.currentPath,
+            this.jsonFilePath,
+            arrayPolicy,
+            pluginLoader,
+            logHandler
+        );
+    }
+
 
     public @NotNull String getParentPath() {
         return StringUtils.substringBeforeLast(this.currentPath, ".");

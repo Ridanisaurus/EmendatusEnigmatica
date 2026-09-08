@@ -29,6 +29,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
@@ -79,9 +80,9 @@ public class MaterialArmorModel {
 	private final ArmorModel shield;
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("enchantability", new TypeValidator(Types.INTEGER, false))
-		.addValidator("toughness",	new TypeValidator(Types.FLOAT, false))
-		.addValidator("knockback",	new TypeValidator(Types.FLOAT, false))
+		.addValidator("enchantability", new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false))
+		.addValidator("toughness",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
+		.addValidator("knockback",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
 		.addValidator("setName",		new TypeValidator(Types.STRING, false))
 		.addValidator("setDesc",		new TypeValidator(Types.STRING, false))
 		.addValidator("setArmor",		new TypeValidator(Types.BOOLEAN, false))
@@ -90,7 +91,7 @@ public class MaterialArmorModel {
 		.addValidator("leggings",   	new ArmorValidator())
 		.addValidator("boots",  		new ArmorValidator())
 		.addValidator("shield",     	new ArmorValidator("shield"))
-		.addValidator("effects",		EffectModel.VALIDATION_MANAGER.getAsValidator(false), ArrayPolicy.REQUIRES_ARRAY);
+		.addValidator("effects",		EffectModel.VALIDATION_MANAGER.getAsValidator(false), ArrayPolicy.REQUIRES_ARRAY.get());
 
 	public MaterialArmorModel(boolean setArmor, List<EffectModel> effects, String setName, String setDesc,
 	                          float toughness, float knockback, int enchantability,

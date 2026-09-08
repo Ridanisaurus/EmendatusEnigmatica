@@ -64,6 +64,6 @@ public class FieldPresentValidator implements IValidationFunction {
             ctx.error("This field is required!", "Field <code>%s</code> is present, making this field necessary.".formatted(path));
             return false;
         }
-        return validator.apply(ctx);
+        return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty()));
     }
 }

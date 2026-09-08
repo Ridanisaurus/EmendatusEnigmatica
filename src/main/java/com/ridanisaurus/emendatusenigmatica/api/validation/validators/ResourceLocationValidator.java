@@ -130,6 +130,7 @@ public class ResourceLocationValidator extends TypeValidator {
             return false;
         }
         // Add ResourceLocation for Post-Registration check.
+        //TODO: If model still fails to validate, this still is executed!
         if (Objects.nonNull(resourceLocations)) resourceLocations.add(new RegistryValidationData(ResourceLocation.parse(value), ctx));
         return true;
     }

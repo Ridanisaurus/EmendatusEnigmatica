@@ -52,8 +52,8 @@ public class FieldTrueValidator implements IValidationFunction {
      * @apiNote
      * <ul>
      * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
-     * <li>ArrayHandlingPolicy is going to be set to allow empty arrays if <code>optional</code> is set to <code>false</code>,
-     * otherwise empty arrays are accepted. The Original policy is ignored.</li>
+     * <li>ArrayHandlingPolicy is going to be modified to disallow empty arrays if <code>optional</code> is set to <code>false</code>,
+     * otherwise empty arrays are accepted.</li>
      * </ul>
      */
     public FieldTrueValidator(String field, IValidationFunction validator, boolean optional) {
@@ -116,22 +116,8 @@ public class FieldTrueValidator implements IValidationFunction {
                 "Field <code>%s</code> needs to be set to <code>true</code> for this field to have any effect.".formatted(booleanFieldPath)
             );
         else if (!optional)
-            return validator.apply(new ValidationContext(
-                ctx.validationElement(),
-                ctx.rootObject(),
-                ctx.currentPath(),
-                ctx.jsonFilePath(),
-                ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty(),
-                ctx.pluginLoader()
-            ));
+            return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty()));
 
-        return validator.apply(new ValidationContext(
-            ctx.validationElement(),
-            ctx.rootObject(),
-            ctx.currentPath(),
-            ctx.jsonFilePath(),
-            ctx.arrayPolicy().getLegacyArrayPolicy().get(),
-            ctx.pluginLoader()
-        ));
+        return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().get()));
     }
 }

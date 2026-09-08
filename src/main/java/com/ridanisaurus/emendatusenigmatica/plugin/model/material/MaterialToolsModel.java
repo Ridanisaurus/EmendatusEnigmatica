@@ -58,9 +58,9 @@ public class MaterialToolsModel {
 			hoe.orElse(new ToolModel()),
 			paxel.orElse(new ToolModel())
 	)));
-    private final float attackDamage;
 	private final int level;
 	private final int enchantability;
+	private final float attackDamage;
 	private final float efficiency;
 	private final ToolModel sword;
 	private final ToolModel pickaxe;
@@ -70,10 +70,10 @@ public class MaterialToolsModel {
 	private final ToolModel paxel;
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("enchantability", new NumberRangeValidator(Types.FLOAT, 0, Integer.MAX_VALUE, true))
-		.addValidator("attackDamage",	new NumberRangeValidator(Types.FLOAT, 0, Integer.MAX_VALUE, true))
-		.addValidator("level",		new NumberRangeValidator(Types.FLOAT, 0, Integer.MAX_VALUE, true))
-		.addValidator("efficiency",	new NumberRangeValidator(Types.FLOAT, 0, Integer.MAX_VALUE, true))
+		.addValidator("enchantability", new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, true))
+		.addValidator("level",		new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, true))
+		.addValidator("attackDamage",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, true))
+		.addValidator("efficiency",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, true))
 		.addValidator("sword",		new ToolValidator("sword"))
 		.addValidator("pickaxe",		new ToolValidator("pickaxe"))
 		.addValidator("axe",			new ToolValidator("axe"))

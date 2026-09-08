@@ -71,9 +71,9 @@ public class MaterialModel {
 	)));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("strata",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
+		.addValidator("strata",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE_MODE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		//TODO: Add validation for when source is "vanilla" to enforce vanilla-ids
-		.addValidator("id",					new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REGISTRATION, true))
+		.addValidator("id",					new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
 		.addValidator("localizedName",			new TypeValidator(Types.STRING, true))
 		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())

@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 
 /**
  * Plugin Registry Validator is used to check the uniqueness or existence of an ID based on the registry of the provided plugin.
@@ -23,11 +22,11 @@ public class PluginRegistryValidator<R> extends TypeValidator {
     /**
      * Will cause {@link PluginRegistryValidator} to check if ID isn't already registered in the specified list of ids.
      */
-    public static final Mode REGISTRATION = Mode.REGISTRATION;
+    public static final Mode REGISTRATION_MODE = Mode.REGISTRATION;
     /**
      * Will cause {@link PluginRegistryValidator} to check if ID is a valid reference to a value in the specified list.
      */
-    public static final Mode REFERENCE = Mode.REFERENCE;
+    public static final Mode REFERENCE_MODE = Mode.REFERENCE;
     /**
      * Constructs EERegistryValidator, without the registry name.
      *
@@ -74,7 +73,7 @@ public class PluginRegistryValidator<R> extends TypeValidator {
         if (!super.validate(ctx)) return false;
         String value = ctx.validationElement().getAsString();
         if (!ResourceLocation.isValidNamespace(value)) {
-            ctx.error("Specified value <code>%s</code> contains non [a-z0-9/._-] character!".formatted(value));
+            ctx.error("Specified value <code>%s</code> contains non [a-z0-9._-] character!".formatted(value));
             return false;
         }
         boolean contains = predicate.apply(ctx.getPluginRegistry(pluginClass), value);

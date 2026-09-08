@@ -30,7 +30,6 @@ import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractValidator;
 import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import com.google.gson.JsonObject;
@@ -133,8 +132,8 @@ public class ValidationManager {
     public boolean validate(@NotNull JsonObject object, @NotNull Path jsonPath, @NotNull EEPluginLoader pluginLoader, @Nullable IValidationLogHandler logHandler) {
         var path = ValidationHelper.obfuscatePath(jsonPath);
         var ctx = Objects.isNull(logHandler)?
-            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), pluginLoader):
-            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOWS_ARRAYS.get(), pluginLoader, logHandler);
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOW_ARRAY.get(), pluginLoader):
+            new ValidationContext(object, object, "root", path, ArrayPolicy.DISALLOW_ARRAY.get(), pluginLoader, logHandler);
 
         if (!object.isJsonObject()) {
             ctx.error("Expected Json Object at root!", "Root of the file is required to be an object. Arrays are not supported.", "root", path);
@@ -202,14 +201,14 @@ public class ValidationManager {
 
     /**
      * Used to add validator to this ValidationManager,
-     * under specified field, with default {@link ArrayPolicy#DISALLOWS_ARRAYS};
+     * under specified field, with default {@link ArrayPolicy#DISALLOW_ARRAY};
      * @param field Field to add validator for.
      * @param validator - Validation Function.
      * @return {@code this} instance of the {@link ValidationManager}
      */
     @CanIgnoreReturnValue
     public ValidationManager addValidator(@NotNull String field, @NotNull Function<ValidationContext, Boolean> validator) {
-        return this.addValidator(field, validator, ArrayPolicy.DISALLOWS_ARRAYS.get());
+        return this.addValidator(field, validator, ArrayPolicy.DISALLOW_ARRAY.get());
     }
 
     /**
