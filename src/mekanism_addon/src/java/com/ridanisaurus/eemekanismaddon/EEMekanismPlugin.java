@@ -46,7 +46,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
         ColorsModel.VALIDATION_MANAGER
             .addValidator("chemicalColor",      new ChemicalColorValidator())
             .addValidator("hotCoolantColor",    new CoolantColorValidator())
-            .addValidator("gasColor",           new DeprecatedFieldValidator("chemicalColor"));
+            .addValidator("gasColor",           new DeprecatedFieldValidator("root.colors.chemicalColor"));
 
         ctx.modelLoader().registerModelExtension(new EEModelExtension<>(
             this.getClass(),

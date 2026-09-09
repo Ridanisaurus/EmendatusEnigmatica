@@ -66,7 +66,6 @@ public class ProcessedTypesValidator extends ValuesValidator {
         "paxel",
         "shield",
         "armor",
-        //TODO: Remove next breaking update. Left here so errors are not generated for deprecated values
         "helmet",
         "chestplate",
         "leggings",

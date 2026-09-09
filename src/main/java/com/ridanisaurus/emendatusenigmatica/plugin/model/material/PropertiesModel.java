@@ -32,9 +32,9 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRang
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.BurnTimeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.properties.GemTextureValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
@@ -49,24 +49,24 @@ public class PropertiesModel {
 			Codec.BOOL.optionalFieldOf("hasParticles", false).forGetter(i -> i.hasParticles),
 			Codec.BOOL.optionalFieldOf("hasOxidization", false).forGetter(i -> i.hasOxidization),
 			Codec.BOOL.optionalFieldOf("isEmissive", false).forGetter(i -> i.isEmissive),
-			Codec.BOOL.optionalFieldOf("isBurnable", false).forGetter(i -> i.isBurnable),
 			Codec.INT.optionalFieldOf("burnTime", 0).forGetter(i -> i.burnTime)
 	).apply(x, PropertiesModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
+		//TODO: Add better Alloy Support
 		.addValidator("materialType",		new ValuesValidator(List.of("metal", "gem", "alloy"), FilterMode.WHITELIST, true))
 		.addValidator("harvestLevel",		new NumberRangeValidator(Types.INTEGER, 0, 4, false))
 		.addValidator("hasParticles",		new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("hasOxidization",	new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("isEmissive",		new TypeValidator(Types.BOOLEAN, false))
-		.addValidator("isBurnable",		new TypeValidator(Types.BOOLEAN, false))
-		.addValidator("burnTime",			new BurnTimeValidator())
+		.addValidator("burnTime",			new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false))
 		.addValidator("gemTexture",		new GemTextureValidator())
 		.addValidator("blockRecipeType",	new ProcessedTypesContainValidator(
 			List.of("gem", "storage_block"),
 			new NumberValuesValidator(List.of(4, 9), FilterMode.WHITELIST, false),
 			PTCMode.REQUIRED_ALL_VALUE
-		));
+		))
+		.addValidator("isBurnable", new DeprecatedFieldValidator("root.properties.burnTime"));
 
 	private final String materialType;
 	private final int harvestLevel;
@@ -75,11 +75,10 @@ public class PropertiesModel {
 	private final int gemTexture;
 	private final boolean hasOxidization;
 	private final boolean isEmissive;
-	private final boolean isBurnable;
 	private final int burnTime;
 
 	public PropertiesModel(String materialType, int harvestLevel, int blockRecipeType, int gemTexture,
-						   boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime) {
+						   boolean hasParticles, boolean hasOxidization, boolean isEmissive, int burnTime) {
 		this.materialType = materialType;
 		this.harvestLevel = harvestLevel;
 		this.blockRecipeType = blockRecipeType;
@@ -87,7 +86,6 @@ public class PropertiesModel {
 		this.hasParticles = hasParticles;
 		this.hasOxidization = hasOxidization;
 		this.isEmissive = isEmissive;
-		this.isBurnable = isBurnable;
 		this.burnTime = burnTime;
 	}
 
@@ -99,7 +97,6 @@ public class PropertiesModel {
 		this.hasParticles = false;
 		this.hasOxidization = false;
 		this.isEmissive = false;
-		this.isBurnable = false;
 		this.burnTime = 0;
 	}
 
@@ -132,7 +129,7 @@ public class PropertiesModel {
 	}
 
 	public boolean isBurnable() {
-		return isBurnable;
+		return burnTime > 0;
 	}
 
 	public int getBurnTime() {

@@ -48,8 +48,8 @@ public class DenseDepositModel extends DepositModel {
         .addValidator("placement",       new ValuesValidator(List.of("uniform", "triangle"), FilterMode.WHITELIST, false))
         .addValidator("rarity",          new ValuesValidator(List.of("common", "rare"), FilterMode.WHITELIST, false))
         .addValidator("sample",          new SampleValidator())
-        .addValidator("generateSamples", new DeprecatedFieldValidator("sample.chance"))
-        .addValidator("sampleBlocks",    new DeprecatedFieldValidator("sample.blocks"));
+        .addValidator("generateSamples", new DeprecatedFieldValidator("root.sample.chance"))
+        .addValidator("sampleBlocks",    new DeprecatedFieldValidator("root.sample.blocks"));
 
     public final WeightedRandomList<BlockModel> blocks;
     public final int chance;

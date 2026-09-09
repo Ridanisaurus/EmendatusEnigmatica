@@ -59,7 +59,6 @@ public class WorldGenRecipe implements EmiRecipe {
     public void addWidgets(WidgetHolder widgets) {
         //TODO: Add Additional info for:
         // - Dike Deposits -> Y Range of the generated blocks :D
-        // - Geode Deposits -> Crack Chance
         model.createEmiWidget(widgets);
     }
 
