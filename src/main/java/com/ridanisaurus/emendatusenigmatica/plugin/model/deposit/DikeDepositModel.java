@@ -47,6 +47,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -126,17 +127,17 @@ public class DikeDepositModel extends DepositModel {
     }
 
     @Override
-    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+    public @NotNull ConfiguredFeature<?, ?> getConfiguredFeature() {
         return new ConfiguredFeature<>(EERegistrar.DIKE_ORE_FEATURE.get(), this);
     }
 
     @Override
-    public List<PlacementModifier> getOrePlacement() {
+    public @NotNull List<PlacementModifier> getOrePlacement() {
         return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
     }
 
     @Override
-    public List<EmiStack> getEmiOutputs() {
+    public @NotNull List<EmiStack> getEmiOutputs() {
         return EmiUtils.getRecipeOutputs(blocks.unwrap(), fillerTypes);
     }
 

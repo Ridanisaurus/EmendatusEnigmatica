@@ -195,7 +195,7 @@ public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 			}
 		}
 
-		WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
+		if (placed) WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
 		return placed;
 	}
 }

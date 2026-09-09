@@ -63,7 +63,7 @@ public class WorldGenHelper {
 		if (level.getBlockState(sample.below()).getBlock() == Blocks.WATER)
 			sample = new BlockPos(pos.getX(), level.getHeight(Heightmap.Types.OCEAN_FLOOR, pos.getX(), pos.getZ()), pos.getZ());
 
-		if (sample.getY() > level.getMinBuildHeight() + 3 && level.getBlockState(sample.below()).is(BlockTags.LEAVES)) {
+		if (sample.getY() > level.getMinBuildHeight() + 3 && !level.getBlockState(sample.below()).is(BlockTags.LEAVES)) {
 			for (int l = 0; l < 3; ++l) {
 				int x = rand.nextInt(2);
 				int y = rand.nextInt(2);
@@ -74,7 +74,7 @@ public class WorldGenHelper {
 					if (samplePos.distSqr(sample) <= (double)(radius * radius)) {
 						Optional<BlockState> block;
 						if ((block = sampleConfig.blocks.getRandom(rand).flatMap(it -> it.getBlockState(rand))).isEmpty()) continue;
-						level.setBlock(pos, block.get(), 2);
+						level.setBlock(samplePos, block.get(), 2);
 						placed = true;
 					}
 				}

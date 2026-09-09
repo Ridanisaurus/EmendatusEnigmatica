@@ -53,20 +53,22 @@ public class DenseOreFeature extends Feature<DenseDepositModel> {
         var model = context.config();
         boolean placed = false;
 
-        int yTop = model.maxYLevel;
-        int yBottom = model.minYLevel;
+//        int yTop = model.maxYLevel;
+//        int yBottom = model.minYLevel;
         // TODO: Fix the size calculation
         int size = model.size;
 
-        int randY = yBottom + level.getRandom().nextInt(yTop - yBottom);
+//        int randY = yBottom + level.getRandom().nextInt(yTop - yBottom);
 
         float ranFlt = level.getRandom().nextFloat() * (float) Math.PI;
         double x1 = (float) (pos.getX() + 8) + Mth.sin(ranFlt) * (float) size / 8.0F;
         double x2 = (float) (pos.getX() + 8) - Mth.sin(ranFlt) * (float) size / 8.0F;
         double z1 = (float) (pos.getZ() + 8) + Mth.cos(ranFlt) * (float) size / 8.0F;
         double z2 = (float) (pos.getZ() + 8) - Mth.cos(ranFlt) * (float) size / 8.0F;
-        double y1 = randY + level.getRandom().nextInt(3) - 2;
-        double y2 = randY + level.getRandom().nextInt(3) - 2;
+//        double y1 = randY + level.getRandom().nextInt(3) - 2;
+//        double y2 = randY + level.getRandom().nextInt(3) - 2;
+        double y1 = pos.getY() + level.getRandom().nextInt(3) - 2;
+        double y2 = pos.getY() + level.getRandom().nextInt(3) - 2;
 
         for (int i = 0; i < size; ++i) {
             float radScl = (float) i / (float) size;
@@ -104,7 +106,7 @@ public class DenseOreFeature extends Feature<DenseDepositModel> {
 
         }
 
-        WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
+        if (placed) WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
         return placed;
     }
 }

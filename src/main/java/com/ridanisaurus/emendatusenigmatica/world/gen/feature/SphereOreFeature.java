@@ -112,7 +112,7 @@ public class SphereOreFeature extends Feature<SphereDepositModel> {
             }
         }
 
-        WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
+        if (placed) WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
         return placed;
     }
 }
