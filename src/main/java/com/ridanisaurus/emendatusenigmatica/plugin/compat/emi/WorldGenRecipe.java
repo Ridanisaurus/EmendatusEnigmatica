@@ -1,6 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.compat.emi;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;

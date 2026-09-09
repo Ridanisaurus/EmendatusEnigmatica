@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.items.templates;
 
 import com.ridanisaurus.emendatusenigmatica.items.PaxelItem;
 import com.ridanisaurus.emendatusenigmatica.items.ToolTier;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
 import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import net.minecraft.tags.TagKey;

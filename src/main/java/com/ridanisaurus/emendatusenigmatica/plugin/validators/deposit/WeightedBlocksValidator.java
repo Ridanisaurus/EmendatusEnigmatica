@@ -1,5 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit;
 
+import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
@@ -32,7 +33,7 @@ public class WeightedBlocksValidator implements IValidationFunction {
             .getAsJsonArray()
             .asList()
             .stream()
-            .mapToLong(it -> it.getAsJsonObject().get("weight").getAsLong())
+            .mapToLong(it -> Objects.requireNonNullElse(it.getAsJsonObject().get("weight"), new JsonPrimitive(1)).getAsLong())
             .sum() >= Integer.MAX_VALUE
         ) {
             ctx.error("Sum of weights in the Blocks specified can't be above or equal to <code>Integer.MAX_VALUE</code> (<code>%d</code>).".formatted(Integer.MAX_VALUE));

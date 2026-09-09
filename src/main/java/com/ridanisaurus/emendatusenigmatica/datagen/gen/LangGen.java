@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.gen;
 
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EELangProvider;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;

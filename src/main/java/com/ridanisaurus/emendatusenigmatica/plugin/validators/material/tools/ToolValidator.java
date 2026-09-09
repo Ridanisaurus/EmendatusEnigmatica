@@ -25,12 +25,12 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialToolsModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.ToolModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ToolsModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ToolModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
 /**
- * Wrapper of {@link ProcessedTypesContainValidator}, used for validating {@link ToolModel} in {@link MaterialToolsModel}
+ * Wrapper of {@link ProcessedTypesContainValidator}, used for validating {@link ToolModel} in {@link ToolsModel}
  */
 public class ToolValidator extends ProcessedTypesContainValidator {
     private static final ValidationManager.ObjectValidator validator = ToolModel.VALIDATION_MANAGER.getAsValidator(false);

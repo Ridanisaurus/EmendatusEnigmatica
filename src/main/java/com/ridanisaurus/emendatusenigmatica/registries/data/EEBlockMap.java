@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.registries.data;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredBlock;

@@ -26,7 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
 import com.mojang.datafixers.util.Pair;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;

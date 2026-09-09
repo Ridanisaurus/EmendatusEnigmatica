@@ -9,7 +9,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRang
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EmiUtils;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
@@ -25,22 +25,19 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class VanillaDepositModel extends DepositModel {
     public static final Codec<VanillaDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
         DepositModel.MAP_CODEC.forGetter(it -> it),
-        Codec.STRING.optionalFieldOf("block").orElse(null).forGetter(it -> Optional.ofNullable(it.block)),
-        Codec.STRING.optionalFieldOf("material").orElse(null).forGetter(it -> Optional.ofNullable(it.material)),
-        Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
-        Codec.INT.fieldOf("size").orElse(0).forGetter(it -> it.size),
-        Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
-        Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
-        Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
-        Codec.STRING.fieldOf("rarity").orElse("common").forGetter(it -> it.rarity)
-    ).apply(x,(base, block, material,
-               chance, size, minYLevel, maxYLevel, placement, rarity) ->
-        new VanillaDepositModel(base, block.orElse(null), material.orElse(null), chance, size, minYLevel, maxYLevel, placement, rarity))
+        Codec.STRING.optionalFieldOf("block", null).forGetter(it -> it.block),
+        Codec.STRING.optionalFieldOf("material", null).forGetter(it -> it.material),
+        Codec.INT.optionalFieldOf("chance", 0).forGetter(it -> it.chance),
+        Codec.INT.optionalFieldOf("size", 0).forGetter(it -> it.size),
+        Codec.INT.optionalFieldOf("minYLevel", 0).forGetter(it -> it.minYLevel),
+        Codec.INT.optionalFieldOf("maxYLevel", 0).forGetter(it -> it.maxYLevel),
+        Codec.STRING.optionalFieldOf("placement", "uniform").forGetter(it -> it.placement),
+        Codec.STRING.optionalFieldOf("rarity", "common").forGetter(it -> it.rarity)
+    ).apply(x, VanillaDepositModel::new)
     );
 
     public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:vanilla_deposit")

@@ -33,6 +33,12 @@ public class DepositValidationManager extends ValidationManager {
         return new DepositValidationManager(type);
     }
 
+    public static @NotNull DepositValidationManager createWithStrata(String type) {
+        var out = new DepositValidationManager(type);
+//        out.addValidator("")
+        return out;
+    }
+
     @Override
     public boolean validate(@NotNull JsonObject object, @NotNull Path jsonPath, @NotNull EEPluginLoader pluginLoader, @Nullable IValidationLogHandler logHandler) {
         // This manager should only be used as DepositModel extension ValidationManager.

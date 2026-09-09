@@ -39,7 +39,7 @@ import com.ridanisaurus.emendatusenigmatica.registries.data.EEBlockMap;
 import com.ridanisaurus.emendatusenigmatica.registries.data.EEDeferredHolderMap;
 import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.world.gen.feature.*;
 import net.minecraft.core.registries.Registries;

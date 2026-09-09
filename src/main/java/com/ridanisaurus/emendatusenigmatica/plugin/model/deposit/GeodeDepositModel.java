@@ -6,15 +6,19 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ResourceLocationValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.BiomeWidget;
 import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EmiUtils;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.SampleBlockModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.sample.SampleConfig;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.DepositValidationManager;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleBlocksValidator;
+import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.SampleValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.WeightedBlocksValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
@@ -37,19 +41,18 @@ import java.util.List;
 public class GeodeDepositModel extends DepositModel {
     public static final Codec<GeodeDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
         DepositModel.MAP_CODEC.forGetter(it -> it),
-        Codec.list(BlockModel.CODEC).fieldOf("outerShellBlocks").orElse(List.of()).forGetter(i -> i.outerShellBlocks.unwrap()),
-        Codec.list(BlockModel.CODEC).fieldOf("innerShellBlocks").orElse(List.of()).forGetter(i -> i.innerShellBlocks.unwrap()),
-        Codec.list(BlockModel.CODEC).fieldOf("innerBlocks").orElse(List.of()).forGetter(i -> i.innerBlocks.unwrap()),
-        Codec.list(BlockModel.CODEC).fieldOf("fillBlocks").orElse(List.of()).forGetter(i -> i.fillBlocks.unwrap()),
-        Codec.list(Codec.STRING).fieldOf("clusters").orElse(List.of()).forGetter(i -> i.clusters),
-        Codec.INT.fieldOf("chance").orElse(0).forGetter(it -> it.chance),
-        Codec.DOUBLE.fieldOf("crackChance").orElse(0D).forGetter(it -> it.crackChance),
-        Codec.INT.fieldOf("minYLevel").orElse(0).forGetter(it -> it.minYLevel),
-        Codec.INT.fieldOf("maxYLevel").orElse(0).forGetter(it -> it.maxYLevel),
-        Codec.STRING.fieldOf("placement").orElse("uniform").forGetter(it -> it.placement),
-        Codec.STRING.fieldOf("rarity").orElse("rare").forGetter(it -> it.rarity),
-        Codec.BOOL.fieldOf("generateSamples").orElse(false).forGetter(it -> it.generateSamples),
-        Codec.list(SampleBlockModel.CODEC).fieldOf("sampleBlocks").orElse(List.of()).forGetter(it -> it.sampleBlocks)
+        Codec.list(BlockModel.CODEC).optionalFieldOf("outerShellBlocks", List.of()).forGetter(i -> i.outerShellBlocks.unwrap()),
+        Codec.list(BlockModel.CODEC).optionalFieldOf("innerShellBlocks", List.of()).forGetter(i -> i.innerShellBlocks.unwrap()),
+        Codec.list(BlockModel.CODEC).optionalFieldOf("innerBlocks", List.of()).forGetter(i -> i.innerBlocks.unwrap()),
+        Codec.list(BlockModel.CODEC).optionalFieldOf("fillBlocks", List.of()).forGetter(i -> i.fillBlocks.unwrap()),
+        Codec.list(Codec.STRING).optionalFieldOf("clusters", List.of()).forGetter(i -> i.clusters),
+        Codec.INT.optionalFieldOf("chance", 0).forGetter(it -> it.chance),
+        Codec.DOUBLE.optionalFieldOf("crackChance", 0D).forGetter(it -> it.crackChance),
+        Codec.INT.optionalFieldOf("minYLevel", 0).forGetter(it -> it.minYLevel),
+        Codec.INT.optionalFieldOf("maxYLevel", 0).forGetter(it -> it.maxYLevel),
+        Codec.STRING.optionalFieldOf("placement", "uniform").forGetter(it -> it.placement),
+        Codec.STRING.optionalFieldOf("rarity", "rare").forGetter(it -> it.rarity),
+        SampleConfig.CODEC.optionalFieldOf("sample", new SampleConfig()).forGetter(it -> it.sample)
     ).apply(x, GeodeDepositModel::new));
 
     public static final ValidationManager VALIDATION_MANAGER = DepositValidationManager.create("emendatusenigmatica:geode_deposit")
@@ -64,8 +67,9 @@ public class GeodeDepositModel extends DepositModel {
         .addValidator("maxYLevel",        new MaxValidator(Types.INTEGER, "minYLevel", -64, 320, true))
         .addValidator("placement",        new ValuesValidator(List.of("uniform", "triangle"), FilterMode.WHITELIST, false))
         .addValidator("rarity",           new ValuesValidator(List.of("common", "rare"), FilterMode.WHITELIST, false))
-        .addValidator("generateSamples",  new TypeValidator(Types.BOOLEAN, false))
-        .addValidator("sampleBlocks",     new SampleBlocksValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty());
+        .addValidator("sample",           new SampleValidator())
+        .addValidator("generateSamples",  new DeprecatedFieldValidator("sample.chance"))
+        .addValidator("sampleBlocks",     new DeprecatedFieldValidator("sample.blocks"));
 
     public final WeightedRandomList<BlockModel> outerShellBlocks;
     public final WeightedRandomList<BlockModel> innerShellBlocks;
@@ -78,8 +82,7 @@ public class GeodeDepositModel extends DepositModel {
     public final int maxYLevel;
     public final String placement;
     public final String rarity;
-    public final boolean generateSamples;
-    public final List<SampleBlockModel> sampleBlocks;
+    public final SampleConfig sample;
 
     public GeodeDepositModel(
         DepositModel base,
@@ -94,8 +97,7 @@ public class GeodeDepositModel extends DepositModel {
         int maxYLevel,
         String placement,
         String rarity,
-        boolean generateSamples,
-        List<SampleBlockModel> sampleBlocks
+        SampleConfig sample
     ) {
         super(base);
         this.outerShellBlocks = WeightedRandomList.create(outerShellBlocks);
@@ -109,8 +111,7 @@ public class GeodeDepositModel extends DepositModel {
         this.maxYLevel = maxYLevel;
         this.placement = placement;
         this.rarity = rarity;
-        this.generateSamples = generateSamples;
-        this.sampleBlocks = sampleBlocks;
+        this.sample = sample;
     }
 
     @Override

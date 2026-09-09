@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayHandlingPolicy;
@@ -35,14 +36,48 @@ import java.util.Objects;
 
 /**
  * A validator wrapper which handles the requirement and ArrayHandlingPolicy of a field,
- * based on a value of a second string field.
+ * based on a value of a second JSON Primitive field.
  * @see FieldSetValidator#FieldSetValidator(String, String, IValidationFunction, boolean) FieldSetValidator(...) for more details.
  */
 public class FieldSetValidator implements IValidationFunction {
     private final IValidationFunction validator;
     private final boolean optional;
     private final String field;
-    private final String value;
+    private final JsonPrimitive value;
+
+    /**
+     * Constructs FieldSetValidator.
+     *
+     * @param field     Name of the field to check.
+     * @param value     Required value of the field.
+     * @param validator Validator to run after check.
+     * @param optional  Determines if this field is optional.
+     * @see FieldSetValidator Documentation of the validator.
+     * @apiNote
+     * <ul>
+     * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
+     * <li>ArrayHandlingPolicy is going to be modified to disallow empty arrays if <code>optional</code> is set to <code>false</code>,
+     * otherwise empty arrays are accepted.</li>
+     * </ul>
+     */
+    public FieldSetValidator(String field, JsonPrimitive value, IValidationFunction validator, boolean optional) {
+        this.validator = validator;
+        this.optional = optional;
+        this.field = field;
+        this.value = value;
+    }
+
+    /**
+     * Constructs FieldSetValidator.
+     *
+     * @param field     Name of the field to check.
+     * @param value     Required value of the field.
+     * @param validator Validator to run after check.
+     * @see FieldSetValidator Documentation of the validator.
+     */
+    public FieldSetValidator(String field, JsonPrimitive value, IValidationFunction validator) {
+        this(field, value, validator, false);
+    }
 
     /**
      * Constructs FieldSetValidator.
@@ -60,10 +95,7 @@ public class FieldSetValidator implements IValidationFunction {
      * </ul>
      */
     public FieldSetValidator(String field, String value, IValidationFunction validator, boolean optional) {
-        this.validator = validator;
-        this.optional = optional;
-        this.field = field;
-        this.value = value;
+        this(field, new JsonPrimitive(value), validator, optional);
     }
 
     /**
@@ -79,6 +111,37 @@ public class FieldSetValidator implements IValidationFunction {
     }
 
     /**
+     * Constructs FieldSetValidator.
+     *
+     * @param field     Name of the field to check.
+     * @param value     Required value of the field.
+     * @param validator Validator to run after check.
+     * @param optional  Determines if this field is optional.
+     * @see FieldSetValidator Documentation of the validator.
+     * @apiNote
+     * <ul>
+     * <li><code>optional</code> determines if this validator should skip generation of an error, if the validated field is missing, but boolean field value is <code>true</code>.</li>
+     * <li>ArrayHandlingPolicy is going to be modified to disallow empty arrays if <code>optional</code> is set to <code>false</code>,
+     * otherwise empty arrays are accepted.</li>
+     * </ul>
+     */
+    public FieldSetValidator(String field, Number value, IValidationFunction validator, boolean optional) {
+        this(field, new JsonPrimitive(value), validator, optional);
+    }
+
+    /**
+     * Constructs FieldSetValidator.
+     *
+     * @param field     Name of the field to check.
+     * @param value     Required value of the field.
+     * @param validator Validator to run after check.
+     * @see FieldSetValidator Documentation of the validator.
+     */
+    public FieldSetValidator(String field, Number value, IValidationFunction validator) {
+        this(field, value, validator, false);
+    }
+
+    /**
      * Entry point of the validator.
      *
      * @param ctx ValidationContext record with necessary information to validate the element.
@@ -86,38 +149,38 @@ public class FieldSetValidator implements IValidationFunction {
      */
     @Override
     public Boolean apply(@NotNull ValidationContext ctx) {
-        JsonElement stringField;
-        String stringFieldPath;
+        JsonElement checkedField;
+        String checkedFieldPath;
         if (field.startsWith("root")) {
-            stringField = ValidationHelper.getElementFromPathAs(ctx.rootObject(), field, Types.STRING);
-            stringFieldPath = field;
+            checkedField = ValidationHelper.getElementFromPath(ctx.rootObject(), field);
+            checkedFieldPath = field;
         } else {
-            stringField = ctx.getParentFieldAs(Types.STRING, field);
-            stringFieldPath = ctx.getParentFieldPath(field);
+            checkedField = ctx.getParentField(field);
+            checkedFieldPath = ctx.getParentFieldPath(field);
         }
 
         JsonElement element = ctx.validationElement();
 
         if (Objects.isNull(element)) {
-            if (!optional && Objects.nonNull(stringField) && stringField.getAsString().equals(value)) {
+            if (!optional && Objects.nonNull(checkedField) && checkedField.equals(value)) {
                 ctx.error(
                     "This field is required!",
-                    "Field <code>%s</code> is set to <code>%s</code>, which makes this field necessary.".formatted(stringFieldPath, value)
+                    "Field <code>%s</code> is set to <code>%s</code>, which makes this field necessary.".formatted(checkedFieldPath, value)
                 );
                 return false;
             }
             return true;
         }
 
-        if (Objects.isNull(stringField))
+        if (Objects.isNull(checkedField))
             ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value)
+                "Field <code>%s</code> needs to be present and set to <code>%s</code> for this field to have any effect.".formatted(checkedFieldPath, value)
             );
-        else if (!stringField.getAsString().equals(value))
+        else if (!checkedField.equals(value))
             ctx.warn(
                 "This field is unnecessary!",
-                "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(stringFieldPath, value)
+                "Field <code>%s</code> needs to be set to <code>%s</code> for this field to have any effect.".formatted(checkedFieldPath, value)
             );
         else if (!optional)
             return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty()));

@@ -1,4 +1,4 @@
-package com.ridanisaurus.emendatusenigmatica.plugin.model.deposit;
+package com.ridanisaurus.emendatusenigmatica.plugin.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -19,8 +19,8 @@ import com.ridanisaurus.emendatusenigmatica.world.gen.feature.MultiStrataRuleTes
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import org.apache.commons.lang3.NotImplementedException;
@@ -54,9 +54,9 @@ public abstract class DepositModel implements FeatureConfiguration {
     public static final MapCodec<DepositModel> MAP_CODEC = RecordCodecBuilder.mapCodec(x -> x.group(
         Codec.STRING.fieldOf("registryName").forGetter(i -> i.id),
         Codec.STRING.fieldOf("type").forGetter(i -> i.type),
-        Codec.STRING.listOf().fieldOf("biomes").forGetter(i -> i.biomes),
+        Codec.STRING.listOf().optionalFieldOf("biomes", List.of()).forGetter(i -> i.biomes),
         ResourceLocation.CODEC.fieldOf("dimension").forGetter(i -> i.dimension),
-        Codec.list(Codec.STRING).fieldOf("fillerTypes").orElse(List.of()).forGetter(it -> it.fillerTypes)
+        Codec.list(Codec.STRING).optionalFieldOf("fillerTypes", List.of()).forGetter(it -> it.fillerTypes)
         ).apply(x, BaseDepositModel::new)
     );
 
@@ -92,7 +92,7 @@ public abstract class DepositModel implements FeatureConfiguration {
     public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
         .addValidator("registryName",   new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isDepositRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
         .addValidator("type",           new ValuesValidator(TYPES, FilterMode.WHITELIST, true))
-        .addValidator("biomes",         new ResourceLocationValidator(true, true, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.get())
+        .addValidator("biomes",         new ResourceLocationValidator(false, true, new BiomeRegistryValidator()), ArrayPolicy.REQUIRES_ARRAY.get())
         .addValidator("dimension",      new ResourceLocationValidator(true, new DimensionRegistryValidator()))
         .addValidator("fillerTypes",    new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE_MODE, "Strata", true), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
         .addValidator("config",         new DeprecatedFieldValidator(null));
@@ -104,7 +104,6 @@ public abstract class DepositModel implements FeatureConfiguration {
     public final List<String> fillerTypes;
 
     // Feature Configuration related
-    // No need to serialize MSRT as it can be reconstructed from model data.
     public MultiStrataRuleTest target = null;
 
     public DepositModel(

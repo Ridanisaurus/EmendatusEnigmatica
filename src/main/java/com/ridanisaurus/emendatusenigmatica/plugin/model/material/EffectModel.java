@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.model;
+package com.ridanisaurus.emendatusenigmatica.plugin.model.material;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -38,20 +38,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
 public class EffectModel {
 	public static final Codec<EffectModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("effect").forGetter(i -> Optional.of(i.effect)),
-			Codec.INT.optionalFieldOf("level").forGetter(i -> Optional.of(i.level)),
-			Codec.BOOL.optionalFieldOf("showIcon").forGetter(i -> Optional.of(i.showIcon)),
-			Codec.BOOL.optionalFieldOf("showParticles").forGetter(i -> Optional.of(i.showParticles))
-	).apply(x, (effect, level, showIcon, showParticles) -> new EffectModel(
-			effect.orElse(""),
-			level.orElse(1),
-			showIcon.orElse(true),
-			showParticles.orElse(true)
-	)));
+			Codec.STRING.optionalFieldOf("effect", "").forGetter(i -> i.effect),
+			Codec.INT.optionalFieldOf("level", 1).forGetter(i -> i.level),
+			Codec.BOOL.optionalFieldOf("showIcon", true).forGetter(i -> i.showIcon),
+			Codec.BOOL.optionalFieldOf("showParticles", true).forGetter(i -> i.showParticles)
+	).apply(x, EffectModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("level", new NumberRangeValidator(Types.INTEGER, 1, Integer.MAX_VALUE, false))

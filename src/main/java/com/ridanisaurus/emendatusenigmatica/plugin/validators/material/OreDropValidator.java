@@ -30,13 +30,12 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialOreDropModel;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.OreDropModel;
 
 import java.util.Objects;
 
 public class OreDropValidator implements IValidationFunction {
-    private static final IValidationFunction validator = MaterialOreDropModel.VALIDATION_MANAGER.getAsValidator(false);
+    private static final IValidationFunction validator = OreDropModel.VALIDATION_MANAGER.getAsValidator(false);
 
     /**
      * Constructs OreDropValidator.

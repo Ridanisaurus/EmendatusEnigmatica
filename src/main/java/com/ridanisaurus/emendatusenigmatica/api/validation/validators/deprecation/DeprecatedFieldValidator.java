@@ -70,9 +70,9 @@ public class DeprecatedFieldValidator extends AbstractBasicValidator {
         String msg = null;
         if (Objects.nonNull(url)) msg = "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
         if (Objects.isNull(replace)) {
-            ctx.error("This field was deprecated and is no longer in use.", msg);
+            ctx.warn("This field was deprecated and is no longer in use.", msg);
         } else {
-            ctx.error("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg);
+            ctx.warn("This field was deprecated and replaced by: <code>%s</code>".formatted(replace), msg);
         }
         return true;
     }

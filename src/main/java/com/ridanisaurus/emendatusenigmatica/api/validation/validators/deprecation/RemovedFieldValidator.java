@@ -65,7 +65,7 @@ public class RemovedFieldValidator extends AbstractBasicValidator {
         if (SummaryHandler.isEnabled()) {
             String msg = null;
             if (Objects.nonNull(url)) msg = "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
-            ctx.error("This field was deprecated and removed, with no replacement.", msg);
+            ctx.warn("This field was deprecated and removed, with no replacement.", msg);
         }
         return true;
     }

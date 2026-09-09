@@ -29,35 +29,22 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.ToolModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools.ToolValidator;
 
-import java.util.Optional;
+public class ToolsModel {
+	public static final Codec<ToolsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.FLOAT.optionalFieldOf("attackDamage", 0f).forGetter(i -> i.attackDamage),
+			Codec.INT.optionalFieldOf("level", 0).forGetter(i -> i.level),
+			Codec.INT.optionalFieldOf("enchantability", 0).forGetter(i -> i.enchantability),
+			Codec.FLOAT.optionalFieldOf("efficiency", 0f).forGetter(i -> i.efficiency),
+			ToolModel.CODEC.optionalFieldOf("sword", new ToolModel()).forGetter(i -> i.sword),
+			ToolModel.CODEC.optionalFieldOf("pickaxe", new ToolModel()).forGetter(i -> i.pickaxe),
+			ToolModel.CODEC.optionalFieldOf("axe", new ToolModel()).forGetter(i -> i.axe),
+			ToolModel.CODEC.optionalFieldOf("shovel", new ToolModel()).forGetter(i -> i.shovel),
+			ToolModel.CODEC.optionalFieldOf("hoe", new ToolModel()).forGetter(i -> i.hoe),
+			ToolModel.CODEC.optionalFieldOf("paxel", new ToolModel()).forGetter(i -> i.paxel)
+	).apply(x, ToolsModel::new));
 
-public class MaterialToolsModel {
-	public static final Codec<MaterialToolsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.FLOAT.optionalFieldOf("attackDamage").forGetter(i -> Optional.of(i.attackDamage)),
-			Codec.INT.optionalFieldOf("level").forGetter(i -> Optional.of(i.level)),
-			Codec.INT.optionalFieldOf("enchantability").forGetter(i -> Optional.of(i.enchantability)),
-			Codec.FLOAT.optionalFieldOf("efficiency").forGetter(i -> Optional.of(i.efficiency)),
-			ToolModel.CODEC.optionalFieldOf("sword").forGetter(i -> Optional.of(i.sword)),
-			ToolModel.CODEC.optionalFieldOf("pickaxe").forGetter(i -> Optional.of(i.pickaxe)),
-			ToolModel.CODEC.optionalFieldOf("axe").forGetter(i -> Optional.of(i.axe)),
-			ToolModel.CODEC.optionalFieldOf("shovel").forGetter(i -> Optional.of(i.shovel)),
-			ToolModel.CODEC.optionalFieldOf("hoe").forGetter(i -> Optional.of(i.hoe)),
-			ToolModel.CODEC.optionalFieldOf("paxel").forGetter(i -> Optional.of(i.paxel))
-	).apply(x, (attackDamage, level, enchantability, efficiency, sword, pickaxe, axe, shovel, hoe, paxel) -> new MaterialToolsModel(
-			attackDamage.orElse(0.0f),
-			level.orElse(0),
-			enchantability.orElse(0),
-			efficiency.orElse(0.0f),
-			sword.orElse(new ToolModel()),
-			pickaxe.orElse(new ToolModel()),
-			axe.orElse(new ToolModel()),
-			shovel.orElse(new ToolModel()),
-			hoe.orElse(new ToolModel()),
-			paxel.orElse(new ToolModel())
-	)));
 	private final int level;
 	private final int enchantability;
 	private final float attackDamage;
@@ -81,7 +68,7 @@ public class MaterialToolsModel {
 		.addValidator("hoe",			new ToolValidator("hoe"))
 		.addValidator("paxel",		new ToolValidator("paxel"));
 
-	public MaterialToolsModel(float attackDamage, int level, int enchantability, float efficiency, ToolModel sword, ToolModel pickaxe, ToolModel axe, ToolModel shovel, ToolModel hoe, ToolModel paxel) {
+	public ToolsModel(float attackDamage, int level, int enchantability, float efficiency, ToolModel sword, ToolModel pickaxe, ToolModel axe, ToolModel shovel, ToolModel hoe, ToolModel paxel) {
 		this.attackDamage = attackDamage;
 		this.level = level;
 		this.enchantability = enchantability;
@@ -94,7 +81,7 @@ public class MaterialToolsModel {
 		this.paxel = paxel;
 	}
 
-	public MaterialToolsModel() {
+	public ToolsModel() {
 		this.attackDamage = 0.0f;
 		this.level = 0;
 		this.enchantability = 0;

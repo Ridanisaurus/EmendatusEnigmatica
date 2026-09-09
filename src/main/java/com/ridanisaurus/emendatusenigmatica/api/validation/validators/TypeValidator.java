@@ -36,7 +36,7 @@ import java.util.Objects;
  * @see Types Types Enum for all supported types and more detailed documentation per-type.
  */
 public class TypeValidator extends AbstractValidator {
-    private final Types type;
+    protected final Types type;
 
     /**
      * Constructs TypeValidator with the specified type.

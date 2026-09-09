@@ -34,7 +34,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredVa
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 
 import java.util.ArrayList;
 import java.util.List;

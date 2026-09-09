@@ -51,11 +51,11 @@ import java.util.Optional;
 
 public class BlockModel implements WeightedEntry {
 	public static final Codec<BlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.block)),
-			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.tag)),
-			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.material)),
-			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.weight.asInt())
-	).apply(x, (block, tag, material, weight) -> new BlockModel(block.orElse(null), tag.orElse(null), material.orElse(null), weight)));
+			Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
+			Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
+			Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.weight.asInt())
+	).apply(x, BlockModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("block",    new RequiredValidator(false))

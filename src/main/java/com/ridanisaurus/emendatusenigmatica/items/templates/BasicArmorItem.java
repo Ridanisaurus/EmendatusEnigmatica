@@ -25,9 +25,9 @@
 package com.ridanisaurus.emendatusenigmatica.items.templates;
 
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorPieceModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.EffectModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
@@ -59,7 +59,7 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
     private final int shadow1;
     private final int shadow2;
 
-    public BasicArmorItem(@NotNull MaterialModel material, Type type, @NotNull ArmorModel armor) {
+    public BasicArmorItem(@NotNull MaterialModel material, Type type, @NotNull ArmorPieceModel armor) {
         super(EERegistrar.armorMaterialsMap.get(material.getId()), type, new Properties().durability(armor.getDurability()));
         this.material = material;
         this.isSet = material.getArmor().isSetArmor();

@@ -32,8 +32,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AbstractVa
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedValueValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

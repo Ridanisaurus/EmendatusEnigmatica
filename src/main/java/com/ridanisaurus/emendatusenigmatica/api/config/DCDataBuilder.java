@@ -2,14 +2,13 @@ package com.ridanisaurus.emendatusenigmatica.api.config;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
 import com.ridanisaurus.emendatusenigmatica.api.config.types.StrataType;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 //import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.common.CommonDepositModelBase;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

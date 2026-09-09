@@ -1,6 +1,5 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.compat.emi;
 
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.block.BlockModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;

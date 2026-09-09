@@ -1,7 +1,6 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.compat.emi;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import dev.emi.emi.api.widget.TextureWidget;
 import net.minecraft.ChatFormatting;

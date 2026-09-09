@@ -31,40 +31,25 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor.ArmorValidator;
 
 import java.util.*;
 
-public class MaterialArmorModel {
-	public static final Codec<MaterialArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.BOOL.optionalFieldOf("setArmor").forGetter(i -> Optional.of(i.setArmor)),
-			Codec.list(EffectModel.CODEC).optionalFieldOf("effects").forGetter(i -> Optional.of(i.effects)),
-			Codec.STRING.optionalFieldOf("setName").forGetter(i -> Optional.of(i.setName)),
-			Codec.STRING.optionalFieldOf("setDesc").forGetter(i -> Optional.of(i.setDesc)),
-			Codec.FLOAT.optionalFieldOf("toughness").forGetter(i -> Optional.of(i.toughness)),
-			Codec.FLOAT.optionalFieldOf("knockback").forGetter(i -> Optional.of(i.knockback)),
-			Codec.INT.optionalFieldOf("enchantability").forGetter(i -> Optional.of(i.enchantability)),
-			ArmorModel.CODEC.optionalFieldOf("helmet").forGetter(i -> Optional.of(i.helmet)),
-			ArmorModel.CODEC.optionalFieldOf("chestplate").forGetter(i -> Optional.of(i.chestplate)),
-			ArmorModel.CODEC.optionalFieldOf("leggings").forGetter(i -> Optional.of(i.leggings)),
-			ArmorModel.CODEC.optionalFieldOf("boots").forGetter(i -> Optional.of(i.boots)),
-			ArmorModel.CODEC.optionalFieldOf("shield").forGetter(i -> Optional.of(i.shield))
-	).apply(x, (setArmor, effects, setName, setDesc, toughness, knockback, enchantability, helmet, chestplate, leggings, boots, shield) -> new MaterialArmorModel(
-			setArmor.orElse(false),
-			effects.orElse(List.of()),
-			setName.orElse(""),
-			setDesc.orElse(""),
-			toughness.orElse(0.0f),
-			knockback.orElse(0.0f),
-			enchantability.orElse(0),
-			helmet.orElse(new ArmorModel()),
-			chestplate.orElse(new ArmorModel()),
-			leggings.orElse(new ArmorModel()),
-			boots.orElse(new ArmorModel()),
-			shield.orElse(new ArmorModel())
-	)));
+public class ArmorModel {
+	public static final Codec<ArmorModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.BOOL.optionalFieldOf("setArmor", false).forGetter(i -> i.setArmor),
+			Codec.list(EffectModel.CODEC).optionalFieldOf("effects", List.of()).forGetter(i -> i.effects),
+			Codec.STRING.optionalFieldOf("setName", "").forGetter(i -> i.setName),
+			Codec.STRING.optionalFieldOf("setDesc", "").forGetter(i -> i.setDesc),
+			Codec.FLOAT.optionalFieldOf("toughness",0f).forGetter(i -> i.toughness),
+			Codec.FLOAT.optionalFieldOf("knockback", 0f).forGetter(i -> i.knockback),
+			Codec.INT.optionalFieldOf("enchantability", 0).forGetter(i -> i.enchantability),
+			ArmorPieceModel.CODEC.optionalFieldOf("helmet", new ArmorPieceModel()).forGetter(i -> i.helmet),
+			ArmorPieceModel.CODEC.optionalFieldOf("chestplate", new ArmorPieceModel()).forGetter(i -> i.chestplate),
+			ArmorPieceModel.CODEC.optionalFieldOf("leggings", new ArmorPieceModel()).forGetter(i -> i.leggings),
+			ArmorPieceModel.CODEC.optionalFieldOf("boots", new ArmorPieceModel()).forGetter(i -> i.boots),
+			ArmorPieceModel.CODEC.optionalFieldOf("shield", new ArmorPieceModel()).forGetter(i -> i.shield)
+	).apply(x, ArmorModel::new));
 
 	private final boolean setArmor;
 	private final List<EffectModel> effects;
@@ -73,11 +58,11 @@ public class MaterialArmorModel {
 	private final float toughness;
 	private final float knockback;
 	private final int enchantability;
-	private final ArmorModel helmet;
-	private final ArmorModel chestplate;
-	private final ArmorModel leggings;
-	private final ArmorModel boots;
-	private final ArmorModel shield;
+	private final ArmorPieceModel helmet;
+	private final ArmorPieceModel chestplate;
+	private final ArmorPieceModel leggings;
+	private final ArmorPieceModel boots;
+	private final ArmorPieceModel shield;
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("enchantability", new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false))
@@ -93,9 +78,9 @@ public class MaterialArmorModel {
 		.addValidator("shield",     	new ArmorValidator("shield"))
 		.addValidator("effects",		EffectModel.VALIDATION_MANAGER.getAsValidator(false), ArrayPolicy.REQUIRES_ARRAY.get());
 
-	public MaterialArmorModel(boolean setArmor, List<EffectModel> effects, String setName, String setDesc,
-	                          float toughness, float knockback, int enchantability,
-	                          ArmorModel helmet, ArmorModel chestplate, ArmorModel leggings, ArmorModel boots, ArmorModel shield) {
+	public ArmorModel(boolean setArmor, List<EffectModel> effects, String setName, String setDesc,
+					  float toughness, float knockback, int enchantability,
+					  ArmorPieceModel helmet, ArmorPieceModel chestplate, ArmorPieceModel leggings, ArmorPieceModel boots, ArmorPieceModel shield) {
 		this.setArmor = setArmor;
 		this.effects = effects;
 		this.setName = setName;
@@ -110,7 +95,7 @@ public class MaterialArmorModel {
 		this.shield = shield;
 	}
 
-	public MaterialArmorModel() {
+	public ArmorModel() {
 		this.setArmor = false;
 		this.effects = Collections.emptyList();
 		this.setName = "";
@@ -118,11 +103,11 @@ public class MaterialArmorModel {
 		this.toughness = 0.0f;
 		this.knockback = 0.0f;
 		this.enchantability = 0;
-		this.helmet = new ArmorModel();
-		this.chestplate = new ArmorModel();
-		this.leggings = new ArmorModel();
-		this.boots = new ArmorModel();
-		this.shield = new ArmorModel();
+		this.helmet = new ArmorPieceModel();
+		this.chestplate = new ArmorPieceModel();
+		this.leggings = new ArmorPieceModel();
+		this.boots = new ArmorPieceModel();
+		this.shield = new ArmorPieceModel();
 	}
 
 	public boolean isSetArmor() {
@@ -152,23 +137,23 @@ public class MaterialArmorModel {
 		return enchantability;
 	}
 
-	public ArmorModel getHelmet() {
+	public ArmorPieceModel getHelmet() {
 		return helmet;
 	}
 
-	public ArmorModel getChestplate() {
+	public ArmorPieceModel getChestplate() {
 		return chestplate;
 	}
 
-	public ArmorModel getLeggings() {
+	public ArmorPieceModel getLeggings() {
 		return leggings;
 	}
 
-	public ArmorModel getBoots() {
+	public ArmorPieceModel getBoots() {
 		return boots;
 	}
 
-	public ArmorModel getShield() {
+	public ArmorPieceModel getShield() {
 		return shield;
 	}
 }

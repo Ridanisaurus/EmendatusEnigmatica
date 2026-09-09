@@ -45,6 +45,7 @@ public class RegistryValidationManager {
      */
     public static boolean validate() {
         //TODO: Run in parallel.
+        //TODO: Add a way to do a "cleanup" pass for files that failed validation in the first place.
         Stopwatch s = Stopwatch.createStarted();
         AtomicBoolean result = new AtomicBoolean(true);
         validators.forEach((validator, list) -> list.forEach(registryData -> {

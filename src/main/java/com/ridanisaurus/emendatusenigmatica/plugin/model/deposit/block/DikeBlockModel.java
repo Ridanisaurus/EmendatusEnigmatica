@@ -39,13 +39,13 @@ import java.util.Optional;
 
 public class DikeBlockModel extends BlockModel {
 	public static final Codec<DikeBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.getBlock())),
-			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.getTag())),
-			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.getMaterial())),
-			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.getWeight().asInt()),
-			Codec.INT.fieldOf("min").orElse(-500).forGetter(it -> it.min),
-			Codec.INT.fieldOf("max").orElse(500).forGetter(it -> it.max)
-	).apply(x, (s, s2, s3, i, i2, i3) -> new DikeBlockModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, i2, i3)));
+		Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
+		Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
+		Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.getWeight().asInt()),
+			Codec.INT.optionalFieldOf("min", -500).forGetter(it -> it.min),
+			Codec.INT.optionalFieldOf("max", 500).forGetter(it -> it.max)
+	).apply(x, DikeBlockModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("block",    new RequiredValidator(false))

@@ -33,20 +33,13 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.colors.Pa
 import com.ridanisaurus.emendatusenigmatica.util.ColorHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-
-public class MaterialColorsModel {
-	public static final Codec<MaterialColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("fluidColor").forGetter(i -> Optional.of(i.fluidColor)),
-			Codec.STRING.optionalFieldOf("particlesColor").forGetter(i -> Optional.of(i.particlesColor)),
-			Codec.STRING.optionalFieldOf("materialColor").forGetter(i -> Optional.of(i.materialColor)),
-			Codec.STRING.optionalFieldOf("oxidizationColor").forGetter(i -> Optional.of(i.oxidizationColor))
-	).apply(x, (fluidColor, particlesColor, materialColor, oxidizationColor) -> new MaterialColorsModel(
-			fluidColor.orElse(null),
-			particlesColor.orElse(null),
-			materialColor.orElse(null),
-			oxidizationColor.orElse(null)
-	)));
+public class ColorsModel {
+	public static final Codec<ColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.STRING.optionalFieldOf("fluidColor", null).forGetter(i -> i.fluidColor),
+			Codec.STRING.optionalFieldOf("particlesColor", null).forGetter(i -> i.particlesColor),
+			Codec.STRING.optionalFieldOf("materialColor", null).forGetter(i -> i.materialColor),
+			Codec.STRING.optionalFieldOf("oxidizationColor", null).forGetter(i -> i.oxidizationColor)
+	).apply(x, ColorsModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("fluidColor",		new ColorValidator(false))
@@ -59,14 +52,14 @@ public class MaterialColorsModel {
 	private final String materialColor;
 	private final String oxidizationColor;
 
-	public MaterialColorsModel(@Nullable String fluidColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
+	public ColorsModel(@Nullable String fluidColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
 		this.fluidColor = fluidColor;
 		this.particlesColor = particlesColor;
 		this.materialColor = materialColor;
 		this.oxidizationColor = oxidizationColor;
 	}
 
-	public MaterialColorsModel() {
+	public ColorsModel() {
 		this.fluidColor = null;
 		this.particlesColor = null;
 		this.materialColor = null;

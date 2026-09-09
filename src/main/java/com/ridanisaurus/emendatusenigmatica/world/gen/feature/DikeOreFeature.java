@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DikeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.WeightedRandomList;
@@ -57,15 +58,17 @@ public class DikeOreFeature extends Feature<DikeDepositModel> {
 
         WorldgenRandom worldgenRandom = new WorldgenRandom(new LegacyRandomSource(level.getSeed()));
         NormalNoise normalNoise = NormalNoise.create(worldgenRandom, -2, 4.0D); // INT Sparseness - DOUBLE ARRAY Density
-        ChunkPos chunkPos = new ChunkPos(pos);
         int size = model.size;
-        int xPos = chunkPos.getMinBlockX() + rand.nextInt(16);
-        int zPos = chunkPos.getMinBlockZ() + rand.nextInt(16);
+        // Would make sense *if* we would center on the rolled chunk, we don't.
+        // Just use the minecraft provided x/z.
+//        ChunkPos chunkPos = new ChunkPos(pos);
+//        int xPos = chunkPos.getMinBlockX() + rand.nextInt(16);
+//        int zPos = chunkPos.getMinBlockZ() + rand.nextInt(16);
 
         int yTop = model.maxYLevel;
         int yBottom = model.minYLevel;
 
-        BlockPos basePos = new BlockPos(xPos, yBottom, zPos);
+        BlockPos basePos = new BlockPos(pos.getX(), yBottom, pos.getZ());
 
         // NOTE: Wait, does this mean this doesn't scale yet?
         // TODO: Figure out the Size and other Parameters
@@ -84,14 +87,8 @@ public class DikeOreFeature extends Feature<DikeDepositModel> {
                 }
             }
         }
-//        for (int dY = yBottom; dY <= yTop; dY++) {
-//            if (normalNoise.getValue(basePos.getX(), dY, basePos.getZ()) >= 0.5) {
-//                placeBlock(level, rand, new BlockPos(basePos.getX(), dY, basePos.getZ()), config);
-//            }
-//        }
-//        if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
-//            placeSurfaceSample(rand, pos, level, model);
 
+        WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
         return placed;
     }
 }

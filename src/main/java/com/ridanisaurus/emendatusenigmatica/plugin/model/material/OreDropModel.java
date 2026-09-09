@@ -36,20 +36,13 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 
-import java.util.Optional;
-
-public class MaterialOreDropModel {
-	public static final Codec<MaterialOreDropModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("drop").forGetter(i -> Optional.ofNullable(i.drop)),
-			Codec.INT.optionalFieldOf("min").forGetter(i -> Optional.of(i.min)),
-			Codec.INT.optionalFieldOf("max").forGetter(i -> Optional.of(i.max)),
-			Codec.BOOL.optionalFieldOf("uniformCount").forGetter(i -> Optional.of(i.uniformCount))
-	).apply(x, (drop, min, max, uniformCount) -> new MaterialOreDropModel(
-			drop.orElse(""),
-			min.orElse(1),
-			max.orElse(1),
-			uniformCount.orElse(false)
-	)));
+public class OreDropModel {
+	public static final Codec<OreDropModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+			Codec.STRING.optionalFieldOf("drop", "").forGetter(i -> i.drop),
+			Codec.INT.optionalFieldOf("min", 1).forGetter(i -> i.min),
+			Codec.INT.optionalFieldOf("max", 1).forGetter(i -> i.max),
+			Codec.BOOL.optionalFieldOf("uniformCount", false).forGetter(i -> i.uniformCount)
+	).apply(x, OreDropModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("uniformCount",	new TypeValidator(Types.BOOLEAN, false))
@@ -62,14 +55,14 @@ public class MaterialOreDropModel {
 	private final int max;
 	private final boolean uniformCount;
 
-	public MaterialOreDropModel(String drop, int min, int max, boolean uniformCount) {
+	public OreDropModel(String drop, int min, int max, boolean uniformCount) {
 		this.drop = drop;
 		this.min = min;
 		this.max = max;
 		this.uniformCount = uniformCount;
 	}
 
-	public MaterialOreDropModel() {
+	public OreDropModel() {
 		this.drop = "";
 		this.min = 1;
 		this.max = 1;

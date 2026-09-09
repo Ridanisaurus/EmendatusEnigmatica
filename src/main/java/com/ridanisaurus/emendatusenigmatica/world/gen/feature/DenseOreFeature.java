@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DenseDepositModel;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -103,9 +104,7 @@ public class DenseOreFeature extends Feature<DenseDepositModel> {
 
         }
 
-//        if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
-//            placeSurfaceSample(rand, pos, level, model);
-
+        WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
         return placed;
     }
 }

@@ -3,7 +3,7 @@ package com.ridanisaurus.eemekanismaddon.registry;
 import com.ridanisaurus.eemekanismaddon.extensions.MekanismMaterialExtension;
 import com.ridanisaurus.emendatusenigmatica.items.templates.BasicBurnableItem;
 import com.ridanisaurus.emendatusenigmatica.items.templates.BasicItem;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.data.EEItemMap;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import mekanism.api.chemical.Chemical;

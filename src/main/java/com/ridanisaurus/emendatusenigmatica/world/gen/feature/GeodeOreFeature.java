@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.GeodeDepositModel;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -194,9 +195,7 @@ public class GeodeOreFeature extends Feature<GeodeDepositModel> {
 			}
 		}
 
-//		if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
-//			placeSurfaceSample(rand, pos, level, model);
-
+		WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
 		return placed;
 	}
 }

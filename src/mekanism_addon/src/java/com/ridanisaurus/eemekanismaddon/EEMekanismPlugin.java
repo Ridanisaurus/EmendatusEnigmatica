@@ -15,7 +15,7 @@ import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialColorsModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ColorsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesValidator;
 import com.ridanisaurus.eemekanismaddon.validators.ChemicalColorValidator;
 import net.minecraft.core.HolderLookup;
@@ -43,7 +43,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
             "dirty_dust"
         ));
 
-        MaterialColorsModel.VALIDATION_MANAGER
+        ColorsModel.VALIDATION_MANAGER
             .addValidator("chemicalColor",      new ChemicalColorValidator())
             .addValidator("hotCoolantColor",    new CoolantColorValidator())
             .addValidator("gasColor",           new DeprecatedFieldValidator("chemicalColor"));

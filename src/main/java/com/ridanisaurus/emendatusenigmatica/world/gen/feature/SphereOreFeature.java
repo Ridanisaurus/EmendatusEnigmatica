@@ -27,6 +27,7 @@ package com.ridanisaurus.emendatusenigmatica.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.SphereDepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
+import com.ridanisaurus.emendatusenigmatica.util.WorldGenHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -53,8 +54,7 @@ public class SphereOreFeature extends Feature<SphereDepositModel> {
 
         int yTop = model.maxYLevel;
         int yBottom = model.minYLevel;
-        //TODO: Use rolled yPos from origin?
-        int yPos = yBottom + rand.nextInt(yTop - yBottom);
+        int yPos = pos.getY();
         // TODO: Fix the radius calculation
         int radius = model.radius;
 
@@ -112,8 +112,7 @@ public class SphereOreFeature extends Feature<SphereDepositModel> {
             }
         }
 
-//        if (rand.nextInt(100) < model.chance && !model.sampleBlocks.isEmpty())
-//            placeSurfaceSample(rand, pos, level, model);
+        WorldGenHelper.placeSurfaceSample(level, rand, pos, model.sample);
         return placed;
     }
 }

@@ -90,7 +90,7 @@ public class DeprecatedValueValidator extends AbstractValidator {
         if (Objects.nonNull(replacement)) {
             String url = urlMap.get(value);
             String additional = url == null? null: "<a href=\"%s\">Click this link for more details.</a>".formatted(url);
-            ctx.error("Specified value <code>%s</code> was deprecated and is replaced by <code>%s</code>.".formatted(value, replacement), additional);
+            ctx.warn("Specified value <code>%s</code> was deprecated and is replaced by <code>%s</code>.".formatted(value, replacement), additional);
         }
         return true;
     }

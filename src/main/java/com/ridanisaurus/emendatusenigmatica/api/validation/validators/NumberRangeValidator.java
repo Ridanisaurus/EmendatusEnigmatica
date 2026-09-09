@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public class NumberRangeValidator extends TypeValidator {
     private final double min;
     private final double max;
+
     /**
      * Constructs NumberRangeValidator with the specified type and range.
      *
@@ -54,6 +55,19 @@ public class NumberRangeValidator extends TypeValidator {
     }
 
     /**
+     * Constructs NumberRangeValidator with the specified type and range.
+     *
+     * @param type Determines which type this field should be.
+     * @param min The Lowest number this validator will accept.
+     * @param max The Highest number this validator will accept.
+     * @see NumberRangeValidator Documentation of the validator.
+     * @throws IllegalArgumentException if type different from {@link Types#INTEGER} or {@link Types#FLOAT} is specified.
+     */
+    public NumberRangeValidator(Types type, double min, double max) {
+        this(type, min, max, false);
+    }
+
+    /**
      * Validate method, used to validate passed in object.
      *
      * @param ctx ValidationContext record with necessary information to validate the element.
@@ -66,7 +80,9 @@ public class NumberRangeValidator extends TypeValidator {
         if (!super.validate(ctx)) return false;
         double number = ctx.validationElement().getAsDouble();
         if (number < min || number > max) {
-            ctx.error("Number out of range!", "Expected number from %f to %f, got %f.".formatted(min, max, number));
+            String message = "Expected number from <code>%f</code> to <code>%f</code>, got <code>%f</code>.";
+            if (type == Types.INTEGER) message = "Expected number from <code>%.0f</code> to <code>%.0f</code>, got <code>%.0f</code>.";
+            ctx.error("Number out of range!", message.formatted(min, max, number));
             return false;
         }
         return true;

@@ -55,12 +55,12 @@ import java.util.Optional;
 
 public class SampleBlockModel extends BlockModel {
 	public static final Codec<SampleBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block").forGetter(it -> Optional.ofNullable(it.getBlock())),
-			Codec.STRING.optionalFieldOf("tag").forGetter(it -> Optional.ofNullable(it.getTag())),
-			Codec.STRING.optionalFieldOf("material").forGetter(it -> Optional.ofNullable(it.getMaterial())),
-			Codec.INT.fieldOf("weight").orElse(100).forGetter(it -> it.getWeight().asInt()),
-			Codec.STRING.optionalFieldOf("strata").forGetter(it -> Optional.ofNullable(it.strata))
-	).apply(x, (s, s2, s3, i, s4) -> new SampleBlockModel(s.orElse(null), s2.orElse(null), s3.orElse(null), i, s4.orElse(null))));
+			Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
+			Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
+			Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.getWeight().asInt()),
+			Codec.STRING.optionalFieldOf("strata", null).forGetter(it -> it.strata)
+	).apply(x, SampleBlockModel::new));
 	private final String strata;
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
@@ -80,6 +80,11 @@ public class SampleBlockModel extends BlockModel {
 
 	public @Nullable String getStrata() {
 		return strata;
+	}
+
+	@Override
+	public Optional<BlockState> getBlockState(MultiStrataRuleTest target, BlockState targetState, RandomSource rand) {
+		return getBlockState(rand);
 	}
 
 	public Optional<BlockState> getBlockState(RandomSource rand) {

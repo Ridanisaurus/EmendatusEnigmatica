@@ -25,9 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.blocks.templates;
 
 import com.ridanisaurus.emendatusenigmatica.util.IColorable;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import net.minecraft.world.level.block.AmethystBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;

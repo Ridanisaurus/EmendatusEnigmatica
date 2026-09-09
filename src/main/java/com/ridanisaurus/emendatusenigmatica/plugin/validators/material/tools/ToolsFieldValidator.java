@@ -25,14 +25,14 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialToolsModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ToolsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
 import java.util.List;
 
 public class ToolsFieldValidator extends ProcessedTypesContainValidator {
-    private static final IValidationFunction validator = MaterialToolsModel.VALIDATION_MANAGER.getAsValidator(false);
+    private static final IValidationFunction validator = ToolsModel.VALIDATION_MANAGER.getAsValidator(false);
     public ToolsFieldValidator() {
         super(List.of(
             "sword",

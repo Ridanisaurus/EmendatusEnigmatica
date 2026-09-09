@@ -28,8 +28,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.FilterMode;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.*;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.BlockRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.registry.TextureRegistryValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
@@ -38,30 +39,18 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.strata.SuffixValid
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
-import java.util.Optional;
 
 public class StrataModel {
 	public static final Codec<StrataModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("id").forGetter(i -> i.id),
-			Codec.STRING.fieldOf("baseTexture").forGetter(i -> i.baseTexture.toString()),
+			ResourceLocation.CODEC.fieldOf("baseTexture").forGetter(i -> i.baseTexture),
 			Codec.STRING.fieldOf("suffix").forGetter(i -> i.suffix),
-			Codec.STRING.fieldOf("fillerType").forGetter(i -> i.fillerType.toString()),
+			ResourceLocation.CODEC.fieldOf("fillerType").forGetter(i -> i.fillerType),
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
-			Codec.STRING.optionalFieldOf("harvestTool").forGetter(i -> Optional.ofNullable(i.harvestTool)),
-			Codec.FLOAT.optionalFieldOf("hardness").forGetter(i -> Optional.of(i.hardness)),
-			Codec.FLOAT.optionalFieldOf("resistance").forGetter(i -> Optional.of(i.resistance)),
-			Codec.BOOL.optionalFieldOf("sampleStrata").forGetter(i -> Optional.of(i.sampleStrata))
-	).apply(x, (s, s2, s3, s4, s5, s6, f, f2, b) -> new StrataModel(
-			s,
-			ResourceLocation.parse(s2),
-			s3,
-			ResourceLocation.parse(s4),
-			s5,
-			s6.orElse("pickaxe"),
-			f.orElse(3f),
-			f2.orElse(3f),
-			b.orElse(false)
-	)));
+			Codec.STRING.optionalFieldOf("harvestTool", "pickaxe").forGetter(i -> i.harvestTool),
+			Codec.FLOAT.optionalFieldOf("hardness", 3f).forGetter(i -> i.hardness),
+			Codec.FLOAT.optionalFieldOf("resistance", 3f).forGetter(i -> i.resistance)
+	).apply(x, StrataModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("id",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
@@ -77,7 +66,8 @@ public class StrataModel {
 			"axe",
 			"hoe",
 			"shovel"
-		), FilterMode.WHITELIST, false));
+		), FilterMode.WHITELIST, false))
+		.addValidator("sampleStrata", new DeprecatedFieldValidator(null));
 
 	private final String id;
 	private final ResourceLocation baseTexture;
@@ -87,9 +77,8 @@ public class StrataModel {
 	private final String harvestTool;
 	private final float hardness;
 	private final float resistance;
-	private final boolean sampleStrata;
 
-	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool, float hardness, float resistance, boolean sampleStrata) {
+	public StrataModel(String id, ResourceLocation baseTexture, String suffix, ResourceLocation fillerType, String localizedName, String harvestTool, float hardness, float resistance) {
 		this.id = id;
 		this.baseTexture = baseTexture;
 		this.suffix = suffix;
@@ -98,7 +87,6 @@ public class StrataModel {
 		this.harvestTool = harvestTool;
 		this.hardness = hardness;
 		this.resistance = resistance;
-		this.sampleStrata = sampleStrata;
 	}
 
 	public String getId() {
@@ -131,10 +119,6 @@ public class StrataModel {
 
 	public float getResistance() {
 		return resistance;
-	}
-
-	public boolean getSampleStrata() {
-		return sampleStrata;
 	}
 
 	public void register(DataRegistry registry) {

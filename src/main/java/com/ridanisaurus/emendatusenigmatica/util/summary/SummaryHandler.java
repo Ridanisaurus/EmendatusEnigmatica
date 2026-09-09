@@ -232,6 +232,7 @@ public class SummaryHandler {
 
     private static void printMessages(@NotNull SummaryWriteContext ctx) {
         messageCategories.forEach((header, dir) -> {
+            ctx.writeHeader(header, 2);
             var iterator = messages.entrySet().iterator();
             boolean isClean = true;
             while (iterator.hasNext()) {

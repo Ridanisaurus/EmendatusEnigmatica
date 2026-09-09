@@ -25,16 +25,15 @@ import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EEEMIPlugin;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
-import dev.emi.emi.api.EmiRegistry;
 import net.minecraft.core.HolderLookup;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @EmendatusPluginReference(modId = Reference.MOD_ID, name = "vanilla-plugin")

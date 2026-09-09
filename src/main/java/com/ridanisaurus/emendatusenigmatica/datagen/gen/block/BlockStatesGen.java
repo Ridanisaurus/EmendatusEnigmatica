@@ -28,7 +28,7 @@ import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.BlockStateBuilder;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EEBlockStateProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.material.MaterialModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.StrataModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.data.DataGenerator;

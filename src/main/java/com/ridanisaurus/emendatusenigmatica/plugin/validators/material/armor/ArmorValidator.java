@@ -25,15 +25,14 @@
 package com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.ArmorModel;
-import com.ridanisaurus.emendatusenigmatica.plugin.validators.enums.PTCMode;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorPieceModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.ProcessedTypesContainValidator;
 
 /**
- * Wrapper of {@link ProcessedTypesContainValidator}, used for validating {@link ArmorModel}
+ * Wrapper of {@link ProcessedTypesContainValidator}, used for validating {@link ArmorPieceModel}
  */
 public class ArmorValidator extends ProcessedTypesContainValidator {
-    private static final ValidationManager.ObjectValidator validator = ArmorModel.VALIDATION_MANAGER.getAsValidator(false);
+    private static final ValidationManager.ObjectValidator validator = ArmorPieceModel.VALIDATION_MANAGER.getAsValidator(false);
 
     /**
      * Constructs ArmorValidator, with specified processedType requirement.

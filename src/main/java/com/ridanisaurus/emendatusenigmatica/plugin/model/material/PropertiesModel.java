@@ -40,28 +40,18 @@ import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.Processed
 
 import java.util.*;
 
-public class MaterialPropertiesModel {
-	public static final Codec<MaterialPropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
+public class PropertiesModel {
+	public static final Codec<PropertiesModel> CODEC = RecordCodecBuilder.create(x -> x.group(
 			Codec.STRING.fieldOf("materialType").forGetter(i -> i.materialType),
-			Codec.INT.optionalFieldOf("harvestLevel").forGetter(i -> Optional.of(i.harvestLevel)),
-			Codec.INT.optionalFieldOf("blockRecipeType").forGetter(i -> Optional.of(i.blockRecipeType)),
-			Codec.INT.optionalFieldOf("gemTexture").forGetter(i -> Optional.of(i.gemTexture)),
-			Codec.BOOL.optionalFieldOf("hasParticles").forGetter(i -> Optional.of(i.hasParticles)),
-			Codec.BOOL.optionalFieldOf("hasOxidization").forGetter(i -> Optional.of(i.hasOxidization)),
-			Codec.BOOL.optionalFieldOf("isEmissive").forGetter(i -> Optional.of(i.isEmissive)),
-			Codec.BOOL.optionalFieldOf("isBurnable").forGetter(i -> Optional.of(i.isBurnable)),
-			Codec.INT.optionalFieldOf("burnTime").forGetter(i -> Optional.of(i.burnTime))
-	).apply(x, (materialType, harvestLevel, blockRecipeType, gemTexture, hasParticles, hasOxidization, isEmissive, isBurnable, burnTime) -> new MaterialPropertiesModel(
-			materialType,
-			harvestLevel.orElse(0),
-			blockRecipeType.orElse(9),
-			gemTexture.orElse(1),
-			hasParticles.orElse(false),
-			hasOxidization.orElse(false),
-			isEmissive.orElse(false),
-			isBurnable.orElse(false),
-			burnTime.orElse(0)
-	)));
+			Codec.INT.optionalFieldOf("harvestLevel", 0).forGetter(i -> i.harvestLevel),
+			Codec.INT.optionalFieldOf("blockRecipeType", 9).forGetter(i -> i.blockRecipeType),
+			Codec.INT.optionalFieldOf("gemTexture", 1).forGetter(i -> i.gemTexture),
+			Codec.BOOL.optionalFieldOf("hasParticles", false).forGetter(i -> i.hasParticles),
+			Codec.BOOL.optionalFieldOf("hasOxidization", false).forGetter(i -> i.hasOxidization),
+			Codec.BOOL.optionalFieldOf("isEmissive", false).forGetter(i -> i.isEmissive),
+			Codec.BOOL.optionalFieldOf("isBurnable", false).forGetter(i -> i.isBurnable),
+			Codec.INT.optionalFieldOf("burnTime", 0).forGetter(i -> i.burnTime)
+	).apply(x, PropertiesModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("materialType",		new ValuesValidator(List.of("metal", "gem", "alloy"), FilterMode.WHITELIST, true))
@@ -88,8 +78,8 @@ public class MaterialPropertiesModel {
 	private final boolean isBurnable;
 	private final int burnTime;
 
-	public MaterialPropertiesModel(String materialType, int harvestLevel, int blockRecipeType, int gemTexture,
-	                               boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime) {
+	public PropertiesModel(String materialType, int harvestLevel, int blockRecipeType, int gemTexture,
+						   boolean hasParticles, boolean hasOxidization, boolean isEmissive, boolean isBurnable, int burnTime) {
 		this.materialType = materialType;
 		this.harvestLevel = harvestLevel;
 		this.blockRecipeType = blockRecipeType;
@@ -101,7 +91,7 @@ public class MaterialPropertiesModel {
 		this.burnTime = burnTime;
 	}
 
-	public MaterialPropertiesModel() {
+	public PropertiesModel() {
 		this.materialType = "metal";
 		this.harvestLevel = 0;
 		this.blockRecipeType = 9;

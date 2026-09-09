@@ -29,7 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
-import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.DepositModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.util.Reference;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;

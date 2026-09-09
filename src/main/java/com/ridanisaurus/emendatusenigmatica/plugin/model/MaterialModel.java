@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.plugin.model.material;
+package com.ridanisaurus.emendatusenigmatica.plugin.model;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -36,6 +36,11 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.ValuesVali
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ColorsModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.OreDropModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.PropertiesModel;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ToolsModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.*;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor.ArmorFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.tools.ToolsFieldValidator;
@@ -51,37 +56,26 @@ public class MaterialModel {
 			Codec.STRING.fieldOf("source").forGetter(i -> i.source),
 			Codec.STRING.fieldOf("localizedName").forGetter(i -> i.localizedName),
 			Codec.list(Codec.STRING).fieldOf("processedTypes").forGetter(i -> i.processedTypes),
-			Codec.list(Codec.STRING).optionalFieldOf("strata").forGetter(i -> Optional.of(i.strata)),
-			MaterialPropertiesModel.CODEC.optionalFieldOf("properties").forGetter(i -> Optional.of(i.properties)),
-			MaterialOreDropModel.CODEC.optionalFieldOf("oreDrop").forGetter(i -> Optional.of(i.oreDrop)),
-			MaterialColorsModel.CODEC.optionalFieldOf("colors").forGetter(i -> Optional.of(i.colors)),
-			MaterialToolsModel.CODEC.optionalFieldOf("tools").forGetter(i -> Optional.of(i.tools)),
-			MaterialArmorModel.CODEC.optionalFieldOf("armor").forGetter(i -> Optional.of(i.armor))
-	).apply(x, (id, source, localizedName, processedTypes, strata, properties, oreDrop, colors, tools, armor) -> new MaterialModel(
-			id,
-			source,
-			localizedName,
-			processedTypes,
-			strata.orElse(List.of()),
-			properties.orElse(new MaterialPropertiesModel()),
-			oreDrop.orElse(new MaterialOreDropModel()),
-			colors.orElse(new MaterialColorsModel()),
-			tools.orElse(new MaterialToolsModel()),
-			armor.orElse(new MaterialArmorModel())
-	)));
+			Codec.list(Codec.STRING).optionalFieldOf("strata", List.of()).forGetter(i -> i.strata),
+			PropertiesModel.CODEC.optionalFieldOf("properties", new PropertiesModel()).forGetter(i -> i.properties),
+			OreDropModel.CODEC.optionalFieldOf("oreDrop", new OreDropModel()).forGetter(i -> i.oreDrop),
+			ColorsModel.CODEC.optionalFieldOf("colors", new ColorsModel()).forGetter(i -> i.colors),
+			ToolsModel.CODEC.optionalFieldOf("tools", new ToolsModel()).forGetter(i -> i.tools),
+			com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel.CODEC.optionalFieldOf("armor", new com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel()).forGetter(i -> i.armor)
+	).apply(x, MaterialModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("strata",				new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE_MODE, "Strata", false), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
 		//TODO: Add validation for when source is "vanilla" to enforce vanilla-ids
 		.addValidator("id",					new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isMaterialRegistered, PluginRegistryValidator.REGISTRATION_MODE, true))
 		.addValidator("source",				new ValuesValidator(List.of("vanilla", "modded"), FilterMode.WHITELIST, true))
-		.addValidator("localizedName",			new TypeValidator(Types.STRING, true))
+		.addValidator("localizedName",		new TypeValidator(Types.STRING, true))
 		.addValidator("processedTypes",		new ProcessedTypesValidator(), ArrayPolicy.REQUIRES_ARRAY.getNonEmpty())
-		.addValidator("tools",					new ToolsFieldValidator())
-		.addValidator("armor",					new ArmorFieldValidator())
+		.addValidator("tools",				new ToolsFieldValidator())
+		.addValidator("armor",				new ArmorFieldValidator())
 		.addValidator("oreDrop",				new OreDropValidator())
-		.addValidator("properties",			MaterialPropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
-		.addValidator("colors",				MaterialColorsModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("properties",			PropertiesModel.VALIDATION_MANAGER.getAsValidator(false))
+		.addValidator("colors",				ColorsModel.VALIDATION_MANAGER.getAsValidator(false))
 		.addValidator("compat",				new DeprecatedFieldValidator())
 		.addValidator("disableDefaultOre",	new DeprecatedFieldValidator("Configuration Option", "https://github.com/Ridanisaurus/EmendatusEnigmatica/commit/a782b78a1b2c87ec679ee42235cad0e8b1658679"));
 
@@ -91,11 +85,11 @@ public class MaterialModel {
 	private final String localizedName;
 	private final List<String> processedTypes;
 	private final List<String> strata;
-	private final MaterialPropertiesModel properties;
-	private final MaterialOreDropModel oreDrop;
-	private final MaterialColorsModel colors;
-	private final MaterialToolsModel tools;
-	private final MaterialArmorModel armor;
+	private final PropertiesModel properties;
+	private final OreDropModel oreDrop;
+	private final ColorsModel colors;
+	private final ToolsModel tools;
+	private final com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel armor;
 
 	public MaterialModel(
 		String id,
@@ -103,11 +97,11 @@ public class MaterialModel {
 		String localizedName,
 		List<String> processedTypes,
 		List<String> strata,
-		MaterialPropertiesModel properties,
-		MaterialOreDropModel oreDrop,
-		MaterialColorsModel colors,
-		MaterialToolsModel tools,
-		MaterialArmorModel armor
+		PropertiesModel properties,
+		OreDropModel oreDrop,
+		ColorsModel colors,
+		ToolsModel tools,
+		com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel armor
 	) {
 		this.id = id;
 		this.source = source;
@@ -149,23 +143,23 @@ public class MaterialModel {
 		return strata;
 	}
 
-	public MaterialPropertiesModel getProperties() {
+	public PropertiesModel getProperties() {
 		return properties;
 	}
 
-	public MaterialOreDropModel getOreDrop() {
+	public OreDropModel getOreDrop() {
 		return oreDrop;
 	}
 
-	public MaterialColorsModel getColors() {
+	public ColorsModel getColors() {
 		return colors;
 	}
 
-	public MaterialToolsModel getTools() {
+	public ToolsModel getTools() {
 		return tools;
 	}
 
-	public MaterialArmorModel getArmor() {
+	public ArmorModel getArmor() {
 		return armor;
 	}
 
