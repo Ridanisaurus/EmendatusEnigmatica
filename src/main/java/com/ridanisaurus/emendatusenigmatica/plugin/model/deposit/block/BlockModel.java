@@ -30,7 +30,6 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredValidator;
-import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
 import com.ridanisaurus.emendatusenigmatica.registries.EERegistrar;
 import com.ridanisaurus.emendatusenigmatica.registries.EETags;
@@ -44,16 +43,15 @@ import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 
 public class BlockModel implements WeightedEntry {
 	public static final Codec<BlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
-			Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
-			Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+			Codec.STRING.optionalFieldOf("block", "").forGetter(BlockModel::getBlock),
+			Codec.STRING.optionalFieldOf("tag", "").forGetter(BlockModel::getTag),
+			Codec.STRING.optionalFieldOf("material", "").forGetter(BlockModel::getMaterial),
 			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.weight.asInt())
 	).apply(x, BlockModel::new));
 
@@ -68,22 +66,22 @@ public class BlockModel implements WeightedEntry {
 	private final String tag;
 	private final Weight weight;
 
-	public BlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight) {
+	public BlockModel(String block, String tag, String material, int weight) {
 		this.block = block;
 		this.tag = tag;
 		this.material = material;
 		this.weight = Weight.of(weight);
 	}
 
-	public @Nullable String getBlock() {
+	public String getBlock() {
 		return block;
 	}
 
-	public @Nullable String getTag() {
+	public String getTag() {
 		return tag;
 	}
 
-	public @Nullable String getMaterial() {
+	public String getMaterial() {
 		return material;
 	}
 
@@ -92,17 +90,17 @@ public class BlockModel implements WeightedEntry {
 	}
 
 	public Optional<BlockState> getBlockState(MultiStrataRuleTest target, BlockState targetState, RandomSource rand) {
-		if (Objects.nonNull(block))
+		if (!block.isBlank())
 			return Optional.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(block)).defaultBlockState());
 
-		if (Objects.nonNull(tag)) {
+		if (!tag.isBlank()) {
 			Optional<HolderSet.Named<Block>> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(tag)));
             return blockITag.flatMap(holders -> holders.getRandomElement(rand).map(blockHolder -> blockHolder.value().defaultBlockState()));
         }
 
-		if (Objects.isNull(material)) return Optional.empty();
+		if (material.isBlank()) return Optional.empty();
 		var strata = target.getStrataFromFiller(targetState, rand);
-		if (Objects.isNull(strata)) return Optional.empty();
+		if (strata.isBlank()) return Optional.empty();
 		var ret = EERegistrar.oreBlockTable.get(strata, material);
 		if (Objects.isNull(ret)) return Optional.empty();
 		return Optional.of(ret.get().defaultBlockState());

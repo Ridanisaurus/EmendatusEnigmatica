@@ -194,10 +194,10 @@ public class VanillaOreFeature extends Feature<VanillaDepositModel> {
 	}
 
 	public static @NotNull BlockState getToPlaceBlockState(@NotNull VanillaDepositModel model, @NotNull BlockState strataState, @NotNull RandomSource rand) {
-		if (model.block != null)
+		if (!model.block.isBlank())
 			return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(model.block)).defaultBlockState();
 
-		if (model.material != null) {
+		if (!model.material.isBlank()) {
 			var strata = model.target.getStrataFromFiller(strataState, rand);
 			if (strata != null)
 				return Objects.requireNonNull(EERegistrar.oreBlockTable.get(strata, model.material)).get().defaultBlockState();

@@ -35,10 +35,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class ColorsModel {
 	public static final Codec<ColorsModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("fluidColor", null).forGetter(i -> i.fluidColor),
-			Codec.STRING.optionalFieldOf("particlesColor", null).forGetter(i -> i.particlesColor),
-			Codec.STRING.optionalFieldOf("materialColor", null).forGetter(i -> i.materialColor),
-			Codec.STRING.optionalFieldOf("oxidizationColor", null).forGetter(i -> i.oxidizationColor)
+			Codec.STRING.optionalFieldOf("fluidColor", "").forGetter(i -> i.fluidColor),
+			Codec.STRING.optionalFieldOf("particlesColor", "").forGetter(i -> i.particlesColor),
+			Codec.STRING.optionalFieldOf("materialColor", "").forGetter(i -> i.materialColor),
+			Codec.STRING.optionalFieldOf("oxidizationColor", "").forGetter(i -> i.oxidizationColor)
 	).apply(x, ColorsModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
@@ -52,7 +52,7 @@ public class ColorsModel {
 	private final String materialColor;
 	private final String oxidizationColor;
 
-	public ColorsModel(@Nullable String fluidColor, @Nullable String particlesColor, @Nullable String materialColor, @Nullable String oxidizationColor) {
+	public ColorsModel(String fluidColor, String particlesColor, String materialColor, String oxidizationColor) {
 		this.fluidColor = fluidColor;
 		this.particlesColor = particlesColor;
 		this.materialColor = materialColor;
@@ -60,10 +60,10 @@ public class ColorsModel {
 	}
 
 	public ColorsModel() {
-		this.fluidColor = null;
-		this.particlesColor = null;
-		this.materialColor = null;
-		this.oxidizationColor = null;
+		this.fluidColor = "";
+		this.particlesColor = "";
+		this.materialColor = "";
+		this.oxidizationColor = "";
 	}
 
 	public int getMaterialColor() {
@@ -91,18 +91,18 @@ public class ColorsModel {
 	}
 
 	public boolean hasMaterialColor() {
-		return materialColor != null;
+		return !materialColor.isBlank();
 	}
 
 	public boolean hasOxidizationColor() {
-		return oxidizationColor != null;
+		return !oxidizationColor.isBlank();
 	}
 
 	public boolean hasFluidColor() {
-		return fluidColor != null;
+		return !fluidColor.isBlank();
 	}
 
 	public boolean hasParticlesColor() {
-		return particlesColor != null;
+		return !particlesColor.isBlank();
 	}
 }

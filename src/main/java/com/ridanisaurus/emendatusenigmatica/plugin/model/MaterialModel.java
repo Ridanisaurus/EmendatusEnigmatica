@@ -61,7 +61,7 @@ public class MaterialModel {
 			OreDropModel.CODEC.optionalFieldOf("oreDrop", new OreDropModel()).forGetter(i -> i.oreDrop),
 			ColorsModel.CODEC.optionalFieldOf("colors", new ColorsModel()).forGetter(i -> i.colors),
 			ToolsModel.CODEC.optionalFieldOf("tools", new ToolsModel()).forGetter(i -> i.tools),
-			com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel.CODEC.optionalFieldOf("armor", new com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel()).forGetter(i -> i.armor)
+			ArmorModel.CODEC.optionalFieldOf("armor", new ArmorModel()).forGetter(i -> i.armor)
 	).apply(x, MaterialModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
@@ -89,7 +89,7 @@ public class MaterialModel {
 	private final OreDropModel oreDrop;
 	private final ColorsModel colors;
 	private final ToolsModel tools;
-	private final com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel armor;
+	private final ArmorModel armor;
 
 	public MaterialModel(
 		String id,
@@ -101,7 +101,7 @@ public class MaterialModel {
 		OreDropModel oreDrop,
 		ColorsModel colors,
 		ToolsModel tools,
-		com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel armor
+		ArmorModel armor
 	) {
 		this.id = id;
 		this.source = source;

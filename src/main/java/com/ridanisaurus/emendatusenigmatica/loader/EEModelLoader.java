@@ -218,8 +218,8 @@ public class EEModelLoader {
     protected void load(EEPluginLoader pluginLoader) {
         this.pluginLoader = Objects.requireNonNull(pluginLoader, "Plugin Loader can't be null!");
         logger.info("Loading EEModelDefinitions ({})", registry.size());
+        for (EEModelDefinition<?, ?> definition : registry.keySet()) {
         try {
-            for (EEModelDefinition<?, ?> definition : registry.keySet()) {
                 Stopwatch s = Stopwatch.createStarted();
                 logger.info("Loading {}#{}...", definition.originPlugin().getName(), definition.registryName());
                 var path = definition.folderPath().getPath();
@@ -272,9 +272,9 @@ public class EEModelLoader {
                     definition.genericRegister(model, definitionRegistry);
                 });
                 SummaryHandler.addPerformanceAnalytic("Model loading and validation: " + definition.registryName(), s);
+            } catch (Exception e) {
+                throw new RuntimeException("Critical exception caught while loading %s!".formatted(definition.getFullName()), e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Critical exception caught while loading EEModelDefinitions!", e);
         }
         logger.debug("Finished loading EEModelDefinitions.");
     }

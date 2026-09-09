@@ -33,15 +33,12 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.validators.RequiredVa
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.MaxValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.deposit.MaterialValidator;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Optional;
 
 public class DikeBlockModel extends BlockModel {
 	public static final Codec<DikeBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-		Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
-		Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
-		Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+		Codec.STRING.optionalFieldOf("block", "").forGetter(BlockModel::getBlock),
+		Codec.STRING.optionalFieldOf("tag", "").forGetter(BlockModel::getTag),
+		Codec.STRING.optionalFieldOf("material", "").forGetter(BlockModel::getMaterial),
 			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.getWeight().asInt()),
 			Codec.INT.optionalFieldOf("min", -500).forGetter(it -> it.min),
 			Codec.INT.optionalFieldOf("max", 500).forGetter(it -> it.max)
@@ -58,7 +55,7 @@ public class DikeBlockModel extends BlockModel {
 	private final int min;
 	private final int max;
 
-	public DikeBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, int min, int max) {
+	public DikeBlockModel(String block, String tag, String material, int weight, int min, int max) {
         super(block, tag, material, weight);
 		this.min = min;
 		this.max = max;

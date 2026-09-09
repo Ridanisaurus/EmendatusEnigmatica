@@ -45,6 +45,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -53,8 +54,8 @@ import java.util.Objects;
 public class VanillaDepositModel extends DepositModel {
     public static final Codec<VanillaDepositModel> CODEC = RecordCodecBuilder.create(x -> x.group(
         DepositModel.MAP_CODEC.forGetter(it -> it),
-        Codec.STRING.optionalFieldOf("block", null).forGetter(it -> it.block),
-        Codec.STRING.optionalFieldOf("material", null).forGetter(it -> it.material),
+        Codec.STRING.optionalFieldOf("block", "").forGetter(it -> it.block),
+        Codec.STRING.optionalFieldOf("material", "").forGetter(it -> it.material),
         Codec.INT.optionalFieldOf("chance", 0).forGetter(it -> it.chance),
         Codec.INT.optionalFieldOf("size", 0).forGetter(it -> it.size),
         Codec.INT.optionalFieldOf("minYLevel", 0).forGetter(it -> it.minYLevel),
@@ -85,8 +86,8 @@ public class VanillaDepositModel extends DepositModel {
 
     public VanillaDepositModel(
         DepositModel base,
-        @Nullable String block,
-        @Nullable String material,
+        String block,
+        String material,
         int chance,
         int size,
         int minYLevel,
@@ -106,25 +107,25 @@ public class VanillaDepositModel extends DepositModel {
     }
 
     @Override
-    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+    public @NotNull ConfiguredFeature<?, ?> getConfiguredFeature() {
         return new ConfiguredFeature<>(EERegistrar.VANILLA_ORE_FEATURE.get(), this);
     }
 
     @Override
-    public List<PlacementModifier> getOrePlacement() {
+    public @NotNull List<PlacementModifier> getOrePlacement() {
         return WorldGenHelper.getOrePlacement(rarity, chance, WorldGenHelper.getPlacementModifier(placement, minYLevel, maxYLevel));
     }
 
     @Override
-    public List<EmiStack> getEmiOutputs() {
-        if (Objects.nonNull(block))
+    public @NotNull List<EmiStack> getEmiOutputs() {
+        if (!block.isBlank())
             return List.of(EmiStack.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(block))));
-        if (Objects.isNull(material) || fillerTypes.isEmpty()) throw new IllegalStateException("Invalid VanillaDepositModel was registered!");
+        if (material.isBlank() || fillerTypes.isEmpty()) throw new IllegalStateException("Invalid VanillaDepositModel was registered!");
         return fillerTypes.stream().map(strata -> EmiStack.of(Objects.requireNonNull(EERegistrar.oreBlockItemTable.get(strata, material)))).toList();
     }
 
     @Override
-    public void createEmiWidget(WidgetHolder widgets) {
+    public void createEmiWidget(@NotNull WidgetHolder widgets) {
         String size;
         if (this.size <= 5)
             size = "Small";

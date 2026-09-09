@@ -42,24 +42,20 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.random.Weight;
-import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 import java.util.Optional;
 
 public class SampleBlockModel extends BlockModel {
 	public static final Codec<SampleBlockModel> CODEC = RecordCodecBuilder.create(x -> x.group(
-			Codec.STRING.optionalFieldOf("block", null).forGetter(BlockModel::getBlock),
-			Codec.STRING.optionalFieldOf("tag", null).forGetter(BlockModel::getTag),
-			Codec.STRING.optionalFieldOf("material", null).forGetter(BlockModel::getMaterial),
+			Codec.STRING.optionalFieldOf("block", "").forGetter(BlockModel::getBlock),
+			Codec.STRING.optionalFieldOf("tag", "").forGetter(BlockModel::getTag),
+			Codec.STRING.optionalFieldOf("material", "").forGetter(BlockModel::getMaterial),
 			Codec.INT.optionalFieldOf("weight", 1).forGetter(it -> it.getWeight().asInt()),
-			Codec.STRING.optionalFieldOf("strata", null).forGetter(it -> it.strata)
+			Codec.STRING.optionalFieldOf("strata", "").forGetter(it -> it.strata)
 	).apply(x, SampleBlockModel::new));
 	private final String strata;
 
@@ -73,12 +69,12 @@ public class SampleBlockModel extends BlockModel {
 			new PluginRegistryValidator<>(VanillaPlugin.class, DataRegistry::isStrataRegistered, PluginRegistryValidator.REFERENCE_MODE, "Strata", false))
 		);
 
-	public SampleBlockModel(@Nullable String block, @Nullable String tag, @Nullable String material, int weight, @Nullable String strata) {
+	public SampleBlockModel(String block, String tag, String material, int weight, String strata) {
 		super(block, tag, material, weight);
 		this.strata = strata;
 	}
 
-	public @Nullable String getStrata() {
+	public String getStrata() {
 		return strata;
 	}
 
@@ -88,16 +84,16 @@ public class SampleBlockModel extends BlockModel {
 	}
 
 	public Optional<BlockState> getBlockState(RandomSource rand) {
-		if (Objects.nonNull(getBlock()))
+		if (!getBlock().isBlank())
 			return Optional.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(getBlock())).defaultBlockState());
 
-		if (Objects.nonNull(getTag())) {
+		if (!getTag().isBlank()) {
 			Optional<HolderSet.Named<Block>> blockITag = BuiltInRegistries.BLOCK.getTag(EETags.getBlockTag(ResourceLocation.parse(getTag())));
 			return blockITag.flatMap(holders -> holders.getRandomElement(rand).map(blockHolder -> blockHolder.value().defaultBlockState()));
 		}
 
 		DeferredBlock<Block> ret;
-		if (Objects.isNull(getMaterial()) || Objects.isNull(strata) || Objects.isNull(ret = EERegistrar.oreBlockTable.get(strata, getMaterial()))) return Optional.empty();
+		if (getMaterial().isBlank()|| strata.isBlank() || Objects.isNull(ret = EERegistrar.oreBlockTable.get(strata, getMaterial()))) return Optional.empty();
 		return Optional.of(ret.get().defaultBlockState());
 	}
 }

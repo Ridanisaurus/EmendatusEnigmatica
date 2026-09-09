@@ -36,18 +36,15 @@ import java.util.Optional;
 
 public record ColorExtension(String chemicalColor, String heatedCoolantColor) {
     public static final Codec<ColorExtension> CODEC = RecordCodecBuilder.create(x -> x.group(
-        Codec.STRING.optionalFieldOf("chemicalColor").forGetter(i -> Optional.of(i.chemicalColor)),
-        Codec.STRING.optionalFieldOf("hotCoolantColor").forGetter(i -> Optional.of(i.heatedCoolantColor))
-    ).apply(x, (chemical, coolant) -> new ColorExtension(
-        chemical.orElse(null),
-        coolant.orElse(null)
-    )));
+        Codec.STRING.optionalFieldOf("chemicalColor", "").forGetter(i -> i.chemicalColor),
+        Codec.STRING.optionalFieldOf("hotCoolantColor", "").forGetter(i -> i.heatedCoolantColor)
+    ).apply(x, ColorExtension::new));
 
     public int getChemicalColor() {
-        return chemicalColor != null ? ColorHelper.HEXtoDEC(chemicalColor): -1;
+        return chemicalColor.isBlank() ?- 1: ColorHelper.HEXtoDEC(chemicalColor);
     }
 
     public int getHotCoolantColor() {
-        return heatedCoolantColor != null? ColorHelper.HEXtoDEC(heatedCoolantColor): -1;
+        return heatedCoolantColor.isBlank() ? -1 : ColorHelper.HEXtoDEC(heatedCoolantColor);
     }
 }
