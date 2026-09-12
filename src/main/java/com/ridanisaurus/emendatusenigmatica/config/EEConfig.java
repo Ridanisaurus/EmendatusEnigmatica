@@ -91,7 +91,7 @@ public class EEConfig {
 			builder.pop();
 
 			builder.push("Addons");
-			loader.setupConfig(builder, ModConfig.Type.STARTUP);
+			loader.setupModConfig(builder, ModConfig.Type.STARTUP);
 			builder.pop();
 		}
 	}
@@ -113,7 +113,7 @@ public class EEConfig {
 			builder.pop();
 
 			builder.push("Addons");
-			loader.setupConfig(builder, ModConfig.Type.CLIENT);
+			loader.setupModConfig(builder, ModConfig.Type.CLIENT);
 			builder.pop();
 		}
 	}

@@ -22,40 +22,24 @@
  * SOFTWARE.
  */
 
-package com.ridanisaurus.emendatusenigmatica.loader;
+package com.ridanisaurus.emendatusenigmatica.api.config;
 
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
+import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 
-import java.util.Objects;
+import java.util.function.Function;
 
-public class ConfigCreationContext {
-    private final ModConfigSpec.Builder builder;
-    private final ModConfig.Type type;
-    private String addonName = null;
+public interface IDefaultConfigSetupContext {
+    void register(EEModelDefinition<?, ?> model, String internalFile, String path);
 
-    public ConfigCreationContext(ModConfigSpec.Builder builder, ModConfig.Type type) {
-        this.builder = Objects.requireNonNull(builder);
-        this.type = Objects.requireNonNull(type);
-    }
+    <M> void register(String path, EEModelDefinition<M, ?> model, M object);
 
-    ConfigCreationContext setAddon(String name) {
-        if (Objects.nonNull(addonName)) builder.pop();
-        addonName = Objects.requireNonNull(name, "Addon name can't be null!");
-        builder.push(name);
-        return this;
-    }
+    <M> void register(String path, EEModelExtension<?, M, ?, ?> extension, M object);
 
-    public boolean isStartup() {
-        return type == ModConfig.Type.STARTUP;
-    }
+    void addProcessingRule(EEModelDefinition<?,?> model, Function<JsonObject, JsonObject> processor);
 
-    public boolean isClient() {
-        return type == ModConfig.Type.CLIENT;
-    }
-
-    public ModConfigSpec.Builder getBuilder() {
-        if (Objects.isNull(addonName)) throw new IllegalStateException("Tried defining a new configuration entry for null addon!");
-        return builder;
+    default void register(EEModelDefinition<?, ?> model, String internalFile) {
+        register(model, internalFile, null);
     }
 }

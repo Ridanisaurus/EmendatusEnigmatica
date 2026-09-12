@@ -25,10 +25,10 @@
 package com.ridanisaurus.emendatusenigmatica.plugin;
 
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.ISetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCDataBuilder;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IDefaultConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.LootGen;
@@ -47,7 +47,6 @@ import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.NeoFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.world.OreFeatureGen;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelDefinition;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
-import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.compat.emi.EEEMIPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.DepositModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.deposit.*;
@@ -95,9 +94,9 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
      * register your models and anything else your plugin requires before EE itself starts.
      */
     @Override
-    public void setup(SetupContext ctx) {
-        EEEMIPlugin.provideDataRegistry(ctx.pluginLoader().getRegistry(getClass()));
-        var loader = ctx.modelLoader();
+    public void setup(ISetupContext ctx) {
+        EEEMIPlugin.provideDataRegistry(ctx.getPluginLoader().getRegistry(getClass()));
+        var loader = ctx.getModelLoader();
         loader.registerDefinition(STRATA_DEFINITION);
         loader.registerDefinition(MATERIAL_DEFINITION);
         loader.registerDefinition(DEPOSIT_DEFINITION);
@@ -157,7 +156,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
      * This method is executed for Client / Startup configs.
      */
     @Override
-    public void extendConfig(ConfigCreationContext ctx) {
+    public void extendConfig(IConfigSetupContext ctx) {
         if (!ctx.isStartup()) return;
         NeoFeatureGen.setupConfig(ctx);
     }
@@ -165,67 +164,67 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
     /**
      * Method used to provide default configuration data for the mod it supports, if necessary.
      *
-     * @param ctx DCCreationContext used to register configs and check for compatibility.
+     * @param ctx DefaultConfigSetupContext used to register configs and check for compatibility.
      */
     @Override
-    public void provideDefaultConfiguration(DCCreationContext ctx) {
+    public void provideDefaultConfiguration(IDefaultConfigSetupContext ctx) {
         //TODO: Add to the defaults replacements for the textures,
         // as we don't actually replace vanilla items by default (causes issues).
 
         // We don't need to check for compatibility while adding vanilla materials, no other addon should add those, and we will be executed first!
         // Materials
-        getBuilder("material/coal", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/copper", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/iron", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/gold", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/diamond", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/emerald", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/lapis", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/redstone", "vanilla").markAsMaterial().finish(ctx);
-        getBuilder("material/quartz", "vanilla").markAsMaterial().finish(ctx);
-//        getBuilder("material/netherite", "vanilla").markAsMaterial().finish(ctx);
+        ctx.register(MATERIAL_DEFINITION, "material/coal", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/copper", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/iron", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/gold", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/diamond", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/emerald", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/lapis", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/redstone", "vanilla/");
+        ctx.register(MATERIAL_DEFINITION, "material/quartz", "vanilla/");
+//        ctx.register(MATERIAL_DEFINITION, "material/netherite", "vanilla/);
 
         // Strata
-        getBuilder("strata/stone", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/deepslate", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/netherrack", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/diorite", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/granite", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/andesite", "vanilla").markAsStrata().finish(ctx);
-        getBuilder("strata/tuff", "vanilla").markAsStrata().finish(ctx);
+        ctx.register(STRATA_DEFINITION, "strata/stone", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/deepslate", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/netherrack", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/diorite", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/granite", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/andesite", "vanilla/");
+        ctx.register(STRATA_DEFINITION, "strata/tuff", "vanilla/");
 
         // Deposits
-        getBuilder("deposit/coal/coal_lower", "vanilla/coal").markAsDeposit().finish(ctx);
-        getBuilder("deposit/coal/coal_upper", "vanilla/coal").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/coal/coal_lower", "vanilla/coal/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/coal/coal_upper", "vanilla/coal/");
 
-        getBuilder("deposit/copper/copper_normal", "vanilla/copper").markAsDeposit().finish(ctx);
-        getBuilder("deposit/copper/copper_large", "vanilla/copper").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/copper/copper_normal", "vanilla/copper/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/copper/copper_large", "vanilla/copper/");
 
-        getBuilder("deposit/iron/iron_small", "vanilla/iron").markAsDeposit().finish(ctx);
-        getBuilder("deposit/iron/iron_middle", "vanilla/iron").markAsDeposit().finish(ctx);
-        getBuilder("deposit/iron/iron_upper", "vanilla/iron").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/iron/iron_small", "vanilla/iron/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/iron/iron_middle", "vanilla/iron/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/iron/iron_upper", "vanilla/iron/");
 
-        getBuilder("deposit/gold/gold_extra", "vanilla/gold").markAsDeposit().finish(ctx);
-        getBuilder("deposit/gold/gold_lower", "vanilla/gold").markAsDeposit().finish(ctx);
-        getBuilder("deposit/gold/gold_normal", "vanilla/gold").markAsDeposit().finish(ctx);
-        getBuilder("deposit/gold/gold_nether", "vanilla/gold").markAsDeposit().finish(ctx);
-        getBuilder("deposit/gold/gold_nether_delta", "vanilla/gold").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/gold/gold_extra", "vanilla/gold/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/gold/gold_lower", "vanilla/gold/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/gold/gold_normal", "vanilla/gold/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/gold/gold_nether", "vanilla/gold/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/gold/gold_nether_delta", "vanilla/gold/");
 
-        getBuilder("deposit/diamond/diamond", "vanilla/diamond").markAsDeposit().finish(ctx);
-        getBuilder("deposit/diamond/diamond_small", "vanilla/diamond").markAsDeposit().finish(ctx);
-        getBuilder("deposit/diamond/diamond_medium", "vanilla/diamond").markAsDeposit().finish(ctx);
-        getBuilder("deposit/diamond/diamond_large", "vanilla/diamond").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/diamond/diamond", "vanilla/diamond/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/diamond/diamond_small", "vanilla/diamond/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/diamond/diamond_medium", "vanilla/diamond/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/diamond/diamond_large", "vanilla/diamond/");
 
-        getBuilder("deposit/emerald/emerald", "vanilla/emerald").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/emerald/emerald", "vanilla/emerald/");
 
-        getBuilder("deposit/lapis/lapis_lower", "vanilla/lapis").markAsDeposit().finish(ctx);
-        getBuilder("deposit/lapis/lapis_normal", "vanilla/lapis").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/lapis/lapis_lower", "vanilla/lapis/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/lapis/lapis_normal", "vanilla/lapis/");
 
-        getBuilder("deposit/redstone/redstone_lower", "vanilla/redstone").markAsDeposit().finish(ctx);
-        getBuilder("deposit/redstone/redstone_normal", "vanilla/redstone").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/redstone/redstone_lower", "vanilla/redstone/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/redstone/redstone_normal", "vanilla/redstone/");
 
-        getBuilder("deposit/quartz/quartz", "vanilla/quartz").markAsDeposit().finish(ctx);
-        getBuilder("deposit/quartz/quartz_delta", "vanilla/quartz").markAsDeposit().finish(ctx);
+        ctx.register(DEPOSIT_DEFINITION, "deposit/quartz/quartz", "vanilla/quartz/");
+        ctx.register(DEPOSIT_DEFINITION, "deposit/quartz/quartz_delta", "vanilla/quartz/");
     }
 
     /**
@@ -319,7 +318,7 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         }
     }
 
-    private DCDataBuilder getBuilder(String internal, String external) {
-        return DCDataBuilder.fromInternalFile("assets/%s/configs/%s".formatted(Reference.MOD_ID, internal), external);
-    }
+//    private DCDataBuilder getBuilder(String internal, String external) {
+//        return DCDataBuilder.fromInternalFile("assets/%s/configs/%s".formatted(Reference.MOD_ID, internal), external);
+//    }
 }

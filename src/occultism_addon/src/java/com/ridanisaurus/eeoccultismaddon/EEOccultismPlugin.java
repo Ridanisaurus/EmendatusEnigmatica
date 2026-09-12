@@ -24,18 +24,15 @@
 
 package com.ridanisaurus.eeoccultismaddon;
 
-import com.google.gson.JsonPrimitive;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismRecipeGen;
 import com.ridanisaurus.eeoccultismaddon.datagen.OccultismWorldGen;
 import com.ridanisaurus.emendatusenigmatica.api.BasicEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.ISetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.types.DepositType;
-import com.ridanisaurus.emendatusenigmatica.api.config.types.MaterialType;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IDefaultConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.loader.EEPluginLoader;
-import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import net.minecraft.core.HolderLookup;
 import net.neoforged.fml.common.Mod;
@@ -58,12 +55,12 @@ public class EEOccultismPlugin extends BasicEEPlugin {
 	 * @param ctx Setup context, containing references to instances of EE loaders.
 	 */
 	@Override
-	public void setup(SetupContext ctx) {
-		pluginLoader = ctx.pluginLoader();
+	public void setup(ISetupContext ctx) {
+		pluginLoader = ctx.getPluginLoader();
 	}
 
 	@Override
-	public void extendConfig(ConfigCreationContext ctx) {
+	public void extendConfig(IConfigSetupContext ctx) {
 		if (!ctx.isStartup()) return;
 		disableSilver = ctx.getBuilder()
 			.comment("Determines if Occultism Silver ore generation should be disabled.")
@@ -76,23 +73,30 @@ public class EEOccultismPlugin extends BasicEEPlugin {
 	}
 
 	@Override
-	public void provideDefaultConfiguration(DCCreationContext ctx) {
+	public void provideDefaultConfiguration(IDefaultConfigSetupContext ctx) {
 		// Add Dust type to default vanilla models.
-		MaterialType.getVanillaMaterials(ctx).forEach(data -> {
-			var obj = data.getWrappedObject();
+//		MaterialType.getVanillaMaterials(ctx).forEach(data -> {
+//			var obj = data.getWrappedObject();
 			// If it's not JsonArray, something is corrupted, as we should be working here with EE Vanilla Plugin data.
-			var types = obj.get("processedTypes").getAsJsonArray();
-			if (types.contains(new JsonPrimitive("dust"))) return;
-			types.add("dust");
-			data.updateWrappedObject(obj);
-		});
+//			var types = obj.get("processedTypes").getAsJsonArray();
+//			if (types.contains(new JsonPrimitive("dust"))) return;
+//			types.add("dust");
+//			data.updateWrappedObject(obj);
+//		});
 
-		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("silver"), "common");
-		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("iesnium"), "occultism");
+//		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("silver"), "common");
+//		MaterialType.addTypesOrRegister(ctx, ctx.getInternalPath("iesnium"), "occultism");
+//
+//		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("iesnium_ore"), "occultism");
+//		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_ore"), "common/silver");
+//		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_deepslate_ore"), "common/silver");
 
-		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("iesnium_ore"), "occultism");
-		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_ore"), "common/silver");
-		DepositType.registerIfAvailable(ctx, ctx.getInternalPath("silver_deepslate_ore"), "common/silver");
+		ctx.register(VanillaPlugin.MATERIAL_DEFINITION, "silver", "common/");
+		ctx.register(VanillaPlugin.MATERIAL_DEFINITION, "iesnium", "occultism/");
+
+		ctx.register(VanillaPlugin.DEPOSIT_DEFINITION, "iesnium_ore", "occultism/");
+		ctx.register(VanillaPlugin.DEPOSIT_DEFINITION, "silver_ore", "common/silver/");
+		ctx.register(VanillaPlugin.DEPOSIT_DEFINITION, "silver_deepslate_ore", "common/silver/");
 	}
 
 	/**

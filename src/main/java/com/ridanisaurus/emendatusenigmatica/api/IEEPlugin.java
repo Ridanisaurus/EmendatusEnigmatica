@@ -24,11 +24,10 @@
 
 package com.ridanisaurus.emendatusenigmatica.api;
 
-import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IDefaultConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
-import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import net.minecraft.core.HolderLookup;
 import java.util.concurrent.CompletableFuture;
 
@@ -51,7 +50,7 @@ public interface IEEPlugin<R> {
      *  register your models and anything else your plugin requires before EE itself starts.
      * @param ctx Setup context, containing references to instances of EE loaders.
      */
-    void setup(SetupContext ctx);
+    void setup(ISetupContext ctx);
 
     /**
      * Method executed for each EE Configuration file,
@@ -60,13 +59,13 @@ public interface IEEPlugin<R> {
      * @apiNote Please make sure you are extending the correct type of the configuration file.
      * This method is executed for Client / Startup configs.
      */
-    void extendConfig(ConfigCreationContext ctx);
+    void extendConfig(IConfigSetupContext ctx);
 
     /**
      * Method used to provide default configuration data for the mod it supports, if necessary.
-     * @param ctx DCCreationContext used to register configs and check for compatibility.
+     * @param ctx DefaultConfigSetupContext used to register configs and check for compatibility.
      */
-    void provideDefaultConfiguration(DCCreationContext ctx);
+    void provideDefaultConfiguration(IDefaultConfigSetupContext ctx);
 
     /**
      * Method called after EEDataGenerator is created and ready for registration of providers.

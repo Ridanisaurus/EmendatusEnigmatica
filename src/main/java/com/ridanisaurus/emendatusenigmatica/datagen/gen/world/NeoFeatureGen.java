@@ -24,7 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.datagen.gen.world;
 
-import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.datagen.IFinishedGenericJSON;
 import com.ridanisaurus.emendatusenigmatica.datagen.provider.EENeoFeatureProvider;
 import com.ridanisaurus.emendatusenigmatica.datagen.builder.FeatureBuilder;
@@ -115,7 +115,7 @@ public class NeoFeatureGen extends EENeoFeatureProvider {
 	}
 
 
-	public static void setupConfig(@NotNull ConfigCreationContext ctx) {
+	public static void setupConfig(@NotNull IConfigSetupContext ctx) {
 		Objects.requireNonNull(ctx, "CCCtx can't be null!");
 		disableCoal = ctx.getBuilder()
 			.comment("Determines if Coal ore generation should be disabled.")

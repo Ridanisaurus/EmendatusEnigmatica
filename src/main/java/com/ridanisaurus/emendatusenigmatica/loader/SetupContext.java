@@ -25,11 +25,71 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
+import com.ridanisaurus.emendatusenigmatica.api.ISetupContext;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
- * SetupContext is a record containing references to the classes useful for addons.
- * @param pluginLoader EEPluginLoader reference.
- * @param modelLoader EEModelLoader reference.
- * @param emendatusEnigmatica EE instance reference.
+ * SetupContext is a class containing references to the classes useful for addons.
  */
-public record SetupContext(EEPluginLoader pluginLoader, EEModelLoader modelLoader, EmendatusEnigmatica emendatusEnigmatica) {}
+public final class SetupContext implements ISetupContext {
+    private final EEPluginLoader pluginLoader;
+    private final EEModelLoader modelLoader;
+    private final EmendatusEnigmatica emendatusEnigmatica;
+
+    /**
+     * @param pluginLoader        EEPluginLoader reference.
+     * @param modelLoader         EEModelLoader reference.
+     * @param emendatusEnigmatica EE instance reference.
+     */
+    public SetupContext(EEPluginLoader pluginLoader, EEModelLoader modelLoader, EmendatusEnigmatica emendatusEnigmatica) {
+        this.pluginLoader = pluginLoader;
+        this.modelLoader = modelLoader;
+        this.emendatusEnigmatica = emendatusEnigmatica;
+    }
+
+    @Contract(pure = true)
+    @Override
+    public EEPluginLoader getPluginLoader() {
+        return pluginLoader;
+    }
+
+    @Contract(pure = true)
+    @Override
+    public EEModelLoader getModelLoader() {
+        return modelLoader;
+    }
+
+    @Contract(pure = true)
+    @Override
+    public EmendatusEnigmatica getModReference() {
+        return emendatusEnigmatica;
+    }
+
+    @Contract(value = "null -> false", pure = true)
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (SetupContext) obj;
+        return Objects.equals(this.pluginLoader, that.pluginLoader) &&
+            Objects.equals(this.modelLoader, that.modelLoader) &&
+            Objects.equals(this.emendatusEnigmatica, that.emendatusEnigmatica);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pluginLoader, modelLoader, emendatusEnigmatica);
+    }
+
+    @Contract(pure = true)
+    @Override
+    public @NotNull String toString() {
+        return "SetupContext[" +
+            "pluginLoader=" + pluginLoader + ", " +
+            "modelLoader=" + modelLoader + ", " +
+            "emendatusEnigmatica=" + emendatusEnigmatica + ']';
+    }
+}

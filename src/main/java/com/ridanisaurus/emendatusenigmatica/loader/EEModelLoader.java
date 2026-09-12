@@ -30,10 +30,12 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.AcceptsAllValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.IValidationFunction;
 import com.ridanisaurus.emendatusenigmatica.util.ExceptionHelper;
 import com.ridanisaurus.emendatusenigmatica.util.FileHelper;
 import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
@@ -103,6 +105,12 @@ public class EEModelLoader {
             throw new SecurityException("Requested path by plugin \"%s\" (\"%s\") points outside of EE Configuration directory! (\"%s\")"
                 .formatted(currentPlugin.name(), definition.originPlugin().getName(), path));
 
+        if (definition.validator().getRegisteredFields().contains("extensionOverrides"))
+            throw new IllegalArgumentException("Definition under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!".formatted(
+                definition.registryName(), currentPlugin.name()
+            ));
+
+
         var conflicts = registry.keySet().stream().filter(it -> checkPathConflict(it.folderPath().getPath(), path)).toList();
 
         if (!conflicts.isEmpty()) {
@@ -120,11 +128,6 @@ public class EEModelLoader {
             }
         }
 
-        if (definition.validator().getRegisteredFields().contains("extensionOverrides"))
-            throw new IllegalArgumentException("Definition under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!".formatted(
-                definition.registryName(), currentPlugin.name()
-            ));
-
         registry.put(definition, new ArrayList<>());
         logger.info("Registered new Model Definition \"{}\" from plugin \"{}\".", definition.registryName(), currentPlugin.name());
     }
@@ -139,24 +142,24 @@ public class EEModelLoader {
      */
     public void registerModelExtension(EEModelExtension<?,?,?,?> extension) {
         if (!canRegister) throw new IllegalStateException("Can't register definitions extensions outside of the addon setup phase!");
-        if (!registry.containsKey(Objects.requireNonNull(extension, "Can't register a null definition extension!").getExtendedDefinition()))
+        if (!registry.containsKey(Objects.requireNonNull(extension, "Can't register a null definition getExtension!").getExtendedDefinition()))
             throw new IllegalArgumentException("Extension \"%s\" tries to extend not registered Model Definition (\"%s\")."
                 .formatted(extension.getClass(), extension.getExtendedDefinition().registryName()));
 
         if (!extension.getOwningAnnotation().equals(currentPlugin))
-            throw new SecurityException("Plugin \"%s\" tried registering definition extension under different addon's ownership (\"%s\")."
+            throw new SecurityException("Plugin \"%s\" tried registering definition getExtension under different addon's ownership (\"%s\")."
                 .formatted(currentPlugin.name(), extension.getOwningAnnotation().name()));
 
         var extensions = registry.get(extension.getExtendedDefinition());
         if (
             extensions.contains(extension) ||
             extensions.stream().anyMatch(it -> it.getRegistryName().equals(extension.getRegistryName()))
-        ) throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" is already registered."
+        ) throw new IllegalArgumentException("Definition getExtension for \"%s\" under name \"%s\" from plugin \"%s\" is already registered."
             .formatted(extension.getExtendedDefinition().registryName(), extension.getRegistryName(), currentPlugin.name()));
 
         if (Objects.nonNull(extension.getRootValidator())) {
             if (extension.getRootValidator().getRegisteredFields().contains("extensionOverrides"))
-                throw new IllegalArgumentException("Definition extension for \"%s\" under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!"
+                throw new IllegalArgumentException("Definition getExtension for \"%s\" under name \"%s\" from plugin \"%s\" defines a reserved field \"extensionOverrides\"!"
                     .formatted(extension.getExtendedDefinition().registryName(), extension.getRegistryName(), currentPlugin.name()
             ));
 
@@ -188,17 +191,30 @@ public class EEModelLoader {
         return List.copyOf(registry.keySet());
     }
 
+    public @NotNull List<EEModelExtension<?,?,?,?>> getModelExtensions(EEModelDefinition<?,?> definition) {
+        if (!isDefinitionRegistered(definition)) return List.of();
+        return List.copyOf(registry.get(definition));
+    }
+
     public @NotNull Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> getPluginDefinitionsPairs(Class<? extends IEEPlugin<?>> plugin) {
         List<EEModelDefinition<?,?>> definitions = getPluginDefinitions(plugin);
         Map<EEModelDefinition<?,?>, List<EEModelExtension<?,?,?,?>>> ret = new LinkedHashMap<>();
         for (EEModelDefinition<?, ?> definition : definitions) {
-            ret.put(definition, registry.get(definition));
+            ret.put(definition, List.copyOf(registry.get(definition)));
         }
         return ret;
     }
 
     public @NotNull List<EEModelDefinition<?,?>> getPluginDefinitions(Class<? extends IEEPlugin<?>> plugin) {
         return registry.keySet().stream().filter(it -> it.originPlugin().equals(plugin)).toList();
+    }
+
+    public boolean isDefinitionRegistered(EEModelDefinition<?,?> definition) {
+        return Objects.nonNull(definition) && registry.containsKey(definition);
+    }
+
+    public boolean isExtensionRegistered(EEModelExtension<?,?,?,?> extension) {
+        return Objects.nonNull(extension) && isDefinitionRegistered(extension.getExtendedDefinition()) && registry.get(extension.getExtendedDefinition()).contains(extension);
     }
 
     protected void startRegistration() {
@@ -254,12 +270,12 @@ public class EEModelLoader {
                             var extObject = handleOverrides(extension, object, jsonPath);
                             if (Objects.isNull(extObject)) continue;
                             if (!extension.validate(extObject, jsonPath, this.pluginLoader)) continue;
-                            var extensionModel = extension.serialize(extObject);
+                            var extensionModel = extension.decode(extObject);
                             if (Objects.isNull(extensionModel)) continue;
                             extension.genericRegister(model, extensionModel, definitionRegistry, this.pluginLoader.getRegistry(extension.getOwningPlugin()));
                         } catch (Exception e) {
                             SummaryHandler.error(
-                                "Failed parsing extension: %s:%s"
+                                "Failed parsing getExtension: %s:%s"
                                     .formatted(extension.getOwningAnnotation().name(), extension.getRegistryName()),
                                 ExceptionHelper.getAsString(e),
                                 "root",
@@ -315,5 +331,36 @@ public class EEModelLoader {
 
             object.add(field, value);
         });
+    }
+
+    /**
+     * A simple validator used to check if the field is an object.
+     * This validator doesn't respect ArrayPolicy and always acts like {@link ArrayPolicy#DISALLOW_ARRAY} is provided.
+     */
+    public static class SimpleObjectValidator implements IValidationFunction {
+        public static SimpleObjectValidator INSTANCE = new SimpleObjectValidator();
+
+        private SimpleObjectValidator() {}
+
+        /**
+         * Entry point of the validator.
+         *
+         * @param ctx ValidationContext record with necessary information to validate the element.
+         * @return True if the validation passes, false otherwise.
+         */
+        @Override
+        public Boolean apply(ValidationContext ctx) {
+            var element = ctx.validationElement();
+            if (Objects.isNull(element)) return true;
+            if (ctx.validationElement().isJsonObject()) return true;
+
+            if (element.isJsonArray()) {
+                ctx.error("Arrays are not allowed for this field!");
+                return false;
+            }
+
+            ctx.error("This field only accepts an object!");
+            return false;
+        }
     }
 }

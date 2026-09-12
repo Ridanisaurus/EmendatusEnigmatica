@@ -25,12 +25,16 @@
 package com.ridanisaurus.emendatusenigmatica.loader;
 
 import com.google.common.base.Stopwatch;
+import com.mojang.logging.LogUtils;
 import com.ridanisaurus.emendatusenigmatica.EmendatusEnigmatica;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.ISetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.config.EEConfig;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
+import com.ridanisaurus.emendatusenigmatica.loader.configs.ConfigSetupContext;
+import com.ridanisaurus.emendatusenigmatica.loader.configs.DefaultConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.util.ClassHelper;
 import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
@@ -38,12 +42,12 @@ import net.minecraft.Util;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.progress.StartupNotificationManager;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.InvalidClassException;
@@ -73,7 +77,7 @@ import java.util.concurrent.TimeUnit;
  * @see #getRegistry(Class) Accessing registries of different plugins.
  */
 public class EEPluginLoader {
-    public static final Logger logger = LogManager.getLogger(EEPluginLoader.class);
+    public static final Logger logger = LogUtils.getLogger();
     private final List<EEPlugin> plugins;
     private boolean finished = false;
 
@@ -91,6 +95,7 @@ public class EEPluginLoader {
     @SuppressWarnings("unchecked")
     private void scanForClasses(){
         Stopwatch s = Stopwatch.createStarted();
+        var bar = StartupNotificationManager.addProgressBar("Scanning for plugins...", 0);
         for (Class<?> annotatedClass : ClassHelper.getAnnotatedClasses(EmendatusPluginReference.class)) {
             if (!IEEPlugin.class.isAssignableFrom(annotatedClass)) {
                 logger.error("\"{}\" has an annotation but it doesn't implement IEEPlugin.", annotatedClass.getName());
@@ -136,31 +141,76 @@ public class EEPluginLoader {
             }
         }
 
+        bar.complete();
         s.stop();
         logger.info("Finished scanning for plugins, took {}ms.", s.elapsed(TimeUnit.MILLISECONDS));
         SummaryHandler.addPerformanceAnalytic("Scanning and registration of addons", s);
     }
 
     /**
-     * Executes {@link IEEPlugin#extendConfig(ConfigCreationContext)} for each addon,
+     * Executes {@link IEEPlugin#extendConfig(IConfigSetupContext)} for each addon,
      * with the context created based on the arguments.
      * @param builder Builder of the configuration.
      * @param type Type of the configuration.
      */
-    public void setupConfig(ModConfigSpec.Builder builder, ModConfig.Type type) {
-        var ctx = new ConfigCreationContext(builder, type);
+    public void setupModConfig(ModConfigSpec.Builder builder, ModConfig.Type type) {
+        var ctx = new ConfigSetupContext(builder, type);
         this.plugins.forEach(it -> it.plugin.extendConfig(ctx.setAddon(it.annotation.name())));
         // Pop out of the last addon category.
         if (!plugins.isEmpty()) builder.pop();
+        ctx.invalidate();
     }
 
     /**
-     * Executes {@link IEEPlugin#provideDefaultConfiguration(DCCreationContext)} and {@link IEEPlugin#setup(SetupContext)} of each plugin.
+     * Executes {@link IEEPlugin#provideDefaultConfiguration(com.ridanisaurus.emendatusenigmatica.api.config.IDefaultConfigSetupContext)} and {@link IEEPlugin#setup(ISetupContext)} of each plugin.
      * @param ctx SetupContext to pass to the addons;
      * @throws ExecutionException When ExecutionException while saving configuration data occurs.
      * @throws InterruptedException When the saving operation was interrupted.
      */
-    public void setup(SetupContext ctx) throws ExecutionException, InterruptedException {
+    public void setup(ISetupContext ctx) throws ExecutionException, InterruptedException {
+        ctx.getModelLoader().startRegistration();
+        this.plugins.forEach(it -> {
+            ctx.getModelLoader().setCurrentPlugin(it.annotation);
+            it.plugin.setup(ctx);
+        });
+        ctx.getModelLoader().finishRegistration();
+
+        var definitions = ctx.getModelLoader().getRegisteredDefinitions();
+        for (EEModelDefinition<?, ?> definition : definitions)
+            SummaryHandler.addNewCategory("%s (%s)".formatted(definition.registryName(), definition.getOwningAnnotation().name()), SummaryHandler.CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
+
+//        if (EEConfig.startup.generateDefaultConfigs.get() || EEConfig.startup.regenerateDefaults.get()) {
+//            if (EEConfig.startup.regenerateDefaults.get()) {
+//                EmendatusEnigmatica.logger.warn("Regeneration of default configurations triggered! This will wipe your EE Config directory.");
+//                try {
+//                    FileUtils.deleteDirectory(SummaryHandler.CONFIG_DIR.toFile());
+//                } catch (IOException e) {
+//                    throw new RuntimeException("IO Exception while trying to delete EE Configuration directory.", e);
+//                }
+//                EEConfig.startup.regenerateDefaults.set(false);
+//                EEConfig.saveStartup();
+//            }
+//
+//            // We only generate defaults if the Config Dir is not existent.
+//            if (Files.notExists(SummaryHandler.CONFIG_DIR)) {
+//                EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
+//                var context = new DCCreationContext();
+//                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(context.setCurrentAddon(it.annotation)));
+//
+//                CompletableFuture<Void> future = CompletableFuture.allOf(
+//                    context.getEntries()
+//                        .stream()
+//                        .map(it -> it.save(Util.ioPool()))
+//                        .toList()
+//                        .toArray(new CompletableFuture[] {})
+//                );
+//
+//                ModLoader.waitForTask("Default configuration generation: Saving IO", ImmediateWindowHandler::renderTick, future);
+//
+//                EmendatusEnigmatica.logger.info("Defaults generated.");
+//            }
+//        }
+
         if (EEConfig.startup.generateDefaultConfigs.get() || EEConfig.startup.regenerateDefaults.get()) {
             if (EEConfig.startup.regenerateDefaults.get()) {
                 EmendatusEnigmatica.logger.warn("Regeneration of default configurations triggered! This will wipe your EE Config directory.");
@@ -176,33 +226,22 @@ public class EEPluginLoader {
             // We only generate defaults if the Config Dir is not existent.
             if (Files.notExists(SummaryHandler.CONFIG_DIR)) {
                 EmendatusEnigmatica.logger.info("Generating default Emendatus Enigmatica configurations...");
-                var context = new DCCreationContext();
-                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(context.setCurrentAddon(it.annotation)));
+                var context = new DefaultConfigSetupContext(SummaryHandler.CONFIG_DIR, ctx.getModelLoader());
+                this.plugins.forEach(it -> it.plugin.provideDefaultConfiguration(context.updateCurrentPlugin(it.annotation)));
 
-                CompletableFuture<Void> future = CompletableFuture.allOf(
-                    context.getEntries()
-                        .stream()
-                        .map(it -> it.save(Util.ioPool()))
-                        .toList()
-                        .toArray(new CompletableFuture[] {})
-                );
+//                CompletableFuture<Void> future = CompletableFuture.allOf(
+//                    context.getEntries()
+//                        .stream()
+//                        .map(it -> it.save(Util.ioPool()))
+//                        .toList()
+//                        .toArray(new CompletableFuture[] {})
+//                );
 
-                future.get();
+//                ModLoader.waitForTask("Default configuration generation: Saving IO", ImmediateWindowHandler::renderTick, future);
 
                 EmendatusEnigmatica.logger.info("Defaults generated.");
             }
         }
-
-        ctx.modelLoader().startRegistration();
-        this.plugins.forEach(it -> {
-            ctx.modelLoader().setCurrentPlugin(it.annotation);
-            it.plugin.setup(ctx);
-        });
-        ctx.modelLoader().finishRegistration();
-
-        var definitions = ctx.modelLoader().getRegisteredDefinitions();
-        for (EEModelDefinition<?, ?> definition : definitions)
-            SummaryHandler.addNewCategory("%s (%s)".formatted(definition.registryName(), definition.getOwningAnnotation().name()), SummaryHandler.CONFIG_DIR.relativize(definition.folderPath().getPath()).toString());
     }
 
     /**

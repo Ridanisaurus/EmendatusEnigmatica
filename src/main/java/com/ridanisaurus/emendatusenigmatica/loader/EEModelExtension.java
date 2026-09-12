@@ -24,6 +24,7 @@
 
 package com.ridanisaurus.emendatusenigmatica.loader;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -31,6 +32,7 @@ import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -89,6 +91,8 @@ public class EEModelExtension<OM, M, OR, R> {
         this.codec = Objects.requireNonNull(codec, "Codec can't be null.");
         this.rootValidator = rootValidator;
         this.registerFunction = Objects.requireNonNull(registerFunction, "Register function can't be null.");
+
+        Objects.requireNonNull(plugin.getAnnotation(EmendatusPluginReference.class), "Plugin annotation not present on the Plugin class.");
     }
 
     /**
@@ -112,46 +116,59 @@ public class EEModelExtension<OM, M, OR, R> {
         return getOwningAnnotation().name() + "." + registryName;
     }
 
-    protected String getRegistryName() {
+    public String getRegistryName() {
         return this.registryName;
     }
 
-    protected Class<? extends IEEPlugin<R>> getOwningPlugin() {
+    public @NotNull String getFullName() {
+        return this.getOwningAnnotation().name() + "#" + this.registryName;
+    }
+
+    public Class<? extends IEEPlugin<R>> getOwningPlugin() {
         return this.pluginClass;
     }
 
-    protected EmendatusPluginReference getOwningAnnotation() {
+    public EmendatusPluginReference getOwningAnnotation() {
         return this.pluginClass.getAnnotation(EmendatusPluginReference.class);
     }
 
-    protected EEModelDefinition<OM, OR> getExtendedDefinition() {
+    public EEModelDefinition<OM, OR> getExtendedDefinition() {
         return this.definition;
     }
 
-    protected ValidationManager getRootValidator() {
+    public ValidationManager getRootValidator() {
         return this.rootValidator;
     }
 
-    protected boolean validate(JsonObject object, Path path, EEPluginLoader pluginLoader) {
+    public boolean validate(JsonObject object, Path path, EEPluginLoader pluginLoader) {
         if (Objects.isNull(rootValidator)) return true;
         return rootValidator.validate(object, path, pluginLoader);
     }
 
-    protected M serialize(JsonObject object) {
+    public M decode(JsonObject object) {
         return JsonOps.INSTANCE.withDecoder(codec).apply(object).result().map(Pair::getFirst).orElse(null);
     }
 
-    protected void register(OM model, M extensionModel, OR originalRegistry, R registry) {
+    public JsonObject encode(M object) {
+        return JsonOps.INSTANCE.withEncoder(codec).apply(object).result().map(JsonElement::getAsJsonObject).orElse(null);
+    }
+
+    void register(OM model, M extensionModel, OR originalRegistry, R registry) {
         this.registerFunction.register(model, extensionModel, originalRegistry, registry);
     }
 
     @SuppressWarnings("unchecked")
-    protected void genericRegister(Object model, Object extensionModel, Object originalRegistry, Object registry) {
+    void genericRegister(Object model, Object extensionModel, Object originalRegistry, Object registry) {
         register((OM) model, (M) extensionModel, (OR) originalRegistry, (R) registry);
     }
 
     @FunctionalInterface
     public interface RegisterFunction<OM, M, OR, R> {
         void register(OM originalModel, M model, OR originalRegistry, R registry);
+    }
+
+    @Override
+    public String toString() {
+        return getFullName();
     }
 }

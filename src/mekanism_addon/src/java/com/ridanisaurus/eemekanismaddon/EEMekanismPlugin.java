@@ -30,13 +30,13 @@ import com.ridanisaurus.eemekanismaddon.registry.EEMekanismDataRegistry;
 import com.ridanisaurus.eemekanismaddon.registry.EEMekanismRegistrar;
 import com.ridanisaurus.eemekanismaddon.validators.CoolantColorValidator;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
+import com.ridanisaurus.emendatusenigmatica.api.ISetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
-import com.ridanisaurus.emendatusenigmatica.loader.ConfigCreationContext;
-import com.ridanisaurus.emendatusenigmatica.api.config.DCCreationContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IConfigSetupContext;
+import com.ridanisaurus.emendatusenigmatica.api.config.IDefaultConfigSetupContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.datagen.EEDataGenerator;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
-import com.ridanisaurus.emendatusenigmatica.loader.SetupContext;
 import com.ridanisaurus.emendatusenigmatica.plugin.DataRegistry;
 import com.ridanisaurus.emendatusenigmatica.plugin.VanillaPlugin;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ColorsModel;
@@ -54,8 +54,8 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
     private DataRegistry vanillaRegistry = null;
 
     @Override
-    public void setup(SetupContext ctx) {
-        vanillaRegistry = ctx.pluginLoader().getRegistry(VanillaPlugin.class);
+    public void setup(ISetupContext ctx) {
+        vanillaRegistry = ctx.getPluginLoader().getRegistry(VanillaPlugin.class);
 
         ProcessedTypesValidator.TYPES.addAll(List.of(
             "infuse_type",
@@ -72,7 +72,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
             .addValidator("hotCoolantColor",    new CoolantColorValidator())
             .addValidator("gasColor",           new DeprecatedFieldValidator("root.colors.chemicalColor"));
 
-        ctx.modelLoader().registerModelExtension(new EEModelExtension<>(
+        ctx.getModelLoader().registerModelExtension(new EEModelExtension<>(
             this.getClass(),
             "chemicals",
             VanillaPlugin.MATERIAL_DEFINITION,
@@ -88,7 +88,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
      * @param ctx Config Creation Context
      */
     @Override
-    public void extendConfig(ConfigCreationContext ctx) {
+    public void extendConfig(IConfigSetupContext ctx) {
         if (!ctx.isStartup()) return;
         disableOsmium = ctx.getBuilder()
             .comment("Determines if Mekanism Osmium ore generation should be disabled.")
@@ -137,7 +137,7 @@ public class EEMekanismPlugin implements IEEPlugin<EEMekanismDataRegistry> {
     }
 
     @Override
-    public void provideDefaultConfiguration(DCCreationContext registry) {
+    public void provideDefaultConfiguration(IDefaultConfigSetupContext registry) {
         //TODO: Implement DefaultConfigs
     }
 }
