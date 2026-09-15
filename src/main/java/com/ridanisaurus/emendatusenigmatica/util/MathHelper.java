@@ -24,8 +24,22 @@
 
 package com.ridanisaurus.emendatusenigmatica.util;
 
+import java.math.BigDecimal;
+
 public class MathHelper {
 	public static double lengthSq(double x, double y, double z) {
 		return (x * x) + (y * y) + (z * z);
+	}
+
+	public static String format(double value) {
+		if (Double.isInfinite(value)) return value > 0 ? "+∞" : "-∞";
+		if (Double.isNaN(value)) return "NaN";
+		if (value == 0) return "0";
+		if (Math.abs(value) > 9_999_999_999_999L)
+			return String.format("%.5e", value);
+
+		var bigValue = new BigDecimal(value).stripTrailingZeros();
+		if (bigValue.scale() <= 0) return String.format("%,d", bigValue.longValue());
+		return String.valueOf(value);
 	}
 }

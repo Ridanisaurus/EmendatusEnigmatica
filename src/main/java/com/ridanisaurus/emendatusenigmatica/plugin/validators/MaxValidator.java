@@ -29,7 +29,7 @@ import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
-import com.ridanisaurus.emendatusenigmatica.util.summary.SummaryHandler;
+import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -94,7 +94,7 @@ public class MaxValidator extends TypeValidator {
         }
 
         if (maxFieldValue < minFieldValue || maxFieldValue > max) {
-            ctx.error("Number out of range!", "Expected number from %f to %f, got %f.%s".formatted(minFieldValue, max, maxFieldValue, additional));
+            ctx.error("Number out of range!", "Expected number from %s to %s, got %s.%s".formatted(MathHelper.format(minFieldValue), MathHelper.format(max), MathHelper.format(maxFieldValue), additional));
             return false;
         }
 

@@ -26,6 +26,7 @@ package com.ridanisaurus.emendatusenigmatica.api.validation.validators;
 
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -80,9 +81,7 @@ public class NumberRangeValidator extends TypeValidator {
         if (!super.validate(ctx)) return false;
         double number = ctx.validationElement().getAsDouble();
         if (number < min || number > max) {
-            String message = "Expected number from <code>%f</code> to <code>%f</code>, got <code>%f</code>.";
-            if (type == Types.INTEGER) message = "Expected number from <code>%.0f</code> to <code>%.0f</code>, got <code>%.0f</code>.";
-            ctx.error("Number out of range!", message.formatted(min, max, number));
+            ctx.error("Number out of range!", "Expected number from <code>%s</code> to <code>%s</code>, got <code>%s</code>.".formatted(MathHelper.format(min), MathHelper.format(max), MathHelper.format(number)));
             return false;
         }
         return true;

@@ -29,8 +29,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.ArrayPolicy;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.FieldTrueValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.deprecation.DeprecatedFieldValidator;
 import com.ridanisaurus.emendatusenigmatica.plugin.validators.material.armor.ArmorValidator;
 
 import java.util.*;
@@ -66,10 +68,10 @@ public class ArmorModel {
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
 		.addValidator("enchantability", new NumberRangeValidator(Types.INTEGER, 0, Integer.MAX_VALUE, false))
-		.addValidator("toughness",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
+		.addValidator("toughness",	new NumberRangeValidator(Types.FLOAT, Float.MIN_VALUE, Float.MAX_VALUE, false))
 		.addValidator("knockback",	new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
-		.addValidator("setName",		new TypeValidator(Types.STRING, false))
-		.addValidator("setDesc",		new TypeValidator(Types.STRING, false))
+		.addValidator("setName",		new FieldTrueValidator("setArmor", new TypeValidator(Types.STRING, false)))
+		.addValidator("setDesc",		new FieldTrueValidator("setArmor", new TypeValidator(Types.STRING, false)))
 		.addValidator("setArmor",		new TypeValidator(Types.BOOLEAN, false))
 		.addValidator("helmet",   	new ArmorValidator())
 		.addValidator("chestplate", 	new ArmorValidator())

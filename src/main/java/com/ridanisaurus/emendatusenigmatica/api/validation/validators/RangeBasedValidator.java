@@ -28,6 +28,7 @@ import com.google.gson.JsonElement;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
+import com.ridanisaurus.emendatusenigmatica.util.MathHelper;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,7 +44,6 @@ public class RangeBasedValidator implements IValidationFunction {
     private final String path;
     private final Double min;
     private final Double max;
-    private final Types type;
 
     /**
      * Constructs RangeBasedValidator.
@@ -63,15 +63,13 @@ public class RangeBasedValidator implements IValidationFunction {
      * </ul>
      * @throws IllegalArgumentException when <code>min</code> and <code>max</code> arguments are <code>null</code> at the same time.
      */
-    public RangeBasedValidator(Types type, IValidationFunction validator,  String path, Double min, Double max, boolean isOptional) {
+    public RangeBasedValidator(IValidationFunction validator,  String path, Double min, Double max, boolean isOptional) {
         this.validator = Objects.requireNonNull(validator, "Validator can't be null!");
         this.path = Objects.requireNonNull(path, "Path can't be null!");
         this.min = min;
         this.max = max;
-        this.type = Objects.requireNonNull(type);
         this.optional = isOptional;
         if (Objects.isNull(min) && Objects.isNull(max)) throw new IllegalArgumentException("Min and Max can't be null at the same time!");
-        if (type != Types.FLOAT && type != Types.INTEGER) throw new IllegalArgumentException("Invalid type specified! Expected: FLOAT / INTEGER, got: " + type.name());
     }
 
     /**
@@ -88,9 +86,9 @@ public class RangeBasedValidator implements IValidationFunction {
      * otherwise empty arrays are accepted.</li>
      * </ul>
      */
-    @Contract("_, _, _, _, _ -> new")
-    public static @NotNull RangeBasedValidator createMinThreshold(Types type, IValidationFunction validator, String path, double min, boolean isOptional) {
-        return new RangeBasedValidator(type, validator, path, min, null, isOptional);
+    @Contract("_, _, _, _ -> new")
+    public static @NotNull RangeBasedValidator createMinThreshold(IValidationFunction validator, String path, double min, boolean isOptional) {
+        return new RangeBasedValidator(validator, path, min, null, isOptional);
 
     }
 
@@ -108,9 +106,9 @@ public class RangeBasedValidator implements IValidationFunction {
      * otherwise empty arrays are accepted.</li>
      * </ul>
      */
-    @Contract("_, _, _, _, _ -> new")
-    public static @NotNull RangeBasedValidator createMaxThreshold(Types type, IValidationFunction validator, String path, double max, boolean isOptional) {
-        return new RangeBasedValidator(type, validator, path, null, max, isOptional);
+    @Contract("_, _, _, _ -> new")
+    public static @NotNull RangeBasedValidator createMaxThreshold(IValidationFunction validator, String path, double max, boolean isOptional) {
+        return new RangeBasedValidator(validator, path, null, max, isOptional);
     }
 
     /**
@@ -140,7 +138,7 @@ public class RangeBasedValidator implements IValidationFunction {
                     if (check >= max) return true;
                     ctx.error(
                         "This field is required!",
-                        processFormatting("Field <code>%s</code> is below <code>%f</code>, which makes this field necessary.").formatted(numberFieldPath, max)
+                        "Field <code>%s</code> is below <code>%s</code>, which makes this field necessary.".formatted(numberFieldPath, MathHelper.format(max))
                     );
                     return false;
                 }
@@ -148,14 +146,14 @@ public class RangeBasedValidator implements IValidationFunction {
                     if (check <= min) return true;
                     ctx.error(
                         "This field is required!",
-                        processFormatting("Field <code>%s</code> is above <code>%f</code>, which makes this field necessary.").formatted(numberFieldPath, min)
+                        "Field <code>%s</code> is above <code>%s/code>, which makes this field necessary.".formatted(numberFieldPath, MathHelper.format(min))
                     );
                     return false;
                 }
                 if (min < check || check > max) return true;
                 ctx.error(
                     "This field is required!",
-                    processFormatting("Field <code>%s</code> is in range <code>[%f,%f]</code>, which makes this field necessary.").formatted(numberFieldPath, min, max)
+                    "Field <code>%s</code> is in range <code>[%s,%s]</code>, which makes this field necessary.".formatted(numberFieldPath, MathHelper.format(min), MathHelper.format(max))
                 );
                 return false;
             }
@@ -165,17 +163,17 @@ public class RangeBasedValidator implements IValidationFunction {
         String message;
 
         if (Objects.isNull(min)) {
-            message = processFormatting("below <code>%f</code>").formatted(max);
+            message = "below <code>%s</code>".formatted(MathHelper.format(max));
         } else if (Objects.isNull(max)) {
-            message = processFormatting("above <code>%f</code>").formatted(min);
+            message = "above <code>%s</code>".formatted(MathHelper.format(min));
         } else {
-            message = processFormatting("in range <code>[%f,%f]</code>").formatted(min, max);
+            message = "in range <code>[%s,%s]</code>".formatted(MathHelper.format(min), MathHelper.format(max));
         }
 
         if (Objects.isNull(numberField))
             ctx.warn(
                 "This field is unnecessary!",
-                processFormatting("Field <code>%s</code> needs to be present and %s, for this field to have any effect.").formatted(numberFieldPath, message)
+                "Field <code>%s</code> needs to be present and %s, for this field to have any effect.".formatted(numberFieldPath, message)
             );
         else {
             double check = numberField.getAsDouble();
@@ -186,17 +184,12 @@ public class RangeBasedValidator implements IValidationFunction {
             ) {
                 ctx.warn(
                     "This field is unnecessary!",
-                    processFormatting("Field <code>%s</code> needs to be %s, for this field to have any effect.").formatted(numberFieldPath, message)
+                    "Field <code>%s</code> needs to be %s, for this field to have any effect.".formatted(numberFieldPath, message)
                 );
             } else if (!optional)
                 return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().getNonEmpty()));
         }
 
         return validator.apply(ctx.getWithAHP(ctx.arrayPolicy().getLegacyArrayPolicy().get()));
-    }
-
-    private String processFormatting(String msg) {
-        if (type == Types.FLOAT) return msg;
-        return msg.replaceAll("%f", "%.0f");
     }
 }

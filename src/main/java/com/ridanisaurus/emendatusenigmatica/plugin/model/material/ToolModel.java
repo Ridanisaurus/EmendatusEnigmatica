@@ -29,6 +29,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.api.validation.enums.Types;
 import com.ridanisaurus.emendatusenigmatica.api.validation.validators.NumberRangeValidator;
+import com.ridanisaurus.emendatusenigmatica.api.validation.validators.TypeValidator;
 
 public class ToolModel {
 	public static final Codec<ToolModel> CODEC = RecordCodecBuilder.create(x -> x.group(
@@ -38,8 +39,8 @@ public class ToolModel {
 	).apply(x, ToolModel::new));
 
 	public static final ValidationManager VALIDATION_MANAGER = ValidationManager.create()
-		.addValidator("damage", 		new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
-		.addValidator("speed", 		new NumberRangeValidator(Types.FLOAT, 0, Float.MAX_VALUE, false))
+		.addValidator("damage", 		new TypeValidator(Types.FLOAT, false))
+		.addValidator("speed", 		new TypeValidator(Types.FLOAT, false))
 		.addValidator("durability", 	new NumberRangeValidator(Types.INTEGER, 1, Integer.MAX_VALUE, false));
 
 	private final float damage;
