@@ -36,14 +36,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
-import java.util.function.Consumer;
-
 public class BasicFluidType extends FluidType {
     private final ResourceLocation stillTexture;
     private final ResourceLocation flowingTexture;
     private final ResourceLocation overlayTexture;
-    private final int tintColor;
     private final Vector3f fogColor;
+    private final int tintColor;
 
     public BasicFluidType(final ResourceLocation stillTexture, final ResourceLocation flowingTexture, ResourceLocation overlayTexture, int tintColor, Vector3f fogColor, Properties properties) {
         super(properties);
@@ -54,10 +52,8 @@ public class BasicFluidType extends FluidType {
         this.fogColor = fogColor;
     }
 
-    @Override
-    @SuppressWarnings("deprecated")
-    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-        consumer.accept(new IClientFluidTypeExtensions() {
+    public IClientFluidTypeExtensions getClientExtension() {
+        return new IClientFluidTypeExtensions() {
             @Override
             public @NotNull ResourceLocation getStillTexture() {
                 return stillTexture;
@@ -80,14 +76,16 @@ public class BasicFluidType extends FluidType {
 
             @Override
             public @NotNull Vector3f modifyFogColor(@NotNull Camera camera, float partialTick, @NotNull ClientLevel level, int renderDistance, float darkenWorldAmount, @NotNull Vector3f fluidFogColor) {
+                //TODO: Figure out if just returning fogColor is enough.
                 return fogColor;
             }
 
             @Override
             public void modifyFogRender(@NotNull Camera camera, FogRenderer.@NotNull FogMode mode, float renderDistance, float partialTick, float nearDistance, float farDistance, @NotNull FogShape shape) {
+                //TODO: Figure out if this is enough.
                 RenderSystem.setShaderFogStart(1f);
                 RenderSystem.setShaderFogEnd(6f);
             }
-        });
+        };
     }
 }

@@ -71,7 +71,7 @@ public class ArmorTextureRenderer<E extends LivingEntity, M extends HumanoidMode
 
     private void renderArmorPiece(PoseStack matrixStack, MultiBufferSource buffer, @NotNull E entity, EquipmentSlot slot, int light, HumanoidModel<E> p_model, RenderType renderType, int colorIndex) {
         ItemStack stack = entity.getItemBySlot(slot);
-        if (stack.getItem() instanceof BasicArmorItem armorItem && armorItem.getEquipmentSlot() == slot && armorItem.getMaterialModel().getColors().getMaterialColor() != -1) {
+        if (stack.getItem() instanceof BasicArmorItem armorItem && armorItem.getEquipmentSlot() == slot && armorItem.hasColor()) {
             this.getParentModel().copyPropertiesTo(p_model);
             this.setModelSlotVisible(p_model, slot);
             Model model = ClientHooks.getArmorModel(entity, stack, slot, p_model);

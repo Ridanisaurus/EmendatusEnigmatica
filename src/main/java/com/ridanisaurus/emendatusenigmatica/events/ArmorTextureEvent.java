@@ -39,13 +39,13 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import org.jetbrains.annotations.NotNull;
 
-@EventBusSubscriber(modid = Reference.MOD_ID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = Reference.MOD_ID)
 public class ArmorTextureEvent {
     public static final ModelLayerLocation ARMOR = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "layer_1"), "main");
     public static final ModelLayerLocation LEGS = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "layer_2"), "main");

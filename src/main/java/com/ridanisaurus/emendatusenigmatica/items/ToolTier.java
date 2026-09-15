@@ -31,6 +31,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.jarjar.nio.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -41,7 +42,7 @@ public class ToolTier implements Tier {
     private final float efficiency;
     private final float attackDmg;
     private final int enchantability;
-    private final Supplier<Ingredient> repairIngredient;
+    private final Lazy<Ingredient> repairIngredient;
 
     public ToolTier(@NotNull MaterialModel material, int durability, TagKey<Item> repairTag) {
         this(durability, material.getTools().getLevel(), material.getTools().getEfficiency(), material.getTools().getAttackDamage(), material.getTools().getEnchantability(), repairTag);
@@ -53,16 +54,7 @@ public class ToolTier implements Tier {
         this.efficiency = efficiency;
         this.attackDmg = attackDmg;
         this.enchantability = enchantability;
-        this.repairIngredient = () -> Ingredient.of(repairTag);
-    }
-
-    public ToolTier(int durability, int level, float efficiency, float attackDmg, int enchantability, Supplier<Ingredient> repairIngredient) {
-        this.level = level;
-        this.durability = durability;
-        this.efficiency = efficiency;
-        this.attackDmg = attackDmg;
-        this.enchantability = enchantability;
-        this.repairIngredient = repairIngredient;
+        this.repairIngredient = Lazy.of(() -> Ingredient.of(repairTag));
     }
 
     @Override

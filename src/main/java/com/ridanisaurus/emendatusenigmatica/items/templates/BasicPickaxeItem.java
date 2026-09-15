@@ -47,8 +47,8 @@ public class BasicPickaxeItem extends PickaxeItem implements IColorable {
 		super(tier, new Properties().attributes(createAttributes(tier, material.getTools().getPickaxe().getDamage(), material.getTools().getPickaxe().getSpeed())));
 		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
-		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.base = material.getColors().getMaterialColor();
 	}
 
 	@Override

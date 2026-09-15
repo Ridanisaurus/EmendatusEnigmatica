@@ -37,8 +37,8 @@ import org.jetbrains.annotations.NotNull;
 public class BasicPaxelItem extends PaxelItem implements IColorable {
 	private final int highlight2;
 	private final int highlight1;
-	private final int base;
 	private final int shadow1;
+	private final int base;
 
 	public BasicPaxelItem(@NotNull MaterialModel material, TagKey<Item> repairItem) {
 		this(material, new ToolTier(material, material.getTools().getPaxel().getDurability(), repairItem));
@@ -48,8 +48,8 @@ public class BasicPaxelItem extends PaxelItem implements IColorable {
 		super(tier, EETags.MINEABLE_WITH_PAXEL, new Properties().attributes(createAttributes(tier, material.getTools().getPaxel().getDamage(), material.getTools().getPaxel().getSpeed())));
 		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
-		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.base = material.getColors().getMaterialColor();
 	}
 
 	@Override

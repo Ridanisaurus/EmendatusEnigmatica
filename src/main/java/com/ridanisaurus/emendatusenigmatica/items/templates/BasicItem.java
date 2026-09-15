@@ -28,21 +28,20 @@ import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
 import com.ridanisaurus.emendatusenigmatica.util.IColorable;
 import net.minecraft.world.item.Item;
 
-public class BasicItem extends Item implements IColorable
-{
+public class BasicItem extends Item implements IColorable {
     private final int highlight2;
     private final int highlight1;
-    private final int base;
     private final int shadow1;
     private final int shadow2;
+    private final int base;
 
     public BasicItem(MaterialModel material) {
         super(new Properties());
         this.highlight2 = material.getColors().getHighlightColor(3);
         this.highlight1 = material.getColors().getHighlightColor(1);
-        this.base = material.getColors().getMaterialColor();
         this.shadow1 = material.getColors().getShadowColor(1);
         this.shadow2 = material.getColors().getShadowColor(2);
+        this.base = material.getColors().getMaterialColor();
     }
 
     @Override

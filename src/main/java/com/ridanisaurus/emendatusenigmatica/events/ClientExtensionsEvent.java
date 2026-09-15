@@ -32,10 +32,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
-@EventBusSubscriber(modid = Reference.MOD_ID)
+@EventBusSubscriber(value = Dist.CLIENT, modid = Reference.MOD_ID)
 public class ClientExtensionsEvent {
     @SubscribeEvent
     public static void register(RegisterClientExtensionsEvent event) {
         EERegistrar.shieldMap.forEach((id, shield) -> event.registerItem(ShieldClientExtension.INSTANCE, shield));
+        EERegistrar.fluidTypeMap.forEach((id, fluid) -> event.registerFluidType(fluid.get().getClientExtension(), fluid));
     }
 }

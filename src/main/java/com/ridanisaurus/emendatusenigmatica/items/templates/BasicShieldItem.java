@@ -35,40 +35,50 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.jarjar.nio.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BasicShieldItem extends ShieldItem {
-    public final TagKey<Item> repairItem;
-    public final MaterialModel material;
+    private final Lazy<Ingredient> repairItem;
+    private final boolean hasColor;
+    private final int durability;
+    private final int enchantment;
+    private final int highlight1;
+    private final int highlight2;
+    private final int shadow1;
+    private final int shadow2;
+    private final int base;
+    private final String id;
 
     public BasicShieldItem(@NotNull MaterialModel material, TagKey<Item> repairItem) {
         super(new Properties().durability(material.getArmor().getShield().getDurability()));
-        this.repairItem = repairItem;
-        this.material = material;
+        this.repairItem = Lazy.of(() -> Ingredient.of(repairItem));
+        this.hasColor = material.getColors().hasMaterialColor();
+        this.durability = material.getArmor().getShield().getDurability();
+        this.enchantment = material.getArmor().getEnchantability();
+        this.highlight1 = material.getColors().getHighlightColor(1);
+        this.highlight2 = material.getColors().getHighlightColor(2);
+        this.shadow1 = material.getColors().getShadowColor(1);
+        this.shadow2 = material.getColors().getShadowColor(2);
+        this.base = material.getColors().getMaterialColor();
+        this.id = material.getId();
     }
 
-    public Ingredient getRepairMaterial() {
-        return Ingredient.of(repairItem);
-    }
 
     @Override
     public int getMaxDamage(@NotNull ItemStack stack) {
-        return material.getArmor().getShield().getDurability();
+        return durability;
     }
 
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack toRepair, @NotNull ItemStack repair) {
-        return getRepairMaterial().test(repair);
+        return repairItem.get().test(repair);
     }
 
     @Override
     public int getEnchantmentValue(@NotNull ItemStack stack) {
-        return material.getArmor().getEnchantability();
-    }
-
-    public MaterialModel getMaterialModel() {
-        return material;
+        return enchantment;
     }
 
     @Override
@@ -79,21 +89,25 @@ public class BasicShieldItem extends ShieldItem {
             ArmorMaterial.@NotNull Layer layer,
             boolean innerModel
     ) {
-        if (!material.getColors().hasMaterialColor()) {
-            return super.getArmorTexture(stack, entity, slot, layer, innerModel);
-        } else {
-            return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/armor/empty.png"); //toString no longer needed here.
-        }
+        if (this.base > -1) return super.getArmorTexture(stack, entity, slot, layer, innerModel);
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/armor/empty.png"); //toString no longer needed here.
+    }
+
+    public boolean hasColor() {
+        return this.hasColor;
     }
 
     public int getColorForIndex(int index) {
-        switch (index) {
-            case 0: return material.getColors().getHighlightColor(2);
-            case 1: return material.getColors().getHighlightColor(1);
-            case 3: return material.getColors().getShadowColor(1);
-            case 4: return material.getColors().getShadowColor(2);
-            default: material.getColors().getMaterialColor();
-        }
-        return material.getColors().getMaterialColor();
+        return switch (index) {
+            case 0 -> highlight2;
+            case 1 -> highlight1;
+            case 3 -> shadow1;
+            case 4 -> shadow2;
+            default -> this.base;
+        };
+    }
+
+    public String getId() {
+        return this.id;
     }
 }

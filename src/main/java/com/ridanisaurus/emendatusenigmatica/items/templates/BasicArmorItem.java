@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.items.templates;
 
 import com.ridanisaurus.emendatusenigmatica.datagen.gen.LangGen;
+import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.ArmorPieceModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.material.EffectModel;
 import com.ridanisaurus.emendatusenigmatica.plugin.model.MaterialModel;
@@ -44,39 +45,57 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.jarjar.nio.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class BasicArmorItem extends ArmorItem implements IColorable {
-    private final MaterialModel material;
-    public final boolean isSet;
-    public final List<EffectModel> effects;
-    private final int highlight2;
+    /**
+     * Indexes:
+     * <ul>
+     * <li>0 -> Helmet</li>
+     * <li>1 -> Chestplate</li>
+     * <li>2 -> Leggings</li>
+     * <li>3 -> Boots</li>
+     * </ul>
+     */
+    private final Lazy<ItemStack[]> lazySetPieces;
+    private final ArmorModel properties;
+    private final boolean hasColor;
     private final int highlight1;
-    private final int base;
+    private final int highlight2;
+    private final int highlight3;
     private final int shadow1;
     private final int shadow2;
+    private final int base;
 
     public BasicArmorItem(@NotNull MaterialModel material, Type type, @NotNull ArmorPieceModel armor) {
         super(EERegistrar.armorMaterialsMap.get(material.getId()), type, new Properties().durability(armor.getDurability()));
-        this.material = material;
-        this.isSet = material.getArmor().isSetArmor();
-        this.effects = material.getArmor().getEffects();
-        this.highlight2 = material.getColors().getHighlightColor(3);
+        String id = material.getId();
+        this.lazySetPieces = Lazy.of(() -> new ItemStack[] {
+            new ItemStack(EERegistrar.helmetMap.getValue(id)),
+            new ItemStack(EERegistrar.chestplateMap.getValue(id)),
+            new ItemStack(EERegistrar.leggingsMap.getValue(id)),
+            new ItemStack(EERegistrar.bootsMap.getValue(id))
+        });
+        this.properties = material.getArmor();
+        this.hasColor = material.getColors().hasMaterialColor();
         this.highlight1 = material.getColors().getHighlightColor(1);
-        this.base = material.getColors().getMaterialColor();
+        this.highlight2 = material.getColors().getHighlightColor(2);
+        this.highlight3 = material.getColors().getHighlightColor(3);
         this.shadow1 = material.getColors().getShadowColor(1);
         this.shadow2 = material.getColors().getShadowColor(2);
+        this.base = material.getColors().getMaterialColor();
     }
 
     @Override
     public void inventoryTick(@NotNull ItemStack stack, @NotNull Level level, @NotNull Entity entity, int slotId, boolean isSelected) {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
-        if (!isSet || !(slotId >= Inventory.INVENTORY_SIZE && slotId < Inventory.INVENTORY_SIZE + 4 && entity instanceof Player player) || level.getGameTime() % 20 != 0) return;
+        if (!properties.isSetArmor() || !(slotId >= Inventory.INVENTORY_SIZE && slotId < Inventory.INVENTORY_SIZE + 4 && entity instanceof Player player) || level.getGameTime() % 20 != 0) return;
         if (isSetActive(player)) {
-            for (EffectModel effect : effects) {
+            for (EffectModel effect : properties.getEffects()) {
                 player.addEffect(new MobEffectInstance(effect.getEffect(), 600, effect.getLevel(), true, effect.isShowParticles(), effect.isShowIcon()));
             }
         }
@@ -87,11 +106,11 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull List<Component> components, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, components, tooltipFlag);
         Player player = net.minecraft.client.Minecraft.getInstance().player;
-        if (player != null && isSet) {
-            ItemStack[] setPieces = getSet();
+        if (player != null && properties.isSetArmor()) {
+            ItemStack[] setPieces = lazySetPieces.get();
             //TODO: Add possibility to translate this.
             components.add(Component
-                .literal(this.material.getArmor().getSetName()).append(" (" + getPiecesEquipped(player) + "/" + setPieces.length + ") ")
+                .literal(this.properties.getSetName()).append(" (" + getPiecesEquipped(player) + "/" + setPieces.length + ") ")
                 .withStyle(ChatFormatting.AQUA)
             );
 
@@ -106,10 +125,10 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
             components.add(getPieceComponent(setPieces[3], player, EquipmentSlot.FEET));
             components.add(Component.literal(" "));
             //TODO: Add possibility to translate this.
-            components.add(Component.literal(this.material.getArmor().getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
+            components.add(Component.literal(this.properties.getSetDesc()).withStyle(isSetActive(player) ? ChatFormatting.GOLD : ChatFormatting.DARK_GRAY));
             components.add(Component.literal(" "));
             components.add(LangGen.get("tooltip", "armor_effect").withStyle(ChatFormatting.GRAY));
-            for (EffectModel effect : this.effects) {
+            for (EffectModel effect : properties.getEffects()) {
                 components.add(Component.literal(
                     "- " +
                     effect.getEffect().value().getDisplayName().getString() +
@@ -120,27 +139,20 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
     }
 
     public boolean isSetActive(@NotNull Player player) {
-        return player.getItemBySlot(EquipmentSlot.HEAD).getItem() == EERegistrar.helmetMap.getValue(this.material) &&
-            player.getItemBySlot(EquipmentSlot.CHEST).getItem() == EERegistrar.chestplateMap.getValue(this.material) &&
-            player.getItemBySlot(EquipmentSlot.LEGS).getItem() == EERegistrar.leggingsMap.getValue(this.material) &&
-            player.getItemBySlot(EquipmentSlot.FEET).getItem() == EERegistrar.bootsMap.getValue(this.material);
-    }
-
-    public ItemStack[] getSet() {
-        return new ItemStack[]{
-            new ItemStack(EERegistrar.helmetMap.getValue(this.material)),
-            new ItemStack(EERegistrar.chestplateMap.getValue(this.material)),
-            new ItemStack(EERegistrar.leggingsMap.getValue(this.material)),
-            new ItemStack(EERegistrar.bootsMap.getValue(this.material))
-        };
+        ItemStack[] setPieces = lazySetPieces.get();
+        return player.getItemBySlot(EquipmentSlot.HEAD).getItem() == setPieces[0].getItem() &&
+            player.getItemBySlot(EquipmentSlot.CHEST).getItem() == setPieces[1].getItem() &&
+            player.getItemBySlot(EquipmentSlot.LEGS).getItem() == setPieces[2].getItem() &&
+            player.getItemBySlot(EquipmentSlot.FEET).getItem() == setPieces[3].getItem();
     }
 
     public boolean hasSetPiece(Player player, @NotNull EquipmentSlot slot) {
+        ItemStack[] setPieces = lazySetPieces.get();
         return switch (slot) {
-            case HEAD -> player.getItemBySlot(slot).getItem() == EERegistrar.helmetMap.getValue(this.material);
-            case CHEST -> player.getItemBySlot(slot).getItem() == EERegistrar.chestplateMap.getValue(this.material);
-            case LEGS -> player.getItemBySlot(slot).getItem() == EERegistrar.leggingsMap.getValue(this.material);
-            case FEET -> player.getItemBySlot(slot).getItem() == EERegistrar.bootsMap.getValue(this.material);
+            case HEAD -> player.getItemBySlot(slot).getItem() == setPieces[0].getItem();
+            case CHEST -> player.getItemBySlot(slot).getItem() == setPieces[1].getItem();
+            case LEGS -> player.getItemBySlot(slot).getItem() == setPieces[2].getItem();
+            case FEET -> player.getItemBySlot(slot).getItem() == setPieces[3].getItem();
             default -> false;
         };
     }
@@ -152,41 +164,39 @@ public class BasicArmorItem extends ArmorItem implements IColorable {
     private int getPiecesEquipped(Player player) {
         int armorPieces = 0;
         EquipmentSlot[] values = EquipmentSlot.values();
-        for (EquipmentSlot slot : values) {
-            if (slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR && hasSetPiece(player, slot)) {
-                armorPieces++;
-            }
-        }
-        return armorPieces;
-    }
+        for (EquipmentSlot slot : values)
+            if (slot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR && hasSetPiece(player, slot)) armorPieces++;
 
-    public MaterialModel getMaterialModel() {
-        return material;
+        return armorPieces;
     }
 
     @Override
     public @Nullable ResourceLocation getArmorTexture(@NotNull ItemStack stack, @NotNull Entity entity, @NotNull EquipmentSlot slot, ArmorMaterial.@NotNull Layer layer, boolean innerModel) {
-        if (!material.getColors().hasMaterialColor()) {
+        if (this.base > -1) {
             return super.getArmorTexture(stack, entity, slot, layer, innerModel);
         } else {
             return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/armor/empty.png");
         }
     }
 
+    public boolean hasColor() {
+        return this.hasColor;
+    }
+
     public int getColorForIndex(int index){
-        switch (index){
-            case 0: return material.getColors().getHighlightColor(2);
-            case 1: return material.getColors().getHighlightColor(1);
-            case 3: return material.getColors().getShadowColor(1);
-            case 4: return material.getColors().getShadowColor(2);
-            default: material.getColors().getMaterialColor();
-        }
-        return material.getColors().getMaterialColor();
+        return switch (index) {
+            case 0 -> highlight2;
+            case 1 -> highlight1;
+            case 3 -> shadow1;
+            case 4 -> shadow2;
+            default -> base;
+        };
     }
 
     @Override
     public int getHighlight2() {
-        return highlight2;
+        // Intentional. Should return getHighlightColor(3).
+        return highlight3;
     }
 
     @Override

@@ -70,8 +70,8 @@ public class ShieldTextureRenderer extends BlockEntityWithoutLevelRenderer {
         matrix.scale(1.0F, -1.0F, -1.0F);
         Item shield = stack.getItem();
         if (shield instanceof BasicShieldItem bsi) {
-            if (bsi.getMaterialModel().getColors().getMaterialColor() == -1) {
-                var rl = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/models/armor/" + bsi.getMaterialModel().getId() + "_shield.png");
+            if (!bsi.hasColor()) {
+                var rl = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/models/armor/" + bsi.getId() + "_shield.png");
                 var renderType = RenderType.entityCutoutNoCull(rl);
                 doRender(stack, matrix, renderer, light, overlayLight, shieldModel, 0xFFFFFF, renderType);
             } else {

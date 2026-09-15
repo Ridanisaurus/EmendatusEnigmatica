@@ -47,6 +47,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -177,13 +179,17 @@ public abstract class DepositModel implements FeatureConfiguration {
     // Emi compat
     /**
      * Used to create Emi Widget of this specific deposit model.
+     * @implSpec Overrides of this method should also contain {@link OnlyIn OnlyIn(Dist.CLIENT)} annotation to not cause issues on the server.
      */
-    public abstract void createEmiWidget(WidgetHolder widgets);
+    @OnlyIn(Dist.CLIENT)
+    public abstract void createEmiWidget(@NotNull WidgetHolder widgets);
 
     /**
      * Used to provide EMI with the blocks this deposit can generate.
      * @return List of blocks this deposit treats as "output".
+     * @implSpec Overrides of this method should also contain {@link OnlyIn OnlyIn(Dist.CLIENT)} annotation to not cause issues on the server.
      */
+    @OnlyIn(Dist.CLIENT)
     public abstract List<EmiStack> getEmiOutputs();
 
     // Private

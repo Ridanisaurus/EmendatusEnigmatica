@@ -58,6 +58,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -150,6 +152,7 @@ public class GeodeDepositModel extends DepositModel {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public @NotNull List<EmiStack> getEmiOutputs() {
         List<EmiStack> outputs = new ArrayList<>();
         outputs.addAll(EmiUtils.getRecipeOutputs(outerShellBlocks.unwrap(), fillerTypes));
@@ -162,7 +165,8 @@ public class GeodeDepositModel extends DepositModel {
     }
 
     @Override
-    public void createEmiWidget(WidgetHolder widgets) {
+    @OnlyIn(Dist.CLIENT)
+    public void createEmiWidget(@NotNull WidgetHolder widgets) {
         // Background
         widgets.addTexture(EmiUtils.GUI_ASSETS, 0, 0, 134, 66, 0, 0);
 

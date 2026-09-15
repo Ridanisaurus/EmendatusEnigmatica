@@ -50,8 +50,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class PaxelItem extends DiggerItem
-{
+public class PaxelItem extends DiggerItem {
     private static final ItemAbility PAXEL_DIG = ItemAbility.get("paxel_dig");
 
     public PaxelItem(Tier tier, TagKey<Block> blocks, Properties properties) {
@@ -76,6 +75,7 @@ public class PaxelItem extends DiggerItem
             //We cannot strip the item that was right-clicked, so attempt to use the paxel as a shovel
             if (ctx.getClickedFace() == Direction.DOWN) return InteractionResult.PASS;
 
+            // TODO: If we setBlock the result either way manually, shouldn't we simulate those interactions?
             BlockState foundResult = blockState.getToolModifiedState(ctx, ItemAbilities.SHOVEL_FLATTEN, false);
 
             if (foundResult != null && level.isEmptyBlock(blockPos.above())) {

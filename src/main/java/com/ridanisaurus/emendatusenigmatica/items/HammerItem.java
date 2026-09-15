@@ -40,8 +40,8 @@ public class HammerItem extends Item {
     @Override
     public @NotNull ItemStack getCraftingRemainingItem(ItemStack itemStack) {
         ItemStack container = itemStack.copy();
-        container.hurtAndBreak(1, null, null, (t) -> {});
-        return container;
+        container.setDamageValue(container.getDamageValue() + 1);
+        return container.getDamageValue() >= container.getMaxDamage()? ItemStack.EMPTY: container;
     }
 
     @Override

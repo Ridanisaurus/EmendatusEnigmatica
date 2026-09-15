@@ -45,6 +45,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -117,6 +119,7 @@ public class VanillaDepositModel extends DepositModel {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public @NotNull List<EmiStack> getEmiOutputs() {
         if (!block.isBlank())
             return List.of(EmiStack.of(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(block))));
@@ -125,6 +128,7 @@ public class VanillaDepositModel extends DepositModel {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void createEmiWidget(@NotNull WidgetHolder widgets) {
         String size;
         if (this.size <= 5)

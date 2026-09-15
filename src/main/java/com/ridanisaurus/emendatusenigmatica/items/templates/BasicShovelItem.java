@@ -36,8 +36,8 @@ import org.jetbrains.annotations.NotNull;
 public class BasicShovelItem extends ShovelItem implements IColorable {
 	private final int highlight2;
 	private final int highlight1;
-	private final int base;
 	private final int shadow1;
+	private final int base;
 
 	public BasicShovelItem(@NotNull MaterialModel material, TagKey<Item> repairItem) {
 		this(material, new ToolTier(material, material.getTools().getShovel().getDurability(), repairItem));
@@ -47,8 +47,8 @@ public class BasicShovelItem extends ShovelItem implements IColorable {
 		super(tier, new Properties().attributes(createAttributes(tier, material.getTools().getShovel().getDamage(), material.getTools().getShovel().getSpeed())));
 		this.highlight2 = material.getColors().getHighlightColor(3);
 		this.highlight1 = material.getColors().getHighlightColor(1);
-		this.base = material.getColors().getMaterialColor();
 		this.shadow1 = material.getColors().getShadowColor(1);
+		this.base = material.getColors().getMaterialColor();
 	}
 
 	@Override

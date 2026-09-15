@@ -47,6 +47,8 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -118,12 +120,14 @@ public class SphereDepositModel extends DepositModel {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public @NotNull List<EmiStack> getEmiOutputs() {
         return EmiUtils.getRecipeOutputs(blocks.unwrap(), fillerTypes);
     }
 
     @Override
-    public void createEmiWidget(WidgetHolder widgets) {
+    @OnlyIn(Dist.CLIENT)
+    public void createEmiWidget(@NotNull WidgetHolder widgets) {
         String size;
         if (this.radius <= 5)
             size = "Small";

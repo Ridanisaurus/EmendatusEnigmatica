@@ -30,6 +30,7 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.JsonOps;
 import com.ridanisaurus.emendatusenigmatica.api.IEEPlugin;
 import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
+import com.ridanisaurus.emendatusenigmatica.api.validation.IValidationLogHandler;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationContext;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationHelper;
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
@@ -304,7 +305,27 @@ public class EEModelLoader {
         if (!extension
             .getExtendedDefinition()
             .validator()
-            .validate(ret, jsonPath.getParent().resolve("%s (%s)".formatted(jsonPath.getFileName(), extension.getExtensionOverrideField())), pluginLoader)
+            .validate(ret, jsonPath, pluginLoader, new IValidationLogHandler() {
+                private final String warn = "<b>Warning issued while validating overrides for <code>%s</code> extension.</b>".formatted(extension.getFullName());
+                private final String error = "<b>Error issued while validating overrides for <code>%s</code> extension.</b>".formatted(extension.getFullName());
+                @Override
+                public void warn(String msg, String additional, String elementPath, String jsonPath) {
+                    if (Objects.isNull(additional))
+                        additional = warn;
+                    else
+                        additional += "<br>" + warn;
+                    IValidationLogHandler.super.warn(msg, additional, elementPath, jsonPath);
+                }
+
+                @Override
+                public void error(String msg, @Nullable String additional, String elementPath, String jsonPath) {
+                    if (Objects.isNull(additional))
+                        additional = error;
+                    else
+                        additional += "<br>" + error;
+                    IValidationLogHandler.super.error(msg, additional, elementPath, jsonPath);
+                }
+            })
         ) return null;
 
         return ret;
