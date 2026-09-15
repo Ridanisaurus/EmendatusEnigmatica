@@ -67,7 +67,8 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         "material",
         MaterialModel.CODEC,
         MaterialModel.VALIDATION_MANAGER,
-        MaterialModel::register
+        MaterialModel::register,
+        "id"
     );
 
     public static final EEModelDefinition<StrataModel, DataRegistry> STRATA_DEFINITION = new EEModelDefinition<>(
@@ -76,7 +77,8 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         "strata",
         StrataModel.CODEC,
         StrataModel.VALIDATION_MANAGER,
-        StrataModel::register
+        StrataModel::register,
+        "id"
     );
 
     public static final EEModelDefinition<DepositModel, DataRegistry> DEPOSIT_DEFINITION = new EEModelDefinition<>(
@@ -85,7 +87,8 @@ public class VanillaPlugin implements IEEPlugin<DataRegistry> {
         "deposit",
         DepositModel.MODEL_CODEC,
         DepositModel.VALIDATION_MANAGER,
-        DepositModel::register
+        DepositModel::register,
+        "registryName"
     );
 
 

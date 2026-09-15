@@ -30,6 +30,7 @@ import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginRefere
 import com.ridanisaurus.emendatusenigmatica.api.validation.ValidationManager;
 import com.ridanisaurus.emendatusenigmatica.loader.configs.mergers.DefaultConfigurationMerger;
 import com.ridanisaurus.emendatusenigmatica.api.config.mergers.IConfigMerger;
+import com.ridanisaurus.emendatusenigmatica.loader.configs.mergers.IdBasedMerger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -117,6 +118,18 @@ public record EEModelDefinition<M, R>(
         @NotNull IConfigMerger merger
     ) {
         this(pluginClass, registryName, new PathHolder(folderPath), codec, validator, registerFunction, merger);
+    }
+
+    public EEModelDefinition(
+        @NotNull Class<? extends IEEPlugin<R>> pluginClass,
+        @NotNull String registryName,
+        @NotNull String folderPath,
+        @NotNull Codec<M> codec,
+        @NotNull ValidationManager validator,
+        @NotNull BiConsumer<M, R> registerFunction,
+        @NotNull String idField
+    ) {
+        this(pluginClass, registryName, new PathHolder(folderPath), codec, validator, registerFunction, new IdBasedMerger(idField));
     }
 
     public EEModelDefinition(

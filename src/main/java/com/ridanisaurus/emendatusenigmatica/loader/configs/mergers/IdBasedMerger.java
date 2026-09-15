@@ -28,13 +28,25 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ridanisaurus.emendatusenigmatica.api.config.mergers.IConfigMerger;
 import com.ridanisaurus.emendatusenigmatica.loader.configs.DefaultConfig;
+import org.apache.commons.io.FileSystem;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Objects;
 
-public class DefaultConfigurationMerger implements IConfigMerger {
+public class IdBasedMerger implements IConfigMerger {
+    private final String field;
+
+    public IdBasedMerger() {
+        this("id");
+    }
+
+    public IdBasedMerger(String field) {
+        this.field = Objects.requireNonNull(field, "Field can't be null!");
+        if (this.field.isBlank()) throw new IllegalArgumentException("Field can't be blank!");
+    }
+
     /**
      * Inspects both {@link DefaultConfig} objects for conflicts.
      *
@@ -44,7 +56,9 @@ public class DefaultConfigurationMerger implements IConfigMerger {
      */
     @Override
     public boolean checkForConflicts(@NotNull DefaultConfig config, @NotNull DefaultConfig newConfig) {
-        return Objects.equals(config.getPath(), newConfig.getPath());
+        var cId = config.getConfig().get(field);
+        var nId = newConfig.getConfig().get(field);
+        return Objects.equals(config.getPath(), newConfig.getPath()) || (Objects.nonNull(cId) && Objects.nonNull(nId) && Objects.equals(cId, nId));
     }
 
     /**
@@ -56,11 +70,19 @@ public class DefaultConfigurationMerger implements IConfigMerger {
      */
     @Override
     public MergeResult merge(@NotNull DefaultConfig config, @NotNull DefaultConfig newConfig) {
+        //TODO: Currently if split causes infinite loop!
         if (Objects.equals(config, newConfig)) return new MergeResult(config.getConfig());
         var mainObj = config.getConfig();
         var newObj = newConfig.getConfig();
         if (mainObj.isEmpty()) return new MergeResult(newObj);
         if (newObj.isEmpty()) return new MergeResult(mainObj);
+
+        var cId = config.getConfig().get(field);
+        var nId = newConfig.getConfig().get(field);
+        if (Objects.nonNull(cId) && Objects.nonNull(nId) && !Objects.equals(cId, nId)) {
+            String newPath = StringUtils.removeEnd(newConfig.getPath(), ".json") + newObj.get(field).getAsString() + ".json";
+            return new MergeResult(mainObj, newObj, StringUtils.substringBeforeLast(newPath, "/") + "/" + FileSystem.getCurrent().toLegalFileName(StringUtils.substringAfterLast(newPath, "/"), '_'));
+        }
 
         if (mergeJsonObjects(mainObj, newObj)) return new MergeResult(mainObj);
 

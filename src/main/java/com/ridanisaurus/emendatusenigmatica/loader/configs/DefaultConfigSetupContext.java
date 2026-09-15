@@ -82,7 +82,8 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
         try (var stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(internalFile)) {
             config = new DefaultConfig(
                 Objects.isNull(path) ? StringUtils.substringAfterLast(internalFile, "/") : path,
-                gson.fromJson(new InputStreamReader(Objects.requireNonNull(stream, "getResourceAsStream returned null")), JsonObject.class)
+                gson.fromJson(new InputStreamReader(Objects.requireNonNull(stream, "getResourceAsStream returned null")), JsonObject.class),
+                plugin
             );
         } catch (Exception e) {
             throw new RuntimeException("Failed getting internal file under \"%s\" path. Is your Jar corrupted?".formatted(internalFile), e);
@@ -109,7 +110,8 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
             JsonOps.INSTANCE.withEncoder(Objects.requireNonNull(model, "EEModelDefinition can't be null!").codec())
                 .apply(Objects.requireNonNull(object, "Config Object can't be null!"))
                 .getOrThrow()
-                .getAsJsonObject()
+                .getAsJsonObject(),
+            plugin
         );
 
         if (config.getRawConfig().isEmpty())
@@ -131,6 +133,7 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
         var config = new DefaultConfig(
             path,
             Objects.requireNonNull(Objects.requireNonNull(extension, "Extension can't be null!").encode(Objects.requireNonNull(object,"Config Object can't be null!"))),
+            plugin,
             extension
         );
 
@@ -167,6 +170,7 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
                 continue;
             }
 
+            it.remove();
             var result = model.merger().merge(config, newConfig);
 
             if (!result.validate(config.getPath())) {
@@ -178,13 +182,13 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
 
             logger.info("Default configuration conflict found for path \"{}\", resolved by {}", config.getPath(), result.getMergeType());
             if (result.merged()) {
-                addData(model, new DefaultConfig(config.getPath(), result.result()));
+                addData(model, new DefaultConfig(config.getPath(), result.result(), config.getOwner()));
             } else {
                 if (!configDir.resolve(result.path()).toAbsolutePath().normalize().startsWith(configDir))
                     throw new SecurityException("Requested path for default configuration \"%s\" from a model \"%s\" config merger points outside of EE configuration directory!".formatted(result.path(), model));
 
-                addData(model, new DefaultConfig(config.getPath(), result.result()));
-                addData(model, new DefaultConfig(result.path(), result.additional()));
+                addData(model, new DefaultConfig(config.getPath(), result.result(), config.getOwner()));
+                addData(model, new DefaultConfig(result.path(), result.additional(), newConfig.getOwner()));
             }
             return;
         }
@@ -211,8 +215,8 @@ public class DefaultConfigSetupContext implements IDefaultConfigSetupContext {
 
     private void handleInvalidResult(EEModelDefinition<?,?> model, DefaultConfig config, DefaultConfig newConfig) {
         logger.error("IConfigMerger of model \"{}\" is not handling path conflicts correctly. This should be reported to the addon developer with minecraft logs attached.", model);
-        addData(model, new DefaultConfig(getConflictedPath(config), config.getRawConfig(), config.getExtension()));
-        addData(model, new DefaultConfig(getConflictedPath(newConfig), newConfig.getRawConfig(), newConfig.getExtension()));
+        addData(model, new DefaultConfig(getConflictedPath(config), config.getRawConfig(), config.getOwner(), config.getExtension()));
+        addData(model, new DefaultConfig(getConflictedPath(newConfig), newConfig.getRawConfig(), newConfig.getOwner(), newConfig.getExtension()));
     }
 
     private @NotNull String getConflictedPath(@NotNull DefaultConfig config) {

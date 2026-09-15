@@ -25,6 +25,7 @@
 package com.ridanisaurus.emendatusenigmatica.loader.configs;
 
 import com.google.gson.JsonObject;
+import com.ridanisaurus.emendatusenigmatica.api.annotation.EmendatusPluginReference;
 import com.ridanisaurus.emendatusenigmatica.loader.EEModelExtension;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -34,20 +35,23 @@ import java.util.Objects;
 public final class DefaultConfig {
     private final String path;
     private final JsonObject config;
+    private final EmendatusPluginReference plugin;
     private final @Nullable EEModelExtension<?, ?, ?, ?> extension;
 
     DefaultConfig(
         String path,
         JsonObject config,
+        EmendatusPluginReference owner,
         @Nullable EEModelExtension<?, ?, ?, ?> extension
     ) {
         this.config = Objects.requireNonNull(config, "Config object can't be null.");
         this.path = Objects.requireNonNull(path, "Path can't be null.");
+        this.plugin = Objects.requireNonNull(owner, "Owning plugin can't be null!");
         this.extension = extension;
     }
 
-    DefaultConfig(String path, JsonObject config) {
-        this(path, config, null);
+    DefaultConfig(String path, JsonObject config, EmendatusPluginReference owner) {
+        this(path, config, owner, null);
     }
 
     @Contract(pure = true)
@@ -61,6 +65,10 @@ public final class DefaultConfig {
 
     public JsonObject getConfig() {
         return config.deepCopy();
+    }
+
+    public EmendatusPluginReference getOwner() {
+        return this.plugin;
     }
 
     public @Nullable String getExtensionField() {
